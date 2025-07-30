@@ -1,0 +1,7 @@
+# Project dependencies for College AI multithreaded crawler
+requests>=2.31.0
+beautifulsoup4>=4.12.2
+lxml>=4.9.4  # fast HTML parser for BeautifulSoup (optional but recommended)
+pymilvus>=2.4.3
+openai>=1.14.2
+python-dotenv>=1.0.1
