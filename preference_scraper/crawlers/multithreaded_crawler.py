@@ -94,13 +94,13 @@ class MultithreadedCollegeCrawler:
         try:
             connections.connect(alias="default", host=MILVUS_HOST, port=MILVUS_PORT)
             print("✓ Connected to Milvus")
+            utility.drop_collection("colleges")
         except Exception as e:
             print(f"✗ Failed to connect to Milvus: {e}")
             raise
     
     def get_or_create_collection(self):
         """Get or create the Milvus collection."""
-        # Define Milvus schema for college pages
         fields = [
             FieldSchema(name="id", dtype=DataType.VARCHAR, is_primary=True, auto_id=False, max_length=36),
             FieldSchema(name="college_name", dtype=DataType.VARCHAR, max_length=128),
@@ -115,7 +115,17 @@ class MultithreadedCollegeCrawler:
         schema = CollectionSchema(fields, description="College pages with embeddings")
         
         if utility.has_collection(MILVUS_COLLECTION_NAME):
-            return Collection(MILVUS_COLLECTION_NAME)
+            existing = Collection(MILVUS_COLLECTION_NAME)
+            try:
+                embed_field = next(f for f in existing.schema.fields if f.name == "embedding")
+                if embed_field.params.get("dim") != VECTOR_DIM:
+                    print(f"⚠️ Existing collection embedding dim {embed_field.params.get('dim')} != {VECTOR_DIM}. Recreating collection ...")
+                    utility.drop_collection(MILVUS_COLLECTION_NAME)
+                    return Collection(MILVUS_COLLECTION_NAME, schema)
+                return existing
+            except Exception as e:
+                print(f"⚠️ Could not verify existing collection schema: {e}. Proceeding with existing collection.")
+                return existing
         return Collection(MILVUS_COLLECTION_NAME, schema)
     
     def read_csv_files(self) -> Dict[str, List[Dict[str, str]]]:
@@ -230,14 +240,22 @@ class MultithreadedCollegeCrawler:
                 writer.writerows(colleges)
             print(f"Created sample file: {csv_path}")
     
-    def is_internal_link(self, url: str, base_domain: str) -> bool:
+    def is_internal_link(self, url: str, base_url: str) -> bool:
         """Check if a URL is an internal link to the same domain."""
         try:
             parsed_url = urlparse(url)
-            parsed_base = urlparse(base_domain)
+            parsed_base = urlparse(base_url)
             
-            # Must be from the same domain
-            if parsed_url.netloc and parsed_url.netloc != parsed_base.netloc:
+            # Handle relative URLs (no netloc means it's relative)
+            if not parsed_url.netloc:
+                return True
+            
+            # Normalize domains by removing www. prefix for comparison
+            url_domain = parsed_url.netloc.lower().lstrip('www.')
+            base_domain = parsed_base.netloc.lower().lstrip('www.')
+            
+            # Must be from the same domain or subdomain
+            if url_domain != base_domain and not url_domain.endswith('.' + base_domain):
                 return False
             
             # Skip certain file types
@@ -248,27 +266,58 @@ class MultithreadedCollegeCrawler:
             if any(skip_path in url.lower() for skip_path in SKIP_PATHS):
                 return False
             
+            # Skip fragments and javascript links
+            if parsed_url.fragment and not parsed_url.path:
+                return False
+                
+            if url.lower().startswith(('javascript:', 'mailto:', 'tel:', 'ftp:')):
+                return False
+            
             return True
             
-        except Exception:
+        except Exception as e:
+            print(f"    Warning: Error parsing URL {url}: {e}")
             return False
     
     def extract_internal_links(self, soup: BeautifulSoup, base_url: str) -> List[str]:
         """Extract all internal links from a BeautifulSoup object."""
-        links = []
-        base_domain = urlparse(base_url).netloc
+        links = set()  # Use set for automatic deduplication
         
+        # Find all anchor tags with href attributes
         for link in soup.find_all('a', href=True):
             href = link.get('href')
-            if href:
+            if not href or not href.strip():
+                continue
+                
+            href = href.strip()
+            
+            # Skip empty fragments and anchor-only links
+            if href == '#' or href.startswith('#'):
+                continue
+                
+            try:
                 # Convert relative URLs to absolute
                 absolute_url = urljoin(base_url, href)
                 
+                # Normalize URL by removing fragments and trailing slashes
+                parsed = urlparse(absolute_url)
+                normalized_url = f"{parsed.scheme}://{parsed.netloc}{parsed.path}"
+                if parsed.query:
+                    normalized_url += f"?{parsed.query}"
+                
+                # Remove trailing slash unless it's the root path
+                if normalized_url.endswith('/') and len(parsed.path) > 1:
+                    normalized_url = normalized_url.rstrip('/')
+                
                 # Check if it's an internal link
-                if self.is_internal_link(absolute_url, base_domain):
-                    links.append(absolute_url)
+                if self.is_internal_link(normalized_url, base_url):
+                    links.add(normalized_url)
+                    
+            except Exception as e:
+                print(f"    Warning: Error processing link '{href}': {e}")
+                continue
         
-        return list(set(links))  # Remove duplicates
+        return list(links)
     
     def scrape_page(self, url: str) -> Optional[Dict[str, Any]]:
         """Scrape a single page and return structured data."""
@@ -350,14 +399,22 @@ class MultithreadedCollegeCrawler:
                 print(f"    ✗ Failed to generate embedding for {page_data['url']}")
                 return False
             
-            # Prepare data for Milvus
+            # Prepare data for Milvus matching the new schema
+            import time
+            current_timestamp = int(time.time())
+            
+            # Create a combined description from title and content
+            description = f"{page_data['title']} {page_data['content']}"
+            if len(description) > 2047:  # Leave room for null terminator
+                description = description[:2047]
+            
             data = [
                 {
                     "id": str(uuid.uuid4()),
                     "college_name": college_name,
                     "url": page_data['url'],
-                    "title": page_data['title'][:MAX_TITLE_LENGTH-1],  # Limit to config length
-                    "content": page_data['content'][:MAX_CONTENT_LENGTH-1],  # Limit to config length
+                    "title": page_data['title'][:MAX_TITLE_LENGTH-1],
+                    "content": page_data['content'][:MAX_CONTENT_LENGTH-1],
                     "embedding": embedding,
                     "crawled_at": page_data['crawled_at'],
                     "major": major
@@ -394,9 +451,20 @@ class MultithreadedCollegeCrawler:
             self.crawled_urls.clear()
             self.discovered_urls.clear()
         
-        # Start with the base URL
-        urls_to_crawl = [base_url]
-        self.discovered_urls.add(base_url)
+        # Normalize the base URL
+        try:
+            parsed_base = urlparse(base_url)
+            normalized_base = f"{parsed_base.scheme}://{parsed_base.netloc}{parsed_base.path}"
+            if parsed_base.query:
+                normalized_base += f"?{parsed_base.query}"
+            if normalized_base.endswith('/') and len(parsed_base.path) > 1:
+                normalized_base = normalized_base.rstrip('/')
+        except Exception:
+            normalized_base = base_url
+        
+        # Start with the normalized base URL
+        urls_to_crawl = [normalized_base]
+        self.discovered_urls.add(normalized_base)
         
         pages_crawled = 0
         pages_uploaded = 0
@@ -404,17 +472,20 @@ class MultithreadedCollegeCrawler:
         # Use ThreadPoolExecutor for multithreaded crawling
         with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
             while urls_to_crawl and pages_crawled < max_pages:
-                # Take a batch of URLs to crawl
-                current_batch = urls_to_crawl[:self.max_workers]
-                urls_to_crawl = urls_to_crawl[self.max_workers:]
+                # Take a batch of URLs to crawl (filter out already crawled)
+                available_urls = [url for url in urls_to_crawl if url not in self.crawled_urls]
+                current_batch = available_urls[:self.max_workers]
+                urls_to_crawl = available_urls[self.max_workers:]
+                
+                if not current_batch:
+                    break
                 
                 print(f"  Crawling batch of {len(current_batch)} URLs...")
                 
                 # Submit crawling tasks
                 future_to_url = {
                     executor.submit(self.scrape_page, url): url 
-                    for url in current_batch 
-                    if url not in self.crawled_urls
+                    for url in current_batch
                 }
                 
                 # Process completed tasks
@@ -431,14 +502,22 @@ class MultithreadedCollegeCrawler:
                             if self.upload_to_milvus(page_data, college_name, major):
                                 pages_uploaded += 1
                             
-                            # Add new internal links to crawl queue (using sets for duplicate prevention)
-                            for link in page_data.get('internal_links', []):
+                            # Add new internal links to crawl queue with better duplicate prevention
+                            new_links = page_data.get('internal_links', [])
+                            links_added = 0
+                            
+                            for link in new_links:
                                 with self.lock:
+                                    # Check if we haven't seen this link before and have room for more pages
                                     if (link not in self.crawled_urls and 
                                         link not in self.discovered_urls and 
-                                        len(urls_to_crawl) + pages_crawled < max_pages):
+                                        (len(urls_to_crawl) + pages_crawled + links_added) < max_pages):
                                         urls_to_crawl.append(link)
                                         self.discovered_urls.add(link)
+                                        links_added += 1
+                            
+                            if links_added > 0:
+                                print(f"    ➕ Added {links_added} new links to crawl queue")
                             
                             with self.lock:
                                 self.stats['total_pages_crawled'] += 1

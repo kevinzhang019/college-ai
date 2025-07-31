@@ -1,6 +1,8 @@
 import sys
 import os
 import openai
+from dotenv import load_dotenv
+load_dotenv()
 
 def check_openai_api_key(api_key):           # ---> b'sk-proj...' expected
 
@@ -22,3 +24,6 @@ if check_openai_api_key(OPENAI_API_KEY):
     print("Valid OpenAI API key.")
 else:
     print("Invalid OpenAI API key.")
+
+from pymilvus import utility
+utility.drop_collection("book")

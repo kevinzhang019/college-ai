@@ -1,86 +1,101 @@
 name,url
-University of Pennsylvania (Wharton),https://undergrad.wharton.upenn.edu
-University of California‑Berkeley (Haas),https://haas.berkeley.edu/undergrad/
-Massachusetts Institute of Technology (Sloan),https://mitsloan.mit.edu/undergraduate
-University of Michigan (Ross),https://michiganross.umich.edu/undergrad
-New York University (Stern),https://www.stern.nyu.edu/programs-admissions/undergraduate
-University of North Carolina at Chapel Hill (Kenan‑Flagler),https://www.kenan-flagler.unc.edu/programs/undergraduate/
-Carnegie Mellon University (Tepper),https://www.cmu.edu/tepper/undergraduate/index.html
-University of Texas at Austin (McCombs),https://www.mccombs.utexas.edu/Undergraduate
-University of Southern California (Marshall),https://www.marshall.usc.edu/undergrad
-Indiana University Bloomington (Kelley),https://kelley.iu.edu/undergrad/index.html
-Cornell University (Dyson),https://dyson.cornell.edu
-University of Notre Dame (Mendoza),https://mendoza.nd.edu/undergraduate/
-University of Virginia (McIntire),https://www.commerce.virginia.edu/academics/undergraduate
-Georgetown University (McDonough),https://msb.georgetown.edu/undergraduate-program/
-Emory University (Goizueta),https://goizueta.emory.edu/undergraduate
-University of Illinois Urbana‑Champaign (Gies),https://giesbusiness.illinois.edu/undergraduate
-Ohio State University (Fisher),https://fisher.osu.edu/undergraduate
-Georgia Institute of Technology (Scheller),https://www.scheller.gatech.edu/undergraduate/
-University of Minnesota (Carlson),https://carlsonschool.umn.edu/programs/undergraduate
-Washington University in St. Louis (Olin),https://olin.wustl.edu/Undergraduate/Pages/default.aspx
-University of Washington (Foster),https://foster.uw.edu/academics/undergraduate/
-University of Wisconsin–Madison (Wisconsin Business),https://bus.wisc.edu/undergraduate
-University of Florida (Warrington),https://warrington.ufl.edu/undergraduate/
-University of Georgia (Terry),https://www.terry.uga.edu/undergraduate
-University of Maryland–College Park (Smith),https://www.rhsmith.umd.edu/undergraduate/
-Pennsylvania State University (Smeal),https://www.smeal.psu.edu/undergraduate
-Arizona State University (Carey),https://carey.asu.edu/undergraduate
-University of Arizona (Eller),https://eller.arizona.edu/undergraduate
-University of California, Irvine (Merage),https://merage.uci.edu/undergraduate/
-University of Iowa (Tippie),https://tippie.uiowa.edu/undergraduate
-Purdue University (Krannert),https://krannert.purdue.edu/undergraduate/
-Boston College (Carroll),https://www.bc.edu/bc-web/schools/carroll.html
-Michigan State University (Broad),https://broad.msu.edu/undergraduate/
-Rice University (Jones),https://business.rice.edu/programs/undergraduate
-Texas A&M University (Mays),https://mays.tamu.edu/undergraduate/
-University of Colorado Boulder (Leeds),https://www.colorado.edu/business/undergraduate
-Babson College (Olin Undergraduate),https://www.babson.edu/academics/undergraduate-school
-Boston University (Questrom),https://questromworld.bu.edu/programs/undergraduate/
-Wake Forest University (School of Business),https://business.wfu.edu/undergraduate
-University of Arkansas (Walton),https://walton.uark.edu/undergraduate
-George Washington University,https://business.gwu.edu/undergraduate
-Tulane University (Freeman),https://freeman.tulane.edu/undergraduate
-University of Rochester (Simon),https://simon.rochester.edu/undergraduate
-Syracuse University (Whitman),https://whitman.syr.edu/undergraduate
-Case Western Reserve University (Weatherhead),https://weatherhead.case.edu/undergraduate
-University of Pittsburgh (Katz),https://katz.pitt.edu/academics/undergraduate
-University of South Carolina (Moore),https://www.moore.sc.edu/undergraduate
-University of Tennessee (Haslam),https://haslam.utk.edu/undergraduate
-SMU (Cox),https://www.smu.edu/Cox/Undergraduate
-Brigham Young University (Marriott),https://marriottschool.byu.edu/undergraduate
-University of Utah (Eccles),https://eccles.utah.edu/undergraduate
-Virginia Tech (Pamplin),https://pamplin.vt.edu/academics/undergraduate
-University of Alabama (Culverhouse),https://culverhouse.ua.edu/undergraduate
-University of California–San Diego (Rady),https://rady.ucsd.edu/undergraduate
-University of Miami (Herbert),https://www.bus.miami.edu/academics/undergraduate/
-University of Connecticut (UConn),https://www.business.uconn.edu/undergraduate
-Florida State University,https://business.fsu.edu/academics/undergraduate
-Georgia State University (Robinson),https://robinson.gsu.edu/undergraduate
-University of Nebraska–Lincoln,https://business.unl.edu/undergraduate/
-University of Oklahoma (Price),https://price.ou.edu/undergraduate
-University of Oregon (Lundquist),https://lundquist.uoregon.edu/undergraduate
-Villanova University (Mason),https://www1.villanova.edu/university/business.html
-University of Texas at Dallas (Jindal),https://jindal.utdallas.edu/undergraduate
-William & Mary (Mason),https://mason.wm.edu/undergraduate
-Auburn University (Harbert),https://harbert.auburn.edu/undergraduate
-Pepperdine University (Graziadio),https://bschool.pepperdine.edu/undergraduate
-Santa Clara University,https://www.scu.edu/business/undergraduate
-University of Kansas,https://business.ku.edu/undergraduate
-University of Kentucky (Gatton),https://gatton.uky.edu/undergraduate
-Northeastern University (D’Amore‑McKim),https://damore-mckim.northeastern.edu/undergraduate
-University of Massachusetts–Amherst (Isenberg),https://www.isenberg.umass.edu/undergraduate
-North Carolina State University (Poole),https://poole.ncsu.edu/undergraduate
-Rutgers University–New Brunswick,https://business.rutgers.edu/undergraduate
-Baylor University (Hankamer),https://hankamer.uh.edu/undergraduate
-University of Houston (Bauer),https://www.bauer.uh.edu/undergraduate
-San Diego State University (Fowler),https://sbs.sdsu.edu/undergraduate
-Loyola Marymount University,https://business.lmu.edu/undergraduate
-Colorado State University,https://biz.colostate.edu/undergraduate
-Howard University (School of Business),https://business.howard.edu/academics/undergraduate
-University of Delaware,https://udel.edu/academics/business-undergraduate
-Iowa State University,https://www.business.iastate.edu/undergraduate
-Bentley University (McCallum),https://www.bentley.edu/undergraduate
-CUNY–Baruch College (Zicklin),https://zicklin.baruch.cuny.edu/academic-programs/undergrad/
-Rochester Institute of Technology (Saunders),https://saunders.rit.edu/undergraduate
-Fordham University (Gabelli),https://www.fordham.edu/info/21911/business_school/1190/undergraduate_programs
+University of Pennsylvania,https://www.upenn.edu
+Georgetown University,https://www.georgetown.edu
+Cornell University,https://www.cornell.edu
+University of Southern California,https://www.usc.edu
+University of Georgia,https://www.uga.edu
+Northeastern University,https://www.northeastern.edu
+University of Michigan—Ann Arbor,https://umich.edu
+Massachusetts Institute of Technology,https://www.mit.edu
+Carnegie Mellon University,https://www.cmu.edu
+Florida State University,https://www.fsu.edu
+New York University,https://www.nyu.edu
+Texas A&M University,https://www.tamu.edu
+University of Florida,https://www.ufl.edu
+University of California—Berkeley,https://www.berkeley.edu
+Northwestern University,https://www.northwestern.edu
+University of South Florida,https://www.usf.edu
+Boston University,https://www.bu.edu
+San Diego State University,https://www.sdsu.edu
+University of Virginia,https://www.virginia.edu
+University of Central Florida,https://www.ucf.edu
+Indiana University—Bloomington,https://www.indiana.edu
+Florida International University,https://www.fiu.edu
+University of Notre Dame,https://www.nd.edu
+University of South Carolina,https://www.sc.edu
+University of California—Irvine,https://uci.edu
+University of Wisconsin—Madison,https://www.wisc.edu
+University of Texas—Austin,https://www.utexas.edu
+Washington University in St. Louis,https://wustl.edu
+Virginia Tech,https://vt.edu
+The Ohio State University,https://www.osu.edu
+University of Maryland—College Park,https://www.umd.edu
+Georgia Institute of Technology,https://www.gatech.edu
+University of Illinois Urbana-Champaign,https://illinois.edu
+Fashion Institute of Technology,https://www.fitnyc.edu
+University of Minnesota—Twin Cities,https://www.umn.edu
+University of California—Los Angeles,https://www.ucla.edu
+Oklahoma State University,https://okstate.edu
+Emory University,https://www.emory.edu
+Auburn University,https://auburn.edu
+Babson College,https://www.babson.edu
+Arizona State University,https://www.asu.edu
+Michigan State University,https://msu.edu
+Purdue University,https://www.purdue.edu
+Washington State University,https://wsu.edu
+University of North Carolina—Chapel Hill,https://www.unc.edu
+Washington and Lee University,https://www.wlu.edu
+Clemson University,https://www.clemson.edu
+University of Houston,https://uh.edu
+Rutgers University–New Brunswick,https://www.rutgers.edu
+Minerva University,https://www.minerva.edu
+Wake Forest University,https://www.wfu.edu
+Rice University,https://www.rice.edu
+University of Iowa,https://uiowa.edu
+Iowa State University,https://www.iastate.edu
+Texas Tech University,https://www.ttu.edu
+College of William & Mary,https://www.wm.edu
+University of Tennessee—Knoxville,https://www.utk.edu
+University of Oklahoma,https://www.ou.edu
+University of Cincinnati,https://www.uc.edu
+Hult International Business School,https://www.hult.edu
+Penn State University,https://www.psu.edu
+University of Arkansas,https://www.uark.edu
+University of Mississippi,https://olemiss.edu
+University of North Texas,https://www.unt.edu
+Cal Poly San Luis Obispo,https://calpoly.edu
+Baylor University,https://www.baylor.edu
+Syracuse University,https://www.syracuse.edu
+Bentley University,https://www.bentley.edu
+University of Utah,https://www.utah.edu
+University of Richmond,https://www.richmond.edu
+George Washington University,https://www.gwu.edu
+University of St. Thomas—Minnesota,https://www.stthomas.edu
+University of San Diego,https://www.sandiego.edu
+University of Massachusetts Amherst,https://www.umass.edu
+Villanova University,https://www.villanova.edu
+Southern Methodist University,https://www.smu.edu
+University of Kansas,https://www.ku.edu
+Virginia Commonwealth University,https://www.vcu.edu
+Rutgers University–Newark,https://www.newark.rutgers.edu
+American University,https://www.american.edu
+University of California—San Diego,https://ucsd.edu
+University of Massachusetts Lowell,https://www.uml.edu
+University of Colorado Boulder,https://www.colorado.edu
+Oregon State University,https://oregonstate.edu
+University of Kentucky,https://www.uky.edu
+Temple University,https://www.temple.edu
+Brigham Young University,https://www.byu.edu
+Mississippi State University,https://www.msstate.edu
+Kansas State University,https://www.k-state.edu
+University of Texas—San Antonio,https://www.utsa.edu
+University of Pittsburgh,https://www.pitt.edu
+North Carolina State University,https://ncsu.edu
+University of Nebraska—Lincoln,https://unl.edu
+University of Missouri,https://missouri.edu
+University of Texas—Dallas,https://utdallas.edu
+Brown University,https://www.brown.edu
+Louisiana State University,https://www.lsu.edu
+San José State University,https://www.sjsu.edu
+CUNY Brooklyn College,https://www.brooklyn.cuny.edu
+University of West Florida,https://uwf.edu

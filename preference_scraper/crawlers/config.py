@@ -15,30 +15,49 @@ load_dotenv(env_path)
 # ==================== CRAWLER SETTINGS ====================
 
 # Request settings
-CRAWLER_DELAY = float(os.getenv('CRAWLER_DELAY', '1.0'))  # Delay between requests in seconds
-CRAWLER_MAX_WORKERS = int(os.getenv('CRAWLER_MAX_WORKERS', '10'))  # Number of worker threads per college
-REQUEST_TIMEOUT = int(os.getenv('REQUEST_TIMEOUT', '30'))  # Request timeout in seconds
+CRAWLER_DELAY = float(os.getenv('CRAWLER_DELAY'))  # Delay between requests in seconds
+CRAWLER_MAX_WORKERS = int(os.getenv('CRAWLER_MAX_WORKERS'))  # Number of worker threads per college
+REQUEST_TIMEOUT = int(os.getenv('REQUEST_TIMEOUT'))  # Request timeout in seconds
 REQUEST_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
 
 # Crawling limits
-MAX_PAGES_PER_COLLEGE = int(os.getenv('MAX_PAGES_PER_COLLEGE', '5000'))  # Maximum pages to crawl per college
-MAX_DEPTH = int(os.getenv('MAX_DEPTH', '50'))  # Maximum crawl depth from starting URL
-MAX_RETRIES = int(os.getenv('MAX_RETRIES', '3'))  # Maximum retry attempts for failed requests
+MAX_PAGES_PER_COLLEGE = int(os.getenv('MAX_PAGES_PER_COLLEGE'))  # Maximum pages to crawl per college
+MAX_DEPTH = int(os.getenv('MAX_DEPTH'))  # Maximum crawl depth from starting URL
+MAX_RETRIES = int(os.getenv('MAX_RETRIES'))  # Maximum retry attempts for failed requests
 
 # Content filtering
-MIN_CONTENT_LENGTH = int(os.getenv('MIN_CONTENT_LENGTH', '100'))  # Minimum content length to consider valid
-MAX_CONTENT_LENGTH = int(os.getenv('MAX_CONTENT_LENGTH', '10000'))  # Maximum content length for storage
-MAX_TITLE_LENGTH = int(os.getenv('MAX_TITLE_LENGTH', '200'))  # Maximum title length for storage
+MIN_CONTENT_LENGTH = int(os.getenv('MIN_CONTENT_LENGTH'))  # Minimum content length to consider valid
+MAX_CONTENT_LENGTH = int(os.getenv('MAX_CONTENT_LENGTH'))  # Maximum content length for storage
+MAX_TITLE_LENGTH = int(os.getenv('MAX_TITLE_LENGTH'))  # Maximum title length for storage
+
+# URL filtering
+SKIP_EXTENSIONS = [
+    '.pdf', '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx',
+    '.zip', '.rar', '.tar', '.gz', '.7z',
+    '.jpg', '.jpeg', '.png', '.gif', '.bmp', '.svg', '.webp',
+    '.mp3', '.mp4', '.avi', '.mov', '.wmv', '.flv', '.webm',
+    '.css', '.js', '.xml', '.json', '.rss', '.atom',
+    '.exe', '.msi', '.dmg', '.pkg', '.deb', '.rpm'
+]
+
+SKIP_PATHS = [
+    '/admin', '/login', '/logout', '/register', '/signup',
+    '/api/', '/ajax/', '/json/', '/xml/',
+    '/search', '/filter', '/sort',
+    '/print', '/download', '/export',
+    '/calendar', '/events', '/news/archive',
+    '/contact', '/feedback', '/survey'
+]
 
 # ==================== MILVUS SETTINGS ====================
 
 # Milvus connection
-MILVUS_HOST = os.getenv('MILVUS_HOST', 'ec2-3-134-89-66.us-east-2.compute.amazonaws.com')
-MILVUS_PORT = os.getenv('MILVUS_PORT', '19530')
-MILVUS_COLLECTION_NAME = os.getenv('MILVUS_COLLECTION_NAME', 'business_college_pages')
+MILVUS_HOST = os.getenv('MILVUS_HOST')
+MILVUS_PORT = os.getenv('MILVUS_PORT')
+MILVUS_COLLECTION_NAME = os.getenv('MILVUS_COLLECTION_NAME')
 
 # Vector settings
-VECTOR_DIM = 1536  # OpenAI text-embedding-ada-002 dimension
+VECTOR_DIM = 1536  # Matches OpenAI embedding dimension
 INDEX_TYPE = "IVF_FLAT"
 METRIC_TYPE = "L2"
 
