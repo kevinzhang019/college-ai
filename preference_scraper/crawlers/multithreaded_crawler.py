@@ -13,8 +13,8 @@ import uuid
 import threading
 import queue
 import random
-import urllib.robotparser
-from concurrent.futures import ThreadPoolExecutor, as_completed
+import concurrent.futures
+from concurrent.futures import ThreadPoolExecutor, as_completed, wait, FIRST_COMPLETED
 from typing import Dict, List, Any, Optional, Set
 from datetime import datetime
 from urllib.parse import urljoin, urlparse
@@ -437,109 +437,138 @@ class MultithreadedCollegeCrawler:
             return False
     
     def crawl_college_site(self, college: Dict[str, str], max_pages: int = None) -> Dict[str, Any]:
-        """Crawl a single college website using multiple threads."""
+        """Crawl a single college website using efficient BFS with work-stealing."""
         college_name = college['name']
         base_url = college['url']
         major = college['major']
-        max_pages = max_pages or CRAWLER_MAX_PAGES_PER_COLLEGE
+        max_pages = max_pages or MAX_PAGES_PER_COLLEGE
         
         print(f"\n=== Crawling {college_name} ({major}) ===")
         print(f"Base URL: {base_url}")
         
-        # Reset crawling state for this college
-        with self.lock:
-            self.crawled_urls.clear()
-            self.discovered_urls.clear()
+        # Reset state for this college
+        crawled_urls = set()
+        discovered_urls = set()
         
-        # Normalize the base URL
+        # Normalize base URL
         try:
-            parsed_base = urlparse(base_url)
-            normalized_base = f"{parsed_base.scheme}://{parsed_base.netloc}{parsed_base.path}"
-            if parsed_base.query:
-                normalized_base += f"?{parsed_base.query}"
-            if normalized_base.endswith('/') and len(parsed_base.path) > 1:
-                normalized_base = normalized_base.rstrip('/')
+            parsed = urlparse(base_url)
+            normalized_base = f"{parsed.scheme}://{parsed.netloc}"
         except Exception:
             normalized_base = base_url
         
-        # Start with the normalized base URL
-        urls_to_crawl = [normalized_base]
-        self.discovered_urls.add(normalized_base)
+        # Initialize BFS queue
+        url_queue = [(0, normalized_base)]
+        discovered_urls.add(normalized_base)
         
         pages_crawled = 0
         pages_uploaded = 0
         
-        # Use ThreadPoolExecutor for multithreaded crawling
+        # Use ThreadPoolExecutor with true work-stealing
         with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
-            while urls_to_crawl and pages_crawled < max_pages:
-                # Take a batch of URLs to crawl (filter out already crawled)
-                available_urls = [url for url in urls_to_crawl if url not in self.crawled_urls]
-                current_batch = available_urls[:self.max_workers]
-                urls_to_crawl = available_urls[self.max_workers:]
+            # Use a real queue for thread-safe operations
+            from queue import Queue
+            work_queue = Queue()
+            work_queue.put((0, normalized_base))
+            
+            # Track active futures
+            active_futures = set()
+            
+            def worker_task():
+                """Efficient worker for work-stealing BFS"""
+                local_crawled = 0
+                local_uploaded = 0
                 
-                if not current_batch:
-                    break
-                
-                print(f"  Crawling batch of {len(current_batch)} URLs...")
-                
-                # Submit crawling tasks
-                future_to_url = {
-                    executor.submit(self.scrape_page, url): url 
-                    for url in current_batch
-                }
-                
-                # Process completed tasks
-                for future in as_completed(future_to_url):
-                    url = future_to_url[future]
-                    
+                while local_crawled < max_pages:
                     try:
-                        page_data = future.result()
+                        # Get next URL with timeout
+                        depth, url = work_queue.get(timeout=0.5)
                         
-                        if page_data:
-                            pages_crawled += 1
+                        # Skip if already crawled
+                        if url in crawled_urls:
+                            continue
                             
-                            # Upload to Milvus immediately
-                            if self.upload_to_milvus(page_data, college_name, major):
-                                pages_uploaded += 1
-                            
-                            # Add new internal links to crawl queue with better duplicate prevention
-                            new_links = page_data.get('internal_links', [])
-                            links_added = 0
-                            
-                            for link in new_links:
-                                with self.lock:
-                                    # Check if we haven't seen this link before and have room for more pages
-                                    if (link not in self.crawled_urls and 
-                                        link not in self.discovered_urls and 
-                                        (len(urls_to_crawl) + pages_crawled + links_added) < max_pages):
-                                        urls_to_crawl.append(link)
-                                        self.discovered_urls.add(link)
-                                        links_added += 1
-                            
-                            if links_added > 0:
-                                print(f"    ➕ Added {links_added} new links to crawl queue")
-                            
-                            with self.lock:
-                                self.stats['total_pages_crawled'] += 1
-                        
                         # Mark as crawled
-                        with self.lock:
-                            self.crawled_urls.add(url)
+                        crawled_urls.add(url)
                         
-                        # Be respectful
-                        time.sleep(self.delay)
+                        # Scrape page
+                        page_data = self.scrape_page(url)
+                        if not page_data:
+                            continue
+                            
+                        local_crawled += 1
                         
+                        # Upload to Milvus
+                        if self.upload_to_milvus(page_data, college_name, major):
+                            local_uploaded += 1
+                        
+                        # Add new links to queue (BFS)
+                        new_links = page_data.get('internal_links', [])
+                        new_depth = depth + 1
+                        
+                        for link in new_links:
+                            if (link not in crawled_urls and 
+                                link not in discovered_urls and 
+                                len(crawled_urls) < max_pages):
+                                
+                                discovered_urls.add(link)
+                                work_queue.put((new_depth, link))
+                        
+                        # Progress update
+                        if local_crawled % 10 == 0:
+                            print(f"    {college_name}: {local_crawled} crawled, {local_uploaded} uploaded")
+                        
+                    except queue.Empty:
+                        # Queue empty, check if we should exit
+                        if len(crawled_urls) >= max_pages:
+                            break
+                        continue
                     except Exception as e:
-                        print(f"    ✗ Error processing {url}: {e}")
-                        with self.lock:
-                            self.stats['total_errors'] += 1
-                            self.crawled_urls.add(url)
+                        print(f"    ✗ Worker error: {e}")
+                        continue
+                
+                return local_crawled, local_uploaded
+            
+            # Submit initial workers
+            num_workers = min(self.max_workers, max_pages, 20)  # Cap at 20 for efficiency
+            
+            for i in range(num_workers):
+                future = executor.submit(worker_task)
+                active_futures.add(future)
+            
+            # Monitor progress
+            try:
+                while active_futures and len(crawled_urls) < max_pages:
+                    done, active_futures = wait(active_futures, return_when=FIRST_COMPLETED, timeout=1.0)
+                    
+                    for future in done:
+                        try:
+                            worker_crawled, worker_uploaded = future.result()
+                            pages_crawled += worker_crawled
+                            pages_uploaded += worker_uploaded
+                            
+                            # Add new worker if we still have work
+                            if not work_queue.empty() and len(crawled_urls) < max_pages:
+                                new_future = executor.submit(worker_task)
+                                active_futures.add(new_future)
+                                
+                        except Exception as e:
+                            print(f"    ✗ Worker failed: {e}")
+                
+                # Final progress
+                if pages_crawled > 0:
+                    print(f"  {college_name}: {pages_crawled} pages crawled, {pages_uploaded} uploaded")
+                    
+            except KeyboardInterrupt:
+                print(f"\n  Interrupted crawling {college_name}")
+                for future in active_futures:
+                    future.cancel()
+                wait(active_futures, timeout=2.0)
         
-        # Print summary
         print(f"\n✓ Completed crawling {college_name}")
         print(f"  Pages crawled: {pages_crawled}")
         print(f"  Pages uploaded to Milvus: {pages_uploaded}")
-        print(f"  Unique URLs discovered: {len(self.discovered_urls)}")
+        print(f"  Unique URLs discovered: {len(discovered_urls)}")
         
         return {
             'college_name': college_name,
@@ -547,7 +576,7 @@ class MultithreadedCollegeCrawler:
             'base_url': base_url,
             'pages_crawled': pages_crawled,
             'pages_uploaded': pages_uploaded,
-            'urls_discovered': len(self.discovered_urls)
+            'urls_discovered': len(discovered_urls)
         }
     
     def crawl_all_colleges(self, majors_data: Dict[str, List[Dict[str, str]]], 
