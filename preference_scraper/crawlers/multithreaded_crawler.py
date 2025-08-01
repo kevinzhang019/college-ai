@@ -94,7 +94,6 @@ class MultithreadedCollegeCrawler:
         try:
             connections.connect(alias="default", host=MILVUS_HOST, port=MILVUS_PORT)
             print("✓ Connected to Milvus")
-            utility.drop_collection("colleges")
         except Exception as e:
             print(f"✗ Failed to connect to Milvus: {e}")
             raise
