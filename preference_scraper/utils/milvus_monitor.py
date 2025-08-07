@@ -93,14 +93,32 @@ class MilvusMonitor:
             # Load collection
             self.collection.load()
 
-            # Get total count from actual query results instead of num_entities
+            # Get total count from actual query results with pagination
             # since num_entities might be inaccurate in Zilliz Cloud
             try:
-                total_records = self.collection.query(
-                    expr="college_name != ''",
-                    output_fields=["id"],
-                    limit=16384,
-                )
+                total_records = []
+                offset = 0
+                limit = 16384
+                
+                while True:
+                    batch = self.collection.query(
+                        expr="college_name != ''",
+                        output_fields=["id"],
+                        limit=limit,
+                        offset=offset,
+                    )
+                    
+                    if not batch:  # No more records
+                        break
+                        
+                    total_records.extend(batch)
+                    
+                    # If we got fewer records than the limit, we've reached the end
+                    if len(batch) < limit:
+                        break
+                        
+                    offset += limit
+                
                 total_count = len(total_records)
             except Exception as e:
                 logger.error(f"Error getting total count: {e}")
@@ -138,16 +156,34 @@ class MilvusMonitor:
                 for record in sample:
                     college_names.add(record.get("college_name", ""))
 
-                # Query each college separately to get all their records
+                # Query each college separately to get all their records with pagination
                 for college_name in sorted(college_names):
                     if college_name:
                         try:
-                            college_records = self.collection.query(
-                                expr=f'college_name == "{college_name}"',
-                                output_fields=["college_name", "major", "crawled_at"],
-                                limit=16384,
-                            )
-
+                            college_records = []
+                            offset = 0
+                            limit = 16384
+                            
+                            # Use pagination to get all records for this college
+                            while True:
+                                batch = self.collection.query(
+                                    expr=f'college_name == "{college_name}"',
+                                    output_fields=["college_name", "major", "crawled_at"],
+                                    limit=limit,
+                                    offset=offset,
+                                )
+                                
+                                if not batch:  # No more records
+                                    break
+                                    
+                                college_records.extend(batch)
+                                
+                                # If we got fewer records than the limit, we've reached the end
+                                if len(batch) < limit:
+                                    break
+                                    
+                                offset += limit
+                            
                             all_results.extend(college_records)
 
                         except Exception as e:
@@ -155,13 +191,31 @@ class MilvusMonitor:
                             continue
             except Exception as e:
                 logger.error(f"Error getting college names: {e}")
-                # Fallback: try to get all records directly
+                # Fallback: try to get all records directly with pagination
                 try:
-                    all_records = self.collection.query(
-                        expr="college_name != ''",
-                        output_fields=["college_name", "major", "crawled_at"],
-                        limit=16384,
-                    )
+                    all_records = []
+                    offset = 0
+                    limit = 16384
+                    
+                    while True:
+                        batch = self.collection.query(
+                            expr="college_name != ''",
+                            output_fields=["college_name", "major", "crawled_at"],
+                            limit=limit,
+                            offset=offset,
+                        )
+                        
+                        if not batch:  # No more records
+                            break
+                            
+                        all_records.extend(batch)
+                        
+                        # If we got fewer records than the limit, we've reached the end
+                        if len(batch) < limit:
+                            break
+                            
+                        offset += limit
+                    
                     all_results.extend(all_records)
                 except Exception as fallback_e:
                     logger.error(f"Fallback query also failed: {fallback_e}")
