@@ -1,7 +1,27 @@
-# Project dependencies for College AI multithreaded crawler
-requests>=2.31.0
-beautifulsoup4>=4.12.2
-lxml>=4.9.4  # fast HTML parser for BeautifulSoup (optional but recommended)
-pymilvus>=2.4.3
-openai>=1.14.2
-python-dotenv>=1.0.1
+# Project dependencies for College AI multithreaded crawler with Zilliz Cloud integration
+# Core web scraping and data processing
+requests>=2.31.0  # HTTP library for web requests
+beautifulsoup4>=4.12.2  # HTML/XML parser for web scraping
+lxml>=4.9.4  # fast HTML parser for BeautifulSoup (recommended)
+
+# Database and vector operations
+pymilvus>=2.4.3  # for Zilliz Cloud and Milvus database operations
+
+# AI and embeddings
+openai>=1.14.2  # for OpenAI embeddings and API access
+
+# Environment and configuration
+python-dotenv>=1.0.1  # for environment variable management
+
+# Built-in Python modules (no installation required):
+# - os, sys, time, threading, queue, random, uuid
+# - csv, glob, re, html, logging
+# - argparse, concurrent.futures
+# - datetime, collections, typing
+# - urllib.parse
+# - json, hashlib
+
+# Optional but recommended for better performance:
+# - lxml (already included above)
+# - ujson (for faster JSON processing, included with pymilvus)
+# - pandas (for data manipulation, included with pymilvus)
