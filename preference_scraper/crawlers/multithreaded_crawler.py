@@ -14,7 +14,7 @@ import threading
 import queue
 import random
 import concurrent.futures
-from concurrent.futures import ThreadPoolExecutor, as_completed, wait, FIRST_COMPLETED
+from concurrent.futures import ThreadPoolExecutor, wait, FIRST_COMPLETED
 from typing import Dict, List, Any, Optional, Set
 from datetime import datetime
 from urllib.parse import urljoin, urlparse
@@ -28,12 +28,15 @@ from pymilvus import (
     DataType,
     utility,
 )
-import openai
 
 # Add parent directory to path for imports
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-from preference_scraper.utils.openai_embed import get_embedding
+from preference_scraper.utils.openai_embed import (
+    get_embedding,
+    get_chunked_embeddings_for_text,
+    chunk_text_by_tokens,
+)
 from preference_scraper.utils.text_cleaner import clean_text
 from preference_scraper.crawlers.config import *
 
@@ -89,7 +92,6 @@ class MultithreadedCollegeCrawler:
         self.min_delay = max(0.5, self.delay * 0.5)  # Minimum delay
         self.max_delay = self.delay * 2.0  # Maximum delay for randomization
         self.max_retries = 3
-        self.robots_cache = {}  # Cache robots.txt results
 
         # User-Agent rotation for anti-detection
         self.user_agents = [
@@ -108,10 +110,19 @@ class MultithreadedCollegeCrawler:
             set()
         )  # URLs that already exist in Milvus from previous runs
         self.lock = threading.Lock()
+        # Serialize Milvus inserts to avoid driver-side races; keep stats lock separate
+        self.insert_lock = threading.Lock()
+        # Limit concurrent embedding generation to reduce rate-limit errors
+        try:
+            embed_concurrency = int(os.getenv("EMBED_MAX_CONCURRENCY", "2"))
+        except Exception:
+            embed_concurrency = 2
+        self.embed_semaphore = threading.Semaphore(max(1, embed_concurrency))
 
         # Milvus connection
         self.connect_milvus()
         self.collection = self.get_or_create_collection()
+        self.ensure_collection_ready()
 
         # Initialize existing URLs as empty - will be populated per college
         self.existing_urls = set()
@@ -163,7 +174,7 @@ class MultithreadedCollegeCrawler:
             ),
             FieldSchema(name="embedding", dtype=DataType.FLOAT_VECTOR, dim=VECTOR_DIM),
             FieldSchema(name="crawled_at", dtype=DataType.VARCHAR, max_length=32),
-            FieldSchema(name="major", dtype=DataType.VARCHAR, max_length=64),
+            FieldSchema(name="majors", dtype=DataType.JSON),
         ]
 
         schema = CollectionSchema(fields, description="College pages with embeddings")
@@ -171,15 +182,65 @@ class MultithreadedCollegeCrawler:
         if utility.has_collection(collection_name):
             existing = Collection(collection_name)
             try:
-                embed_field = next(
-                    f for f in existing.schema.fields if f.name == "embedding"
-                )
-                if embed_field.params.get("dim") != VECTOR_DIM:
+                # Build expected field map
+                expected = {f.name: f for f in schema.fields}
+                actual = {f.name: f for f in existing.schema.fields}
+
+                def varchar_len(f):
+                    try:
+                        return int(f.params.get("max_length"))
+                    except Exception:
+                        return None
+
+                # Validate presence and compatibility for each expected field
+                recreate = False
+                for name, exp in expected.items():
+                    if name not in actual:
+                        print(f"⚠️ Missing field in existing collection: {name}")
+                        recreate = True
+                        continue
+                    act = actual[name]
+                    if act.dtype != exp.dtype:
+                        print(
+                            f"⚠️ Field dtype mismatch for '{name}': {act.dtype} != {exp.dtype}"
+                        )
+                        recreate = True
+                        continue
+                    if name == "embedding":
+                        exp_dim = VECTOR_DIM
+                        act_dim = act.params.get("dim")
+                        if act_dim != exp_dim:
+                            print(f"⚠️ Embedding dim mismatch: {act_dim} != {exp_dim}")
+                            recreate = True
+                    elif act.dtype == DataType.VARCHAR:
+                        exp_len = varchar_len(exp)
+                        act_len = varchar_len(act)
+                        if (
+                            act_len is not None
+                            and exp_len is not None
+                            and act_len < exp_len
+                        ):
+                            print(
+                                f"⚠️ VARCHAR max_length for '{name}' too small: {act_len} < {exp_len}"
+                            )
+                            recreate = True
+
+                # Also ensure primary key settings
+                try:
+                    id_field = actual.get("id")
+                    if not id_field or not id_field.is_primary or id_field.auto_id:
+                        print("⚠️ Primary key field 'id' is misconfigured")
+                        recreate = True
+                except Exception:
+                    pass
+
+                if recreate:
                     print(
-                        f"⚠️ Existing collection embedding dim {embed_field.params.get('dim')} != {VECTOR_DIM}. Recreating collection ..."
+                        "♻️ Recreating collection to match expected schema (this drops existing data)."
                     )
                     utility.drop_collection(collection_name)
                     return Collection(collection_name, schema)
+
                 return existing
             except Exception as e:
                 print(
@@ -187,6 +248,39 @@ class MultithreadedCollegeCrawler:
                 )
                 return existing
         return Collection(collection_name, schema)
+
+    def ensure_collection_ready(self):
+        """Create vector index if missing and load collection for querying/search."""
+        try:
+            # Create vector index if not present
+            has_index = False
+            try:
+                idx = getattr(self.collection, "indexes", None)
+                has_index = bool(idx)
+            except Exception:
+                has_index = False
+
+            if not has_index:
+                print("🔧 Creating vector index on 'embedding' field...")
+                self.collection.create_index(
+                    field_name="embedding",
+                    index_params={
+                        "index_type": INDEX_TYPE,
+                        "metric_type": METRIC_TYPE,
+                        "params": {"nlist": 1024},
+                    },
+                    timeout=600,
+                )
+                print("✅ Index creation requested")
+
+            # Load collection to make it queryable
+            try:
+                self.collection.load(timeout=120)
+                print("✅ Collection loaded")
+            except Exception as e:
+                print(f"⚠️  Could not load collection yet: {e}")
+        except Exception as e:
+            print(f"❌ Error ensuring collection readiness: {e}")
 
     def read_csv_files(self) -> Dict[str, List[Dict[str, str]]]:
         """
@@ -420,6 +514,11 @@ class MultithreadedCollegeCrawler:
                         if attempt < self.max_retries - 1:
                             # Rotate User-Agent and wait longer for 403 errors before retry
                             new_ua = self.rotate_user_agent()
+                            # Ensure the worker's session also gets the rotated UA
+                            try:
+                                request_session.headers.update({"User-Agent": new_ua})
+                            except Exception:
+                                pass
                             print(f"    🔄 Rotated User-Agent to: {new_ua[:50]}...")
                             time.sleep(self.delay * (attempt + 1) * 2)
                             continue
@@ -440,6 +539,11 @@ class MultithreadedCollegeCrawler:
                         if attempt < self.max_retries - 1:
                             # Rotate User-Agent and wait longer for 403 errors before retry
                             new_ua = self.rotate_user_agent()
+                            # Ensure the worker's session also gets the rotated UA
+                            try:
+                                request_session.headers.update({"User-Agent": new_ua})
+                            except Exception:
+                                pass
                             print(f"    🔄 Rotated User-Agent to: {new_ua[:50]}...")
                             time.sleep(self.delay * (attempt + 1) * 2)
                             continue
@@ -528,66 +632,230 @@ class MultithreadedCollegeCrawler:
     def upload_to_milvus(
         self, page_data: Dict[str, Any], college_name: str, major: str
     ) -> bool:
-        """Upload a single page to Milvus with embedding."""
+        """Upload a single page to Milvus with per-chunk embeddings for RAG."""
         try:
-            # Check if URL already exists in Milvus from previous runs
-            with self.lock:
-                if page_data["url"] in self.existing_urls:
-                    print(
-                        f"    ⚠️  Skipping existing URL from previous run: {page_data['url']}"
+            # Fetch existing records for this URL
+            existing_records = []
+            try:
+                with self.insert_lock:
+                    self.collection.load(timeout=60)
+                # Escape quotes for Milvus boolean expression
+                _url_val = page_data["url"].replace('"', '\\"')
+                existing_records = self.collection.query(
+                    expr=f'url == "{_url_val}"',
+                    output_fields=[
+                        "id",
+                        "college_name",
+                        "url",
+                        "title",
+                        "content",
+                        "embedding",
+                        "crawled_at",
+                        "majors",
+                    ],
+                    limit=16384,
+                )
+            except Exception as e:
+                print(f"    ⚠️  Could not query existing URL '{page_data['url']}': {e}")
+
+            # Determine if current major already present; if not, update majors in-place via upsert
+            if existing_records:
+                # Aggregate majors across records and check presence
+                any_has_major = False
+                updated_ids: List[str] = []
+                updated_colleges: List[str] = []
+                updated_urls: List[str] = []
+                updated_titles: List[str] = []
+                updated_contents: List[str] = []
+                updated_embeddings: List[List[float]] = []
+                updated_crawled_ats: List[str] = []
+                updated_majors_col: List[List[str]] = []
+
+                for rec in existing_records:
+                    rec_majors_field = rec.get("majors")
+                    if isinstance(rec_majors_field, list):
+                        rec_majors = [str(m).strip() for m in rec_majors_field if m]
+                    elif (
+                        isinstance(rec_majors_field, dict)
+                        and "list" in rec_majors_field
+                    ):
+                        rec_majors = [
+                            str(m).strip()
+                            for m in rec_majors_field.get("list", [])
+                            if m
+                        ]
+                    else:
+                        rec_majors = []
+                    if major in rec_majors:
+                        any_has_major = True
+                        # No need to change this record
+                    else:
+                        rec_majors = list({*rec_majors, major})
+
+                    # Collect row for upsert (even if unchanged, harmless)
+                    updated_ids.append(rec.get("id"))
+                    updated_colleges.append(rec.get("college_name", college_name))
+                    updated_urls.append(rec.get("url", page_data["url"]))
+                    updated_titles.append(rec.get("title", page_data["title"]))
+                    updated_contents.append(rec.get("content", page_data["content"]))
+                    emb = rec.get("embedding")
+                    if isinstance(emb, list) and len(emb) == VECTOR_DIM:
+                        updated_embeddings.append(emb)
+                    else:
+                        # If embedding missing (shouldn't happen), skip update for safety
+                        updated_embeddings.append([0.0] * VECTOR_DIM)
+                    updated_crawled_ats.append(
+                        rec.get("crawled_at", page_data["crawled_at"])
                     )
-                    self.stats["existing_urls_skipped"] += 1
+                    updated_majors_col.append(rec_majors)
+
+                if any_has_major:
+                    print(
+                        f"    ⚠️  Skipping URL with existing matching major: {page_data['url']} [{major}]"
+                    )
+                    with self.lock:
+                        self.stats["existing_urls_skipped"] += 1
                     return False
 
-                # Check if URL has already been uploaded in this run
-                if page_data["url"] in self.uploaded_urls:
+                # Upsert updated majors for existing rows
+                try:
+                    with self.insert_lock:
+                        if hasattr(self.collection, "upsert"):
+                            self.collection.upsert(
+                                [
+                                    updated_ids,
+                                    updated_colleges,
+                                    updated_urls,
+                                    updated_titles,
+                                    updated_contents,
+                                    updated_embeddings,
+                                    updated_crawled_ats,
+                                    updated_majors_col,
+                                ]
+                            )
+                        else:
+                            # Fallback: delete old ids and insert updated rows
+                            quoted = ",".join([f'"{_id}"' for _id in updated_ids])
+                            self.collection.delete(f"id in [{quoted}]")
+                            self.collection.insert(
+                                [
+                                    updated_ids,
+                                    updated_colleges,
+                                    updated_urls,
+                                    updated_titles,
+                                    updated_contents,
+                                    updated_embeddings,
+                                    updated_crawled_ats,
+                                    updated_majors_col,
+                                ]
+                            )
                     print(
-                        f"    ⚠️  Skipping duplicate URL from this run: {page_data['url']}"
+                        f"    ✓ Updated majors for existing URL (added '{major}'): {page_data['url']}"
                     )
-                    self.stats["duplicate_urls_skipped"] += 1
+                except Exception as e:
+                    print(f"    ✗ Failed to update majors for {page_data['url']}: {e}")
                     return False
 
-                # Add to uploaded URLs set
-                self.uploaded_urls.add(page_data["url"])
+                # Count as updated but no new vectors added
+                return True
 
-            # Generate embedding for the content
-            content_for_embedding = f"{page_data['title']} {page_data['content']}"
-            embedding = get_embedding(content_for_embedding)
-
-            if not embedding:
-                print(f"    ✗ Failed to generate embedding for {page_data['url']}")
-                return False
+            # Chunk content and embed per chunk for better RAG retrieval
+            title_text = page_data["title"]
+            content_text = page_data["content"]
+            chunks = chunk_text_by_tokens(
+                content_text,
+                max_tokens=800,
+                overlap_tokens=80,
+                model="text-embedding-ada-002",
+            )
+            # Bound embedding concurrency across workers
+            with self.embed_semaphore:
+                chunks_embeddings = get_chunked_embeddings_for_text(
+                    content_text,
+                    model="text-embedding-ada-002",
+                    max_tokens=800,
+                    overlap_tokens=80,
+                    prefix=title_text,
+                )
+            # If chunking produced no embeddings, fall back to whole-page embedding
+            if not chunks_embeddings:
+                with self.embed_semaphore:
+                    fallback_emb = get_embedding(f"{title_text} {content_text}")
+                if not fallback_emb:
+                    print(f"    ✗ Failed to generate embedding for {page_data['url']}")
+                    return False
+                chunks_embeddings = [fallback_emb]
+                chunks = [content_text]
 
             # Prepare data for Milvus matching the new schema
-            import time
-
-            current_timestamp = int(time.time())
 
             # Create a combined description from title and content
             description = f"{page_data['title']} {page_data['content']}"
             if len(description) > 2047:  # Leave room for null terminator
                 description = description[:2047]
 
-            data = [
-                {
-                    "id": str(uuid.uuid4()),
-                    "college_name": college_name,
-                    "url": page_data["url"],
-                    "title": page_data["title"][: MAX_TITLE_LENGTH - 1],
-                    "content": page_data["content"][: MAX_CONTENT_LENGTH - 1],
-                    "embedding": embedding,
-                    "crawled_at": page_data["crawled_at"],
-                    "major": major,
-                }
-            ]
+            # Prepare column-based insert payload (more compatible across PyMilvus versions)
+            ids: List[str] = []
+            colleges: List[str] = []
+            urls: List[str] = []
+            titles: List[str] = []
+            contents: List[str] = []
+            embeddings: List[List[float]] = []
+            crawled_ats: List[str] = []
+            majors: List[str] = []
+
+            total_chunks = len(chunks_embeddings)
+            for idx, (emb, chunk_text) in enumerate(
+                zip(chunks_embeddings, chunks), start=1
+            ):
+                if emb is None:
+                    continue
+                if not isinstance(emb, list) or len(emb) != VECTOR_DIM:
+                    print(
+                        f"    ✗ Skipping invalid embedding for {page_data['url']} (dim={len(emb) if isinstance(emb, list) else 'N/A'})"
+                    )
+                    continue
+                chunked_title = page_data["title"]
+                if total_chunks > 1:
+                    chunked_title = f"{page_data['title']} (chunk {idx}/{total_chunks})"
+                ids.append(str(uuid.uuid4()))
+                colleges.append(college_name)
+                urls.append(page_data["url"])
+                titles.append(chunked_title[: MAX_TITLE_LENGTH - 1])
+                contents.append(chunk_text[: MAX_CONTENT_LENGTH - 1])
+                embeddings.append(emb)
+                crawled_ats.append(page_data["crawled_at"])
+                # Multi-major support
+                majors.append([major])
 
             # Insert into Milvus
-            self.collection.insert(data)
+            if embeddings:
+                try:
+                    # Serialize inserts for safety across threads
+                    with self.insert_lock:
+                        self.collection.insert(
+                            [
+                                ids,
+                                colleges,
+                                urls,
+                                titles,
+                                contents,
+                                embeddings,
+                                crawled_ats,
+                                majors,
+                            ]
+                        )
+                except Exception as insert_err:
+                    print(f"    ✗ Insert failed for {page_data['url']}: {insert_err}")
+                    return False
 
             with self.lock:
-                self.stats["total_pages_uploaded"] += 1
+                # Count vectors uploaded for more accurate stats in RAG mode
+                self.stats["total_pages_uploaded"] += len(embeddings)
 
-            print(f"    ✓ Uploaded to Milvus: {page_data['url']}")
+            print(
+                f"    ✓ Uploaded {len(embeddings)} vector(s) to Milvus: {page_data['url']}"
+            )
             return True
 
         except Exception as e:
@@ -608,12 +876,15 @@ class MultithreadedCollegeCrawler:
         print(f"\n=== Crawling {college_name} ({major}) ===")
         print(f"Base URL: {base_url}")
 
-        # Get existing URLs for this college to prevent duplicates
-        self.existing_urls = self.get_existing_urls_for_college(college_name)
+        # (Deprecated) existing URL cache is not used for skipping; major-aware checks happen at upload time
+        self.existing_urls = set()
 
-        # Reset state for this college
+        # Reset state for this college (shared across workers)
         crawled_urls = set()
         discovered_urls = set()
+        state_lock = threading.Lock()
+        stop_event = threading.Event()
+        pages_crawled_shared = 0  # successful pages scraped
 
         # Normalize base URL
         try:
@@ -641,7 +912,6 @@ class MultithreadedCollegeCrawler:
             }
 
         # Initialize BFS queue
-        url_queue = [(0, normalized_base)]
         discovered_urls.add(normalized_base)
 
         pages_crawled = 0
@@ -660,6 +930,7 @@ class MultithreadedCollegeCrawler:
 
             def worker_task():
                 """Efficient worker for work-stealing BFS"""
+                nonlocal pages_crawled_shared
                 local_crawled = 0
                 local_uploaded = 0
                 consecutive_empty_checks = 0
@@ -669,18 +940,24 @@ class MultithreadedCollegeCrawler:
                 worker_session = requests.Session()
                 worker_session.headers.update(self.session.headers)
 
-                while local_crawled < max_pages:
+                while not stop_event.is_set():
+                    # Check global stop condition early
+                    with state_lock:
+                        if pages_crawled_shared >= max_pages:
+                            stop_event.set()
+                            break
                     try:
                         # Get next URL with timeout
                         depth, url = work_queue.get(timeout=1.0)  # Increased timeout
                         consecutive_empty_checks = 0  # Reset counter
 
-                        # Skip if already crawled
-                        if url in crawled_urls:
-                            continue
-
-                        # Mark as crawled
-                        crawled_urls.add(url)
+                        # Claim URL atomically
+                        with state_lock:
+                            if stop_event.is_set():
+                                break
+                            if url in crawled_urls:
+                                continue
+                            crawled_urls.add(url)
 
                         # Scrape page with thread-local session
                         page_data = self.scrape_page(url, worker_session)
@@ -688,6 +965,11 @@ class MultithreadedCollegeCrawler:
                             continue
 
                         local_crawled += 1
+                        # Update global count and check for stop condition
+                        with state_lock:
+                            pages_crawled_shared += 1
+                            if pages_crawled_shared >= max_pages:
+                                stop_event.set()
 
                         # Upload to Milvus
                         if self.upload_to_milvus(page_data, college_name, major):
@@ -698,23 +980,19 @@ class MultithreadedCollegeCrawler:
                         new_depth = depth + 1
                         links_added = 0
 
-                        # Filter out links that already exist in Milvus
-                        filtered_links = []
+                        # Filter and enqueue new links atomically
                         for link in new_links:
-                            if (
-                                link not in crawled_urls
-                                and link not in discovered_urls
-                                and link
-                                not in self.existing_urls  # Skip URLs from previous runs
-                                and len(crawled_urls) < max_pages
-                            ):
-                                filtered_links.append(link)
-
-                        # Add filtered links to queue
-                        for link in filtered_links:
-                            discovered_urls.add(link)
-                            work_queue.put((new_depth, link))
-                            links_added += 1
+                            with state_lock:
+                                if stop_event.is_set():
+                                    break
+                                if (
+                                    link not in crawled_urls
+                                    and link not in discovered_urls
+                                    and pages_crawled_shared < max_pages
+                                ):
+                                    discovered_urls.add(link)
+                                    work_queue.put((new_depth, link))
+                                    links_added += 1
 
                         # Progress update
                         if local_crawled % 5 == 0:  # More frequent updates
@@ -729,15 +1007,20 @@ class MultithreadedCollegeCrawler:
                         )
 
                         # Exit if queue has been empty for too long
-                        if consecutive_empty_checks >= max_empty_checks:
+                        if (
+                            consecutive_empty_checks >= max_empty_checks
+                            or stop_event.is_set()
+                        ):
                             print(
                                 f"    ⏭️  Exiting worker for {college_name} - queue empty for too long"
                             )
                             break
 
                         # Check if we should exit
-                        if len(crawled_urls) >= max_pages:
-                            break
+                        with state_lock:
+                            if pages_crawled_shared >= max_pages:
+                                stop_event.set()
+                                break
                         continue
                     except Exception as e:
                         print(f"    ✗ Worker error for {college_name}: {e}")
@@ -759,12 +1042,13 @@ class MultithreadedCollegeCrawler:
                 start_time = time.time()
                 max_crawl_time = 300  # 5 minutes max per college
 
-                while active_futures and len(crawled_urls) < max_pages:
+                while active_futures and not stop_event.is_set():
                     # Check for timeout
                     if time.time() - start_time > max_crawl_time:
                         print(
                             f"    ⏰ Timeout reached for {college_name} ({max_crawl_time}s)"
                         )
+                        stop_event.set()
                         break
 
                     done, active_futures = wait(
@@ -778,14 +1062,10 @@ class MultithreadedCollegeCrawler:
                             worker_crawled, worker_uploaded = future.result()
 
                             # Thread-safe statistics updates
-                            with self.lock:
-                                pages_crawled += worker_crawled
-                                pages_uploaded += worker_uploaded
+                            pages_crawled += worker_crawled
+                            pages_uploaded += worker_uploaded
 
-                            # Add new worker if we still have work
-                            if not work_queue.empty() and len(crawled_urls) < max_pages:
-                                new_future = executor.submit(worker_task)
-                                active_futures.add(new_future)
+                            # Do not respawn workers here; rely on initial pool.
 
                         except Exception as e:
                             print(f"    ✗ Worker failed for {college_name}: {e}")
@@ -804,7 +1084,7 @@ class MultithreadedCollegeCrawler:
 
         print(f"\n✓ Completed crawling {college_name}")
         print(f"  Pages crawled: {pages_crawled}")
-        print(f"  Pages uploaded to Milvus: {pages_uploaded}")
+        print(f"  Vectors uploaded to Milvus: {pages_uploaded}")
         print(f"  Unique URLs discovered: {len(discovered_urls)}")
 
         return {
@@ -868,6 +1148,11 @@ class MultithreadedCollegeCrawler:
                         major_stats["total_pages_uploaded"] += college_result[
                             "pages_uploaded"
                         ]
+                        # Update overall stats for crawled pages
+                        with self.lock:
+                            self.stats["total_pages_crawled"] += college_result[
+                                "pages_crawled"
+                            ]
                     elif college_result.get("status") == "blocked":
                         print(
                             f"  ⚠️  {college['name']} was blocked - skipping statistics"
@@ -886,14 +1171,14 @@ class MultithreadedCollegeCrawler:
             # Print major summary
             print(f"\n{major.upper()} Summary:")
             print(f"  📄 Pages crawled: {major_stats['total_pages_crawled']}")
-            print(f"  📤 Pages uploaded: {major_stats['total_pages_uploaded']}")
+            print(f"  📤 Vectors uploaded: {major_stats['total_pages_uploaded']}")
             print(f"  ✗ Errors: {major_stats['total_errors']}")
 
         # Print overall summary
         print(f"\n=== FINAL CRAWLING SUMMARY ===")
         print(f"Total colleges processed: {self.stats['colleges_processed']}")
         print(f"Total pages crawled: {self.stats['total_pages_crawled']}")
-        print(f"Total pages uploaded to Milvus: {self.stats['total_pages_uploaded']}")
+        print(f"Total vectors uploaded to Milvus: {self.stats['total_pages_uploaded']}")
         print(
             f"Existing URLs skipped (from previous runs): {self.stats['existing_urls_skipped']}"
         )

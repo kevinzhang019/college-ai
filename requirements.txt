@@ -9,6 +9,7 @@ pymilvus>=2.4.3  # for Zilliz Cloud and Milvus database operations
 
 # AI and embeddings
 openai>=1.14.2  # for OpenAI embeddings and API access
+tiktoken>=0.7.0  # token-based chunking for RAG
 
 # Environment and configuration
 python-dotenv>=1.0.1  # for environment variable management

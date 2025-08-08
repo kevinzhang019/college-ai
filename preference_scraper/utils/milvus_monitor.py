@@ -9,6 +9,8 @@ import sys
 import time
 import threading
 from datetime import datetime, timedelta
+import glob
+import csv
 from typing import Dict, List, Optional, Tuple
 from collections import defaultdict
 import logging
@@ -79,6 +81,63 @@ class MilvusMonitor:
             logger.error(f"Error accessing collection: {e}")
             return None
 
+    def _iterate_all_records(self, output_fields: List[str], batch_size: int = 16384):
+        """Yield all records in the collection in batches.
+
+        This performs a full scan using a permissive boolean expression and offset pagination.
+        """
+        if not self.collection:
+            return
+        try:
+            self.collection.load()
+        except Exception:
+            pass
+
+        offset = 0
+        while True:
+            try:
+                # Use a permissive expression to match all rows
+                batch = self.collection.query(
+                    expr='id != ""',
+                    output_fields=output_fields,
+                    limit=batch_size,
+                    offset=offset,
+                )
+            except Exception as e:
+                logger.error(f"Error during full scan at offset {offset}: {e}")
+                break
+
+            if not batch:
+                break
+
+            for rec in batch:
+                yield rec
+
+            if len(batch) < batch_size:
+                break
+            offset += batch_size
+
+    def _get_college_names_from_csvs(self) -> List[str]:
+        """Return distinct college names by reading all CSVs under crawlers/colleges.
+
+        Avoids scanning the full collection, which is capped by Milvus per-query limits.
+        """
+        base_dir = os.path.join(os.path.dirname(__file__), "../crawlers/colleges")
+        csv_files = glob.glob(os.path.join(base_dir, "*.csv"))
+        names = set()
+        for path in csv_files:
+            try:
+                with open(path, "r", encoding="utf-8") as f:
+                    reader = csv.DictReader(f)
+                    for row in reader:
+                        name = (row.get("name") or "").strip()
+                        if name:
+                            names.add(name)
+            except Exception as e:
+                logger.warning(f"Failed to read CSV {path}: {e}")
+                continue
+        return sorted(names)
+
     def get_college_statistics(self) -> Dict[str, Dict]:
         """
         Get current statistics for all colleges in the database.
@@ -93,40 +152,6 @@ class MilvusMonitor:
             # Load collection
             self.collection.load()
 
-            # Get total count from actual query results with pagination
-            # since num_entities might be inaccurate in Zilliz Cloud
-            try:
-                total_records = []
-                offset = 0
-                limit = 16384
-                
-                while True:
-                    batch = self.collection.query(
-                        expr="college_name != ''",
-                        output_fields=["id"],
-                        limit=limit,
-                        offset=offset,
-                    )
-                    
-                    if not batch:  # No more records
-                        break
-                        
-                    total_records.extend(batch)
-                    
-                    # If we got fewer records than the limit, we've reached the end
-                    if len(batch) < limit:
-                        break
-                        
-                    offset += limit
-                
-                total_count = len(total_records)
-            except Exception as e:
-                logger.error(f"Error getting total count: {e}")
-                total_count = self.collection.num_entities
-
-            if total_count == 0:
-                return {"total": 0, "colleges": {}}
-
             # Process results in batches to handle large datasets
             college_stats = defaultdict(
                 lambda: {
@@ -137,89 +162,43 @@ class MilvusMonitor:
                 }
             )
 
-            # Since Milvus has a strict offset+limit <= 16384 constraint,
-            # we need to use expressions to get all records
+            # Step 1: Derive college names from CSV files to avoid full collection scans
             all_results = []
+            college_names = self._get_college_names_from_csvs()
+            if not college_names:
+                return {
+                    "total": 0,
+                    "colleges": {},
+                    "error": "No college CSVs found or empty.",
+                }
+            logger.info(
+                f"Step 1 complete: Found {len(college_names)} colleges from CSVs"
+            )
 
-            # Strategy: Query by college name to get all records for each college
-            # First, get a sample to find all college names
-            try:
-                sample = self.collection.query(
-                    expr="college_name != ''",
-                    output_fields=["college_name"],
-                    limit=16384,
-                    offset=0,
-                )
+            # Step 2: For each college, fetch all records with proper pagination
+            logger.info("Step 2: Fetching all records for each college...")
 
-                # Extract unique college names
-                college_names = set()
-                for record in sample:
-                    college_names.add(record.get("college_name", ""))
+            for college_name in college_names:
+                if not college_name:
+                    continue
 
-                # Query each college separately to get all their records with pagination
-                for college_name in sorted(college_names):
-                    if college_name:
-                        try:
-                            college_records = []
-                            offset = 0
-                            limit = 16384
-                            
-                            # Use pagination to get all records for this college
-                            while True:
-                                batch = self.collection.query(
-                                    expr=f'college_name == "{college_name}"',
-                                    output_fields=["college_name", "major", "crawled_at"],
-                                    limit=limit,
-                                    offset=offset,
-                                )
-                                
-                                if not batch:  # No more records
-                                    break
-                                    
-                                college_records.extend(batch)
-                                
-                                # If we got fewer records than the limit, we've reached the end
-                                if len(batch) < limit:
-                                    break
-                                    
-                                offset += limit
-                            
-                            all_results.extend(college_records)
-
-                        except Exception as e:
-                            logger.error(f"Error querying {college_name}: {e}")
-                            continue
-            except Exception as e:
-                logger.error(f"Error getting college names: {e}")
-                # Fallback: try to get all records directly with pagination
                 try:
-                    all_records = []
-                    offset = 0
-                    limit = 16384
-                    
-                    while True:
-                        batch = self.collection.query(
-                            expr="college_name != ''",
-                            output_fields=["college_name", "major", "crawled_at"],
-                            limit=limit,
-                            offset=offset,
-                        )
-                        
-                        if not batch:  # No more records
-                            break
-                            
-                        all_records.extend(batch)
-                        
-                        # If we got fewer records than the limit, we've reached the end
-                        if len(batch) < limit:
-                            break
-                            
-                        offset += limit
-                    
-                    all_results.extend(all_records)
-                except Exception as fallback_e:
-                    logger.error(f"Fallback query also failed: {fallback_e}")
-                    return {"total": total_count, "colleges": {}, "error": str(e)}
+                    college_records = []
+                    logger.info(f"Fetching records for {college_name}...")
+                    for rec in self._iterate_all_records(
+                        ["college_name", "major", "crawled_at"], batch_size=16384
+                    ):
+                        if rec.get("college_name") == college_name:
+                            college_records.append(rec)
+
+                    all_results.extend(college_records)
+                    logger.info(
+                        f"  {college_name}: total records fetched: {len(college_records)}"
+                    )
+
+                except Exception as e:
+                    logger.error(f"Error processing {college_name}: {e}")
+                    continue
 
             # Process all results
             for record in all_results:
@@ -251,9 +230,12 @@ class MilvusMonitor:
                     except:
                         pass
 
+            # Calculate total count from the records we actually fetched
+            actual_total = len(all_results)
+
             # Convert defaultdict to regular dict
             result = {
-                "total": total_count,
+                "total": actual_total,
                 "colleges": dict(college_stats),
                 "timestamp": datetime.now(),
                 "queried_records": len(all_results),

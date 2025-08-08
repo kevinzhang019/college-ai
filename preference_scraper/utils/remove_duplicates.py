@@ -9,6 +9,8 @@ import sys
 import time
 from datetime import datetime
 from typing import Dict, List, Set
+import glob
+import csv
 from collections import defaultdict
 from dotenv import load_dotenv
 
@@ -53,6 +55,8 @@ class CollegeDuplicateRemover:
         print(f"✓ Found collection: {collection_name}")
         return collection
 
+    # Index/Load responsibility moved to crawler. Duplicate removal assumes collection ready.
+
     def get_colleges_with_duplicates(self) -> Dict[str, Dict]:
         """
         Find all colleges and identify which ones have duplicates.
@@ -63,7 +67,11 @@ class CollegeDuplicateRemover:
         print("🔍 Finding colleges with duplicates...")
 
         # Load collection
-        self.collection.load()
+        try:
+            self.collection.load()
+        except Exception as e:
+            # Proceed without loading if vector index is not present; scalar queries still work
+            print(f"⚠️  Proceeding without explicit load (reason: {e})")
 
         # Get total count
         total_count = self.collection.num_entities
@@ -72,18 +80,20 @@ class CollegeDuplicateRemover:
         # Get all colleges and their record counts
         colleges_data = {}
 
-        # Use the same strategy as the monitor to get all records
-        sample = self.collection.query(
-            expr="",
-            output_fields=["college_name"],
-            limit=16384,
-            offset=0,
-        )
-
-        # Extract unique college names
-        college_names = set()
-        for record in sample:
-            college_names.add(record.get("college_name", ""))
+        # Get distinct college names from CSVs to avoid full-collection scans
+        college_names: Set[str] = set()
+        base_dir = os.path.join(os.path.dirname(__file__), "../crawlers/colleges")
+        for path in glob.glob(os.path.join(base_dir, "*.csv")):
+            try:
+                with open(path, "r", encoding="utf-8") as f:
+                    reader = csv.DictReader(f)
+                    for row in reader:
+                        name = (row.get("name") or "").strip()
+                        if name:
+                            college_names.add(name)
+            except Exception as e:
+                print(f"⚠️  Failed to read CSV {path}: {e}")
+                continue
 
         print(f"📋 Found {len(college_names)} unique colleges")
 
@@ -93,18 +103,28 @@ class CollegeDuplicateRemover:
                 try:
                     print(f"📊 Checking {college_name}...")
 
-                    # Get all records for this college
-                    college_records = self.collection.query(
-                        expr=f'college_name == "{college_name}"',
-                        output_fields=[
-                            "id",
-                            "url",
-                            "college_name",
-                            "major",
-                            "crawled_at",
-                        ],
-                        limit=16384,
-                    )
+                    # Get all records for this college in batches
+                    college_records = []
+                    offset = 0
+                    while True:
+                        batch = self.collection.query(
+                            expr=f'college_name == "{college_name}"',
+                            output_fields=[
+                                "id",
+                                "url",
+                                "college_name",
+                                "major",
+                                "crawled_at",
+                            ],
+                            limit=16384,
+                            offset=offset,
+                        )
+                        if not batch:
+                            break
+                        college_records.extend(batch)
+                        if len(batch) < 16384:
+                            break
+                        offset += 16384
 
                     # Group by URL to find duplicates
                     url_to_records = defaultdict(list)
@@ -188,7 +208,8 @@ class CollegeDuplicateRemover:
                     batch_size = 1000
                     for i in range(0, len(ids_to_remove), batch_size):
                         batch_ids = ids_to_remove[i : i + batch_size]
-                        delete_expr = f"id in {batch_ids}"
+                        quoted = ",".join([f'"{_id}"' for _id in batch_ids])
+                        delete_expr = f"id in [{quoted}]"
 
                         try:
                             self.collection.delete(delete_expr)
