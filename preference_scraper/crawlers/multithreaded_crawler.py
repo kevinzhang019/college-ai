@@ -19,6 +19,11 @@ from typing import Dict, List, Any, Optional, Set
 from datetime import datetime
 from urllib.parse import urljoin, urlparse
 import requests
+
+try:
+    from curl_cffi import requests as curl_requests  # type: ignore
+except Exception:
+    curl_requests = None
 from bs4 import BeautifulSoup
 from pymilvus import (
     connections,
@@ -34,7 +39,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")
 
 from preference_scraper.utils.openai_embed import (
     get_embedding,
-    get_chunked_embeddings_for_text,
+    get_embeddings_batch,
     chunk_text_by_tokens,
 )
 from preference_scraper.utils.text_cleaner import clean_text
@@ -91,7 +96,7 @@ class MultithreadedCollegeCrawler:
         # Anti-bot detection settings
         self.min_delay = max(0.5, self.delay * 0.5)  # Minimum delay
         self.max_delay = self.delay * 2.0  # Maximum delay for randomization
-        self.max_retries = 3
+        self.max_retries = MAX_RETRIES
 
         # User-Agent rotation for anti-detection
         self.user_agents = [
@@ -112,6 +117,12 @@ class MultithreadedCollegeCrawler:
         self.lock = threading.Lock()
         # Serialize Milvus inserts to avoid driver-side races; keep stats lock separate
         self.insert_lock = threading.Lock()
+        # Concurrency controls for Milvus operations
+        # - Queries: allow bounded parallelism
+        # - Writes: exclusive
+        query_parallelism = int(os.getenv("MILVUS_QUERY_PARALLELISM", "3") or "3")
+        self.collection_query_sema = threading.Semaphore(max(1, query_parallelism))
+        self.collection_write_lock = threading.Lock()
         # Limit concurrent embedding generation to reduce rate-limit errors
         try:
             embed_concurrency = int(os.getenv("EMBED_MAX_CONCURRENCY", "2"))
@@ -130,7 +141,7 @@ class MultithreadedCollegeCrawler:
         # Crawling statistics
         self.stats = {
             "total_pages_crawled": 0,
-            "total_pages_uploaded": 0,
+            "total_vectors_uploaded": 0,
             "total_errors": 0,
             "colleges_processed": 0,
             "duplicate_urls_skipped": 0,
@@ -140,7 +151,6 @@ class MultithreadedCollegeCrawler:
     def rotate_user_agent(self):
         """Rotate User-Agent to avoid detection."""
         new_user_agent = random.choice(self.user_agents)
-        self.session.headers.update({"User-Agent": new_user_agent})
         return new_user_agent
 
     def connect_milvus(self):
@@ -504,7 +514,41 @@ class MultithreadedCollegeCrawler:
             response = None
             for attempt in range(self.max_retries):
                 try:
-                    response = request_session.get(url, timeout=REQUEST_TIMEOUT)
+                    # Light probabilistic proxy usage on first attempt, rotate on retries
+                    proxy_dict = None
+                    if attempt == 0:
+                        if HTTP_PROXIES and random.random() < 0.15:
+                            # Basic chance to use a proxy on first try
+                            proxy_dict = (
+                                {"http": HTTP_PROXIES[0], "https": HTTP_PROXIES[0]}
+                                if HTTP_PROXIES
+                                else None
+                            )
+                        else:
+                            proxy_dict = None
+                    else:
+                        # Rotate proxies on retries if provided
+                        if HTTP_PROXIES:
+                            idx = (attempt - 1) % len(HTTP_PROXIES)
+                            proxy_url = HTTP_PROXIES[idx]
+                            proxy_dict = {"http": proxy_url, "https": proxy_url}
+
+                    if USE_CURL_CFFI and curl_requests is not None and attempt >= 2:
+                        response = curl_requests.get(
+                            url,
+                            impersonate="chrome",
+                            headers=request_session.headers,
+                            proxies=proxy_dict,
+                            timeout=REQUEST_TIMEOUT,
+                            allow_redirects=True,
+                        )
+                    else:
+                        response = request_session.get(
+                            url,
+                            timeout=REQUEST_TIMEOUT,
+                            allow_redirects=True,
+                            proxies=proxy_dict,
+                        )
 
                     # Handle 403 errors specifically
                     if response.status_code == 403:
@@ -520,7 +564,10 @@ class MultithreadedCollegeCrawler:
                             except Exception:
                                 pass
                             print(f"    🔄 Rotated User-Agent to: {new_ua[:50]}...")
-                            time.sleep(self.delay * (attempt + 1) * 2)
+                            backoff = self.delay * (attempt + 1) * 2
+                            if proxy_dict:
+                                backoff *= 1.5
+                            time.sleep(backoff)
                             continue
                         else:
                             print(
@@ -545,7 +592,10 @@ class MultithreadedCollegeCrawler:
                             except Exception:
                                 pass
                             print(f"    🔄 Rotated User-Agent to: {new_ua[:50]}...")
-                            time.sleep(self.delay * (attempt + 1) * 2)
+                            backoff = self.delay * (attempt + 1) * 2
+                            if proxy_dict:
+                                backoff *= 1.5
+                            time.sleep(backoff)
                             continue
                         else:
                             print(
@@ -562,6 +612,25 @@ class MultithreadedCollegeCrawler:
 
             if not response:
                 return None
+
+            # Validate content-type before parsing
+            try:
+                content_type_header = response.headers.get("Content-Type", "")
+            except Exception:
+                content_type_header = ""
+            mime_type = (
+                content_type_header.split(";")[0].strip().lower()
+                if content_type_header
+                else ""
+            )
+            try:
+                if mime_type and (mime_type not in VALID_CONTENT_TYPES):
+                    print(
+                        f"    ⚠️  Skipping non-HTML content-type for {url}: {mime_type}"
+                    )
+                    return None
+            except Exception:
+                pass
 
             # Parse with BeautifulSoup
             soup = BeautifulSoup(response.content, "html.parser")
@@ -603,11 +672,23 @@ class MultithreadedCollegeCrawler:
             # Clean the content
             cleaned_content = clean_text(main_content)
 
-            # Check if we have meaningful content
-            if len(cleaned_content.strip()) < 50:
+            # Check if we have meaningful content using config thresholds
+            word_count = len(cleaned_content.split())
+            try:
+                min_chars = MIN_CONTENT_LENGTH
+            except Exception:
+                min_chars = 0
+            try:
+                min_words = MIN_WORDS_PER_PAGE
+            except Exception:
+                min_words = 0
+            if len(cleaned_content.strip()) < max(1, min_chars) or word_count < max(
+                1, min_words
+            ):
                 print(
-                    f"    ⚠️  Very little content found for {url} ({len(cleaned_content)} chars)"
+                    f"    ⚠️  Insufficient content for {url} (chars={len(cleaned_content)}, words={word_count})"
                 )
+                # Do not return early; still extract internal links so BFS can progress
 
             # Extract internal links
             internal_links = self.extract_internal_links(soup, url)
@@ -621,7 +702,7 @@ class MultithreadedCollegeCrawler:
                 "title": title_text,
                 "content": cleaned_content,
                 "internal_links": internal_links,
-                "word_count": len(cleaned_content.split()),
+                "word_count": word_count,
                 "crawled_at": datetime.now().isoformat(),
             }
 
@@ -637,24 +718,23 @@ class MultithreadedCollegeCrawler:
             # Fetch existing records for this URL
             existing_records = []
             try:
-                with self.insert_lock:
-                    self.collection.load(timeout=60)
                 # Escape quotes for Milvus boolean expression
                 _url_val = page_data["url"].replace('"', '\\"')
-                existing_records = self.collection.query(
-                    expr=f'url == "{_url_val}"',
-                    output_fields=[
-                        "id",
-                        "college_name",
-                        "url",
-                        "title",
-                        "content",
-                        "embedding",
-                        "crawled_at",
-                        "majors",
-                    ],
-                    limit=16384,
-                )
+                with self.collection_query_sema:
+                    existing_records = self.collection.query(
+                        expr=f'url == "{_url_val}"',
+                        output_fields=[
+                            "id",
+                            "college_name",
+                            "url",
+                            "title",
+                            "content",
+                            "embedding",
+                            "crawled_at",
+                            "majors",
+                        ],
+                        limit=16384,
+                    )
             except Exception as e:
                 print(f"    ⚠️  Could not query existing URL '{page_data['url']}': {e}")
 
@@ -719,7 +799,7 @@ class MultithreadedCollegeCrawler:
 
                 # Upsert updated majors for existing rows
                 try:
-                    with self.insert_lock:
+                    with self.collection_write_lock:
                         if hasattr(self.collection, "upsert"):
                             self.collection.upsert(
                                 [
@@ -768,14 +848,13 @@ class MultithreadedCollegeCrawler:
                 overlap_tokens=80,
                 model="text-embedding-ada-002",
             )
-            # Bound embedding concurrency across workers
+            # Bound embedding concurrency across workers and avoid duplicative re-chunking
             with self.embed_semaphore:
-                chunks_embeddings = get_chunked_embeddings_for_text(
-                    content_text,
-                    model="text-embedding-ada-002",
-                    max_tokens=800,
-                    overlap_tokens=80,
-                    prefix=title_text,
+                chunk_inputs = [
+                    f"{title_text}\n\n{c}" if title_text else c for c in chunks
+                ]
+                chunks_embeddings = get_embeddings_batch(
+                    chunk_inputs, model="text-embedding-ada-002"
                 )
             # If chunking produced no embeddings, fall back to whole-page embedding
             if not chunks_embeddings:
@@ -831,8 +910,8 @@ class MultithreadedCollegeCrawler:
             # Insert into Milvus
             if embeddings:
                 try:
-                    # Serialize inserts for safety across threads
-                    with self.insert_lock:
+                    # Serialize inserts/queries for safety across threads
+                    with self.collection_write_lock:
                         self.collection.insert(
                             [
                                 ids,
@@ -851,7 +930,7 @@ class MultithreadedCollegeCrawler:
 
             with self.lock:
                 # Count vectors uploaded for more accurate stats in RAG mode
-                self.stats["total_pages_uploaded"] += len(embeddings)
+                self.stats["total_vectors_uploaded"] += len(embeddings)
 
             print(
                 f"    ✓ Uploaded {len(embeddings)} vector(s) to Milvus: {page_data['url']}"
@@ -956,6 +1035,8 @@ class MultithreadedCollegeCrawler:
                             if stop_event.is_set():
                                 break
                             if url in crawled_urls:
+                                with self.lock:
+                                    self.stats["duplicate_urls_skipped"] += 1
                                 continue
                             crawled_urls.add(url)
 
@@ -985,14 +1066,19 @@ class MultithreadedCollegeCrawler:
                             with state_lock:
                                 if stop_event.is_set():
                                     break
+                                already_seen = (
+                                    link in crawled_urls or link in discovered_urls
+                                )
                                 if (
-                                    link not in crawled_urls
-                                    and link not in discovered_urls
+                                    not already_seen
                                     and pages_crawled_shared < max_pages
                                 ):
                                     discovered_urls.add(link)
                                     work_queue.put((new_depth, link))
                                     links_added += 1
+                                elif already_seen:
+                                    with self.lock:
+                                        self.stats["duplicate_urls_skipped"] += 1
 
                         # Progress update
                         if local_crawled % 5 == 0:  # More frequent updates
@@ -1026,6 +1112,11 @@ class MultithreadedCollegeCrawler:
                         print(f"    ✗ Worker error for {college_name}: {e}")
                         continue
 
+                # Close thread-local session before exiting
+                try:
+                    worker_session.close()
+                except Exception:
+                    pass
                 return local_crawled, local_uploaded
 
             # Submit initial workers
@@ -1070,6 +1161,20 @@ class MultithreadedCollegeCrawler:
                         except Exception as e:
                             print(f"    ✗ Worker failed for {college_name}: {e}")
 
+                # If we exited due to stop_event, wait for remaining workers to finish
+                # and aggregate their results so counts are accurate
+                if active_futures:
+                    done, _ = wait(active_futures)
+                    for future in done:
+                        try:
+                            worker_crawled, worker_uploaded = future.result()
+                            pages_crawled += worker_crawled
+                            pages_uploaded += worker_uploaded
+                        except Exception as e:
+                            print(
+                                f"    ✗ Worker failed during shutdown for {college_name}: {e}"
+                            )
+
                 # Final progress
                 if pages_crawled > 0:
                     print(
@@ -1084,7 +1189,7 @@ class MultithreadedCollegeCrawler:
 
         print(f"\n✓ Completed crawling {college_name}")
         print(f"  Pages crawled: {pages_crawled}")
-        print(f"  Vectors uploaded to Milvus: {pages_uploaded}")
+        print(f"  Pages uploaded to Milvus: {pages_uploaded}")
         print(f"  Unique URLs discovered: {len(discovered_urls)}")
 
         return {
@@ -1171,14 +1276,16 @@ class MultithreadedCollegeCrawler:
             # Print major summary
             print(f"\n{major.upper()} Summary:")
             print(f"  📄 Pages crawled: {major_stats['total_pages_crawled']}")
-            print(f"  📤 Vectors uploaded: {major_stats['total_pages_uploaded']}")
+            print(f"  📤 Pages uploaded: {major_stats['total_pages_uploaded']}")
             print(f"  ✗ Errors: {major_stats['total_errors']}")
 
         # Print overall summary
         print(f"\n=== FINAL CRAWLING SUMMARY ===")
         print(f"Total colleges processed: {self.stats['colleges_processed']}")
         print(f"Total pages crawled: {self.stats['total_pages_crawled']}")
-        print(f"Total vectors uploaded to Milvus: {self.stats['total_pages_uploaded']}")
+        print(
+            f"Total vectors uploaded to Milvus: {self.stats['total_vectors_uploaded']}"
+        )
         print(
             f"Existing URLs skipped (from previous runs): {self.stats['existing_urls_skipped']}"
         )

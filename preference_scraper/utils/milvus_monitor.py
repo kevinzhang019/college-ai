@@ -175,27 +175,25 @@ class MilvusMonitor:
                 f"Step 1 complete: Found {len(college_names)} colleges from CSVs"
             )
 
-            # Step 2: For each college, fetch all records with proper pagination
-            logger.info("Step 2: Fetching all records for each college...")
+            # Step 2: Query per college directly (no full collection pagination)
+            logger.info("Step 2: Fetching records for each college via direct query...")
 
             for college_name in college_names:
                 if not college_name:
                     continue
 
                 try:
-                    college_records = []
                     logger.info(f"Fetching records for {college_name}...")
-                    for rec in self._iterate_all_records(
-                        ["college_name", "major", "crawled_at"], batch_size=16384
-                    ):
-                        if rec.get("college_name") == college_name:
-                            college_records.append(rec)
-
+                    # Single query per college; limited to 16384 for safety
+                    college_records = self.collection.query(
+                        expr=f'college_name == "{college_name}"',
+                        output_fields=["college_name", "majors", "crawled_at"],
+                        limit=16384,
+                    )
                     all_results.extend(college_records)
                     logger.info(
-                        f"  {college_name}: total records fetched: {len(college_records)}"
+                        f"  {college_name}: records fetched: {len(college_records)}"
                     )
-
                 except Exception as e:
                     logger.error(f"Error processing {college_name}: {e}")
                     continue
@@ -203,12 +201,24 @@ class MilvusMonitor:
             # Process all results
             for record in all_results:
                 college_name = record.get("college_name", "Unknown")
-                major = record.get("major", "Unknown")
+                majors_field = record.get("majors")
                 crawled_at = record.get("crawled_at")
 
                 # Update college count
                 college_stats[college_name]["count"] += 1
-                college_stats[college_name]["majors"][major] += 1
+                # Tally majors from JSON array
+                majors_list = []
+                if isinstance(majors_field, list):
+                    majors_list = [str(m).strip() for m in majors_field if m]
+                elif isinstance(majors_field, dict) and "list" in majors_field:
+                    majors_list = [
+                        str(m).strip() for m in majors_field.get("list", []) if m
+                    ]
+                if majors_list:
+                    for m in majors_list:
+                        college_stats[college_name]["majors"][m] += 1
+                else:
+                    college_stats[college_name]["majors"]["Unknown"] += 1
 
                 # Update crawl timestamps
                 if crawled_at:

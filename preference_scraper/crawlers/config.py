@@ -22,6 +22,11 @@ CRAWLER_MAX_WORKERS = int(
 REQUEST_TIMEOUT = int(os.getenv("REQUEST_TIMEOUT"))  # Request timeout in seconds
 REQUEST_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
 
+# Proxy settings (comma-separated list of proxy URLs, e.g., "http://user:pass@ip:port, http://ip2:port")
+RAW_HTTP_PROXIES = os.getenv("CRAWLER_PROXIES", "")
+HTTP_PROXIES = [p.strip() for p in RAW_HTTP_PROXIES.split(",") if p.strip()]
+USE_CURL_CFFI = os.getenv("USE_CURL_CFFI", "0") == "1"
+
 # Crawling limits
 MAX_PAGES_PER_COLLEGE = int(
     os.getenv("MAX_PAGES_PER_COLLEGE")

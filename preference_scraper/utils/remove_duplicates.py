@@ -113,7 +113,6 @@ class CollegeDuplicateRemover:
                                 "id",
                                 "url",
                                 "college_name",
-                                "major",
                                 "crawled_at",
                             ],
                             limit=16384,
