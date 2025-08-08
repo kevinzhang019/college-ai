@@ -9,6 +9,7 @@ import sys
 import time
 from datetime import datetime
 from typing import Dict, List, Set
+import hashlib
 import glob
 import csv
 from collections import defaultdict
@@ -114,6 +115,8 @@ class CollegeDuplicateRemover:
                                 "url",
                                 "college_name",
                                 "crawled_at",
+                                "title",
+                                "content",
                             ],
                             limit=16384,
                             offset=offset,
@@ -125,33 +128,44 @@ class CollegeDuplicateRemover:
                             break
                         offset += 16384
 
-                    # Group by URL to find duplicates
-                    url_to_records = defaultdict(list)
+                    # Group by URL + content hash to find true duplicates (same chunk)
+                    # Using SHA256 of title + '|' + content to identify identical chunks
+                    url_to_hash_to_records: Dict[str, Dict[str, List[dict]]] = (
+                        defaultdict(lambda: defaultdict(list))
+                    )
                     for record in college_records:
-                        url = record.get("url", "")
-                        if url:
-                            url_to_records[url].append(record)
+                        url = (record.get("url") or "").strip()
+                        if not url:
+                            continue
+                        title = (record.get("title") or "").strip()
+                        content = (record.get("content") or "").strip()
+                        dedupe_key = hashlib.sha256(
+                            f"{title}|{content}".encode("utf-8")
+                        ).hexdigest()
+                        url_to_hash_to_records[url][dedupe_key].append(record)
 
-                    # Find URLs with duplicates
-                    duplicates = {
-                        url: records
-                        for url, records in url_to_records.items()
-                        if len(records) > 1
-                    }
+                    # Build duplicate groups per URL (only groups with >1 identical chunks)
+                    duplicates: Dict[str, List[List[dict]]] = {}
+                    total_duplicates = 0
+                    for url, hash_groups in url_to_hash_to_records.items():
+                        groups = [
+                            recs for recs in hash_groups.values() if len(recs) > 1
+                        ]
+                        if groups:
+                            duplicates[url] = groups
+                            total_duplicates += sum(len(g) - 1 for g in groups)
 
                     if duplicates:
-                        total_duplicates = sum(
-                            len(records) - 1 for records in duplicates.values()
-                        )
                         colleges_data[college_name] = {
                             "total_records": len(college_records),
-                            "unique_urls": len(url_to_records),
+                            "unique_urls": len(url_to_hash_to_records),
                             "duplicate_urls": len(duplicates),
                             "duplicate_records": total_duplicates,
+                            # Mapping: url -> List[duplicate_groups], each group is List[records]
                             "urls_with_duplicates": duplicates,
                         }
                         print(
-                            f"  ⚠️  Found {len(duplicates)} URLs with {total_duplicates} duplicates"
+                            f"  ⚠️  Found {len(duplicates)} URLs with {total_duplicates} duplicate records"
                         )
                     else:
                         print(f"  ✅ No duplicates found")
@@ -186,42 +200,46 @@ class CollegeDuplicateRemover:
 
         urls_with_duplicates = duplicates_data["urls_with_duplicates"]
 
-        for url, records in urls_with_duplicates.items():
+        # urls_with_duplicates: Dict[str, List[List[record]]]
+        for url, duplicate_groups in urls_with_duplicates.items():
             try:
-                print(f"📊 Processing: {url[:50]}... ({len(records)} records)")
+                for records in duplicate_groups:
+                    print(
+                        f"📊 Processing: {url[:50]}... (duplicate group size: {len(records)})"
+                    )
 
-                # Sort records by crawled_at timestamp (most recent first)
-                sorted_records = sorted(
-                    records, key=lambda x: x.get("crawled_at", ""), reverse=True
-                )
+                    # Sort records by crawled_at timestamp (most recent first)
+                    sorted_records = sorted(
+                        records, key=lambda x: x.get("crawled_at", ""), reverse=True
+                    )
 
-                # Keep the most recent record
-                record_to_keep = sorted_records[0]
-                records_to_remove = sorted_records[1:]
+                    # Keep the most recent record
+                    record_to_keep = sorted_records[0]
+                    records_to_remove = sorted_records[1:]
 
-                # Delete duplicate records
-                if records_to_remove:
-                    ids_to_remove = [r["id"] for r in records_to_remove]
+                    # Delete duplicate records
+                    if records_to_remove:
+                        ids_to_remove = [r["id"] for r in records_to_remove]
 
-                    # Delete in batches to avoid query limits
-                    batch_size = 1000
-                    for i in range(0, len(ids_to_remove), batch_size):
-                        batch_ids = ids_to_remove[i : i + batch_size]
-                        quoted = ",".join([f'"{_id}"' for _id in batch_ids])
-                        delete_expr = f"id in [{quoted}]"
+                        # Delete in batches to avoid query limits
+                        batch_size = 1000
+                        for i in range(0, len(ids_to_remove), batch_size):
+                            batch_ids = ids_to_remove[i : i + batch_size]
+                            quoted = ",".join([f'"{_id}"' for _id in batch_ids])
+                            delete_expr = f"id in [{quoted}]"
 
-                        try:
-                            self.collection.delete(delete_expr)
-                            print(f"    ✅ Removed {len(batch_ids)} duplicates")
-                        except Exception as e:
-                            print(f"    ❌ Error removing batch: {e}")
-                            stats["errors"] += 1
-                            continue
+                            try:
+                                self.collection.delete(delete_expr)
+                                print(f"    ✅ Removed {len(batch_ids)} duplicates")
+                            except Exception as e:
+                                print(f"    ❌ Error removing batch: {e}")
+                                stats["errors"] += 1
+                                continue
 
-                    stats["records_removed"] += len(records_to_remove)
-                    stats["records_kept"] += 1
+                        stats["records_removed"] += len(records_to_remove)
+                        stats["records_kept"] += 1
 
-                stats["urls_processed"] += 1
+                    stats["urls_processed"] += 1
 
             except Exception as e:
                 print(f"❌ Error processing URL {url}: {e}")
@@ -244,24 +262,31 @@ class CollegeDuplicateRemover:
             # Get all records for this college
             college_records = self.collection.query(
                 expr=f'college_name == "{college_name}"',
-                output_fields=["url"],
+                output_fields=["url", "title", "content"],
                 limit=16384,
             )
 
-            # Check for any remaining duplicates
-            url_counts = defaultdict(int)
+            # Check for any remaining duplicates: group by (url, content hash)
+            url_hash_counts = defaultdict(int)
             for record in college_records:
-                url_counts[record.get("url", "")] += 1
+                url = (record.get("url") or "").strip()
+                title = (record.get("title") or "").strip()
+                content = (record.get("content") or "").strip()
+                dedupe_key = hashlib.sha256(
+                    f"{title}|{content}".encode("utf-8")
+                ).hexdigest()
+                url_hash_counts[(url, dedupe_key)] += 1
 
             remaining_duplicates = 0
-            for url, count in url_counts.items():
+            for (_url, _hash), count in url_hash_counts.items():
                 if count > 1:
                     remaining_duplicates += count - 1
 
+            # Unique URL variants are the number of (url, hash) pairs
             return {
                 "final_count": len(college_records),
                 "remaining_duplicates": remaining_duplicates,
-                "unique_urls": len(url_counts),
+                "unique_urls": len(url_hash_counts),
             }
 
         except Exception as e:
