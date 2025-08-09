@@ -1,0 +1,15 @@
+# Default Playwright profile (applies only if wired in; per-domain profiles take precedence)
+# Keep this minimal to avoid unintended clicks across diverse sites.
+
+click_selectors: []
+
+# If a site uses next-page pagination, set a selector here in the domain-specific file.
+pagination_selector: ""
+pagination_max: 0
+
+# Bounded infinite scroll iterations; keep low by default to trigger lazy content without big cost.
+scroll_loops: 1
+
+# Low-risk enhancements
+expand_details: true
+wait_main_ms: 1000

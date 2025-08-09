@@ -17,13 +17,22 @@ import concurrent.futures
 from concurrent.futures import ThreadPoolExecutor, wait, FIRST_COMPLETED
 from typing import Dict, List, Any, Optional, Set
 from datetime import datetime
-from urllib.parse import urljoin, urlparse
+from urllib.parse import urljoin, urlparse, parse_qsl, urlencode
+import hashlib
 import requests
+import re
+import yaml
 
 try:
     from curl_cffi import requests as curl_requests  # type: ignore
 except Exception:
     curl_requests = None
+# Optional Playwright (sync API) for JS-rendered fallback
+try:
+    from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeoutError  # type: ignore
+except Exception:  # pragma: no cover - optional dependency
+    sync_playwright = None  # type: ignore
+    PlaywrightTimeoutError = Exception  # type: ignore
 from bs4 import BeautifulSoup
 from pymilvus import (
     connections,
@@ -33,6 +42,162 @@ from pymilvus import (
     DataType,
     utility,
 )
+
+
+# ==================== Proxy Pool ====================
+class ProxyPool:
+    """Thread-safe, health-aware proxy pool with bounded concurrency per proxy and sticky assignments."""
+
+    def __init__(
+        self,
+        proxies: List[str],
+        max_concurrency_per_proxy: int = 2,
+        cooldown_sec: int = 120,
+        max_consec_fails: int = 3,
+        sticky_requests: int = 3,
+    ) -> None:
+        self.proxies = list(dict.fromkeys([p.strip() for p in proxies if p.strip()]))
+        self.max_concurrency_per_proxy = max(1, int(max_concurrency_per_proxy))
+        self.cooldown_sec = max(10, int(cooldown_sec))
+        self.max_consec_fails = max(1, int(max_consec_fails))
+        self.sticky_requests = max(1, int(sticky_requests))
+        self._lock = threading.Lock()
+        # Per-proxy metrics/state
+        self._state: Dict[str, Dict[str, Any]] = {}
+        for proxy in self.proxies:
+            self._state[proxy] = {
+                "sema": threading.Semaphore(self.max_concurrency_per_proxy),
+                "successes": 0,
+                "failures": 0,
+                "consec_fails": 0,
+                "avg_latency_ms": None,
+                "cooldown_until": 0.0,
+                "last_status": None,
+            }
+        # Sticky assignments: key -> {proxy, remaining}
+        self._sticky: Dict[tuple, Dict[str, Any]] = {}
+
+    def _is_available(self, proxy: str, now_ts: float) -> bool:
+        st = self._state[proxy]
+        if now_ts < st["cooldown_until"]:
+            return False
+        # Try non-blocking acquire to test capacity
+        acquired = st["sema"].acquire(blocking=False)
+        if not acquired:
+            return False
+        # Put it back; actual acquire happens in acquire()
+        st["sema"].release()
+        return True
+
+    def _score(self, proxy: str) -> float:
+        st = self._state[proxy]
+        succ = st["successes"]
+        fail = st["failures"]
+        total = succ + fail
+        success_rate = (succ / total) if total > 0 else 0.5
+        latency = st["avg_latency_ms"] if st["avg_latency_ms"] is not None else 500.0
+        # Higher is better: prioritize higher success rate and lower latency
+        return success_rate * 1.0 - (latency / 5000.0)
+
+    def acquire(self, netloc: str, sticky_key: Optional[tuple] = None) -> tuple:
+        """Return (proxy_url or None, token) where token must be passed to release()."""
+        if not self.proxies:
+            return None, None
+        now_ts = time.time()
+        with self._lock:
+            # Try sticky
+            if sticky_key and sticky_key in self._sticky:
+                entry = self._sticky[sticky_key]
+                proxy = entry.get("proxy")
+                remaining = int(entry.get("remaining", 0))
+                if (
+                    proxy in self._state
+                    and remaining > 0
+                    and self._is_available(proxy, now_ts)
+                ):
+                    # consume one sticky use and actually acquire (non-blocking)
+                    if self._state[proxy]["sema"].acquire(blocking=False):
+                        entry["remaining"] = remaining - 1
+                        return proxy, {
+                            "proxy": proxy,
+                            "sticky_key": sticky_key,
+                            "start": time.monotonic(),
+                        }
+                else:
+                    # drop sticky
+                    self._sticky.pop(sticky_key, None)
+
+            # Choose best available proxy by score
+            candidates = [p for p in self.proxies if self._is_available(p, now_ts)]
+            if not candidates:
+                return None, None
+            # Sort by score descending
+            candidates.sort(key=self._score, reverse=True)
+            # Try top 3 candidates (or fewer)
+            for proxy in candidates[:3]:
+                # Take capacity now (non-blocking)
+                if self._state[proxy]["sema"].acquire(blocking=False):
+                    if sticky_key:
+                        self._sticky[sticky_key] = {
+                            "proxy": proxy,
+                            "remaining": self.sticky_requests - 1,
+                        }
+                    return proxy, {
+                        "proxy": proxy,
+                        "sticky_key": sticky_key,
+                        "start": time.monotonic(),
+                    }
+            return None, None
+
+    def release(
+        self,
+        token: Optional[Dict[str, Any]],
+        success: bool,
+        status_code: Optional[int] = None,
+        error: Optional[Exception] = None,
+        latency_ms: Optional[float] = None,
+    ) -> None:
+        if not token or "proxy" not in token:
+            return
+        proxy = token["proxy"]
+        if proxy not in self._state:
+            return
+        with self._lock:
+            # prevent double release
+            if token.get("released"):
+                return
+            token["released"] = True
+            st = self._state[proxy]
+            # Update latency
+            if latency_ms is None and token.get("start"):
+                latency_ms = max(0.0, (time.monotonic() - token["start"]) * 1000.0)
+            if latency_ms is not None:
+                if st["avg_latency_ms"] is None:
+                    st["avg_latency_ms"] = float(latency_ms)
+                else:
+                    st["avg_latency_ms"] = 0.8 * st["avg_latency_ms"] + 0.2 * float(
+                        latency_ms
+                    )
+            # Update outcomes
+            if success:
+                st["successes"] += 1
+                st["consec_fails"] = 0
+                st["last_status"] = status_code
+            else:
+                st["failures"] += 1
+                st["consec_fails"] += 1
+                st["last_status"] = status_code
+                # Cooldown on repeated failures or specific statuses
+                if st["consec_fails"] >= self.max_consec_fails or (
+                    status_code in {403, 429}
+                ):
+                    st["cooldown_until"] = time.time() + self.cooldown_sec
+            # Release capacity
+            try:
+                st["sema"].release()
+            except Exception:
+                pass
+
 
 # Add parent directory to path for imports
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
@@ -129,6 +294,63 @@ class MultithreadedCollegeCrawler:
         except Exception:
             embed_concurrency = 2
         self.embed_semaphore = threading.Semaphore(max(1, embed_concurrency))
+
+        # Per-host rate limiting and adaptive concurrency state (thread-safe)
+        self._host_lock = threading.Lock()
+        self._host_tokens: Dict[str, Dict[str, Any]] = {}
+        self._host_concurrency: Dict[str, int] = {}
+        self._host_failures: Dict[str, int] = {}
+        self._host_circuit_until: Dict[str, float] = {}
+        self.max_concurrency_per_host = int(
+            os.getenv("MAX_CONCURRENCY_PER_HOST", "6") or "6"
+        )
+        self.min_concurrency_per_host = 1
+        self.token_refill_per_sec = float(
+            os.getenv("HOST_TOKEN_REFILL_PER_SEC", "2.0") or "2.0"
+        )
+        self.max_tokens_per_host = int(os.getenv("HOST_MAX_TOKENS", "6") or "6")
+
+        # Playwright fallback controls
+        self.playwright_enabled = os.getenv("USE_PLAYWRIGHT_FALLBACK", "1") == "1"
+        try:
+            pw_conc = int(os.getenv("PLAYWRIGHT_MAX_CONCURRENCY", "2") or "2")
+        except Exception:
+            pw_conc = 2
+        self.playwright_semaphore = threading.Semaphore(max(1, pw_conc))
+        try:
+            self.playwright_nav_timeout_ms = int(
+                os.getenv("PLAYWRIGHT_NAV_TIMEOUT_MS", "15000") or "15000"
+            )
+        except Exception:
+            self.playwright_nav_timeout_ms = 15000
+        # Profiles directory and cache
+        self.playwright_profiles_dir = os.path.join(
+            os.path.dirname(__file__), "playwright_profiles"
+        )
+        self._pw_profile_cache_lock = threading.Lock()
+        self._pw_profile_cache: Dict[str, Dict[str, Any]] = {}
+
+        # Proxy pool initialization (optional)
+        try:
+            max_per_proxy = int(
+                os.getenv("PROXY_MAX_CONCURRENCY_PER_PROXY", "2") or "2"
+            )
+            cooldown_sec = int(os.getenv("PROXY_COOLDOWN_SEC", "120") or "120")
+            max_consec_fails = int(os.getenv("PROXY_MAX_CONSEC_FAILS", "3") or "3")
+            sticky_reqs = int(os.getenv("PROXY_STICKY_REQUESTS", "3") or "3")
+        except Exception:
+            max_per_proxy, cooldown_sec, max_consec_fails, sticky_reqs = 2, 120, 3, 3
+        self.proxy_pool = (
+            ProxyPool(
+                HTTP_PROXIES,
+                max_concurrency_per_proxy=max_per_proxy,
+                cooldown_sec=cooldown_sec,
+                max_consec_fails=max_consec_fails,
+                sticky_requests=sticky_reqs,
+            )
+            if HTTP_PROXIES
+            else None
+        )
 
         # Milvus connection
         self.connect_milvus()
@@ -457,6 +679,48 @@ class MultithreadedCollegeCrawler:
             print(f"    Warning: Error parsing URL {url}: {e}")
             return False
 
+    def normalize_url(self, url: str, base_url: Optional[str] = None) -> str:
+        """Normalize URL by resolving relative, stripping trackers, sorting whitelisted queries, and collapsing slashes."""
+        try:
+            if base_url:
+                url = urljoin(base_url, url)
+            parsed = urlparse(url)
+            scheme = parsed.scheme.lower() or "https"
+            netloc = parsed.netloc.lower()
+            # Remove default ports
+            if netloc.endswith(":80") and scheme == "http":
+                netloc = netloc[:-3]
+            elif netloc.endswith(":443") and scheme == "https":
+                netloc = netloc[:-4]
+            # Collapse duplicate slashes in path
+            path = re.sub(r"/{2,}", "/", parsed.path or "/")
+            # Remove trailing slash unless root
+            if path.endswith("/") and len(path) > 1:
+                path = path.rstrip("/")
+            # Strip trackers / session ids
+            query_pairs = []
+            for k, v in parse_qsl(parsed.query, keep_blank_values=True):
+                kl = k.lower()
+                if kl.startswith("utm_") or kl in {
+                    "fbclid",
+                    "gclid",
+                    "msclkid",
+                    "sessionid",
+                    "phpsessid",
+                }:
+                    continue
+                query_pairs.append((k, v))
+            # Sort whitelisted query params for stability
+            query_pairs.sort(key=lambda kv: kv[0])
+            query = urlencode(query_pairs, doseq=True)
+            # Drop fragments
+            normalized = f"{scheme}://{netloc}{path}"
+            if query:
+                normalized += f"?{query}"
+            return normalized
+        except Exception:
+            return url
+
     def extract_internal_links(self, soup: BeautifulSoup, base_url: str) -> List[str]:
         """Extract all internal links from a BeautifulSoup object."""
         links = set()  # Use set for automatic deduplication
@@ -475,17 +739,10 @@ class MultithreadedCollegeCrawler:
 
             try:
                 # Convert relative URLs to absolute
-                absolute_url = urljoin(base_url, href)
+                absolute_url = self.normalize_url(href, base_url)
 
                 # Normalize URL by removing fragments and trailing slashes
-                parsed = urlparse(absolute_url)
-                normalized_url = f"{parsed.scheme}://{parsed.netloc}{parsed.path}"
-                if parsed.query:
-                    normalized_url += f"?{parsed.query}"
-
-                # Remove trailing slash unless it's the root path
-                if normalized_url.endswith("/") and len(parsed.path) > 1:
-                    normalized_url = normalized_url.rstrip("/")
+                normalized_url = absolute_url
 
                 # Check if it's an internal link
                 if self.is_internal_link(normalized_url, base_url):
@@ -494,6 +751,23 @@ class MultithreadedCollegeCrawler:
             except Exception as e:
                 print(f"    Warning: Error processing link '{href}': {e}")
                 continue
+
+        # Also consider <link rel="next"> pagination hints
+        try:
+            next_link = soup.find("link", rel=lambda v: v and "next" in str(v).lower())
+            if next_link and next_link.get("href"):
+                try:
+                    absolute_next = urljoin(base_url, next_link.get("href"))
+                    parsed = urlparse(absolute_next)
+                    normalized_next = f"{parsed.scheme}://{parsed.netloc}{parsed.path}"
+                    if parsed.query:
+                        normalized_next += f"?{parsed.query}"
+                    if self.is_internal_link(normalized_next, base_url):
+                        links.add(normalized_next)
+                except Exception:
+                    pass
+        except Exception:
+            pass
 
         return list(links)
 
@@ -507,6 +781,41 @@ class MultithreadedCollegeCrawler:
             # Add small delay between requests to be respectful
             time.sleep(random.uniform(self.min_delay, self.max_delay))
 
+            # Per-host token bucket and circuit breaker
+            try:
+                netloc = urlparse(url).netloc
+            except Exception:
+                netloc = ""
+            # Circuit breaker check
+            with self._host_lock:
+                cb_until = self._host_circuit_until.get(netloc, 0.0)
+                now = time.time()
+                if now < cb_until:
+                    wait_left = cb_until - now
+                    print(
+                        f"    ⏳ Host {netloc} in cooldown ({wait_left:.1f}s). Skipping {url}"
+                    )
+                    return None
+                # Refill tokens
+                bucket = self._host_tokens.get(netloc)
+                if not bucket:
+                    bucket = {
+                        "tokens": float(self.max_tokens_per_host),
+                        "last": now,
+                    }
+                    self._host_tokens[netloc] = bucket
+                else:
+                    elapsed = now - bucket["last"]
+                    bucket["tokens"] = min(
+                        float(self.max_tokens_per_host),
+                        bucket["tokens"] + elapsed * self.token_refill_per_sec,
+                    )
+                    bucket["last"] = now
+                if bucket["tokens"] < 1.0:
+                    # Not enough tokens; delay slightly
+                    need = 1.0 - bucket["tokens"]
+                    delay_s = need / max(0.1, self.token_refill_per_sec)
+                    time.sleep(min(1.0, delay_s))
             # Use provided session or fall back to shared session
             request_session = session or self.session
 
@@ -516,22 +825,19 @@ class MultithreadedCollegeCrawler:
                 try:
                     # Light probabilistic proxy usage on first attempt, rotate on retries
                     proxy_dict = None
-                    if attempt == 0:
-                        if HTTP_PROXIES and random.random() < 0.15:
-                            # Basic chance to use a proxy on first try
-                            proxy_dict = (
-                                {"http": HTTP_PROXIES[0], "https": HTTP_PROXIES[0]}
-                                if HTTP_PROXIES
-                                else None
-                            )
-                        else:
-                            proxy_dict = None
-                    else:
-                        # Rotate proxies on retries if provided
-                        if HTTP_PROXIES:
-                            idx = (attempt - 1) % len(HTTP_PROXIES)
-                            proxy_url = HTTP_PROXIES[idx]
-                            proxy_dict = {"http": proxy_url, "https": proxy_url}
+                    proxy_token = None
+                    selected_proxy_url = None
+                    sticky_key = (urlparse(url).netloc, threading.get_ident())
+                    if self.proxy_pool:
+                        # acquire best available proxy
+                        selected_proxy_url, proxy_token = self.proxy_pool.acquire(
+                            netloc=sticky_key[0], sticky_key=sticky_key
+                        )
+                        if selected_proxy_url:
+                            proxy_dict = {
+                                "http": selected_proxy_url,
+                                "https": selected_proxy_url,
+                            }
 
                     if USE_CURL_CFFI and curl_requests is not None and attempt >= 2:
                         response = curl_requests.get(
@@ -576,6 +882,32 @@ class MultithreadedCollegeCrawler:
                             return None
 
                     response.raise_for_status()
+                    # inform proxy pool of success
+                    if self.proxy_pool and proxy_token is not None:
+                        self.proxy_pool.release(
+                            proxy_token,
+                            success=True,
+                            status_code=response.status_code,
+                            latency_ms=max(
+                                0.0,
+                                (
+                                    time.monotonic()
+                                    - proxy_token.get("start", time.monotonic())
+                                )
+                                * 1000.0,
+                            ),
+                        )
+                    # Update host success and adjust concurrency upwards slowly
+                    with self._host_lock:
+                        self._host_failures[netloc] = 0
+                        cur = self._host_concurrency.get(
+                            netloc, self.min_concurrency_per_host
+                        )
+                        if (
+                            cur < self.max_concurrency_per_host
+                            and random.random() < 0.1
+                        ):
+                            self._host_concurrency[netloc] = cur + 1
                     break
 
                 except requests.exceptions.HTTPError as e:
@@ -601,14 +933,72 @@ class MultithreadedCollegeCrawler:
                             print(
                                 f"    ✗ Giving up on {url} after {self.max_retries} attempts due to 403"
                             )
+                            # mark proxy as failed if used
+                            if self.proxy_pool and proxy_token is not None:
+                                self.proxy_pool.release(
+                                    proxy_token,
+                                    success=False,
+                                    status_code=403,
+                                )
+                            # Circuit breaker on 403
+                            with self._host_lock:
+                                fails = self._host_failures.get(netloc, 0) + 1
+                                self._host_failures[netloc] = fails
+                                if fails >= 3:
+                                    self._host_circuit_until[netloc] = (
+                                        time.time() + min(300, 30 * fails)
+                                    )
                             return None
                     else:
+                        # for other HTTP errors, mark failure then re-raise to outer except
+                        if self.proxy_pool and proxy_token is not None:
+                            try:
+                                code = getattr(e.response, "status_code", None)
+                            except Exception:
+                                code = None
+                            self.proxy_pool.release(
+                                proxy_token,
+                                success=False,
+                                status_code=code,
+                            )
+                        # adaptive backoff + circuit breaker increments
+                        with self._host_lock:
+                            fails = self._host_failures.get(netloc, 0) + 1
+                            self._host_failures[netloc] = fails
+                            if code in {429, 408, 500, 502, 503, 504} and fails >= 3:
+                                self._host_circuit_until[netloc] = time.time() + min(
+                                    300, 20 * fails
+                                )
                         raise e
                 except Exception as e:
                     if attempt == self.max_retries - 1:
+                        # final failure
+                        if self.proxy_pool and proxy_token is not None:
+                            self.proxy_pool.release(
+                                proxy_token,
+                                success=False,
+                                status_code=None,
+                                error=e,
+                            )
+                        with self._host_lock:
+                            fails = self._host_failures.get(netloc, 0) + 1
+                            self._host_failures[netloc] = fails
+                            if fails >= 3:
+                                self._host_circuit_until[netloc] = time.time() + min(
+                                    300, 20 * fails
+                                )
                         raise e
-                    time.sleep(self.delay * (attempt + 1))
+                    # bounded backoff with jitter
+                    time.sleep(self.delay * (attempt + 1) * random.uniform(0.8, 1.3))
                     continue
+                finally:
+                    # ensure capacity released on early continues
+                    if self.proxy_pool and proxy_token is not None:
+                        # ensure semaphore released if not yet
+                        try:
+                            self.proxy_pool.release(proxy_token, success=True)
+                        except Exception:
+                            pass
 
             if not response:
                 return None
@@ -628,7 +1018,16 @@ class MultithreadedCollegeCrawler:
                     print(
                         f"    ⚠️  Skipping non-HTML content-type for {url}: {mime_type}"
                     )
-                    return None
+                    # Consider JS-rendered fallback for non-HTML or mismatched types
+                    if self.playwright_enabled and sync_playwright is not None:
+                        print(
+                            f"    🎭 Using Playwright fallback (content-type: {mime_type}) for {url}"
+                        )
+                        pw_data = self._scrape_with_playwright(url)
+                        if pw_data:
+                            return pw_data
+                    # Try to proceed in case servers mislabel content-type
+                    # Fallback to parsing anyway to avoid missing pages due to mislabeled headers
             except Exception:
                 pass
 
@@ -688,10 +1087,28 @@ class MultithreadedCollegeCrawler:
                 print(
                     f"    ⚠️  Insufficient content for {url} (chars={len(cleaned_content)}, words={word_count})"
                 )
+                # Try JS-rendered fallback if content looks incomplete
+                if self.playwright_enabled and sync_playwright is not None:
+                    print(f"    🎭 Using Playwright fallback (low content) for {url}")
+                    pw_data = self._scrape_with_playwright(url)
+                    if pw_data:
+                        return pw_data
                 # Do not return early; still extract internal links so BFS can progress
 
             # Extract internal links
             internal_links = self.extract_internal_links(soup, url)
+            # Normalize discovered links
+            internal_links = [self.normalize_url(u) for u in internal_links]
+            # Heuristic: if no links found and Playwright is available, try JS fallback once
+            if (
+                not internal_links
+                and self.playwright_enabled
+                and sync_playwright is not None
+            ):
+                print(f"    🎭 Using Playwright fallback (no links found) for {url}")
+                pw_data = self._scrape_with_playwright(url)
+                if pw_data:
+                    return pw_data
 
             # Debug info for stuck crawler
             if len(internal_links) > 0:
@@ -709,6 +1126,306 @@ class MultithreadedCollegeCrawler:
         except Exception as e:
             print(f"    ✗ Error scraping {url}: {e}")
             return None
+
+    def _scrape_with_playwright(self, url: str) -> Optional[Dict[str, Any]]:
+        """Render page with Playwright and extract title/content/links. Best-effort and bounded.
+
+        This is a sync helper guarded by a semaphore to cap concurrency.
+        """
+        if not self.playwright_enabled or sync_playwright is None:
+            return None
+        try:
+            with self.playwright_semaphore:
+                with sync_playwright() as p:
+                    # Acquire proxy for Playwright (optional)
+                    pw_proxy_token = None
+                    pw_proxy_settings = None
+                    try:
+                        if self.proxy_pool:
+                            netloc = urlparse(url).netloc
+                            sticky_key = (netloc, "pw")
+                            selected_proxy_url, pw_proxy_token = (
+                                self.proxy_pool.acquire(
+                                    netloc=netloc, sticky_key=sticky_key
+                                )
+                            )
+                            if selected_proxy_url:
+                                parsed = urlparse(selected_proxy_url)
+                                server = (
+                                    f"{parsed.scheme}://{parsed.hostname}:{parsed.port}"
+                                )
+                                pw_proxy_settings = {"server": server}
+                                if parsed.username or parsed.password:
+                                    if parsed.username:
+                                        pw_proxy_settings["username"] = parsed.username
+                                    if parsed.password:
+                                        pw_proxy_settings["password"] = parsed.password
+                    except Exception:
+                        pw_proxy_settings = None
+
+                    pw_start = time.monotonic()
+                    browser = p.chromium.launch(headless=True, proxy=pw_proxy_settings)
+                    # Diversify device/locale/timezone per run to reduce bot fingerprinting
+                    ua = random.choice(self.user_agents)
+                    locales = ["en-US", "en-GB", "en-CA"]
+                    timezone_ids = ["America/New_York", "America/Los_Angeles", "UTC"]
+                    viewport_opts = [(1280, 800), (1366, 768), (1920, 1080)]
+                    vw, vh = random.choice(viewport_opts)
+                    context = browser.new_context(
+                        user_agent=ua,
+                        java_script_enabled=True,
+                        locale=random.choice(locales),
+                        timezone_id=random.choice(timezone_ids),
+                        viewport={"width": vw, "height": vh},
+                    )
+                    page = context.new_page()
+
+                    # Speed up by blocking non-essential resources
+                    def route_filter(route):
+                        req = route.request
+                        if req.resource_type in {"image", "font", "media"}:
+                            return route.abort()
+                        return route.continue_()
+
+                    context.route("**/*", route_filter)
+                    page.set_default_timeout(self.playwright_nav_timeout_ms)
+                    # Snapshot at DOMContentLoaded and after short idle
+                    html_dom = ""
+                    html_idle = ""
+                    try:
+                        page.goto(url, wait_until="domcontentloaded")
+                        try:
+                            html_dom = page.content()
+                        except Exception:
+                            html_dom = ""
+                        # Try to accept cookie banners quickly
+                        self._try_accept_cookies(page)
+                        # Apply per-domain profile actions
+                        try:
+                            netloc2 = urlparse(url).netloc
+                        except Exception:
+                            netloc2 = ""
+                        if netloc2:
+                            profile = self._load_playwright_profile(netloc2)
+                            if profile:
+                                self._apply_playwright_profile(page, profile)
+                        # Wait for network to settle a bit
+                        page.wait_for_load_state(
+                            "networkidle", timeout=self.playwright_nav_timeout_ms
+                        )
+                        try:
+                            html_idle = page.content()
+                        except Exception:
+                            html_idle = ""
+                    except PlaywrightTimeoutError:
+                        pass
+
+                    browser.close()
+
+                    # Update proxy pool with success
+                    if self.proxy_pool and pw_proxy_token is not None:
+                        try:
+                            self.proxy_pool.release(
+                                pw_proxy_token,
+                                success=True,
+                                status_code=None,
+                                latency_ms=max(
+                                    0.0, (time.monotonic() - pw_start) * 1000.0
+                                ),
+                            )
+                        except Exception:
+                            pass
+
+            # Choose best snapshot and build soups
+            soup_dom = BeautifulSoup(html_dom or "", "html.parser")
+            soup_idle = BeautifulSoup(html_idle or "", "html.parser")
+            # Remove common consent overlays
+            cookie_selectors = [
+                '[id*="cookie"]',
+                '[class*="cookie"]',
+                '[id*="consent"]',
+                '[class*="consent"]',
+                '[id*="gdpr"]',
+                '[class*="gdpr"]',
+                "#onetrust-banner-sdk",
+                "#onetrust-consent-sdk",
+                "#truste-consent-track",
+                ".truste_overlay",
+                "#qc-cmp2-ui",
+                "#sp-cc",
+                ".sp_choice_type",
+                "#CybotCookiebotDialog",
+            ]
+            for sel in cookie_selectors:
+                for el in soup_dom.select(sel):
+                    el.decompose()
+                for el in soup_idle.select(sel):
+                    el.decompose()
+
+            # Pick better title/content
+            def extract_text_and_links(soup_obj: BeautifulSoup) -> tuple:
+                if not soup_obj:
+                    return "", []
+                for element in soup_obj(["script", "style", "nav", "footer", "header"]):
+                    element.decompose()
+                main_selectors_local = [
+                    "main",
+                    "article",
+                    '[role="main"]',
+                    ".main-content",
+                    ".content",
+                    "#content",
+                    ".post-content",
+                    ".entry-content",
+                ]
+                main_content_local = ""
+                for selector in main_selectors_local:
+                    main_element = soup_obj.select_one(selector)
+                    if main_element:
+                        main_content_local = main_element.get_text(
+                            separator=" ", strip=True
+                        )
+                        break
+                if not main_content_local:
+                    body = soup_obj.find("body")
+                    if body:
+                        main_content_local = body.get_text(separator=" ", strip=True)
+                cleaned_local = clean_text(main_content_local)
+                links_local = self.extract_internal_links(soup_obj, url)
+                return cleaned_local, links_local
+
+            cleaned_dom, links_dom = extract_text_and_links(soup_dom)
+            cleaned_idle, links_idle = extract_text_and_links(soup_idle)
+
+            title_dom = soup_dom.find("title") if soup_dom else None
+            title_idle = soup_idle.find("title") if soup_idle else None
+            title_text = (
+                title_idle.get_text(strip=True)
+                if title_idle
+                else (title_dom.get_text(strip=True) if title_dom else "")
+            )
+
+            chosen_content = (
+                cleaned_idle if len(cleaned_idle) >= len(cleaned_dom) else cleaned_dom
+            )
+            internal_links = list({*links_dom, *links_idle})
+            word_count = len(chosen_content.split())
+            return {
+                "url": url,
+                "title": title_text,
+                "content": chosen_content,
+                "internal_links": internal_links,
+                "word_count": word_count,
+                "crawled_at": datetime.now().isoformat(),
+            }
+        except Exception as e:
+            # Update proxy pool with failure
+            try:
+                if (
+                    "pw_proxy_token" in locals()
+                    and pw_proxy_token is not None
+                    and self.proxy_pool
+                ):
+                    self.proxy_pool.release(
+                        pw_proxy_token,
+                        success=False,
+                        status_code=None,
+                        error=e,
+                    )
+            except Exception:
+                pass
+            print(f"    ⚠️  Playwright fallback failed for {url}: {e}")
+            return None
+
+    def _try_accept_cookies(self, page) -> None:
+        """Best-effort cookie banner acceptor for common frameworks."""
+        try:
+            selectors = [
+                "#onetrust-accept-btn-handler",
+                "#CybotCookiebotDialogBodyLevelButtonAccept",
+                "#sp-cc-accept",
+                'button:has-text("Accept all")',
+                'button:has-text("I agree")',
+            ]
+            for sel in selectors:
+                try:
+                    btn = page.locator(sel).first
+                    if btn and btn.is_visible(timeout=1500):
+                        btn.click(timeout=1500)
+                        break
+                except Exception:
+                    continue
+        except Exception:
+            pass
+
+    def _load_playwright_profile(self, netloc: str) -> Dict[str, Any]:
+        """Load a YAML profile for a given domain (netloc) with caching. Thread-safe.
+
+        Merges with default.yml if present; domain overrides take precedence.
+        """
+        # Use lock to protect cache updates
+        with self._pw_profile_cache_lock:
+            if netloc in self._pw_profile_cache:
+                return self._pw_profile_cache[netloc]
+        # Outside lock for IO
+        default_path = os.path.join(self.playwright_profiles_dir, "default.yml")
+        profile_path = os.path.join(self.playwright_profiles_dir, f"{netloc}.yml")
+        data: Dict[str, Any] = {}
+        try:
+            # Load default first
+            if os.path.exists(default_path):
+                with open(default_path, "r", encoding="utf-8") as f:
+                    base = yaml.safe_load(f) or {}
+                    if isinstance(base, dict):
+                        data.update(base)
+            if os.path.exists(profile_path):
+                with open(profile_path, "r", encoding="utf-8") as f:
+                    loaded = yaml.safe_load(f) or {}
+                    if isinstance(loaded, dict):
+                        data.update(loaded)
+        except Exception as e:
+            print(f"    ⚠️  Failed to load profile for {netloc}: {e}")
+        # Cache the result (even empty) for this run
+        with self._pw_profile_cache_lock:
+            self._pw_profile_cache[netloc] = data
+        return data
+
+    def _apply_playwright_profile(self, page, profile: Dict[str, Any]) -> None:
+        """Apply generic scripted actions from a profile (clicks, scrolls, waits)."""
+        try:
+            # Click actions (e.g., load more, expand accordions)
+            for sel in profile.get("click_selectors", []) or []:
+                try:
+                    loc = page.locator(sel).first
+                    if loc and loc.is_visible(timeout=1500):
+                        loc.click(timeout=1500)
+                except Exception:
+                    continue
+            # Pagination: click next up to N times (bounded)
+            next_sel = profile.get("pagination_selector")
+            max_pages = int(profile.get("pagination_max", 0) or 0)
+            for _ in range(max(0, max_pages)):
+                try:
+                    loc = page.locator(next_sel).first
+                    if loc and loc.is_visible(timeout=1500):
+                        loc.click(timeout=1500)
+                        page.wait_for_load_state(
+                            "networkidle", timeout=self.playwright_nav_timeout_ms
+                        )
+                    else:
+                        break
+                except Exception:
+                    break
+            # Bounded infinite scroll
+            scroll_loops = int(profile.get("scroll_loops", 0) or 0)
+            for _ in range(max(0, scroll_loops)):
+                try:
+                    page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
+                    time.sleep(0.75)
+                except Exception:
+                    break
+        except Exception:
+            pass
 
     def upload_to_milvus(
         self, page_data: Dict[str, Any], college_name: str, major: str
@@ -740,8 +1457,8 @@ class MultithreadedCollegeCrawler:
 
             # Determine if current major already present; if not, update majors in-place via upsert
             if existing_records:
-                # Aggregate majors across records and check presence
-                any_has_major = False
+                # Aggregate majors per record and determine if ANY record is missing the major
+                all_have_major = True
                 updated_ids: List[str] = []
                 updated_colleges: List[str] = []
                 updated_urls: List[str] = []
@@ -766,10 +1483,9 @@ class MultithreadedCollegeCrawler:
                         ]
                     else:
                         rec_majors = []
-                    if major in rec_majors:
-                        any_has_major = True
-                        # No need to change this record
-                    else:
+
+                    if major not in rec_majors:
+                        all_have_major = False
                         rec_majors = list({*rec_majors, major})
 
                     # Collect row for upsert (even if unchanged, harmless)
@@ -789,15 +1505,15 @@ class MultithreadedCollegeCrawler:
                     )
                     updated_majors_col.append(rec_majors)
 
-                if any_has_major:
+                if all_have_major:
                     print(
-                        f"    ⚠️  Skipping URL with existing matching major: {page_data['url']} [{major}]"
+                        f"    ⚠️  Skipping URL with existing matching major across all chunks: {page_data['url']} [{major}]"
                     )
                     with self.lock:
                         self.stats["existing_urls_skipped"] += 1
                     return False
 
-                # Upsert updated majors for existing rows
+                # Upsert updated majors for all rows of this URL
                 try:
                     with self.collection_write_lock:
                         if hasattr(self.collection, "upsert"):
@@ -830,7 +1546,7 @@ class MultithreadedCollegeCrawler:
                                 ]
                             )
                     print(
-                        f"    ✓ Updated majors for existing URL (added '{major}'): {page_data['url']}"
+                        f"    ✓ Updated majors for existing URL across all chunks (added '{major}'): {page_data['url']}"
                     )
                 except Exception as e:
                     print(f"    ✗ Failed to update majors for {page_data['url']}: {e}")
