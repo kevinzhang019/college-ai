@@ -14,12 +14,14 @@ load_dotenv(env_path)
 
 # ==================== CRAWLER SETTINGS ====================
 
-# Request settings
-CRAWLER_DELAY = float(os.getenv("CRAWLER_DELAY"))  # Delay between requests in seconds
+# Request settings (provide safe defaults for 2 vCPU instances)
+CRAWLER_DELAY = float(
+    os.getenv("CRAWLER_DELAY", "1.0")
+)  # Delay between requests in seconds
 CRAWLER_MAX_WORKERS = int(
-    os.getenv("CRAWLER_MAX_WORKERS")
+    os.getenv("CRAWLER_MAX_WORKERS", "8")
 )  # Number of worker threads per college
-REQUEST_TIMEOUT = int(os.getenv("REQUEST_TIMEOUT"))  # Request timeout in seconds
+REQUEST_TIMEOUT = int(os.getenv("REQUEST_TIMEOUT", "15"))  # Request timeout in seconds
 REQUEST_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
 
 # Proxy settings (comma-separated list of proxy URLs, e.g., "http://user:pass@ip:port, http://ip2:port")
@@ -29,12 +31,15 @@ USE_CURL_CFFI = os.getenv("USE_CURL_CFFI", "0") == "1"
 
 # Crawling limits
 MAX_PAGES_PER_COLLEGE = int(
-    os.getenv("MAX_PAGES_PER_COLLEGE")
+    os.getenv("MAX_PAGES_PER_COLLEGE", "200")
 )  # Maximum pages to crawl per college
-MAX_DEPTH = int(os.getenv("MAX_DEPTH"))  # Maximum crawl depth from starting URL
+MAX_DEPTH = int(os.getenv("MAX_DEPTH", "3"))  # Maximum crawl depth from starting URL
 MAX_RETRIES = int(
-    os.getenv("MAX_RETRIES")
+    os.getenv("MAX_RETRIES", "3")
 )  # Maximum retry attempts for failed requests
+
+# Per-college crawl time budget (seconds)
+MAX_CRAWL_TIME_PER_COLLEGE = int(os.getenv("MAX_CRAWL_TIME_PER_COLLEGE", "300"))
 
 # Content filtering
 MIN_CONTENT_LENGTH = int(

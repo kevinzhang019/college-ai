@@ -306,17 +306,18 @@ class MultithreadedCollegeCrawler:
         )
         self.min_concurrency_per_host = 1
         self.token_refill_per_sec = float(
-            os.getenv("HOST_TOKEN_REFILL_PER_SEC", "2.0") or "2.0"
+            os.getenv("HOST_TOKEN_REFILL_PER_SEC", "2.5") or "2.5"
         )
         self.max_tokens_per_host = int(os.getenv("HOST_MAX_TOKENS", "6") or "6")
 
         # Playwright fallback controls
         self.playwright_enabled = os.getenv("USE_PLAYWRIGHT_FALLBACK", "1") == "1"
         try:
-            pw_conc = int(os.getenv("PLAYWRIGHT_MAX_CONCURRENCY", "2") or "2")
+            pw_conc = int(os.getenv("PLAYWRIGHT_MAX_CONCURRENCY", "3") or "3")
         except Exception:
-            pw_conc = 2
-        self.playwright_semaphore = threading.Semaphore(max(1, pw_conc))
+            pw_conc = 3
+        self.playwright_max_workers = max(1, pw_conc)
+        self.playwright_semaphore = threading.Semaphore(self.playwright_max_workers)
         try:
             self.playwright_nav_timeout_ms = int(
                 os.getenv("PLAYWRIGHT_NAV_TIMEOUT_MS", "15000") or "15000"
@@ -329,6 +330,10 @@ class MultithreadedCollegeCrawler:
         )
         self._pw_profile_cache_lock = threading.Lock()
         self._pw_profile_cache: Dict[str, Dict[str, Any]] = {}
+        # Playwright runtime and browser cache (thread-safe)
+        self._pw = None  # lazily started sync_playwright instance
+        self._pw_browser_lock = threading.Lock()
+        self._pw_browsers: Dict[str, Any] = {}
 
         # Proxy pool initialization (optional)
         try:
@@ -839,6 +844,12 @@ class MultithreadedCollegeCrawler:
                                 "https": selected_proxy_url,
                             }
 
+                    # Consume one host token for this attempt
+                    with self._host_lock:
+                        bucket2 = self._host_tokens.get(netloc)
+                        if bucket2:
+                            bucket2["tokens"] = max(0.0, bucket2["tokens"] - 1.0)
+
                     if USE_CURL_CFFI and curl_requests is not None and attempt >= 2:
                         response = curl_requests.get(
                             url,
@@ -1013,6 +1024,7 @@ class MultithreadedCollegeCrawler:
                 if content_type_header
                 else ""
             )
+            needs_pw = False
             try:
                 if mime_type and (mime_type not in VALID_CONTENT_TYPES):
                     print(
@@ -1020,12 +1032,7 @@ class MultithreadedCollegeCrawler:
                     )
                     # Consider JS-rendered fallback for non-HTML or mismatched types
                     if self.playwright_enabled and sync_playwright is not None:
-                        print(
-                            f"    🎭 Using Playwright fallback (content-type: {mime_type}) for {url}"
-                        )
-                        pw_data = self._scrape_with_playwright(url)
-                        if pw_data:
-                            return pw_data
+                        needs_pw = True
                     # Try to proceed in case servers mislabel content-type
                     # Fallback to parsing anyway to avoid missing pages due to mislabeled headers
             except Exception:
@@ -1087,12 +1094,9 @@ class MultithreadedCollegeCrawler:
                 print(
                     f"    ⚠️  Insufficient content for {url} (chars={len(cleaned_content)}, words={word_count})"
                 )
-                # Try JS-rendered fallback if content looks incomplete
+                # Suggest JS-rendered fallback if content looks incomplete
                 if self.playwright_enabled and sync_playwright is not None:
-                    print(f"    🎭 Using Playwright fallback (low content) for {url}")
-                    pw_data = self._scrape_with_playwright(url)
-                    if pw_data:
-                        return pw_data
+                    needs_pw = True
                 # Do not return early; still extract internal links so BFS can progress
 
             # Extract internal links
@@ -1105,10 +1109,7 @@ class MultithreadedCollegeCrawler:
                 and self.playwright_enabled
                 and sync_playwright is not None
             ):
-                print(f"    🎭 Using Playwright fallback (no links found) for {url}")
-                pw_data = self._scrape_with_playwright(url)
-                if pw_data:
-                    return pw_data
+                needs_pw = True
 
             # Debug info for stuck crawler
             if len(internal_links) > 0:
@@ -1121,6 +1122,7 @@ class MultithreadedCollegeCrawler:
                 "internal_links": internal_links,
                 "word_count": word_count,
                 "crawled_at": datetime.now().isoformat(),
+                "needs_pw": needs_pw,
             }
 
         except Exception as e:
@@ -1136,35 +1138,48 @@ class MultithreadedCollegeCrawler:
             return None
         try:
             with self.playwright_semaphore:
-                with sync_playwright() as p:
-                    # Acquire proxy for Playwright (optional)
-                    pw_proxy_token = None
-                    pw_proxy_settings = None
-                    try:
-                        if self.proxy_pool:
-                            netloc = urlparse(url).netloc
-                            sticky_key = (netloc, "pw")
-                            selected_proxy_url, pw_proxy_token = (
-                                self.proxy_pool.acquire(
-                                    netloc=netloc, sticky_key=sticky_key
-                                )
+                # Start or reuse a shared Playwright runtime
+                if self._pw is None:
+                    self._pw = sync_playwright().start()
+                p = self._pw
+                # Acquire proxy for Playwright (optional)
+                pw_proxy_token = None
+                pw_proxy_settings = None
+                try:
+                    if self.proxy_pool:
+                        netloc = urlparse(url).netloc
+                        sticky_key = (netloc, "pw")
+                        selected_proxy_url, pw_proxy_token = self.proxy_pool.acquire(
+                            netloc=netloc, sticky_key=sticky_key
+                        )
+                        if selected_proxy_url:
+                            parsed = urlparse(selected_proxy_url)
+                            server = (
+                                f"{parsed.scheme}://{parsed.hostname}:{parsed.port}"
                             )
-                            if selected_proxy_url:
-                                parsed = urlparse(selected_proxy_url)
-                                server = (
-                                    f"{parsed.scheme}://{parsed.hostname}:{parsed.port}"
-                                )
-                                pw_proxy_settings = {"server": server}
-                                if parsed.username or parsed.password:
-                                    if parsed.username:
-                                        pw_proxy_settings["username"] = parsed.username
-                                    if parsed.password:
-                                        pw_proxy_settings["password"] = parsed.password
-                    except Exception:
-                        pw_proxy_settings = None
+                            pw_proxy_settings = {"server": server}
+                            if parsed.username or parsed.password:
+                                if parsed.username:
+                                    pw_proxy_settings["username"] = parsed.username
+                                if parsed.password:
+                                    pw_proxy_settings["password"] = parsed.password
+                except Exception:
+                    pw_proxy_settings = None
 
                     pw_start = time.monotonic()
-                    browser = p.chromium.launch(headless=True, proxy=pw_proxy_settings)
+                    # Reuse a shared Chromium browser per proxy key
+                    browser_key = (
+                        browser_key
+                        if "browser_key" in locals()
+                        else (selected_proxy_url or "direct")
+                    )
+                    with self._pw_browser_lock:
+                        browser = self._pw_browsers.get(browser_key)
+                        if browser is None:
+                            browser = p.chromium.launch(
+                                headless=True, proxy=pw_proxy_settings
+                            )
+                            self._pw_browsers[browser_key] = browser
                     # Diversify device/locale/timezone per run to reduce bot fingerprinting
                     ua = random.choice(self.user_agents)
                     locales = ["en-US", "en-GB", "en-CA"]
@@ -1219,8 +1234,18 @@ class MultithreadedCollegeCrawler:
                             html_idle = ""
                     except PlaywrightTimeoutError:
                         pass
+                    finally:
+                        # Ensure per-page resources are released
+                        try:
+                            page.close()
+                        except Exception:
+                            pass
+                        try:
+                            context.close()
+                        except Exception:
+                            pass
 
-                    browser.close()
+                    # Do not close shared browser instance
 
                     # Update proxy pool with success
                     if self.proxy_pool and pw_proxy_token is not None:
@@ -1509,6 +1534,7 @@ class MultithreadedCollegeCrawler:
                     print(
                         f"    ⚠️  Skipping URL with existing matching major across all chunks: {page_data['url']} [{major}]"
                     )
+                    # Count skip and allow worker to continue; do not block caller
                     with self.lock:
                         self.stats["existing_urls_skipped"] += 1
                     return False
@@ -1714,6 +1740,8 @@ class MultithreadedCollegeCrawler:
 
         # Use ThreadPoolExecutor with true work-stealing
         with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
+            # Dedicated executor for Playwright fallback jobs (bounded workers)
+            pw_executor = ThreadPoolExecutor(max_workers=self.playwright_max_workers)
             # Use a real queue for thread-safe operations
             from queue import Queue
 
@@ -1768,10 +1796,51 @@ class MultithreadedCollegeCrawler:
                             if pages_crawled_shared >= max_pages:
                                 stop_event.set()
 
-                        # Upload to Milvus
-                        if self.upload_to_milvus(page_data, college_name, major):
-                            local_uploaded += 1
+                        # Upload to Milvus unless we plan a PW fallback upload
+                        if not page_data.get("needs_pw"):
+                            if self.upload_to_milvus(page_data, college_name, major):
+                                local_uploaded += 1
 
+                        # If this URL needs Playwright, offload the job and merge results asynchronously
+                        if page_data.get("needs_pw"):
+
+                            def _merge_pw_result(fut, new_depth=new_depth, src_url=url):
+                                try:
+                                    result = fut.result()
+                                except Exception:
+                                    return
+                                if not result:
+                                    return
+                                if stop_event.is_set():
+                                    return
+                                # Upload PW-rendered page
+                                try:
+                                    self.upload_to_milvus(result, college_name, major)
+                                except Exception:
+                                    pass
+                                # Enqueue discovered links
+                                links = result.get("internal_links", [])
+                                for link in links:
+                                    norm = self.normalize_url(link)
+                                    with state_lock:
+                                        if stop_event.is_set():
+                                            break
+                                        if (
+                                            norm not in crawled_urls
+                                            and norm not in discovered_urls
+                                            and pages_crawled_shared < max_pages
+                                        ):
+                                            discovered_urls.add(norm)
+                                            work_queue.put((new_depth, norm))
+                                return
+
+                            try:
+                                fut = pw_executor.submit(
+                                    self._scrape_with_playwright, url
+                                )
+                                fut.add_done_callback(_merge_pw_result)
+                            except Exception:
+                                pass
                         # Add new links to queue (BFS)
                         new_links = page_data.get("internal_links", [])
                         new_depth = depth + 1
@@ -1816,6 +1885,8 @@ class MultithreadedCollegeCrawler:
                             print(
                                 f"    ⏭️  Exiting worker for {college_name} - queue empty for too long"
                             )
+                            # signal others to exit
+                            stop_event.set()
                             break
 
                         # Check if we should exit
@@ -1847,7 +1918,7 @@ class MultithreadedCollegeCrawler:
             # Monitor progress
             try:
                 start_time = time.time()
-                max_crawl_time = 300  # 5 minutes max per college
+                max_crawl_time = MAX_CRAWL_TIME_PER_COLLEGE
 
                 while active_futures and not stop_event.is_set():
                     # Check for timeout
@@ -1890,6 +1961,8 @@ class MultithreadedCollegeCrawler:
                             print(
                                 f"    ✗ Worker failed during shutdown for {college_name}: {e}"
                             )
+                # Ensure Playwright executor shuts down
+                pw_executor.shutdown(wait=True)
 
                 # Final progress
                 if pages_crawled > 0:
