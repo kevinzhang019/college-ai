@@ -776,6 +776,56 @@ class MultithreadedCollegeCrawler:
 
         return list(links)
 
+    def is_js_heavy(self, html_text: str, soup: BeautifulSoup, url: str) -> bool:
+        """Heuristically detect if a page is likely JS-rendered/SPAs.
+
+        Signals:
+        - Framework markers (__NEXT_DATA__, __NUXT__, data-reactroot, ng-app, ember)
+        - Boot-time globals (window.__INITIAL_STATE__, window.__APOLLO_STATE__)
+        - High script density or many external scripts
+        - URL patterns typical of SPAs
+        """
+        try:
+            text_lower = html_text.lower() if html_text else ""
+        except Exception:
+            text_lower = ""
+        try:
+            script_tags = soup.find_all("script") if soup else []
+            total_tags = len(soup.find_all(True)) if soup else 0
+        except Exception:
+            script_tags, total_tags = [], 0
+        external_js = 0
+        for s in script_tags:
+            try:
+                if s.get("src"):
+                    external_js += 1
+            except Exception:
+                continue
+
+        markers = [
+            "__next_data__",
+            'id="__nuxt"',
+            "data-reactroot",
+            "ng-app",
+            "ember",
+            "window.__initial_state__",
+            "window.__apollo_state__",
+        ]
+        if any(m in text_lower for m in markers):
+            return True
+
+        script_ratio = (len(script_tags) / max(1, total_tags)) if total_tags else 0.0
+        if len(script_tags) >= 30 or script_ratio >= 0.25 or external_js >= 10:
+            return True
+
+        try:
+            path = urlparse(url).path.lower()
+        except Exception:
+            path = ""
+        if "#/" in url or "/app/" in path or "/wp-json/" in path:
+            return True
+        return False
+
     def scrape_page(
         self, url: str, session: requests.Session = None
     ) -> Optional[Dict[str, Any]]:
@@ -1088,14 +1138,19 @@ class MultithreadedCollegeCrawler:
                 min_words = MIN_WORDS_PER_PAGE
             except Exception:
                 min_words = 0
+            # JS-heavy heuristic
+            js_heavy = self.is_js_heavy(
+                response.text if hasattr(response, "text") else "", soup, url
+            )
+
             if len(cleaned_content.strip()) < max(1, min_chars) or word_count < max(
                 1, min_words
             ):
                 print(
                     f"    ⚠️  Insufficient content for {url} (chars={len(cleaned_content)}, words={word_count})"
                 )
-                # Suggest JS-rendered fallback if content looks incomplete
-                if self.playwright_enabled and sync_playwright is not None:
+                # Suggest JS-rendered fallback if content looks incomplete and JS detected
+                if self.playwright_enabled and sync_playwright is not None and js_heavy:
                     needs_pw = True
                 # Do not return early; still extract internal links so BFS can progress
 
@@ -1109,7 +1164,9 @@ class MultithreadedCollegeCrawler:
                 and self.playwright_enabled
                 and sync_playwright is not None
             ):
-                needs_pw = True
+                # Use PW on zero-links only if JS detected or URL path suggests SPA
+                if js_heavy:
+                    needs_pw = True
 
             # Debug info for stuck crawler
             if len(internal_links) > 0:
@@ -1137,6 +1194,9 @@ class MultithreadedCollegeCrawler:
         if not self.playwright_enabled or sync_playwright is None:
             return None
         try:
+            # Ensure local variables exist even on early exceptions
+            html_dom: str = ""
+            html_idle: str = ""
             with self.playwright_semaphore:
                 # Start or reuse a shared Playwright runtime
                 if self._pw is None:
