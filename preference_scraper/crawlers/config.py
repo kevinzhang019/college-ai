@@ -19,8 +19,8 @@ CRAWLER_DELAY = float(
     os.getenv("CRAWLER_DELAY", "1.0")
 )  # Delay between requests in seconds
 CRAWLER_MAX_WORKERS = int(
-    os.getenv("CRAWLER_MAX_WORKERS", "8")
-)  # Number of worker threads per college
+    os.getenv("CRAWLER_MAX_WORKERS", "6")
+)  # Number of worker threads per college (PW-heavy default)
 REQUEST_TIMEOUT = int(os.getenv("REQUEST_TIMEOUT", "15"))  # Request timeout in seconds
 REQUEST_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
 

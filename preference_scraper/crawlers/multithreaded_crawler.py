@@ -306,16 +306,16 @@ class MultithreadedCollegeCrawler:
         )
         self.min_concurrency_per_host = 1
         self.token_refill_per_sec = float(
-            os.getenv("HOST_TOKEN_REFILL_PER_SEC", "2.5") or "2.5"
+            os.getenv("HOST_TOKEN_REFILL_PER_SEC", "2.0") or "2.0"
         )
         self.max_tokens_per_host = int(os.getenv("HOST_MAX_TOKENS", "6") or "6")
 
         # Playwright fallback controls
         self.playwright_enabled = os.getenv("USE_PLAYWRIGHT_FALLBACK", "1") == "1"
         try:
-            pw_conc = int(os.getenv("PLAYWRIGHT_MAX_CONCURRENCY", "3") or "3")
+            pw_conc = int(os.getenv("PLAYWRIGHT_MAX_CONCURRENCY", "4") or "4")
         except Exception:
-            pw_conc = 3
+            pw_conc = 4
         self.playwright_max_workers = max(1, pw_conc)
         self.playwright_semaphore = threading.Semaphore(self.playwright_max_workers)
         try:
