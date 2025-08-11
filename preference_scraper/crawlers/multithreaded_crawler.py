@@ -313,7 +313,7 @@ class MultithreadedCollegeCrawler:
         # Playwright fallback controls
         self.playwright_enabled = os.getenv("USE_PLAYWRIGHT_FALLBACK", "1") == "1"
         try:
-            pw_conc = int(os.getenv("PLAYWRIGHT_MAX_CONCURRENCY", "4") or "4")
+            pw_conc = int(os.getenv("PLAYWRIGHT_MAX_CONCURRENCY", "3") or "3")
         except Exception:
             pw_conc = 4
         self.playwright_max_workers = max(1, pw_conc)
