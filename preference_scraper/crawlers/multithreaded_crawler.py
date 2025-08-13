@@ -1197,6 +1197,12 @@ class MultithreadedCollegeCrawler:
             # Parse with BeautifulSoup
             soup = BeautifulSoup(response.content, "html.parser")
 
+            # Use the final resolved URL after redirects as the base for link resolution and storage
+            try:
+                final_url = response.url or url
+            except Exception:
+                final_url = url
+
             # Extract title
             title = soup.find("title")
             title_text = title.get_text(strip=True) if title else ""
@@ -1261,7 +1267,7 @@ class MultithreadedCollegeCrawler:
                 # Do not return early; still extract internal links so BFS can progress
 
             # Extract internal links
-            internal_links = self.extract_internal_links(soup, url)
+            internal_links = self.extract_internal_links(soup, final_url)
             # Normalize discovered links
             internal_links = [self.normalize_url(u) for u in internal_links]
             # Heuristic: if no links found and Playwright is available, try JS fallback once
@@ -1279,7 +1285,8 @@ class MultithreadedCollegeCrawler:
                 print(f"    🔗 Found {len(internal_links)} internal links for {url}")
 
             return {
-                "url": url,
+                # Store the final URL (post-redirect) for better link resolution and traceability
+                "url": final_url,
                 "title": title_text,
                 "content": cleaned_content,
                 "internal_links": internal_links,
