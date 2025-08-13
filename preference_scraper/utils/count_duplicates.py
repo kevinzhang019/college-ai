@@ -186,19 +186,25 @@ def compute_duplicates_for_college_streaming(
             url = (record.get("url") or "").strip()
             if not url:
                 continue
-            # Strip leading 'www.' for duplicate grouping
+            # Canonical key for grouping: ignore scheme, strip leading 'www.', drop trailing slash (non-root)
             try:
                 parsed = urlparse(url)
                 netloc = parsed.netloc.lower()
                 if netloc.startswith("www."):
                     netloc = netloc[4:]
-                canonical_url = (
-                    f"{parsed.scheme or 'https'}://{netloc}{parsed.path or ''}"
-                )
+                path = parsed.path or ""
+                if path.endswith("/") and len(path) > 1:
+                    path = path.rstrip("/")
+                canonical_url = f"{netloc}{path}"
                 if parsed.query:
                     canonical_url += f"?{parsed.query}"
             except Exception:
-                canonical_url = url
+                s = url.strip()
+                if s.startswith("http://"):
+                    s = s[len("http://") :]
+                elif s.startswith("https://"):
+                    s = s[len("https://") :]
+                canonical_url = s[4:] if s.lower().startswith("www.") else s
             title = (record.get("title") or "").strip()
             content = (record.get("content") or "").strip()
             dedupe_key = hashlib.sha256(
@@ -289,11 +295,19 @@ def compute_duplicates_by_url(records: List[dict]) -> Tuple[Dict[str, int], int,
             netloc = parsed.netloc.lower()
             if netloc.startswith("www."):
                 netloc = netloc[4:]
-            canonical_url = f"{parsed.scheme or 'https'}://{netloc}{parsed.path or ''}"
+            path = parsed.path or ""
+            if path.endswith("/") and len(path) > 1:
+                path = path.rstrip("/")
+            canonical_url = f"{netloc}{path}"
             if parsed.query:
                 canonical_url += f"?{parsed.query}"
         except Exception:
-            canonical_url = url
+            s = url.strip()
+            if s.startswith("http://"):
+                s = s[len("http://") :]
+            elif s.startswith("https://"):
+                s = s[len("https://") :]
+            canonical_url = s[4:] if s.lower().startswith("www.") else s
         title = (record.get("title") or "").strip()
         content = (record.get("content") or "").strip()
         dedupe_key = hashlib.sha256(f"{title}|{content}".encode("utf-8")).hexdigest()

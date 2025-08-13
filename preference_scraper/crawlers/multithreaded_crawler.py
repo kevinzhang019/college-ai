@@ -362,6 +362,23 @@ class MultithreadedCollegeCrawler:
         self.collection = self.get_or_create_collection()
         self.ensure_collection_ready()
 
+        # Schema feature detection (url_canonical is required going forward)
+        try:
+            self.has_url_canonical = any(
+                f.name == "url_canonical" for f in self.collection.schema.fields
+            )
+        except Exception:
+            self.has_url_canonical = False
+        if not self.has_url_canonical:
+            raise RuntimeError("Collection missing required field: url_canonical")
+
+        # Load global existing canonical URL keys to avoid cross-run duplicates
+        self.global_existing_canonicals: Set[str] = set()
+        try:
+            self._load_global_existing_canonicals()
+        except Exception as e:
+            print(f"⚠️  Could not pre-load global URL canonicals: {e}")
+
         # Initialize existing URLs as empty - will be populated per college
         self.existing_urls = set()
 
@@ -403,6 +420,7 @@ class MultithreadedCollegeCrawler:
             ),
             FieldSchema(name="college_name", dtype=DataType.VARCHAR, max_length=128),
             FieldSchema(name="url", dtype=DataType.VARCHAR, max_length=512),
+            FieldSchema(name="url_canonical", dtype=DataType.VARCHAR, max_length=512),
             FieldSchema(
                 name="title", dtype=DataType.VARCHAR, max_length=MAX_TITLE_LENGTH
             ),
@@ -728,6 +746,91 @@ class MultithreadedCollegeCrawler:
             return normalized
         except Exception:
             return url
+
+    def _url_canonical_key(self, url: str) -> str:
+        """Return a canonical URL key for deduplication that ignores scheme and a leading 'www.' on host.
+
+        - Lowercases host
+        - Strips a leading 'www.' only (keeps www2., cs., etc.)
+        - Keeps path (with duplicate slashes collapsed by normalize_url if used before)
+        - Keeps query as-is (already sorted/cleaned by normalize_url for crawled URLs)
+        - Drops fragment
+        """
+        try:
+            parsed = urlparse(url)
+            netloc = parsed.netloc.lower()
+            if netloc.startswith("www."):
+                netloc = netloc[4:]
+            path = parsed.path or ""
+            if path.endswith("/") and len(path) > 1:
+                path = path.rstrip("/")
+            key = f"{netloc}{path}"
+            if parsed.query:
+                key += f"?{parsed.query}"
+            return key
+        except Exception:
+            # Fallback: strip scheme prefix and leading www manually
+            s = url.strip()
+            if s.startswith("http://"):
+                s = s[len("http://") :]
+            elif s.startswith("https://"):
+                s = s[len("https://") :]
+            if s.lower().startswith("www."):
+                s = s[4:]
+            return s
+
+    def _load_global_existing_canonicals(self) -> None:
+        """Load canonical URL keys for entire collection to prevent re-crawling duplicates.
+
+        Uses 'url_canonical' when available; otherwise derives from 'url'.
+        """
+        try:
+            # Attempt to load for scalar queries
+            try:
+                self.collection.load()
+            except Exception:
+                pass
+            offset = 0
+            batch_size = 16384
+            total_loaded = 0
+            while True:
+                try:
+                    fields = ["url_canonical"]
+                    batch = self.collection.query(
+                        expr="",  # full scan with offset/limit
+                        output_fields=fields,
+                        limit=batch_size,
+                        offset=offset,
+                    )
+                except Exception as exc:
+                    msg = str(exc)
+                    if (
+                        "received message larger than max" in msg
+                        or "RESOURCE_EXHAUSTED" in msg
+                    ):
+                        new_batch_size = max(128, batch_size // 2)
+                        if new_batch_size == batch_size:
+                            raise
+                        batch_size = new_batch_size
+                        continue
+                    else:
+                        raise
+
+                if not batch:
+                    break
+                for rec in batch:
+                    key = (rec.get("url_canonical") or "").strip()
+                    if key:
+                        self.global_existing_canonicals.add(key)
+                total_loaded += len(batch)
+                if len(batch) < batch_size:
+                    break
+                offset += batch_size
+            print(
+                f"✓ Loaded {len(self.global_existing_canonicals):,} canonical URLs from collection for dedupe"
+            )
+        except Exception as e:
+            print(f"⚠️  Failed to build global canonical set: {e}")
 
     def extract_internal_links(self, soup: BeautifulSoup, base_url: str) -> List[str]:
         """Extract all internal links from a BeautifulSoup object."""
@@ -1524,18 +1627,20 @@ class MultithreadedCollegeCrawler:
             existing_records = []
             try:
                 # Escape quotes for Milvus boolean expression
-                # Ensure the URL we query for is normalized and canonicalized
+                # Ensure the URL we query for is normalized and canonicalized (by canonical key)
                 normalized_page_url = (
                     self.normalize_url(page_data["url"]) or page_data["url"]
                 )
-                _url_val = normalized_page_url.replace('"', '\\"')
+                page_canon = self._url_canonical_key(normalized_page_url)
+                _canon_val = page_canon.replace('"', '\\"')
                 with self.collection_query_sema:
                     existing_records = self.collection.query(
-                        expr=f'url == "{_url_val}"',
+                        expr=f'url_canonical == "{_canon_val}"',
                         output_fields=[
                             "id",
                             "college_name",
                             "url",
+                            "url_canonical",
                             "title",
                             "content",
                             "embedding",
@@ -1554,6 +1659,7 @@ class MultithreadedCollegeCrawler:
                 updated_ids: List[str] = []
                 updated_colleges: List[str] = []
                 updated_urls: List[str] = []
+                updated_url_canonicals: List[str] = []
                 updated_titles: List[str] = []
                 updated_contents: List[str] = []
                 updated_embeddings: List[List[float]] = []
@@ -1596,6 +1702,19 @@ class MultithreadedCollegeCrawler:
                         rec.get("crawled_at", page_data["crawled_at"])
                     )
                     updated_majors_col.append(rec_majors)
+                    # url_canonical from record if present; otherwise derive
+                    rec_canon = rec.get("url_canonical")
+                    if isinstance(rec_canon, str) and rec_canon.strip():
+                        updated_url_canonicals.append(rec_canon.strip())
+                    else:
+                        try:
+                            updated_url_canonicals.append(
+                                self._url_canonical_key(
+                                    rec.get("url", page_data["url"])
+                                )
+                            )
+                        except Exception:
+                            updated_url_canonicals.append("")
 
                 if all_have_major:
                     print(
@@ -1609,35 +1728,29 @@ class MultithreadedCollegeCrawler:
                 # Upsert updated majors for all rows of this URL
                 try:
                     with self.collection_write_lock:
+                        # Build ordered columns according to current schema
+                        field_names = [f.name for f in self.collection.schema.fields]
+                        columns_by_name = {
+                            "id": updated_ids,
+                            "college_name": updated_colleges,
+                            "url": updated_urls,
+                            "url_canonical": updated_url_canonicals,
+                            "title": updated_titles,
+                            "content": updated_contents,
+                            "embedding": updated_embeddings,
+                            "crawled_at": updated_crawled_ats,
+                            "majors": updated_majors_col,
+                        }
+                        ordered_columns = [
+                            columns_by_name.get(name, []) for name in field_names
+                        ]
                         if hasattr(self.collection, "upsert"):
-                            self.collection.upsert(
-                                [
-                                    updated_ids,
-                                    updated_colleges,
-                                    updated_urls,
-                                    updated_titles,
-                                    updated_contents,
-                                    updated_embeddings,
-                                    updated_crawled_ats,
-                                    updated_majors_col,
-                                ]
-                            )
+                            self.collection.upsert(ordered_columns)
                         else:
                             # Fallback: delete old ids and insert updated rows
                             quoted = ",".join([f'"{_id}"' for _id in updated_ids])
                             self.collection.delete(f"id in [{quoted}]")
-                            self.collection.insert(
-                                [
-                                    updated_ids,
-                                    updated_colleges,
-                                    updated_urls,
-                                    updated_titles,
-                                    updated_contents,
-                                    updated_embeddings,
-                                    updated_crawled_ats,
-                                    updated_majors_col,
-                                ]
-                            )
+                            self.collection.insert(ordered_columns)
                     print(
                         f"    ✓ Updated majors for existing URL across all chunks (added '{major}'): {page_data['url']}"
                     )
@@ -1686,6 +1799,7 @@ class MultithreadedCollegeCrawler:
             ids: List[str] = []
             colleges: List[str] = []
             urls: List[str] = []
+            url_canonicals: List[str] = []
             titles: List[str] = []
             contents: List[str] = []
             embeddings: List[List[float]] = []
@@ -1709,6 +1823,10 @@ class MultithreadedCollegeCrawler:
                 ids.append(str(uuid.uuid4()))
                 colleges.append(college_name)
                 urls.append(page_data["url"])
+                try:
+                    url_canonicals.append(self._url_canonical_key(page_data["url"]))
+                except Exception:
+                    url_canonicals.append("")
                 titles.append(chunked_title[: MAX_TITLE_LENGTH - 1])
                 contents.append(chunk_text[: MAX_CONTENT_LENGTH - 1])
                 embeddings.append(emb)
@@ -1721,18 +1839,23 @@ class MultithreadedCollegeCrawler:
                 try:
                     # Serialize inserts/queries for safety across threads
                     with self.collection_write_lock:
-                        self.collection.insert(
-                            [
-                                ids,
-                                colleges,
-                                urls,
-                                titles,
-                                contents,
-                                embeddings,
-                                crawled_ats,
-                                majors,
-                            ]
-                        )
+                        # Build ordered columns according to current schema
+                        field_names = [f.name for f in self.collection.schema.fields]
+                        columns_by_name = {
+                            "id": ids,
+                            "college_name": colleges,
+                            "url": urls,
+                            "url_canonical": url_canonicals,
+                            "title": titles,
+                            "content": contents,
+                            "embedding": embeddings,
+                            "crawled_at": crawled_ats,
+                            "majors": majors,
+                        }
+                        ordered_columns = [
+                            columns_by_name.get(name, []) for name in field_names
+                        ]
+                        self.collection.insert(ordered_columns)
                 except Exception as insert_err:
                     print(f"    ✗ Insert failed for {page_data['url']}: {insert_err}")
                     return False
@@ -1770,6 +1893,9 @@ class MultithreadedCollegeCrawler:
         # Reset state for this college (shared across workers)
         crawled_urls = set()
         discovered_urls = set()
+        # Canonical (scheme-agnostic, no leading www.) keys for robust dedupe
+        crawled_canon = set()
+        discovered_canon = set()
         state_lock = threading.Lock()
         stop_event = threading.Event()
         pages_crawled_shared = 0  # successful pages scraped
@@ -1804,6 +1930,10 @@ class MultithreadedCollegeCrawler:
 
         # Initialize BFS queue
         discovered_urls.add(normalized_base)
+        try:
+            discovered_canon.add(self._url_canonical_key(normalized_base))
+        except Exception:
+            pass
 
         pages_crawled = 0
         pages_uploaded = 0
@@ -1844,15 +1974,25 @@ class MultithreadedCollegeCrawler:
                         depth, url = work_queue.get(timeout=1.0)  # Increased timeout
                         consecutive_empty_checks = 0  # Reset counter
 
-                        # Claim URL atomically
+                        # Claim URL atomically (using canonical key) and skip if exists globally
                         with state_lock:
                             if stop_event.is_set():
                                 break
-                            if url in crawled_urls:
+                            try:
+                                canon_key = self._url_canonical_key(url)
+                            except Exception:
+                                canon_key = url
+                            # Skip if present in global existing set (from entire DB)
+                            if canon_key in self.global_existing_canonicals:
+                                with self.lock:
+                                    self.stats["existing_urls_skipped"] += 1
+                                continue
+                            if canon_key in crawled_canon:
                                 with self.lock:
                                     self.stats["duplicate_urls_skipped"] += 1
                                 continue
                             crawled_urls.add(url)
+                            crawled_canon.add(canon_key)
 
                         # Scrape page with thread-local session
                         page_data = self.scrape_page(url, worker_session)
@@ -1888,19 +2028,29 @@ class MultithreadedCollegeCrawler:
                                     self.upload_to_milvus(result, college_name, major)
                                 except Exception:
                                     pass
-                                # Enqueue discovered links
+                                # Enqueue discovered links (canonical dedupe)
                                 links = result.get("internal_links", [])
                                 for link in links:
                                     norm = self.normalize_url(link)
+                                    try:
+                                        canon_link = self._url_canonical_key(norm)
+                                    except Exception:
+                                        canon_link = norm
                                     with state_lock:
                                         if stop_event.is_set():
                                             break
+                                        already_seen = (
+                                            canon_link
+                                            in self.global_existing_canonicals
+                                            or canon_link in crawled_canon
+                                            or canon_link in discovered_canon
+                                        )
                                         if (
-                                            norm not in crawled_urls
-                                            and norm not in discovered_urls
+                                            not already_seen
                                             and pages_crawled_shared < max_pages
                                         ):
                                             discovered_urls.add(norm)
+                                            discovered_canon.add(canon_link)
                                             work_queue.put((new_depth, norm))
                                 return
 
@@ -1916,19 +2066,26 @@ class MultithreadedCollegeCrawler:
                         new_depth = depth + 1
                         links_added = 0
 
-                        # Filter and enqueue new links atomically
+                        # Filter and enqueue new links atomically (canonical dedupe)
                         for link in new_links:
                             with state_lock:
                                 if stop_event.is_set():
                                     break
+                                try:
+                                    canon_link = self._url_canonical_key(link)
+                                except Exception:
+                                    canon_link = link
                                 already_seen = (
-                                    link in crawled_urls or link in discovered_urls
+                                    canon_link in self.global_existing_canonicals
+                                    or canon_link in crawled_canon
+                                    or canon_link in discovered_canon
                                 )
                                 if (
                                     not already_seen
                                     and pages_crawled_shared < max_pages
                                 ):
                                     discovered_urls.add(link)
+                                    discovered_canon.add(canon_link)
                                     work_queue.put((new_depth, link))
                                     links_added += 1
                                 elif already_seen:

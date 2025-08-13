@@ -138,17 +138,25 @@ class CollegeDuplicateRemover:
                         url = (record.get("url") or "").strip()
                         if not url:
                             continue
-                        # Canonicalize host by stripping a leading 'www.' for duplicate grouping
+                        # Canonical URL key: ignore scheme, strip leading 'www.', drop trailing slash (non-root)
                         try:
                             parsed = urlparse(url)
                             netloc = parsed.netloc.lower()
                             if netloc.startswith("www."):
                                 netloc = netloc[4:]
-                            canonical_url = f"{parsed.scheme or 'https'}://{netloc}{parsed.path or ''}"
+                            path = parsed.path or ""
+                            if path.endswith("/") and len(path) > 1:
+                                path = path.rstrip("/")
+                            canonical_url = f"{netloc}{path}"
                             if parsed.query:
                                 canonical_url += f"?{parsed.query}"
                         except Exception:
-                            canonical_url = url
+                            s = url.strip()
+                            if s.startswith("http://"):
+                                s = s[len("http://") :]
+                            elif s.startswith("https://"):
+                                s = s[len("https://") :]
+                            canonical_url = s[4:] if s.lower().startswith("www.") else s
                         title = (record.get("title") or "").strip()
                         content = (record.get("content") or "").strip()
                         dedupe_key = hashlib.sha256(
@@ -287,19 +295,25 @@ class CollegeDuplicateRemover:
                 dedupe_key = hashlib.sha256(
                     f"{title}|{content}".encode("utf-8")
                 ).hexdigest()
-                # Canonicalize host by stripping leading 'www.'
+                # Canonical URL key (ignore scheme, strip leading 'www.', drop trailing slash)
                 try:
                     parsed = urlparse(url)
                     netloc = parsed.netloc.lower()
                     if netloc.startswith("www."):
                         netloc = netloc[4:]
-                    canonical_url = (
-                        f"{parsed.scheme or 'https'}://{netloc}{parsed.path or ''}"
-                    )
+                    path = parsed.path or ""
+                    if path.endswith("/") and len(path) > 1:
+                        path = path.rstrip("/")
+                    canonical_url = f"{netloc}{path}"
                     if parsed.query:
                         canonical_url += f"?{parsed.query}"
                 except Exception:
-                    canonical_url = url
+                    s = url.strip()
+                    if s.startswith("http://"):
+                        s = s[len("http://") :]
+                    elif s.startswith("https://"):
+                        s = s[len("https://") :]
+                    canonical_url = s[4:] if s.lower().startswith("www.") else s
                 url_hash_counts[(canonical_url, dedupe_key)] += 1
 
             remaining_duplicates = 0
