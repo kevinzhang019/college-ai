@@ -13,6 +13,7 @@ import hashlib
 import glob
 import csv
 from collections import defaultdict
+from urllib.parse import urlparse
 from dotenv import load_dotenv
 
 # Add parent directory to path for imports
@@ -137,12 +138,23 @@ class CollegeDuplicateRemover:
                         url = (record.get("url") or "").strip()
                         if not url:
                             continue
+                        # Canonicalize host by stripping a leading 'www.' for duplicate grouping
+                        try:
+                            parsed = urlparse(url)
+                            netloc = parsed.netloc.lower()
+                            if netloc.startswith("www."):
+                                netloc = netloc[4:]
+                            canonical_url = f"{parsed.scheme or 'https'}://{netloc}{parsed.path or ''}"
+                            if parsed.query:
+                                canonical_url += f"?{parsed.query}"
+                        except Exception:
+                            canonical_url = url
                         title = (record.get("title") or "").strip()
                         content = (record.get("content") or "").strip()
                         dedupe_key = hashlib.sha256(
                             f"{title}|{content}".encode("utf-8")
                         ).hexdigest()
-                        url_to_hash_to_records[url][dedupe_key].append(record)
+                        url_to_hash_to_records[canonical_url][dedupe_key].append(record)
 
                     # Build duplicate groups per URL (only groups with >1 identical chunks)
                     duplicates: Dict[str, List[List[dict]]] = {}
@@ -275,7 +287,20 @@ class CollegeDuplicateRemover:
                 dedupe_key = hashlib.sha256(
                     f"{title}|{content}".encode("utf-8")
                 ).hexdigest()
-                url_hash_counts[(url, dedupe_key)] += 1
+                # Canonicalize host by stripping leading 'www.'
+                try:
+                    parsed = urlparse(url)
+                    netloc = parsed.netloc.lower()
+                    if netloc.startswith("www."):
+                        netloc = netloc[4:]
+                    canonical_url = (
+                        f"{parsed.scheme or 'https'}://{netloc}{parsed.path or ''}"
+                    )
+                    if parsed.query:
+                        canonical_url += f"?{parsed.query}"
+                except Exception:
+                    canonical_url = url
+                url_hash_counts[(canonical_url, dedupe_key)] += 1
 
             remaining_duplicates = 0
             for (_url, _hash), count in url_hash_counts.items():

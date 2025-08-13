@@ -692,6 +692,9 @@ class MultithreadedCollegeCrawler:
             parsed = urlparse(url)
             scheme = parsed.scheme.lower() or "https"
             netloc = parsed.netloc.lower()
+            # Strip a leading 'www.' to canonicalize host
+            if netloc.startswith("www."):
+                netloc = netloc[4:]
             # Remove default ports
             if netloc.endswith(":80") and scheme == "http":
                 netloc = netloc[:-3]
@@ -1521,7 +1524,11 @@ class MultithreadedCollegeCrawler:
             existing_records = []
             try:
                 # Escape quotes for Milvus boolean expression
-                _url_val = page_data["url"].replace('"', '\\"')
+                # Ensure the URL we query for is normalized and canonicalized
+                normalized_page_url = (
+                    self.normalize_url(page_data["url"]) or page_data["url"]
+                )
+                _url_val = normalized_page_url.replace('"', '\\"')
                 with self.collection_query_sema:
                     existing_records = self.collection.query(
                         expr=f'url == "{_url_val}"',
@@ -1770,7 +1777,10 @@ class MultithreadedCollegeCrawler:
         # Normalize base URL
         try:
             parsed = urlparse(base_url)
-            normalized_base = f"{parsed.scheme}://{parsed.netloc}"
+            base_netloc = parsed.netloc
+            if base_netloc and base_netloc.lower().startswith("www."):
+                base_netloc = base_netloc[4:]
+            normalized_base = f"{parsed.scheme}://{base_netloc}"
         except Exception:
             normalized_base = base_url
 

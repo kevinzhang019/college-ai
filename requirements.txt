@@ -18,6 +18,10 @@ playwright>=1.45.0
 # Environment and configuration
 python-dotenv>=1.0.1  # for environment variable management
 
+# API server for RAG
+fastapi>=0.111.0
+uvicorn>=0.30.0
+
 # Built-in Python modules (no installation required):
 # - os, sys, time, threading, queue, random, uuid
 # - csv, glob, re, html, logging
