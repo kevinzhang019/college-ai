@@ -285,7 +285,7 @@ class MultithreadedCollegeCrawler:
         # Concurrency controls for Milvus operations
         # - Queries: allow bounded parallelism
         # - Writes: exclusive
-        query_parallelism = int(os.getenv("MILVUS_QUERY_PARALLELISM", "3") or "3")
+        query_parallelism = int(os.getenv("MILVUS_QUERY_PARALLELISM", "2") or "2")
         self.collection_query_sema = threading.Semaphore(max(1, query_parallelism))
         self.collection_write_lock = threading.Lock()
         # Limit concurrent embedding generation to reduce rate-limit errors
@@ -313,7 +313,7 @@ class MultithreadedCollegeCrawler:
         # Playwright fallback controls
         self.playwright_enabled = os.getenv("USE_PLAYWRIGHT_FALLBACK", "1") == "1"
         try:
-            pw_conc = int(os.getenv("PLAYWRIGHT_MAX_CONCURRENCY", "3") or "3")
+            pw_conc = int(os.getenv("PLAYWRIGHT_MAX_CONCURRENCY", "2") or "2")
         except Exception:
             pw_conc = 4
         self.playwright_max_workers = max(1, pw_conc)
@@ -372,12 +372,8 @@ class MultithreadedCollegeCrawler:
         if not self.has_url_canonical:
             raise RuntimeError("Collection missing required field: url_canonical")
 
-        # Load global existing canonical URL keys to avoid cross-run duplicates
-        self.global_existing_canonicals: Set[str] = set()
-        try:
-            self._load_global_existing_canonicals()
-        except Exception as e:
-            print(f"⚠️  Could not pre-load global URL canonicals: {e}")
+        # Initialize per-college canonical URLs as empty - will be populated when needed
+        self.college_canonical_urls: Set[str] = set()
 
         # Initialize existing URLs as empty - will be populated per college
         self.existing_urls = set()
@@ -677,8 +673,42 @@ class MultithreadedCollegeCrawler:
             url_domain = parsed_url.netloc.lower().lstrip("www.")
             base_domain = parsed_base.netloc.lower().lstrip("www.")
 
-            # Must be from the same domain or subdomain
-            if url_domain != base_domain and not url_domain.endswith("." + base_domain):
+            # Domain validation - either exact match or proper subdomain
+            is_same_domain = False
+
+            # Extract actual TLD and domain parts
+            url_parts = url_domain.split(".")
+            base_parts = base_domain.split(".")
+
+            # Need at least 2 parts for a valid domain (domain.tld)
+            if len(url_parts) < 2 or len(base_parts) < 2:
+                return False
+
+            # Exact match - simplest case
+            if url_domain == base_domain:
+                is_same_domain = True
+            # Subdomain check
+            elif len(url_parts) > len(base_parts):
+                # Check for proper subdomain pattern
+                # This ensures domain endings match exactly (e.g. stanford.edu)
+                # and prevents matching similar-ending domains (e.g. notstanford.edu)
+                suffix_match = url_domain.endswith("." + base_domain)
+
+                # Additional validation to prevent false matches
+                # For example, if base is "stanford.edu", prevent "fakestanford.edu"
+                if suffix_match:
+                    # The URL must be a proper subdomain of the base
+                    # (e.g. "cs.stanford.edu" -> subdomain of "stanford.edu")
+                    # Calculate matching parts based on domain components
+                    base_domain_components = len(base_parts)
+                    url_trailing_parts = url_parts[-base_domain_components:]
+                    base_domain_parts = base_parts
+
+                    # Must match all trailing parts exactly
+                    is_same_domain = url_trailing_parts == base_domain_parts
+
+            # If not same domain, reject immediately
+            if not is_same_domain:
                 return False
 
             # Skip certain file types
@@ -701,6 +731,103 @@ class MultithreadedCollegeCrawler:
         except Exception as e:
             print(f"    Warning: Error parsing URL {url}: {e}")
             return False
+
+    def test_domain_validation(self):
+        """Test function to validate domain restriction logic.
+
+        This is for development/testing only - can be safely removed in production.
+        """
+        test_cases = [
+            # Format: (url, base_url, expected_result, description)
+            # Same domain - should allow
+            ("https://stanford.edu/about", "https://stanford.edu", True, "Same domain"),
+            (
+                "https://www.stanford.edu/contact",
+                "https://stanford.edu",
+                True,
+                "www prefix, same domain",
+            ),
+            (
+                "https://stanford.edu/about",
+                "https://www.stanford.edu",
+                True,
+                "Base with www, same domain",
+            ),
+            # Subdomains - should allow
+            (
+                "https://cs.stanford.edu/courses",
+                "https://stanford.edu",
+                True,
+                "Valid subdomain",
+            ),
+            (
+                "https://info.cs.stanford.edu/staff",
+                "https://stanford.edu",
+                True,
+                "Nested subdomain",
+            ),
+            # Different domains - should block
+            (
+                "https://stanforduniversity.com/about",
+                "https://stanford.edu",
+                False,
+                "Different TLD",
+            ),
+            (
+                "https://fake-stanford.edu/about",
+                "https://stanford.edu",
+                False,
+                "Domain with hyphen",
+            ),
+            (
+                "https://stanfordedu.com/contact",
+                "https://stanford.edu",
+                False,
+                "Similar name, different TLD",
+            ),
+            (
+                "https://notstandford.edu/about",
+                "https://stanford.edu",
+                False,
+                "Different domain name",
+            ),
+            (
+                "https://stanford-clone.edu/about",
+                "https://stanford.edu",
+                False,
+                "Domain with suffix",
+            ),
+            (
+                "https://stanfordedu.co.uk/about",
+                "https://stanford.edu",
+                False,
+                "Different TLD",
+            ),
+            (
+                "https://evil.com/stanford.edu/phishing",
+                "https://stanford.edu",
+                False,
+                "Path contains domain",
+            ),
+        ]
+
+        print("\n=== DOMAIN VALIDATION TEST CASES ===")
+
+        for url, base_url, expected, desc in test_cases:
+            result = self.is_internal_link(url, base_url)
+            status = "✅" if result == expected else "❌"
+            print(
+                f"{status} {desc}: {url} vs {base_url} => Got {result}, Expected {expected}"
+            )
+
+            if result != expected:
+                parsed_url = urlparse(url)
+                parsed_base = urlparse(base_url)
+                url_domain = parsed_url.netloc.lower().lstrip("www.")
+                base_domain = parsed_base.netloc.lower().lstrip("www.")
+                print(f"    Debug: {url_domain} vs {base_domain}")
+
+        print("=== END DOMAIN VALIDATION TEST ===\n")
 
     def normalize_url(self, url: str, base_url: Optional[str] = None) -> str:
         """Normalize URL by resolving relative, stripping trackers, sorting whitelisted queries, and collapsing slashes."""
@@ -779,25 +906,36 @@ class MultithreadedCollegeCrawler:
                 s = s[4:]
             return s
 
-    def _load_global_existing_canonicals(self) -> None:
-        """Load canonical URL keys for entire collection to prevent re-crawling duplicates.
+    def _load_college_canonicals(self, college_name: str) -> Set[str]:
+        """Load canonical URL keys for a specific college to prevent re-crawling duplicates.
+
+        Args:
+            college_name: Name of the college to load canonicals for
+
+        Returns:
+            Set of canonical URL keys for the college
 
         Uses 'url_canonical' when available; otherwise derives from 'url'.
         """
+        canonical_urls = set()
         try:
             # Attempt to load for scalar queries
             try:
                 self.collection.load()
             except Exception:
                 pass
+
+            # Get records only for this specific college
+            expr = f'college_name == "{college_name}"'
             offset = 0
-            batch_size = 16384
+            batch_size = 2048  # Smaller batch size to avoid memory issues
             total_loaded = 0
+
             while True:
                 try:
                     fields = ["url_canonical"]
                     batch = self.collection.query(
-                        expr="",  # full scan with offset/limit
+                        expr=expr,  # Filter by college name
                         output_fields=fields,
                         limit=batch_size,
                         offset=offset,
@@ -821,16 +959,18 @@ class MultithreadedCollegeCrawler:
                 for rec in batch:
                     key = (rec.get("url_canonical") or "").strip()
                     if key:
-                        self.global_existing_canonicals.add(key)
+                        canonical_urls.add(key)
                 total_loaded += len(batch)
                 if len(batch) < batch_size:
                     break
                 offset += batch_size
             print(
-                f"✓ Loaded {len(self.global_existing_canonicals):,} canonical URLs from collection for dedupe"
+                f"    ✓ Loaded {len(canonical_urls):,} canonical URLs for {college_name}"
             )
         except Exception as e:
-            print(f"⚠️  Failed to build global canonical set: {e}")
+            print(f"    ⚠️  Failed to load canonical URLs for {college_name}: {e}")
+
+        return canonical_urls
 
     def extract_internal_links(self, soup: BeautifulSoup, base_url: str) -> List[str]:
         """Extract all internal links from a BeautifulSoup object."""
@@ -1894,8 +2034,11 @@ class MultithreadedCollegeCrawler:
         print(f"\n=== Crawling {college_name} ({major}) ===")
         print(f"Base URL: {base_url}")
 
-        # (Deprecated) existing URL cache is not used for skipping; major-aware checks happen at upload time
-        self.existing_urls = set()
+        # Load canonical URLs for this college to prevent crawling duplicates
+        self.college_canonical_urls = self._load_college_canonicals(college_name)
+        print(
+            f"    Found {len(self.college_canonical_urls):,} existing canonical URLs for {college_name}"
+        )
 
         # Reset state for this college (shared across workers)
         crawled_urls = set()
@@ -1989,8 +2132,8 @@ class MultithreadedCollegeCrawler:
                                 canon_key = self._url_canonical_key(url)
                             except Exception:
                                 canon_key = url
-                            # Skip if present in global existing set (from entire DB)
-                            if canon_key in self.global_existing_canonicals:
+                            # Skip if present in college canonical URLs set (per college)
+                            if canon_key in self.college_canonical_urls:
                                 with self.lock:
                                     self.stats["existing_urls_skipped"] += 1
                                 continue
@@ -2047,8 +2190,7 @@ class MultithreadedCollegeCrawler:
                                         if stop_event.is_set():
                                             break
                                         already_seen = (
-                                            canon_link
-                                            in self.global_existing_canonicals
+                                            canon_link in self.college_canonical_urls
                                             or canon_link in crawled_canon
                                             or canon_link in discovered_canon
                                         )
@@ -2083,7 +2225,7 @@ class MultithreadedCollegeCrawler:
                                 except Exception:
                                     canon_link = link
                                 already_seen = (
-                                    canon_link in self.global_existing_canonicals
+                                    canon_link in self.college_canonical_urls
                                     or canon_link in crawled_canon
                                     or canon_link in discovered_canon
                                 )
