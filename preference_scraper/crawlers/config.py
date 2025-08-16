@@ -305,6 +305,17 @@ MIN_WORDS_PER_PAGE = 50  # Minimum words to consider page valid
 MAX_DUPLICATE_THRESHOLD = 0.8  # Similarity threshold for duplicate detection
 VALID_CONTENT_TYPES = ["text/html", "application/xhtml+xml"]
 
+# Playwright fallback settings
+USE_PLAYWRIGHT_FALLBACK = os.getenv("USE_PLAYWRIGHT_FALLBACK", "1") == "1"
+PLAYWRIGHT_MAX_CONCURRENCY = int(os.getenv("PLAYWRIGHT_MAX_CONCURRENCY", "3"))
+PLAYWRIGHT_NAV_TIMEOUT_MS = int(os.getenv("PLAYWRIGHT_NAV_TIMEOUT_MS", "15000"))
+PLAYWRIGHT_AGGRESSIVE_FALLBACK = (
+    os.getenv("PLAYWRIGHT_AGGRESSIVE_FALLBACK", "0") == "1"
+)  # More aggressive triggering
+PLAYWRIGHT_COOKIE_PERSISTENCE = (
+    os.getenv("PLAYWRIGHT_COOKIE_PERSISTENCE", "1") == "1"
+)  # Enable cookie persistence
+
 # ==================== EXPORT SETTINGS ====================
 
 # Export and backup settings

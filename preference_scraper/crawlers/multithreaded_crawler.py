@@ -14,6 +14,7 @@ import threading
 import queue
 import random
 import concurrent.futures
+import json
 from concurrent.futures import ThreadPoolExecutor, wait, FIRST_COMPLETED
 from typing import Dict, List, Any, Optional, Set
 from datetime import datetime
@@ -285,12 +286,12 @@ class MultithreadedCollegeCrawler:
         # Concurrency controls for Milvus operations
         # - Queries: allow bounded parallelism
         # - Writes: exclusive
-        query_parallelism = int(os.getenv("MILVUS_QUERY_PARALLELISM", "2") or "2")
+        query_parallelism = int(os.getenv("MILVUS_QUERY_PARALLELISM", "3") or "2")
         self.collection_query_sema = threading.Semaphore(max(1, query_parallelism))
         self.collection_write_lock = threading.Lock()
         # Limit concurrent embedding generation to reduce rate-limit errors
         try:
-            embed_concurrency = int(os.getenv("EMBED_MAX_CONCURRENCY", "2"))
+            embed_concurrency = int(os.getenv("EMBED_MAX_CONCURRENCY", "3"))
         except Exception:
             embed_concurrency = 2
         self.embed_semaphore = threading.Semaphore(max(1, embed_concurrency))
@@ -311,19 +312,19 @@ class MultithreadedCollegeCrawler:
         self.max_tokens_per_host = int(os.getenv("HOST_MAX_TOKENS", "6") or "6")
 
         # Playwright fallback controls
-        self.playwright_enabled = os.getenv("USE_PLAYWRIGHT_FALLBACK", "1") == "1"
-        try:
-            pw_conc = int(os.getenv("PLAYWRIGHT_MAX_CONCURRENCY", "2") or "2")
-        except Exception:
-            pw_conc = 4
-        self.playwright_max_workers = max(1, pw_conc)
+        self.playwright_enabled = USE_PLAYWRIGHT_FALLBACK
+        self.playwright_max_workers = max(1, PLAYWRIGHT_MAX_CONCURRENCY)
         self.playwright_semaphore = threading.Semaphore(self.playwright_max_workers)
-        try:
-            self.playwright_nav_timeout_ms = int(
-                os.getenv("PLAYWRIGHT_NAV_TIMEOUT_MS", "15000") or "15000"
-            )
-        except Exception:
-            self.playwright_nav_timeout_ms = 15000
+        self.playwright_nav_timeout_ms = PLAYWRIGHT_NAV_TIMEOUT_MS
+        self.playwright_aggressive_fallback = PLAYWRIGHT_AGGRESSIVE_FALLBACK
+        self.playwright_cookie_persistence = PLAYWRIGHT_COOKIE_PERSISTENCE
+
+        # Cookie and storage management
+        self.cookie_storage_dir = os.path.join(
+            os.path.dirname(__file__), "playwright_cookies"
+        )
+        os.makedirs(self.cookie_storage_dir, exist_ok=True)
+        self._cookie_storage_lock = threading.Lock()
         # Profiles directory and cache
         self.playwright_profiles_dir = os.path.join(
             os.path.dirname(__file__), "playwright_profiles"
@@ -972,6 +973,50 @@ class MultithreadedCollegeCrawler:
 
         return canonical_urls
 
+    def _check_url_has_major(self, url_canonical: str, major: str) -> bool:
+        """Check if a URL already exists with the specified major.
+
+        Args:
+            url_canonical: Canonical URL key to check
+            major: Major to check for
+
+        Returns:
+            True if URL exists with the major, False otherwise
+        """
+        try:
+            # Escape quotes for Milvus boolean expression
+            _canon_val = url_canonical.replace('"', '\\"')
+            with self.collection_query_sema:
+                existing_records = self.collection.query(
+                    expr=f'url_canonical == "{_canon_val}"',
+                    output_fields=["majors"],
+                    limit=16384,
+                )
+
+            if not existing_records:
+                return False
+
+            # Check if any record has the current major
+            for rec in existing_records:
+                rec_majors_field = rec.get("majors")
+                if isinstance(rec_majors_field, list):
+                    rec_majors = [str(m).strip() for m in rec_majors_field if m]
+                elif isinstance(rec_majors_field, dict) and "list" in rec_majors_field:
+                    rec_majors = [
+                        str(m).strip() for m in rec_majors_field.get("list", []) if m
+                    ]
+                else:
+                    rec_majors = []
+
+                if major in rec_majors:
+                    return True
+
+            return False
+
+        except Exception as e:
+            print(f"    ⚠️  Could not check major for URL '{url_canonical}': {e}")
+            return False
+
     def extract_internal_links(self, soup: BeautifulSoup, base_url: str) -> List[str]:
         """Extract all internal links from a BeautifulSoup object."""
         links = set()  # Use set for automatic deduplication
@@ -1377,6 +1422,17 @@ class MultithreadedCollegeCrawler:
                 if body:
                     main_content = body.get_text(separator=" ", strip=True)
 
+            # If still no content found, this is a strong indicator for Playwright fallback
+            if (
+                not main_content
+                and self.playwright_enabled
+                and sync_playwright is not None
+            ):
+                print(
+                    f"    🔄 Triggering Playwright fallback (no content found in HTML)"
+                )
+                needs_pw = True
+
             # Clean the content
             cleaned_content = clean_text(main_content)
 
@@ -1395,29 +1451,90 @@ class MultithreadedCollegeCrawler:
                 response.text if hasattr(response, "text") else "", soup, url
             )
 
-            if len(cleaned_content.strip()) < max(1, min_chars) or word_count < max(
-                1, min_words
-            ):
+            # Enhanced content insufficiency detection
+            content_insufficient = len(cleaned_content.strip()) < max(
+                1, min_chars
+            ) or word_count < max(1, min_words)
+
+            if content_insufficient:
                 print(
                     f"    ⚠️  Insufficient content for {url} (chars={len(cleaned_content)}, words={word_count})"
                 )
-                # Suggest JS-rendered fallback if content looks incomplete and JS detected
-                if self.playwright_enabled and sync_playwright is not None and js_heavy:
+                # Enhanced Playwright fallback triggers:
+                # 1. JS-heavy pages (likely dynamic content)
+                # 2. Pages with very low content (likely blocked or incomplete)
+                # 3. Pages with no title (likely loading issues)
+                # 4. Pages with suspiciously low content regardless of JS detection
+                should_use_pw = False
+
+                if self.playwright_enabled and sync_playwright is not None:
+                    if js_heavy:
+                        should_use_pw = True
+                        print(f"    🔄 Triggering Playwright fallback (JS-heavy page)")
+                    elif word_count < 10 or len(cleaned_content.strip()) < 50:
+                        should_use_pw = True
+                        print(
+                            f"    🔄 Triggering Playwright fallback (very low content)"
+                        )
+                    elif not title_text.strip():
+                        should_use_pw = True
+                        print(f"    🔄 Triggering Playwright fallback (no title)")
+                    elif word_count < max(
+                        1, min_words // 2
+                    ):  # Less than half the minimum words
+                        should_use_pw = True
+                        print(
+                            f"    🔄 Triggering Playwright fallback (significantly insufficient content)"
+                        )
+                    elif self.playwright_aggressive_fallback and content_insufficient:
+                        # Aggressive mode: use Playwright for any insufficient content
+                        should_use_pw = True
+                        print(
+                            f"    🔄 Triggering Playwright fallback (aggressive mode - insufficient content)"
+                        )
+
+                if should_use_pw:
                     needs_pw = True
+
                 # Do not return early; still extract internal links so BFS can progress
 
             # Extract internal links
             internal_links = self.extract_internal_links(soup, final_url)
             # Normalize discovered links
             internal_links = [self.normalize_url(u) for u in internal_links]
-            # Heuristic: if no links found and Playwright is available, try JS fallback once
+
+            # Enhanced heuristic: if no links found, consider Playwright fallback
             if (
                 not internal_links
                 and self.playwright_enabled
                 and sync_playwright is not None
             ):
-                # Use PW on zero-links only if JS detected or URL path suggests SPA
+                # Use PW on zero-links if:
+                # 1. JS detected (likely SPA)
+                # 2. Content is insufficient (likely incomplete page)
+                # 3. URL suggests dynamic content
+                should_use_pw_for_links = False
+
                 if js_heavy:
+                    should_use_pw_for_links = True
+                    print(
+                        f"    🔄 Triggering Playwright fallback (no links, JS-heavy page)"
+                    )
+                elif content_insufficient:
+                    should_use_pw_for_links = True
+                    print(
+                        f"    🔄 Triggering Playwright fallback (no links, insufficient content)"
+                    )
+                elif any(
+                    pattern in url.lower()
+                    for pattern in ["/app/", "/dashboard/", "/portal/", "/admin/"]
+                ):
+                    should_use_pw_for_links = True
+                    print(
+                        f"    🔄 Triggering Playwright fallback (no links, dynamic URL pattern)"
+                    )
+
+                if should_use_pw_for_links:
                     needs_pw = True
 
             # Debug info for stuck crawler
@@ -1493,19 +1610,38 @@ class MultithreadedCollegeCrawler:
                                 headless=True, proxy=pw_proxy_settings
                             )
                             self._pw_browsers[browser_key] = browser
+
+                    # Load cookies for this domain if available
+                    storage_state = None
+                    if self.playwright_cookie_persistence:
+                        try:
+                            netloc = urlparse(url).netloc
+                            storage_state = self._load_cookies(netloc)
+                        except Exception:
+                            storage_state = None
+
                     # Diversify device/locale/timezone per run to reduce bot fingerprinting
                     ua = random.choice(self.user_agents)
                     locales = ["en-US", "en-GB", "en-CA"]
                     timezone_ids = ["America/New_York", "America/Los_Angeles", "UTC"]
                     viewport_opts = [(1280, 800), (1366, 768), (1920, 1080)]
                     vw, vh = random.choice(viewport_opts)
-                    context = browser.new_context(
-                        user_agent=ua,
-                        java_script_enabled=True,
-                        locale=random.choice(locales),
-                        timezone_id=random.choice(timezone_ids),
-                        viewport={"width": vw, "height": vh},
-                    )
+
+                    # Create context with cookie persistence
+                    context_kwargs = {
+                        "user_agent": ua,
+                        "java_script_enabled": True,
+                        "locale": random.choice(locales),
+                        "timezone_id": random.choice(timezone_ids),
+                        "view port": {"width": vw, "height": vh},
+                    }
+
+                    # Add storage state if cookies are available
+                    if storage_state:
+                        context_kwargs["storage_state"] = storage_state
+                        print(f"    🍪 Loaded cookies for {netloc}")
+
+                    context = browser.new_context(**context_kwargs)
                     page = context.new_page()
 
                     # Speed up by blocking non-essential resources
@@ -1526,8 +1662,21 @@ class MultithreadedCollegeCrawler:
                             html_dom = page.content()
                         except Exception:
                             html_dom = ""
-                        # Try to accept cookie banners quickly
-                        self._try_accept_cookies(page)
+
+                        # Try to accept cookie banners and save cookies
+                        cookies_accepted = self._try_accept_cookies(page)
+                        if cookies_accepted and self.playwright_cookie_persistence:
+                            # Wait a moment for cookies to be set
+                            time.sleep(1)
+                            # Save cookies for future use
+                            try:
+                                storage_state = context.storage_state()
+                                self._save_cookies(netloc, storage_state)
+                                print(f"    💾 Saved cookies for {netloc}")
+                            except Exception as e:
+                                print(
+                                    f"    ⚠️  Failed to save cookies for {netloc}: {e}"
+                                )
                         # Apply per-domain profile actions
                         try:
                             netloc2 = urlparse(url).netloc
@@ -1648,6 +1797,31 @@ class MultithreadedCollegeCrawler:
             )
             internal_links = list({*links_dom, *links_idle})
             word_count = len(chosen_content.split())
+
+            # Enhanced content validation for Playwright results
+            try:
+                min_chars = MIN_CONTENT_LENGTH
+            except Exception:
+                min_chars = 0
+            try:
+                min_words = MIN_WORDS_PER_PAGE
+            except Exception:
+                min_words = 0
+
+            # Check if Playwright fallback actually improved the content
+            pw_content_sufficient = len(chosen_content.strip()) >= max(
+                1, min_chars
+            ) and word_count >= max(1, min_words)
+
+            if pw_content_sufficient:
+                print(
+                    f"    ✅ Playwright fallback successful for {url} (words={word_count}, chars={len(chosen_content)})"
+                )
+            else:
+                print(
+                    f"    ⚠️  Playwright fallback still insufficient for {url} (words={word_count}, chars={len(chosen_content)})"
+                )
+
             return {
                 "url": url,
                 "title": title_text,
@@ -1675,26 +1849,150 @@ class MultithreadedCollegeCrawler:
             print(f"    ⚠️  Playwright fallback failed for {url}: {e}")
             return None
 
-    def _try_accept_cookies(self, page) -> None:
-        """Best-effort cookie banner acceptor for common frameworks."""
+    def _get_cookie_storage_path(self, netloc: str) -> str:
+        """Get the path for storing cookies for a specific domain."""
+        # Sanitize netloc for filename
+        safe_netloc = re.sub(r"[^\w\-_.]", "_", netloc)
+        return os.path.join(self.cookie_storage_dir, f"{safe_netloc}_cookies.json")
+
+    def _load_cookies(self, netloc: str) -> Optional[Dict[str, Any]]:
+        """Load cookies for a specific domain."""
         try:
-            selectors = [
+            cookie_path = self._get_cookie_storage_path(netloc)
+            if os.path.exists(cookie_path):
+                with open(cookie_path, "r") as f:
+                    return json.load(f)
+        except Exception as e:
+            print(f"    ⚠️  Failed to load cookies for {netloc}: {e}")
+        return None
+
+    def _save_cookies(self, netloc: str, storage_state: Dict[str, Any]) -> None:
+        """Save cookies for a specific domain."""
+        try:
+            cookie_path = self._get_cookie_storage_path(netloc)
+            with self._cookie_storage_lock:
+                with open(cookie_path, "w") as f:
+                    json.dump(storage_state, f, indent=2)
+        except Exception as e:
+            print(f"    ⚠️  Failed to save cookies for {netloc}: {e}")
+
+    def _try_accept_cookies(self, page) -> bool:
+        """Enhanced cookie banner acceptor with comprehensive coverage.
+
+        Returns:
+            True if a cookie banner was accepted, False otherwise
+        """
+        try:
+            # Comprehensive list of cookie banner selectors
+            cookie_selectors = [
+                # OneTrust
                 "#onetrust-accept-btn-handler",
+                "#onetrust-banner-sdk .accept-btn",
+                '[data-testid="accept-cookies"]',
+                # Cookiebot
                 "#CybotCookiebotDialogBodyLevelButtonAccept",
+                "#CybotCookiebotDialogBodyLevelButtonLevelOptinAllowAll",
+                ".CybotCookiebotDialogBodyButton",
+                # GDPR/Consent frameworks
                 "#sp-cc-accept",
+                "#sp-cc-accept-all",
+                ".sp_choice_type_11",
+                ".sp_choice_type_12",
+                # Generic accept buttons
                 'button:has-text("Accept all")',
+                'button:has-text("Accept All")',
                 'button:has-text("I agree")',
+                'button:has-text("I Agree")',
+                'button:has-text("Accept cookies")',
+                'button:has-text("Accept Cookies")',
+                'button:has-text("OK")',
+                'button:has-text("Got it")',
+                'button:has-text("Continue")',
+                # Common patterns
+                '[data-testid*="accept"]',
+                '[data-testid*="cookie"]',
+                '[class*="accept"]',
+                '[class*="cookie"]',
+                '[id*="accept"]',
+                '[id*="cookie"]',
+                # Specific frameworks
+                ".fc-consent-root .fc-primary-button",
+                ".gdpr-banner .accept",
+                ".cookie-banner .accept",
+                ".consent-banner .accept",
+                ".privacy-banner .accept",
+                # Language variations
+                'button:has-text("Akzeptieren")',  # German
+                'button:has-text("Accepter")',  # French
+                'button:has-text("Aceptar")',  # Spanish
+                'button:has-text("Accetta")',  # Italian
             ]
-            for sel in selectors:
+
+            # Try to find and click cookie accept buttons
+            for sel in cookie_selectors:
                 try:
-                    btn = page.locator(sel).first
-                    if btn and btn.is_visible(timeout=1500):
-                        btn.click(timeout=1500)
-                        break
+                    # Try multiple strategies for each selector
+                    strategies = [
+                        lambda: page.locator(sel).first,
+                        lambda: page.locator(sel).nth(0),
+                        lambda: page.locator(f"{sel}:visible").first,
+                    ]
+
+                    for strategy in strategies:
+                        try:
+                            btn = strategy()
+                            if btn and btn.is_visible(timeout=1000):
+                                btn.click(timeout=1000)
+                                print(f"    🍪 Accepted cookies using selector: {sel}")
+                                return True
+                        except Exception:
+                            continue
+
                 except Exception:
                     continue
-        except Exception:
-            pass
+
+            # Try JavaScript-based cookie acceptance for stubborn banners
+            js_scripts = [
+                # Remove cookie banners
+                """
+                document.querySelectorAll('[id*="cookie"], [class*="cookie"], [id*="consent"], [class*="consent"]').forEach(el => {
+                    if (el.style.display !== 'none') {
+                        el.style.display = 'none';
+                        el.remove();
+                    }
+                });
+                """,
+                # Accept all cookies via JavaScript
+                """
+                window.acceptAllCookies && window.acceptAllCookies();
+                window.acceptCookies && window.acceptCookies();
+                window.acceptAll && window.acceptAll();
+                """,
+                # Click any visible accept buttons
+                """
+                document.querySelectorAll('button').forEach(btn => {
+                    const text = btn.textContent.toLowerCase();
+                    if (text.includes('accept') || text.includes('agree') || text.includes('ok') || text.includes('continue')) {
+                        if (btn.offsetParent !== null) { // Check if visible
+                            btn.click();
+                        }
+                    }
+                });
+                """,
+            ]
+
+            for script in js_scripts:
+                try:
+                    page.evaluate(script)
+                    time.sleep(0.5)  # Brief pause to let changes take effect
+                except Exception:
+                    continue
+
+            return False
+
+        except Exception as e:
+            print(f"    ⚠️  Cookie acceptance error: {e}")
+            return False
 
     def _load_playwright_profile(self, netloc: str) -> Dict[str, Any]:
         """Load a YAML profile for a given domain (netloc) with caching. Thread-safe.
@@ -2132,11 +2430,22 @@ class MultithreadedCollegeCrawler:
                                 canon_key = self._url_canonical_key(url)
                             except Exception:
                                 canon_key = url
-                            # Skip if present in college canonical URLs set (per college)
+
+                            # Check if URL exists with current major - only skip if it does
                             if canon_key in self.college_canonical_urls:
-                                with self.lock:
-                                    self.stats["existing_urls_skipped"] += 1
-                                continue
+                                # URL exists, check if it has the current major
+                                if self._check_url_has_major(canon_key, major):
+                                    # URL exists with current major - skip crawling
+                                    with self.lock:
+                                        self.stats["existing_urls_skipped"] += 1
+                                    continue
+                                else:
+                                    # URL exists but doesn't have current major - continue crawling
+                                    # The upload_to_milvus function will handle adding the major
+                                    print(
+                                        f"    🔄 URL exists but missing major '{major}', continuing crawl: {url}"
+                                    )
+
                             if canon_key in crawled_canon:
                                 with self.lock:
                                     self.stats["duplicate_urls_skipped"] += 1
@@ -2147,6 +2456,64 @@ class MultithreadedCollegeCrawler:
                         # Scrape page with thread-local session
                         page_data = self.scrape_page(url, worker_session)
                         if not page_data:
+                            # Initial scraping failed - try Playwright fallback if enabled
+                            if self.playwright_enabled and sync_playwright is not None:
+                                print(
+                                    f"    🔄 Initial scraping failed for {url}, trying Playwright fallback"
+                                )
+                                try:
+                                    pw_result = self._scrape_with_playwright(url)
+                                    if pw_result:
+                                        # Upload PW result directly
+                                        if self.upload_to_milvus(
+                                            pw_result, college_name, major
+                                        ):
+                                            local_uploaded += 1
+                                        # Add discovered links to queue
+                                        links = pw_result.get("internal_links", [])
+                                        for link in links:
+                                            norm = self.normalize_url(link)
+                                            try:
+                                                canon_link = self._url_canonical_key(
+                                                    norm
+                                                )
+                                            except Exception:
+                                                canon_link = norm
+                                            with state_lock:
+                                                if stop_event.is_set():
+                                                    break
+                                                # Check if link exists with current major
+                                                link_has_major = False
+                                                if (
+                                                    canon_link
+                                                    in self.college_canonical_urls
+                                                ):
+                                                    link_has_major = (
+                                                        self._check_url_has_major(
+                                                            canon_link, major
+                                                        )
+                                                    )
+
+                                                already_seen = (
+                                                    link_has_major
+                                                    or canon_link in crawled_canon
+                                                    or canon_link in discovered_canon
+                                                )
+                                                if (
+                                                    not already_seen
+                                                    and pages_crawled_shared < max_pages
+                                                ):
+                                                    discovered_urls.add(norm)
+                                                    discovered_canon.add(canon_link)
+                                                    work_queue.put((depth + 1, norm))
+                                    else:
+                                        print(
+                                            f"    ✗ Playwright fallback also failed for {url}"
+                                        )
+                                except Exception as e:
+                                    print(
+                                        f"    ✗ Playwright fallback error for {url}: {e}"
+                                    )
                             continue
 
                         local_crawled += 1
@@ -2164,7 +2531,9 @@ class MultithreadedCollegeCrawler:
                         # If this URL needs Playwright, offload the job and merge results asynchronously
                         if page_data.get("needs_pw"):
 
-                            def _merge_pw_result(fut, new_depth=new_depth, src_url=url):
+                            def _merge_pw_result(fut, src_url=url):
+                                # Calculate new_depth inside the function
+                                new_depth = depth + 1
                                 try:
                                     result = fut.result()
                                 except Exception:
@@ -2189,8 +2558,15 @@ class MultithreadedCollegeCrawler:
                                     with state_lock:
                                         if stop_event.is_set():
                                             break
+                                        # Check if link exists with current major
+                                        link_has_major = False
+                                        if canon_link in self.college_canonical_urls:
+                                            link_has_major = self._check_url_has_major(
+                                                canon_link, major
+                                            )
+
                                         already_seen = (
-                                            canon_link in self.college_canonical_urls
+                                            link_has_major
                                             or canon_link in crawled_canon
                                             or canon_link in discovered_canon
                                         )
@@ -2224,8 +2600,16 @@ class MultithreadedCollegeCrawler:
                                     canon_link = self._url_canonical_key(link)
                                 except Exception:
                                     canon_link = link
+
+                                # Check if link exists with current major
+                                link_has_major = False
+                                if canon_link in self.college_canonical_urls:
+                                    link_has_major = self._check_url_has_major(
+                                        canon_link, major
+                                    )
+
                                 already_seen = (
-                                    canon_link in self.college_canonical_urls
+                                    link_has_major
                                     or canon_link in crawled_canon
                                     or canon_link in discovered_canon
                                 )
