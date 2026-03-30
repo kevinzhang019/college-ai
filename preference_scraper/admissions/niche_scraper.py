@@ -22,6 +22,7 @@ import os
 import re
 import json
 import time
+import random
 import logging
 import argparse
 from datetime import datetime, timezone
@@ -41,8 +42,10 @@ NICHE_BASE = "https://www.niche.com"
 LOGIN_URL = f"{NICHE_BASE}/account/sign-in/"
 COLLEGE_URL = f"{NICHE_BASE}/colleges"
 
-REQUEST_DELAY = 4.0  # seconds between page loads
-NAV_TIMEOUT = 60_000  # ms
+REQUEST_DELAY_MIN = 3.0   # seconds between page loads (min)
+REQUEST_DELAY_MAX = 7.0   # seconds between page loads (max)
+NAV_TIMEOUT = 60_000      # ms
+PX_RESTART_AFTER = 1      # restart browser after this many consecutive PX blocks
 
 # Niche grade CSS selectors (public pages, no auth needed)
 GRADE_CATEGORIES = [
@@ -87,35 +90,56 @@ class NicheScraper:
             os.path.dirname(__file__), "..", "crawlers", "playwright_cookies", "niche.json"
         )
         self._intercepted_data: list[dict] = []
+        self._px_blocked: bool = False  # set True when PerimeterX blocks a page
 
     def capture_cookies(self):
-        """Open a visible browser so the user can solve PerimeterX challenge and log in.
+        """Open a real Chrome window so the user can solve PerimeterX and log in.
 
-        After the user logs in, cookies are saved to disk for future headless runs.
-        Call this once before running headless scrapes.
+        Uses system Chrome (not camoufox) because PerimeterX trusts Chrome fingerprints
+        much longer. After logging in, cookies are saved for use during the scrape.
+        When scraping detects PX blocking mid-run, it will call this again automatically.
         """
-        logger.info("Opening browser for manual cookie capture...")
+        from playwright.sync_api import sync_playwright
+
+        logger.info("Opening Chrome for cookie capture (PerimeterX trusts Chrome longer)...")
         logger.info("Steps:")
-        logger.info("  1. Solve any 'Access denied' / bot challenge that appears")
-        logger.info("  2. Log in to Niche with your credentials")
-        logger.info("  3. Navigate to any college page (e.g. Stanford)")
-        logger.info("  4. Press ENTER here to save cookies and close browser")
+        logger.info("  1. Log in to Niche with your credentials")
+        logger.info("  2. Browse to a college page (e.g. Stanford)")
+        logger.info("  3. Press ENTER here to save cookies and continue scraping")
 
-        self._camoufox = Camoufox(headless=False)
-        self.browser = self._camoufox.__enter__()
-        self.context = self.browser.new_context()
-        self.page = self.context.new_page()
+        with sync_playwright() as p:
+            try:
+                browser = p.chromium.launch(channel="chrome", headless=False)
+            except Exception:
+                # Fallback to Chromium if system Chrome not installed
+                browser = p.chromium.launch(headless=False)
+            context = browser.new_context(
+                viewport={"width": 1440, "height": 900},
+            )
+            page = context.new_page()
+            page.goto(f"{NICHE_BASE}/colleges/stanford-university/", timeout=NAV_TIMEOUT)
+            try:
+                input("\n  >>> Press ENTER after the Stanford page loads... ")
+            except EOFError:
+                # Non-interactive context — wait a fixed amount of time
+                logger.info("Non-interactive mode: waiting 30s for page load...")
+                time.sleep(30)
 
-        self.page.goto(f"{NICHE_BASE}/colleges/stanford-university/", timeout=NAV_TIMEOUT)
-        input("\n  >>> Press ENTER after you have logged in and see the Stanford page... ")
+            cookies = context.cookies()
+            browser.close()
 
-        cookies = self.context.cookies()
         os.makedirs(os.path.dirname(self._cookies_path), exist_ok=True)
         with open(self._cookies_path, "w") as f:
             json.dump(cookies, f)
         logger.info(f"Saved {len(cookies)} cookies to {self._cookies_path}")
 
-        self.close()
+        # Reload cookies into current browser context if one is running
+        if self.context:
+            try:
+                self.context.add_cookies(cookies)
+                logger.info("Reloaded cookies into running browser context.")
+            except Exception:
+                pass
 
     def start(self, headless: bool = True, grades_only: bool = False):
         """Launch camoufox browser and load saved PerimeterX cookies.
@@ -444,7 +468,8 @@ class NicheScraper:
         try:
             html = self.page.content()
             if "Access to this page has been denied" in html or "px-captcha" in html:
-                logger.warning(f"  PerimeterX blocked {slug} — run --capture-cookies first")
+                logger.warning(f"  PerimeterX blocked {slug} — restarting browser")
+                self._px_blocked = True
             else:
                 for display_name, field in GRADE_LABEL_MAP.items():
                     # Require grade to be surrounded by non-word chars to avoid false positives
@@ -459,6 +484,28 @@ class NicheScraper:
 
         return grades
 
+    def restart(self, headless: bool = True, grades_only: bool = False):
+        """Close and relaunch browser with a fresh fingerprint to reset PerimeterX.
+
+        Does NOT reload saved cookies — lets PerimeterX generate fresh ones via
+        a homepage warmup visit before resuming scraping.
+        """
+        logger.info("Restarting browser with fresh fingerprint (no saved cookies)...")
+        self.close()
+        time.sleep(random.uniform(3, 6))
+
+        self._camoufox = Camoufox(headless=headless)
+        self.browser = self._camoufox.__enter__()
+        self.context = self.browser.new_context()
+        self.page = self.context.new_page()
+
+        # Warm up on the Niche homepage so PX can generate a fresh fingerprint
+        try:
+            self.page.goto(NICHE_BASE, wait_until="domcontentloaded", timeout=NAV_TIMEOUT)
+            time.sleep(random.uniform(2, 4))
+        except Exception as e:
+            logger.debug(f"  Warmup failed (non-fatal): {e}")
+
     def close(self):
         """Clean up browser resources."""
         try:
@@ -472,6 +519,11 @@ class NicheScraper:
                 self._camoufox.__exit__(None, None, None)
         except Exception as e:
             logger.debug(f"Browser cleanup error (safe to ignore): {e}")
+        finally:
+            self.page = None
+            self.context = None
+            self.browser = None
+            self._camoufox = None
 
 
 def _get_slug_from_name(name: str) -> str:
@@ -487,7 +539,7 @@ def scrape_all(
     slugs: Optional[list[str]] = None,
     grades_only: bool = False,
     resume: bool = True,
-    headless: bool = True,
+    headless: bool = False,  # headless is blocked by PerimeterX; default to headful
 ):
     """Scrape Niche data for all schools.
 
@@ -517,6 +569,7 @@ def scrape_all(
     total = len(slug_map)
     total_points = 0
     total_grades = 0
+    consecutive_px_blocks = 0
 
     scraper = NicheScraper()
     try:
@@ -546,6 +599,7 @@ def scrape_all(
 
             try:
                 now = datetime.now(timezone.utc).isoformat()
+                scraper._px_blocked = False  # reset flag before each page
 
                 # Scrape scattergram data
                 if not grades_only:
@@ -565,6 +619,22 @@ def scrape_all(
 
                 # Scrape grades
                 grades = scraper.scrape_grades(slug)
+
+                # Handle PerimeterX block: re-capture cookies via real Chrome
+                if scraper._px_blocked:
+                    consecutive_px_blocks += 1
+                    if consecutive_px_blocks >= PX_RESTART_AFTER:
+                        logger.warning(
+                            f"\nPerimeterX cookies expired after {consecutive_px_blocks} blocks. "
+                            "Launching Chrome to refresh cookies..."
+                        )
+                        scraper.capture_cookies()
+                        consecutive_px_blocks = 0
+                        scraper._px_blocked = False
+                        grades = scraper.scrape_grades(slug)
+                else:
+                    consecutive_px_blocks = 0
+
                 if grades and school_id:
                     existing = session.query(NicheGrade).get(school_id)
                     if existing:
@@ -582,9 +652,6 @@ def scrape_all(
                 elif school_id:
                     logger.warning(f"  -> No grades extracted for {slug} — marking as no_data")
 
-                # Only mark "done" if we actually got grades data.
-                # "no_data" means selectors found nothing (likely stale); won't
-                # be skipped on the next run so we can retry after fixes.
                 if grades:
                     job.status = "done"
                 else:
@@ -600,7 +667,7 @@ def scrape_all(
                 session.commit()
                 logger.error(f"  -> FAILED: {e}")
 
-            time.sleep(REQUEST_DELAY)
+            time.sleep(random.uniform(REQUEST_DELAY_MIN, REQUEST_DELAY_MAX))
 
     except KeyboardInterrupt:
         logger.info("Interrupted. Progress saved — rerun to resume.")
@@ -664,7 +731,11 @@ def main():
     )
     parser.add_argument(
         "--headful", action="store_true",
-        help="Run browser in headful (visible) mode"
+        help="Run in headful (visible) mode — this is the DEFAULT since PerimeterX blocks headless"
+    )
+    parser.add_argument(
+        "--headless", action="store_true",
+        help="Force headless mode (will be blocked by PerimeterX on most pages)"
     )
     parser.add_argument(
         "--capture-cookies", action="store_true",
@@ -685,7 +756,8 @@ def main():
         scraper.capture_cookies()
         return
 
-    headless = not args.headful
+    # headless is blocked by PerimeterX; only use it if explicitly requested
+    headless = args.headless if hasattr(args, 'headless') and args.headless else not args.headful
     if args.school:
         scrape_all(slugs=[args.school], grades_only=args.grades_only, resume=not args.no_resume, headless=headless)
     else:
