@@ -117,19 +117,22 @@ class NicheScraper:
 
         self.close()
 
-    def start(self, headless: bool = True):
-        """Launch camoufox browser and authenticate.
+    def start(self, headless: bool = True, grades_only: bool = False):
+        """Launch camoufox browser and load saved PerimeterX cookies.
+
+        For grades scraping, auth is not required — grades are on public pages.
+        Auth is only needed for scattergrams (login-gated).
 
         Args:
-            headless: Run headless. Requires saved cookies from capture_cookies().
-                      Set False for initial login when PerimeterX blocks headless mode.
+            headless: Run headless. Saved cookies bypass PerimeterX.
+            grades_only: If True, skip login entirely (grades are public).
         """
         self._camoufox = Camoufox(headless=headless)
         self.browser = self._camoufox.__enter__()
         self.context = self.browser.new_context()
         self.page = self.context.new_page()
 
-        # Load saved cookies (required to bypass PerimeterX)
+        # Load saved cookies (PerimeterX bypass + optional auth)
         if os.path.exists(self._cookies_path):
             try:
                 with open(self._cookies_path, "r") as f:
@@ -140,19 +143,19 @@ class NicheScraper:
                 logger.warning(f"Failed to load cookies: {e}")
         else:
             logger.warning(
-                f"No saved cookies found at {self._cookies_path}. "
-                "Run with --capture-cookies first to bypass PerimeterX."
+                "No saved Niche cookies found. "
+                "Run --capture-cookies once if you see 'Access denied' errors."
             )
 
-        # Verify auth or login
-        if not self._is_logged_in():
-            self._login()
+        # Auth only needed for scattergrams (login-gated feature)
+        if not grades_only:
+            if not self._is_logged_in():
+                self._login()
 
     def _is_logged_in(self) -> bool:
-        """Check if we have a valid session."""
+        """Check if we have a valid authenticated session."""
         try:
             self.page.goto(f"{NICHE_BASE}/account/", timeout=NAV_TIMEOUT)
-            # If redirected to sign-in, we're not logged in
             return "/sign-in" not in self.page.url
         except Exception:
             return False
@@ -163,19 +166,17 @@ class NicheScraper:
         self.page.goto(LOGIN_URL, timeout=NAV_TIMEOUT)
         time.sleep(2)
 
-        # Fill login form
         self.page.fill('input[name="email"], input[type="email"]', self.email)
         self.page.fill('input[name="password"], input[type="password"]', self.password)
         self.page.click('button[type="submit"]')
 
-        # Wait for navigation
         self.page.wait_for_load_state("networkidle", timeout=NAV_TIMEOUT)
         time.sleep(2)
 
         if "/sign-in" in self.page.url:
             raise RuntimeError("Niche login failed. Check credentials.")
 
-        # Save cookies for reuse
+        # Save updated cookies (now includes auth cookie)
         cookies = self.context.cookies()
         os.makedirs(os.path.dirname(self._cookies_path), exist_ok=True)
         with open(self._cookies_path, "w") as f:
@@ -519,7 +520,7 @@ def scrape_all(
 
     scraper = NicheScraper()
     try:
-        scraper.start(headless=headless)
+        scraper.start(headless=headless, grades_only=grades_only)
         logger.info(f"Starting Niche scrape for {total} schools...")
 
         for i, (slug, school_id) in enumerate(slug_map.items()):
