@@ -1177,20 +1177,23 @@ def scrape_all(
     init_db()
     session = get_session()
 
-    # Build slug -> school_id mapping
-    schools = session.query(School.id, School.name).all()
+    # Build slug -> school_id mapping, ordered by enrollment (largest first)
+    schools = (
+        session.query(School.id, School.name, School.enrollment)
+        .order_by(School.enrollment.desc().nullslast())
+        .all()
+    )
     if slugs:
         slug_map = {}
         for slug in slugs:
-            # Try to find matching school
-            for sid, name in schools:
+            for sid, name, _enr in schools:
                 if _get_slug_from_name(name) == slug:
                     slug_map[slug] = sid
                     break
             else:
                 slug_map[slug] = 0
     else:
-        slug_map = {_get_slug_from_name(name): sid for sid, name in schools}
+        slug_map = {_get_slug_from_name(name): sid for sid, name, _enr in schools}
 
     total = len(slug_map)
     total_points = 0
