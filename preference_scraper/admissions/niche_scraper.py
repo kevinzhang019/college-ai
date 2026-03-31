@@ -326,93 +326,107 @@ class NicheScraper:
         points = []
         blocks = data if isinstance(data, list) else [data]
 
-        # Recursively find all plot objects in the response
-        plots_found = []
+        # Recursively find the first plot object (stop after first to avoid dupes)
+        plot_found = [None]  # mutable container for nested func
 
-        def find_plots(obj, depth=0):
-            if depth > 15:
+        def find_plot(obj, depth=0):
+            if depth > 15 or plot_found[0]:
                 return
             if isinstance(obj, dict):
                 # Check if this dict has a "plot" with "points"
                 plot = obj.get("plot")
                 if isinstance(plot, dict) and "points" in plot and "units" in plot:
-                    plots_found.append(plot)
+                    plot_found[0] = plot
+                    return
                 # Also check "scatterplot" key
                 scatter = obj.get("scatterplot")
                 if isinstance(scatter, dict):
                     sp = scatter.get("plot")
                     if isinstance(sp, dict) and "points" in sp:
-                        plots_found.append(sp)
+                        plot_found[0] = sp
+                        return
                 # Recurse into all values (handles both dict and list buckets)
                 for v in obj.values():
                     if isinstance(v, (dict, list)):
-                        find_plots(v, depth + 1)
+                        find_plot(v, depth + 1)
             elif isinstance(obj, list):
                 for item in obj:
                     if isinstance(item, (dict, list)):
-                        find_plots(item, depth + 1)
+                        find_plot(item, depth + 1)
 
-        find_plots(blocks)
+        find_plot(blocks)
+        plot = plot_found[0]
+        if not plot:
+            return points
 
-        for plot in plots_found:
-            raw_points = plot.get("points", [])
-            units = plot.get("units", [])
-            attr_values = plot.get("attributeValues", [])
+        raw_points = plot.get("points", [])
+        units = plot.get("units", [])
+        attributes = plot.get("attributes", [])
+        attr_values = plot.get("attributeValues", [])
 
-            # Determine axis mapping from units
-            gpa_idx = 0
-            score_idx = 1
-            for i, u in enumerate(units):
-                ul = str(u).lower()
-                if "gpa" in ul:
-                    gpa_idx = i
-                elif "sat" in ul or "act" in ul or "score" in ul:
-                    score_idx = i
+        # Determine axis mapping from units
+        gpa_idx = 0
+        score_idx = 1
+        for i, u in enumerate(units):
+            ul = str(u).lower()
+            if "gpa" in ul:
+                gpa_idx = i
+            elif "sat" in ul or "act" in ul or "score" in ul:
+                score_idx = i
 
-            # Decision outcome mapping from attributeValues[0]
-            decision_map = {}
-            if attr_values and isinstance(attr_values[0], list):
-                for idx, label in enumerate(attr_values[0]):
-                    ll = str(label).lower()
-                    if "accept" in ll or "admit" in ll:
-                        decision_map[idx] = "accepted"
-                    elif "reject" in ll or "deny" in ll or "denied" in ll:
-                        decision_map[idx] = "rejected"
-                    elif "wait" in ll or "defer" in ll or "consider" in ll:
-                        decision_map[idx] = "waitlisted"
+        # Find which attribute index contains "Decision"
+        # attributes: ["In-State Status", "Decision", "Major"] or ["Decision", "Major"]
+        decision_attr_idx = 0  # default: first attribute
+        for i, attr_name in enumerate(attributes):
+            if "decision" in str(attr_name).lower():
+                decision_attr_idx = i
+                break
 
-            logger.debug(
-                f"  BlockScatterplot: {len(raw_points)} raw points, "
-                f"units={units}, decisions={decision_map}"
-            )
+        # Build decision outcome mapping from the corresponding attributeValues
+        decision_map = {}
+        if decision_attr_idx < len(attr_values) and isinstance(attr_values[decision_attr_idx], list):
+            for idx, label in enumerate(attr_values[decision_attr_idx]):
+                ll = str(label).lower()
+                if "accept" in ll or "admit" in ll:
+                    decision_map[idx] = "accepted"
+                elif "reject" in ll or "deny" in ll or "denied" in ll:
+                    decision_map[idx] = "rejected"
+                elif "wait" in ll or "defer" in ll or "consider" in ll:
+                    decision_map[idx] = "waitlisted"
 
-            for pt in raw_points:
-                vals = pt.get("values", [])
-                attrs = pt.get("attributes", [])
-                if len(vals) < 2:
-                    continue
+        logger.debug(
+            f"  BlockScatterplot: {len(raw_points)} raw points, "
+            f"units={units}, attrs={attributes}, decision_attr_idx={decision_attr_idx}, "
+            f"decisions={decision_map}"
+        )
 
-                gpa_norm = vals[gpa_idx]
-                score_norm = vals[score_idx]
-                if gpa_norm is None or score_norm is None:
-                    continue
+        for pt in raw_points:
+            vals = pt.get("values", [])
+            attrs = pt.get("attributes", [])
+            if len(vals) < 2:
+                continue
 
-                # Scale normalized values back to real ranges
-                gpa = round(float(gpa_norm) * 4.0, 2)
-                sat = round(float(score_norm) * 1600)
+            gpa_norm = vals[gpa_idx]
+            score_norm = vals[score_idx]
+            if gpa_norm is None or score_norm is None:
+                continue
 
-                # Determine outcome from attributes[0] (decision index)
-                outcome = None
-                if attrs and attrs[0] is not None:
-                    outcome = decision_map.get(int(attrs[0]))
+            # Scale normalized values back to real ranges
+            gpa = round(float(gpa_norm) * 4.0, 2)
+            sat = round(float(score_norm) * 1600)
 
-                if outcome and 0 < gpa <= 4.0 and sat > 0:
-                    points.append({
-                        "gpa": gpa,
-                        "sat_score": float(sat),
-                        "act_score": None,
-                        "outcome": outcome,
-                    })
+            # Determine outcome from the correct attribute index
+            outcome = None
+            if decision_attr_idx < len(attrs) and attrs[decision_attr_idx] is not None:
+                outcome = decision_map.get(int(attrs[decision_attr_idx]))
+
+            if outcome and 0 < gpa <= 4.0 and sat > 0:
+                points.append({
+                    "gpa": gpa,
+                    "sat_score": float(sat),
+                    "act_score": None,
+                    "outcome": outcome,
+                })
 
         if points:
             logger.debug(f"  Parsed {len(points)} scatter points from blocks API")
