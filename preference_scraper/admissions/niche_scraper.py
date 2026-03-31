@@ -797,14 +797,16 @@ class NicheScraper:
 
     @staticmethod
     def _parse_cost(val) -> Optional[int]:
-        """'$18,000' | 18000 -> 18000"""
+        """'$18,000' | 18000 -> 18000.  Returns None for values < 100 (false positives)."""
         if val is None:
             return None
         if isinstance(val, (int, float)):
-            return int(val)
+            v = int(val)
+            return v if v >= 100 else None
         s = str(val).strip().replace('$', '').replace(',', '').replace('+', '').split('/')[0]
         try:
-            return int(float(s))
+            v = int(float(s))
+            return v if v >= 100 else None
         except ValueError:
             return None
 
