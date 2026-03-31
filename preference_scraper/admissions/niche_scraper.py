@@ -1228,16 +1228,21 @@ def scrape_all(
                 # Scrape scattergram data
                 if not grades_only:
                     points = scraper.scrape_scattergram(slug)
-                    for p in points:
-                        session.add(ApplicantDatapoint(
-                            school_id=school_id,
-                            source="niche",
-                            gpa=p["gpa"],
-                            sat_score=p.get("sat_score"),
-                            act_score=p.get("act_score"),
-                            outcome=p["outcome"],
-                            scraped_at=now,
-                        ))
+                    if points:
+                        # Replace existing datapoints for this school to avoid duplicates
+                        session.query(ApplicantDatapoint).filter_by(
+                            school_id=school_id, source="niche"
+                        ).delete()
+                        for p in points:
+                            session.add(ApplicantDatapoint(
+                                school_id=school_id,
+                                source="niche",
+                                gpa=p["gpa"],
+                                sat_score=p.get("sat_score"),
+                                act_score=p.get("act_score"),
+                                outcome=p["outcome"],
+                                scraped_at=now,
+                            ))
                     total_points += len(points)
                     logger.info(f"  -> {len(points)} scattergram points")
 
