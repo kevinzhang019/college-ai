@@ -391,7 +391,7 @@ class NicheScraper:
                     decision_map[idx] = "accepted"
                 elif "reject" in ll or "deny" in ll or "denied" in ll:
                     decision_map[idx] = "rejected"
-                elif "wait" in ll or "defer" in ll or "consider" in ll:
+                elif "wait" in ll or "defer" in ll:
                     decision_map[idx] = "waitlisted"
 
         logger.debug(
