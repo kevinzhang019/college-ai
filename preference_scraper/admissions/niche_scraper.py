@@ -1005,8 +1005,20 @@ class NicheScraper:
         return stats
 
     def _extract_stats_from_html(self, html: str) -> dict:
-        """Last-resort regex extraction of stats from raw HTML."""
+        """Last-resort regex extraction of stats from raw HTML.
+
+        Niche pages include national-average tooltip text like:
+          "The average national acceptance rate is around 68%"
+          "The 0.53 average for Graduation Rate is 53%"
+        These must be skipped — we only want school-specific values.
+        """
         stats: dict = {}
+        # Strip tooltip/description text that contains national averages
+        # These appear inside hidden spans or as data-source descriptions
+        cleaned = re.sub(
+            r'(national|average\s+(?:for|is)|around\s+\d|data.?source)[^<]{0,200}',
+            '', html, flags=re.IGNORECASE,
+        )
         patterns = [
             (r'[Aa]cceptance [Rr]ate[^0-9]{0,20}(\d[\d,.]+)\s*%', "acceptance_rate_niche", "percent"),
             (r'[Gg]raduation [Rr]ate[^0-9]{0,20}(\d[\d,.]+)\s*%', "graduation_rate_niche", "percent"),
@@ -1017,7 +1029,7 @@ class NicheScraper:
         for pattern, field, kind in patterns:
             if field in stats:
                 continue
-            m = re.search(pattern, html)
+            m = re.search(pattern, cleaned)
             if m:
                 raw = m.group(1)
                 if kind == "percent":
