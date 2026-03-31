@@ -1013,11 +1013,12 @@ class NicheScraper:
         These must be skipped — we only want school-specific values.
         """
         stats: dict = {}
+        # Strip HTML comments first (Niche injects <!-- --> between words)
+        cleaned = re.sub(r'<!--.*?-->', '', html)
         # Strip tooltip/description text that contains national averages
-        # These appear inside hidden spans or as data-source descriptions
         cleaned = re.sub(
-            r'(national|average\s+(?:for|is)|around\s+\d|data.?source)[^<]{0,200}',
-            '', html, flags=re.IGNORECASE,
+            r'(national|average\s+(?:for|is)|around\s+\d|data.?source).{0,200}',
+            '', cleaned, flags=re.IGNORECASE | re.DOTALL,
         )
         patterns = [
             (r'[Aa]cceptance [Rr]ate[^0-9]{0,20}(\d[\d,.]+)\s*%', "acceptance_rate_niche", "percent"),
@@ -1277,6 +1278,13 @@ def scrape_all(
                         scraper.capture_cookies()
                         # Fully restart browser so PX gets a clean session
                         scraper.restart(headless=headless, grades_only=grades_only)
+                        # Reconnect DB — the Turso connection may have timed out
+                        try:
+                            session.rollback()
+                        except Exception:
+                            pass
+                        session.close()
+                        session = get_session()
                         consecutive_px_blocks = 0
                         scraper._px_blocked = False
                         grades = scraper.scrape_grades(slug)
@@ -1311,11 +1319,24 @@ def scrape_all(
                 session.commit()
 
             except Exception as e:
-                job.status = "failed"
-                job.last_attempt = datetime.now(timezone.utc).isoformat()
-                job.error = str(e)[:500]
-                session.commit()
                 logger.error(f"  -> FAILED: {e}")
+                try:
+                    session.rollback()
+                except Exception:
+                    # DB connection is dead — reconnect
+                    session.close()
+                    session = get_session()
+                try:
+                    job = session.query(ScrapeJob).filter_by(
+                        source=source_tag, school_slug=slug
+                    ).first()
+                    if job:
+                        job.status = "failed"
+                        job.last_attempt = datetime.now(timezone.utc).isoformat()
+                        job.error = str(e)[:500]
+                        session.commit()
+                except Exception:
+                    pass  # best-effort status update
 
             time.sleep(random.uniform(REQUEST_DELAY_MIN, REQUEST_DELAY_MAX))
 
