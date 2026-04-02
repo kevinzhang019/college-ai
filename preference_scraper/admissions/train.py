@@ -570,9 +570,9 @@ def main() -> None:
         help='Number of Optuna trials for hyperparameter tuning'
     )
     parser.add_argument(
-        '--no-imbalance-correction',
+        '--force-imbalance-correction',
         action='store_true',
-        help='Disable is_unbalance flag (may improve probability calibration)'
+        help='Enable is_unbalance flag (off by default — hurts calibration)'
     )
 
     args = parser.parse_args()
@@ -644,15 +644,14 @@ def main() -> None:
     X_cal, X_val = X_val.iloc[:cal_split], X_val.iloc[cal_split:]
     y_cal, y_val = y_val.iloc[:cal_split], y_val.iloc[cal_split:]
 
-    # Detect class imbalance
+    # Class imbalance: is_unbalance is OFF by default — A/B testing showed
+    # lower log loss and higher AUC without it (it distorts calibrated probabilities)
     pos_rate = y_train.mean()
-    if args.no_imbalance_correction:
-        is_unbalanced = False
-        logger.info(f"Imbalance correction disabled (positive rate: {pos_rate:.1%})")
+    is_unbalanced = args.force_imbalance_correction
+    if is_unbalanced:
+        logger.info(f"is_unbalance forced ON (positive rate: {pos_rate:.1%})")
     else:
-        is_unbalanced = pos_rate < 0.3 or pos_rate > 0.7
-        if is_unbalanced:
-            logger.info(f"Class imbalance detected (positive rate: {pos_rate:.1%}), enabling is_unbalance")
+        logger.info(f"is_unbalance OFF (positive rate: {pos_rate:.1%})")
 
     # Hyperparameter tuning or use defaults
     if args.skip_tuning:
