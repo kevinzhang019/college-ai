@@ -236,12 +236,17 @@ import sqlite3
 
 # ==================== Playwright Pool ====================
 class PlaywrightPool:
-    """Pre-launched pool of Playwright browser contexts for fast reuse.
+    """Thread-local pool of reusable Playwright browsers with rotation.
 
-    Instead of creating a new browser context per request (~2-3s startup),
-    this pool keeps N contexts alive and hands them out via acquire/release.
-    Contexts are rotated after a configurable number of uses to avoid
-    fingerprint accumulation.
+    Playwright's sync API is greenlet-based and tied to the thread that created
+    the browser, so we can't share browsers across threads.  Instead this pool
+    manages one browser *per thread*, keeps it alive for reuse across requests,
+    and rotates it after `rotate_after` uses to prevent fingerprint accumulation.
+
+    Benefits vs the old thread-local pattern:
+    - Centrally caps total concurrent browsers (bounded semaphore)
+    - Automatic rotation after N uses (fresh fingerprint)
+    - Clean lifecycle management (shutdown closes all thread-local browsers)
     """
 
     def __init__(
@@ -255,102 +260,45 @@ class PlaywrightPool:
         self.rotate_after = rotate_after
         self.headless = headless
         self.use_camoufox = use_camoufox and Camoufox is not None
-        self._lock = threading.Lock()
-        self._slots: list = []  # list of {"pw", "browser", "camoufox_cm", "uses", "available"}
+        self._semaphore = threading.Semaphore(pool_size)
+        self._local = threading.local()  # thread-local {pw, browser, camoufox_cm, uses}
+        self._all_locals_lock = threading.Lock()
+        self._all_locals: list = []  # track all thread-local slots for shutdown
         self._started = False
 
     def start(self):
-        """Pre-launch all browser instances. Call once at crawler startup."""
-        if self._started or sync_playwright is None:
-            return
-        with self._lock:
-            if self._started:
-                return
-            for i in range(self.pool_size):
-                slot = self._create_slot()
-                if slot:
-                    self._slots.append(slot)
-            self._started = True
-            print(f"    🎭 Playwright pool started with {len(self._slots)} browser(s)")
+        """Mark the pool as ready. Browsers are created lazily per-thread."""
+        self._started = True
+        print(f"    🎭 Playwright pool ready (max {self.pool_size} concurrent browsers, rotate every {self.rotate_after} uses)")
 
-    def _create_slot(self) -> dict:
-        """Create a single pool slot with a browser instance."""
+    def _create_browser(self) -> dict:
+        """Create a browser on the current thread."""
         try:
             if self.use_camoufox:
                 camoufox_cm = Camoufox(headless=self.headless)
                 browser = camoufox_cm.__enter__()
-                return {
-                    "pw": None,
-                    "browser": browser,
-                    "camoufox_cm": camoufox_cm,
-                    "uses": 0,
-                    "available": True,
-                }
+                slot = {"pw": None, "browser": browser, "camoufox_cm": camoufox_cm, "uses": 0}
             else:
                 pw = sync_playwright().start()
                 browser = pw.chromium.launch(
                     headless=self.headless,
                     args=[
-                        "--no-sandbox",
-                        "--disable-setuid-sandbox",
-                        "--disable-dev-shm-usage",
-                        "--disable-accelerated-2d-canvas",
-                        "--no-first-run",
-                        "--no-zygote",
-                        "--disable-gpu",
+                        "--no-sandbox", "--disable-setuid-sandbox",
+                        "--disable-dev-shm-usage", "--disable-gpu",
                         "--disable-blink-features=AutomationControlled",
-                        "--disable-web-security",
-                        "--disable-background-networking",
-                        "--disable-extensions",
-                        "--disable-sync",
-                        "--mute-audio",
+                        "--disable-web-security", "--disable-background-networking",
+                        "--disable-extensions", "--disable-sync", "--mute-audio",
                     ],
                 )
-                return {
-                    "pw": pw,
-                    "browser": browser,
-                    "camoufox_cm": None,
-                    "uses": 0,
-                    "available": True,
-                }
+                slot = {"pw": pw, "browser": browser, "camoufox_cm": None, "uses": 0}
+            with self._all_locals_lock:
+                self._all_locals.append(slot)
+            return slot
         except Exception as e:
-            print(f"    ⚠️  Failed to create Playwright pool slot: {e}")
+            print(f"    ⚠️  Failed to create Playwright browser: {e}")
             return None
 
-    def acquire(self, timeout: float = 30.0):
-        """Acquire a browser from the pool. Returns (browser, slot_index) or (None, -1).
-        Blocks up to `timeout` seconds waiting for an available slot.
-        """
-        deadline = time.monotonic() + timeout
-        while time.monotonic() < deadline:
-            with self._lock:
-                for i, slot in enumerate(self._slots):
-                    if slot["available"]:
-                        slot["available"] = False
-                        slot["uses"] += 1
-                        return slot["browser"], i
-            time.sleep(0.1)
-        return None, -1
-
-    def release(self, slot_index: int):
-        """Return a browser to the pool. Rotates if usage threshold exceeded."""
-        if slot_index < 0 or slot_index >= len(self._slots):
-            return
-        with self._lock:
-            slot = self._slots[slot_index]
-            if slot["uses"] >= self.rotate_after:
-                # Rotate: close old browser, create new one
-                self._close_slot(slot)
-                new_slot = self._create_slot()
-                if new_slot:
-                    self._slots[slot_index] = new_slot
-                else:
-                    slot["available"] = True  # fallback: reuse existing
-            else:
-                slot["available"] = True
-
     def _close_slot(self, slot: dict):
-        """Close a single slot's resources."""
         try:
             if slot.get("browser"):
                 slot["browser"].close()
@@ -367,13 +315,52 @@ class PlaywrightPool:
         except Exception:
             pass
 
+    def acquire(self, timeout: float = 30.0):
+        """Acquire a browser for the current thread. Returns (browser, token) or (None, -1).
+        The browser is lazily created on first call from each thread.
+        Blocks on the semaphore to cap total concurrent browsers.
+        """
+        if not self._started or sync_playwright is None:
+            return None, -1
+
+        if not self._semaphore.acquire(timeout=timeout):
+            return None, -1
+
+        slot = getattr(self._local, "slot", None)
+
+        # Rotate if exceeded usage threshold
+        if slot and slot["uses"] >= self.rotate_after:
+            self._close_slot(slot)
+            with self._all_locals_lock:
+                try:
+                    self._all_locals.remove(slot)
+                except ValueError:
+                    pass
+            slot = None
+
+        # Create lazily on this thread
+        if slot is None:
+            slot = self._create_browser()
+            if slot is None:
+                self._semaphore.release()
+                return None, -1
+            self._local.slot = slot
+
+        slot["uses"] += 1
+        return slot["browser"], 1  # token=1 means "pool-managed"
+
+    def release(self, token: int):
+        """Release the semaphore slot. Browser stays alive for reuse on this thread."""
+        if token >= 0:
+            self._semaphore.release()
+
     def shutdown(self):
-        """Close all browser instances."""
-        with self._lock:
-            for slot in self._slots:
+        """Close all tracked browsers across all threads."""
+        with self._all_locals_lock:
+            for slot in self._all_locals:
                 self._close_slot(slot)
-            self._slots.clear()
-            self._started = False
+            self._all_locals.clear()
+        self._started = False
         print("    🎭 Playwright pool shut down")
 
 
@@ -1615,10 +1602,20 @@ class MultithreadedCollegeCrawler:
                             for k in _delta_headers:
                                 request_session.headers.pop(k, None)
 
-                    # Delta crawling: 304 Not Modified — page unchanged, skip entirely
+                    # Delta crawling: 304 Not Modified — page unchanged, skip embedding
+                    # but still return a result so BFS doesn't stall
                     if response.status_code == 304 and self._delta_cache:
                         print(f"    304 Not Modified (delta skip): {url}")
-                        return None
+                        return {
+                            "url": url,
+                            "title": "",
+                            "content": "",
+                            "internal_links": [],
+                            "word_count": 0,
+                            "crawled_at": datetime.now().isoformat(),
+                            "needs_pw": False,
+                            "skip_embed": True,
+                        }
 
                     # Handle 403 errors specifically
                     if response.status_code == 403:
@@ -1954,6 +1951,7 @@ class MultithreadedCollegeCrawler:
                 print(f"    🔗 Found {len(internal_links)} internal links for {url}")
 
             # Delta crawling: update cache with response headers and content hash
+            skip_embed = False
             if self._delta_cache and not needs_pw:
                 try:
                     canon = _delta_canon or self._url_canonical_key(url)
@@ -1971,7 +1969,7 @@ class MultithreadedCollegeCrawler:
                         cached = self._delta_cache.get(_delta_canon)
                         if cached.get("content_hash") and cached["content_hash"] == c_hash:
                             print(f"    Delta: content unchanged (hash match), skipping embed: {url}")
-                            return None
+                            skip_embed = True
 
                     self._delta_cache.put(canon, etag=etag, last_modified=last_mod,
                                           content_hash=c_hash)
@@ -1987,6 +1985,7 @@ class MultithreadedCollegeCrawler:
                 "word_count": word_count,
                 "crawled_at": datetime.now().isoformat(),
                 "needs_pw": needs_pw,
+                "skip_embed": skip_embed,  # delta crawl: content unchanged, skip embedding
             }
 
         except Exception as e:
@@ -2031,14 +2030,14 @@ class MultithreadedCollegeCrawler:
             html_idle: str = ""
             final_url: str = url  # Initialize to prevent reference errors
             redirect_detected: bool = False
-            # Try to use the pre-launched pool first (fast path: ~50ms context creation
-            # instead of ~2-3s browser startup)
-            _pool_slot_idx = -1
+            # Try to use the pool first (lazy per-thread browser creation, fast
+            # context reuse after first call)
+            _pool_token = -1
             _pool_browser = None
             _using_pool = False
 
             if self.pw_pool._started:
-                _pool_browser, _pool_slot_idx = self.pw_pool.acquire(timeout=10.0)
+                _pool_browser, _pool_token = self.pw_pool.acquire(timeout=10.0)
                 if _pool_browser is not None:
                     _using_pool = True
 
@@ -2482,10 +2481,10 @@ class MultithreadedCollegeCrawler:
                             pass
 
                 finally:
-                    # Release pool slot back (browser stays alive for reuse)
-                    if _using_pool and _pool_slot_idx >= 0:
+                    # Release pool semaphore (browser stays alive on this thread)
+                    if _using_pool and _pool_token >= 0:
                         try:
-                            self.pw_pool.release(_pool_slot_idx)
+                            self.pw_pool.release(_pool_token)
                         except Exception:
                             pass
 
@@ -3390,7 +3389,8 @@ class MultithreadedCollegeCrawler:
                                 stop_event.set()
 
                         # Upload to Milvus unless we plan a PW fallback upload
-                        if not page_data.get("needs_pw"):
+                        # or delta crawling detected unchanged content
+                        if not page_data.get("needs_pw") and not page_data.get("skip_embed"):
                             if self.upload_to_milvus(page_data, college_name, major):
                                 local_uploaded += 1
 
