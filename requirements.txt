@@ -7,6 +7,7 @@ pyyaml>=6.0.1  # for per-domain Playwright profiles
 
 # Database and vector operations
 pymilvus>=2.4.3  # for Zilliz Cloud and Milvus database operations
+sqlalchemy-libsql>=0.1.0  # Turso/libSQL dialect for SQLAlchemy
 
 # AI and embeddings
 openai>=1.14.2  # for OpenAI embeddings and API access
@@ -16,6 +17,7 @@ tiktoken>=0.7.0  # token-based chunking for RAG
 playwright>=1.45.0
 playwright-stealth>=2.0.0  # stealth patches for Playwright
 camoufox>=0.4.0  # Firefox-based stealth browser for Cloudflare/PerimeterX bypass
+curl_cffi>=0.7.0  # TLS/JA3 fingerprint impersonation for anti-bot bypass
 
 # Environment and configuration
 python-dotenv>=1.0.1  # for environment variable management

@@ -27,7 +27,10 @@ REQUEST_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.
 # Proxy settings (comma-separated list of proxy URLs, e.g., "http://user:pass@ip:port, http://ip2:port")
 RAW_HTTP_PROXIES = os.getenv("CRAWLER_PROXIES", "")
 HTTP_PROXIES = [p.strip() for p in RAW_HTTP_PROXIES.split(",") if p.strip()]
-USE_CURL_CFFI = os.getenv("USE_CURL_CFFI", "0") == "1"
+USE_CURL_CFFI = os.getenv("USE_CURL_CFFI", "1") == "1"
+
+# Camoufox toggle (Firefox-based stealth browser for Playwright path)
+USE_CAMOUFOX = os.getenv("USE_CAMOUFOX", "1") == "1"
 
 # Crawling limits
 MAX_PAGES_PER_COLLEGE = int(
@@ -43,13 +46,13 @@ MAX_CRAWL_TIME_PER_COLLEGE = int(os.getenv("MAX_CRAWL_TIME_PER_COLLEGE", "300"))
 
 # Content filtering
 MIN_CONTENT_LENGTH = int(
-    os.getenv("MIN_CONTENT_LENGTH")
+    os.getenv("MIN_CONTENT_LENGTH", "100")
 )  # Minimum content length to consider valid
 MAX_CONTENT_LENGTH = int(
-    os.getenv("MAX_CONTENT_LENGTH")
+    os.getenv("MAX_CONTENT_LENGTH", "50000")
 )  # Maximum content length for storage
 MAX_TITLE_LENGTH = int(
-    os.getenv("MAX_TITLE_LENGTH")
+    os.getenv("MAX_TITLE_LENGTH", "500")
 )  # Maximum title length for storage
 
 # URL filtering
@@ -309,12 +312,30 @@ VALID_CONTENT_TYPES = ["text/html", "application/xhtml+xml"]
 USE_PLAYWRIGHT_FALLBACK = os.getenv("USE_PLAYWRIGHT_FALLBACK", "1") == "1"
 PLAYWRIGHT_MAX_CONCURRENCY = int(os.getenv("PLAYWRIGHT_MAX_CONCURRENCY", "3"))
 PLAYWRIGHT_NAV_TIMEOUT_MS = int(os.getenv("PLAYWRIGHT_NAV_TIMEOUT_MS", "15000"))
-PLAYWRIGHT_AGGRESSIVE_FALLBACK = (
-    os.getenv("PLAYWRIGHT_AGGRESSIVE_FALLBACK", "0") == "1"
-)  # More aggressive triggering
+PLAYWRIGHT_AGGRESSIVE_FALLBACK = os.getenv("PLAYWRIGHT_AGGRESSIVE_FALLBACK", "0") == "1"
+
+# Queue management settings for better Playwright compatibility
+QUEUE_TIMEOUT_SECONDS = float(
+    os.getenv("QUEUE_TIMEOUT_SECONDS", "3.0")
+)  # Increased from 1.0
+MAX_EMPTY_CHECKS = int(
+    os.getenv("MAX_EMPTY_CHECKS", "20")
+)  # Increased from 10 to account for Playwright processing time
 PLAYWRIGHT_COOKIE_PERSISTENCE = (
     os.getenv("PLAYWRIGHT_COOKIE_PERSISTENCE", "1") == "1"
 )  # Enable cookie persistence
+PLAYWRIGHT_ENHANCED_ANTI_DETECTION = (
+    os.getenv("PLAYWRIGHT_ENHANCED_ANTI_DETECTION", "1") == "1"
+)  # Enhanced anti-detection measures
+PLAYWRIGHT_RETRY_ATTEMPTS = int(
+    os.getenv("PLAYWRIGHT_RETRY_ATTEMPTS", "2")
+)  # Number of retry attempts
+PLAYWRIGHT_REDIRECT_EXTRA_WAIT = int(
+    os.getenv("PLAYWRIGHT_REDIRECT_EXTRA_WAIT", "5000")
+)  # Extra wait time (ms) for redirected pages
+PLAYWRIGHT_REDIRECT_DETECTION = (
+    os.getenv("PLAYWRIGHT_REDIRECT_DETECTION", "1") == "1"
+)  # Enable redirect detection and handling
 
 # ==================== EXPORT SETTINGS ====================
 

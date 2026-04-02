@@ -10,6 +10,7 @@ import csv
 import glob
 import time
 import uuid
+import math
 import threading
 import queue
 import random
@@ -34,6 +35,24 @@ try:
 except Exception:  # pragma: no cover - optional dependency
     sync_playwright = None  # type: ignore
     PlaywrightTimeoutError = Exception  # type: ignore
+# Stealth patches for Playwright (15+ detection vectors)
+try:
+    from playwright_stealth import Stealth as _PlaywrightStealth  # type: ignore
+    _pw_stealth = _PlaywrightStealth()
+except Exception:
+    _pw_stealth = None
+# Camoufox: Firefox-based stealth browser for deep fingerprint spoofing
+try:
+    from camoufox.sync_api import Camoufox  # type: ignore
+except Exception:
+    Camoufox = None
+# Browserforge: realistic browser fingerprint generation
+try:
+    from browserforge.headers import HeaderGenerator  # type: ignore
+    from browserforge.fingerprints import FingerprintGenerator  # type: ignore
+except Exception:
+    HeaderGenerator = None
+    FingerprintGenerator = None
 from bs4 import BeautifulSoup
 from pymilvus import (
     connections,
@@ -230,48 +249,47 @@ class MultithreadedCollegeCrawler:
         # Ensure colleges directory exists
         os.makedirs(self.colleges_dir, exist_ok=True)
 
-        # Initialize session for requests with realistic headers
-        self.session = requests.Session()
+        # Browserforge header generator for realistic, rotating fingerprints
+        self._header_gen = None
+        self._fingerprint_gen = None
+        if HeaderGenerator is not None:
+            try:
+                self._header_gen = HeaderGenerator(
+                    browser=("chrome", "firefox", "edge"),
+                    os=("macos", "windows"),
+                )
+            except Exception:
+                self._header_gen = None
+        if FingerprintGenerator is not None:
+            try:
+                self._fingerprint_gen = FingerprintGenerator(
+                    browser=("chrome", "firefox"),
+                    os=("macos", "windows"),
+                )
+            except Exception:
+                self._fingerprint_gen = None
 
-        # Rotate User-Agents to avoid detection
-        user_agents = [
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/121.0",
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/121.0",
+        # curl_cffi impersonation targets for TLS fingerprint rotation
+        self._curl_impersonate_targets = [
+            "chrome124", "chrome131", "chrome136", "safari18_0", "edge101", "firefox135",
         ]
 
-        self.session.headers.update(
-            {
-                "User-Agent": random.choice(user_agents),
-                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
-                "Accept-Language": "en-US,en;q=0.9",
-                "Accept-Encoding": "gzip, deflate, br",
-                "DNT": "1",
-                "Connection": "keep-alive",
-                "Upgrade-Insecure-Requests": "1",
-                "Sec-Fetch-Dest": "document",
-                "Sec-Fetch-Mode": "navigate",
-                "Sec-Fetch-Site": "none",
-                "Cache-Control": "max-age=0",
-                "Referer": "https://www.google.com/",
-            }
-        )
+        # Initialize HTTP session — prefer curl_cffi for realistic TLS fingerprints
+        if USE_CURL_CFFI and curl_requests is not None:
+            self.session = curl_requests.Session(
+                impersonate=random.choice(self._curl_impersonate_targets),
+            )
+        else:
+            self.session = requests.Session()
+
+        # Generate initial headers via browserforge or fall back to static
+        initial_headers = self._generate_headers()
+        self.session.headers.update(initial_headers)
 
         # Anti-bot detection settings
         self.min_delay = max(0.5, self.delay * 0.5)  # Minimum delay
         self.max_delay = self.delay * 2.0  # Maximum delay for randomization
         self.max_retries = MAX_RETRIES
-
-        # User-Agent rotation for anti-detection
-        self.user_agents = [
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/121.0",
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/121.0",
-        ]
 
         # Thread-safe sets for preventing duplicates
         self.crawled_urls = set()
@@ -331,10 +349,8 @@ class MultithreadedCollegeCrawler:
         )
         self._pw_profile_cache_lock = threading.Lock()
         self._pw_profile_cache: Dict[str, Dict[str, Any]] = {}
-        # Playwright runtime and browser cache (thread-safe)
-        self._pw = None  # lazily started sync_playwright instance
-        self._pw_browser_lock = threading.Lock()
-        self._pw_browsers: Dict[str, Any] = {}
+        # Playwright runtime and browser cache (thread-local)
+        self._pw_local = threading.local()  # Thread-local Playwright instances
 
         # Proxy pool initialization (optional)
         try:
@@ -389,10 +405,42 @@ class MultithreadedCollegeCrawler:
             "existing_urls_skipped": 0,
         }
 
+    def _generate_headers(self) -> dict:
+        """Generate a complete, realistic header set via browserforge or static fallback."""
+        if self._header_gen is not None:
+            try:
+                headers = self._header_gen.generate()
+                # Ensure essential navigation headers are present
+                headers.setdefault("DNT", "1")
+                headers.setdefault("Upgrade-Insecure-Requests", "1")
+                headers.setdefault("Sec-Fetch-Dest", "document")
+                headers.setdefault("Sec-Fetch-Mode", "navigate")
+                headers.setdefault("Sec-Fetch-Site", "none")
+                headers.setdefault("Cache-Control", "max-age=0")
+                headers.setdefault("Referer", "https://www.google.com/")
+                return headers
+            except Exception:
+                pass
+        # Static fallback
+        return {
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
+            "Accept-Language": "en-US,en;q=0.9",
+            "Accept-Encoding": "gzip, deflate, br",
+            "DNT": "1",
+            "Connection": "keep-alive",
+            "Upgrade-Insecure-Requests": "1",
+            "Sec-Fetch-Dest": "document",
+            "Sec-Fetch-Mode": "navigate",
+            "Sec-Fetch-Site": "none",
+            "Cache-Control": "max-age=0",
+            "Referer": "https://www.google.com/",
+        }
+
     def rotate_user_agent(self):
-        """Rotate User-Agent to avoid detection."""
-        new_user_agent = random.choice(self.user_agents)
-        return new_user_agent
+        """Rotate headers (and User-Agent) using browserforge or static fallback."""
+        headers = self._generate_headers()
+        return headers.get("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36")
 
     def connect_milvus(self):
         """Connect to Zilliz Cloud database."""
@@ -1124,8 +1172,10 @@ class MultithreadedCollegeCrawler:
         try:
             print(f"    Crawling: {url}")
 
-            # Add small delay between requests to be respectful
-            time.sleep(random.uniform(self.min_delay, self.max_delay))
+            # Human-like delay: log-normal distribution (mostly short, occasional longer pauses)
+            delay = min(self.max_delay, random.lognormvariate(math.log(self.delay), 0.4))
+            delay = max(self.min_delay, delay)
+            time.sleep(delay)
 
             # Per-host token bucket and circuit breaker
             try:
@@ -1191,11 +1241,19 @@ class MultithreadedCollegeCrawler:
                         if bucket2:
                             bucket2["tokens"] = max(0.0, bucket2["tokens"] - 1.0)
 
-                    if USE_CURL_CFFI and curl_requests is not None and attempt >= 2:
+                    if USE_CURL_CFFI and curl_requests is not None:
+                        # curl_cffi as primary — rotate TLS fingerprint on retries
+                        impersonate_target = self._curl_impersonate_targets[
+                            attempt % len(self._curl_impersonate_targets)
+                        ]
+                        # Generate fresh headers on retry attempts
+                        req_headers = dict(request_session.headers)
+                        if attempt > 0:
+                            req_headers.update(self._generate_headers())
                         response = curl_requests.get(
                             url,
-                            impersonate="chrome",
-                            headers=request_session.headers,
+                            impersonate=impersonate_target,
+                            headers=req_headers,
                             proxies=proxy_dict,
                             timeout=REQUEST_TIMEOUT,
                             allow_redirects=True,
@@ -1214,14 +1272,14 @@ class MultithreadedCollegeCrawler:
                             f"    ⚠️  403 Forbidden for {url} (attempt {attempt + 1}/{self.max_retries})"
                         )
                         if attempt < self.max_retries - 1:
-                            # Rotate User-Agent and wait longer for 403 errors before retry
-                            new_ua = self.rotate_user_agent()
-                            # Ensure the worker's session also gets the rotated UA
+                            # Rotate full header set and wait longer for 403 errors
+                            new_headers = self._generate_headers()
+                            new_ua = new_headers.get("User-Agent", "")
                             try:
-                                request_session.headers.update({"User-Agent": new_ua})
+                                request_session.headers.update(new_headers)
                             except Exception:
                                 pass
-                            print(f"    🔄 Rotated User-Agent to: {new_ua[:50]}...")
+                            print(f"    🔄 Rotated headers (UA: {new_ua[:50]}...)")
                             backoff = self.delay * (attempt + 1) * 2
                             if proxy_dict:
                                 backoff *= 1.5
@@ -1268,14 +1326,14 @@ class MultithreadedCollegeCrawler:
                             f"    ⚠️  403 Forbidden for {url} (attempt {attempt + 1}/{self.max_retries})"
                         )
                         if attempt < self.max_retries - 1:
-                            # Rotate User-Agent and wait longer for 403 errors before retry
-                            new_ua = self.rotate_user_agent()
-                            # Ensure the worker's session also gets the rotated UA
+                            # Rotate full header set and wait longer for 403 errors
+                            new_headers = self._generate_headers()
+                            new_ua = new_headers.get("User-Agent", "")
                             try:
-                                request_session.headers.update({"User-Agent": new_ua})
+                                request_session.headers.update(new_headers)
                             except Exception:
                                 pass
-                            print(f"    🔄 Rotated User-Agent to: {new_ua[:50]}...")
+                            print(f"    🔄 Rotated headers (UA: {new_ua[:50]}...)")
                             backoff = self.delay * (attempt + 1) * 2
                             if proxy_dict:
                                 backoff *= 1.5
@@ -1563,18 +1621,46 @@ class MultithreadedCollegeCrawler:
         """
         if not self.playwright_enabled or sync_playwright is None:
             return None
+
+        # Retry logic for Playwright failures
+        max_retries = 2
+        for attempt in range(max_retries + 1):
+            try:
+                return self._scrape_with_playwright_single_attempt(url, attempt)
+            except Exception as e:
+                if attempt < max_retries:
+                    print(
+                        f"    🔄 Playwright attempt {attempt + 1} failed for {url}, retrying: {str(e)[:100]}"
+                    )
+                    time.sleep(1 + attempt)  # Progressive backoff
+                    continue
+                else:
+                    print(
+                        f"    ⚠️  Playwright fallback failed for {url} after {max_retries + 1} attempts: {e}"
+                    )
+                    return None
+
+        return None
+
+    def _scrape_with_playwright_single_attempt(
+        self, url: str, attempt: int = 0
+    ) -> Optional[Dict[str, Any]]:
+        """Single attempt at Playwright scraping with enhanced error handling."""
         try:
             # Ensure local variables exist even on early exceptions
             html_dom: str = ""
             html_idle: str = ""
+            final_url: str = url  # Initialize to prevent reference errors
+            redirect_detected: bool = False
             with self.playwright_semaphore:
-                # Start or reuse a shared Playwright runtime
-                if self._pw is None:
-                    self._pw = sync_playwright().start()
-                p = self._pw
+                # Start or reuse a thread-local Playwright runtime
+                if not hasattr(self._pw_local, "pw") or self._pw_local.pw is None:
+                    self._pw_local.pw = sync_playwright().start()
+                p = self._pw_local.pw
                 # Acquire proxy for Playwright (optional)
                 pw_proxy_token = None
                 pw_proxy_settings = None
+                selected_proxy_url = None  # Initialize to avoid reference errors
                 try:
                     if self.proxy_pool:
                         netloc = urlparse(url).netloc
@@ -1595,59 +1681,148 @@ class MultithreadedCollegeCrawler:
                                     pw_proxy_settings["password"] = parsed.password
                 except Exception:
                     pw_proxy_settings = None
+                    selected_proxy_url = None  # Reset on error
 
-                    pw_start = time.monotonic()
-                    # Reuse a shared Chromium browser per proxy key
-                    browser_key = (
-                        browser_key
-                        if "browser_key" in locals()
-                        else (selected_proxy_url or "direct")
-                    )
-                    with self._pw_browser_lock:
-                        browser = self._pw_browsers.get(browser_key)
-                        if browser is None:
-                            browser = p.chromium.launch(
-                                headless=True, proxy=pw_proxy_settings
-                            )
-                            self._pw_browsers[browser_key] = browser
+                pw_start = time.monotonic()
 
-                    # Load cookies for this domain if available
-                    storage_state = None
-                    if self.playwright_cookie_persistence:
-                        try:
-                            netloc = urlparse(url).netloc
-                            storage_state = self._load_cookies(netloc)
-                        except Exception:
-                            storage_state = None
+                # Diversified geolocation profiles (US university cities)
+                _geo_profiles = [
+                    {"lat": 42.3601, "lon": -71.0589, "tz": "America/New_York"},    # Boston
+                    {"lat": 40.7128, "lon": -74.0060, "tz": "America/New_York"},    # NYC
+                    {"lat": 37.7749, "lon": -122.4194, "tz": "America/Los_Angeles"},  # SF
+                    {"lat": 34.0522, "lon": -118.2437, "tz": "America/Los_Angeles"},  # LA
+                    {"lat": 41.8781, "lon": -87.6298, "tz": "America/Chicago"},      # Chicago
+                    {"lat": 29.7604, "lon": -95.3698, "tz": "America/Chicago"},      # Houston
+                    {"lat": 33.7490, "lon": -84.3880, "tz": "America/New_York"},     # Atlanta
+                    {"lat": 47.6062, "lon": -122.3321, "tz": "America/Los_Angeles"},  # Seattle
+                    {"lat": 39.9526, "lon": -75.1652, "tz": "America/New_York"},     # Philadelphia
+                    {"lat": 38.9072, "lon": -77.0369, "tz": "America/New_York"},     # DC
+                    {"lat": 35.2271, "lon": -80.8431, "tz": "America/New_York"},     # Charlotte
+                    {"lat": 30.2672, "lon": -97.7431, "tz": "America/Chicago"},      # Austin
+                    {"lat": 36.1627, "lon": -86.7816, "tz": "America/Chicago"},      # Nashville
+                    {"lat": 39.7392, "lon": -104.9903, "tz": "America/Denver"},      # Denver
+                    {"lat": 25.7617, "lon": -80.1918, "tz": "America/New_York"},     # Miami
+                    {"lat": 44.9778, "lon": -93.2650, "tz": "America/Chicago"},      # Minneapolis
+                    {"lat": 42.3314, "lon": -83.0458, "tz": "America/New_York"},     # Detroit
+                    {"lat": 37.5407, "lon": -77.4360, "tz": "America/New_York"},     # Richmond
+                ]
+                geo = random.choice(_geo_profiles)
+                locales = ["en-US", "en-GB", "en-CA"]
+                viewport_opts = [(1280, 800), (1366, 768), (1440, 900), (1536, 864), (1920, 1080)]
+                vw, vh = random.choice(viewport_opts)
 
-                    # Diversify device/locale/timezone per run to reduce bot fingerprinting
-                    ua = random.choice(self.user_agents)
-                    locales = ["en-US", "en-GB", "en-CA"]
-                    timezone_ids = ["America/New_York", "America/Los_Angeles", "UTC"]
-                    viewport_opts = [(1280, 800), (1366, 768), (1920, 1080)]
-                    vw, vh = random.choice(viewport_opts)
+                # Generate user-agent via browserforge or fallback
+                ua = self.rotate_user_agent()
 
-                    # Create context with cookie persistence
-                    context_kwargs = {
-                        "user_agent": ua,
-                        "java_script_enabled": True,
-                        "locale": random.choice(locales),
-                        "timezone_id": random.choice(timezone_ids),
-                        "view port": {"width": vw, "height": vh},
-                    }
+                # Load cookies for this domain if available
+                storage_state = None
+                if self.playwright_cookie_persistence:
+                    try:
+                        netloc = urlparse(url).netloc
+                        storage_state = self._load_cookies(netloc)
+                    except Exception:
+                        storage_state = None
 
-                    # Add storage state if cookies are available
-                    if storage_state:
-                        context_kwargs["storage_state"] = storage_state
-                        print(f"    🍪 Loaded cookies for {netloc}")
+                # Context kwargs shared between camoufox and chromium paths
+                context_kwargs = {
+                    "user_agent": ua,
+                    "java_script_enabled": True,
+                    "locale": random.choice(locales),
+                    "timezone_id": geo["tz"],
+                    "viewport": {"width": vw, "height": vh},
+                    "permissions": ["geolocation"],
+                    "geolocation": {"latitude": geo["lat"], "longitude": geo["lon"]},
+                    "extra_http_headers": {
+                        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+                        "Accept-Language": "en-US,en;q=0.9",
+                        "Accept-Encoding": "gzip, deflate, br",
+                        "Sec-Fetch-Dest": "document",
+                        "Sec-Fetch-Mode": "navigate",
+                        "Sec-Fetch-Site": "none",
+                        "Sec-Fetch-User": "?1",
+                        "Cache-Control": "max-age=0",
+                    },
+                }
+                if storage_state:
+                    context_kwargs["storage_state"] = storage_state
+                    print(f"    🍪 Loaded cookies for {urlparse(url).netloc}")
 
+                # --- Browser launch: prefer camoufox, fall back to chromium ---
+                use_camoufox = USE_CAMOUFOX and Camoufox is not None
+                camoufox_cm = None  # context manager reference for cleanup
+
+                if use_camoufox:
+                    try:
+                        camoufox_cm = Camoufox(headless=True, proxy=pw_proxy_settings)
+                        browser = camoufox_cm.__enter__()
+                    except Exception as e:
+                        print(f"    ⚠️  Camoufox launch failed ({e}), falling back to Chromium")
+                        camoufox_cm = None
+                        use_camoufox = False
+
+                if not use_camoufox:
+                    # Use thread-local browser cache for Chromium
+                    if not hasattr(self._pw_local, "browsers"):
+                        self._pw_local.browsers = {}
+                    browser_key = selected_proxy_url or "direct"
+                    browser = self._pw_local.browsers.get(browser_key)
+                    if browser is None:
+                        launch_options = {
+                            "headless": True,
+                            "args": [
+                                "--no-sandbox",
+                                "--disable-setuid-sandbox",
+                                "--disable-dev-shm-usage",
+                                "--disable-accelerated-2d-canvas",
+                                "--no-first-run",
+                                "--no-zygote",
+                                "--disable-gpu",
+                                "--disable-features=TranslateUI",
+                                "--disable-features=BlinkGenPropertyTrees",
+                                "--disable-ipc-flooding-protection",
+                                "--disable-background-networking",
+                                "--disable-default-apps",
+                                "--disable-extensions",
+                                "--disable-sync",
+                                "--metrics-recording-only",
+                                "--no-default-browser-check",
+                                "--mute-audio",
+                                "--disable-logging",
+                                "--disable-permissions-api",
+                                "--disable-blink-features=AutomationControlled",
+                                "--disable-web-security",
+                                "--allow-running-insecure-content",
+                                "--disable-client-side-phishing-detection",
+                                "--disable-component-update",
+                                "--disable-hang-monitor",
+                                "--disable-prompt-on-repost",
+                                "--disable-background-timer-throttling",
+                                "--disable-renderer-backgrounding",
+                                "--disable-backgrounding-occluded-windows",
+                                "--force-device-scale-factor=1",
+                            ],
+                        }
+                        if pw_proxy_settings:
+                            launch_options["proxy"] = pw_proxy_settings
+                        browser = p.chromium.launch(**launch_options)
+                        self._pw_local.browsers[browser_key] = browser
+
+                try:
                     context = browser.new_context(**context_kwargs)
                     page = context.new_page()
 
-                    # Speed up by blocking non-essential resources
+                    # Apply playwright-stealth patches (15+ detection vectors)
+                    # Camoufox handles fingerprinting at C++ level but stealth still helps with CDP leaks
+                    if _pw_stealth is not None:
+                        try:
+                            _pw_stealth.apply_stealth_sync(page)
+                        except Exception:
+                            pass
+
+                    # Block heavy resources but allow small images/fonts (real browsers load these)
                     def route_filter(route):
                         req = route.request
-                        if req.resource_type in {"image", "font", "media"}:
+                        if req.resource_type == "media":
                             return route.abort()
                         return route.continue_()
 
@@ -1656,18 +1831,128 @@ class MultithreadedCollegeCrawler:
                     # Snapshot at DOMContentLoaded and after short idle
                     html_dom = ""
                     html_idle = ""
+                    final_url = url  # Track final URL after redirects
+                    redirect_detected = False
+
                     try:
-                        page.goto(url, wait_until="domcontentloaded")
+                        # Enhanced navigation with better error recovery and redirect handling
+                        navigation_strategies = [
+                            {
+                                "wait_until": "domcontentloaded",
+                                "timeout": self.playwright_nav_timeout_ms,
+                            },
+                            {
+                                "wait_until": "load",
+                                "timeout": self.playwright_nav_timeout_ms // 2,
+                            },
+                            {
+                                "wait_until": "networkidle",
+                                "timeout": self.playwright_nav_timeout_ms // 3,
+                            },
+                        ]
+
+                        nav_success = False
+                        for strategy in navigation_strategies:
+                            try:
+                                # Navigate and capture final URL
+                                response = page.goto(url, **strategy)
+                                final_url = page.url
+
+                                # Detect if a redirect occurred
+                                if final_url != url:
+                                    redirect_detected = True
+                                    print(
+                                        f"    🔄 Redirect detected: {url} -> {final_url}"
+                                    )
+
+                                    # Give extra time for redirected content to load
+                                    if (
+                                        redirect_detected
+                                        and PLAYWRIGHT_REDIRECT_DETECTION
+                                    ):
+                                        try:
+                                            page.wait_for_load_state(
+                                                "networkidle",
+                                                timeout=PLAYWRIGHT_REDIRECT_EXTRA_WAIT,
+                                            )
+                                        except Exception:
+                                            time.sleep(
+                                                PLAYWRIGHT_REDIRECT_EXTRA_WAIT // 1000
+                                            )  # Fallback wait for redirects
+
+                                nav_success = True
+                                break
+                            except Exception as nav_e:
+                                if "timeout" not in str(nav_e).lower():
+                                    raise  # Re-raise non-timeout errors
+                                continue
+
+                        if not nav_success:
+                            # Last resort: basic navigation without waiting
+                            page.goto(url, timeout=self.playwright_nav_timeout_ms)
+                            final_url = page.url
+                            redirect_detected = final_url != url
+                            if redirect_detected and PLAYWRIGHT_REDIRECT_DETECTION:
+                                print(
+                                    f"    🔄 Redirect detected in fallback: {url} -> {final_url}"
+                                )
+                                time.sleep(
+                                    PLAYWRIGHT_REDIRECT_EXTRA_WAIT // 1000
+                                )  # Extra wait for redirects
+                            else:
+                                time.sleep(2)  # Standard wait
+
+                        # Wait for initial DOM
                         try:
                             html_dom = page.content()
                         except Exception:
                             html_dom = ""
 
-                        # Try to accept cookie banners and save cookies
-                        cookies_accepted = self._try_accept_cookies(page)
+                        # Human-like scroll to trigger lazy loading and look natural
+                        try:
+                            page.evaluate(
+                                "window.scrollTo(0, document.body.scrollHeight * (0.2 + Math.random() * 0.4))"
+                            )
+                            time.sleep(random.uniform(0.3, 0.8))
+                        except Exception:
+                            pass
+
+                        # Enhanced cookie handling - multiple attempts with different strategies
+                        cookies_accepted = False
+                        for attempt in range(3):  # Try multiple times
+                            if self._try_accept_cookies(page):
+                                cookies_accepted = True
+                                break
+                            time.sleep(1)  # Wait between attempts
+
+                        # Additional aggressive cookie acceptance
+                        if not cookies_accepted:
+                            try:
+                                # Force accept common cookie frameworks
+                                page.evaluate(
+                                    """
+                                    // Force accept OneTrust
+                                    if (window.OneTrust) {
+                                        window.OneTrust.AllowAll && window.OneTrust.AllowAll();
+                                    }
+                                    // Force accept Cookiebot
+                                    if (window.Cookiebot) {
+                                        window.Cookiebot.show && window.Cookiebot.show();
+                                        window.Cookiebot.consent && window.Cookiebot.consent.setAllConsent && window.Cookiebot.consent.setAllConsent(true);
+                                    }
+                                    // Remove any remaining overlays
+                                    document.querySelectorAll('[style*="position: fixed"], [style*="position:fixed"]').forEach(el => {
+                                        if (el.style.zIndex > 100) el.remove();
+                                    });
+                                """
+                                )
+                                cookies_accepted = True
+                            except Exception:
+                                pass
+
                         if cookies_accepted and self.playwright_cookie_persistence:
-                            # Wait a moment for cookies to be set
-                            time.sleep(1)
+                            # Wait longer for cookies to be properly set
+                            time.sleep(2)
                             # Save cookies for future use
                             try:
                                 storage_state = context.storage_state()
@@ -1677,6 +1962,7 @@ class MultithreadedCollegeCrawler:
                                 print(
                                     f"    ⚠️  Failed to save cookies for {netloc}: {e}"
                                 )
+
                         # Apply per-domain profile actions
                         try:
                             netloc2 = urlparse(url).netloc
@@ -1686,10 +1972,94 @@ class MultithreadedCollegeCrawler:
                             profile = self._load_playwright_profile(netloc2)
                             if profile:
                                 self._apply_playwright_profile(page, profile)
-                        # Wait for network to settle a bit
-                        page.wait_for_load_state(
-                            "networkidle", timeout=self.playwright_nav_timeout_ms
-                        )
+
+                        # Enhanced waiting strategies for different page types
+                        page_loaded = False
+
+                        # Strategy 1: Wait for network idle (best for most pages)
+                        try:
+                            page.wait_for_load_state("networkidle", timeout=8000)
+                            page_loaded = True
+                        except Exception:
+                            pass
+
+                        # Strategy 2: Wait for specific content indicators
+                        if not page_loaded:
+                            try:
+                                content_selectors = [
+                                    "main",
+                                    "article",
+                                    ".content",
+                                    "#content",
+                                    ".container",
+                                    ".page-content",
+                                    ".post-content",
+                                    "[role='main']",
+                                    ".entry-content",
+                                    ".article-content",
+                                    ".main-content",
+                                ]
+                                for selector in content_selectors:
+                                    try:
+                                        page.wait_for_selector(selector, timeout=3000)
+                                        page_loaded = True
+                                        break
+                                    except Exception:
+                                        continue
+                            except Exception:
+                                pass
+
+                        # Strategy 3: Wait for text content to appear (for text-heavy pages)
+                        if not page_loaded:
+                            try:
+                                page.wait_for_function(
+                                    """
+                                    () => {
+                                        const body = document.body;
+                                        if (!body) return false;
+                                        const text = body.innerText || body.textContent || '';
+                                        return text.trim().length > 100;
+                                    }
+                                """,
+                                    timeout=5000,
+                                )
+                                page_loaded = True
+                            except Exception:
+                                pass
+
+                        # Strategy 4: Wait for images/media to load (for media-rich pages)
+                        if not page_loaded:
+                            try:
+                                page.wait_for_function(
+                                    """
+                                    () => {
+                                        const images = document.querySelectorAll('img');
+                                        if (images.length === 0) return true;
+                                        return Array.from(images).every(img => img.complete);
+                                    }
+                                """,
+                                    timeout=4000,
+                                )
+                                page_loaded = True
+                            except Exception:
+                                pass
+
+                        # Strategy 5: Adaptive waiting based on page activity
+                        try:
+                            # Scroll to trigger lazy loading
+                            page.evaluate(
+                                "window.scrollTo(0, document.body.scrollHeight / 4)"
+                            )
+                            time.sleep(1)
+                            page.evaluate("window.scrollTo(0, 0)")
+                            time.sleep(1)
+                        except Exception:
+                            pass
+
+                        # Final strategy: Minimum wait time
+                        if not page_loaded:
+                            time.sleep(3)
+
                         try:
                             html_idle = page.content()
                         except Exception:
@@ -1707,7 +2077,21 @@ class MultithreadedCollegeCrawler:
                         except Exception:
                             pass
 
-                    # Do not close shared browser instance
+                    # Do not close shared Chromium browser (cached per thread)
+                    # But camoufox uses a context manager — clean it up
+                    if camoufox_cm is not None:
+                        try:
+                            camoufox_cm.__exit__(None, None, None)
+                        except Exception:
+                            pass
+
+                finally:
+                    # Ensure camoufox is cleaned up even on exceptions
+                    if camoufox_cm is not None:
+                        try:
+                            camoufox_cm.__exit__(None, None, None)
+                        except Exception:
+                            pass
 
                     # Update proxy pool with success
                     if self.proxy_pool and pw_proxy_token is not None:
@@ -1750,11 +2134,18 @@ class MultithreadedCollegeCrawler:
                     el.decompose()
 
             # Pick better title/content
-            def extract_text_and_links(soup_obj: BeautifulSoup) -> tuple:
+            def extract_text_and_links(soup_obj: BeautifulSoup, base_url: str) -> tuple:
                 if not soup_obj:
                     return "", []
-                for element in soup_obj(["script", "style", "nav", "footer", "header"]):
+
+                # Make a copy to avoid modifying the original
+                soup_copy = BeautifulSoup(str(soup_obj), "html.parser")
+
+                # Remove unwanted elements but preserve content structure
+                for element in soup_copy(["script", "style", "noscript"]):
                     element.decompose()
+
+                # Try multiple strategies for content extraction
                 main_selectors_local = [
                     "main",
                     "article",
@@ -1764,25 +2155,57 @@ class MultithreadedCollegeCrawler:
                     "#content",
                     ".post-content",
                     ".entry-content",
+                    ".page-content",
+                    ".article-content",
+                    "[data-content]",
+                    ".container .row",  # Common bootstrap patterns
                 ]
+
                 main_content_local = ""
+
+                # Try each selector
                 for selector in main_selectors_local:
-                    main_element = soup_obj.select_one(selector)
+                    main_element = soup_copy.select_one(selector)
                     if main_element:
-                        main_content_local = main_element.get_text(
-                            separator=" ", strip=True
-                        )
-                        break
+                        content_text = main_element.get_text(separator=" ", strip=True)
+                        if len(content_text.split()) > 10:  # Require at least 10 words
+                            main_content_local = content_text
+                            break
+
+                # Fallback strategies
                 if not main_content_local:
-                    body = soup_obj.find("body")
+                    # Try looking for the largest text container
+                    body = soup_copy.find("body")
                     if body:
+                        # Remove common non-content areas but keep their siblings
+                        for unwanted in body.select(
+                            "nav, footer, header, aside, .sidebar, .navigation, .menu"
+                        ):
+                            unwanted.decompose()
                         main_content_local = body.get_text(separator=" ", strip=True)
+
+                # Final fallback - just get all visible text
+                if not main_content_local and soup_copy:
+                    main_content_local = soup_copy.get_text(separator=" ", strip=True)
+
                 cleaned_local = clean_text(main_content_local)
-                links_local = self.extract_internal_links(soup_obj, url)
+                links_local = self.extract_internal_links(
+                    soup_obj, base_url
+                )  # Use final URL for proper link resolution
                 return cleaned_local, links_local
 
-            cleaned_dom, links_dom = extract_text_and_links(soup_dom)
-            cleaned_idle, links_idle = extract_text_and_links(soup_idle)
+            cleaned_dom, links_dom = extract_text_and_links(soup_dom, final_url)
+            cleaned_idle, links_idle = extract_text_and_links(soup_idle, final_url)
+
+            # Debug output for content extraction
+            print(f"    🔍 Playwright extraction debug for {url}:")
+            print(
+                f"        DOM snapshot: {len(html_dom)} chars, {len(cleaned_dom)} cleaned chars"
+            )
+            print(
+                f"        Idle snapshot: {len(html_idle)} chars, {len(cleaned_idle)} cleaned chars"
+            )
+            print(f"        DOM links: {len(links_dom)}, Idle links: {len(links_idle)}")
 
             title_dom = soup_dom.find("title") if soup_dom else None
             title_idle = soup_idle.find("title") if soup_idle else None
@@ -1797,6 +2220,10 @@ class MultithreadedCollegeCrawler:
             )
             internal_links = list({*links_dom, *links_idle})
             word_count = len(chosen_content.split())
+
+            print(
+                f"        Final content: {word_count} words, {len(chosen_content)} chars"
+            )
 
             # Enhanced content validation for Playwright results
             try:
@@ -1823,12 +2250,16 @@ class MultithreadedCollegeCrawler:
                 )
 
             return {
-                "url": url,
+                "url": final_url,  # Use final URL after redirects
+                "original_url": (
+                    url if final_url != url else None
+                ),  # Track original if redirected
                 "title": title_text,
                 "content": chosen_content,
                 "internal_links": internal_links,
                 "word_count": word_count,
                 "crawled_at": datetime.now().isoformat(),
+                "redirect_detected": redirect_detected,
             }
         except Exception as e:
             # Update proxy pool with failure
@@ -1856,14 +2287,38 @@ class MultithreadedCollegeCrawler:
         return os.path.join(self.cookie_storage_dir, f"{safe_netloc}_cookies.json")
 
     def _load_cookies(self, netloc: str) -> Optional[Dict[str, Any]]:
-        """Load cookies for a specific domain."""
+        """Load cookies for a specific domain with enhanced fallback."""
         try:
             cookie_path = self._get_cookie_storage_path(netloc)
             if os.path.exists(cookie_path):
                 with open(cookie_path, "r") as f:
-                    return json.load(f)
+                    storage_state = json.load(f)
+                    # Validate storage state structure
+                    if isinstance(storage_state, dict) and "cookies" in storage_state:
+                        # Filter out expired cookies
+                        current_time = time.time()
+                        valid_cookies = []
+                        for cookie in storage_state.get("cookies", []):
+                            expires = cookie.get("expires", -1)
+                            if expires == -1 or expires > current_time:
+                                valid_cookies.append(cookie)
+                        storage_state["cookies"] = valid_cookies
+                        return storage_state
         except Exception as e:
             print(f"    ⚠️  Failed to load cookies for {netloc}: {e}")
+
+        # Try to load cookies from parent domain
+        try:
+            domain_parts = netloc.split(".")
+            if len(domain_parts) > 2:
+                parent_domain = ".".join(domain_parts[-2:])
+                parent_path = self._get_cookie_storage_path(parent_domain)
+                if os.path.exists(parent_path):
+                    with open(parent_path, "r") as f:
+                        return json.load(f)
+        except Exception:
+            pass
+
         return None
 
     def _save_cookies(self, netloc: str, storage_state: Dict[str, Any]) -> None:
@@ -2398,6 +2853,9 @@ class MultithreadedCollegeCrawler:
 
             # Track active futures
             active_futures = set()
+            # Track active Playwright futures separately for queue management
+            active_pw_futures = set()
+            pw_futures_lock = threading.Lock()
 
             def worker_task():
                 """Efficient worker for work-stealing BFS"""
@@ -2405,7 +2863,7 @@ class MultithreadedCollegeCrawler:
                 local_crawled = 0
                 local_uploaded = 0
                 consecutive_empty_checks = 0
-                max_empty_checks = 10  # Exit if queue is empty for too long
+                max_empty_checks = MAX_EMPTY_CHECKS  # Configurable to account for Playwright processing time
 
                 # Create thread-local session for thread safety
                 worker_session = requests.Session()
@@ -2419,7 +2877,9 @@ class MultithreadedCollegeCrawler:
                             break
                     try:
                         # Get next URL with timeout
-                        depth, url = work_queue.get(timeout=1.0)  # Increased timeout
+                        depth, url = work_queue.get(
+                            timeout=QUEUE_TIMEOUT_SECONDS
+                        )  # Configurable timeout for Playwright compatibility
                         consecutive_empty_checks = 0  # Reset counter
 
                         # Claim URL atomically (using canonical key) and skip if exists globally
@@ -2450,6 +2910,7 @@ class MultithreadedCollegeCrawler:
                                 with self.lock:
                                     self.stats["duplicate_urls_skipped"] += 1
                                 continue
+                            # Add to crawled sets within the state lock to ensure thread safety
                             crawled_urls.add(url)
                             crawled_canon.add(canon_key)
 
@@ -2583,7 +3044,18 @@ class MultithreadedCollegeCrawler:
                                 fut = pw_executor.submit(
                                     self._scrape_with_playwright, url
                                 )
-                                fut.add_done_callback(_merge_pw_result)
+                                # Track Playwright future for queue management
+                                with pw_futures_lock:
+                                    active_pw_futures.add(fut)
+
+                                def pw_done_callback(future):
+                                    # Remove from tracking when done
+                                    with pw_futures_lock:
+                                        active_pw_futures.discard(future)
+                                    # Call original callback
+                                    _merge_pw_result(future)
+
+                                fut.add_done_callback(pw_done_callback)
                             except Exception:
                                 pass
                         # Add new links to queue (BFS)
@@ -2637,17 +3109,30 @@ class MultithreadedCollegeCrawler:
                             f"    ⚠️  Queue empty for {college_name} (check {consecutive_empty_checks}/{max_empty_checks})"
                         )
 
-                        # Exit if queue has been empty for too long
+                        # Check if there are active Playwright jobs before exiting
+                        with pw_futures_lock:
+                            active_pw_count = len(active_pw_futures)
+
+                        # Exit if queue has been empty for too long AND no active Playwright jobs
                         if (
                             consecutive_empty_checks >= max_empty_checks
                             or stop_event.is_set()
                         ):
-                            print(
-                                f"    ⏭️  Exiting worker for {college_name} - queue empty for too long"
-                            )
-                            # signal others to exit
-                            stop_event.set()
-                            break
+                            if active_pw_count > 0:
+                                # Reset counter if there are active Playwright jobs that might add URLs
+                                consecutive_empty_checks = max(
+                                    0, consecutive_empty_checks - 1
+                                )
+                                print(
+                                    f"    🎭 Waiting for {active_pw_count} active Playwright job(s) for {college_name}"
+                                )
+                            else:
+                                print(
+                                    f"    ⏭️  Exiting worker for {college_name} - queue empty for too long"
+                                )
+                                # signal others to exit
+                                stop_event.set()
+                                break
 
                         # Check if we should exit
                         with state_lock:
@@ -2664,6 +3149,10 @@ class MultithreadedCollegeCrawler:
                     worker_session.close()
                 except Exception:
                     pass
+
+                # Clean up thread-local Playwright resources
+                self._cleanup_thread_local_playwright()
+
                 return local_crawled, local_uploaded
 
             # Submit initial workers
@@ -2957,6 +3446,66 @@ class MultithreadedCollegeCrawler:
                 continue
 
         return existing_urls
+
+    def close(self):
+        """Clean up resources including Milvus connections and Playwright instances."""
+        try:
+            connections.disconnect("default")
+            print("Disconnected from Milvus")
+        except Exception as e:
+            print(f"Error disconnecting from Milvus: {e}")
+
+        # Clean up Playwright instances
+        try:
+            # Close thread-local browsers
+            if hasattr(self._pw_local, "browsers"):
+                for browser in self._pw_local.browsers.values():
+                    try:
+                        browser.close()
+                    except Exception:
+                        pass
+                self._pw_local.browsers.clear()
+
+            # Close thread-local Playwright instance
+            if hasattr(self._pw_local, "pw") and self._pw_local.pw:
+                try:
+                    self._pw_local.pw.stop()
+                except Exception:
+                    pass
+                self._pw_local.pw = None
+
+            print("Cleaned up Playwright resources")
+        except Exception as e:
+            print(f"Error cleaning up Playwright resources: {e}")
+
+    def _cleanup_thread_local_playwright(self):
+        """Clean up thread-local Playwright resources for the current thread only."""
+        try:
+            # Close thread-local browsers for this thread
+            if hasattr(self._pw_local, "browsers"):
+                for browser in self._pw_local.browsers.values():
+                    try:
+                        browser.close()
+                    except Exception:
+                        pass
+                self._pw_local.browsers.clear()
+
+            # Close thread-local Playwright instance for this thread
+            if hasattr(self._pw_local, "pw") and self._pw_local.pw:
+                try:
+                    self._pw_local.pw.stop()
+                except Exception:
+                    pass
+                self._pw_local.pw = None
+
+            # Debug logging for verification
+            thread_id = threading.current_thread().ident
+            print(f"    🧹 Thread {thread_id}: Cleaned up Playwright resources")
+        except Exception as e:
+            thread_id = threading.current_thread().ident
+            print(
+                f"    ⚠️ Thread {thread_id}: Error cleaning up Playwright resources: {e}"
+            )
 
 
 def main():
