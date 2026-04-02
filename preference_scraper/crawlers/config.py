@@ -51,6 +51,14 @@ INTER_COLLEGE_PARALLELISM = int(os.getenv("INTER_COLLEGE_PARALLELISM", "4"))
 MILVUS_INSERT_BUFFER_SIZE = int(os.getenv("MILVUS_INSERT_BUFFER_SIZE", "50"))
 MILVUS_INSERT_FLUSH_INTERVAL = float(os.getenv("MILVUS_INSERT_FLUSH_INTERVAL", "2.0"))
 
+# Delta crawling: skip unchanged pages on subsequent runs via HTTP conditional
+# headers (ETag/Last-Modified) and content hashing
+ENABLE_DELTA_CRAWLING = os.getenv("ENABLE_DELTA_CRAWLING", "1") == "1"
+
+# Playwright pool: pre-launch persistent browser contexts for faster JS rendering
+PLAYWRIGHT_POOL_SIZE = int(os.getenv("PLAYWRIGHT_POOL_SIZE", "5"))
+PLAYWRIGHT_POOL_ROTATE_AFTER = int(os.getenv("PLAYWRIGHT_POOL_ROTATE_AFTER", "50"))
+
 # Content filtering
 MIN_CONTENT_LENGTH = int(
     os.getenv("MIN_CONTENT_LENGTH", "100")

@@ -231,6 +231,223 @@ from preference_scraper.utils.openai_embed import (
 from preference_scraper.utils.text_cleaner import clean_text
 from preference_scraper.crawlers.config import *
 
+import sqlite3
+
+
+# ==================== Playwright Pool ====================
+class PlaywrightPool:
+    """Pre-launched pool of Playwright browser contexts for fast reuse.
+
+    Instead of creating a new browser context per request (~2-3s startup),
+    this pool keeps N contexts alive and hands them out via acquire/release.
+    Contexts are rotated after a configurable number of uses to avoid
+    fingerprint accumulation.
+    """
+
+    def __init__(
+        self,
+        pool_size: int = 5,
+        rotate_after: int = 50,
+        headless: bool = True,
+        use_camoufox: bool = False,
+    ):
+        self.pool_size = pool_size
+        self.rotate_after = rotate_after
+        self.headless = headless
+        self.use_camoufox = use_camoufox and Camoufox is not None
+        self._lock = threading.Lock()
+        self._slots: list = []  # list of {"pw", "browser", "camoufox_cm", "uses", "available"}
+        self._started = False
+
+    def start(self):
+        """Pre-launch all browser instances. Call once at crawler startup."""
+        if self._started or sync_playwright is None:
+            return
+        with self._lock:
+            if self._started:
+                return
+            for i in range(self.pool_size):
+                slot = self._create_slot()
+                if slot:
+                    self._slots.append(slot)
+            self._started = True
+            print(f"    🎭 Playwright pool started with {len(self._slots)} browser(s)")
+
+    def _create_slot(self) -> dict:
+        """Create a single pool slot with a browser instance."""
+        try:
+            if self.use_camoufox:
+                camoufox_cm = Camoufox(headless=self.headless)
+                browser = camoufox_cm.__enter__()
+                return {
+                    "pw": None,
+                    "browser": browser,
+                    "camoufox_cm": camoufox_cm,
+                    "uses": 0,
+                    "available": True,
+                }
+            else:
+                pw = sync_playwright().start()
+                browser = pw.chromium.launch(
+                    headless=self.headless,
+                    args=[
+                        "--no-sandbox",
+                        "--disable-setuid-sandbox",
+                        "--disable-dev-shm-usage",
+                        "--disable-accelerated-2d-canvas",
+                        "--no-first-run",
+                        "--no-zygote",
+                        "--disable-gpu",
+                        "--disable-blink-features=AutomationControlled",
+                        "--disable-web-security",
+                        "--disable-background-networking",
+                        "--disable-extensions",
+                        "--disable-sync",
+                        "--mute-audio",
+                    ],
+                )
+                return {
+                    "pw": pw,
+                    "browser": browser,
+                    "camoufox_cm": None,
+                    "uses": 0,
+                    "available": True,
+                }
+        except Exception as e:
+            print(f"    ⚠️  Failed to create Playwright pool slot: {e}")
+            return None
+
+    def acquire(self, timeout: float = 30.0):
+        """Acquire a browser from the pool. Returns (browser, slot_index) or (None, -1).
+        Blocks up to `timeout` seconds waiting for an available slot.
+        """
+        deadline = time.monotonic() + timeout
+        while time.monotonic() < deadline:
+            with self._lock:
+                for i, slot in enumerate(self._slots):
+                    if slot["available"]:
+                        slot["available"] = False
+                        slot["uses"] += 1
+                        return slot["browser"], i
+            time.sleep(0.1)
+        return None, -1
+
+    def release(self, slot_index: int):
+        """Return a browser to the pool. Rotates if usage threshold exceeded."""
+        if slot_index < 0 or slot_index >= len(self._slots):
+            return
+        with self._lock:
+            slot = self._slots[slot_index]
+            if slot["uses"] >= self.rotate_after:
+                # Rotate: close old browser, create new one
+                self._close_slot(slot)
+                new_slot = self._create_slot()
+                if new_slot:
+                    self._slots[slot_index] = new_slot
+                else:
+                    slot["available"] = True  # fallback: reuse existing
+            else:
+                slot["available"] = True
+
+    def _close_slot(self, slot: dict):
+        """Close a single slot's resources."""
+        try:
+            if slot.get("browser"):
+                slot["browser"].close()
+        except Exception:
+            pass
+        try:
+            if slot.get("camoufox_cm"):
+                slot["camoufox_cm"].__exit__(None, None, None)
+        except Exception:
+            pass
+        try:
+            if slot.get("pw"):
+                slot["pw"].stop()
+        except Exception:
+            pass
+
+    def shutdown(self):
+        """Close all browser instances."""
+        with self._lock:
+            for slot in self._slots:
+                self._close_slot(slot)
+            self._slots.clear()
+            self._started = False
+        print("    🎭 Playwright pool shut down")
+
+
+# ==================== Delta Crawl Cache ====================
+class DeltaCrawlCache:
+    """SQLite-backed cache for incremental/delta crawling.
+
+    Stores per-URL metadata (ETag, Last-Modified, content hash) so that
+    subsequent runs can skip unchanged pages via HTTP conditional headers
+    or content comparison.
+    """
+
+    def __init__(self, db_path: str):
+        self._db_path = db_path
+        self._local = threading.local()
+        # Create table on first use
+        conn = self._get_conn()
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS crawl_cache (
+                canonical_url TEXT PRIMARY KEY,
+                etag TEXT,
+                last_modified TEXT,
+                content_hash TEXT,
+                crawled_at TEXT
+            )
+        """)
+        conn.commit()
+
+    def _get_conn(self) -> sqlite3.Connection:
+        """Get a thread-local SQLite connection."""
+        if not hasattr(self._local, "conn") or self._local.conn is None:
+            self._local.conn = sqlite3.connect(self._db_path, timeout=10)
+            self._local.conn.execute("PRAGMA journal_mode=WAL")
+        return self._local.conn
+
+    def get(self, canonical_url: str) -> dict:
+        """Get cached metadata for a URL. Returns empty dict if not cached."""
+        conn = self._get_conn()
+        row = conn.execute(
+            "SELECT etag, last_modified, content_hash, crawled_at "
+            "FROM crawl_cache WHERE canonical_url = ?",
+            (canonical_url,),
+        ).fetchone()
+        if row:
+            return {
+                "etag": row[0],
+                "last_modified": row[1],
+                "content_hash": row[2],
+                "crawled_at": row[3],
+            }
+        return {}
+
+    def put(self, canonical_url: str, etag: str = None, last_modified: str = None,
+            content_hash: str = None):
+        """Store or update cache entry for a URL."""
+        conn = self._get_conn()
+        conn.execute(
+            "INSERT OR REPLACE INTO crawl_cache "
+            "(canonical_url, etag, last_modified, content_hash, crawled_at) "
+            "VALUES (?, ?, ?, ?, ?)",
+            (canonical_url, etag, last_modified, content_hash,
+             datetime.now().isoformat()),
+        )
+        conn.commit()
+
+    def close(self):
+        """Close all thread-local connections."""
+        if hasattr(self._local, "conn") and self._local.conn:
+            try:
+                self._local.conn.close()
+            except Exception:
+                pass
+            self._local.conn = None
+
 
 class MultithreadedCollegeCrawler:
     """Multithreaded crawler that crawls college websites and uploads directly to Milvus."""
@@ -430,6 +647,25 @@ class MultithreadedCollegeCrawler:
         # Reset per college in crawl_college_site().
         self._content_hash_cache: set = set()
         self._content_hash_lock = threading.Lock()
+
+        # === Performance: Persistent Playwright browser pool ===
+        # Pre-launches browser instances to avoid ~2-3s startup per request.
+        self.pw_pool = PlaywrightPool(
+            pool_size=PLAYWRIGHT_POOL_SIZE,
+            rotate_after=PLAYWRIGHT_POOL_ROTATE_AFTER,
+            headless=True,
+            use_camoufox=USE_CAMOUFOX,
+        )
+        if self.playwright_enabled and sync_playwright is not None:
+            self.pw_pool.start()
+
+        # === Performance: Delta crawl cache ===
+        # SQLite cache for ETag/Last-Modified/content hash to skip unchanged pages.
+        self._delta_cache: Optional[DeltaCrawlCache] = None
+        if ENABLE_DELTA_CRAWLING:
+            cache_path = os.path.join(DATA_DIR, "crawl_cache.db")
+            self._delta_cache = DeltaCrawlCache(cache_path)
+            print(f"    Delta crawling enabled (cache: {cache_path})")
 
     # === Insert buffer flush infrastructure ===
 
@@ -1304,6 +1540,20 @@ class MultithreadedCollegeCrawler:
             # Use provided session or fall back to shared session
             request_session = session or self.session
 
+            # Delta crawling: check cache for conditional headers
+            _delta_headers = {}
+            _delta_canon = None
+            if self._delta_cache:
+                try:
+                    _delta_canon = self._url_canonical_key(url)
+                    cached = self._delta_cache.get(_delta_canon)
+                    if cached.get("etag"):
+                        _delta_headers["If-None-Match"] = cached["etag"]
+                    if cached.get("last_modified"):
+                        _delta_headers["If-Modified-Since"] = cached["last_modified"]
+                except Exception:
+                    pass
+
             # Fetch the page with retry logic for 403 errors
             response = None
             for attempt in range(self.max_retries):
@@ -1339,6 +1589,9 @@ class MultithreadedCollegeCrawler:
                         req_headers = dict(request_session.headers)
                         if attempt > 0:
                             req_headers.update(self._generate_headers())
+                        # Delta crawling: add conditional headers
+                        if _delta_headers:
+                            req_headers.update(_delta_headers)
                         response = curl_requests.get(
                             url,
                             impersonate=impersonate_target,
@@ -1348,12 +1601,24 @@ class MultithreadedCollegeCrawler:
                             allow_redirects=True,
                         )
                     else:
+                        # Delta crawling: add conditional headers to session
+                        if _delta_headers:
+                            request_session.headers.update(_delta_headers)
                         response = request_session.get(
                             url,
                             timeout=REQUEST_TIMEOUT,
                             allow_redirects=True,
                             proxies=proxy_dict,
                         )
+                        # Remove conditional headers after use
+                        if _delta_headers:
+                            for k in _delta_headers:
+                                request_session.headers.pop(k, None)
+
+                    # Delta crawling: 304 Not Modified — page unchanged, skip entirely
+                    if response.status_code == 304 and self._delta_cache:
+                        print(f"    304 Not Modified (delta skip): {url}")
+                        return None
 
                     # Handle 403 errors specifically
                     if response.status_code == 403:
@@ -1688,6 +1953,31 @@ class MultithreadedCollegeCrawler:
             if len(internal_links) > 0:
                 print(f"    🔗 Found {len(internal_links)} internal links for {url}")
 
+            # Delta crawling: update cache with response headers and content hash
+            if self._delta_cache and not needs_pw:
+                try:
+                    canon = _delta_canon or self._url_canonical_key(url)
+                    etag = None
+                    last_mod = None
+                    try:
+                        etag = response.headers.get("ETag")
+                        last_mod = response.headers.get("Last-Modified")
+                    except Exception:
+                        pass
+                    c_hash = self._content_hash(cleaned_content) if cleaned_content else None
+
+                    # Check if content actually changed vs cached hash
+                    if _delta_canon:
+                        cached = self._delta_cache.get(_delta_canon)
+                        if cached.get("content_hash") and cached["content_hash"] == c_hash:
+                            print(f"    Delta: content unchanged (hash match), skipping embed: {url}")
+                            return None
+
+                    self._delta_cache.put(canon, etag=etag, last_modified=last_mod,
+                                          content_hash=c_hash)
+                except Exception:
+                    pass
+
             return {
                 # Store the final URL (post-redirect) for better link resolution and traceability
                 "url": final_url,
@@ -1741,11 +2031,23 @@ class MultithreadedCollegeCrawler:
             html_idle: str = ""
             final_url: str = url  # Initialize to prevent reference errors
             redirect_detected: bool = False
+            # Try to use the pre-launched pool first (fast path: ~50ms context creation
+            # instead of ~2-3s browser startup)
+            _pool_slot_idx = -1
+            _pool_browser = None
+            _using_pool = False
+
+            if self.pw_pool._started:
+                _pool_browser, _pool_slot_idx = self.pw_pool.acquire(timeout=10.0)
+                if _pool_browser is not None:
+                    _using_pool = True
+
             with self.playwright_semaphore:
-                # Start or reuse a thread-local Playwright runtime
-                if not hasattr(self._pw_local, "pw") or self._pw_local.pw is None:
-                    self._pw_local.pw = sync_playwright().start()
-                p = self._pw_local.pw
+                # Start or reuse a thread-local Playwright runtime (fallback if pool unavailable)
+                if not _using_pool:
+                    if not hasattr(self._pw_local, "pw") or self._pw_local.pw is None:
+                        self._pw_local.pw = sync_playwright().start()
+                p = self._pw_local.pw if not _using_pool else None
                 # Acquire proxy for Playwright (optional)
                 pw_proxy_token = None
                 pw_proxy_settings = None
@@ -1836,65 +2138,70 @@ class MultithreadedCollegeCrawler:
                     context_kwargs["storage_state"] = storage_state
                     print(f"    🍪 Loaded cookies for {urlparse(url).netloc}")
 
-                # --- Browser launch: prefer camoufox, fall back to chromium ---
-                use_camoufox = USE_CAMOUFOX and Camoufox is not None
+                # --- Browser launch: use pool (fast) or fallback to thread-local ---
                 camoufox_cm = None  # context manager reference for cleanup
 
-                if use_camoufox:
-                    try:
-                        camoufox_cm = Camoufox(headless=True, proxy=pw_proxy_settings)
-                        browser = camoufox_cm.__enter__()
-                    except Exception as e:
-                        print(f"    ⚠️  Camoufox launch failed ({e}), falling back to Chromium")
-                        camoufox_cm = None
-                        use_camoufox = False
+                if _using_pool:
+                    # Pool browser already acquired above — no startup cost
+                    browser = _pool_browser
+                else:
+                    use_camoufox = USE_CAMOUFOX and Camoufox is not None
 
-                if not use_camoufox:
-                    # Use thread-local browser cache for Chromium
-                    if not hasattr(self._pw_local, "browsers"):
-                        self._pw_local.browsers = {}
-                    browser_key = selected_proxy_url or "direct"
-                    browser = self._pw_local.browsers.get(browser_key)
-                    if browser is None:
-                        launch_options = {
-                            "headless": True,
-                            "args": [
-                                "--no-sandbox",
-                                "--disable-setuid-sandbox",
-                                "--disable-dev-shm-usage",
-                                "--disable-accelerated-2d-canvas",
-                                "--no-first-run",
-                                "--no-zygote",
-                                "--disable-gpu",
-                                "--disable-features=TranslateUI",
-                                "--disable-features=BlinkGenPropertyTrees",
-                                "--disable-ipc-flooding-protection",
-                                "--disable-background-networking",
-                                "--disable-default-apps",
-                                "--disable-extensions",
-                                "--disable-sync",
-                                "--metrics-recording-only",
-                                "--no-default-browser-check",
-                                "--mute-audio",
-                                "--disable-logging",
-                                "--disable-permissions-api",
-                                "--disable-blink-features=AutomationControlled",
-                                "--disable-web-security",
-                                "--allow-running-insecure-content",
-                                "--disable-client-side-phishing-detection",
-                                "--disable-component-update",
-                                "--disable-hang-monitor",
-                                "--disable-prompt-on-repost",
-                                "--disable-background-timer-throttling",
-                                "--disable-renderer-backgrounding",
-                                "--disable-backgrounding-occluded-windows",
-                                "--force-device-scale-factor=1",
-                            ],
-                        }
-                        if pw_proxy_settings:
-                            launch_options["proxy"] = pw_proxy_settings
-                        browser = p.chromium.launch(**launch_options)
-                        self._pw_local.browsers[browser_key] = browser
+                    if use_camoufox:
+                        try:
+                            camoufox_cm = Camoufox(headless=True, proxy=pw_proxy_settings)
+                            browser = camoufox_cm.__enter__()
+                        except Exception as e:
+                            print(f"    ⚠️  Camoufox launch failed ({e}), falling back to Chromium")
+                            camoufox_cm = None
+                            use_camoufox = False
+
+                    if not use_camoufox:
+                        # Use thread-local browser cache for Chromium
+                        if not hasattr(self._pw_local, "browsers"):
+                            self._pw_local.browsers = {}
+                        browser_key = selected_proxy_url or "direct"
+                        browser = self._pw_local.browsers.get(browser_key)
+                        if browser is None:
+                            launch_options = {
+                                "headless": True,
+                                "args": [
+                                    "--no-sandbox",
+                                    "--disable-setuid-sandbox",
+                                    "--disable-dev-shm-usage",
+                                    "--disable-accelerated-2d-canvas",
+                                    "--no-first-run",
+                                    "--no-zygote",
+                                    "--disable-gpu",
+                                    "--disable-features=TranslateUI",
+                                    "--disable-features=BlinkGenPropertyTrees",
+                                    "--disable-ipc-flooding-protection",
+                                    "--disable-background-networking",
+                                    "--disable-default-apps",
+                                    "--disable-extensions",
+                                    "--disable-sync",
+                                    "--metrics-recording-only",
+                                    "--no-default-browser-check",
+                                    "--mute-audio",
+                                    "--disable-logging",
+                                    "--disable-permissions-api",
+                                    "--disable-blink-features=AutomationControlled",
+                                    "--disable-web-security",
+                                    "--allow-running-insecure-content",
+                                    "--disable-client-side-phishing-detection",
+                                    "--disable-component-update",
+                                    "--disable-hang-monitor",
+                                    "--disable-prompt-on-repost",
+                                    "--disable-background-timer-throttling",
+                                    "--disable-renderer-backgrounding",
+                                    "--disable-backgrounding-occluded-windows",
+                                    "--force-device-scale-factor=1",
+                                ],
+                            }
+                            if pw_proxy_settings:
+                                launch_options["proxy"] = pw_proxy_settings
+                            browser = p.chromium.launch(**launch_options)
+                            self._pw_local.browsers[browser_key] = browser
 
                 try:
                     context = browser.new_context(**context_kwargs)
@@ -2175,6 +2482,13 @@ class MultithreadedCollegeCrawler:
                             pass
 
                 finally:
+                    # Release pool slot back (browser stays alive for reuse)
+                    if _using_pool and _pool_slot_idx >= 0:
+                        try:
+                            self.pw_pool.release(_pool_slot_idx)
+                        except Exception:
+                            pass
+
                     # Ensure camoufox is cleaned up even on exceptions
                     if camoufox_cm is not None:
                         try:
@@ -3480,10 +3794,13 @@ class MultithreadedCollegeCrawler:
         print("\n2. Starting multithreaded crawling and uploading to Milvus...")
         self.crawl_all_colleges(majors_data, max_pages_per_college)
 
-        # Shutdown background threads
+        # Shutdown background threads and resources
         self._insert_flush_stop.set()
         self._insert_flush_thread.join(timeout=10)
         self.embedding_batcher.shutdown()
+        self.pw_pool.shutdown()
+        if self._delta_cache:
+            self._delta_cache.close()
 
         print(f"\n🎉 Multithreaded crawling completed successfully!")
         print(f"📊 All pages have been uploaded to Zilliz Cloud for vector search!")
@@ -3586,9 +3903,14 @@ class MultithreadedCollegeCrawler:
         except Exception as e:
             print(f"Error disconnecting from Milvus: {e}")
 
-        # Clean up Playwright instances
+        # Clean up Playwright pool
         try:
-            # Close thread-local browsers
+            self.pw_pool.shutdown()
+        except Exception:
+            pass
+
+        # Clean up thread-local Playwright instances (fallback path)
+        try:
             if hasattr(self._pw_local, "browsers"):
                 for browser in self._pw_local.browsers.values():
                     try:
@@ -3597,7 +3919,6 @@ class MultithreadedCollegeCrawler:
                         pass
                 self._pw_local.browsers.clear()
 
-            # Close thread-local Playwright instance
             if hasattr(self._pw_local, "pw") and self._pw_local.pw:
                 try:
                     self._pw_local.pw.stop()
@@ -3608,6 +3929,13 @@ class MultithreadedCollegeCrawler:
             print("Cleaned up Playwright resources")
         except Exception as e:
             print(f"Error cleaning up Playwright resources: {e}")
+
+        # Clean up delta crawl cache
+        if self._delta_cache:
+            try:
+                self._delta_cache.close()
+            except Exception:
+                pass
 
     def _cleanup_thread_local_playwright(self):
         """Clean up thread-local Playwright resources for the current thread only."""
