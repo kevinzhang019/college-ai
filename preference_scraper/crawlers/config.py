@@ -34,7 +34,7 @@ USE_CAMOUFOX = os.getenv("USE_CAMOUFOX", "1") == "1"
 
 # Crawling limits
 MAX_PAGES_PER_COLLEGE = int(
-    os.getenv("MAX_PAGES_PER_COLLEGE", "200")
+    os.getenv("MAX_PAGES_PER_COLLEGE", "500")
 )  # Maximum pages to crawl per college
 MAX_DEPTH = int(os.getenv("MAX_DEPTH", "3"))  # Maximum crawl depth from starting URL
 MAX_RETRIES = int(
@@ -43,6 +43,13 @@ MAX_RETRIES = int(
 
 # Per-college crawl time budget (seconds)
 MAX_CRAWL_TIME_PER_COLLEGE = int(os.getenv("MAX_CRAWL_TIME_PER_COLLEGE", "300"))
+
+# Inter-college parallelism: crawl multiple colleges simultaneously (different domains)
+INTER_COLLEGE_PARALLELISM = int(os.getenv("INTER_COLLEGE_PARALLELISM", "4"))
+
+# Milvus insert buffer: batch inserts to reduce lock contention
+MILVUS_INSERT_BUFFER_SIZE = int(os.getenv("MILVUS_INSERT_BUFFER_SIZE", "50"))
+MILVUS_INSERT_FLUSH_INTERVAL = float(os.getenv("MILVUS_INSERT_FLUSH_INTERVAL", "2.0"))
 
 # Content filtering
 MIN_CONTENT_LENGTH = int(

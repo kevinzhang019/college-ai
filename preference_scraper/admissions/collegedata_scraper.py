@@ -40,13 +40,17 @@ import json
 import logging
 import argparse
 import urllib.parse
+import threading
+import random
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from typing import Optional
 
+import re
 import requests
 from camoufox.sync_api import Camoufox
 
-from preference_scraper.admissions.db import get_session, init_db
+from preference_scraper.admissions.db import get_session, init_db, with_retry
 from preference_scraper.admissions.models import School, ApplicantDatapoint, ScrapeJob
 
 logger = logging.getLogger(__name__)
@@ -60,15 +64,32 @@ COOKIES_PATH = os.path.join(
 )
 
 REQUEST_DELAY = 2.0  # seconds between API calls
+SCRAPER_WORKERS = int(os.getenv("COLLEGEDATA_WORKERS", "3"))
 
-# Single-filter variants to get different population slices
+# Only scrape applicants whose decision type is known
 FILTER_VARIANTS = [
-    {},                             # base (all applicants)
     {"decisionType": "early"},
     {"decisionType": "regular"},
-    {"gender": "F"},
-    {"gender": "M"},
 ]
+
+
+class _RateLimiter:
+    """Thread-safe rate limiter that scales delay by worker count."""
+
+    def __init__(self, min_delay: float, max_delay: float, num_workers: int):
+        self._lock = threading.Lock()
+        self._min_delay = min_delay * num_workers
+        self._max_delay = max_delay * num_workers
+        self._last_request = 0.0
+
+    def wait(self):
+        with self._lock:
+            now = time.monotonic()
+            elapsed = now - self._last_request
+            delay = random.uniform(self._min_delay, self._max_delay)
+            if elapsed < delay:
+                time.sleep(delay - elapsed)
+            self._last_request = time.monotonic()
 
 
 class CollegeDataSession:
@@ -84,6 +105,7 @@ class CollegeDataSession:
             )
         self._cd_auth: Optional[str] = None
         self._token_expiry: float = 0
+        self._login_lock = threading.Lock()
 
     def _save_cookie(self, cd_auth: str):
         os.makedirs(os.path.dirname(COOKIES_PATH), exist_ok=True)
@@ -146,7 +168,7 @@ class CollegeDataSession:
         logger.info("CollegeData authentication successful. Cookie saved.")
 
     def get_cookie(self) -> str:
-        """Return a valid cd_auth cookie, refreshing if expired."""
+        """Return a valid cd_auth cookie, refreshing if expired. Thread-safe."""
         # Try saved cookie first
         if not self._cd_auth:
             self._cd_auth = self._load_cookie()
@@ -154,8 +176,12 @@ class CollegeDataSession:
         if self._cd_auth and self._token_is_valid(self._cd_auth):
             return self._cd_auth
 
-        # Need fresh login
-        self._login_via_browser()
+        # Need fresh login — serialize concurrent re-auth attempts
+        with self._login_lock:
+            # Double-check after acquiring lock (another thread may have refreshed)
+            if self._cd_auth and self._token_is_valid(self._cd_auth):
+                return self._cd_auth
+            self._login_via_browser()
         return self._cd_auth
 
     def get_request_cookies(self) -> dict:
@@ -165,6 +191,7 @@ class CollegeDataSession:
 def _parse_datapoints(
     school_id: int,
     data: dict,
+    decision_type: str,
 ) -> list[dict]:
     """Extract applicant data points from an admissions tracker API response.
 
@@ -199,6 +226,7 @@ def _parse_datapoints(
             gpa=float(gpa),
             sat_score=float(sat),
             outcome="applied",   # API doesn't distinguish accept/reject
+            decision_type=decision_type,
             scraped_at=now,
         ))
 
@@ -209,10 +237,18 @@ def _dedup_datapoints(all_points: list[dict]) -> list[dict]:
     """Deduplicate points across filter variants."""
     seen: dict[tuple, dict] = {}
     for dp in all_points:
-        key = (dp["school_id"], dp["gpa"], dp["sat_score"])
+        key = (dp["school_id"], dp["gpa"], dp["sat_score"], dp["decision_type"])
         if key not in seen:
             seen[key] = dp
     return list(seen.values())
+
+
+_CAMPUS_SUFFIX_RE = re.compile(
+    r"\s*[-\u2013\u2014]\s*"
+    r"(main\s+campus|central\s+campus|flagship|"
+    r"all\s+campuses|global\s+campus|online)\s*$",
+    re.IGNORECASE,
+)
 
 
 def _get_school_slug_map(session) -> dict[str, int]:
@@ -220,6 +256,7 @@ def _get_school_slug_map(session) -> dict[str, int]:
     schools = session.query(School.id, School.name).all()
     slug_map = {}
     for school_id, name in schools:
+        name = _CAMPUS_SUFFIX_RE.sub("", name)
         slug = name.lower().strip()
         for char in ["&", "'", ",", ".", "(", ")", "/"]:
             slug = slug.replace(char, "")
@@ -232,12 +269,12 @@ def scrape_school(
     slug: str,
     school_id: int,
     session_auth: CollegeDataSession,
-    session,
-) -> int:
+) -> tuple[int, list[dict]]:
     """Scrape all admissions tracker data for a single school.
 
     Returns:
-        > 0: number of unique datapoints stored
+        (status, datapoints) where status is:
+        > 0: number of unique datapoints
         0  : API responded but returned 0 datapoints
         -1 : school not found (404)
     """
@@ -260,10 +297,8 @@ def scrape_school(
             )
 
             if resp.status_code in (404, 500):
-                # 404 = school not in CollegeData
-                # 500 = school exists but has no tracker data (CollegeData returns 500 for this)
                 logger.debug(f"  {slug}: no tracker data ({resp.status_code})")
-                return -1
+                return -1, []
 
             if resp.status_code == 401:
                 # Cookie expired — re-auth and retry once
@@ -279,7 +314,8 @@ def scrape_school(
             resp.raise_for_status()
 
             data = resp.json()
-            points = _parse_datapoints(school_id, data)
+            decision_type = filter_params.get("decisionType", "unknown")
+            points = _parse_datapoints(school_id, data, decision_type)
             all_points.extend(points)
             logger.debug(
                 f"  {slug} [{filter_params or 'base'}]: {len(points)} points"
@@ -287,7 +323,7 @@ def scrape_school(
 
         except requests.exceptions.HTTPError as e:
             if e.response is not None and e.response.status_code in (404, 500):
-                return -1
+                return -1, []
             logger.warning(f"  {slug} filter={filter_params}: HTTP {e}")
         except Exception as e:
             logger.warning(f"  {slug} filter={filter_params}: {e}")
@@ -295,22 +331,19 @@ def scrape_school(
         time.sleep(REQUEST_DELAY)
 
     if not all_points:
-        return 0
+        return 0, []
 
     unique_points = _dedup_datapoints(all_points)
-
-    for dp in unique_points:
-        session.add(ApplicantDatapoint(**dp))
-    session.commit()
-
-    return len(unique_points)
+    return len(unique_points), unique_points
 
 
 def scrape_all(
     slugs: Optional[list[str]] = None,
     resume: bool = True,
 ):
-    """Scrape admissions tracker data for all schools."""
+    """Scrape admissions tracker data for all schools.
+    Uses threaded workers for parallel scraping with rate limiting.
+    """
     init_db()
     session = get_session()
     session_auth = CollegeDataSession()
@@ -320,66 +353,131 @@ def scrape_all(
     else:
         slug_map_full = _get_school_slug_map(session)
         slug_map = {s: slug_map_full.get(s, 0) for s in slugs}
+    session.close()
 
     total_schools = len(slug_map)
     total_points = 0
     done_count = 0
+    counter_lock = threading.Lock()
+    progress = {"idx": 0}
 
-    logger.info(f"Starting CollegeData scrape for {total_schools} schools...")
+    # Rate limiter scales delay by worker count to keep aggregate rate constant
+    num_workers = min(SCRAPER_WORKERS, max(1, total_schools))
+    rate_limiter = _RateLimiter(
+        min_delay=REQUEST_DELAY, max_delay=REQUEST_DELAY * 2, num_workers=num_workers
+    )
 
-    try:
-        for i, (slug, school_id) in enumerate(slug_map.items()):
-            if resume:
-                job = session.query(ScrapeJob).filter_by(
+    logger.info(
+        f"Starting CollegeData scrape for {total_schools} schools "
+        f"with {num_workers} workers..."
+    )
+
+    # Filter out already-done schools upfront
+    jobs_to_run = []
+    if resume:
+        s = get_session()
+        try:
+            for slug, school_id in slug_map.items():
+                job = s.query(ScrapeJob).filter_by(
                     source="collegedata", school_slug=slug
                 ).first()
                 if job and job.status in ("done", "not_found"):
                     done_count += 1
-                    continue
+                else:
+                    jobs_to_run.append((slug, school_id))
+        finally:
+            s.close()
+    else:
+        jobs_to_run = list(slug_map.items())
 
-            logger.info(f"[{i+1}/{total_schools}] Scraping {slug} ...")
+    def _process_school(slug: str, school_id: int) -> int:
+        """Process a single school. Returns datapoint count (0 or positive)."""
+        nonlocal total_points
 
+        with counter_lock:
+            progress["idx"] += 1
+            idx = progress["idx"]
+
+        logger.info(f"[{idx}/{total_schools}] Scraping {slug} ...")
+
+        # Ensure ScrapeJob row exists
+        def _ensure_job(session, _slug=slug):
             job = session.query(ScrapeJob).filter_by(
-                source="collegedata", school_slug=slug
+                source="collegedata", school_slug=_slug
             ).first()
             if not job:
-                job = ScrapeJob(source="collegedata", school_slug=slug, status="pending")
-                session.add(job)
-                session.commit()
+                session.add(ScrapeJob(source="collegedata", school_slug=_slug, status="pending"))
+        with_retry(_ensure_job)
 
-            try:
-                count = scrape_school(slug, school_id, session_auth, session)
-                now = datetime.now(timezone.utc).isoformat()
+        try:
+            # Rate limit before each school
+            rate_limiter.wait()
 
-                if count > 0:
-                    job.status = "done"
+            count, datapoints = scrape_school(slug, school_id, session_auth)
+            now = datetime.now(timezone.utc).isoformat()
+
+            def _save(session, _slug=slug, _count=count, _dps=datapoints, _now=now):
+                # Bulk insert datapoints
+                if _dps:
+                    session.bulk_insert_mappings(ApplicantDatapoint, _dps)
+                job = session.query(ScrapeJob).filter_by(
+                    source="collegedata", school_slug=_slug
+                ).first()
+                if job:
+                    if _count > 0:
+                        job.status = "done"
+                    elif _count == -1:
+                        job.status = "not_found"
+                    else:
+                        job.status = "no_data"
+                    job.last_attempt = _now
+                    job.error = None
+            with_retry(_save)
+
+            if count > 0:
+                with counter_lock:
                     total_points += count
-                    logger.info(f"  -> {count} unique datapoints")
-                elif count == -1:
-                    job.status = "not_found"
-                    logger.debug(f"  -> not found in CollegeData")
-                else:
-                    job.status = "no_data"
-                    logger.warning(
-                        f"  -> API responded but returned 0 datapoints for {slug} "
-                        f"(will retry on next run)"
-                    )
+                logger.info(f"  -> {count} unique datapoints")
+            elif count == -1:
+                logger.debug(f"  -> not found in CollegeData")
+            else:
+                logger.warning(
+                    f"  -> API responded but returned 0 datapoints for {slug} "
+                    f"(will retry on next run)"
+                )
+            return max(0, count)
 
-                job.last_attempt = now
-                job.error = None
-                session.commit()
+        except Exception as e:
+            err_msg = str(e)[:500]
+            try:
+                def _mark_failed(session, _slug=slug, _err=err_msg):
+                    job = session.query(ScrapeJob).filter_by(
+                        source="collegedata", school_slug=_slug
+                    ).first()
+                    if job:
+                        job.status = "failed"
+                        job.last_attempt = datetime.now(timezone.utc).isoformat()
+                        job.error = _err
+                with_retry(_mark_failed)
+            except Exception:
+                pass
+            logger.error(f"  -> FAILED: {e}")
+            return 0
 
-            except Exception as e:
-                job.status = "failed"
-                job.last_attempt = datetime.now(timezone.utc).isoformat()
-                job.error = str(e)[:500]
-                session.commit()
-                logger.error(f"  -> FAILED: {e}")
+    try:
+        with ThreadPoolExecutor(max_workers=num_workers) as executor:
+            futures = {
+                executor.submit(_process_school, slug, school_id): slug
+                for slug, school_id in jobs_to_run
+            }
+            for fut in as_completed(futures):
+                try:
+                    fut.result()
+                except Exception as e:
+                    logger.error(f"  Worker error: {e}")
 
     except KeyboardInterrupt:
         logger.info("Interrupted. Progress saved — rerun to resume.")
-    finally:
-        session.close()
 
     logger.info(
         f"Done. {total_points} total datapoints scraped. "

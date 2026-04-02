@@ -13,13 +13,14 @@ Requires SCORECARD_API_KEY in .env (register free at https://api.data.gov/signup
 import os
 import time
 import logging
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from typing import Optional, Tuple
 
 import requests
 from sqlalchemy import select
 
-from preference_scraper.admissions.db import get_session, init_db
+from preference_scraper.admissions.db import get_session, init_db, with_retry
 from preference_scraper.admissions.models import School
 
 logger = logging.getLogger(__name__)
@@ -59,6 +60,8 @@ FIELDS = ",".join([
 
 PER_PAGE = 100
 REQUEST_DELAY = 0.5  # seconds between pages
+SCORECARD_WORKERS = int(os.getenv("SCORECARD_WORKERS", "3"))
+MAX_RETRIES = 3
 
 
 def _get_api_key() -> str:
@@ -91,13 +94,30 @@ def _compute_sat_composite(result: dict) -> Tuple[Optional[float], Optional[floa
     return avg, sat_25, sat_75
 
 
+import re as _re
+
+_CAMPUS_SUFFIX_RE = _re.compile(
+    r"\s*[-\u2013\u2014]\s*"
+    r"(main\s+campus|central\s+campus|flagship|"
+    r"all\s+campuses|global\s+campus|online)\s*$",
+    _re.IGNORECASE,
+)
+
+
+def _clean_school_name(name: str | None) -> str | None:
+    """Strip campus suffixes like '-Main Campus' from Scorecard school names."""
+    if not name:
+        return name
+    return _CAMPUS_SUFFIX_RE.sub("", name).strip()
+
+
 def _parse_school(result: dict) -> dict:
     """Convert a flat API result dict into School model kwargs."""
     sat_avg, sat_25, sat_75 = _compute_sat_composite(result)
 
     return dict(
         id=result["id"],
-        name=_get(result, "school.name"),
+        name=_clean_school_name(_get(result, "school.name")),
         city=_get(result, "school.city"),
         state=_get(result, "school.state"),
         ownership=_get(result, "school.ownership"),
@@ -124,70 +144,108 @@ def _parse_school(result: dict) -> dict:
     )
 
 
-def fetch_all_schools() -> int:
-    """Fetch all schools from College Scorecard API and upsert into DB.
-
-    Returns the total number of schools ingested.
-    """
-    api_key = _get_api_key()
-    init_db()
-    session = get_session()
-
-    page = 0
-    total_ingested = 0
-
-    try:
-        while True:
+def _fetch_page(api_key: str, page: int) -> dict:
+    """Fetch a single page from the Scorecard API with retry."""
+    for attempt in range(MAX_RETRIES):
+        try:
             params = {
                 "api_key": api_key,
                 "fields": FIELDS,
                 "per_page": PER_PAGE,
                 "page": page,
             }
-
-            logger.info(f"Fetching page {page} ...")
             resp = requests.get(BASE_URL, params=params, timeout=30)
+            if resp.status_code == 429:
+                retry_after = int(resp.headers.get("Retry-After", 2 ** attempt))
+                logger.warning(f"Rate limited on page {page}, waiting {retry_after}s")
+                time.sleep(retry_after)
+                continue
             resp.raise_for_status()
-            data = resp.json()
+            return resp.json()
+        except Exception as e:
+            if attempt < MAX_RETRIES - 1:
+                wait = 2 ** attempt
+                logger.warning(f"Page {page} failed: {e}, retrying in {wait}s...")
+                time.sleep(wait)
+            else:
+                raise
+    return {}
 
-            results = data.get("results", [])
-            if not results:
-                break
 
-            metadata = data.get("metadata", {})
-            total = metadata.get("total", "?")
+def _upsert_parsed(parsed: list[dict]):
+    """Bulk upsert a page of parsed school data."""
+    def _upsert_page(session, _parsed=parsed):
+        for school_data in _parsed:
+            existing = session.get(School, school_data["id"])
+            if existing:
+                for k, v in school_data.items():
+                    setattr(existing, k, v)
+            else:
+                session.add(School(**school_data))
+    with_retry(_upsert_page)
 
-            for result in results:
-                school_data = _parse_school(result)
-                if not school_data.get("name"):
-                    logger.debug(f"Skipping school id={school_data['id']} with null name")
+
+def fetch_all_schools() -> int:
+    """Fetch all schools from College Scorecard API and upsert into DB.
+    Uses concurrent page fetching for speed.
+
+    Returns the total number of schools ingested.
+    """
+    api_key = _get_api_key()
+    init_db()
+
+    # Fetch first page to determine total
+    logger.info("Fetching page 0 (to determine total pages)...")
+    first_data = _fetch_page(api_key, 0)
+    results = first_data.get("results", [])
+    if not results:
+        logger.info("No results from Scorecard API.")
+        return 0
+
+    metadata = first_data.get("metadata", {})
+    total_records = metadata.get("total", 0)
+    total_pages = (total_records // PER_PAGE) + 1
+
+    # Parse and save first page
+    parsed = [_parse_school(r) for r in results if _parse_school(r).get("name")]
+    _upsert_parsed(parsed)
+    total_ingested = len(parsed)
+    logger.info(f"  Page 0: ingested {total_ingested}/{total_records} schools total")
+
+    if total_pages <= 1:
+        logger.info(f"Done. {total_ingested} schools ingested into DB.")
+        return total_ingested
+
+    # Fetch remaining pages in parallel
+    remaining_pages = list(range(1, total_pages))
+    num_workers = min(SCORECARD_WORKERS, len(remaining_pages))
+    logger.info(f"Fetching {len(remaining_pages)} remaining pages with {num_workers} workers...")
+
+    with ThreadPoolExecutor(max_workers=num_workers) as executor:
+        future_to_page = {
+            executor.submit(_fetch_page, api_key, p): p
+            for p in remaining_pages
+        }
+
+        for fut in as_completed(future_to_page):
+            page_num = future_to_page[fut]
+            try:
+                data = fut.result()
+                page_results = data.get("results", [])
+                if not page_results:
                     continue
-                existing = session.get(School, school_data["id"])
-                if existing:
-                    for k, v in school_data.items():
-                        setattr(existing, k, v)
-                else:
-                    session.add(School(**school_data))
-                total_ingested += 1
 
-            session.commit()
-            logger.info(
-                f"  Page {page}: ingested {total_ingested}/{total} schools total"
-            )
-
-            # Check if we've fetched all pages
-            total_pages = metadata.get("total", 0) // PER_PAGE + 1
-            page += 1
-            if page >= total_pages:
-                break
-
-            time.sleep(REQUEST_DELAY)
-
-    except Exception:
-        session.rollback()
-        raise
-    finally:
-        session.close()
+                page_parsed = [
+                    _parse_school(r) for r in page_results
+                    if _parse_school(r).get("name")
+                ]
+                _upsert_parsed(page_parsed)
+                total_ingested += len(page_parsed)
+                logger.info(
+                    f"  Page {page_num}: ingested {total_ingested}/{total_records} schools total"
+                )
+            except Exception as e:
+                logger.error(f"  Page {page_num} FAILED: {e}")
 
     logger.info(f"Done. {total_ingested} schools ingested into DB.")
     return total_ingested
