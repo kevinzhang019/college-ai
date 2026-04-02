@@ -3207,13 +3207,13 @@ class MultithreadedCollegeCrawler:
         stop_event = threading.Event()
         pages_crawled_shared = 0  # successful pages scraped
 
-        # Normalize base URL
+        # Use the base URL as-is (preserve www. prefix).
+        # Stripping www. can cause redirects to a different subdomain
+        # (e.g., mit.edu → web.mit.edu instead of www.mit.edu) which
+        # breaks internal link detection.
         try:
             parsed = urlparse(base_url)
-            base_netloc = parsed.netloc
-            if base_netloc and base_netloc.lower().startswith("www."):
-                base_netloc = base_netloc[4:]
-            normalized_base = f"{parsed.scheme}://{base_netloc}"
+            normalized_base = f"{parsed.scheme}://{parsed.netloc}"
         except Exception:
             normalized_base = base_url
 
