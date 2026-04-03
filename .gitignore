@@ -210,6 +210,9 @@ __marimo__/
 *.pem
 kate.pem
 
-# Runtime data - playwright cookies and crawl cache
+# Runtime / generated data
 college_ai/scraping/playwright_cookies/
-data/crawl_cache.db
+data/
+logs/
+*.db
+*.parquet
