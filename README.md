@@ -1,18 +1,21 @@
 # college-ai-v2
 
-## Retrieval-Augmented Generation (RAG) for College Applications
+A college application assistant combining RAG (retrieval-augmented generation) over crawled college websites with ML-based admissions probability prediction.
 
-This repo includes a complete RAG system over your Zilliz/Milvus collection of college website pages. It helps students apply to undergraduate programs by answering questions grounded in crawled content, with a focus on bachelor's degree admissions.
+## Prerequisites
 
-**New**: 🌐 **Web Frontend Available** - A modern, responsive web interface for easy interaction with the RAG system!
+Environment variables in `.env` at the project root:
 
-### Prerequisites
-
-- Environment variables in `.env` at the project root:
-  - `ZILLIZ_URI` and `ZILLIZ_API_KEY`
-  - `ZILLIZ_COLLECTION_NAME` (defaults to `college_pages`)
-  - `OPENAI_API_KEY`
-  - Optional: `OPENAI_CHAT_MODEL` (default `gpt-4o-mini`)
+| Variable | Required | Default | Used by |
+|---|---|---|---|
+| `ZILLIZ_URI` | Yes | — | RAG, crawler |
+| `ZILLIZ_API_KEY` | Yes | — | RAG, crawler |
+| `ZILLIZ_COLLECTION_NAME` | No | `college_pages` | RAG, crawler |
+| `OPENAI_API_KEY` | Yes | — | RAG, crawler (embeddings) |
+| `OPENAI_CHAT_MODEL` | No | `gpt-4o-mini` | RAG answer generation |
+| `TURSO_DATABASE_URL` | No | local SQLite | Admissions DB (Turso cloud) |
+| `TURSO_AUTH_TOKEN` | No | — | Admissions DB (Turso cloud) |
+| `SCORECARD_API_KEY` | Yes (for scraping) | — | College Scorecard API |
 
 Install dependencies:
 
@@ -20,68 +23,144 @@ Install dependencies:
 pip install -r requirements.txt
 ```
 
-## Quick Start with Web Frontend
+## Quick Start
 
-### Option 1: One-Click Startup (Recommended)
-
-Start both the backend API and web frontend with a single command:
+Start both the backend API and web frontend:
 
 ```bash
 ./start.sh
 ```
 
-This will:
+- Backend API: `http://localhost:8000`
+- Frontend UI: `http://localhost:3000`
+- API docs: `http://localhost:8000/docs`
 
-- Start the RAG API server on `http://localhost:8000`
-- Start the web frontend on `http://localhost:3000`
-- Open your browser to `http://localhost:3000` to use the interface
-
-### Option 2: Manual Startup
-
-#### 1. Start the API server:
+Or manually:
 
 ```bash
-uvicorn college_ai.api.app:app --host 0.0.0.0 --port 8000 --reload
+uvicorn college_ai.api.app:app --host 0.0.0.0 --port 8000  # backend
+cd frontend && python3 -m http.server 3000                   # frontend
 ```
 
-#### 2. Start the frontend (in a new terminal):
+## Project Structure
+
+```
+college_ai/              Main Python package
+  api/app.py             FastAPI server (RAG + predictions)
+  db/connection.py       SQLAlchemy engine (Turso or local SQLite)
+  db/models.py           ORM models (School, ApplicantDatapoint, NicheGrade)
+  ml/                    ML training + inference
+  rag/                   RAG pipeline (vector search + LLM)
+  scraping/              Web crawler, Niche scraper, Scorecard client
+scripts/                 One-off DB maintenance tools
+tests/                   All tests
+model/                   Trained model artifacts (tracked in git)
+data/                    Runtime data — training parquet, SQLite DBs (gitignored)
+frontend/                Static HTML/JS/CSS frontend
+docs/                    Feature documentation
+```
+
+## Data Pipeline
+
+Run these in order to build the system from scratch:
+
+### 1. Seed school data from College Scorecard API
 
 ```bash
-cd frontend
-python3 -m http.server 3000
+python -m college_ai.scraping.scorecard_client
 ```
 
-#### 3. Open your browser:
+No flags. Fetches ~6,500 schools and upserts into the DB. Requires `SCORECARD_API_KEY` env var.
+Optional: `SCORECARD_WORKERS` env var (default `3`) controls concurrent page-fetching threads.
 
-Navigate to `http://localhost:3000`
-
-## Alternative Usage Methods
-
-### Start the crawler (optional)
-
-To populate or refresh the collection:
+### 2. Scrape admissions data from Niche
 
 ```bash
-python college_ai/scraping/crawler.py
+python -m college_ai.scraping.niche_scraper
 ```
 
-### RAG via CLI
+Scrapes scattergram datapoints (GPA/SAT/outcome) and letter grades for each school.
 
-Ask a question with optional major or college filter:
+| Flag | Default | Description |
+|---|---|---|
+| `--school SLUG` | all | Scrape one school (e.g. `stanford-university`) |
+| `--grades-only` | off | Only scrape letter grades, skip scattergrams |
+| `--no-resume` | off | Re-scrape everything, ignore previous progress |
+| `--reset-empty` | off | Delete `no_data` rows so those schools get retried, then exit |
+| `--debug` | off | Verbose selector/extraction logging |
+| `--headful` | default | Run browser visibly (already default — PerimeterX blocks headless) |
+| `--headless` | off | Force headless mode (will likely get blocked) |
+| `--capture-cookies` | off | Open browser for manual login/challenge, save cookies for future runs |
+| `--workers N` | 3 | Parallel browser workers (max 5) |
+
+### 3. Crawl college websites into Zilliz
 
 ```bash
-python -m college_ai.rag.service --question "How do I apply for Computer Science at MIT?" --major "computer science" --top_k 8
+python -m college_ai.scraping.crawler
 ```
 
-### RAG via API
+No flags. Reads college URLs from CSVs in `college_ai/scraping/colleges/`, BFS-crawls each site, chunks + embeds text, and inserts into Zilliz. Configuration via env vars and `college_ai/scraping/config.py`.
 
-Run the API server:
+### 4. Export training data
 
 ```bash
-uvicorn college_ai.api.app:app --host 0.0.0.0 --port 8000 --reload
+python -m college_ai.ml.data_pipeline export
 ```
 
-Query the API:
+Pulls raw data from the DB, normalizes scores, engineers features, and writes `data/training_data.parquet`.
+
+| Argument | Default | Description |
+|---|---|---|
+| `stats` (positional) | — | Print DB summary (counts, top schools) |
+| `export` (positional) | — | Run pipeline and export training data |
+| `--format parquet\|csv` | parquet | Output format |
+
+### 5a. Train single global model
+
+```bash
+python -m college_ai.ml.train
+```
+
+Trains one LightGBM model on all data. Outputs to `model/`.
+
+| Flag | Default | Description |
+|---|---|---|
+| `--skip-tuning` | off | Skip Optuna hyperparameter search, use defaults |
+| `--data-path PATH` | `data/training_data.parquet` | Input training data |
+| `--model-dir DIR` | `model` | Output directory for model.pkl + config.json |
+| `--n-trials N` | 50 | Number of Optuna trials |
+| `--force-imbalance-correction` | off | Enable `is_unbalance` (hurts calibration) |
+| `--prune-features` | off | Drop near-zero importance features and retrain |
+| `--model-type lightgbm\|catboost` | lightgbm | Boosting framework |
+
+### 5b. Train bucketed models (recommended)
+
+```bash
+python -m college_ai.ml.train_bucketed
+```
+
+Trains 4 separate models by selectivity bucket (reach/competitive/match/safety). Outputs to `model/bucketed/`.
+
+| Flag | Default | Description |
+|---|---|---|
+| `--skip-tuning` | off | Skip Optuna, use default hyperparams |
+| `--data-path PATH` | `data/training_data.parquet` | Input training data |
+| `--model-dir DIR` | `model` | Output directory |
+| `--n-trials N` | 50 | Optuna trials per bucket |
+| `--bucket NAME` | all | Train only one bucket: `reach`, `competitive`, `match`, or `safety` |
+
+## API Endpoints
+
+| Method | Path | Description |
+|---|---|---|
+| `GET` | `/health` | Liveness check |
+| `GET` | `/config` | Current collection name |
+| `GET` | `/options` | Available college/major filter lists |
+| `POST` | `/ask` | RAG question answering |
+| `POST` | `/predict` | Admission probability for one school |
+| `POST` | `/compare` | Admission probability across multiple schools |
+
+### Example: Ask a question
 
 ```bash
 curl -X POST http://localhost:8000/ask \
@@ -89,27 +168,33 @@ curl -X POST http://localhost:8000/ask \
   -d '{"question": "Scholarships for business majors at UCLA?", "major": "business", "top_k": 8}'
 ```
 
-## Web Frontend Features
+### Example: Predict admission chances
 
-The included web frontend (`/frontend/`) provides:
+```bash
+curl -X POST http://localhost:8000/predict \
+  -H 'Content-Type: application/json' \
+  -d '{"school_name": "MIT", "gpa": 3.9, "sat": 1550}'
+```
 
-- **Modern UI**: Clean, responsive design that works on desktop and mobile
-- **Undergraduate Focus**: Specialized for bachelor's degree programs and freshman admissions
-- **Smart Filtering**: Filter by major, college, and number of results
-- **Real-time Status**: Connection monitoring and system health indicators
-- **Example Questions**: Built-in help with common undergraduate application questions
-- **Keyboard Shortcuts**: Enter in any field to submit questions, Shift + Enter for new lines
-- **Source Citations**: Direct links to original college pages
+## RAG CLI
 
-For detailed frontend documentation, see [`frontend/README.md`](frontend/README.md).
+```bash
+python -m college_ai.rag.service --question "How do I apply for CS at MIT?" --major "computer science" --top_k 8
+```
 
-## API Reference
+## Maintenance Scripts
 
-### Notes
+One-off tools in `scripts/` for Zilliz DB maintenance:
 
-- Retrieval uses the `embedding` vector field and returns `url`, `title`, `content`, `college_name`, `majors`, `crawled_at`.
-- **Filtering behavior**: College filter is required when specified; major filter is optional and used for ranking boost.
-- Both filters support fuzzy matching (partial text matching).
-- Answer generation cites sources as [1], [2], ... mapping to the returned source list.
+| Script | Description |
+|---|---|
+| `remove_duplicates.py` | Delete duplicate chunks by title+content |
+| `count_duplicates.py` | Count duplicates without deleting (read-only) |
+| `clean_non_university_urls.py` | Remove off-domain URLs from the collection |
+| `consolidate_college_alias.py` | Merge records for college name aliases |
+| `recreate_collection.py` | Drop and recreate the Zilliz collection |
+| `migrate_zilliz.py` | Copy data between Zilliz instances |
+| `milvus_monitor.py` | Live terminal dashboard of collection stats |
+| `run_monitor.py` | CLI wrapper for the monitor |
 
-### CLI Usage
+Run with: `python scripts/<script>.py`
