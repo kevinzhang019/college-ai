@@ -42,6 +42,9 @@ shap>=0.42.0  # SHAP for model interpretability
 matplotlib>=3.5.0  # Plotting for SHAP summaries
 joblib>=1.3.0  # Model serialization
 
+# Calibration
+venn-abers>=0.4.0  # Venn-ABERS calibration for better-calibrated probabilities
+
 # Optional but recommended for better performance:
 # - lxml (already included above)
 # - ujson (for faster JSON processing, included with pymilvus)

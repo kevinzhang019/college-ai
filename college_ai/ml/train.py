@@ -69,6 +69,8 @@ NUMERIC_FEATURES = [
     'niche_rank', 'avg_annual_cost', 'cost_earnings_ratio',
     # Major competitiveness interaction
     'stem_competitive_x_acceptance',
+    # Yield protection & fit signals
+    'yield_x_overqualification', 'academic_fit', 'holistic_signal', 'sat_range',
 ]
 
 CATEGORICAL_FEATURES = [
@@ -172,31 +174,72 @@ def split_data(
     stratify_col: Optional[pd.Series] = None,
     test_size: float = 0.2,
     random_state: int = 42,
+    groups: Optional[pd.Series] = None,
 ) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.Series, pd.Series, pd.Series]:
     """
     Split data into train, validation, and test sets.
 
+    If groups is provided, uses StratifiedGroupKFold so that no group
+    (e.g. school) appears in multiple splits. This prevents school-level
+    data leakage between train/val/test.
+
     Returns:
         X_train, X_val, X_test, y_train, y_val, y_test
     """
-    logger.info("Splitting data (60/20/20 train/val/test)...")
+    if groups is not None:
+        from sklearn.model_selection import StratifiedGroupKFold
+        logger.info("Splitting data (60/20/20 train/val/test) with group-aware splits...")
 
-    # First split: 80% train, 20% test
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y,
-        test_size=test_size,
-        random_state=random_state,
-        stratify=stratify_col,
-    )
+        # First split: ~80% train, ~20% test using 5-fold (each fold ≈ 20%)
+        sgkf = StratifiedGroupKFold(n_splits=5, shuffle=True, random_state=random_state)
+        train_idx, test_idx = next(iter(sgkf.split(X, y, groups=groups)))
+        X_train_full = X.iloc[train_idx]
+        X_test = X.iloc[test_idx]
+        y_train_full = y.iloc[train_idx]
+        y_test = y.iloc[test_idx]
+        groups_train = groups.iloc[train_idx]
 
-    # Split training set into train and validation (75/25 of train = 60/20 of total)
-    stratify_train = y_train
-    X_train, X_val, y_train, y_val = train_test_split(
-        X_train, y_train,
-        test_size=0.25,
-        random_state=random_state,
-        stratify=stratify_train,
-    )
+        # Second split: ~75/25 of train → 60/20 overall
+        sgkf2 = StratifiedGroupKFold(n_splits=4, shuffle=True, random_state=random_state)
+        train_idx2, val_idx2 = next(iter(sgkf2.split(X_train_full, y_train_full, groups=groups_train)))
+        X_train = X_train_full.iloc[train_idx2]
+        X_val = X_train_full.iloc[val_idx2]
+        y_train = y_train_full.iloc[train_idx2]
+        y_val = y_train_full.iloc[val_idx2]
+
+        # Verify no group overlap
+        train_groups = set(groups.iloc[X_train.index].unique())
+        val_groups = set(groups.iloc[X_val.index].unique())
+        test_groups = set(groups.iloc[X_test.index].unique())
+        overlap_tv = train_groups & val_groups
+        overlap_tt = train_groups & test_groups
+        if overlap_tv or overlap_tt:
+            logger.warning(
+                f"Group overlap detected! train∩val={len(overlap_tv)}, train∩test={len(overlap_tt)}"
+            )
+        else:
+            logger.info(
+                f"Group-aware split: {len(train_groups)} train groups, "
+                f"{len(val_groups)} val groups, {len(test_groups)} test groups — no overlap"
+            )
+    else:
+        logger.info("Splitting data (60/20/20 train/val/test)...")
+
+        # First split: 80% train, 20% test
+        X_train_full, X_test, y_train_full, y_test = train_test_split(
+            X, y,
+            test_size=test_size,
+            random_state=random_state,
+            stratify=stratify_col,
+        )
+
+        # Split training set into train and validation (75/25 of train = 60/20 of total)
+        X_train, X_val, y_train, y_val = train_test_split(
+            X_train_full, y_train_full,
+            test_size=0.25,
+            random_state=random_state,
+            stratify=y_train_full,
+        )
 
     logger.info(f"Train set size: {X_train.shape[0]}")
     logger.info(f"Val set size: {X_val.shape[0]}")
@@ -276,6 +319,147 @@ def tune_hyperparameters(
     return best_params
 
 
+def tune_hyperparameters_brier(
+    X_train: pd.DataFrame,
+    y_train: pd.Series,
+    categorical_indices: List[int],
+    feature_names: List[str],
+    n_trials: int = 100,
+    random_state: int = 42,
+    is_unbalanced: bool = False,
+    monotone_constraints: Optional[List[int]] = None,
+    groups: Optional[pd.Series] = None,
+    multi_objective: bool = False,
+) -> Dict[str, Any]:
+    """Custom Optuna hyperparameter tuning optimizing Brier score.
+
+    Unlike LightGBMTunerCV (which hardcodes log loss), this directly
+    optimizes for calibrated probabilities. Optionally uses multi-objective
+    optimization (AUC + Brier) with NSGA-II to find the Pareto front.
+
+    Args:
+        multi_objective: If True, optimize both AUC and Brier score
+                         simultaneously using NSGA-II sampler.
+    """
+    import optuna
+    from optuna.samplers import TPESampler, NSGAIISampler
+    from optuna.pruners import MedianPruner
+
+    logger.info(
+        f"Starting custom Optuna tuning ({'multi-objective' if multi_objective else 'Brier'})..."
+    )
+
+    # Use StratifiedGroupKFold if groups provided, else StratifiedKFold
+    if groups is not None:
+        from sklearn.model_selection import StratifiedGroupKFold
+        cv = StratifiedGroupKFold(n_splits=5, shuffle=True, random_state=random_state)
+        cv_split_args = (X_train, y_train, groups)
+    else:
+        cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=random_state)
+        cv_split_args = (X_train, y_train)
+
+    def objective(trial):
+        params = {
+            'objective': 'binary',
+            'metric': 'binary_logloss',
+            'verbosity': -1,
+            'boosting_type': 'gbdt',
+            'force_col_wise': True,
+            'num_threads': os.cpu_count() or 4,
+            'is_unbalance': is_unbalanced,
+            'learning_rate': trial.suggest_float('learning_rate', 0.01, 0.2, log=True),
+            'num_leaves': trial.suggest_int('num_leaves', 16, 128),
+            'max_depth': trial.suggest_int('max_depth', 3, 10),
+            'min_child_samples': trial.suggest_int('min_child_samples', 10, 100),
+            'feature_fraction': trial.suggest_float('feature_fraction', 0.5, 1.0),
+            'bagging_fraction': trial.suggest_float('bagging_fraction', 0.5, 1.0),
+            'bagging_freq': trial.suggest_int('bagging_freq', 1, 7),
+            'reg_alpha': trial.suggest_float('reg_alpha', 1e-6, 10.0, log=True),
+            'reg_lambda': trial.suggest_float('reg_lambda', 1e-6, 10.0, log=True),
+            'min_split_gain': trial.suggest_float('min_split_gain', 0.0, 0.5),
+            'path_smooth': trial.suggest_float('path_smooth', 0.0, 80.0),
+            'min_sum_hessian_in_leaf': trial.suggest_float('min_sum_hessian_in_leaf', 1e-3, 30.0, log=True),
+            'max_cat_threshold': 64,
+            'cat_smooth': trial.suggest_float('cat_smooth', 5.0, 50.0),
+        }
+
+        if monotone_constraints is not None:
+            params['monotone_constraints'] = monotone_constraints
+            params['monotone_constraints_method'] = 'intermediate'
+
+        brier_scores = []
+        auc_scores = []
+
+        for fold, (train_idx, val_idx) in enumerate(cv.split(*cv_split_args)):
+            X_fold_train = X_train.iloc[train_idx]
+            X_fold_val = X_train.iloc[val_idx]
+            y_fold_train = y_train.iloc[train_idx]
+            y_fold_val = y_train.iloc[val_idx]
+
+            train_data = lgb.Dataset(
+                X_fold_train, label=y_fold_train,
+                categorical_feature=categorical_indices,
+                feature_name=feature_names, free_raw_data=False,
+            )
+            val_data = lgb.Dataset(
+                X_fold_val, label=y_fold_val, reference=train_data,
+                categorical_feature=categorical_indices,
+                feature_name=feature_names, free_raw_data=False,
+            )
+
+            model = lgb.train(
+                params, train_data, num_boost_round=1000,
+                valid_sets=[val_data], valid_names=["valid"],
+                callbacks=[
+                    lgb.early_stopping(stopping_rounds=30, verbose=False),
+                    lgb.log_evaluation(period=0),
+                ],
+            )
+
+            probs = model.predict(X_fold_val)
+            brier_scores.append(brier_score_loss(y_fold_val, probs))
+            if multi_objective:
+                auc_scores.append(roc_auc_score(y_fold_val, probs))
+
+        if multi_objective:
+            return -np.mean(auc_scores), np.mean(brier_scores)
+        return np.mean(brier_scores)
+
+    if multi_objective:
+        study = optuna.create_study(
+            directions=["minimize", "minimize"],
+            sampler=NSGAIISampler(seed=random_state),
+        )
+        study.set_metric_names(["neg_AUC", "brier_score"])
+        study.optimize(objective, n_trials=n_trials, show_progress_bar=True)
+
+        # Pick the trial with best AUC among those with Brier < median
+        pareto_trials = study.best_trials
+        if pareto_trials:
+            brier_median = np.median([t.values[1] for t in pareto_trials])
+            good_trials = [t for t in pareto_trials if t.values[1] <= brier_median]
+            best_trial = min(good_trials, key=lambda t: t.values[0])
+            logger.info(
+                f"Selected Pareto trial: AUC={-best_trial.values[0]:.4f}, "
+                f"Brier={best_trial.values[1]:.4f}"
+            )
+            best_params = best_trial.params
+        else:
+            best_params = study.best_trials[0].params
+    else:
+        study = optuna.create_study(
+            direction="minimize",
+            sampler=TPESampler(seed=random_state),
+            pruner=MedianPruner(n_startup_trials=10, n_warmup_steps=20),
+        )
+        study.optimize(objective, n_trials=n_trials, show_progress_bar=True)
+        best_params = study.best_params
+        logger.info(f"Best Brier score: {study.best_value:.4f}")
+
+    logger.info(f"Best parameters: {best_params}")
+    return best_params
+
+
 def get_default_params(is_unbalanced: bool = False) -> Dict[str, Any]:
     """Get reasonable default hyperparameters with speed optimizations."""
     return {
@@ -287,8 +471,8 @@ def get_default_params(is_unbalanced: bool = False) -> Dict[str, Any]:
         'min_child_samples': 20,
         'subsample': 0.8,
         'colsample_bytree': 0.8,
-        'reg_alpha': 1e-5,
-        'reg_lambda': 1e-5,
+        'reg_alpha': 0.05,
+        'reg_lambda': 0.05,
         'min_gain_to_split': 0.01,
         'bagging_freq': 5,
         'max_bin': 127,
@@ -300,6 +484,9 @@ def get_default_params(is_unbalanced: bool = False) -> Dict[str, Any]:
         'is_unbalance': is_unbalanced,
         'random_state': 42,
         'verbose': -1,
+        'path_smooth': 15,
+        'min_sum_hessian_in_leaf': 10,
+        'max_cat_threshold': 64,
     }
 
 
@@ -400,39 +587,48 @@ class LGBWrapper:
 
 
 def calibrate_model(
-    model: lgb.Booster,
+    model,
     X_cal: pd.DataFrame,
     y_cal: pd.Series,
     method: str = "isotonic",
-) -> CalibratedClassifierCV:
+):
     """Apply probability calibration using a held-out calibration set.
 
     Args:
-        method: 'isotonic' (default, flexible non-linear) or 'sigmoid'
-                (Platt scaling, only 2 params — better when calibration data
-                is sparse in some probability bins, e.g. the safety bucket).
+        method: 'isotonic', 'sigmoid', or 'venn_abers'.
+                'venn_abers' uses Venn-ABERS inductive calibration which has
+                provable finite-sample validity — best for imbalanced buckets.
     """
-    logger.info(f"Calibrating model with {method} regression...")
+    logger.info(f"Calibrating model with {method}...")
 
-    wrapper = LGBWrapper(model)
-
-    calibrator = CalibratedClassifierCV(
-        estimator=FrozenEstimator(wrapper),
-        method=method,
-    )
-    calibrator.fit(X_cal, y_cal)
+    if method == "venn_abers":
+        from venn_abers import VennAbersCalibrator
+        wrapper = LGBWrapper(model) if isinstance(model, lgb.Booster) else model
+        calibrator = VennAbersCalibrator(
+            estimator=FrozenEstimator(wrapper),
+            inductive=True,
+            cal_size=0.5,
+        )
+        calibrator.fit(X_cal, y_cal)
+    else:
+        wrapper = LGBWrapper(model) if isinstance(model, lgb.Booster) else model
+        calibrator = CalibratedClassifierCV(
+            estimator=FrozenEstimator(wrapper),
+            method=method,
+        )
+        calibrator.fit(X_cal, y_cal)
 
     logger.info("Model calibration complete")
     return calibrator
 
 
 def calibrate_model_best(
-    model: lgb.Booster,
+    model,
     X_cal: pd.DataFrame,
     y_cal: pd.Series,
-) -> CalibratedClassifierCV:
-    """Try both isotonic and sigmoid calibration, pick the one with lower Brier score."""
-    wrapper = LGBWrapper(model)
+):
+    """Try isotonic, sigmoid, and Venn-ABERS calibration, pick the one with lower Brier score."""
+    wrapper = LGBWrapper(model) if isinstance(model, lgb.Booster) else model
     raw_proba = wrapper.predict_proba(X_cal)[:, 1]
     raw_brier = brier_score_loss(y_cal, raw_proba)
     logger.info(f"Raw model Brier on calibration set: {raw_brier:.4f}")
@@ -441,20 +637,19 @@ def calibrate_model_best(
     best_brier = float("inf")
     best_method = ""
 
-    for method in ("isotonic", "sigmoid"):
-        calibrator = CalibratedClassifierCV(
-            estimator=FrozenEstimator(wrapper),
-            method=method,
-        )
-        calibrator.fit(X_cal, y_cal)
-        cal_proba = calibrator.predict_proba(X_cal)[:, 1]
-        cal_brier = brier_score_loss(y_cal, cal_proba)
-        cal_ece = _expected_calibration_error(y_cal.values, cal_proba)
-        logger.info(f"  {method:10s} calibration — Brier: {cal_brier:.4f}, ECE: {cal_ece:.4f}")
-        if cal_brier < best_brier:
-            best_brier = cal_brier
-            best_calibrator = calibrator
-            best_method = method
+    for method in ("isotonic", "sigmoid", "venn_abers"):
+        try:
+            calibrator = calibrate_model(model, X_cal, y_cal, method=method)
+            cal_proba = calibrator.predict_proba(X_cal)[:, 1]
+            cal_brier = brier_score_loss(y_cal, cal_proba)
+            cal_ece = _expected_calibration_error(y_cal.values, cal_proba)
+            logger.info(f"  {method:12s} calibration — Brier: {cal_brier:.4f}, ECE: {cal_ece:.4f}")
+            if cal_brier < best_brier:
+                best_brier = cal_brier
+                best_calibrator = calibrator
+                best_method = method
+        except Exception as e:
+            logger.warning(f"  {method:12s} calibration failed: {e}")
 
     logger.info(f"Selected {best_method} calibration (Brier: {best_brier:.4f})")
     return best_calibrator
@@ -478,19 +673,28 @@ def evaluate_calibrated_model(
     brier = brier_score_loss(y_test, y_pred_proba)
     logloss = log_loss(y_test, y_pred_proba)
     ece = _expected_calibration_error(y_test.values, y_pred_proba)
+    base_rate = y_test.mean()
+    brier_clim = base_rate * (1 - base_rate)
+    bss = 1 - (brier / brier_clim) if brier_clim > 0 else 0.0
 
     logger.info(f"AUC-ROC:   {auc_roc:.4f}")
     logger.info(f"Brier:     {brier:.4f}")
+    logger.info(f"BSS:       {bss:.4f}")
     logger.info(f"Log Loss:  {logloss:.4f}")
     logger.info(f"ECE:       {ece:.4f}")
 
     if selectivity_buckets is not None:
-        logger.info("\nPer-selectivity-bucket Brier scores (calibrated):")
+        logger.info("\nPer-selectivity-bucket Brier / BSS scores (calibrated):")
         for bucket in sorted(selectivity_buckets.unique()):
             mask = selectivity_buckets == bucket
             if mask.sum() > 0:
                 bucket_brier = brier_score_loss(y_test[mask], y_pred_proba[mask])
-                logger.info(f"  {bucket:15s}: {bucket_brier:.4f}  (n={mask.sum()})")
+                bucket_base = y_test[mask].mean()
+                bucket_clim = bucket_base * (1 - bucket_base)
+                bucket_bss = 1 - (bucket_brier / bucket_clim) if bucket_clim > 0 else 0.0
+                logger.info(
+                    f"  {bucket:15s}: Brier={bucket_brier:.4f}  BSS={bucket_bss:.4f}  (n={mask.sum()})"
+                )
 
     logger.info("=" * 60 + "\n")
 
@@ -624,19 +828,30 @@ def evaluate_model(
     logloss = log_loss(y_test, y_pred_proba)
     ece = _expected_calibration_error(y_test.values, y_pred_proba)
 
+    # Brier Skill Score (comparable across buckets with different base rates)
+    base_rate = y_test.mean()
+    brier_climatology = base_rate * (1 - base_rate)
+    bss = 1 - (brier / brier_climatology) if brier_climatology > 0 else 0.0
+
     logger.info(f"AUC-ROC:   {auc_roc:.4f}")
     logger.info(f"Brier:     {brier:.4f}")
+    logger.info(f"BSS:       {bss:.4f}")
     logger.info(f"Log Loss:  {logloss:.4f}")
     logger.info(f"ECE:       {ece:.4f}")
 
     # Per-selectivity-bucket Brier scores
     if selectivity_buckets is not None:
-        logger.info("\nPer-selectivity-bucket Brier scores:")
+        logger.info("\nPer-selectivity-bucket Brier / BSS scores:")
         for bucket in sorted(selectivity_buckets.unique()):
             mask = selectivity_buckets == bucket
             if mask.sum() > 0:
                 bucket_brier = brier_score_loss(y_test[mask], y_pred_proba[mask])
-                logger.info(f"  {bucket:15s}: {bucket_brier:.4f}  (n={mask.sum()})")
+                bucket_base = y_test[mask].mean()
+                bucket_clim = bucket_base * (1 - bucket_base)
+                bucket_bss = 1 - (bucket_brier / bucket_clim) if bucket_clim > 0 else 0.0
+                logger.info(
+                    f"  {bucket:15s}: Brier={bucket_brier:.4f}  BSS={bucket_bss:.4f}  (n={mask.sum()})"
+                )
 
     # Classification report
     logger.info("\nClassification Report:")
@@ -689,18 +904,30 @@ def compute_target_encoding(
     smoothing: int = 300,
     n_folds: int = 5,
     random_state: int = 42,
+    groups: Optional[pd.Series] = None,
 ) -> Tuple[pd.Series, Dict[Any, float], float]:
     """Bayesian target encoding with CV to prevent leakage.
 
     Works for any grouping column (school_id, major, etc.).
     For each fold, the encoding is computed from the other folds only.
+
+    If groups is provided, uses StratifiedGroupKFold to ensure no group
+    (e.g. school) appears in both train and val folds — prevents
+    school-level data leakage.
+
     Returns the encoded column, the full encoding map, and global mean.
     """
     global_mean = y.mean()
     encoded = pd.Series(np.nan, index=school_ids.index, dtype=float)
 
-    kf = StratifiedKFold(n_splits=n_folds, shuffle=True, random_state=random_state)
-    for train_idx, val_idx in kf.split(school_ids, y):
+    if groups is not None:
+        from sklearn.model_selection import StratifiedGroupKFold
+        kf = StratifiedGroupKFold(n_splits=n_folds, shuffle=True, random_state=random_state)
+        split_args = (school_ids, y, groups)
+    else:
+        kf = StratifiedKFold(n_splits=n_folds, shuffle=True, random_state=random_state)
+        split_args = (school_ids, y)
+    for train_idx, val_idx in kf.split(*split_args):
         # Compute per-school stats from training fold
         fold_y = y.iloc[train_idx]
         fold_ids = school_ids.iloc[train_idx]
@@ -939,6 +1166,16 @@ def main() -> None:
         default='lightgbm',
         help='Model type to train (default: lightgbm)'
     )
+    parser.add_argument(
+        '--tune-brier',
+        action='store_true',
+        help='Use custom Optuna tuning optimizing Brier score instead of LightGBMTunerCV'
+    )
+    parser.add_argument(
+        '--multi-objective',
+        action='store_true',
+        help='Use multi-objective Optuna (AUC + Brier) with NSGA-II'
+    )
 
     args = parser.parse_args()
 
@@ -950,26 +1187,32 @@ def main() -> None:
     df = load_data(args.data_path)
 
     # --- Target encoding for school_id (before preprocessing drops it) ---
+    # Use StratifiedGroupKFold with groups=school_id to prevent school-level leakage
     target_encoding_map = None
     target_encoding_global_mean = None
+    school_ids_for_split = None   # save for grouped train/test split
     if 'school_id' in df.columns and TARGET in df.columns:
-        school_ids = df['school_id']
+        school_ids_for_split = df['school_id'].copy()
         y_for_te = df[TARGET].astype(int)
         te_encoded, target_encoding_map, target_encoding_global_mean = compute_target_encoding(
-            school_ids, y_for_te
+            school_ids_for_split, y_for_te,
+            groups=school_ids_for_split,
         )
         df['school_target_encoded'] = te_encoded
 
     # --- Target encoding for major (smoothed per-major admission rate) ---
+    # Group by school_id to prevent school-level leakage
     major_encoding_map = None
     major_encoding_global_mean = None
     if 'major' in df.columns and TARGET in df.columns:
         major_notna = df['major'].notna()
         if major_notna.any():
+            major_groups = school_ids_for_split.loc[major_notna] if school_ids_for_split is not None else None
             te_major, major_encoding_map, major_encoding_global_mean = compute_target_encoding(
                 df.loc[major_notna, 'major'],
                 df.loc[major_notna, TARGET].astype(int),
                 smoothing=100,
+                groups=major_groups,
             )
             df['major_target_encoded'] = float("nan")
             df.loc[major_notna, 'major_target_encoded'] = te_major
@@ -1014,10 +1257,11 @@ def main() -> None:
     n_constrained = sum(1 for c in mc if c != 0)
     logger.info(f"Monotone constraints: {n_constrained}/{len(mc)} features constrained")
 
-    # Split data
+    # Split data — use group-aware splits if school_id is available
     stratify_col = selectivity_buckets if selectivity_buckets is not None else y
     X_train, X_val, X_test, y_train, y_val, y_test = split_data(
-        X, y, stratify_col=stratify_col
+        X, y, stratify_col=stratify_col,
+        groups=school_ids_for_split,
     )
 
     # Align selectivity buckets with test set
@@ -1041,6 +1285,16 @@ def main() -> None:
     if args.skip_tuning:
         logger.info("Using default hyperparameters (skip-tuning flag set)")
         best_params = get_default_params(is_unbalanced=is_unbalanced)
+    elif args.tune_brier or args.multi_objective:
+        # Custom Optuna tuning optimizing Brier score (or multi-objective AUC + Brier)
+        train_groups = school_ids_for_split.loc[X_train.index] if school_ids_for_split is not None else None
+        best_params = tune_hyperparameters_brier(
+            X_train, y_train, categorical_indices, feature_names,
+            n_trials=args.n_trials, is_unbalanced=is_unbalanced,
+            monotone_constraints=mc,
+            groups=train_groups,
+            multi_objective=args.multi_objective,
+        )
     else:
         best_params = tune_hyperparameters(
             X_train, y_train, categorical_indices, feature_names,

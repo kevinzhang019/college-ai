@@ -244,6 +244,7 @@ class AdmissionsPredictor:
             school_name=school_features.get("school_name"),
             avg_annual_cost=school_features.get("avg_annual_cost"),
             niche_rank=school_features.get("niche_rank"),
+            yield_rate=school_features.get("yield_rate"),
         )
 
         sat_percentile = engineered["sat_percentile_at_school"]
@@ -573,6 +574,7 @@ class BucketedAdmissionsPredictor:
             school_name=school_features.get("school_name"),
             avg_annual_cost=school_features.get("avg_annual_cost"),
             niche_rank=school_features.get("niche_rank"),
+            yield_rate=school_features.get("yield_rate"),
         )
 
         sat_percentile = engineered["sat_percentile_at_school"]

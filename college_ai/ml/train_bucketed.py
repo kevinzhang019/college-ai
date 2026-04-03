@@ -145,6 +145,8 @@ def _train_single_bucket(
     skip_tuning,        # type: bool
     n_trials,           # type: int
     model_dir,          # type: str
+    tune_brier=False,   # type: bool
+    multi_objective=False,  # type: bool
 ):
     # type: (...) -> Dict[str, Any]
     """Train, calibrate, evaluate, and save one bucket's model."""
@@ -159,13 +161,16 @@ def _train_single_bucket(
     logger.info(f"  Positive rate (admitted): {pos_rate:.1%}")
 
     # --- Per-bucket target encoding for school_id ---
+    # Use StratifiedGroupKFold with groups=school_id to prevent leakage
     te_map = None   # type: Optional[Dict[int, float]]
     te_global_mean = None   # type: Optional[float]
     if "school_id" in df_bucket.columns:
+        bucket_school_ids = df_bucket["school_id"]
         te_encoded, te_map, te_global_mean = compute_target_encoding(
-            df_bucket["school_id"],
+            bucket_school_ids,
             df_bucket[TARGET].astype(int),
             smoothing=300,
+            groups=bucket_school_ids,
         )
         df_bucket = df_bucket.copy()
         df_bucket["school_target_encoded"] = te_encoded
@@ -176,10 +181,12 @@ def _train_single_bucket(
     if "major" in df_bucket.columns:
         major_notna = df_bucket["major"].notna()
         if major_notna.any():
+            major_groups = bucket_school_ids.loc[major_notna] if "school_id" in df_bucket.columns else None
             te_major, major_te_map, major_te_global_mean = compute_target_encoding(
                 df_bucket.loc[major_notna, "major"],
                 df_bucket.loc[major_notna, TARGET].astype(int),
                 smoothing=100,
+                groups=major_groups,
             )
             df_bucket = df_bucket.copy()
             df_bucket["major_target_encoded"] = float("nan")
@@ -219,8 +226,11 @@ def _train_single_bucket(
                 f"max={sample_weights.max():.2f}, mean={sample_weights.mean():.2f}"
             )
 
-    # Split 60/20/20
-    X_train, X_val, X_test, y_train, y_val, y_test = split_data(X, y, stratify_col=y)
+    # Split 60/20/20 — group by school_id to prevent school-level leakage
+    bucket_groups = df_bucket["school_id"] if "school_id" in df_bucket.columns else None
+    X_train, X_val, X_test, y_train, y_val, y_test = split_data(
+        X, y, stratify_col=y, groups=bucket_groups,
+    )
 
     # Align sample weights to train split
     train_weights = None
@@ -251,6 +261,17 @@ def _train_single_bucket(
     if skip_tuning:
         logger.info("  Using default hyperparameters (skip-tuning)")
         best_params = dict(defaults)
+    elif tune_brier or multi_objective:
+        from college_ai.ml.train import tune_hyperparameters_brier
+        train_groups = df_bucket.loc[X_train.index, "school_id"] if "school_id" in df_bucket.columns else None
+        best_params = tune_hyperparameters_brier(
+            X_train, y_train, categorical_indices, feature_names,
+            n_trials=n_trials,
+            is_unbalanced=is_unbalanced,
+            monotone_constraints=mc,
+            groups=train_groups,
+            multi_objective=multi_objective,
+        )
     else:
         best_params = tune_hyperparameters(
             X_train, y_train, categorical_indices, feature_names,
@@ -505,9 +526,13 @@ def _global_evaluation(bucket_results):
     brier = brier_score_loss(y_all, prob_all)
     logloss = log_loss(y_all, prob_all)
     ece = _expected_calibration_error(y_all.values, prob_all)
+    base_rate = y_all.mean()
+    brier_clim = base_rate * (1 - base_rate)
+    bss = 1 - (brier / brier_clim) if brier_clim > 0 else 0.0
 
     logger.info(f"AUC-ROC:   {auc_roc:.4f}")
     logger.info(f"Brier:     {brier:.4f}")
+    logger.info(f"BSS:       {bss:.4f}")
     logger.info(f"Log Loss:  {logloss:.4f}")
     logger.info(f"ECE:       {ece:.4f}")
     logger.info(f"Total test samples: {len(y_all)}")
@@ -516,9 +541,12 @@ def _global_evaluation(bucket_results):
     for r in bucket_results:
         bucket_auc = roc_auc_score(r["y_test"], r["y_prob"])
         bucket_brier = brier_score_loss(r["y_test"], r["y_prob"])
+        bucket_base = r["y_test"].mean()
+        bucket_clim = bucket_base * (1 - bucket_base)
+        bucket_bss = 1 - (bucket_brier / bucket_clim) if bucket_clim > 0 else 0.0
         logger.info(
             f"  {r['bucket']:15s}: AUC={bucket_auc:.4f}  Brier={bucket_brier:.4f}  "
-            f"n_test={r['n_test']}  pos_rate={r['positive_rate']:.1%}"
+            f"BSS={bucket_bss:.4f}  n_test={r['n_test']}  pos_rate={r['positive_rate']:.1%}"
         )
     logger.info("=" * 60 + "\n")
 
@@ -552,6 +580,14 @@ def main():
         "--bucket", type=str, default=None,
         choices=BUCKET_ORDER,
         help="Train only a single bucket (default: all)",
+    )
+    parser.add_argument(
+        "--tune-brier", action="store_true",
+        help="Use custom Optuna tuning optimizing Brier score",
+    )
+    parser.add_argument(
+        "--multi-objective", action="store_true",
+        help="Use multi-objective Optuna (AUC + Brier) with NSGA-II",
     )
 
     args = parser.parse_args()
@@ -612,6 +648,8 @@ def main():
             skip_tuning=args.skip_tuning,
             n_trials=args.n_trials,
             model_dir=args.model_dir,
+            tune_brier=args.tune_brier,
+            multi_objective=args.multi_objective,
         )
         bucket_results.append(result)
 

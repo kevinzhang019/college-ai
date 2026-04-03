@@ -167,6 +167,7 @@ def compute_features_single(
     school_name=None,   # type: Optional[str]
     avg_annual_cost=None,  # type: Optional[float]
     niche_rank=None,    # type: Optional[int]
+    yield_rate=None,    # type: Optional[float]
 ):
     # type: (...) -> dict
     """Compute all engineered features for a single applicant.
@@ -292,6 +293,19 @@ def compute_features_single(
     # --- Acceptance rate squared (non-linearity in selectivity) ---
     acceptance_rate_sq = acc ** 2
 
+    # --- Yield × overqualification (yield protection signal) ---
+    yr = yield_rate if yield_rate is not None else None
+    yield_x_overqualification = yr * overqualification_index if yr is not None else None
+
+    # --- Academic fit (school-relative combined z-score) ---
+    academic_fit = (
+        0.5 * np.clip(sat_zscore, -3, 3) / 3
+        + 0.5 * np.clip(gpa_zscore_at_school, -3, 3) / 3
+    )
+
+    # --- Holistic signal (normalized SAT range width) ---
+    holistic_signal = (sat_range / s_avg) if s_avg and s_avg > 0 and sat_range > 0 else None
+
     result = {
         "sat_percentile_at_school": np.clip(sat_percentile, -1, 2),
         "gpa_vs_expected": gpa_vs_expected,
@@ -329,6 +343,11 @@ def compute_features_single(
         "overqualification_index": overqualification_index,
         "acceptance_rate_sq": acceptance_rate_sq,
         "has_test_score": 1.0,  # always 1 in training; set at inference
+        # Yield protection & fit signals
+        "yield_x_overqualification": yield_x_overqualification,
+        "academic_fit": academic_fit,
+        "holistic_signal": holistic_signal,
+        "sat_range": sat_range if sat_range > 0 else None,
     }
     return result
 
@@ -487,5 +506,27 @@ def compute_features_df(
 
     # --- Test score presence flag (always 1 in training data) ---
     df["has_test_score"] = 1.0
+
+    # --- Yield × overqualification (yield protection signal) ---
+    if "yield_rate" in df.columns:
+        df["yield_x_overqualification"] = (
+            df["yield_rate"] * df["overqualification_index"]
+        )
+    else:
+        df["yield_x_overqualification"] = None
+
+    # --- Academic fit (school-relative combined z-score) ---
+    df["academic_fit"] = (
+        0.5 * df["sat_zscore_at_school"].clip(-3, 3) / 3
+        + 0.5 * df["gpa_zscore_at_school"].clip(-3, 3) / 3
+    )
+
+    # --- Holistic signal (normalized SAT range width) ---
+    df["holistic_signal"] = (sat_range / s_avg.replace(0, float("nan"))).where(
+        sat_range > 0
+    )
+
+    # --- SAT range as explicit feature ---
+    df["sat_range"] = sat_range.where(sat_range > 0)
 
     return df, z_stats
