@@ -105,29 +105,27 @@ class CollegeDuplicateRemover:
                 try:
                     print(f"📊 Checking {college_name}...")
 
-                    # Get all records for this college in batches
+                    # Get all records for this college using query_iterator
                     college_records = []
-                    offset = 0
+                    safe_college = college_name.replace('"', '\\"')
+                    iterator = self.collection.query_iterator(
+                        expr=f'college_name == "{safe_college}"',
+                        output_fields=[
+                            "id",
+                            "url",
+                            "college_name",
+                            "crawled_at",
+                            "title",
+                            "content",
+                        ],
+                        batch_size=1000,
+                    )
                     while True:
-                        batch = self.collection.query(
-                            expr=f'college_name == "{college_name}"',
-                            output_fields=[
-                                "id",
-                                "url",
-                                "college_name",
-                                "crawled_at",
-                                "title",
-                                "content",
-                            ],
-                            limit=16384,
-                            offset=offset,
-                        )
+                        batch = iterator.next()
                         if not batch:
+                            iterator.close()
                             break
                         college_records.extend(batch)
-                        if len(batch) < 16384:
-                            break
-                        offset += 16384
 
                     # Group by URL + content hash to find true duplicates (same chunk)
                     # Using SHA256 of title + '|' + content to identify identical chunks
@@ -279,12 +277,20 @@ class CollegeDuplicateRemover:
             Dictionary with verification statistics
         """
         try:
-            # Get all records for this college
-            college_records = self.collection.query(
-                expr=f'college_name == "{college_name}"',
+            # Get all records for this college using query_iterator
+            college_records = []
+            safe_college = college_name.replace('"', '\\"')
+            iterator = self.collection.query_iterator(
+                expr=f'college_name == "{safe_college}"',
                 output_fields=["url", "title", "content"],
-                limit=16384,
+                batch_size=1000,
             )
+            while True:
+                batch = iterator.next()
+                if not batch:
+                    iterator.close()
+                    break
+                college_records.extend(batch)
 
             # Check for any remaining duplicates: group by (url, content hash)
             url_hash_counts = defaultdict(int)

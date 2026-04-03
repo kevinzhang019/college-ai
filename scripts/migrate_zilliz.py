@@ -102,14 +102,13 @@ def ensure_dest_collection(name: str) -> Collection:
         col.create_index(
             field_name="embedding",
             index_params={"index_type": INDEX_TYPE, "metric_type": METRIC_TYPE, "params": {"nlist": 1024}},
-            using="dest",
         )
         print(f"  ✓ Collection + index created")
     else:
         col = Collection(name, using="dest")
         print(f"  ✓ Using existing destination collection '{name}'")
 
-    col.load(using="dest")
+    col.load()
     return col
 
 
@@ -137,7 +136,7 @@ def migrate() -> None:
         sys.exit(1)
 
     src_col = Collection(SOURCE_COLLECTION, using="src")
-    src_col.load(using="src")
+    src_col.load()
 
     total = count_source(src_col)
     print(f"  Source record count: {total:,}")
@@ -159,7 +158,6 @@ def migrate() -> None:
         expr="id != ''",
         output_fields=OUTPUT_FIELDS,
         batch_size=BATCH_SIZE,
-        using="src",
     )
 
     while True:
@@ -168,7 +166,7 @@ def migrate() -> None:
             iterator.close()
             break
 
-        dst_col.insert(results, using="dest")
+        dst_col.insert(results)
 
         migrated += len(results)
         elapsed = time.time() - start
@@ -180,7 +178,7 @@ def migrate() -> None:
 
     # Flush and rebuild index
     print("  Flushing destination collection...")
-    dst_col.flush(using="dest")
+    dst_col.flush()
     print(f"  ✓ Done. Destination now has {dst_col.num_entities:,} records.")
 
 

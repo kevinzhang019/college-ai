@@ -153,33 +153,18 @@ def compute_duplicates_for_college_streaming(
     ids_to_delete_by_url: Dict[str, List[str]] = defaultdict(list)
 
     total_records = 0
-    offset = 0
-    batch_size = 512  # start conservatively to avoid large gRPC frames
+
+    safe_college = college_name.replace('"', '\\"')
+    iterator = collection.query_iterator(
+        expr=f'college_name == "{safe_college}"',
+        output_fields=["id", "url", "title", "content", "majors", "crawled_at"],
+        batch_size=512,
+    )
 
     while True:
-        try:
-            batch = collection.query(
-                expr=f'college_name == "{college_name}"',
-                output_fields=["id", "url", "title", "content", "majors", "crawled_at"],
-                limit=batch_size,
-                offset=offset,
-            )
-        except Exception as exc:
-            msg = str(exc)
-            if "received message larger than max" in msg or "RESOURCE_EXHAUSTED" in msg:
-                # Reduce the batch size and retry the same offset
-                new_batch_size = max(16, batch_size // 2)
-                if new_batch_size == batch_size:
-                    raise
-                print(
-                    f"⚠️  gRPC message too large at batch_size={batch_size}. Retrying with {new_batch_size}"
-                )
-                batch_size = new_batch_size
-                continue
-            else:
-                raise
-
+        batch = iterator.next()
         if not batch:
+            iterator.close()
             break
 
         for record in batch:
@@ -228,10 +213,6 @@ def compute_duplicates_for_college_streaming(
                         ids_to_delete.append(cur_id)
                         ids_to_delete_by_url[canonical_url].append(cur_id)
             total_records += 1
-
-        if len(batch) < batch_size:
-            break
-        offset += batch_size
 
     # Convert to counts using the actual ids we plan to delete per URL
     url_to_duplicate_count: Dict[str, int] = {}

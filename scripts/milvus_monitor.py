@@ -11,7 +11,7 @@ import threading
 from datetime import datetime, timedelta
 import glob
 import csv
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, Iterator, List, Optional, Tuple
 from collections import defaultdict
 import logging
 from dotenv import load_dotenv
@@ -35,7 +35,7 @@ logger = logging.getLogger(__name__)
 class MilvusMonitor:
     """Real-time monitor for Milvus database records organized by college."""
 
-    def __init__(self, collection_name: str = None, update_interval: float = 20.0):
+    def __init__(self, collection_name: Optional[str] = None, update_interval: float = 20.0):
         """
         Initialize the Milvus monitor.
 
@@ -81,10 +81,10 @@ class MilvusMonitor:
             logger.error(f"Error accessing collection: {e}")
             return None
 
-    def _iterate_all_records(self, output_fields: List[str], batch_size: int = 16384):
-        """Yield all records in the collection in batches.
+    def _iterate_all_records(self, output_fields: List[str], batch_size: int = 1000) -> Iterator[dict]:
+        """Yield all records in the collection in batches using query_iterator.
 
-        This performs a full scan using a permissive boolean expression and offset pagination.
+        Uses query_iterator to avoid the offset+limit <= 16384 Milvus restriction.
         """
         if not self.collection:
             return
@@ -93,29 +93,21 @@ class MilvusMonitor:
         except Exception:
             pass
 
-        offset = 0
-        while True:
-            try:
-                # Use a permissive expression to match all rows
-                batch = self.collection.query(
-                    expr='id != ""',
-                    output_fields=output_fields,
-                    limit=batch_size,
-                    offset=offset,
-                )
-            except Exception as e:
-                logger.error(f"Error during full scan at offset {offset}: {e}")
-                break
-
-            if not batch:
-                break
-
-            for rec in batch:
-                yield rec
-
-            if len(batch) < batch_size:
-                break
-            offset += batch_size
+        try:
+            iterator = self.collection.query_iterator(
+                expr='id != ""',
+                output_fields=output_fields,
+                batch_size=batch_size,
+            )
+            while True:
+                batch = iterator.next()
+                if not batch:
+                    iterator.close()
+                    break
+                for rec in batch:
+                    yield rec
+        except Exception as e:
+            logger.error(f"Error during full scan: {e}")
 
     def _get_college_names_from_csvs(self) -> List[str]:
         """Return distinct college names by reading all CSVs under crawlers/colleges.
@@ -237,7 +229,7 @@ class MilvusMonitor:
                             < college_stats[college_name]["earliest_crawl"]
                         ):
                             college_stats[college_name]["earliest_crawl"] = crawl_time
-                    except:
+                    except (ValueError, TypeError):
                         pass
 
             # Calculate total count from the records we actually fetched

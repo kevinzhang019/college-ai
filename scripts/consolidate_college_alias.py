@@ -105,44 +105,23 @@ def _is_record_more_complete(left: dict, right: dict) -> bool:
 
 
 def get_urls_for_college(collection: Collection, college_name: str) -> Set[str]:
-    """Return the set of URLs found for a given college. Adaptive batching to avoid gRPC limits."""
+    """Return the set of URLs found for a given college using query_iterator."""
     urls: Set[str] = set()
-    offset = 0
-    batch_size = 2048
+    safe_college = college_name.replace('"', '\\"')
+    iterator = collection.query_iterator(
+        expr=f'college_name == "{safe_college}"',
+        output_fields=["url"],
+        batch_size=1000,
+    )
     while True:
-        try:
-            batch = collection.query(
-                expr=f'college_name == "{college_name}"',
-                output_fields=["url"],
-                limit=batch_size,
-                offset=offset,
-            )
-        except Exception as exc:
-            msg = str(exc)
-            if "received message larger than max" in msg or "RESOURCE_EXHAUSTED" in msg:
-                new_batch_size = max(32, batch_size // 2)
-                if new_batch_size == batch_size:
-                    raise
-                print(
-                    f"⚠️  gRPC too large at batch_size={batch_size}. Retrying with {new_batch_size}"
-                )
-                batch_size = new_batch_size
-                continue
-            else:
-                raise
-
+        batch = iterator.next()
         if not batch:
+            iterator.close()
             break
-
         for rec in batch:
             url = (rec.get("url") or "").strip()
             if url:
                 urls.add(url)
-
-        if len(batch) < batch_size:
-            break
-        offset += batch_size
-
     return urls
 
 
@@ -152,46 +131,32 @@ def fetch_records_for_url(
     """Fetch all rows for a URL where college_name is either of the provided colleges."""
     src, tgt = allowed_colleges
     safe_url = url.replace('"', '\\"')
+    safe_src = src.replace('"', '\\"')
+    safe_tgt = tgt.replace('"', '\\"')
     expr = (
-        f'url == "{safe_url}" && (college_name == "{src}" || college_name == "{tgt}")'
+        f'url == "{safe_url}" && (college_name == "{safe_src}" || college_name == "{safe_tgt}")'
     )
-    offset = 0
-    batch_size = 2048
     results: List[dict] = []
+    iterator = collection.query_iterator(
+        expr=expr,
+        output_fields=[
+            "id",
+            "college_name",
+            "url",
+            "title",
+            "content",
+            "embedding",
+            "crawled_at",
+            "majors",
+        ],
+        batch_size=1000,
+    )
     while True:
-        try:
-            batch = collection.query(
-                expr=expr,
-                output_fields=[
-                    "id",
-                    "college_name",
-                    "url",
-                    "title",
-                    "content",
-                    "embedding",
-                    "crawled_at",
-                    "majors",
-                ],
-                limit=batch_size,
-                offset=offset,
-            )
-        except Exception as exc:
-            msg = str(exc)
-            if "received message larger than max" in msg or "RESOURCE_EXHAUSTED" in msg:
-                new_batch_size = max(32, batch_size // 2)
-                if new_batch_size == batch_size:
-                    raise
-                batch_size = new_batch_size
-                continue
-            else:
-                raise
-
+        batch = iterator.next()
         if not batch:
+            iterator.close()
             break
         results.extend(batch)
-        if len(batch) < batch_size:
-            break
-        offset += batch_size
     return results
 
 

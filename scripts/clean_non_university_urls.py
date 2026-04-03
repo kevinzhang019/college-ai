@@ -68,18 +68,20 @@ def connect_to_milvus() -> Collection:
 
 def get_all_colleges(collection: Collection) -> List[str]:
     """Get a list of all unique college names in the collection."""
-    expr = ""  # Empty expression to get all records
-    college_names = collection.query(
-        expr=expr,
-        output_fields=["college_name"],
-        limit=10000,  # Set a large limit to get all unique values
-    )
-
-    # Get unique college names
     unique_colleges = set()
-    for record in college_names:
-        if record.get("college_name"):
-            unique_colleges.add(record.get("college_name"))
+    iterator = collection.query_iterator(
+        expr='id != ""',
+        output_fields=["college_name"],
+        batch_size=1000,
+    )
+    while True:
+        batch = iterator.next()
+        if not batch:
+            iterator.close()
+            break
+        for record in batch:
+            if record.get("college_name"):
+                unique_colleges.add(record.get("college_name"))
 
     return list(unique_colleges)
 
@@ -211,7 +213,8 @@ def extract_base_university_domain(domain: str) -> str:
 
 def get_college_base_domain(college_name: str, collection: Collection) -> str:
     """Get the base domain for a college from records."""
-    expr = f'college_name == "{college_name}"'
+    safe_college = college_name.replace('"', '\\"')
+    expr = f'college_name == "{safe_college}"'
     records = collection.query(
         expr=expr,
         output_fields=["url"],
@@ -327,21 +330,21 @@ def get_non_university_urls(
     """
     non_university_urls = set()
     total_records = 0
-    offset = 0
-    batch_size = 1000
 
     print(f"Scanning records for {college_name}...")
 
-    while True:
-        expr = f'college_name == "{college_name}"'
-        records = collection.query(
-            expr=expr,
-            output_fields=["id", "url"],
-            limit=batch_size,
-            offset=offset,
-        )
+    safe_college = college_name.replace('"', '\\"')
+    expr = f'college_name == "{safe_college}"'
+    iterator = collection.query_iterator(
+        expr=expr,
+        output_fields=["id", "url"],
+        batch_size=1000,
+    )
 
+    while True:
+        records = iterator.next()
         if not records:
+            iterator.close()
             break
 
         total_records += len(records)
@@ -374,10 +377,6 @@ def get_non_university_urls(
             # If we get here, it's likely not a university domain
             non_university_urls.add(url)
 
-        offset += batch_size
-        if len(records) < batch_size:
-            break
-
     return list(non_university_urls), total_records
 
 
@@ -406,8 +405,9 @@ def delete_records_with_urls(
         batch = urls[i : i + batch_size]
 
         # Construct query with URL OR conditions
-        conditions = [f'url == "{url}"' for url in batch]
-        expr = f'college_name == "{college_name}" && ({" || ".join(conditions)})'
+        safe_college = college_name.replace('"', '\\"')
+        conditions = [f'url == "{url.replace(chr(34), chr(92)+chr(34))}"' for url in batch]
+        expr = f'college_name == "{safe_college}" && ({" || ".join(conditions)})'
 
         try:
             # Get IDs of records to delete with pagination
@@ -449,7 +449,9 @@ def delete_records_with_urls(
                     # Direct deletion using expr based on URLs (more reliable than ID-based deletion)
                     for url in batch:
                         # Create a dedicated expression for each URL
-                        url_expr = f'college_name == "{college_name}" && url == "{url}"'
+                        safe_col = college_name.replace('"', '\\"')
+                        safe_url = url.replace('"', '\\"')
+                        url_expr = f'college_name == "{safe_col}" && url == "{safe_url}"'
 
                         # Try to delete with direct expression
                         try:
@@ -491,7 +493,9 @@ def delete_records_with_urls(
             # Try deleting one by one if batch deletion fails
             for url in batch:
                 try:
-                    expr = f'college_name == "{college_name}" && url == "{url}"'
+                    safe_col = college_name.replace('"', '\\"')
+                    safe_url = url.replace('"', '\\"')
+                    expr = f'college_name == "{safe_col}" && url == "{safe_url}"'
                     records = collection.query(
                         expr=expr,
                         output_fields=["id"],
@@ -500,7 +504,8 @@ def delete_records_with_urls(
                     if records:
                         ids = [rec["id"] for rec in records]
                         if ids:
-                            collection.delete(f'id in ["{",".join(ids)}"]')
+                            quoted = ",".join([f'"{_id}"' for _id in ids])
+                            collection.delete(f"id in [{quoted}]")
                             deleted_count += len(ids)
                             print(f"  Deleted {len(ids)} records for URL: {url}")
                 except Exception as e:
@@ -688,8 +693,10 @@ def main():
                         # First get all entity IDs for the URLs we want to delete
                         all_ids_to_delete = []
                         for url in non_university_urls[:5]:  # Start with a small batch
+                            safe_col = college_name.replace('"', '\\"')
+                            safe_url_val = url.replace('"', '\\"')
                             url_expr = (
-                                f'college_name == "{college_name}" && url == "{url}"'
+                                f'college_name == "{safe_col}" && url == "{safe_url_val}"'
                             )
                             results = collection.query(
                                 expr=url_expr, output_fields=["id"], limit=100
@@ -772,7 +779,9 @@ def main():
                     # Check each URL individually for more detailed feedback
                     still_exist = []
                     for url in non_university_urls:
-                        url_expr = f'college_name == "{college_name}" && url == "{url}"'
+                        safe_col = college_name.replace('"', '\\"')
+                        safe_url = url.replace('"', '\\"')
+                        url_expr = f'college_name == "{safe_col}" && url == "{safe_url}"'
                         remaining = collection.query(
                             expr=url_expr, output_fields=["id", "url"], limit=1
                         )
