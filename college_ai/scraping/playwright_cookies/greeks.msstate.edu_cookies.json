@@ -1,0 +1,65 @@
+{
+  "cookies": [
+    {
+      "name": "f5avraaaaaaaaaaaaaaaa_session_",
+      "value": "BHFFENCONOKFJBFFHBGHCNANOJNJMGCDNCGBDNJFKEPLJODCLJBAOELNPJCAGIFOMNDDBPFCBBCBBJDAJNAAFPDLDAIMBOPLDLDGDNDPJLNJOANGNGACIMBANAFHNFCG",
+      "domain": "greeks.msstate.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "f5avraaaaaaaaaaaaaaaa_session_",
+      "value": "OFAHDKEKDLEHENKNOFHDNIGHJJMBCJGIGEJGMDCCPDALEMHNNIBFMIHIDLHHCPOHPGDDMFEPBBFMODDEJEIAPBGIDAALGBMPFLCBOEENIEJMAADNJHPGPGODBFLDFKOJ",
+      "domain": "www.greeks.msstate.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_VB7M5MFVML",
+      "value": "GS2.1.s1755447676$o1$g0$t1755447676$j60$l0$h0",
+      "domain": ".msstate.edu",
+      "path": "/",
+      "expires": 1790007676.953415,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.765701333.1755447677",
+      "domain": ".msstate.edu",
+      "path": "/",
+      "expires": 1790007677.173522,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_GL36GFC91M",
+      "value": "GS2.1.s1755447677$o1$g0$t1755447677$j60$l0$h0",
+      "domain": ".msstate.edu",
+      "path": "/",
+      "expires": 1790007677.14281,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_V7M0GNPCKE",
+      "value": "GS2.1.s1755447677$o1$g0$t1755447677$j60$l0$h0",
+      "domain": ".msstate.edu",
+      "path": "/",
+      "expires": 1790007677.17337,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

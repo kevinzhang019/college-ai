@@ -1,0 +1,25 @@
+{
+  "cookies": [
+    {
+      "name": "_ga",
+      "value": "GA1.1.1577245667.1775130536",
+      "domain": ".virginia.edu",
+      "path": "/",
+      "expires": 1809690568.532573,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_V5DDQZY532",
+      "value": "GS2.1.s1775130535$o1$g1$t1775130568$j27$l0$h0",
+      "domain": ".virginia.edu",
+      "path": "/",
+      "expires": 1809690568.532024,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

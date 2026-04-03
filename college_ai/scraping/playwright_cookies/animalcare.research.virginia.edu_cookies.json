@@ -1,0 +1,47 @@
+{
+  "cookies": [
+    {
+      "name": "_ga",
+      "value": "GA1.1.639749118.1775130471",
+      "domain": ".virginia.edu",
+      "path": "/",
+      "expires": 1809690510.198505,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cf_clearance",
+      "value": "11utoBsI7o6V4r_nLXvz9V1n8h97rW0KyLsLrusi19Q-1775130471-1.2.1.1-_p4IjPsrKYrOg68tCeWuQCeZ9y00byWt6OWmOEsilEgvFFNwr9aDNIbbKGkYGUkLAEAvDOQNPAL_yB2sBJh9FVKL9WkN9bYAd88CdSPh.RHDLqdkC5D2S9fNJf2znpEthg07w9XVAAx9K1bF30PF7Ee2qSe56AbectZJnExviDrMw8He3xLxK4iBuV16i8fhlYwxDH6UGrKSezpi2A0z8xWLZzsjZLeG1HPv2n4tdJg",
+      "domain": ".virginia.edu",
+      "path": "/",
+      "expires": 1806666471.745223,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://virginia.edu",
+      "_crHasCrossSiteAncestor": false
+    },
+    {
+      "name": "__cf_bm",
+      "value": "HRAiywLmqmvimiOuXDHOX2nknHzXUP5RihCdcIrgIQQ-1775130471.8153048-1.0.1.1-KZtAPaZnq63mbL7TxCe4JRN5dq5PuuBw7ygnXHApZ6Nr8fW9aKF_eEvzgvsXaFnOCBaRSQH2MYc5XbRr7pugtz32zfbTrAlSR3A_ElkqH2MILEaUW6QUwPTVKr2PtUmT",
+      "domain": ".virginia.edu",
+      "path": "/",
+      "expires": 1775132271.745321,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_PNB094WDLX",
+      "value": "GS2.1.s1775130470$o1$g1$t1775130510$j20$l0$h0",
+      "domain": ".virginia.edu",
+      "path": "/",
+      "expires": 1809690510.197998,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

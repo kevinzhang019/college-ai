@@ -1,0 +1,557 @@
+{
+  "cookies": [
+    {
+      "name": "nitroCachedPage",
+      "value": "1",
+      "domain": "foster.uw.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.2061981106.1755564302",
+      "domain": ".uw.edu",
+      "path": "/",
+      "expires": 1763340302,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755564301631.2036091999964518",
+      "domain": ".uw.edu",
+      "path": "/",
+      "expires": 1763340345,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.931714949.1755564302",
+      "domain": ".uw.edu",
+      "path": "/",
+      "expires": 1790124346.339797,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_hjSession_3542396",
+      "value": "eyJpZCI6IjkzNTgzZmI2LTZiNjUtNGFkZC1hZjdmLWRiOGFmNTE4MzM5MSIsImMiOjE3NTU1NjQzMDE5NzMsInMiOjAsInIiOjAsInNiIjowLCJzciI6MCwic2UiOjAsImZzIjoxLCJzcCI6MH0=",
+      "domain": ".uw.edu",
+      "path": "/",
+      "expires": 1755566101,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "uuid2",
+      "value": "5353697088690848602",
+      "domain": ".adnxs.com",
+      "path": "/",
+      "expires": 1763340346.585168,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": "px.ads.linkedin.com",
+      "path": "/",
+      "expires": 1758194092.753239,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&677cad9e-add1-4860-8def-bb50520417a7\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1787100346.753275,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=VGST09:s=V:r=V:a=V:p=V:g=3278:u=1:x=1:i=1755564302:t=1755650702:v=2:sig=AQECV51fmCv2L1JxxNx239wQDNxZ5al0\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755650703.329946,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "dpm_pxl",
+      "value": "baa31785c50f6d888ecbf355b6b90ced42fc75c9",
+      "domain": ".dpmsrv.com",
+      "path": "/",
+      "expires": 1790124347.481632,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "dpm_pxl_aid",
+      "value": "5353697088690848602",
+      "domain": ".dpmsrv.com",
+      "path": "/",
+      "expires": 1790124347.481699,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "dpm_sid",
+      "value": "0198bfc9-61c0-71e8-9d21-658f8a83a89e",
+      "domain": "foster.uw.edu",
+      "path": "/",
+      "expires": 1755566147,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "dpm_uid",
+      "value": "0198bfc9-61c0-7939-bdc7-82664539ef24",
+      "domain": "foster.uw.edu",
+      "path": "/",
+      "expires": 1771116347,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "hasLiveRampMatch",
+      "value": "true",
+      "domain": "foster.uw.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "xdpm_segsid_1500",
+      "value": "37007079",
+      "domain": ".dpmsrv.com",
+      "path": "/",
+      "expires": 1790124347.481461,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "xdpm_segs_1500",
+      "value": "",
+      "domain": ".dpmsrv.com",
+      "path": "/",
+      "expires": 1790124347.481582,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TDID",
+      "value": "6c39fd58-70ed-4b33-8da4-55c717e43636",
+      "domain": ".adsrvr.org",
+      "path": "/",
+      "expires": 1787100347.89847,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "audit_p",
+      "value": "1|DzpZBubG8GRKk+jPKiam0wMCMhLKRnfSs+ZYpB0SMfmqcLSLiv9/T3xbTAl2SIVJQKLqCoYZe4OM1KxoLazIt9i2Wk5FrGos0XY24Ec+XLsnhCIYOXSo9SOGuIEY3k7T0AZ+gFfO95YmXbobxNR9M9LGRHS0MeP8z11ZvUtF/WFbOz6AjJtUa8ZnH3r7x5VAdeodiyl5GGjkt77VmXBK7kiCfUmSYXqD+ohH/uuQN8oOr/S07bYDcYQkZmofZQkSVSwKu1RXSJT0/fhu8/pkBO4VeIulq+4M1TRwmTZWV3Xc6UO785F0Pw==",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1787100303.748939,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://uw.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "khaos",
+      "value": "MEHTNQ8L-Z-AIJ9",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1787100303.748994,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "khaos_p",
+      "value": "MEHTNQ8L-Z-AIJ9",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1787100303.749011,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://uw.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "audit",
+      "value": "1|DzpZBubG8GRKk+jPKiam0wMCMhLKRnfSs+ZYpB0SMfmqcLSLiv9/T3xbTAl2SIVJQKLqCoYZe4OM1KxoLazIt9i2Wk5FrGos0XY24Ec+XLsnhCIYOXSo9SOGuIEY3k7T0AZ+gFfO95YmXbobxNR9M9LGRHS0MeP8z11ZvUtF/WFbOz6AjJtUa8ZnH3r7x5VAdeodiyl5GGjkt77VmXBK7kiCfUmSYXqD+ohH/uuQN8oOr/S07bYDcYQkZmofZQkSVSwKu1RXSJT0/fhu8/pkBO4VeIulq+4M1TRwmTZWV3Xc6UO785F0Pw==",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1787100303.749023,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "visitor_id788593",
+      "value": "881608261",
+      "domain": ".pardot.com",
+      "path": "/",
+      "expires": 1790124348.020557,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "visitor_id788593-hash",
+      "value": "936cfca8c7e66e58f18b6862243c5afc963efb6aa99e9334f40251941f5e314a64227609111d5f99edaf9bc6878ad12ceb42d130",
+      "domain": ".pardot.com",
+      "path": "/",
+      "expires": 1790124348.020619,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "visitor_id788593",
+      "value": "881608261",
+      "domain": "foster.uw.edu",
+      "path": "/",
+      "expires": 1790124348.022394,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "visitor_id788593-hash",
+      "value": "936cfca8c7e66e58f18b6862243c5afc963efb6aa99e9334f40251941f5e314a64227609111d5f99edaf9bc6878ad12ceb42d130",
+      "domain": "foster.uw.edu",
+      "path": "/",
+      "expires": 1790124348.022511,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "visitor_id788593",
+      "value": "881608261",
+      "domain": "joinfoster.uw.edu",
+      "path": "/",
+      "expires": 1790124348.663993,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "visitor_id788593-hash",
+      "value": "936cfca8c7e66e58f18b6862243c5afc963efb6aa99e9334f40251941f5e314a64227609111d5f99edaf9bc6878ad12ceb42d130",
+      "domain": "joinfoster.uw.edu",
+      "path": "/",
+      "expires": 1790124348.664033,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "PHPSESSID",
+      "value": "0ebb03552c59e54654429d55ce4e97f8",
+      "domain": "foster.uw.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "X8BnuE8a0cL8RWmEK9wZuy4GFsNfnklHiYtkAZOaO.I-1755564345-1.0.1.1-Vxo36I85NIjCQ1HHLCIMaErzhRIw8HU3FDlZjW4tIRGWBZsdIikRgHgM7clbIiO9nYKsIJI1JcRZvlqzSpXYbbLr2Tbuij7yntRfjusb.w4",
+      "domain": ".foster.uw.edu",
+      "path": "/",
+      "expires": 1755566145.171753,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "hGtKTEAEdM5Kn11DHN8S.ihE8NdU7AoIf6Pv02VPcr0-1755564345-1.0.1.1-4Fl4sSFvlkkEaMd6SsJyvy1VfVOlnaKWx4mF8RcoXJrfJfuAVswie1fO2diwC0agHv9Pcw30mEhJV3AW0xy6zDnUc4IMIJY7JHmL8E0mB80",
+      "domain": ".nitrocdn.com",
+      "path": "/",
+      "expires": 1755566145.685979,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "TH847rEe98j0p70cLnKGxxdXUK63au3vhlQXjOM3KN8-1755564345-1.0.1.1-Apo9v5JnfVHKGHv_gILymhh0vs7mkN1EIGrhvGFWlK.vzfTRVXQbbNuwM6i22KSPrFGAdUOIaPM4MaTjU86GpAmS7.x85p1d3Yei6nXN1tY",
+      "domain": ".nitroscripts.com",
+      "path": "/",
+      "expires": 1755566145.719743,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hjSessionUser_3542396",
+      "value": "eyJpZCI6ImVhZWRlZmE1LWM0NjItNTNlNy05M2I5LTEwN2I5M2ExYWM2OSIsImNyZWF0ZWQiOjE3NTU1NjQzMDE5NzIsImV4aXN0aW5nIjp0cnVlfQ==",
+      "domain": ".uw.edu",
+      "path": "/",
+      "expires": 1787100345,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_5NP8JDX6NQ",
+      "value": "GS2.1.s1755564301$o1$g1$t1755564346$j15$l0$h0",
+      "domain": ".uw.edu",
+      "path": "/",
+      "expires": 1790124346.301674,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "dpm_url_count",
+      "value": "2",
+      "domain": "foster.uw.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_uetsid",
+      "value": "bd8d77607c9511f09404f136ac027627|36mvu3|2|fyl|0|2057",
+      "domain": ".uw.edu",
+      "path": "/",
+      "expires": 1755650746,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_uetvid",
+      "value": "bd8d8d207c9511f08c10f5531daae2bd",
+      "domain": ".uw.edu",
+      "path": "/",
+      "expires": 1789260346,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUlhA0zXVS1nFqWnD2P49Or3iJZzxnpgTt-cbJVu4DzJo2TDEsmrVEOtLUCJ",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1790124346.569476,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_MX29D1QWGH",
+      "value": "GS2.1.s1755564301$o1$g1$t1755564347$j14$l0$h0",
+      "domain": ".uw.edu",
+      "path": "/",
+      "expires": 1790124347.363742,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "aBpfYS1cYirtYni_LOXlK4.kOLEt7jOErTiHqB_8bZ4-1755564347-1.0.1.1-ESvHFZUGjpy1NoJXFS3x2KT2GrbtxproKhgugdGrDv31CKBrpl3RUGXOuNOX.oj3Fnwp0kV7OdYpSzjiCvwjvw2U33R_g2BQgytn7zTRfzo",
+      "domain": ".getnitropack.com",
+      "path": "/",
+      "expires": 1755566147.668654,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ifso_visit_counts",
+      "value": "2",
+      "domain": "foster.uw.edu",
+      "path": "/",
+      "expires": 1786668347.682602,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CMID",
+      "value": "aKPJO9HM4KQABomSATxC5wAA",
+      "domain": ".casalemedia.com",
+      "path": "/",
+      "expires": 1787100347.823248,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "CMPS",
+      "value": "1062",
+      "domain": ".casalemedia.com",
+      "path": "/",
+      "expires": 1763340347.727669,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "CMPRO",
+      "value": "1062",
+      "domain": ".casalemedia.com",
+      "path": "/",
+      "expires": 1763340347.823281,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "tuuid",
+      "value": "692a9e02-6037-4078-8dd7-a96d8fa8885c",
+      "domain": ".bidswitch.net",
+      "path": "/",
+      "expires": 1787100347.840506,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "c",
+      "value": "1755564347",
+      "domain": ".bidswitch.net",
+      "path": "/",
+      "expires": 1787100347.774531,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "tuuid_lu",
+      "value": "1755564347",
+      "domain": ".bidswitch.net",
+      "path": "/",
+      "expires": 1787100347.840551,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TDCPM",
+      "value": "CAESFQoGZ29vZ2xlEgsIhKu2rvWwrz4QBRIWCgdydWJpY29uEgsIytG2rvWwrz4QBRIXCghhcHBuZXh1cxILCNyS4q_1sK8-EAUSFQoGY2FzYWxlEgsI2vvM0viwrz4QBRIYCgliaWRzd2l0Y2gSCwiCsc3S-LCvPhAFEhcKCHB1Ym1hdGljEgsIjNvN0viwrz4QBRgFIAIoBjILCObCz_-Osa8-EAVCDyINCAESCQoFdGllcjIQAVoHMjYzMHR0d2AB",
+      "domain": ".adsrvr.org",
+      "path": "/",
+      "expires": 1787100347.89853,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lpv788593",
+      "value": "aHR0cHM6Ly9mb3N0ZXIudXcuZWR1L2V4ZWN1dGl2ZS1lZHUvZXhlY3V0aXZlLXByb2dyYW1zLw%3D%3D",
+      "domain": "pi.pardot.com",
+      "path": "/",
+      "expires": 1755566148.020646,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "dpm_time_site",
+      "value": "39.00500000000001",
+      "domain": "foster.uw.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://foster.uw.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755564345908"
+        },
+        {
+          "name": "uw-icon-locales",
+          "value": "{\"version\":\"2025-07-28-13-18-07\",\"en-US\":{\"widget\":{\"html_lst_title\":\"Translations Menu\",\"html_title\":\"Accessibility Menu\",\"text_icon_small\":\"Accessibility\",\"text_icon_large\":\"Accessibility</br>Menu\",\"new_tab\":\"open in a new tab\",\"new_tab_substring\":\"new tab\",\"new_window_substring\":\"new window\",\"broken_links\":{\"target_site_not_available\":\"target website may not be available\"}},\"skip_links\":{\"open_accessibility_nav\":\"Open the Accessible Navigation Menu\",\"open_accessibility_menu\":\"Open the accessibility menu\",\"skip\":\"Skip to main content\",\"enable_visually_impaired\":\"Enable accessibility for low vision\",\"disable_visually_impaired\":\"Disable accessibility for low vision\",\"title\":\"Quick Accessibility Options\"}}}"
+        },
+        {
+          "name": "_uetvid_exp",
+          "value": "Sun, 13 Sep 2026 00:45:46 GMT"
+        },
+        {
+          "name": "_uetsid_exp",
+          "value": "Wed, 20 Aug 2025 00:45:46 GMT"
+        },
+        {
+          "name": "uw-tunings",
+          "value": "{\"tunings\":{\"widget_icon_type\":\"2\",\"widget_color_gradient\":\"off\",\"widget_position\":\"5\",\"widget_icon_size\":\"small\",\"widget_color\":\"#4b2e83\",\"widget_position_nudge\":\"{\\\"moveX\\\":0,\\\"moveY\\\":25,\\\"xOrientation\\\":\\\"left\\\",\\\"yOrientation\\\":\\\"bottom\\\"}\",\"widget_position_mobile\":\"5\",\"widget_position_nudge_mobile\":\"{\\\"moveX\\\":0,\\\"moveY\\\":0,\\\"xOrientation\\\":\\\"\\\",\\\"yOrientation\\\":\\\"bottom\\\"}\",\"screenReaderVersion\":\"v2\",\"site_name\":\"foster.uw.edu\",\"widget_no_report\":true},\"services\":{\"siteId\":241709,\"userId\":27065,\"noManage\":false,\"noLogo\":false,\"paidAi\":true},\"remediation\":{},\"remediationV2\":{\"strategy\":\"AUTO\",\"consolidated\":\"https://cdn.userway.org/remediations/consolidated/241709/543ExdJXONY0XwAk.json\",\"version\":1,\"contrast\":{\"enabled\":true,\"config\":{\"path\":null,\"autofix\":false}},\"skipLinks\":{\"enabled\":true,\"config\":{\"anchorSelector\":null}}},\"imageAlt\":{\"version\":\"ALTS_V2\",\"resourceHash\":\"c9Cx8qq9OsSGPW6A\",\"tier\":\"PAID_QUOTA_TIER\",\"quota\":5000,\"usage\":5000,\"state\":\"ALTS_ON\",\"missingAlts\":[]},\"widgetCustomLanguages\":[]}"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755564345922"
+        },
+        {
+          "name": "_uetvid",
+          "value": "bd8d8d207c9511f08c10f5531daae2bd"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"timeouts\":0,\"creationTimeMs\":1755564301609},\"expires\":1763340301609}}"
+        },
+        {
+          "name": "uw-uid",
+          "value": "554f2781-2c97-4ba8-afda-ece90355f8e7"
+        },
+        {
+          "name": "_uetsid",
+          "value": "bd8d77607c9511f09404f136ac027627|36mvu3|2|fyl|0|2057"
+        },
+        {
+          "name": "uw-tunings-checksum",
+          "value": "a3812b95489004d1ab4b08b19d8113e1c1e40c117e6a089db0e11a4563892a02"
+        },
+        {
+          "name": "li_adsId",
+          "value": "e2ba6e7e-3f3b-470e-90de-e7e2d32efd00"
+        }
+      ]
+    }
+  ]
+}

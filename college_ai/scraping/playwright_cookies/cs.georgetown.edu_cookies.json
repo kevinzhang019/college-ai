@@ -1,0 +1,151 @@
+{
+  "cookies": [
+    {
+      "name": "YSC",
+      "value": "WIAPeHyMkok",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://georgetown.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CO3v7r70zdSseRDwzPC085WPAxjwzPC085WPAw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771125093.389065,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://georgetown.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "jeLpjt7kZpU",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771125093.389574,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://georgetown.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgVA%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771125093.389602,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://georgetown.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.282976481.1755573094",
+      "domain": ".georgetown.edu",
+      "path": "/",
+      "expires": 1763349094,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1699855464.1755573094",
+      "domain": ".georgetown.edu",
+      "path": "/",
+      "expires": 1790133093.877705,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_2YMKSNESM2",
+      "value": "GS2.1.s1755573093$o1$g0$t1755573093$j60$l0$h0",
+      "domain": ".georgetown.edu",
+      "path": "/",
+      "expires": 1790133093.799708,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_BSC82Y20RS",
+      "value": "GS2.1.s1755573093$o1$g0$t1755573093$j60$l0$h0",
+      "domain": ".georgetown.edu",
+      "path": "/",
+      "expires": 1790133093.86023,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_PMZB7WHYPX",
+      "value": "GS2.1.s1755573093$o1$g0$t1755573093$j60$l0$h0",
+      "domain": ".georgetown.edu",
+      "path": "/",
+      "expires": 1790133093.897987,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_hjSessionUser_5039938",
+      "value": "eyJpZCI6ImFjYjgwYTc2LTE3NDQtNTk4MS04ZWM3LWYxNGJiZDM0NjhiYSIsImNyZWF0ZWQiOjE3NTU1NzMwOTM5MjQsImV4aXN0aW5nIjp0cnVlfQ==",
+      "domain": ".georgetown.edu",
+      "path": "/",
+      "expires": 1787109093,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hjSession_5039938",
+      "value": "eyJpZCI6IjMzNWNkMzVmLWNiMTMtNGQ0NS04Yzk4LWJhOTk1M2VmYTc0NSIsImMiOjE3NTU1NzMwOTM5MjQsInMiOjEsInIiOjEsInNiIjowLCJzciI6MCwic2UiOjAsImZzIjoxLCJzcCI6MH0=",
+      "domain": ".georgetown.edu",
+      "path": "/",
+      "expires": 1755574893,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "test_cookie",
+      "value": "CheckForPermission",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1755573994.213161,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://cs.georgetown.edu",
+      "localStorage": [
+        {
+          "name": "hjActiveViewportIds",
+          "value": "[{\"id\":\"e676ee04-eae3-47eb-b5b0-a3896837f823\",\"expireTimestamp\":1755594694666}]"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"timeouts\":0,\"creationTimeMs\":1755573093538},\"expires\":1763349093538}}"
+        },
+        {
+          "name": "NRBA_SESSION",
+          "value": "{\"value\":\"6f91b6c6453d15b4\",\"inactiveAt\":1755574894482,\"expiresAt\":1755587494482,\"updatedAt\":1755573094719,\"sessionReplayMode\":0,\"sessionReplaySentFirstChunk\":false,\"sessionTraceMode\":0,\"traceHarvestStarted\":false,\"loggingMode\":0,\"serverTimeDiff\":-115,\"custom\":{},\"numOfResets\":0}"
+        }
+      ]
+    }
+  ]
+}

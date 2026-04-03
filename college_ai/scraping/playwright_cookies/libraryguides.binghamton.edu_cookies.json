@@ -1,0 +1,95 @@
+{
+  "cookies": [
+    {
+      "name": "sts",
+      "value": "{\"id\":\"5464b9414d0670fc8e29\",\"start\":1775198949224}",
+      "domain": "libraryguides.binghamton.edu",
+      "path": "/",
+      "expires": 1775200749,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AWSALBTG",
+      "value": "nXIVz+dDTtUebKjXvDeyLlH6On1nKpXXV86Np/s9CPbcxkYjR6f8Okclw6ZKLFcPC4FcVWFsPghN1YorG7WEM37UdabBx7FzW/hZJra+DoQN8bOjDSC7xg2xWZB1Kau781+TGVkbw4O22uZL4BzhRtUP4W7VZAtlBLpCJs65nkxfAPfQJ1Q=",
+      "domain": "binghamton.edu",
+      "path": "/",
+      "expires": 1775803749,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "None"
+    },
+    {
+      "name": "AWSALBTGCORS",
+      "value": "nXIVz+dDTtUebKjXvDeyLlH6On1nKpXXV86Np/s9CPbcxkYjR6f8Okclw6ZKLFcPC4FcVWFsPghN1YorG7WEM37UdabBx7FzW/hZJra+DoQN8bOjDSC7xg2xWZB1Kau781+TGVkbw4O22uZL4BzhRtUP4W7VZAtlBLpCJs65nkxfAPfQJ1Q=",
+      "domain": "binghamton.edu",
+      "path": "/",
+      "expires": 1775803749,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AWSALB",
+      "value": "ZCVOJhrApx/qT8h085v4YGFCXGRm00npkR1HH96kE+87xUpdfRelzechlhkrodae+JNJOFOBhtzNaXieu6yTFjtF7cVFXieWB9VVwO+dP4qQej22p90eqWvoGWGh",
+      "domain": "binghamton.edu",
+      "path": "/",
+      "expires": 1775803749,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "None"
+    },
+    {
+      "name": "AWSALBCORS",
+      "value": "ZCVOJhrApx/qT8h085v4YGFCXGRm00npkR1HH96kE+87xUpdfRelzechlhkrodae+JNJOFOBhtzNaXieu6yTFjtF7cVFXieWB9VVwO+dP4qQej22p90eqWvoGWGh",
+      "domain": "binghamton.edu",
+      "path": "/",
+      "expires": 1775803749,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AWSALBTG",
+      "value": "KuNy2Mxzh8B9GNdOrRGCfSqQyRDYdNvcbpywyqc7p6Kj6HnWG3eEzRHh0ZoyjFKcJQBxHpMJX51ilsywK3ky1TRq+yaVZvIjcEWvRJsegfRd291jfDjMIbIxZYrjFr+ungfyDxrFNPG0r/xBufxkOxeEkOqUtrtqbiIfIEOVeYsIlhJs2Kk=",
+      "domain": "www.binghamton.edu",
+      "path": "/",
+      "expires": 1775803750,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "None"
+    },
+    {
+      "name": "AWSALBTGCORS",
+      "value": "KuNy2Mxzh8B9GNdOrRGCfSqQyRDYdNvcbpywyqc7p6Kj6HnWG3eEzRHh0ZoyjFKcJQBxHpMJX51ilsywK3ky1TRq+yaVZvIjcEWvRJsegfRd291jfDjMIbIxZYrjFr+ungfyDxrFNPG0r/xBufxkOxeEkOqUtrtqbiIfIEOVeYsIlhJs2Kk=",
+      "domain": "www.binghamton.edu",
+      "path": "/",
+      "expires": 1775803750,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AWSALB",
+      "value": "VIhy6i8kXKzFexEnhD6SgAbnT68k/yZoi9QskToePmaGYCWTAJu4Mf7VVH5g8CcK6L3dOhHxzrRGa/Yb+6QGcQWXjHnHUbXMtAQPWGU9MSqONn31n5vhQ7QUCSKN",
+      "domain": "www.binghamton.edu",
+      "path": "/",
+      "expires": 1775803750,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "None"
+    },
+    {
+      "name": "AWSALBCORS",
+      "value": "VIhy6i8kXKzFexEnhD6SgAbnT68k/yZoi9QskToePmaGYCWTAJu4Mf7VVH5g8CcK6L3dOhHxzrRGa/Yb+6QGcQWXjHnHUbXMtAQPWGU9MSqONn31n5vhQ7QUCSKN",
+      "domain": "www.binghamton.edu",
+      "path": "/",
+      "expires": 1775803750,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": []
+}

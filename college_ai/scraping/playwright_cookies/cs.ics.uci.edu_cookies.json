@@ -1,0 +1,25 @@
+{
+  "cookies": [
+    {
+      "name": "_ga_68T133S2W0",
+      "value": "GS2.1.s1755582342$o1$g0$t1755582342$j60$l0$h0",
+      "domain": ".uci.edu",
+      "path": "/",
+      "expires": 1790142342.475924,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.114463192.1755582342",
+      "domain": ".uci.edu",
+      "path": "/",
+      "expires": 1790142342.476122,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

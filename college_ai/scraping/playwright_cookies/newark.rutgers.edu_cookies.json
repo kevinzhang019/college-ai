@@ -1,0 +1,273 @@
+{
+  "cookies": [
+    {
+      "name": "__stid",
+      "value": "ZHaABGih+9AAAAAILT3NAw==",
+      "domain": ".sharethis.com",
+      "path": "/",
+      "expires": 1786982224.164715,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__stidv",
+      "value": "2",
+      "domain": ".sharethis.com",
+      "path": "/",
+      "expires": 1786982224.164746,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "fpestid",
+      "value": "KnvtrebSipeKJtmxes24yFgGOb0E5Aw6Ty2vUKSeWrnTuRGYebYOdct9osDqK30qsSMu0w",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1786982224.223244,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_RKQ079HYFR",
+      "value": "GS2.1.s1755446224$o1$g0$t1755446224$j60$l0$h0",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1790006224.9745,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_cc_dc",
+      "value": "3",
+      "domain": ".crwdcntrl.net",
+      "path": "/",
+      "expires": 1778771099.98623,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_cc_id",
+      "value": "bab052ac32835908409f95784da752be",
+      "domain": ".crwdcntrl.net",
+      "path": "/",
+      "expires": 1778771099.986266,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_cc_id",
+      "value": "bab052ac32835908409f95784da752be",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1778774224,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "panoramaId_expiry",
+      "value": "1755532625015",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1755532625,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_5EBF2S2KRB",
+      "value": "GS2.1.s1755446225$o1$g0$t1755446225$j60$l0$h0",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1790006225.007618,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.1559479152.1755446225",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1790006228.224591,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.1168448451.1755446225",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1755532628,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_UA-242716-2",
+      "value": "1",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1755446285,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__adroll",
+      "value": "bcd686e2471a5cdd9832caf155d35f97-a_1755446225",
+      "domain": ".d.adroll.com",
+      "path": "/",
+      "expires": 1789574226.951099,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "receive-cookie-deprecation",
+      "value": "1",
+      "domain": ".d.adroll.com",
+      "path": "/",
+      "expires": 1789574226.951133,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://rutgers.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "receive-cookie-deprecation",
+      "value": "1",
+      "domain": ".adroll.com",
+      "path": "/",
+      "expires": 1789574226.951147,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://rutgers.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "__adroll_shared",
+      "value": "bcd686e2471a5cdd9832caf155d35f97-a_1755446225",
+      "domain": ".adroll.com",
+      "path": "/",
+      "expires": 1789574226.951158,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__adroll_fpc",
+      "value": "40c53f1975bca3d04b920d37c54f1d1d-1755446225666",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1787003825,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__ar_v4",
+      "value": "%7CKELYDOCHSBCVHFHGCPHSGO%3A20250816%3A1%7CPEIPSZQETBGVNER75NKDO3%3A20250816%3A1%7CJDW3HMPNMVHRRB53H6NHSW%3A20250816%3A1",
+      "domain": ".www.newark.rutgers.edu",
+      "path": "/",
+      "expires": 1786982227,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "YSC",
+      "value": "hI_GrYndkns",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://rutgers.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "fYe6pgr2aB8",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1770998231.257155,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://rutgers.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgFg%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1770998231.257192,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://rutgers.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CNuY9vuX-8zbWhDgzdHnmpKPAxjeqpfompKPAw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1770998231.257208,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://rutgers.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "pxcelPage_default_c010_B",
+      "value": "0_12_1755446225439",
+      "domain": ".t.sharethis.com",
+      "path": "/",
+      "expires": 1758038225,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://www.newark.rutgers.edu",
+      "localStorage": [
+        {
+          "name": "panoramaId_expiry",
+          "value": "1755532625015"
+        },
+        {
+          "name": "_cc_id_update_ts",
+          "value": "1755446224992"
+        },
+        {
+          "name": "_cc_id",
+          "value": "bab052ac32835908409f95784da752be"
+        },
+        {
+          "name": "panoramaId_expiry_exp",
+          "value": "1755532625015"
+        },
+        {
+          "name": "ally-supports-cache",
+          "value": "{\"userAgent\":\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36\",\"version\":\"1.4.1\",\"focusAreaImgTabindex\":false,\"focusAreaTabindex\":false,\"focusAreaWithoutHref\":false,\"focusAudioWithoutControls\":false,\"focusBrokenImageMap\":true,\"focusChildrenOfFocusableFlexbox\":false,\"focusFieldsetDisabled\":true,\"focusFieldset\":false,\"focusFlexboxContainer\":false,\"focusFormDisabled\":true,\"focusImgIsmap\":false,\"focusImgUsemapTabindex\":true,\"focusInHiddenIframe\":true,\"focusInvalidTabindex\":false,\"focusLabelTabindex\":true,\"focusObjectSvg\":true,\"focusObjectSvgHidden\":false,\"focusRedirectImgUsemap\":false,\"focusRedirectLegend\":\"\",\"focusScrollBody\":false,\"focusScrollContainerWithoutOverflow\":false,\"focusScrollContainer\":true,\"focusSummary\":true,\"focusSvgFocusableAttribute\":false,\"focusSvgTabindexAttribute\":true,\"focusSvgNegativeTabindexAttribute\":true,\"focusSvgUseTabindex\":true,\"focusSvgForeignobjectTabindex\":true,\"focusSvg\":false,\"focusTabindexTrailingCharacters\":true,\"focusTable\":false,\"focusVideoWithoutControls\":false,\"cssShadowPiercingDeepCombinator\":\"\",\"focusInZeroDimensionObject\":true,\"focusObjectSwf\":true,\"focusSvgInIframe\":false,\"tabsequenceAreaAtImgPosition\":false,\"time\":\"2025-08-17T15:57:08.214Z\"}"
+        }
+      ]
+    }
+  ]
+}

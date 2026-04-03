@@ -1,0 +1,57 @@
+{
+  "cookies": [
+    {
+      "name": "_ga",
+      "value": "GA1.1.1295812367.1755473164",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1790033310.994721,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cf_clearance",
+      "value": "oDlAQE8wsuXmB4pImp7zZ0Pzv1TBRZZzzZmt4CxXLKo-1755473164-1.2.1.1-Ca.MVM4MtDLIu1iTk27KcVLN17INMV.SQxNhTLqQOZOOJXg5pbtf6gBZNestvFn5XODh3oibZix1KA00anLscxHkgk.jGsvKHcvQLZykZaBtBkAggKPLMrKkUsouq0XUTOpXk3XWSxoUlFpbouEQA6Kx_HT_NcnQYyGJhkrKZ4n.3UaK.BHiXxFfJpAAoQoG.Eh7cwDEiO8HBMN5d4Q2Rh0B2x2t.auFMdc30AvqjYA",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1787009164.613711,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://rutgers.edu",
+      "_crHasCrossSiteAncestor": false
+    },
+    {
+      "name": "__cf_bm",
+      "value": "3SrD1PPN4KAk_I4FZbawW7i.y_D3V2ebgI3VEnlEP4E-1755473310-1.0.1.1-g0yXKjWbm1kr5K6JfTR2rXsk5XEIQnIiFkpxkDTF0MpOFj8xFWYUb_7aEq82DW5Vx8jjKFagvhRPbgy3PCVK7p9ce4zBXUGGjQzJ9Q17m.A",
+      "domain": ".class.camden.rutgers.edu",
+      "path": "/",
+      "expires": 1755475110.518738,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_FZHBD0L9EE",
+      "value": "GS2.1.s1755473164$o1$g1$t1755473310$j60$l0$h0",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1790033310.994557,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://class.camden.rutgers.edu",
+      "localStorage": [
+        {
+          "name": "gt_autoswitch",
+          "value": "1"
+        }
+      ]
+    }
+  ]
+}

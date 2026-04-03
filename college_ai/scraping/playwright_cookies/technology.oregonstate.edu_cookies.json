@@ -1,0 +1,299 @@
+{
+  "cookies": [
+    {
+      "name": "X-AB",
+      "value": "12f715ca71194ad9a1b12bba6d1da4c6",
+      "domain": "sc-static.net",
+      "path": "/scevent.min.js",
+      "expires": 1755533340.595172,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.2093999532.1755446940",
+      "domain": ".oregonstate.edu",
+      "path": "/",
+      "expires": 1763222940,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.142260988.1755446941",
+      "domain": ".oregonstate.edu",
+      "path": "/",
+      "expires": 1790006940.614118,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_RHQKNVWJCF",
+      "value": "GS2.1.s1755446940$o1$g0$t1755446940$j60$l0$h0",
+      "domain": ".oregonstate.edu",
+      "path": "/",
+      "expires": 1790006940.61882,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_scid",
+      "value": "wT_Yml99TsZWUE7UTjjPhZRElBoUdST_",
+      "domain": ".oregonstate.edu",
+      "path": "/",
+      "expires": 1789633638,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_scid_r",
+      "value": "wT_Yml99TsZWUE7UTjjPhZRElBoUdST_",
+      "domain": ".oregonstate.edu",
+      "path": "/",
+      "expires": 1789633638,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ttp",
+      "value": "31QCWPX1ITSmEEOUsynbO1vwGIH",
+      "domain": ".tiktok.com",
+      "path": "/",
+      "expires": 1789142940.643273,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_node",
+      "value": "c523366081f6753122c7083b06f7004cb1578f023610c6681ce4518af285fe98",
+      "domain": "discover.oregonstate.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "4c0e0c85-c630-4c4e-a3b9-a7bbdbc7639f",
+      "domain": "discover.oregonstate.edu",
+      "path": "/",
+      "expires": 1790006940.794838,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "discover.oregonstate.edu",
+      "path": "/",
+      "expires": 1790006940.794895,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_tt_enable_cookie",
+      "value": "1",
+      "domain": ".oregonstate.edu",
+      "path": "/",
+      "expires": 1789142941,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ttp",
+      "value": "01K2WCN5DP2NSHSGAB6257C5MF_.tt.1",
+      "domain": ".oregonstate.edu",
+      "path": "/",
+      "expires": 1789142941,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ttcsid",
+      "value": "1755446941113::6D4v8mP4O1VfKLSFxehi.1.1755446941113",
+      "domain": ".oregonstate.edu",
+      "path": "/",
+      "expires": 1789142941,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755446941122.95606079664124586",
+      "domain": ".oregonstate.edu",
+      "path": "/",
+      "expires": 1763222941,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ScCbts",
+      "value": "%5B%5D",
+      "domain": ".oregonstate.edu",
+      "path": "/",
+      "expires": 1756051741,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ttcsid_BSLGAR0QH7P7CAP6MM20",
+      "value": "1755446941113::_kB84RRbRZz8nopyn_vC.1.1755446941329",
+      "domain": ".oregonstate.edu",
+      "path": "/",
+      "expires": 1789142941,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&df7857a1-4cb4-460e-8652-b7232d8d64a8\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1786982942.73345,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=OGST09:s=O:r=O:a=O:p=O:g=3219:u=1:x=1:i=1755446942:t=1755533342:v=2:sig=AQFnf2nWl2TCq7YUT9Hmqber7A8LQ2-M\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755533342.733499,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUk6lrPRyxyRrsQZEmMWGG7cuXUkAwP_nPiACaL9ZLuArIoWEZgf2dphjxqtQI0",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1790006942.787886,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "receive-cookie-deprecation",
+      "value": "1",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1770998942.787974,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://oregonstate.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "TapAd_TS",
+      "value": "1755446942861",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760630942.917419,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_DID",
+      "value": "5d16c6f7-bdc2-4d5e-b0f9-fd48b3abe75e",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760630942.917465,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_3WAY_SYNCS",
+      "value": "",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760630942.917484,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sc_at",
+      "value": "v2|H4sIAAAAAAAAAE3GwRHAIAgEwIqYATk8STkJWIXF+82+VodXZ1Mc2wXBKWuwJDK1v3e5sY5BH2MEMBN+ftULIl4rSkAAAAA=",
+      "domain": ".snapchat.com",
+      "path": "/",
+      "expires": 1789142943.011937,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_sctr",
+      "value": "1%7C1755414000000",
+      "domain": ".oregonstate.edu",
+      "path": "/",
+      "expires": 1789633641,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://technology.oregonstate.edu",
+      "localStorage": [
+        {
+          "name": "u_sclid_r",
+          "value": "vGejRO65w325tfm99eKUi5N7b8SjsammwT_Yml99TsZWUE7UTjjPhZRElBoUdST_"
+        },
+        {
+          "name": "u_sclid",
+          "value": "vGejRO65w325tfm99eKUi5N7b8SjsammwT_Yml99TsZWUE7UTjjPhZRElBoUdST_"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755446941120"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755446941126"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "cf5ea786-5f22-95ac-0343-579d4ea920e0_st",
+          "value": "1755446941127"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"timeouts\":0,\"creationTimeMs\":1755446940224},\"expires\":1763222940224}}"
+        },
+        {
+          "name": "cf5ea786-5f22-95ac-0343-579d4ea920e0_pp",
+          "value": "{\"194513062\":[{\"id\":\"e4c42431-7f79-4f5b-b12f-1ddaf4078b8a\"}],\"1923601067\":[{\"id\":\"020e768d-2a0f-4314-b6a4-07365363504b\"}],\"-1027386566\":[{\"id\":\"363bb764-c534-4ea2-8849-d513dc65aa79\"}],\"v\":\"acbe658f-828d-98c5-5d4e-11b512d4502f\"}"
+        },
+        {
+          "name": "li_adsId",
+          "value": "03fded7c-8378-48b4-b52f-d0dea2f7195e"
+        }
+      ]
+    }
+  ]
+}

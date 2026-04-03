@@ -1,0 +1,643 @@
+{
+  "cookies": [
+    {
+      "name": "_ttp",
+      "value": "3BndLflJFRyPFAm4HLT7UfBgunp",
+      "domain": ".tiktok.com",
+      "path": "/",
+      "expires": 1808824713,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MUID",
+      "value": "29EB2577FF0B6D9512653258FE4F6C84",
+      "domain": ".bing.com",
+      "path": "/",
+      "expires": 1808824854,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MR",
+      "value": "0",
+      "domain": ".c.bing.com",
+      "path": "/",
+      "expires": 1775733654,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "SRM_B",
+      "value": "29EB2577FF0B6D9512653258FE4F6C84",
+      "domain": ".c.bing.com",
+      "path": "/",
+      "expires": 1808882248,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "X-AB",
+      "value": "73d5d2c9b3eb4512b5a7ceff2d9cd7aa",
+      "domain": "sc-static.net",
+      "path": "/scevent.min.js",
+      "expires": 1775215113,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_5T9SG25SVE",
+      "value": "GS2.1.s1755464308$o1$g0$t1755464308$j60$l0$h0",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1790024308,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_H4KKXQKFSM",
+      "value": "GS2.1.s1755497807$o3$g1$t1755497826$j41$l0$h0",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1790057826,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_S4TP6272FF",
+      "value": "GS2.1.s1755497807$o3$g1$t1755497826$j41$l0$h0",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1790057826,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_YKLBDQJ61W",
+      "value": "GS2.1.s1755497807$o3$g1$t1755497826$j41$l0$h0",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1790057826,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_VR2BFTJ92R",
+      "value": "GS2.1.s1755497807$o3$g1$t1755497826$j41$l0$h0",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1790057826,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_8Y5XM9YCFW",
+      "value": "GS2.1.s1755497807$o3$g1$t1755497826$j41$l0$h0",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1790057826,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_9CWXCZX89G",
+      "value": "GS2.1.s1755497807$o3$g1$t1755497826$j41$l0$h0",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1790057826,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_S194DLZYBD",
+      "value": "GS2.1.s1755497807$o3$g1$t1755497826$j41$l0$h0",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1790057826,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "aws-waf-token",
+      "value": "a7d042cc-bd9a-40bc-9893-44368eb96dde:EwoA84FOAqA7AAAA:gHhVeKUGoz5S4UUPxAAVKyRv1nB80OHwKNea1eUgjTXgcTJFkmEUsOTnBPSu79Ao20zbXOEtp2vXzYIPNImbcfr3DtbW88GL3aYuqWN0fGr+ZA82h1I+yTByGYhm5DynGlmeJ01Si9qHDdUngAyzJ6VdiC+MUrH3aJK554Rur6PSda/S3jfzPUyZtYgkBHan5Yh1VTUhQcOYmYCdu36QjttDXrylfUjQvA==",
+      "domain": ".www.nyu.edu",
+      "path": "/",
+      "expires": 1775474271,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ivy-",
+      "value": "{%22sid%22:%227b86b57f-f2cb-491d-8f20-338ec72ca2fe%22%2C%22open%22:false%2C%22ps%22:true%2C%22hp%22:false}",
+      "domain": "www.nyu.edu",
+      "path": "/",
+      "expires": 1806664713,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_scid",
+      "value": "HvL3dA9yba5NQNaMNHJlQy4Hs_lZmkhw",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1809256713,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_scid_r",
+      "value": "HvL3dA9yba5NQNaMNHJlQy4Hs_lZmkhw",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1809256713,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%253A0-b584658c-fbbe-43b2-60ad-2c2aa402cf34.YP1rYeLmYdUi3Njb8g%252B14TBSj%252FqyjAb7HZN3YLnibLM",
+      "domain": "www.nyu.edu",
+      "path": "/",
+      "expires": 1806664713,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%253AtYRljPu-Q7JgrSwqpALPNA.BlXnjRS2r821duegYnEOditFdJG00xVA5InbzaEikFs",
+      "domain": "www.nyu.edu",
+      "path": "/",
+      "expires": 1806664713,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%253AAQAKIC4vieSEfkJ2D6c4QigRx5pzoymNYlXxEXSqiNC1Bz9WEHwYAiCJobnOBjoEUzBLLkIEIUtXLQ.zXLGuoNykdHAVGDwDaP5LC%252BPzmH1DmTfNLbJ05i2Fnw",
+      "domain": "www.nyu.edu",
+      "path": "/",
+      "expires": 1806664713,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1775128714113.640447190740081579",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1782904714,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_tt_enable_cookie",
+      "value": "1",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1808824714,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ttp",
+      "value": "01KN6YN6YTPA7SV1QF54K73NEJ_.tt.1",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1808824714,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_sctr",
+      "value": "1%7C1775106000000",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1809256714,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ttcsid",
+      "value": "1775128714208::mrL6otu_c_2o6O_tsy5X.1.1775128724225.0::1.-2763.0::0.0.0.0::1724.1.1135",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1808824724,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ttcsid_CU818H3C77UDT6BP6IJG",
+      "value": "1775128714206::nUGvSefPg8dtKvMvu6-a.1.1775128724226.1",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1808824724,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "OptanonAlertBoxClosed",
+      "value": "2026-04-02T11:20:43.520Z",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1806664843,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "OptanonConsent",
+      "value": "isGpcEnabled=0&datestamp=Thu+Apr+02+2026+06%3A20%3A43+GMT-0500+(Central+Daylight+Time)&version=202501.2.0&browserGpcFlag=0&isIABGlobal=false&hosts=&landingPath=NotLandingPage&groups=C0002%3A1%2CC0003%3A1%2CC0004%3A1%2CC0001%3A1&geolocation=%3B&AwaitingReconsent=false",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1806664843,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": ".AspNetCore.Antiforgery.Pnjfq5WAl6o",
+      "value": "CfDJ8Az9GcAD4TpIm2NmyW6ywWEw0qHE55x9dVZx9Eokzqi9lXZdob1hgyD-SuJA8mHqGrfKsuWsmDprtnRF6473otvMbLrU6xdqq1mTVNgAZwlufd_fS0U9fZeo071xiaNMrwd15H42x0x2zWaObxsgAww",
+      "domain": "engage.nyu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ai_user",
+      "value": "AYazd7cfG8PXEMoRH3h4Vt|2026-04-02T11:20:51.981Z",
+      "domain": "engage.nyu.edu",
+      "path": "/",
+      "expires": 1806664851,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.148454091.1775128856",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1775272900,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_clck",
+      "value": "t7q82m%5E2%5Eg4w%5E0%5E2283",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1806722241,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_6VXTC1Y945",
+      "value": "GS2.1.s1775186244$o2$g1$t1775186498$j60$l0$h0",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1809746498,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_82XNQGEGJP",
+      "value": "GS2.1.s1775186246$o2$g1$t1775186500$j60$l0$h0",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1809746500,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.2136655728.1755464265",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1809746500,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "TiPMix",
+      "value": "54.380321894384224",
+      "domain": ".engage.nyu.edu",
+      "path": "/",
+      "expires": 1775195042,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "x-ms-routing-name",
+      "value": "self",
+      "domain": ".engage.nyu.edu",
+      "path": "/",
+      "expires": 1775195042,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_TS",
+      "value": "1775128714723",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1780312714,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_DID",
+      "value": "7ef60d5b-f411-4014-a0b4-7b3fad99304e",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1780312714,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_3WAY_SYNCS",
+      "value": "",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1780312714,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sc_at",
+      "value": "v2|H4sIAAAAAAAA/03GwQ0AIQgEwIpIgCzZw3IQqcLi/d68JsuLp10mcgvUIRksIbS7x2v2XIMuI8P8o+H+qg/e8WhjQAAAAA==",
+      "domain": ".snapchat.com",
+      "path": "/",
+      "expires": 1808824714,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "YSC",
+      "value": "3VQcsCnvOWc",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "Fpd6qTZQMKQ",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790680734,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgHQ%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790680734,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "COn-9fS9wa_HCBCvt_zPhc-TAxjLvKjQhc-TAw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790680673,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ASLBSA",
+      "value": "0003f9dd40b680b62447b3eb68c33ac886fd76a61a96ebb0bb05e86ef6affc2468fb",
+      "domain": "se-images.campuslabs.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ASLBSACORS",
+      "value": "0003f9dd40b680b62447b3eb68c33ac886fd76a61a96ebb0bb05e86ef6affc2468fb",
+      "domain": "se-images.campuslabs.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MUID",
+      "value": "29EB2577FF0B6D9512653258FE4F6C84",
+      "domain": ".clarity.ms",
+      "path": "/",
+      "expires": 1808824854,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MR",
+      "value": "0",
+      "domain": ".c.clarity.ms",
+      "path": "/",
+      "expires": 1775733654,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "CLID",
+      "value": "e4702298542b468982ae17c737e5ccc3.20260402.20270403",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1806722240,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "SM",
+      "value": "C",
+      "domain": ".c.clarity.ms",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-b584658c-fbbe-43b2-60ad-2c2aa402cf34.YP1rYeLmYdUi3Njb8g%2B14TBSj%2FqyjAb7HZN3YLnibLM",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1806664713,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-b584658c-fbbe-43b2-60ad-2c2aa402cf34.YP1rYeLmYdUi3Njb8g%2B14TBSj%2FqyjAb7HZN3YLnibLM",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1806664713,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3AtYRljPu-Q7JgrSwqpALPNA.BlXnjRS2r821duegYnEOditFdJG00xVA5InbzaEikFs",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1806664713,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3AtYRljPu-Q7JgrSwqpALPNA.BlXnjRS2r821duegYnEOditFdJG00xVA5InbzaEikFs",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1806664713,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIC4vieSEfkJ2D6c4QigRx5pzoymNYlXxEXSqiNC1Bz9WEHwYAiCJobnOBjoEUzBLLkIEIUtXLQ.zXLGuoNykdHAVGDwDaP5LC%2BPzmH1DmTfNLbJ05i2Fnw",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1806664713,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIC4vieSEfkJ2D6c4QigRx5pzoymNYlXxEXSqiNC1Bz9WEHwYAiCJobnOBjoEUzBLLkIEIUtXLQ.zXLGuoNykdHAVGDwDaP5LC%2BPzmH1DmTfNLbJ05i2Fnw",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1806664713,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUlcK5QyYtLctkMQbnAQcnfHjP6Zt9H92RdS2nsiJup_dI2f2Jj3bMDbjm5x",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1809688674,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://www.nyu.edu",
+      "localStorage": [
+        {
+          "name": "sa-user-id-v3",
+          "value": "s%3AAQAKIC4vieSEfkJ2D6c4QigRx5pzoymNYlXxEXSqiNC1Bz9WEHwYAiCJobnOBjoEUzBLLkIEIUtXLQ.zXLGuoNykdHAVGDwDaP5LC%2BPzmH1DmTfNLbJ05i2Fnw"
+        },
+        {
+          "name": "sa-user-id-v2",
+          "value": "s%3AtYRljPu-Q7JgrSwqpALPNA.BlXnjRS2r821duegYnEOditFdJG00xVA5InbzaEikFs"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755464264777},\"expires\":1763240264777}}"
+        },
+        {
+          "name": "u_sclid",
+          "value": "KnYsvwqUutv79vyMYLiFSQqK6DRUvJWtHvL3dA9yba5NQNaMNHJlQy4Hs_lZmkhw"
+        },
+        {
+          "name": "osano_consentmanager_tattles",
+          "value": "{\"19\":{\"queue\":{\"script\":[\"https://cdn.cookielaw.org/scripttemplates/202501.2.0/otBannerSdk.js\"],\"cookie\":[\"OptanonConsent\",\"OptanonAlertBoxClosed\"]},\"ignore\":{\"localStorage\":[\"u_sclid\",\"u_sclid_r\",\"sa-user-id\",\"sa-user-id-v2\",\"sa-user-id-v3\",\"lastExternalReferrer\",\"lastExternalReferrerTime\"]}}}"
+        },
+        {
+          "name": "awswaf_token_refresh_timestamp",
+          "value": "1775128671911"
+        },
+        {
+          "name": "aws_waf_referrer",
+          "value": "{\"referrer\":\"\"}"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "u_sclid_r",
+          "value": "KnYsvwqUutv79vyMYLiFSQqK6DRUvJWtHvL3dA9yba5NQNaMNHJlQy4Hs_lZmkhw"
+        },
+        {
+          "name": "sa-user-id",
+          "value": "s%3A0-b584658c-fbbe-43b2-60ad-2c2aa402cf34.YP1rYeLmYdUi3Njb8g%2B14TBSj%2FqyjAb7HZN3YLnibLM"
+        },
+        {
+          "name": "aws_waf_token_challenge_attempts",
+          "value": "{\"attempts\":1,\"lastAttemptTimestamp\":1775128671697}"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1775128714107"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755497826588"
+        }
+      ]
+    }
+  ]
+}

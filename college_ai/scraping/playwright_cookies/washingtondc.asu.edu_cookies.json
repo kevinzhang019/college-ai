@@ -1,0 +1,123 @@
+{
+  "cookies": [
+    {
+      "name": "_gcl_au",
+      "value": "1.1.1831389480.1755439181",
+      "domain": ".asu.edu",
+      "path": "/",
+      "expires": 1763215180,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.887458271.1755439181",
+      "domain": ".asu.edu",
+      "path": "/",
+      "expires": 1789999181.402419,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_TEHJR60KD9",
+      "value": "GS2.1.s1755439181$o1$g0$t1755439181$j60$l0$h2039029740",
+      "domain": ".asu.edu",
+      "path": "/",
+      "expires": 1789999181.423157,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "FPAU",
+      "value": "1.1.1831389480.1755439181",
+      "domain": ".asu.edu",
+      "path": "/",
+      "expires": 1763215181.043666,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "geoRegion",
+      "value": "US-CA",
+      "domain": ".asu.edu",
+      "path": "/",
+      "expires": 1758031183.0438,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "FPGSID",
+      "value": "1.1755439183.1755439183.G-TEHJR60KD9.TkeEgxR7f-R3PDBTg35UmQ",
+      "domain": ".asu.edu",
+      "path": "/",
+      "expires": 1755440983.043822,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "YSC",
+      "value": "2Qfhtl1nmKI",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://asu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "E-0XBtwLdVk",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1770991184.047699,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://asu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgQQ%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1770991184.047726,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://asu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CLjJptiKyO_6pgEQjoL1x4CSjwMYjoL1x4CSjwM%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1770991184.047752,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://asu.edu",
+      "_crHasCrossSiteAncestor": true
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://washingtondc.asu.edu",
+      "localStorage": [
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755439180872},\"expires\":1763215180872}}"
+        }
+      ]
+    }
+  ]
+}

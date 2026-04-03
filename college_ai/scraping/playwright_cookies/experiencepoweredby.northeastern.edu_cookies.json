@@ -1,0 +1,161 @@
+{
+  "cookies": [
+    {
+      "name": "__cf_bm",
+      "value": "dYhEHSc2BEJlwp6gBODzcN72KFtA6ktuuWf6AuZ9bWU-1755463786-1.0.1.1-4D3iwfjsUC_5fTRK1b10Z0GsTqmZQe33.uSj98sDC0O8Tsldk5Sw7Q4CW243P9Tl1fIGxHcvOn9jqPTXSvHRu5pKIlaSzSlWINElSthv3Ys",
+      "domain": ".experiencepoweredby.northeastern.edu",
+      "path": "/",
+      "expires": 1755465586.001273,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TAsessionID",
+      "value": "716acb68-803d-4ecc-9cb7-f0d68d1e2002|NEW",
+      "domain": ".northeastern.edu",
+      "path": "/",
+      "expires": 1755465587,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "notice_behavior",
+      "value": "implied,us",
+      "domain": ".northeastern.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_TDWKNGBEYR",
+      "value": "GS2.1.s1755463787$o1$g0$t1755463787$j60$l0$h0",
+      "domain": ".northeastern.edu",
+      "path": "/",
+      "expires": 1790023787.176739,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1806518082.1755463787",
+      "domain": ".northeastern.edu",
+      "path": "/",
+      "expires": 1790023787.21656,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_1F5MXB3M22",
+      "value": "GS2.1.s1755463787$o1$g0$t1755463787$j60$l0$h0",
+      "domain": ".northeastern.edu",
+      "path": "/",
+      "expires": 1790023787.216306,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "TDID",
+      "value": "7d8d4ccf-c2a9-4e01-853c-741767e3452c",
+      "domain": ".adsrvr.org",
+      "path": "/",
+      "expires": 1786999789.998567,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "test_cookie",
+      "value": "CheckForPermission",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1755464689.790864,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "audit_p",
+      "value": "1|dSHqw4EhJf66bzVwLAv9vHc6OagNP8tZ5gjQuf8HRgSqcLSLiv9/T+tW1p5wZJO8AZSUMXXOQnWM1KxoLazIt9i2Wk5FrGos0XY24Ec+XLuvnvLNZZh6Yu9ew4hZdIsk//YdK8W+lc3R76CvyYzenQbMgw1q1otR2AKTx5PcvAFbOz6AjJtUa8ZnH3r7x5VAdeodiyl5GGjkt77VmXBK7kiCfUmSYXqD+ohH/uuQN8oOr/S07bYDcYQkZmofZQkSVSwKu1RXSJT0/fhu8/pkBO4VeIulq+4M1TRwmTZWV3Xc6UO785F0Pw==",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1786999789.809313,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://northeastern.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "khaos",
+      "value": "MEG5TD86-5-MCE5",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1786999789.809352,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "khaos_p",
+      "value": "MEG5TD86-5-MCE5",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1786999789.809363,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://northeastern.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "audit",
+      "value": "1|dSHqw4EhJf66bzVwLAv9vHc6OagNP8tZ5gjQuf8HRgSqcLSLiv9/T+tW1p5wZJO8AZSUMXXOQnWM1KxoLazIt9i2Wk5FrGos0XY24Ec+XLuvnvLNZZh6Yu9ew4hZdIsk//YdK8W+lc3R76CvyYzenQbMgw1q1otR2AKTx5PcvAFbOz6AjJtUa8ZnH3r7x5VAdeodiyl5GGjkt77VmXBK7kiCfUmSYXqD+ohH/uuQN8oOr/S07bYDcYQkZmofZQkSVSwKu1RXSJT0/fhu8/pkBO4VeIulq+4M1TRwmTZWV3Xc6UO785F0Pw==",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1786999789.809375,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "XANDR_PANID",
+      "value": "P1B6C9BdCmEBAlRDmha6ruvkkiEx3qfhBPJAe7Tox2pKx3XNxB31z6aLO8HHAiedT70Okhw7dHGsBuuLIN_l8M3hOWKksHHKUsQTR5s9RPY.",
+      "domain": ".adnxs.com",
+      "path": "/",
+      "expires": 1763239789.89997,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://northeastern.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "uuid2",
+      "value": "6733166618402979638",
+      "domain": ".adnxs.com",
+      "path": "/",
+      "expires": 1763239789.900006,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TDCPM",
+      "value": "CAESFwoIYXBwbmV4dXMSCwjwkcrDtPauPhAFEhUKBmdvb2dsZRILCL7H4LS09q4-EAUSFgoHcnViaWNvbhILCMDp4LS09q4-EAUYBSACKAYyCwiw-eLhyvauPhAFQhYiFAgBEhAKDHN1cHBseXZlbmRvchABWgdneDJwbXA5YAE.",
+      "domain": ".adsrvr.org",
+      "path": "/",
+      "expires": 1786999789.998615,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": []
+}

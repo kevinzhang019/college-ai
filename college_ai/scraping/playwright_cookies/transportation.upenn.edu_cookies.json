@@ -1,0 +1,25 @@
+{
+  "cookies": [
+    {
+      "name": "SimpleSAMLSessionID",
+      "value": "9b681bedb75858ca3cd13d2b3a1bc8fd",
+      "domain": "transportation.upenn.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "None"
+    },
+    {
+      "name": "JSESSIONID",
+      "value": "08EB2F7EC895FB01633DB0AAB87DBC53",
+      "domain": ".pennkey.upenn.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": []
+}

@@ -1,0 +1,87 @@
+{
+  "cookies": [
+    {
+      "name": "_ga",
+      "value": "GA1.1.1850439609.1775168315",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1809750354.423297,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "nmstat",
+      "value": "f7735b62-c575-f2dc-3da9-a84800955b48",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1809728317,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cookieyes-consent",
+      "value": "consentid:a0YyeUtrbk5xRUVpZHNDRHB6OVVFV0FYcnlaMlY1V1U,consent:yes,action:yes,necessary:yes,functional:yes,analytics:yes,performance:yes,advertisement:yes,other:yes",
+      "domain": ".keck.usc.edu",
+      "path": "/",
+      "expires": 1806726362,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "cf_clearance",
+      "value": "49MCsaTgP2nwCjrtbilcxyaqUgl.RLEVlmSMWtMg8s0-1775181439-1.2.1.1-XDxIDRhVXn9B74ii3fLY_cw3TrIB9Gip8GDT5rYDs0ph_UjW53KEAh3HKKp8WCj7N92RNwtq2pNFadD3OTOUQ1kAdm.dIVEJjx_Mg9RrU266vg9zEMa8Uc91vepr81LdCsydGo.CxytkInwaKcYEiktf0d4JpEvcTI5OnhJf0DX5XRsY65d3mhWEdmBxR7nlZU3oBlgy.xUiNlL6qtPpRHrq9qokvATGaau7OQZUplQ",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1806717439,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "NtjwXr.JvELSZRkxk4of6YVWlA3e3jvIcMRin870KnY-1775190352-1.0.1.1-FZT4PrZ4nLa2vixqeaCktZeA8XQJAHhRlSo8z8nyaEVz0sXOxumkUSCqBFiwsdpqKC5IZvCTOCQVokw28xSoxMWs3lv_DKAk2iekrxccnXQ",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1775192152.370105,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_MT31E808SC",
+      "value": "GS2.1.s1775190353$o3$g0$t1775190353$j60$l0$h543236077",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1809750353.71356,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cf_clearance",
+      "value": "YXUF973_92GLoOTDtsAVp.FrqS4NBlY1p5XLTTL0ffs-1775190354-1.2.1.1-rNkwPI7i8Iyvh3_8.2KEf.RR5_Pi3.xwidhUQXjVWKJwx7QpLmk7W8f6QeQqG0TvRkskMlrIorh_VovzBvn_UaSQOkHO6mc1jLGtRSyCjjZRw1CDLgCfEYFlg74lZb0H7nv707E59DiHnn_rhgu4c.XHOdRN7d3H3zySs.HxtcGkcPN7MhQBSJKBV27fhjFSJWiU4wt1AbKs.a91j8ju6e9EhN4ldUB7MH8Y_qHtsQY",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1806726354.380084,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://usc.edu",
+      "_crHasCrossSiteAncestor": false
+    },
+    {
+      "name": "_ga_C8LB8WX10V",
+      "value": "GS2.1.s1775190354$o3$g0$t1775190355$j60$l0$h1142906619",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1809750355.613484,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

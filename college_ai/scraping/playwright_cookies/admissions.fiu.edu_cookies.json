@@ -1,0 +1,187 @@
+{
+  "cookies": [
+    {
+      "name": "_ga",
+      "value": "GA1.1.698796024.1755468658",
+      "domain": ".fiu.edu",
+      "path": "/",
+      "expires": 1809694827.755318,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "YSC",
+      "value": "LOEaO_laKSk",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://fiu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "ARRAffinity",
+      "value": "4fceeda4968688b5357950f6beb67204eda04ffefd8dccd890400fcb1a7b9897",
+      "domain": ".digicdn.fiu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ARRAffinitySameSite",
+      "value": "4fceeda4968688b5357950f6beb67204eda04ffefd8dccd890400fcb1a7b9897",
+      "domain": ".digicdn.fiu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.1553780835.1775134462",
+      "domain": ".fiu.edu",
+      "path": "/",
+      "expires": 1782910462,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1775134462778.360519595135576358",
+      "domain": ".fiu.edu",
+      "path": "/",
+      "expires": 1782910831,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CookieConsentPolicy",
+      "value": "0:1",
+      "domain": "panther360.my.salesforce-sites.com",
+      "path": "/",
+      "expires": 1806670462.84411,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "LSKey-c$CookieConsentPolicy",
+      "value": "0:1",
+      "domain": "panther360.my.salesforce-sites.com",
+      "path": "/",
+      "expires": 1806670462.844148,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "BrowserId",
+      "value": "EmYkHy6TEfGpBm0CGyfkEg",
+      "domain": "panther360.my.salesforce-sites.com",
+      "path": "/",
+      "expires": 1806670462.844157,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUnxaLy8O0Pz9NYICIABCGtC_kIepUXlQGKHbjHFUfUcjK19qVm2XLJdHySg",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1809694462.916685,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_Z4DGEN3D2B",
+      "value": "GS2.1.s1775134462$o2$g1$t1775134827$j18$l0$h0",
+      "domain": ".fiu.edu",
+      "path": "/",
+      "expires": 1809694827.755025,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__Secure-YNID",
+      "value": "17.YT=WJxFPeswvma1-m34rxxxgfAWhq3ijiMjv8-fq51Ks8PkdLFbSlPyK10kj4nhhJyEt7UVazETDMIta4xZkfHwM368tZnfyypjDSwvz30rMWZz74-r4msI4pKJ02RAtypXcKSJHR0LXBw6VP61Gx50lXye-cBjptFKH6UKnEP6ySSgjIXWdzw1xNk0h3BhACUZFtZBURREnbAbd_ghC4Fw3BNYzK8xNrVwS2WWojYKT4utlqBnrpJk5NetROJ56m2y88xBexK12YaB6r0L72d9usCpO2sY4Osz5_42aoZvrb3eCl8i57jUwUlm4AAjE2QOnEmwbRTRjYixJ7r5aoV4zA",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790686827.874319,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://fiu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "oNy52Rgyp9Q",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790686827.874439,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://fiu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgaQ%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790686827.874486,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://fiu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CMDXsbTjz8jc2gEQ-uraxpzPkwMY-uraxpzPkwM%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790686827.874527,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://fiu.edu",
+      "_crHasCrossSiteAncestor": true
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://admissions.fiu.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"timeouts\":0,\"errors\":0,\"eopCount\":0,\"creationTimeMs\":1775134462328},\"expires\":1782910462328}}"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1775134831529"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755468658543"
+        }
+      ]
+    }
+  ]
+}

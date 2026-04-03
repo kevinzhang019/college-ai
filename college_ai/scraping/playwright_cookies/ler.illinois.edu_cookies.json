@@ -1,0 +1,204 @@
+{
+  "cookies": [
+    {
+      "name": "_ga",
+      "value": "GA1.1.595185378.1755438078",
+      "domain": ".illinois.edu",
+      "path": "/",
+      "expires": 1789998078.131692,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_TWFEJJKL35",
+      "value": "GS2.1.s1755438078$o1$g0$t1755438078$j60$l0$h0",
+      "domain": ".illinois.edu",
+      "path": "/",
+      "expires": 1789998078.139466,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_node",
+      "value": "24cb4d6272b3a99e2195e26e8d714f3ce21a96f7c97ec09ea6f7c181d27bb3be",
+      "domain": "enroll.illinois.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "004e71cf-3ad6-4132-859e-8c4df732a242",
+      "domain": "enroll.illinois.edu",
+      "path": "/",
+      "expires": 1789998078.55138,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "enroll.illinois.edu",
+      "path": "/",
+      "expires": 1789998078.551415,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gc_user_testing_uuid",
+      "value": "0005ac86-b48c-4328-9422-23f68b553870",
+      "domain": "www.givecampus.com",
+      "path": "/",
+      "expires": 1789998199.731729,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gdpr",
+      "value": "1",
+      "domain": "www.givecampus.com",
+      "path": "/",
+      "expires": 1789998198.931524,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_session_id",
+      "value": "899e72b5b295091728eaa4f097c8e8b7",
+      "domain": "www.givecampus.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "XXXI4_hEpyAgxY0l0Gd3rhALIL048P8oin6j3KE4Im8-1755438198-1.0.1.1-7jM9U6jXIomnbi.FmqiOkoap7na5zLnsMTNFWv7efCiWX8PCZqSPC5_QReQPTQZswZDXSseNBbAs3knISyUXt8vkLsYMDuqDi4IVTDN4ZL0",
+      "domain": ".givecampus.com",
+      "path": "/",
+      "expires": 1755439998.931604,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "browser.timezone",
+      "value": "Etc/UTC",
+      "domain": "www.givecampus.com",
+      "path": "/",
+      "expires": 1786974199,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.454696645.1755438200",
+      "domain": ".givecampus.com",
+      "path": "/",
+      "expires": 1755524599,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.511759300.1755438200",
+      "domain": ".givecampus.com",
+      "path": "/",
+      "expires": 1789998199.712051,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_077DKBSTPV",
+      "value": "GS2.1.s1755438199$o1$g0$t1755438199$j60$l0$h0",
+      "domain": ".givecampus.com",
+      "path": "/",
+      "expires": 1789998199.720465,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat",
+      "value": "1",
+      "domain": ".givecampus.com",
+      "path": "/",
+      "expires": 1755438259,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gali",
+      "value": "contribution_accept_tos",
+      "domain": ".givecampus.com",
+      "path": "/",
+      "expires": 1755438229,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "NID",
+      "value": "525=Jr-cN-3b3fCOXHHdqjz9KMQ4bxNPyamPa5QqZrG2aWuywb1ujMkZ3N5Zil00lCQ3bHuVMhiVzWcswTqAoaDoBIsQYTKlSMdqv2K0vuDGWj-xLQQI2O0QaJf_dDLZ5rMABA7RVwiqGVVws3ABFZkiWrmmj4gMQLUcGykPCQU6C0MBtOaSTlwufbk6micMQWqd6pq1dQ",
+      "domain": ".google.com",
+      "path": "/",
+      "expires": 1771249399.789538,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "cf_clearance",
+      "value": "DB5k4ga5FbtKwOW2polbtqM_UNrlzq5K6j5TCqqzLiA-1755438199-1.2.1.1-eq6oy8JezEf2levtSKBB7nAnHyg5Q0T.87FvydKH7Tzfy7fTOkm.BHWwrHG.mQ9OekkFIXpwGcmKKXWhUr0fjpmVrcj2TeEmn2pgcoMLYqY.0r2hr0pVSOKwNySwlaDVtuSF5voIZXsnIvvwr.cXsr2JyRax3buKP7hIYEz92N1U7Yib4s9nJ9pJ9_CcfTBZMEfORb147jB7EwzRIqoGsZGlwdVxlZVE7OettYip9UE",
+      "domain": ".givecampus.com",
+      "path": "/",
+      "expires": 1786974199.789909,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://givecampus.com",
+      "_crHasCrossSiteAncestor": false
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://www.givecampus.com",
+      "localStorage": [
+        {
+          "name": "__paypal_global_5_0_502_storage__",
+          "value": "{\"id\":\"uid_26348d6453_mtm6ndm6mtk\"}"
+        },
+        {
+          "name": "__paypal_storage__",
+          "value": "{\"id\":\"uid_e5f46a500e_mtm6ndm6mtk\",\"funding\":{},\"__session__\":{\"guid\":\"uid_c725ad3012_mtm6ndm6mtk\",\"created\":1755438199980}}"
+        }
+      ]
+    },
+    {
+      "origin": "https://illinois.edu",
+      "localStorage": [
+        {
+          "name": "d9171c39-e456-5b44-7768-b409eacf5ea1_st",
+          "value": "1755438081008"
+        },
+        {
+          "name": "d9171c39-e456-5b44-7768-b409eacf5ea1_pp",
+          "value": "{}"
+        }
+      ]
+    }
+  ]
+}

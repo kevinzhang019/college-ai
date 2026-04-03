@@ -1,0 +1,337 @@
+{
+  "cookies": [
+    {
+      "name": "_node",
+      "value": "79e8292408f61f87b01c2918105ca2c70ae2dd1bf9acb5e69f7af28265befa30",
+      "domain": "connect.richmond.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "3d2c6957-f057-4016-9519-6f9e3d28b36b",
+      "domain": "connect.richmond.edu",
+      "path": "/",
+      "expires": 1790004596.493271,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "connect.richmond.edu",
+      "path": "/",
+      "expires": 1790004596.493754,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.778077590.1755444597",
+      "domain": ".richmond.edu",
+      "path": "/",
+      "expires": 1763220597,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1436625770.1755444597",
+      "domain": ".richmond.edu",
+      "path": "/",
+      "expires": 1790004597.08489,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-10f94c5e-6e0f-445f-7673-cd7df80cd60b.Bjy5aczKWChJe14Lo%2FRW2jrJVQ0Eu2xdCGM99uP8I8c",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1786980597.228003,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-10f94c5e-6e0f-445f-7673-cd7df80cd60b.Bjy5aczKWChJe14Lo%2FRW2jrJVQ0Eu2xdCGM99uP8I8c",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1786980597.228049,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3AEPlMXm4PRF92c819-AzWCw.t%2FqR0ppQnqwYC0fYicztHABAxp7Nx9%2BJRk8zYZ9vhJ4",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1786980597.228119,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3AEPlMXm4PRF92c819-AzWCw.t%2FqR0ppQnqwYC0fYicztHABAxp7Nx9%2BJRk8zYZ9vhJ4",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1786980597.228135,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEHwYAiD16ofFBjoEmw576UIEvkNwqQ.24vH6Or7Le1aMZ9bEhHDqp3D8bGvwDoKoa%2FzmKKQ4sw",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1786980597.228093,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEHwYAiD16ofFBjoEmw576UIEvkNwqQ.24vH6Or7Le1aMZ9bEhHDqp3D8bGvwDoKoa%2FzmKKQ4sw",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1786980597.228106,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%253A0-10f94c5e-6e0f-445f-7673-cd7df80cd60b.Bjy5aczKWChJe14Lo%252FRW2jrJVQ0Eu2xdCGM99uP8I8c",
+      "domain": "www.richmond.edu",
+      "path": "/",
+      "expires": 1786980597,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%253AEPlMXm4PRF92c819-AzWCw.t%252FqR0ppQnqwYC0fYicztHABAxp7Nx9%252BJRk8zYZ9vhJ4",
+      "domain": "www.richmond.edu",
+      "path": "/",
+      "expires": 1786980597,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%253AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEHwYAiD16ofFBjoEmw576UIEvkNwqQ.24vH6Or7Le1aMZ9bEhHDqp3D8bGvwDoKoa%252FzmKKQ4sw",
+      "domain": "www.richmond.edu",
+      "path": "/",
+      "expires": 1786980597,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755444597532.181091580904214888",
+      "domain": ".richmond.edu",
+      "path": "/",
+      "expires": 1763220597,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "test_cookie",
+      "value": "CheckForPermission",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1755445497.592296,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hjSessionUser_5206638",
+      "value": "eyJpZCI6Ijc1Zjc0NWZmLTM3YmQtNWEwZS04NWE3LTg3OTFkODA4YzVjZiIsImNyZWF0ZWQiOjE3NTU0NDQ1OTc2MjcsImV4aXN0aW5nIjp0cnVlfQ==",
+      "domain": ".richmond.edu",
+      "path": "/",
+      "expires": 1786980597,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hjSession_5206638",
+      "value": "eyJpZCI6ImUxMDE3ZDllLTY2NmItNDQ0NS04YjRkLTUzZDEwMzExNDM2YyIsImMiOjE3NTU0NDQ1OTc2MjcsInMiOjEsInIiOjAsInNiIjowLCJzciI6MCwic2UiOjAsImZzIjoxLCJzcCI6MX0=",
+      "domain": ".richmond.edu",
+      "path": "/",
+      "expires": 1755446397,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_LGTG42M3ES",
+      "value": "GS2.1.s1755444597$o1$g0$t1755444598$j59$l0$h0",
+      "domain": ".richmond.edu",
+      "path": "/",
+      "expires": 1790004598.965084,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_KJ2V0Z8Z0K",
+      "value": "GS2.1.s1755444597$o1$g0$t1755444598$j59$l0$h1787465590",
+      "domain": ".richmond.edu",
+      "path": "/",
+      "expires": 1790004598.966937,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "TDID",
+      "value": "b6a22712-5a72-4243-805c-d657c75cb3f9",
+      "domain": ".adsrvr.org",
+      "path": "/",
+      "expires": 1786980599.903635,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "XANDR_PANID",
+      "value": "BZJ-pX8ur_jlbFvREDGrxbHtHBkn1X5XDCSNhzeyfqc_YoNk5Yimv6YnNja7cQbHnpjI8oNUyx5LkKdQBRY8NZ6T6omC2gursTXSPn-Uw3A.",
+      "domain": ".adnxs.com",
+      "path": "/",
+      "expires": 1763220599.833119,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://richmond.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "uuid2",
+      "value": "3875274597667398073",
+      "domain": ".adnxs.com",
+      "path": "/",
+      "expires": 1763220599.833214,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "audit_p",
+      "value": "1|uAQ4thxsgn0hnZ2ZKaeaIq4TG4TEO7u+LmxC6X5pwWWqcLSLiv9/T/xExsLlGnGHlBn467yGhJOM1KxoLazIt9i2Wk5FrGos0XY24Ec+XLuPNdL8dsUFMXDlc5VTy5T567bzK5sOS3VqcOqy753hdMplWgEGW56VIEGeddyuSgNbOz6AjJtUa8ZnH3r7x5VAdeodiyl5GGjkt77VmXBK7kiCfUmSYXqD+ohH/uuQN8oOr/S07bYDcYQkZmofZQkSVSwKu1RXSJT0/fhu8/pkBO4VeIulq+4M1TRwmTZWV3Xc6UO785F0Pw==",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1786980599.805465,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://richmond.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "khaos",
+      "value": "MEFUE243-K-I4RH",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1786980599.805561,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "khaos_p",
+      "value": "MEFUE243-K-I4RH",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1786980599.805587,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://richmond.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "audit",
+      "value": "1|uAQ4thxsgn0hnZ2ZKaeaIq4TG4TEO7u+LmxC6X5pwWWqcLSLiv9/T/xExsLlGnGHlBn467yGhJOM1KxoLazIt9i2Wk5FrGos0XY24Ec+XLuPNdL8dsUFMXDlc5VTy5T567bzK5sOS3VqcOqy753hdMplWgEGW56VIEGeddyuSgNbOz6AjJtUa8ZnH3r7x5VAdeodiyl5GGjkt77VmXBK7kiCfUmSYXqD+ohH/uuQN8oOr/S07bYDcYQkZmofZQkSVSwKu1RXSJT0/fhu8/pkBO4VeIulq+4M1TRwmTZWV3Xc6UO785F0Pw==",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1786980599.805637,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TDCPM",
+      "value": "CAESFQoGZ29vZ2xlEgsIzJD_2p7rrj4QBRIWCgdydWJpY29uEgsImsb_2p7rrj4QBRIXCghhcHBuZXh1cxILCOL6sOCe664-EAUYBSABKAYyCwim4YGIteuuPhAFQg8iDQgBEgkKBXRpZXIyEAFaB2RhczB2bWlgAQ..",
+      "domain": ".adsrvr.org",
+      "path": "/",
+      "expires": 1786980599.903734,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://www.richmond.edu",
+      "localStorage": [
+        {
+          "name": "5281139d-45ca-79d7-8a5c-95c6d395885b_st",
+          "value": "1755444597104"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755444597516"
+        },
+        {
+          "name": "hjActiveViewportIds",
+          "value": "[{\"id\":\"86fe5992-f042-41c9-b7da-0f5fe4603b50\",\"expireTimestamp\":1755466199557}]"
+        },
+        {
+          "name": "sa-user-id",
+          "value": "s%3A0-10f94c5e-6e0f-445f-7673-cd7df80cd60b.Bjy5aczKWChJe14Lo%2FRW2jrJVQ0Eu2xdCGM99uP8I8c"
+        },
+        {
+          "name": "5281139d-45ca-79d7-8a5c-95c6d395885b_pp",
+          "value": "{}"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755444597538"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755444596526},\"expires\":1763220596526}}"
+        },
+        {
+          "name": "sa-user-id-v3",
+          "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEHwYAiD16ofFBjoEmw576UIEvkNwqQ.24vH6Or7Le1aMZ9bEhHDqp3D8bGvwDoKoa%2FzmKKQ4sw"
+        },
+        {
+          "name": "sa-user-id-v2",
+          "value": "s%3AEPlMXm4PRF92c819-AzWCw.t%2FqR0ppQnqwYC0fYicztHABAxp7Nx9%2BJRk8zYZ9vhJ4"
+        }
+      ]
+    }
+  ]
+}

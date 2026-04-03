@@ -1,0 +1,189 @@
+{
+  "cookies": [
+    {
+      "name": "_gcl_au",
+      "value": "1.1.1252026881.1775136354",
+      "domain": ".uci.edu",
+      "path": "/",
+      "expires": 1782912354,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.3.1760902824.1775136354",
+      "domain": ".admissions.uci.edu",
+      "path": "/",
+      "expires": 1809696416.824256,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.3.948047232.1775136354",
+      "domain": ".admissions.uci.edu",
+      "path": "/",
+      "expires": 1775222816,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_node",
+      "value": "0884b6b69328a2f83a877fac94eb03198b4762757c0dcd5c7c1d88badc29cb79",
+      "domain": "apply.admissions.uci.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "7d4046c1-068e-4607-ab10-2abfbb299b77",
+      "domain": "apply.admissions.uci.edu",
+      "path": "/",
+      "expires": 1809696354.599278,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202604/1",
+      "domain": "apply.admissions.uci.edu",
+      "path": "/",
+      "expires": 1809696354.599511,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1775136354956.900177227377756615",
+      "domain": ".uci.edu",
+      "path": "/",
+      "expires": 1782912415,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.948047232.1775136354",
+      "domain": ".uci.edu",
+      "path": "/",
+      "expires": 1775222817,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "zv1jPdj5IJyDYQj0TxnZQ0m7rycJoTfDXIXgtqrfZe4-1775136414-1.0.1.1-gAceZA3ft9VzCPnxOpgVq9.t0iY1Cgl1dbRBGiPhjJBTbZRItFP3usmPSE3iXxJ4HcrN3CkPQrzIwc47NZtCRPL1RpjnEOfU0zktxqn2OY0",
+      "domain": ".myfonts.net",
+      "path": "/",
+      "expires": 1775138214.554655,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AWSALB",
+      "value": "jIvQ68p2FMGErjPjpEiw6YEVzsgoElSr332nX4qYZ3pMzA6eV1CeAQzhMfjexMK30nKBnSIT/o1KRefOphaxPoEFDO7FdSt/p7qpRyECKW4PnJaRKTuVbthZocs5",
+      "domain": "api.geckochat.io",
+      "path": "/",
+      "expires": 1775741215.89529,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_dc_gtm_UA-10515763-1",
+      "value": "1",
+      "domain": ".admissions.uci.edu",
+      "path": "/",
+      "expires": 1775136476,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUk8gLwru9yIH-wAkv3iZjEV21EmmSKQfZDCOXM4Jqqkkix-j5L_Owg5kuuEI0o",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1809696417.615151,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.1760902824.1775136354",
+      "domain": ".uci.edu",
+      "path": "/",
+      "expires": 1809696417.950244,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_UA-10515763-1",
+      "value": "1",
+      "domain": ".uci.edu",
+      "path": "/",
+      "expires": 1775136477,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_RTSG3RC2XZ",
+      "value": "GS2.1.s1775136354$o1$g1$t1775136417$j59$l0$h0",
+      "domain": ".uci.edu",
+      "path": "/",
+      "expires": 1809696417.954788,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://admissions.uci.edu",
+      "localStorage": [
+        {
+          "name": "0e6abbe1-89b6-6a26-e32f-254da8c3a4a5_pp",
+          "value": "{}"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1775136415737"
+        },
+        {
+          "name": "gecko-chat-widget-language",
+          "value": "en-ca"
+        },
+        {
+          "name": "0e6abbe1-89b6-6a26-e32f-254da8c3a4a5_st",
+          "value": "1775136355062"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"timeouts\":0,\"errors\":0,\"eopCount\":0,\"creationTimeMs\":1775136354217},\"expires\":1782912354217}}"
+        },
+        {
+          "name": "gecko-chat-widget-number-of-visits",
+          "value": "3"
+        }
+      ]
+    }
+  ]
+}

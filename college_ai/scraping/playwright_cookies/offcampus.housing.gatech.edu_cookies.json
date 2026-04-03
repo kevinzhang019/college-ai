@@ -1,0 +1,125 @@
+{
+  "cookies": [
+    {
+      "name": "_ga_L3KDESR6P8",
+      "value": "GS2.1.s1775138707$o1$g1$t1775138855$j43$l0$h0",
+      "domain": ".gatech.edu",
+      "path": "/",
+      "expires": 1809698855.484169,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AWSALB",
+      "value": "OgtPEfa8YQL8MDSlIOVYNfpUj5tEko3KKVnP8o+C8j6Cc04fWH9WIWrwatm1GcO+UXlb+CggQ51+4DZ7+DayKfWea3HiSkTECowIkLG8aa2wYlSVS56WehpRD1AT",
+      "domain": "www.gatech.edu",
+      "path": "/",
+      "expires": 1775743663.121994,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "XSRF-TOKEN",
+      "value": "eyJpdiI6IlV6NGU5ZVNmVXduWXFaYnZocXlKOWc9PSIsInZhbHVlIjoiZjNUU1BRUzNsS3hHbktMRUU4MmZ5c3lncm5VT2d1ZFRBbHRGSGlCYWR5ektud2R3VllvWVlXUWFDU3BROE01QUZUMUJNRXVITFI0U3ArMk1WUVhsS1pSdHJMMHR1SkZVejhWUWxHQUZTWEZsK3owcmV3YVBUai84clVQT2FFeVAiLCJtYWMiOiIzODk5ZGNlZmIxNWZkNjEzOWUxNjQ4MGY2NWRjYjY1ZjM5Njg5YWQyMTNiM2YxZGUyMDFmMDdkYWI3MGUxOGMyIiwidGFnIjoiIn0%3D",
+      "domain": "offcampus.housing.gatech.edu",
+      "path": "/",
+      "expires": 1775146079.632251,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "college_pads_session",
+      "value": "eyJpdiI6InN0WUJ6UFNjVW9Ob042Y09sbXBONGc9PSIsInZhbHVlIjoiZmluR2FUT20zNmUyb1FRNjY4bjVsZmlQMlA5c1lyUFc4cDkybWs1ZUhrTTRpUGR4bnNvZWRNNXdUeVRhZW5zL2ZxK0NROHRtbDhBTTM3K2xvNE90RmozbGtsRXpWSVYxOS9walYzWWI3R3o5aGpQRUY0ZlBST3l3dWVIaUlpVC8iLCJtYWMiOiJhOWZlMzc3ZWU3ZmJjMzk1N2ZjMDc3MjI3NzJlYjI2MjE0MjZiOTJlODI1MjIwMzVhMDU1OWU3YmE1MjgxNzc5IiwidGFnIjoiIn0%3D",
+      "domain": "offcampus.housing.gatech.edu",
+      "path": "/",
+      "expires": 1775146079.632399,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.1137368654.1775138881",
+      "domain": ".gatech.edu",
+      "path": "/",
+      "expires": 1782914881,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.872514821.1775138707",
+      "domain": ".gatech.edu",
+      "path": "/",
+      "expires": 1809698884.585647,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.897294369.1775138885",
+      "domain": ".gatech.edu",
+      "path": "/",
+      "expires": 1775225284,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_UA-41361452-75",
+      "value": "1",
+      "domain": ".gatech.edu",
+      "path": "/",
+      "expires": 1775138944,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_49DCF04EME",
+      "value": "GS2.1.s1775138884$o1$g0$t1775138885$j59$l0$h0",
+      "domain": ".gatech.edu",
+      "path": "/",
+      "expires": 1809698885.40708,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_T7YDRTCR5D",
+      "value": "GS2.1.s1775138881$o1$g0$t1775138885$j56$l0$h0",
+      "domain": ".gatech.edu",
+      "path": "/",
+      "expires": 1809698885.733574,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "test_cookie",
+      "value": "CheckForPermission",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1775139786.663131,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://offcampus.housing.gatech.edu",
+      "localStorage": [
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"timeouts\":0,\"errors\":0,\"eopCount\":0,\"creationTimeMs\":1775138880836},\"expires\":1782914880836}}"
+        }
+      ]
+    }
+  ]
+}

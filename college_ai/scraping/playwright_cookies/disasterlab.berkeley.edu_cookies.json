@@ -1,0 +1,79 @@
+{
+  "cookies": [
+    {
+      "name": "YSC",
+      "value": "ig-4mnX8NZ0",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://berkeley.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "nmstat",
+      "value": "fd248b0a-d0b1-d466-c4a5-d08176c42328",
+      "domain": ".berkeley.edu",
+      "path": "/",
+      "expires": 1789995480.13984,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.645027461.1755435481",
+      "domain": ".berkeley.edu",
+      "path": "/",
+      "expires": 1809690917.4229,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_JD06GX6S4V",
+      "value": "GS2.1.s1755498724$o4$g1$t1755498742$j42$l0$h0",
+      "domain": ".berkeley.edu",
+      "path": "/",
+      "expires": 1790058742.247332,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "LP3yelSXDHhExg2E1uB8gCbiTgKLehb7cdkSWUI9hR0-1775130916-1.0.1.1-ln8TcrjdMriHFNjJlBiibWE84bCL_9XeCiMzheOPvn.KVzOmrJAK8eFSkFbGeXPQGD9BADh3Y0G63rm.iduHILhsaQD9m4q.NF.fQ4.t.qI",
+      "domain": ".disasterlab.berkeley.edu",
+      "path": "/",
+      "expires": 1775132716.569618,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_Q7CMFXWTNZ",
+      "value": "GS2.1.s1775129859$o1$g1$t1775130917$j60$l0$h0",
+      "domain": ".berkeley.edu",
+      "path": "/",
+      "expires": 1809690917.422626,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cf_clearance",
+      "value": "_9GDqIOC73uK.N1ClpWAm7XWRaGoScvW2FzDXNsB6IU-1775130918-1.2.1.1-kc6gWauMyRDHsa.tGvba_Ip826bp.jumsc.eFCP9saSolHawGk7BZVeoyPQ3ocRvYKGe_9d4l87SffDklhEc.eBFv9ozLF3A7HyKfqG7076AqUuld3j3h.IoumIur8_77qJVlCc8ByqI7DopeLMWAX3ecnSIFJnZBePABt8nyu_w9NkaPT0K4Ea1_Bn_qJbFG1wgEoMicdb98W6sqASKE7MVIIk6kjC3B7hSZ9cmCHk",
+      "domain": ".berkeley.edu",
+      "path": "/",
+      "expires": 1806666918.536903,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://berkeley.edu",
+      "_crHasCrossSiteAncestor": false
+    }
+  ],
+  "origins": []
+}

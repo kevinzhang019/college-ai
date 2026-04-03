@@ -1,0 +1,93 @@
+{
+  "cookies": [
+    {
+      "name": "sc_site",
+      "value": "Controller",
+      "domain": "controller.msu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "YSC",
+      "value": "1nAtALgxeUY",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://msu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "LyjKxmlWI50",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1770991507.983156,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://msu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgaw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1770991507.983173,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://msu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.747213746.1755439509",
+      "domain": ".msu.edu",
+      "path": "/",
+      "expires": 1789999508.677796,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_SDCFGX7HCN",
+      "value": "GS2.1.s1755439508$o1$g0$t1755439508$j60$l0$h0",
+      "domain": ".msu.edu",
+      "path": "/",
+      "expires": 1789999508.697008,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CLSK6eSK15bkNBCrk7DigZKPAxiU5vTigZKPAw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1770991509.108388,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://msu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "sc_6aiMjNXXkwZwFoJlxVI0HH",
+      "value": "d1c6eef9-d40d-4d29-81a2-881dbde1b665",
+      "domain": ".controller.msu.edu",
+      "path": "/",
+      "expires": 1789999509.35758,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": []
+}

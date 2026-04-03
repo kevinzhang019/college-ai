@@ -1,0 +1,293 @@
+{
+  "cookies": [
+    {
+      "name": "DISSESSIONAuthnDelegation",
+      "value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImYwMjIyZmRkLWIwNTYtNDMwNS1iMjY3LTdiYThjYmM2ZjM5NyJ9.ZXlKNmFYQWlPaUpFUlVZaUxDSmhiR2NpT2lKa2FYSWlMQ0psYm1NaU9pSkJNVEk0UTBKRExVaFRNalUySWl3aVkzUjVJam9pU2xkVUlpd2lkSGx3SWpvaVNsZFVJaXdpYTJsa0lqb2lPVEJsTWpJNU5URXRZamszWWkwME9XWmhMVGczWVRndFl6WmxPVEkyTm1Sak5tSXlJbjAuLmpWTWw0bDJLcVJmb0hzdXpzeGpvRmcuczhNMXpvWV9VRm5KOGdSejUyS0pqaW5BbVpWbjlaS3FHRXVjdU9xWlZ0Ni00czJacEJuc3FrdFFPbDEyUnduZnA1VUItWmZ2ZDZtWHp6MFhaclB6eEgwcEpVYzZSSVdQQTRiSlZoZ0NBQlp6cUU1TkgtTDBtYy1SaHpYMkFTZ1YuT3ktTGNVdkhmZF9fekFhU29tXzZpQQ.WfYBzuEVaWtsmxm9TaCHruI4tfq3u2uAGwy_XgMuY0DEFA2cC8onZLmHRYtkwTahaBMARrcjawfh5rKeSMB6Zg",
+      "domain": "cas.byu.edu",
+      "path": "/cas",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AWSALB",
+      "value": "oxYanjMeSbSwpi1RvS8vD/oZhBWa6DMfMHYHkIHwyL8vPnmBk/NqHvEKydxyanp+f7V9JK19LjGryjnJ6iG89QSv9dqJN5/z8jGV9n28WuUIyr9j+JTFiPOywWK3",
+      "domain": "cas.byu.edu",
+      "path": "/",
+      "expires": 1775802637,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "None"
+    },
+    {
+      "name": "AWSALBCORS",
+      "value": "oxYanjMeSbSwpi1RvS8vD/oZhBWa6DMfMHYHkIHwyL8vPnmBk/NqHvEKydxyanp+f7V9JK19LjGryjnJ6iG89QSv9dqJN5/z8jGV9n28WuUIyr9j+JTFiPOywWK3",
+      "domain": "cas.byu.edu",
+      "path": "/",
+      "expires": 1775802637,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "DISSESSIONAuthnDelegation",
+      "value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6IjliNmZmNDU5LTUyMTgtNDMyYi05NWJiLWVmYjNjMDQzN2U1ZiJ9.ZXlKaGJHY2lPaUprYVhJaUxDSmxibU1pT2lKQk1qVTJRMEpETFVoVE5URXlJaXdpWTNSNUlqb2lTbGRVSWl3aWRIbHdJam9pU2xkVUlpd2lhMmxrSWpvaU1UVmlPRE0wTWpRdE1XSTNOaTAwTURrMUxXRTNOREF0T1dRNFl6UTBPVEppWkRKaUluMC4uSnZnempSWGYyNUNhZWVfVUNiMnhzZy4xS3NxeUpqdnRaSUxYT1FRSWd0azFvWHF5VzJTOWtza1lMeFM0dERsdm9FaEh6N1F4X25SUVFnU1k2LWhmQjZEM2F4OW5hamRvc0VJa0Y3dDdTajB1RncwRWdmTEF2Y0JobGdKVjc1Qk9YQW9KY1BfejNPV0hud1htUC1jQXpDSm8zUFpCSnlYc0l1OFZBTlZCRmg4NkEudUdKUENEa0xoMll6TGhnYUl1bEdOZlBFMjc1bnZEbjZmVTQ3U0tBSkJBZw.tCMull65dGx7FPlbg9N1cfPj_SlPzxn3hmp1Hfwm3Tw3q3EvDbtSUG5g8nCEX1hAoP4GkSRGcxji2bYQJK0Tng",
+      "domain": "cas.byu.edu",
+      "path": "/cas/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "dtCookie",
+      "value": "v_4_srv_3_sn_90C49353DE15AFCCA239B8AFAFB0401D_perc_100000_ol_0_mul_1_app-3A1964a903cfe5f82b_1_app-3A5c01f50ec8455dbe_1_rcs-3Acss_0",
+      "domain": ".byu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "None"
+    },
+    {
+      "name": "uaid",
+      "value": "5ac8922e2c7d49e7ae1fd40473a20848",
+      "domain": ".login.live.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MSPRequ",
+      "value": "id=N&lt=1755513807&co=1",
+      "domain": ".login.live.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MC1",
+      "value": "GUID=397d3c0fbbb9494c946e7090f8f184a3&HASH=397d&LV=202508&V=4&LU=1755513812173",
+      "domain": ".microsoft.com",
+      "path": "/",
+      "expires": 1787049813,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "esctx",
+      "value": "PAQABBwEAAABVrSpeuWamRam2jAF1XRQEDK2a-abK7RzaBdvQsGt5_fPHPzAYE0E0cBpE1TwYLw81NrJ1bSgnx1nWgaLHzhdntXXXiZyO3ECUKqaCqK7-ImVKJJ_ZIFPQ_-mT1Fm9T6TVlIYMlkgYcpXkMJBK2ywniMQa2rKMs9b2JD05ip5Jyf_xjK37yj_ZKnCP8h87-nggAA",
+      "domain": ".login.microsoftonline.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "esctx-fvTK1wbJSa8",
+      "value": "AQABCQEAAABVrSpeuWamRam2jAF1XRQEgNXYq40hSnWz7FIhBffp5ZPVVyGlXFSK_N2U7Z28kcj3xLmAtNi0Hbw40-s-xBaoTQKrfYyNY1ImEobELCbrWdP8unMG_nWlQMJJJEbpHJJfxbolYaVOOSG6SNcxnfCgW4eYoDxiOWeUUYUYoJaoyCAA",
+      "domain": ".login.microsoftonline.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "x-ms-gateway-slice",
+      "value": "estsfd",
+      "domain": "login.microsoftonline.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "stsservicecookie",
+      "value": "estsfd",
+      "domain": "login.microsoftonline.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MicrosoftApplicationsTelemetryDeviceId",
+      "value": "28602a02-ede4-4127-aa07-554e29f343ce",
+      "domain": "login.microsoftonline.com",
+      "path": "/",
+      "expires": 1787049807,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "brcap",
+      "value": "0",
+      "domain": ".login.microsoftonline.com",
+      "path": "/",
+      "expires": 1789209807,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MSFPC",
+      "value": "GUID=397d3c0fbbb9494c946e7090f8f184a3&HASH=397d&LV=202508&V=4&LU=1755513812173",
+      "domain": "login.microsoftonline.com",
+      "path": "/",
+      "expires": 1787049812,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "DT",
+      "value": "DI1AG6-5-dOQ-urL6CF2yhtvg",
+      "domain": "signon.byuh.edu",
+      "path": "/",
+      "expires": 1790007550,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "JSESSIONID",
+      "value": "8363C19C26A007EF2135315DBF603023",
+      "domain": "signon.byuh.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "DT",
+      "value": "DI1WWWe1nrFTkyeLWwDQL45yw",
+      "domain": "id.churchofjesuschrist.org",
+      "path": "/",
+      "expires": 1790042019,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "BIGipServerpool_pvu.cf.churchofjesuschrist.org_HTTP",
+      "value": "!rePAZICGcEwBgxhtvqjyVVu8eJV60iXdcqeYgfq1Tjtg+ELqVDZhSAq1f7zMSf+UgHnNDL7KiSHisjs=",
+      "domain": "foundry.churchofjesuschrist.org",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "JSESSIONID",
+      "value": "945782CB67AA66F172AB62762528F6BB",
+      "domain": "id.churchofjesuschrist.org",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "DISSESSIONsamlIdPDistributedSessionStore",
+      "value": "c0ff069e-c4cc-47ea-af5e-2b621ed4a884",
+      "domain": "secure.byui.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "org.springframework.web.servlet.i18n.CookieLocaleResolver.LOCALE",
+      "value": "en",
+      "domain": "secure.byui.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "DISSESSIONAuthnDelegation",
+      "value": "d7bbcd20-c75a-40cf-b732-db0184cd2be6",
+      "domain": "secure.byui.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "DT",
+      "value": "DI1ElOEvtPwTe6mpR7bnV695Q",
+      "domain": "login.byui.edu",
+      "path": "/",
+      "expires": 1790042016,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "JSESSIONID",
+      "value": "A0CE0C3F2FDAF1408E417E0DC0A66551",
+      "domain": "login.byui.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "DT",
+      "value": "DI155iVqG2_R2CKFoe54C491Q",
+      "domain": "auth.ceslogin.org",
+      "path": "/",
+      "expires": 1790042017,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "JSESSIONID",
+      "value": "002249D360CA4E447EDE75F2F8074BF7",
+      "domain": "auth.ceslogin.org",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://id.churchofjesuschrist.org",
+      "localStorage": [
+        {
+          "name": "okta-cache-storage",
+          "value": "{\"https://id.churchofjesuschrist.org/oauth2/default/.well-known/openid-configuration\":{\"expiresAt\":1775284245,\"response\":{\"issuer\":\"https://id.churchofjesuschrist.org/oauth2/default\",\"authorization_endpoint\":\"https://id.churchofjesuschrist.org/oauth2/default/v1/authorize\",\"token_endpoint\":\"https://id.churchofjesuschrist.org/oauth2/default/v1/token\",\"userinfo_endpoint\":\"https://id.churchofjesuschrist.org/oauth2/default/v1/userinfo\",\"registration_endpoint\":\"https://id.churchofjesuschrist.org/oauth2/v1/clients\",\"jwks_uri\":\"https://id.churchofjesuschrist.org/oauth2/default/v1/keys\",\"response_types_supported\":[\"code\",\"id_token\",\"code id_token\",\"code token\",\"id_token token\",\"code id_token token\"],\"response_modes_supported\":[\"query\",\"fragment\",\"form_post\",\"okta_post_message\"],\"grant_types_supported\":[\"authorization_code\",\"implicit\",\"refresh_token\",\"password\",\"urn:ietf:params:oauth:grant-type:device_code\",\"urn:openid:params:grant-type:ciba\",\"urn:okta:params:oauth:grant-type:otp\",\"http://auth0.com/oauth/grant-type/mfa-otp\",\"urn:okta:params:oauth:grant-type:oob\",\"http://auth0.com/oauth/grant-type/mfa-oob\"],\"subject_types_supported\":[\"public\"],\"id_token_signing_alg_values_supported\":[\"RS256\"],\"id_token_encryption_alg_values_supported\":[\"RSA-OAEP-256\",\"RSA-OAEP-384\",\"RSA-OAEP-512\"],\"id_token_encryption_enc_values_supported\":[\"A256GCM\"],\"scopes_supported\":[\"okta.myAccount.appAuthenticator.maintenance.manage\",\"okta.myAccount.appAuthenticator.maintenance.read\",\"okta.myAccount.appAuthenticator.manage\",\"okta.myAccount.appAuthenticator.read\",\"okta.myAccount.authenticators.manage\",\"okta.myAccount.authenticators.read\",\"okta.myAccount.email.manage\",\"okta.myAccount.email.read\",\"okta.myAccount.manage\",\"okta.myAccount.oktaApplications.read\",\"okta.myAccount.organization.read\",\"okta.myAccount.phone.manage\",\"okta.myAccount.phone.read\",\"okta.myAccount.profile.manage\",\"okta.myAccount.profile.read\",\"okta.myAccount.read\",\"openid\",\"profile\",\"email\",\"address\",\"phone\",\"offline_access\",\"device_sso\"],\"token_endpoint_auth_methods_supported\":[\"client_secret_basic\",\"client_secret_post\",\"client_secret_jwt\",\"private_key_jwt\",\"none\"],\"claims_supported\":[\"iss\",\"ver\",\"sub\",\"aud\",\"iat\",\"exp\",\"jti\",\"auth_time\",\"amr\",\"idp\",\"nonce\",\"name\",\"nickname\",\"preferred_username\",\"given_name\",\"middle_name\",\"family_name\",\"email\",\"email_verified\",\"profile\",\"zoneinfo\",\"locale\",\"address\",\"phone_number\",\"picture\",\"website\",\"gender\",\"birthdate\",\"updated_at\",\"at_hash\",\"c_hash\"],\"code_challenge_methods_supported\":[\"S256\"],\"introspection_endpoint\":\"https://id.churchofjesuschrist.org/oauth2/default/v1/introspect\",\"introspection_endpoint_auth_methods_supported\":[\"client_secret_basic\",\"client_secret_post\",\"client_secret_jwt\",\"private_key_jwt\",\"none\"],\"revocation_endpoint\":\"https://id.churchofjesuschrist.org/oauth2/default/v1/revoke\",\"revocation_endpoint_auth_methods_supported\":[\"client_secret_basic\",\"client_secret_post\",\"client_secret_jwt\",\"private_key_jwt\",\"none\"],\"end_session_endpoint\":\"https://id.churchofjesuschrist.org/oauth2/default/v1/logout\",\"request_parameter_supported\":true,\"request_object_signing_alg_values_supported\":[\"HS256\",\"HS384\",\"HS512\",\"RS256\",\"RS384\",\"RS512\",\"ES256\",\"ES384\",\"ES512\"],\"device_authorization_endpoint\":\"https://id.churchofjesuschrist.org/oauth2/default/v1/device/authorize\",\"pushed_authorization_request_endpoint\":\"https://id.churchofjesuschrist.org/oauth2/default/v1/par\",\"backchannel_token_delivery_modes_supported\":[\"poll\"],\"backchannel_authentication_request_signing_alg_values_supported\":[\"HS256\",\"HS384\",\"HS512\",\"RS256\",\"RS384\",\"RS512\",\"ES256\",\"ES384\",\"ES512\"],\"dpop_signing_alg_values_supported\":[\"RS256\",\"RS384\",\"RS512\",\"ES256\",\"ES384\",\"ES512\"],\"headers\":{\"accept-ch\":\"Sec-CH-UA-Platform-Version\",\"cache-control\":\"max-age=86400, must-revalidate\",\"content-security-policy\":\"default-src 'self' churchofjesuschrist.okta.com id.churchofjesuschrist.org *.oktacdn.com; connect-src 'self' churchofjesuschrist.okta.com churchofjesuschrist-admin.okta.com id.churchofjesuschrist.org *.oktacdn.com *.mixpanel.com *.mapbox.com churchofjesuschrist.kerberos.okta.com churchofjesuschrist.mtls.okta.com *.authenticatorlocalprod.com:8769 http://localhost:8769 http://127.0.0.1:8769 *.authenticatorlocalprod.com:65111 http://localhost:65111 http://127.0.0.1:65111 *.authenticatorlocalprod.com:65121 http://localhost:65121 http://127.0.0.1:65121 *.authenticatorlocalprod.com:65131 http://localhost:65131 http://127.0.0.1:65131 *.authenticatorlocalprod.com:65141 http://localhost:65141 http://127.0.0.1:65141 *.authenticatorlocalprod.com:65151 http://localhost:65151 http://127.0.0.1:65151 https://oinmanager.okta.com data: *.ingest.sentry.io; script-src 'unsafe-inline' 'self' 'report-sample' churchofjesuschrist.okta.com id.churchofjesuschrist.org *.oktacdn.com; style-src 'unsafe-inline' 'self' 'report-sample' churchofjesuschrist.okta.com id.churchofjesuschrist.org *.oktacdn.com; frame-src 'self' churchofjesuschrist.okta.com churchofjesuschrist-admin.okta.com id.churchofjesuschrist.org login.okta.com *.vidyard.com com-okta-authenticator:; img-src 'self' churchofjesuschrist.okta.com id.churchofjesuschrist.org *.oktacdn.com *.tiles.mapbox.com *.mapbox.com *.vidyard.com data: blob:; font-src 'self' churchofjesuschrist.okta.com id.churchofjesuschrist.org data: *.oktacdn.com fonts.gstatic.com; frame-ancestors 'self'\",\"content-type\":\"application/json\",\"date\":\"Fri, 03 Apr 2026 06:30:45 GMT\",\"expires\":\"Sat, 04 Apr 2026 06:30:23 GMT\",\"p3p\":\"CP=\\\"HONK\\\"\",\"referrer-policy\":\"strict-origin-when-cross-origin\",\"server\":\"nginx\",\"strict-transport-security\":\"max-age=315360000; includeSubDomains\",\"vary\":\"Origin\",\"via\":\"1.1 3fa44d644afdb8749d0c126169e4edfc.cloudfront.net (CloudFront)\",\"x-amz-cf-id\":\"aUQk4mqZC16G03_3z_aYyml-z4Tmy_nnSRAE2vwCAwNgEhvOOTMfIA==\",\"x-amz-cf-pop\":\"SFO53-P5\",\"x-cache\":\"Miss from cloudfront\",\"x-content-type-options\":\"nosniff\",\"x-firefox-spdy\":\"h2\",\"x-okta-request-id\":\"ac9eleQqVOy65nLvpbOH7AAAA6M\",\"x-xss-protection\":\"0\"}}}}"
+        },
+        {
+          "name": "auth_request_history_v1",
+          "value": "[]"
+        },
+        {
+          "name": "okta-shared-transaction-storage",
+          "value": "{\"HFYx9Y1qVL0YIYwxRo4kOFe7JzrIa0TacO1zp9vYeGjpjU3lRdUFq51VnpuzcunD\":{\"dateCreated\":1755482019231,\"transaction\":{\"issuer\":\"https://id.churchofjesuschrist.org/oauth2/default\",\"urls\":{\"issuer\":\"https://id.churchofjesuschrist.org/oauth2/default\",\"authorizeUrl\":\"https://id.churchofjesuschrist.org/oauth2/default/v1/authorize\",\"userinfoUrl\":\"https://id.churchofjesuschrist.org/oauth2/default/v1/userinfo\",\"tokenUrl\":\"https://id.churchofjesuschrist.org/oauth2/default/v1/token\",\"revokeUrl\":\"https://id.churchofjesuschrist.org/oauth2/default/v1/revoke\",\"logoutUrl\":\"https://id.churchofjesuschrist.org/oauth2/default/v1/logout\"},\"clientId\":\"0oafj6dbfvEvMIGet357\",\"redirectUri\":\"https://auth.ceslogin.org/oauth2/v1/authorize/callback\",\"responseType\":\"code\",\"scopes\":[\"cmisid\",\"openid\",\"profile\",\"email\"],\"state\":\"HFYx9Y1qVL0YIYwxRo4kOFe7JzrIa0TacO1zp9vYeGjpjU3lRdUFq51VnpuzcunD\",\"nonce\":\"GxntujXbMnUaOlIX4sL1dOjJS1MIBYkNZQzbj6O8Fsic8y1yKBNVyDd3ViRU8fKC\",\"ignoreSignature\":false,\"codeVerifier\":\"3c79bfd06dab761951e072a53bb3350626f80b775ea\",\"codeChallengeMethod\":\"S256\",\"codeChallenge\":\"mTZZHJsqbj1W3oDalD1Oz4tx0tTpu2uQ2YDso2xKYaA\",\"flow\":\"default\",\"withCredentials\":true,\"interactionHandle\":\"eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25rZXkiLCJ2ZXIiOiIxIiwib2lkIjoiMDBvem13Y2lpZndPdUVuMEIzNTYiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..9Mx1rOq_Pn0r8m5V.VBtFQgnumS79q0r1rU8aLuJHfdnLev0Mb64c2mMG_ev1eJ1bbPo3894a4WwRJqzrgURRMT6NPs-bEwdd2bpUIfjpkcYosEKVN0TdW-p027MLyljtjgYL7cUa6c5DbchSm5rh0X35N6gPuybNFF3C1sHdZNyg0IfaZ4u7mCbHoXty5IWGXKbFVbSE7MTO4PJKNcORS_lqrLHIxdW51YWuTRyeqhsOkOsq3QmjzM4p0YIY81hkaGPK8l9nn_G1GW0H4tKmqePklfkGS3SFIlAiOxmySQnrdHbmXBE-ym3S79YuOD9-LVZaa12543Ih16EXYwKz6P5Bn1O_mzsl9fMxD59oXSjoJdqE6tzybdGZrYN9Ztr0tGnf0IOSM46MUND4ZkhBHx89aKOr-K2ondwL7HoV4GMivCoK7uBrSs24iCryUkfytep5JDGzdG-EEOzTHhcgBeuDaY57jxTTau5b74ZkHNDdNWnmc4bB3Stln9v2fCTqBF29piPnyQ9G9V-OqOmDcXlDv7iGqWjS_lFNuQeq9FMGfQG1QQ_Kmv9HC7ZL0oiH41saLoFb3Ui1wZlEgMKSowrexRqGVF5vKKtJtVLmK4s3ZADJixwRef0t99y9v5l8hcmkinJ8TcpM7AFyW8CY3liAypnHHNKviMbQYxeqhFjVZVtyODlTQStk1VFqKfsTVfADq3V8vccszqW78mPJg-J7X9Y6tgOAGtD-D-pX6BZAMRWwaYim7cHCsZhXngzmLd3jNLYziJch2htTlc7EwkZCbBjr1ary7Y5tBMCWNMfLziGK20YWUr95TN7nZz2LdsMDW8w8jW9vjC1uTYhL7pLm1INo2K8Lb9ahfFiGMRrlp__iMMXUJW4LUymDH6aNpZc-elMZN1fBjlp_s1X-GpNdtEqsLGEIK48d4IMdPFDiJ_uPurJ1rtsL-anVrDK9bs0sU8OSr04-oibR-2Bz6bMqVLoCWzMlB9uXEiY.1pv5uR9Xg_GRPPDPl95kMQ\"}},\"4shwBrx9d798KpYV2PIBWaisDRQ1xkOKEHsewGylDwClfeeIiGIltVW8jVfHTNGF\":{\"dateCreated\":1775197845991,\"transaction\":{\"issuer\":\"https://id.churchofjesuschrist.org/oauth2/default\",\"urls\":{\"issuer\":\"https://id.churchofjesuschrist.org/oauth2/default\",\"authorizeUrl\":\"https://id.churchofjesuschrist.org/oauth2/default/v1/authorize\",\"userinfoUrl\":\"https://id.churchofjesuschrist.org/oauth2/default/v1/userinfo\",\"tokenUrl\":\"https://id.churchofjesuschrist.org/oauth2/default/v1/token\",\"revokeUrl\":\"https://id.churchofjesuschrist.org/oauth2/default/v1/revoke\",\"logoutUrl\":\"https://id.churchofjesuschrist.org/oauth2/default/v1/logout\"},\"clientId\":\"0oafj6dbfvEvMIGet357\",\"redirectUri\":\"https://auth.ceslogin.org/oauth2/v1/authorize/callback\",\"responseType\":\"code\",\"scopes\":[\"cmisid\",\"openid\",\"profile\",\"email\"],\"state\":\"4shwBrx9d798KpYV2PIBWaisDRQ1xkOKEHsewGylDwClfeeIiGIltVW8jVfHTNGF\",\"nonce\":\"UgM7srbqfx605Upg64OHy8iIjw7P4T8vXd0r7qrR2ncz8kuQpHlxSoxfqQqqAQIL\",\"ignoreSignature\":false,\"codeVerifier\":\"5ff316d31ec6a0eca1da359973aadc41cdfd36d33e2\",\"codeChallengeMethod\":\"S256\",\"codeChallenge\":\"yPtyduRsMr67Vtk7vSkYRrwpXv0yPQrsa3LzBJWE0EQ\",\"flow\":\"default\",\"withCredentials\":true,\"interactionHandle\":\"eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25rZXkiLCJ2ZXIiOiIxIiwib2lkIjoiMDBvem13Y2lpZndPdUVuMEIzNTYiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..9PJap2k-4KnC34p1.F4Tp9_gv5UwW6zTvaeuRaMQvSI1NU3HKtnfxc8NfkjCyr8Zn8vpB6CyadEKBE3WkoInJvet8-7HU7Vp_fF3xp4Q6AD0bhZEFYK0tYpbkfckJY3YIXdPIJPnt6iJceAH43kne1ykOkeEAsbBQcqlfE30Twi6LgWdHiUbTUzFFlPbPeTayxrj01Tl8TRnMdim6Qu_QeUKjuCFhywIK6upl_ZsHjgTn96sC8RCKkk7cja00gH8iiHN8mMIgk7-Dy7_6WGhLk1fo1JGW3bJbI4raGjelAX4Tw_UcTSaxnYoCI8amgzhJ4pZIA7ClOH5oxtNCJmdqO4zX0qyQ3eqkBkUeKTWqUR9W_rAswpP_ar3V4jajri-qPJsh1LaNlYJRSjLGe1V8RuPQfDzea4M0On4vlcrBULOoZEXnPyd82XQ-jWN3DiKp_Tvvb6Am-Dd0IDBr-tS7uRlECHQCB1X2XnzcTrWlM5lrt2F_Eggqh8g4LD1kOXj9-bXyiiDIY12TKMRymopR0L40fmt9j4T1AAPAtwZydUMRc3RSPYakPx0008EgLzxREpfo_SX981ZgRHvHZJomlJfs8go8PU6pCOA1IRT7ICj7MsV91sqHrKx7vGK7XmXkt1smSJW9HNh4BYbc56WIY9TW4KjLcL-4vTOwti3PaptTFVPiVcoEHYyzSxT5r1xaJCEAQOjExZ8thZDA1LCjV2GKktYIjUSu2CuOXlKDdp-f5BjR3fRIBiWQQqjoWO6EmSF9KFVG38uRfaVnNTw1rMQti1FWg1DE_u6A19w1a3Tr6e-VQfyZnQsNmBO9sNVRmG72pm8uX79h61tP-cn8AFdON_n6hjvrFXntbi-xiTtFCx_aysskU0dn5OJFAl-QAs_PQ7DDf52zv-6anM6Ijj6Ihmjs0Bsrr9JUBZUtLwAsACZoULyt-g7h9fM6RTGjBMcRemR_5RquzQb2hvszwE3FftCQggW3QiYDf5VHsZw88sCD45Ko-3Fcxzi-V0kL.aGiAblsET-1PaNquMo83Zw\"}}}"
+        }
+      ]
+    }
+  ]
+}

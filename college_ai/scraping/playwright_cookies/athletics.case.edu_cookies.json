@@ -1,0 +1,163 @@
+{
+  "cookies": [
+    {
+      "name": "_ga",
+      "value": "GA1.3.1057248239.1755454736",
+      "domain": ".athletics.case.edu",
+      "path": "/",
+      "expires": 1790131132.378281,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_Y29PC3P5S9",
+      "value": "GS2.1.s1755571132$o2$g1$t1755571132$j60$l0$h0",
+      "domain": ".case.edu",
+      "path": "/",
+      "expires": 1790131132.236216,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.1686603237.1755571132",
+      "domain": ".case.edu",
+      "path": "/",
+      "expires": 1755657532,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_UA-180696617-1",
+      "value": "1",
+      "domain": ".case.edu",
+      "path": "/",
+      "expires": 1755571192,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.3.1686603237.1755571132",
+      "domain": ".athletics.case.edu",
+      "path": "/",
+      "expires": 1755657532,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_UA-22371465-8",
+      "value": "1",
+      "domain": ".athletics.case.edu",
+      "path": "/",
+      "expires": 1755571192,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_UA-620392-16",
+      "value": "1",
+      "domain": ".athletics.case.edu",
+      "path": "/",
+      "expires": 1755571192,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_UA-195038689-46",
+      "value": "1",
+      "domain": ".case.edu",
+      "path": "/",
+      "expires": 1755571192,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_VGQ5B8CQ5C",
+      "value": "GS2.1.s1755571132$o2$g0$t1755571132$j60$l0$h0",
+      "domain": ".case.edu",
+      "path": "/",
+      "expires": 1790131132.65353,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1057248239.1755454736",
+      "domain": ".case.edu",
+      "path": "/",
+      "expires": 1790131132.716975,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_LZP7PQBYX2",
+      "value": "GS2.1.s1755571132$o2$g0$t1755571132$j60$l0$h0",
+      "domain": ".case.edu",
+      "path": "/",
+      "expires": 1790131132.697795,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_RD325GFMCR",
+      "value": "GS2.1.s1755571132$o2$g0$t1755571132$j60$l0$h0",
+      "domain": ".case.edu",
+      "path": "/",
+      "expires": 1790131132.716874,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://athletics.case.edu",
+      "localStorage": [
+        {
+          "name": "_GESPSK-esp.pubmatic.com",
+          "value": "[\"esp.pubmatic.com\",null,1755454739281,null,null,null,null,null,null,[100]]"
+        },
+        {
+          "name": "_GESPSK-crwdcntrl.net",
+          "value": "[\"crwdcntrl.net\",null,1755454739281,null,null,null,null,null,null,[100]]"
+        },
+        {
+          "name": "ss.t",
+          "value": "{\"id\":\"ffa2515d-69f6-4a93-ae60-5b6581f5d288\"}"
+        },
+        {
+          "name": "_GESPSK-id5-sync.com",
+          "value": "[\"id5-sync.com\",null,1755454739281,null,null,null,null,null,null,[100]]"
+        },
+        {
+          "name": "_GESPSK-33across.com",
+          "value": "[\"33across.com\",null,1755454739281,null,null,null,null,null,null,[100]]"
+        },
+        {
+          "name": "33acrossId_csti",
+          "value": "6158203196586298:6993616818623356:6158203196586298:0"
+        },
+        {
+          "name": "tsurround",
+          "value": "{\"lastVisit\":\"2025-08-19\"}"
+        },
+        {
+          "name": "lastActive",
+          "value": "1755571132036"
+        }
+      ]
+    }
+  ]
+}

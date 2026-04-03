@@ -1,0 +1,25 @@
+{
+  "cookies": [
+    {
+      "name": "_ga",
+      "value": "GA1.1.1327458952.1775181619",
+      "domain": ".upenn.edu",
+      "path": "/",
+      "expires": 1809750340.18487,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_SEJ7CJHN2X",
+      "value": "GS2.1.s1775190340$o2$g0$t1775190341$j59$l0$h0",
+      "domain": ".upenn.edu",
+      "path": "/",
+      "expires": 1809750341.778314,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

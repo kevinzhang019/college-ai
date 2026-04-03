@@ -1,0 +1,478 @@
+{
+  "cookies": [
+    {
+      "name": "_gcl_au",
+      "value": "1.1.1604298173.1755442325",
+      "domain": ".psu.edu",
+      "path": "/",
+      "expires": 1763218325,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1798466846.1755442325",
+      "domain": ".psu.edu",
+      "path": "/",
+      "expires": 1790106633.388225,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_node",
+      "value": "62e1f5c1bd7f2c76c2bc875abb82831e90dce9bfe858b41415dc3519a9b4c965",
+      "domain": "apply.psu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "ca2271ed-43ea-466d-a3d5-875d156fd352",
+      "domain": "apply.psu.edu",
+      "path": "/",
+      "expires": 1790002325.474941,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "apply.psu.edu",
+      "path": "/",
+      "expires": 1790002325.474975,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755442325793.65701808188985800",
+      "domain": ".psu.edu",
+      "path": "/",
+      "expires": 1763322635,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_hjSessionUser_380178",
+      "value": "eyJpZCI6Ijg1YjYxMjBlLWFlNmMtNTM4Yi05MTRkLTk0ZTU5MWMzNjkwOCIsImNyZWF0ZWQiOjE3NTU0NDIzMjU4NTcsImV4aXN0aW5nIjp0cnVlfQ==",
+      "domain": ".psu.edu",
+      "path": "/",
+      "expires": 1787044535,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUkgAIXx_qN-LDhzWWtA7QrZokhnLaN27vz_jaB6RLK_aVbIbLcCMnGhyOxA",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1790035505.796365,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_4YY6NWZJSM",
+      "value": "GS2.1.s1755508534$o3$g0$t1755508534$j60$l0$h1203431457",
+      "domain": ".psu.edu",
+      "path": "/",
+      "expires": 1790068534.84903,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "YSC",
+      "value": "OCf4rAZdJzY",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://psu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CMyz74aC4arKTBD5hPiFg5SPAxj5hPiFg5SPAw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771060570.45054,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://psu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "pr7lPUcWuLM",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771060570.450621,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://psu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgHQ%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771060570.450635,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://psu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_ga_NPSGH9ERGZ",
+      "value": "GS2.1.s1755508570$o1$g0$t1755508570$j60$l0$h0",
+      "domain": ".psu.edu",
+      "path": "/",
+      "expires": 1790068570.519299,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": "px.ads.linkedin.com",
+      "path": "/",
+      "expires": 1758176381.458726,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&1485b2b2-cea3-41b9-88e4-98e3e98be6f6\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1787082636.458764,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=TGST09:s=T:r=T:a=T:p=T:g=3101:u=1:x=1:i=1755546618:t=1755633018:v=2:sig=AQGTLENtTI6aX3X4c5nY1Outv7yNvxua\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755633018.922433,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TDID",
+      "value": "5969185c-8f82-4a01-a2c5-e79d41afce0c",
+      "domain": ".adsrvr.org",
+      "path": "/",
+      "expires": 1787082637.016492,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "uuid2",
+      "value": "7498382716492628232",
+      "domain": ".adnxs.com",
+      "path": "/",
+      "expires": 1763322621.430843,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "audit_p",
+      "value": "1|TeRLL7Tvqt58wgzG2jLeBDnKh3i+YMt4zveKfCIAoSWqcLSLiv9/TwNWJC0IND/sT3n/A7SW0OSM1KxoLazIt9i2Wk5FrGos0XY24Ec+XLvWYD/teNjqlgCi8AcHAQ4GVyPHw8u3IHV5YJ5VBgGot7/cPLrpa4w62AKTx5PcvAFbOz6AjJtUa8ZnH3r7x5VAdeodiyl5GGjkt77VmXBK7kiCfUmSYXqD+ohH/uuQN8oOr/S07bYDcYQkZmofZQkSVSwKu1RXSJT0/fhu8/pkBO4VeIulq+4M1TRwmTZWV3Xc6UO785F0Pw==",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1787082621.37011,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://psu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "khaos",
+      "value": "MEHJ4QFW-D-L1UW",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1787082621.370143,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "khaos_p",
+      "value": "MEHJ4QFW-D-L1UW",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1787082621.370152,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://psu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "audit",
+      "value": "1|TeRLL7Tvqt58wgzG2jLeBDnKh3i+YMt4zveKfCIAoSWqcLSLiv9/TwNWJC0IND/sT3n/A7SW0OSM1KxoLazIt9i2Wk5FrGos0XY24Ec+XLvWYD/teNjqlgCi8AcHAQ4GVyPHw8u3IHV5YJ5VBgGot7/cPLrpa4w62AKTx5PcvAFbOz6AjJtUa8ZnH3r7x5VAdeodiyl5GGjkt77VmXBK7kiCfUmSYXqD+ohH/uuQN8oOr/S07bYDcYQkZmofZQkSVSwKu1RXSJT0/fhu8/pkBO4VeIulq+4M1TRwmTZWV3Xc6UO785F0Pw==",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1787082621.37016,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "serverid",
+      "value": "p0101",
+      "domain": "smeal.psu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "serverid",
+      "value": "p0102",
+      "domain": "www.smeal.psu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_uetsid",
+      "value": "90781cd07c6c11f0b05f510161c6d032",
+      "domain": ".psu.edu",
+      "path": "/",
+      "expires": 1755633033,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_uetvid",
+      "value": "907814b07c6c11f082b70f18f8a42e27",
+      "domain": ".psu.edu",
+      "path": "/",
+      "expires": 1789242633,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_CS38TX7NCC",
+      "value": "GS2.1.s1755546616$o1$g1$t1755546635$j41$l0$h0",
+      "domain": ".psu.edu",
+      "path": "/",
+      "expires": 1790106635.857689,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CMID",
+      "value": "aKOEDNHM4JYAIeoxASe4JgAA",
+      "domain": ".casalemedia.com",
+      "path": "/",
+      "expires": 1787082636.717165,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "CMPS",
+      "value": "448",
+      "domain": ".casalemedia.com",
+      "path": "/",
+      "expires": 1763322636.608258,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "CMPRO",
+      "value": "448",
+      "domain": ".casalemedia.com",
+      "path": "/",
+      "expires": 1763322636.717197,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "KRTBCOOKIE_377",
+      "value": "22918-5969185c-8f82-4a01-a2c5-e79d41afce0c&KRTB&6810-5969185c-8f82-4a01-a2c5-e79d41afce0c&KRTB&23031-5969185c-8f82-4a01-a2c5-e79d41afce0c&KRTB&22926-5969185c-8f82-4a01-a2c5-e79d41afce0c",
+      "domain": ".pubmatic.com",
+      "path": "/",
+      "expires": 1763322636.615124,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "PugT",
+      "value": "1755546636",
+      "domain": ".pubmatic.com",
+      "path": "/",
+      "expires": 1758138636.615149,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "tuuid",
+      "value": "a49b5cb1-57e7-4fd9-89c6-67d298fdde9d",
+      "domain": ".bidswitch.net",
+      "path": "/",
+      "expires": 1787082636.954915,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "c",
+      "value": "1755546636",
+      "domain": ".bidswitch.net",
+      "path": "/",
+      "expires": 1787082636.818184,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "tuuid_lu",
+      "value": "1755546636",
+      "domain": ".bidswitch.net",
+      "path": "/",
+      "expires": 1787082636.954954,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TDCPM",
+      "value": "CAESFwoIYXBwbmV4dXMSCwj6o4H6z6avPhAFEhUKBmdvb2dsZRILCOaHnuvPpq8-EAUSFgoHcnViaWNvbhILCLS_nuvPpq8-EAUSFQoGY2FzYWxlEgsI1NO_hNGmrz4QBRIXCghwdWJtYXRpYxILCO77v4TRpq8-EAUSGAoJYmlkc3dpdGNoEgsIyqbAhNGmrz4QBRgFIAIoBjILCNaZwrHnpq8-EAVCDyINCAESCQoFdGllcjMQAVoHaXB6bWQ0MGAB",
+      "domain": ".adsrvr.org",
+      "path": "/",
+      "expires": 1787082637.016533,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://smeal.psu.edu",
+      "localStorage": [
+        {
+          "name": "widgets-en-us-updated",
+          "value": "1755546615459"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755546633795"
+        },
+        {
+          "name": "_uetvid_exp",
+          "value": "Sat, 12 Sep 2026 19:50:33 GMT"
+        },
+        {
+          "name": "_uetsid_exp",
+          "value": "Tue, 19 Aug 2025 19:50:33 GMT"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755546635296"
+        },
+        {
+          "name": "_uetvid",
+          "value": "907814b07c6c11f082b70f18f8a42e27"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "widgets-en-us",
+          "value": "{\"\":\"Project-Id-Version: mockup\\nPOT-Creation-Date: YEAR-MO-DA HO:MI +ZONE\\nPO-Revision-Date: 2006-01-29 23:00+0000\\nLast-Translator: Plone i18n <plone-i18n@lists.sourceforge.net>\\nLanguage-Team: Plone i18n <plone-i18n@lists.sourceforge.net>\\nMIME-Version: 1.0\\nContent-Type: text/plain; charset=utf-8\\nContent-Transfer-Encoding: 8bit\\nPlural-Forms: nplurals=1; plural=0;\\nLanguage-Code: en\\nLanguage-Name: English\\nPreferred-Encodings: utf-8\\nDomain: widgets\\n\"}"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755546616256},\"expires\":1763322616256}}"
+        },
+        {
+          "name": "_uetsid",
+          "value": "90781cd07c6c11f0b05f510161c6d032"
+        },
+        {
+          "name": "li_adsId",
+          "value": "c632ed46-0134-41eb-8e5a-511f69587af9"
+        }
+      ]
+    },
+    {
+      "origin": "https://www.psu.edu",
+      "localStorage": [
+        {
+          "name": "hjActiveViewportIds",
+          "value": "[{\"id\":\"681218cf-6b23-4d00-bf71-70f1cb8a9f87\",\"expireTimestamp\":1755530135964}]"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755508535275"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755508535282"
+        },
+        {
+          "name": "dc58a323-d9b3-ada2-8c5c-fe49f1121e6c_pp",
+          "value": "{}"
+        },
+        {
+          "name": "dc58a323-d9b3-ada2-8c5c-fe49f1121e6c_st",
+          "value": "1755508535378"
+        },
+        {
+          "name": "__anon_id",
+          "value": "\"9b65180a-05d4-4d05-aad2-703d93b0170b\""
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755442324722},\"expires\":1763218324722}}"
+        },
+        {
+          "name": "theme-ui-color-mode",
+          "value": "light"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "cookies": [
+    {
+      "name": "_ga",
+      "value": "GA1.1.135090259.1775123520",
+      "domain": ".georgetown.edu",
+      "path": "/",
+      "expires": 1809683663.561614,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_E9MN41B098",
+      "value": "GS2.1.s1775123519$o1$g1$t1775123647$j5$l0$h0",
+      "domain": ".georgetown.edu",
+      "path": "/",
+      "expires": 1809683647.06227,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_georgetownglobaldatabase_session",
+      "value": "cC9RVkNOOUlhcEQxRkdZUk4xSVNkNnhrdUZ5OU8waDNPUFVGNGJQRFh5N2FXais0a3pnaHdrVzdMc0FwNG9IMXl2R1VlaWJqeDNwUlBNRm5pQ3VmZmNHeTlpRFJ3akxsMTJQRXI2ODBicFk5Tm9UdXVkeVlVL2d2NmxTSzR5RHViUUJmZm1zdDRvMWpMdlJXYzJTb1NBPT0tLStURlgyc3NUT2hsc1dWNVRndlFsbnc9PQ%3D%3D--03db1909e0d1577a3ac7d22b6f3863da5b7cb0d7",
+      "domain": ".georgetown.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_NM716X0PB0",
+      "value": "GS2.1.s1775123663$o1$g0$t1775123663$j60$l0$h0",
+      "domain": ".georgetown.edu",
+      "path": "/",
+      "expires": 1809683663.561465,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://india.georgetown.edu",
+      "localStorage": [
+        {
+          "name": "NRBA_SESSION",
+          "value": "{\"value\":\"e66c68e9dbd77929\",\"inactiveAt\":1775125464151,\"expiresAt\":1775138064151,\"updatedAt\":1775123664386,\"sessionReplayMode\":0,\"sessionReplaySentFirstChunk\":false,\"sessionTraceMode\":0,\"traceHarvestStarted\":false,\"loggingMode\":0,\"logApiMode\":0,\"serverTimeDiff\":-165,\"custom\":{},\"numOfResets\":0,\"consent\":false}"
+        }
+      ]
+    },
+    {
+      "origin": "https://global.georgetown.edu",
+      "localStorage": [
+        {
+          "name": "NRBA_SESSION",
+          "value": "{\"value\":\"e70ffd95ed052669\",\"inactiveAt\":1775125320169,\"expiresAt\":1775137920169,\"updatedAt\":1775123520555,\"sessionReplayMode\":0,\"sessionReplaySentFirstChunk\":false,\"sessionTraceMode\":0,\"traceHarvestStarted\":false,\"loggingMode\":0,\"logApiMode\":0,\"serverTimeDiff\":-229,\"custom\":{},\"numOfResets\":0,\"consent\":false}"
+        }
+      ]
+    }
+  ]
+}

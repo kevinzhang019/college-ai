@@ -1,0 +1,362 @@
+{
+  "cookies": [
+    {
+      "name": "dataprivacy-acknowledge-uga.edu",
+      "value": "true",
+      "domain": ".uga.edu",
+      "path": "/",
+      "expires": 1786970653,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.1695458019.1755434654",
+      "domain": ".uga.edu",
+      "path": "/",
+      "expires": 1763210654,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_6H213MG7X1",
+      "value": "GS2.1.s1755463527$o1$g0$t1755463527$j60$l0$h0",
+      "domain": ".uga.edu",
+      "path": "/",
+      "expires": 1790023527.020002,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1033229053.1755463527",
+      "domain": ".uga.edu",
+      "path": "/",
+      "expires": 1790023610.283337,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_3EL9X6BY4P",
+      "value": "GS2.1.s1755463527$o1$g0$t1755463527$j60$l0$h73494692",
+      "domain": ".uga.edu",
+      "path": "/",
+      "expires": 1790023527.0769,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CLID",
+      "value": "dbdb974ad9c447d0b58a4d67522db085.20250817.20260817",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1786999527.166925,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-dc298060-0fef-4446-45fa-05289a7461d1.TeW3WLwCrcvVIFhkBVln1X%2Fp1vHmMnjwPBoa8s0mHH0",
+      "domain": "qvdt3feo.com",
+      "path": "/",
+      "expires": 1786999527.687955,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-dc298060-0fef-4446-45fa-05289a7461d1.TeW3WLwCrcvVIFhkBVln1X%2Fp1vHmMnjwPBoa8s0mHH0",
+      "domain": ".qvdt3feo.com",
+      "path": "/",
+      "expires": 1786999527.688021,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3A3CmAYA_vREZF-gUomnRh0Q.B%2FTslhxwMs%2Bb2W6FVi%2FR%2F0LbRM2m%2FJEdiB%2BCWRNAm2U",
+      "domain": "qvdt3feo.com",
+      "path": "/",
+      "expires": 1786999527.688037,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3A3CmAYA_vREZF-gUomnRh0Q.B%2FTslhxwMs%2Bb2W6FVi%2FR%2F0LbRM2m%2FJEdiB%2BCWRNAm2U",
+      "domain": ".qvdt3feo.com",
+      "path": "/",
+      "expires": 1786999527.688058,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEKsEGAIg5_6IxQY6BIIfcDZCBIMukV0.m29teaGFuXOiKTnWrFyRjaWDjZDwwzEWOjlBMGuireE",
+      "domain": "qvdt3feo.com",
+      "path": "/",
+      "expires": 1786999527.688075,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEKsEGAIg5_6IxQY6BIIfcDZCBIMukV0.m29teaGFuXOiKTnWrFyRjaWDjZDwwzEWOjlBMGuireE",
+      "domain": ".qvdt3feo.com",
+      "path": "/",
+      "expires": 1786999527.688093,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%253A0-dc298060-0fef-4446-45fa-05289a7461d1.TeW3WLwCrcvVIFhkBVln1X%252Fp1vHmMnjwPBoa8s0mHH0",
+      "domain": "www.uga.edu",
+      "path": "/",
+      "expires": 1786999527,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%253A.o6W7wkJsHSTU4%252BLlDruZ%252FwNjVcUZZMvakQpSatDoAgo",
+      "domain": "www.uga.edu",
+      "path": "/",
+      "expires": 1786999527,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%253AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEKsEGAIg5_6IxQY6BIIfcDZCBIMukV0.m29teaGFuXOiKTnWrFyRjaWDjZDwwzEWOjlBMGuireE",
+      "domain": "www.uga.edu",
+      "path": "/",
+      "expires": 1786999527,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-3e0ba63b-fe04-4040-6c47-cf51e45d5e43.0GFEStoZ%2FsD8CMH5QJNibZ0Ln1nR%2BLTYxP5sdZqqr2g",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1786999527.825532,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-3e0ba63b-fe04-4040-6c47-cf51e45d5e43.0GFEStoZ%2FsD8CMH5QJNibZ0Ln1nR%2BLTYxP5sdZqqr2g",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1786999527.825554,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3APgumO_4EQEBsR89R5F1eQw.qAKpCDUL%2BpKe3U146VWcPAGaeWf3gMzyh3%2F0%2Bi74Hbs",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1786999527.825574,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3APgumO_4EQEBsR89R5F1eQw.qAKpCDUL%2BpKe3U146VWcPAGaeWf3gMzyh3%2F0%2Bi74Hbs",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1786999527.825584,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEKsEGAIg5_6IxQY6BIIfcDZCBLD73Pk.YpqDewX00kEfxVvzYjkYJtbODNNDrdNA28BgoEJHffM",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1786999527.825592,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEKsEGAIg5_6IxQY6BIIfcDZCBLD73Pk.YpqDewX00kEfxVvzYjkYJtbODNNDrdNA28BgoEJHffM",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1786999527.825602,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755463527955.349604074999308",
+      "domain": ".uga.edu",
+      "path": "/",
+      "expires": 1763239528,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_clck",
+      "value": "1mjz91x%7C2%7Cfyj%7C0%7C2055",
+      "domain": ".uga.edu",
+      "path": "/",
+      "expires": 1786999528,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": "px.ads.linkedin.com",
+      "path": "/",
+      "expires": 1758093274.214759,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&986e86d1-e296-41cb-8df6-61f615c12591\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1786999529.214798,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=VGST09:s=V:r=V:a=V:p=V:g=3278:u=1:x=1:i=1755463528:t=1755549928:v=2:sig=AQELoUHvsmOCTModS8JWPRv3Ut7t-2og\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755549929.214835,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hjSessionUser_3534591",
+      "value": "eyJpZCI6ImEyY2VlNTVjLWM5OTAtNWFmMi04YTc3LTdiZGNjOTBmMGVmMyIsImNyZWF0ZWQiOjE3NTU0NjM1MjgyMzksImV4aXN0aW5nIjpmYWxzZX0=",
+      "domain": ".uga.edu",
+      "path": "/",
+      "expires": 1786999528,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUm9eljLYUwIr-gcM40RfGXKLWyYFAbX4p7BHLs990kr01ZosOPZ_vqwJeDH",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1790023528.386612,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_NMYDFR3TM1",
+      "value": "GS2.1.s1755463610$o1$g0$t1755463610$j60$l0$h0",
+      "domain": ".uga.edu",
+      "path": "/",
+      "expires": 1790023610.283135,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AWSALB",
+      "value": "8dCYPZcHWxinqPioAbacbJkrmQ9vvfWOU31psuRWTeTW+0rGzhcbzx/dGpJBCLRT9ryvMKldYyaAjMZBnOBrKtgWF6sZUIiR5sgUx+0oO1jPP9Ee6WvlMsNn0Op+",
+      "domain": "well-being.uga.edu",
+      "path": "/",
+      "expires": 1756099529.463403,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AWSALBCORS",
+      "value": "8dCYPZcHWxinqPioAbacbJkrmQ9vvfWOU31psuRWTeTW+0rGzhcbzx/dGpJBCLRT9ryvMKldYyaAjMZBnOBrKtgWF6sZUIiR5sgUx+0oO1jPP9Ee6WvlMsNn0Op+",
+      "domain": "well-being.uga.edu",
+      "path": "/",
+      "expires": 1756099529.464499,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://well-being.uga.edu",
+      "localStorage": [
+        {
+          "name": "elementor",
+          "value": "{\"__expiration\":{},\"pageViews\":1,\"sessions\":1}"
+        }
+      ]
+    },
+    {
+      "origin": "https://www.uga.edu",
+      "localStorage": [
+        {
+          "name": "sa-user-id",
+          "value": "s%3A0-dc298060-0fef-4446-45fa-05289a7461d1.TeW3WLwCrcvVIFhkBVln1X%2Fp1vHmMnjwPBoa8s0mHH0"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755463527945"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755463528513"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755434653776},\"expires\":1763210653776}}"
+        },
+        {
+          "name": "sa-user-id-v3",
+          "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEKsEGAIg5_6IxQY6BIIfcDZCBIMukV0.m29teaGFuXOiKTnWrFyRjaWDjZDwwzEWOjlBMGuireE"
+        },
+        {
+          "name": "li_adsId",
+          "value": "a90f1a19-39b8-400e-a644-e71b1250385b"
+        },
+        {
+          "name": "sa-user-id-v2",
+          "value": "s%3A.o6W7wkJsHSTU4%2BLlDruZ%2FwNjVcUZZMvakQpSatDoAgo"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "cookies": [
+    {
+      "name": "_gcl_au",
+      "value": "1.1.2075291599.1755484644",
+      "domain": ".brown.edu",
+      "path": "/",
+      "expires": 1763260644,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_S0MX9K9C18",
+      "value": "GS2.1.s1755484644$o1$g0$t1755484644$j60$l0$h0",
+      "domain": ".brown.edu",
+      "path": "/",
+      "expires": 1790044644.661341,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1330941878.1755484645",
+      "domain": ".brown.edu",
+      "path": "/",
+      "expires": 1790044644.726882,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_D818RQEKT2",
+      "value": "GS2.1.s1755484644$o1$g0$t1755484644$j60$l0$h0",
+      "domain": ".brown.edu",
+      "path": "/",
+      "expires": 1790044644.695155,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_QY13L4Q0C0",
+      "value": "GS2.1.s1755484644$o1$g0$t1755484644$j60$l0$h0",
+      "domain": ".brown.edu",
+      "path": "/",
+      "expires": 1790044644.726748,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://hispanicstudies.brown.edu",
+      "localStorage": [
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"timeouts\":0,\"creationTimeMs\":1755484644479},\"expires\":1763260644479}}"
+        }
+      ]
+    },
+    {
+      "origin": "https://experience.arcgis.com",
+      "localStorage": [
+        {
+          "name": "exb-build-number",
+          "value": "1.18.0-3183"
+        }
+      ]
+    }
+  ]
+}

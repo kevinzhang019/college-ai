@@ -1,0 +1,55 @@
+{
+  "cookies": [
+    {
+      "name": "_ga_9K05KKFXKP",
+      "value": "GS2.1.s1755452750$o1$g0$t1755452750$j60$l0$h0",
+      "domain": ".uconn.edu",
+      "path": "/",
+      "expires": 1790012750.068008,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.711754102.1755452750",
+      "domain": ".uconn.edu",
+      "path": "/",
+      "expires": 1790012750.068287,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "twk_idm_key",
+      "value": "BuLMI9XuwOxzw4sXeiEZA",
+      "domain": "career.uconn.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "TawkConnectionTime",
+      "value": "0",
+      "domain": "career.uconn.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://career.uconn.edu",
+      "localStorage": [
+        {
+          "name": "NRBA_SESSION",
+          "value": "{\"value\":\"7dcc37f935c9ef40\",\"inactiveAt\":1755454552444,\"expiresAt\":1755467152444,\"updatedAt\":1755452753191,\"sessionReplayMode\":0,\"sessionReplaySentFirstChunk\":false,\"sessionTraceMode\":0,\"traceHarvestStarted\":false,\"loggingMode\":0,\"serverTimeDiff\":-404,\"custom\":{},\"numOfResets\":0}"
+        }
+      ]
+    }
+  ]
+}

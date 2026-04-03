@@ -1,0 +1,382 @@
+{
+  "cookies": [
+    {
+      "name": "BIGipServerwww.clemson.edu_https_pool",
+      "value": "2133018122.47873.0000",
+      "domain": "www.clemson.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "YSC",
+      "value": "GWHi4iVc5hk",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://clemson.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_scid",
+      "value": "a8Um-w2m516_tirHHHmZ4VLa4nvCSiua",
+      "domain": ".clemson.edu",
+      "path": "/",
+      "expires": 1789627109,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CLID",
+      "value": "f690f852e775448abe943f139e89b094.20250817.20260817",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1786976411.113096,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_clck",
+      "value": "1bcbp6f%7C2%7Cfyj%7C0%7C2055",
+      "domain": ".clemson.edu",
+      "path": "/",
+      "expires": 1786976411,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUk_1LlIGviG6LFECmDsT-I5rEJo8JLxPegL1rZXbs_sQ6swpVlV3CNSZCUG",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1790000411.464772,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TDID",
+      "value": "4e616662-3700-42e5-bc90-6ed5d9e0cbdc",
+      "domain": ".adsrvr.org",
+      "path": "/",
+      "expires": 1786976454.32425,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "audit_p",
+      "value": "1|Rtu5TWz8zARrtPzX3TDjG50+++SjRMxjv1iaFc/YhCWqcLSLiv9/T/xExsLlGnGHZzrlMy4diZeM1KxoLazIt9i2Wk5FrGos0XY24Ec+XLvP+JisfZFhcxvY+Tf9AjI3LF/MTdiFHL568+J7IZw1mhVYnmIXWu+K2AKTx5PcvAFbOz6AjJtUa8ZnH3r7x5VAdeodiyl5GGjkt77VmXBK7kiCfUmSYXqD+ohH/uuQN8oOr/S07bYDcYQkZmofZQkSVSwKu1RXSJT0/fhu8/pkBO4VeIulq+4M1TRwmTZWV3Xc6UO785F0Pw==",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1786976412.902297,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://clemson.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "khaos",
+      "value": "MEFRWBFN-9-EMYR",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1786976412.902343,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "khaos_p",
+      "value": "MEFRWBFN-9-EMYR",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1786976412.902359,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://clemson.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "audit",
+      "value": "1|Rtu5TWz8zARrtPzX3TDjG50+++SjRMxjv1iaFc/YhCWqcLSLiv9/T/xExsLlGnGHZzrlMy4diZeM1KxoLazIt9i2Wk5FrGos0XY24Ec+XLvP+JisfZFhcxvY+Tf9AjI3LF/MTdiFHL568+J7IZw1mhVYnmIXWu+K2AKTx5PcvAFbOz6AjJtUa8ZnH3r7x5VAdeodiyl5GGjkt77VmXBK7kiCfUmSYXqD+ohH/uuQN8oOr/S07bYDcYQkZmofZQkSVSwKu1RXSJT0/fhu8/pkBO4VeIulq+4M1TRwmTZWV3Xc6UO785F0Pw==",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1786976412.902369,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sc_at",
+      "value": "v2|H4sIAAAAAAAAAE3KsQ3AIAwEwIks/Yt3sLNNCHgKhidluituprO7pi0vmt5IGyNoHQVUPldmbAr3t1yC2PaPOFVrHw9AAAAA",
+      "domain": ".snapchat.com",
+      "path": "/",
+      "expires": 1789136413.623488,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_sctr",
+      "value": "1%7C1755388800000",
+      "domain": ".clemson.edu",
+      "path": "/",
+      "expires": 1789627111,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "tableau_locale",
+      "value": "en",
+      "domain": "public.tableau.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://clemson.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "tableau_public_negotiated_locale",
+      "value": "en-us",
+      "domain": "public.tableau.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://clemson.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_scid_r",
+      "value": "dUUm-w2m516_tirHHHmZ4VLa4nvCSiua12GmIQ",
+      "domain": ".clemson.edu",
+      "path": "/",
+      "expires": 1789627151,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_QCHBS4YQTH",
+      "value": "GS2.1.s1755440411$o1$g1$t1755440453$j18$l0$h0",
+      "domain": ".clemson.edu",
+      "path": "/",
+      "expires": 1790000453.168011,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "TDCPM",
+      "value": "CAESEgoDYWFtEgsIvM-c4eborj4QBRIVCgZnb29nbGUSCwia_Jzh5uiuPhAFEhYKB3J1Ymljb24SCwiuoJ3h5uiuPhAFEhcKCGFwcG5leHVzEgsI3pGGv-jorj4QBRIUCgV0YXBhZBILCL6X4bXo6K4-EAUSFgoHYWRkdGhpcxILCOi-4bXo6K4-EAUSFQoGY2FzYWxlEgsIvLmy8enorj4QBRIWCgdsaHdiazU5EgsIgumy8enorj4QBRIYCglhZGFkdmlzb3ISCwi2oLPx6eiuPhAFGAUoBjILCOL0tJ6A6a4-EAU4AUIEIgIIAVoHZDl1ZnFhZWAB",
+      "domain": ".adsrvr.org",
+      "path": "/",
+      "expires": 1786976454.324308,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "CMID",
+      "value": "aKHlRtHM4o8ADCQMCKcSrwAA",
+      "domain": ".casalemedia.com",
+      "path": "/",
+      "expires": 1786976454.982633,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ab",
+      "value": "0001%3AponWIHNSfe8pNkoHzHfdiy6Mvrf5mm%2BC",
+      "domain": ".agkn.com",
+      "path": "/",
+      "expires": 1786976455.158555,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "IMRID",
+      "value": "62f4dd10-7b75-11f0-9a92-ab3d23c4c022",
+      "domain": ".imrworldwide.com",
+      "path": "/",
+      "expires": 1789136454.940036,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "u",
+      "value": "C|0AAAAAAAAMDShxwAAAAAA",
+      "domain": ".agkn.com",
+      "path": "/",
+      "expires": 1786976455.158588,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "zabUserId",
+      "value": "1755440491938zabu0.5935388280419859",
+      "domain": "housing.clemson.edu",
+      "path": "/",
+      "expires": 1786976491,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.1260144442.1775136576",
+      "domain": ".clemson.edu",
+      "path": "/",
+      "expires": 1775224682,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "zfccn",
+      "value": "5f39d169-6153-47de-8b2a-a82bcc2fbbd3",
+      "domain": "pagesense-collect.zoho.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "zscb271acdbb6764d9b997508d0a589c085",
+      "value": "1775136576090zsc0.8801593346656342",
+      "domain": ".clemson.edu",
+      "path": "/",
+      "expires": 1775140083,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "zft-sdc",
+      "value": "isef%3Dtrue-isfr%3Dtrue-source%3Ddirect",
+      "domain": ".clemson.edu",
+      "path": "/",
+      "expires": 1775192399,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "zfccn",
+      "value": "e1ab0ca6-7d50-4592-b503-9db0dad14b97",
+      "domain": "pagesense-hb-collect.zoho.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_T5D8GX2QG2",
+      "value": "GS2.1.s1775136575$o3$g1$t1775138282$j60$l0$h0",
+      "domain": ".clemson.edu",
+      "path": "/",
+      "expires": 1809698282.713661,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.999028937.1755440411",
+      "domain": ".clemson.edu",
+      "path": "/",
+      "expires": 1809698282.784661,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_gtag_UA_180202611_1",
+      "value": "1",
+      "domain": ".clemson.edu",
+      "path": "/",
+      "expires": 1775138342,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "zps-tgr-dts",
+      "value": "sc%3D3-expAppOnNewSession%3D%5B%5D-pc%3D2-sesst%3D1775136576093",
+      "domain": ".clemson.edu",
+      "path": "/",
+      "expires": 1786976491,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://housing.clemson.edu",
+      "localStorage": [
+        {
+          "name": "zps-ft-pghitType-details",
+          "value": "{\"b271acdbb6764d9b997508d0a589c085\":{\"liht\":true,\"lifr\":false,\"lisef\":false,\"ltv\":\"DIRECT\",\"lfrv\":\"\",\"lfcv\":\"https://housing.clemson.edu/housing/resources/\",\"lcv\":\"https://housing.clemson.edu/housing/resources\",\"lrv\":\"\",\"lup\":[],\"ld\":\"1775138283082zabv0.13670275178060287\",\"lsrc\":\"direct\",\"lmdm\":\"(none)\",\"lchn\":\"direct\",\"ldtte\":\"\u00bb Resources\",\"rst\":1775138283084}}"
+        },
+        {
+          "name": "zps-ft-details",
+          "value": "{\"b271acdbb6764d9b997508d0a589c085\":{\"fsrc\":\"direct\",\"fmdm\":\"(none)\",\"fchn\":\"direct\",\"n\":false,\"lp\":\"https://housing.clemson.edu/meet-our-team\",\"lpr\":\"\",\"liht\":true,\"ltv\":\"DIRECT\",\"lfrv\":\"\",\"lfcv\":\"https://housing.clemson.edu/housing/resources/\",\"lcv\":\"https://housing.clemson.edu/housing/resources\",\"lrv\":\"\",\"lup\":[],\"ld\":\"1775138283082zabv0.13670275178060287\",\"lht\":\"pageview\",\"lisef\":false,\"lsrc\":\"direct\",\"lmdm\":\"(none)\",\"lchn\":\"direct\",\"ldtte\":\"\u00bb Resources\",\"lifr\":false,\"rst\":1775138283084}}"
+        },
+        {
+          "name": "acceptsCookies",
+          "value": "yes"
+        }
+      ]
+    },
+    {
+      "origin": "https://www.clemson.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "u_sclid",
+          "value": "8MwY6b33HN84MhDL0e8yjtbQ1Glym1Aba8Um-w2m516_tirHHHmZ4VLa4nvCSiua"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755440410843},\"expires\":1763216410843}}"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755440453354"
+        },
+        {
+          "name": "u_sclid_r",
+          "value": "CkwY6b33HN84MhDL0e8yjtbQ1Glym1AbnNdPznVFJvsNpudev7Yqxxx5meFS2uJ7wkormtdhpiE"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755440453359"
+        }
+      ]
+    }
+  ]
+}

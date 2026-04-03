@@ -1,0 +1,55 @@
+{
+  "cookies": [
+    {
+      "name": "__cf_bm",
+      "value": "4syMhW7fdbKwCOXhbxZBuzk.URFX_Gu9oflUHeoDgsg-1755440016-1.0.1.1-g_A.e.INi9RyE5DdC2zrwtqgy6efNR9Aa3SUYAHm4TV5tpTvDs5P3aDrjFARfIZjFt1tT_HckjBOKSRAlOyfqHqebelSEj1LQ2ULO1mi2eM",
+      "domain": ".research.unc.edu",
+      "path": "/",
+      "expires": 1755441816.450675,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "nitroCachedPage",
+      "value": "1",
+      "domain": "research.unc.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "Y0_BD54j1Zx.HxTA1M.qOoqtD9R2COlbhLhvbwQXVL8-1755440017-1.0.1.1-QU2eO_OLE_kld6sNfJpiu8yLxhy9FO_CAO0s4AQAcIfXIkwmY.fJ.iUrV4ZFMoinRQVp2lM_0dpmQKV8F9lTlFdrjCrvo89g8zTtBhpzuiY",
+      "domain": ".nitroscripts.com",
+      "path": "/",
+      "expires": 1755441817.263239,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "J93KZq4rt0mTIo56jCBlZxujDP0kNgq1ooWJSgVRWbQ-1755440017-1.0.1.1-jHYS_MMyT1Ej6vbUexA7wuXhiVAD4gkovRExrPHtUk2cAiad6ZrHmp1.mUMDPEzHj5e5gLgcT7YQmbjz_4b_Z766c3bApcfPIZHLyWgbxNs",
+      "domain": ".getnitropack.com",
+      "path": "/",
+      "expires": 1755441817.943359,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "IrDIuguhMK4nLQdjild_Ci8xbhioGAbL.Ob7d4RfUng-1755440019-1.0.1.1-gnEG7SsBZH43dqq0V1pWW2jnMf4m_sROKgjwJ2w0wBh22X_Yhceh4eNXRmmQuHweoYDCYcuPuUatjgOy4hQaqscOwhCyV7MiRXmVKy6jnO0",
+      "domain": ".nitrocdn.com",
+      "path": "/",
+      "expires": 1755441819.93686,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": []
+}

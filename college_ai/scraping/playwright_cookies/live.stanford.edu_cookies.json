@@ -1,0 +1,55 @@
+{
+  "cookies": [
+    {
+      "name": "SessionId",
+      "value": "5350_4yocoecpus3lcm3jhchnkc30",
+      "domain": "ticketing.purchase.live.stanford.edu",
+      "path": "/stanfordlive",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "CookieDetection",
+      "value": "",
+      "domain": "ticketing.purchase.live.stanford.edu",
+      "path": "/stanfordlive/website",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "cf_clearance",
+      "value": "rYwK5ZmTr3UCTHe_ZwpHsiy7OvJwTYpMQMHiFcksOlc-1775197468-1.2.1.1-GFKxrsYumX1FsQduCUIpoIsJZngrN4YTUKpD.P6GgxwD5G1Kwgy4RY1bhvEpOPbLHuvX3yD.G1_.B3qeUMmfnnF1ult_1QRM4jRZ8xItdlhS9kf0D0bhu.nbvZO1BG1LLuNji3PG8tJpNBsHXE141c78TBo6yvsxHy34CcknzSYPnkjoBXghc0yrwnlKFhm_MJjUEI1KNS4U.lgWEIpX41mEOj0Jla0MB8pOb9eUmSw",
+      "domain": ".stanford.edu",
+      "path": "/",
+      "expires": 1806733468,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": ".hW4YFW07FQ50LICbinwfD6MqZj8SITuskqiDzWPsW4-1775197468.79516-1.0.1.1-k5AnBIUMTF0r_EaKBogoRghsUet4JVlt7_z1UOe9.PwoSYFoz4Aj8IDqM9wF0IjLgaIfxBw1bd775.8CWUxcgO3N_j9TkIGgnrZ2Kz7rLPAzGS_c41wZzgdyACRIa83Q4mB0FQcGe8B7E5pYMwMahg",
+      "domain": ".ticketing.purchase.live.stanford.edu",
+      "path": "/",
+      "expires": 1775199268,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "d_VRH.dvPqXj3GI8bmRwr8_WxwP2q5IKfqGR8cr3Rc0-1775197467.274989-1.0.1.1-rfpNTE8VF9MkMmNOTm.FBoybcZ6nD6ZMtGga86ziG7CanFxFIOBKPpLbmvRdE3WLJlzjhuqTzpFD6x46DmG4CsSXRIZ03B5VYU7B4I4Qrmq_BMk9XJZy995K2fAykt8mOJ_VsJt7pPYfoZJ2ERuDUA",
+      "domain": ".spektrix.com",
+      "path": "/",
+      "expires": 1775199267,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": []
+}

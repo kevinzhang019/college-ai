@@ -1,0 +1,65 @@
+{
+  "cookies": [
+    {
+      "name": "s_vnumnewsroom",
+      "value": "1758155321383%26vn%3D1",
+      "domain": "www.hbs.edu",
+      "path": "/news/",
+      "expires": 1758155321,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "s_invisitnewsroom",
+      "value": "true",
+      "domain": "www.hbs.edu",
+      "path": "/news/",
+      "expires": 1755565121,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_conv_s",
+      "value": "si%3A1*sh%3A1755563320755-0.8382086782124204*pv%3A1",
+      "domain": ".hbs.edu",
+      "path": "/",
+      "expires": 1755564530,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "mysk0g__VQNzgSH42JsidD5NtsQqPHCqAYljbmXw0f0-1755563321-1.0.1.1-Zt6LPAjr_68jUyepKB1C08vgeZp.KuCd8GKbKRUESvb20QsPq8wytMOt_AE_LDQxt2rZr7e_UktcS9zVTfP1x6ph3QC103pNLp1oR7ytfcQ",
+      "domain": ".fonts.net",
+      "path": "/",
+      "expires": 1755565121.079534,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AnalyticsData",
+      "value": "role%3DExternal%26roleDetail%3DNon%2520HBS%26campaign%3DNone%26lastprofile%3Dnewsroom%26lastsite%3Dwww.hbs.edu%26lasturl%3Dundefined%26startTime%3D0%26linkType%3Dundefined%26v%3D1",
+      "domain": ".hbs.edu",
+      "path": "/",
+      "expires": 1771115321,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_conv_v",
+      "value": "vi%3A1*sc%3A1*cs%3A1755563321*fs%3A1755563321*pv%3A1*exp%3A%7B%7D",
+      "domain": ".hbs.edu",
+      "path": "/",
+      "expires": 1771331330,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

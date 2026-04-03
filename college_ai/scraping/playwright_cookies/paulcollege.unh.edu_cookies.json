@@ -1,0 +1,99 @@
+{
+  "cookies": [
+    {
+      "name": "_gcl_au",
+      "value": "1.1.645234062.1755568768",
+      "domain": ".unh.edu",
+      "path": "/",
+      "expires": 1763344768,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_MMRF5D7KN9",
+      "value": "GS2.1.s1755568768$o1$g0$t1755568768$j60$l0$h0",
+      "domain": ".unh.edu",
+      "path": "/",
+      "expires": 1790128768.145458,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1562646281.1755568768",
+      "domain": ".unh.edu",
+      "path": "/",
+      "expires": 1790128768.445925,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_3DFCMP1B5M",
+      "value": "GS2.1.s1755568768$o1$g0$t1755568768$j60$l0$h0",
+      "domain": ".unh.edu",
+      "path": "/",
+      "expires": 1790128768.176929,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__spdt",
+      "value": "511f2357ffa24cf0a2e6f6b7a821d9bf",
+      "domain": "paulcollege.unh.edu",
+      "path": "/",
+      "expires": 1787104768,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_ga_587D24FVFK",
+      "value": "GS2.1.s1755568768$o1$g0$t1755568768$j60$l0$h0",
+      "domain": ".unh.edu",
+      "path": "/",
+      "expires": 1790128768.44578,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "test_cookie",
+      "value": "CheckForPermission",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1755569668.529036,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ad-id",
+      "value": "A1-P5rFNXUQ4rbDwSUBXug4|t",
+      "domain": ".amazon-adsystem.com",
+      "path": "/",
+      "expires": 1775008768.868003,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://paulcollege.unh.edu",
+      "localStorage": [
+        {
+          "name": "li_adsId",
+          "value": "1da33111-2f51-4e80-ab5b-7999f47de989"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755568767923},\"expires\":1763344767923}}"
+        }
+      ]
+    }
+  ]
+}

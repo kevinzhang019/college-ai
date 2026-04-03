@@ -1,0 +1,45 @@
+{
+  "cookies": [
+    {
+      "name": "exp_last_visit",
+      "value": "1440203888",
+      "domain": "employment.tuck.dartmouth.edu",
+      "path": "/",
+      "expires": 1787099902.619742,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "exp_csrf_token",
+      "value": "f539d7a77c7f9590ca1fb2314d379c1ec97a1d56",
+      "domain": "employment.tuck.dartmouth.edu",
+      "path": "/",
+      "expires": 1755571102.61982,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "exp_last_activity",
+      "value": "1755563902",
+      "domain": "employment.tuck.dartmouth.edu",
+      "path": "/",
+      "expires": 1787099902.619793,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "exp_tracker",
+      "value": "%7B%220%22%3A%22admissions%2Fadmissions-faq%22%2C%221%22%3A%22area-lodging%22%2C%22token%22%3A%228c054778f01bbf4e733059ee142353a33debe80807adcbe36d7fa47651a1e88eb3b04794e8a4cf33917fe84a55641f15%22%7D",
+      "domain": "employment.tuck.dartmouth.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

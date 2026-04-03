@@ -1,0 +1,403 @@
+{
+  "cookies": [
+    {
+      "name": "BALANCEID",
+      "value": "balancer.errico.srv.cs.cmu.edu",
+      "domain": "mcds.cs.cmu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "BIGipServer~SCS~scs-man-sites-pool-443",
+      "value": "550109824.47873.0000",
+      "domain": "mcds.cs.cmu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CookieConsentPolicy",
+      "value": "0:1",
+      "domain": "give.cmu.edu",
+      "path": "/",
+      "expires": 1787110293.863772,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "LSKey-c$CookieConsentPolicy",
+      "value": "0:1",
+      "domain": "give.cmu.edu",
+      "path": "/",
+      "expires": 1787110293.863821,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "current_school_id",
+      "value": "766",
+      "domain": "givenow.cmu.edu",
+      "path": "/",
+      "expires": 1755660696.857961,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gc_user_testing_uuid",
+      "value": "f5146cfd-4689-49b4-8c1f-7a8bf72da867",
+      "domain": "givenow.cmu.edu",
+      "path": "/",
+      "expires": 1790134296.858079,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gdpr",
+      "value": "1",
+      "domain": "givenow.cmu.edu",
+      "path": "/",
+      "expires": 1790134294.20205,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_session_id",
+      "value": "e6c9255b725b5c28e5aa33d9be43a755",
+      "domain": "givenow.cmu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "q4f4OMO.aytnwCFOmLjf0WIf3eTEcVCIbEedpWz4Gj0-1755574294-1.0.1.1-H_qOem4XGUWNdmrmMUju6dqfMAnEF6OPnGMn5dYJGRn6TAFmQwg6mBwYP2.IpIW7EEP2mZyQMqpZbYnpS3Pk1tNXYApdlHlzUNj2A9jljXo",
+      "domain": ".givenow.cmu.edu",
+      "path": "/",
+      "expires": 1755576094.202149,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.1311380005.1755574296",
+      "domain": ".cmu.edu",
+      "path": "/",
+      "expires": 1755660696,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat",
+      "value": "1",
+      "domain": ".cmu.edu",
+      "path": "/",
+      "expires": 1755574356,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1424542533.1755574296",
+      "domain": ".cmu.edu",
+      "path": "/",
+      "expires": 1790134297.135548,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_077DKBSTPV",
+      "value": "GS2.1.s1755574296$o1$g0$t1755574296$j60$l0$h0",
+      "domain": ".cmu.edu",
+      "path": "/",
+      "expires": 1790134296.473521,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "browser.timezone",
+      "value": "America/Los_Angeles",
+      "domain": "givenow.cmu.edu",
+      "path": "/",
+      "expires": 1787110296,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cf_clearance",
+      "value": "UA6972WwzqREUa9WMfOy85_hR2LWi872CfUL22jLzqw-1755574297-1.2.1.1-Uccofznw9RCagWaZuctjlmDVV4VqHOl3ZWfmGyc9o4hXncc3RFneVmXAcqSCwauNunImComC3Ea87w09o39q7uziHrw5Na0FE6obN4sx.FM5VWr05dgjsjJB4xfSas6enNwBuRZXCCMozwwzNjO9JA6KiINS_j.qBwkMo5obcQ8V7twg4BS3BXJVRW78vbDfTsGjmhfjHbokt.MwOW3Gg8.YEwPNCh8d9MUv5dF2gdc",
+      "domain": ".cmu.edu",
+      "path": "/",
+      "expires": 1787110297.248741,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://cmu.edu",
+      "_crHasCrossSiteAncestor": false
+    },
+    {
+      "name": "__cf_bm",
+      "value": "eHlcITpQOVKdLoPVllQ8EFaVLxRY4Tpgm3JM9m._k4Y-1755574297-1.0.1.1-5xPieTY8oRrnatbzTqEiWqDwxknMznhcKC8pnIwfzj7QUaC4PUCQwZs6ykQ6GYUqjh1uLRN5_BjkhVCak2ZAJHxz1btHKHcAWj5Vfi2o6f8",
+      "domain": ".twitter.com",
+      "path": "/",
+      "expires": 1755576097.289172,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755574297351.228054446858284560",
+      "domain": ".cmu.edu",
+      "path": "/",
+      "expires": 1763350297,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=OGST09:s=O:r=O:a=O:p=O:g=3220:u=1:x=1:i=1755574297:t=1755660697:v=2:sig=AQFLtN68SET80WdWyXGSI11uJUoWBHoi\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755660697.717658,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": "px.ads.linkedin.com",
+      "path": "/",
+      "expires": 1758204043.717604,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&4641cc0d-f996-4fb6-82ee-0d187852d9dd\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1787110297.717635,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ipCheckCompleted",
+      "value": "true",
+      "domain": "givenow.cmu.edu",
+      "path": "/",
+      "expires": 1755576098,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "TDID",
+      "value": "deee0b17-81c9-45e7-a351-ad72b6174232",
+      "domain": ".adsrvr.org",
+      "path": "/",
+      "expires": 1787110299.421049,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "uuid2",
+      "value": "3321732790266805388",
+      "domain": ".adnxs.com",
+      "path": "/",
+      "expires": 1763350299.355812,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "audit_p",
+      "value": "1|crE24bbQVdgnx6e97Zx5Rg6XM3Zb65QOs+ZYpB0SMfmqcLSLiv9/T7qIxlCp++Jz4id2RI2TIi6M1KxoLazIt9i2Wk5FrGos0XY24Ec+XLssneJZyn1fvBSyIMcBEsJLWJAvGrAhQFI6Nkctggl43xpkF0vrQFECvqAH+LZKodtbOz6AjJtUa8ZnH3r7x5VAdeodiyl5GGjkt77VmXBK7kiCfUmSYXqD+ohH/uuQN8oOr/S07bYDcYQkZmofZQkSVSwKu1RXSJT0/fhu8/pkBO4VeIulq+4M1TRwmTZWV3Xc6UO785F0Pw==",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1787110299.259683,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://cmu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "khaos",
+      "value": "MEHZLYUG-Z-BD9N",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1787110299.259718,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "khaos_p",
+      "value": "MEHZLYUG-Z-BD9N",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1787110299.259728,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://cmu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "audit",
+      "value": "1|crE24bbQVdgnx6e97Zx5Rg6XM3Zb65QOs+ZYpB0SMfmqcLSLiv9/T7qIxlCp++Jz4id2RI2TIi6M1KxoLazIt9i2Wk5FrGos0XY24Ec+XLssneJZyn1fvBSyIMcBEsJLWJAvGrAhQFI6Nkctggl43xpkF0vrQFECvqAH+LZKodtbOz6AjJtUa8ZnH3r7x5VAdeodiyl5GGjkt77VmXBK7kiCfUmSYXqD+ohH/uuQN8oOr/S07bYDcYQkZmofZQkSVSwKu1RXSJT0/fhu8/pkBO4VeIulq+4M1TRwmTZWV3Xc6UO785F0Pw==",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1787110299.259735,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "m",
+      "value": "7fa852dd-bd6d-4846-a1f9-8e23f8c6b0e78d52c8",
+      "domain": "m.stripe.com",
+      "path": "/",
+      "expires": 1790134299.517803,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__stripe_mid",
+      "value": "29dd0cbc-86cd-4d48-880f-0b439ffb180098413c",
+      "domain": ".givenow.cmu.edu",
+      "path": "/",
+      "expires": 1787110299,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "__stripe_sid",
+      "value": "7a4d697d-9960-4dc4-8698-49e2f59f67bff4b7a4",
+      "domain": ".givenow.cmu.edu",
+      "path": "/",
+      "expires": 1755576099,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "TDCPM",
+      "value": "CAESFwoIYXBwbmV4dXMSCwjehbWP3ravPhAFEhYKB3J1Ymljb24SCwiAwLSL3ravPhAFEhUKBmdvb2dsZRILCPLjtIvetq8-EAUYBSACKAYyCwiy8ra49LavPhAFQg8iDQgBEgkKBXRpZXIzEAFaBzhidXprdzBgAQ..",
+      "domain": ".adsrvr.org",
+      "path": "/",
+      "expires": 1787110299.421378,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gali",
+      "value": "contribution_accept_tos",
+      "domain": ".cmu.edu",
+      "path": "/",
+      "expires": 1755574336,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_1XQYSMEBVE",
+      "value": "GS2.1.s1755574297$o1$g0$t1755574306$j51$l0$h0",
+      "domain": ".cmu.edu",
+      "path": "/",
+      "expires": 1790134306.842881,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.1510953111.1755574297.1060368176.1755574307.1755574306",
+      "domain": ".cmu.edu",
+      "path": "/",
+      "expires": 1763350297,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUmjAOSISU8dnQxv5S3FnalWtLlUHKlHjS3c04NQrwGTT1WaRb2vux6A7KmV",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1790134307.127634,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://givenow.cmu.edu",
+      "localStorage": [
+        {
+          "name": "__paypal_global_5_0_502_storage__",
+          "value": "{\"id\":\"uid_afe7f84010_mdm6mze6mzc\"}"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755574297345"
+        },
+        {
+          "name": "NRBA_SESSION",
+          "value": "{\"value\":\"33999bc55df6182d\",\"inactiveAt\":1755576106748,\"expiresAt\":1755588698873,\"updatedAt\":1755574306748,\"sessionReplayMode\":0,\"sessionReplaySentFirstChunk\":false,\"sessionTraceMode\":0,\"traceHarvestStarted\":false,\"loggingMode\":0,\"serverTimeDiff\":-170,\"custom\":{},\"numOfResets\":0}"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755574297555"
+        },
+        {
+          "name": "__paypal_storage__",
+          "value": "{\"id\":\"uid_958f62e69a_mdm6mze6mzc\",\"funding\":{\"venmo\":{\"remembered\":true}},\"__session__\":{\"guid\":\"uid_d35c234cd0_mdm6mze6mzc\",\"created\":1755574297805}}"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":1,\"creationTimeMs\":1755574297413},\"expires\":1763350297413}}"
+        },
+        {
+          "name": "li_adsId",
+          "value": "c618b26f-13fa-41d4-8c99-63bf5fae8fcb"
+        },
+        {
+          "name": "doublethedonation",
+          "value": "{\"expires_at\":\"2025-08-20T03:31:38.600Z\",\"doublethedonation_status\":\"no_interaction\"}"
+        }
+      ]
+    }
+  ]
+}

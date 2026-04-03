@@ -1,0 +1,191 @@
+{
+  "cookies": [
+    {
+      "name": "_ga",
+      "value": "GA1.1.1592294008.1755451311",
+      "domain": ".duke.edu",
+      "path": "/",
+      "expires": 1790011311.088834,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_02XCVCM5XG",
+      "value": "GS2.1.s1755451311$o1$g0$t1755451311$j60$l0$h0",
+      "domain": ".duke.edu",
+      "path": "/",
+      "expires": 1790011311.108229,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CLID",
+      "value": "7fb8c1006b704433940701aabcad2d57.20250817.20260817",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1786987311.131435,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755451311241.335486177144857353",
+      "domain": ".duke.edu",
+      "path": "/",
+      "expires": 1763227311,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_clck",
+      "value": "944i3v%7C2%7Cfyj%7C0%7C2055",
+      "domain": ".duke.edu",
+      "path": "/",
+      "expires": 1786987311,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&c53adb8c-0453-4b24-8382-b0bd84fa63e3\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1786987312.420531,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=TGST09:s=T:r=T:a=T:p=T:g=3101:u=1:x=1:i=1755451311:t=1755537711:v=2:sig=AQFcEBqOEoZqC3NL81Xs7P5YUyPoQSpR\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755537712.420566,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TDID",
+      "value": "eb91a73d-d21d-4870-9f94-76d8c151c9ca",
+      "domain": ".adsrvr.org",
+      "path": "/",
+      "expires": 1786987313.1102,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "test_cookie",
+      "value": "CheckForPermission",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1755452212.679749,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "audit_p",
+      "value": "1|ug/egiZUZjIaeXW2eK0CcccyK2ouVKPw1rGkIWU9RJOqcLSLiv9/T47sL2M+xx+cQlnazEHeJFGM1KxoLazIt9i2Wk5FrGos0XY24Ec+XLs++SX3Fh6BJckCU+DtXdKjJEMAEUYqVUyZyAuPsE5UVArczWz9Cb1UF64gtd3/XepbOz6AjJtUa8ZnH3r7x5VAdeodiyl5GGjkt77VmXBK7kiCfUmSYXqD+ohH/uuQN8oOr/S07bYDcYQkZmofZQkSVSwKu1RXSJT0/fhu8/pkBO4VeIulq+4M1TRwmTZWV3Xc6UO785F0Pw==",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1786987312.702726,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://duke.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "khaos",
+      "value": "MEFYDXTP-T-K2NI",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1786987312.702917,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "khaos_p",
+      "value": "MEFYDXTP-T-K2NI",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1786987312.702977,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://duke.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "audit",
+      "value": "1|ug/egiZUZjIaeXW2eK0CcccyK2ouVKPw1rGkIWU9RJOqcLSLiv9/T47sL2M+xx+cQlnazEHeJFGM1KxoLazIt9i2Wk5FrGos0XY24Ec+XLs++SX3Fh6BJckCU+DtXdKjJEMAEUYqVUyZyAuPsE5UVArczWz9Cb1UF64gtd3/XepbOz6AjJtUa8ZnH3r7x5VAdeodiyl5GGjkt77VmXBK7kiCfUmSYXqD+ohH/uuQN8oOr/S07bYDcYQkZmofZQkSVSwKu1RXSJT0/fhu8/pkBO4VeIulq+4M1TRwmTZWV3Xc6UO785F0Pw==",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1786987312.703003,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "demdex",
+      "value": "17702511643580334241972652138494972781",
+      "domain": ".demdex.net",
+      "path": "/",
+      "expires": 1771003313.039404,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "dpm",
+      "value": "17702511643580334241972652138494972781",
+      "domain": ".dpm.demdex.net",
+      "path": "/",
+      "expires": 1771003313.039434,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TDCPM",
+      "value": "CAESEgoDYWFtEgsI0tfJ7ZLvrj4QBRIWCgdydWJpY29uEgsI9vfJ7ZLvrj4QBRIVCgZnb29nbGUSCwjAmsrtku-uPhAFGAUgAigGMgsIwrTMmqnvrj4QBTgBQgQiAggBWgdzaHpvZnU0YAE.",
+      "domain": ".adsrvr.org",
+      "path": "/",
+      "expires": 1786987313.110244,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://today.duke.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755451311234"
+        },
+        {
+          "name": "li_adsId",
+          "value": "745f37bd-67c6-4fbf-bb69-5cedd05d3198"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755451311243"
+        }
+      ]
+    }
+  ]
+}

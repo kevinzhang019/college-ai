@@ -1,0 +1,25 @@
+{
+  "cookies": [
+    {
+      "name": "AWSALB",
+      "value": "ROQjIY7/pd/DxnZOrDrx4iVRZUmAseFzsPGEFQHwV1qe85erppKZTrDWbwngi7omG7Bf+UpZ50C2aNs8tb3by+0OHQ3gbDUcUeZtsy344vJu0+mxfHnKxP1WgtIz",
+      "domain": "em.fiu.edu",
+      "path": "/",
+      "expires": 1756041415.822959,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AWSALBCORS",
+      "value": "ROQjIY7/pd/DxnZOrDrx4iVRZUmAseFzsPGEFQHwV1qe85erppKZTrDWbwngi7omG7Bf+UpZ50C2aNs8tb3by+0OHQ3gbDUcUeZtsy344vJu0+mxfHnKxP1WgtIz",
+      "domain": "em.fiu.edu",
+      "path": "/",
+      "expires": 1756041415.823003,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": []
+}

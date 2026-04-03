@@ -1,0 +1,270 @@
+{
+  "cookies": [
+    {
+      "name": "bcookie",
+      "value": "\"v=2&01301c01-533f-4214-8b7a-c2b22f543cb9\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1787107551,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ttp",
+      "value": "31QSeTXiNnHTTZQKeSFqfn827gi",
+      "domain": ".tiktok.com",
+      "path": "/",
+      "expires": 1789267554,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "BCSessionID",
+      "value": "e8036c00-d824-4e26-b6f3-0458bfb5053c",
+      "domain": "clarkson.blueconic.net",
+      "path": "/DG/DEFAULT",
+      "expires": 1787027729,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sc_at",
+      "value": "v2|H4sIAAAAAAAAAE3KwQ3AIAwDwIkiJWCruNsU1UzB8OXZ3z1uzFXKYrhbAeuJ6c5gvaQpDbRdyLsuEsS5+8f8AEV0mKFAAAAA",
+      "domain": ".snapchat.com",
+      "path": "/",
+      "expires": 1789150901,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "YSC",
+      "value": "l7NbT8lBdTI",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUkfYOSw6v-lxBVQarAA0rWScGohd_k41DAH7Ev6VfuKhouMyGNk2VAiGC5PZfE",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1790084831,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "BCSessionID",
+      "value": "e8036c00-d824-4e26-b6f3-0458bfb5053c",
+      "domain": "v285.clarkson.edu",
+      "path": "/DG/DEFAULT",
+      "expires": 1790131550,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_node",
+      "value": "0884b6b69328a2f83a877fac94eb03198b4762757c0dcd5c7c1d88badc29cb79",
+      "domain": "undergrad.clarkson.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "BCSessionID",
+      "value": "e8036c00-d824-4e26-b6f3-0458bfb5053c",
+      "domain": "clarkson.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_scid",
+      "value": "52JM8GjvgxV0cU3jmi8Lz-h3CHAuYdgQ",
+      "domain": ".clarkson.edu",
+      "path": "/",
+      "expires": 1789641596,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_tt_enable_cookie",
+      "value": "1",
+      "domain": ".clarkson.edu",
+      "path": "/",
+      "expires": 1789267554,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ttp",
+      "value": "01K2WM81CBN3P41MP1FYDMF9MK_.tt.1",
+      "domain": ".clarkson.edu",
+      "path": "/",
+      "expires": 1789267554,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_sctr",
+      "value": "1%7C1755388800000",
+      "domain": ".clarkson.edu",
+      "path": "/",
+      "expires": 1789641599,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_HSB9JE4TP2",
+      "value": "GS2.1.s1755571550$o4$g0$t1755571550$j60$l0$h0",
+      "domain": ".clarkson.edu",
+      "path": "/",
+      "expires": 1790131550,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.261361138.1755454895",
+      "domain": ".clarkson.edu",
+      "path": "/",
+      "expires": 1790131550,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_scid_r",
+      "value": "9OJM8GjvgxV0cU3jmi8Lz-h3CHAuYdgQVRcYAg",
+      "domain": ".clarkson.edu",
+      "path": "/",
+      "expires": 1789758252,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ttcsid",
+      "value": "1755571554523::YhxhVqbQq1zoFmKXWfl6.4.1755571554524",
+      "domain": ".clarkson.edu",
+      "path": "/",
+      "expires": 1789267554,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ttcsid_CR3JK2JC77UFSKJEFL9G",
+      "value": "1755571554523::awYolOVkhxqyCEbf2B9l.4.1755571554730",
+      "domain": ".clarkson.edu",
+      "path": "/",
+      "expires": 1789267554,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_hash",
+      "value": "b020d22f-2610-490f-ad08-511d112e52ac",
+      "domain": "undergrad.clarkson.edu",
+      "path": "/",
+      "expires": 1809761445,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202604/1",
+      "domain": "undergrad.clarkson.edu",
+      "path": "/",
+      "expires": 1809761445,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_cookie_test",
+      "value": "1",
+      "domain": "undergrad.clarkson.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://undergrad.clarkson.edu",
+      "localStorage": [
+        {
+          "name": "BCRevision_1775201812175",
+          "value": "{\"method\":\"setProperties\",\"param\":{\"properties\":{\"language\":[\"en\"],\"currentscreenwidth\":[1366],\"currentscreenheight\":[768],\"currentresolution\":[\"1366x768\"],\"entrypage\":[\"https://undergrad.clarkson.edu/account/login?r=https%3a%2f%2fundergrad.clarkson.edu%2fapply%2fform%3fid%3d5e9c0f5a-ba51-44e1-956f-b69b81db0fa7\"]},\"sources\":{\"listenerinteractiontype\":[\"language\",\"currentscreenwidth\",\"currentscreenheight\",\"currentresolution\",\"entrypage\"]}},\"requestId\":\"rev_1775201812175\"}"
+        },
+        {
+          "name": "BCRevision_1775201812176",
+          "value": "{\"method\":\"addProperties\",\"param\":{\"properties\":{\"resolution\":[\"1366x768\"]},\"sources\":{\"listenerinteractiontype\":[\"resolution\"]}},\"requestId\":\"rev_1775201812176\"}"
+        },
+        {
+          "name": "f468259c-ccf1-78f6-9862-1158c393dee3_pp",
+          "value": "{\"26660235\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"142207186\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"171666687\":[{\"id\":\"70635fb6-417f-494c-9497-a27f306e0c7f\"}],\"352604944\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"412234568\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"423809215\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"643052985\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"652450456\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"655443073\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"836143161\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"853913810\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"863447690\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"927837152\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"964719881\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"1347731820\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"1444267309\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"1460939071\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"1537627835\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"1580409827\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"1726981101\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"1837346174\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"1838112801\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"1866523917\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"1934172471\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"-2127193571\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"-2116917953\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"-2005439160\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"-1961346587\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"-1956309916\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"-1956286746\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"-1797628179\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"-1638843430\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"-1615689919\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"-1571818086\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"-1437452651\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"-1382238213\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"-1367957874\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"-1323677202\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"-1268539741\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"-1185740959\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"-1100794629\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"-1055835486\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"-841669896\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"-686303577\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"-658588130\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"-639365183\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"-621752975\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"-595014308\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"-525679502\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"-503240524\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"-317063322\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"-311359382\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"-265978359\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"-219726892\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"-152130652\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"-129498481\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"-89877556\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"-21110184\":[{\"id\":\"2863c455-ec04-4bd7-b4cf-01222ab12960\"}],\"v\":\"fdca0152-bf58-e7b2-fc45-4ae1c6ddbf07\"}"
+        },
+        {
+          "name": "session_/expires",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "origin": "https://clarkson.edu",
+      "localStorage": [
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755454894855},\"expires\":1763230894855}}"
+        },
+        {
+          "name": "u_sclid_r",
+          "value": "DZbVugg935r--duR5pl-EgQqkTrOvySVoYGLVfTiTPBo74MVdHFN45ovC8_odwhwLmHYEFUXGAI"
+        },
+        {
+          "name": "u_sclid",
+          "value": "ABbVugg935r--duR5pl-EgQqkTrOvySV52JM8GjvgxV0cU3jmi8Lz-h3CHAuYdgQ"
+        },
+        {
+          "name": "li_adsId",
+          "value": "7823b817-43b8-43cb-b21e-daab8448129e"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755571551202"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755571551212"
+        }
+      ]
+    }
+  ]
+}

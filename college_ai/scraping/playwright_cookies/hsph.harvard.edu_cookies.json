@@ -1,0 +1,122 @@
+{
+  "cookies": [
+    {
+      "name": "",
+      "value": "test",
+      "domain": "www.harvard.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.1541054644.1755450683",
+      "domain": ".harvard.edu",
+      "path": "/",
+      "expires": 1755572092,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755450683630.94664819296335517",
+      "domain": ".harvard.edu",
+      "path": "/",
+      "expires": 1763261693,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_parsely_session",
+      "value": "{%22sid%22:2%2C%22surl%22:%22https://www.harvard.edu/%22%2C%22sref%22:%22%22%2C%22sts%22:1755485692329%2C%22slts%22:1755450682698}",
+      "domain": ".harvard.edu",
+      "path": "/",
+      "expires": 1755487492,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_parsely_visitor",
+      "value": "{%22id%22:%22pid=f29abc22-a135-4c0b-92ee-3c6eb332653f%22%2C%22session_count%22:2%2C%22last_session_ts%22:1755485692329}",
+      "domain": ".harvard.edu",
+      "path": "/",
+      "expires": 1789649692,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_KBLBYHG5EP",
+      "value": "GS2.1.s1755485692$o2$g0$t1755485692$j60$l0$h0",
+      "domain": ".harvard.edu",
+      "path": "/",
+      "expires": 1790045692.689268,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_Q1D7CRPVC5",
+      "value": "GS2.1.s1755485882$o1$g0$t1755485882$j60$l0$h0",
+      "domain": ".harvard.edu",
+      "path": "/",
+      "expires": 1790045882.077772,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.514970517.1755450683",
+      "domain": ".harvard.edu",
+      "path": "/",
+      "expires": 1790045882.119882,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_Y9XDQEYR1L",
+      "value": "GS2.1.s1755485882$o1$g0$t1755485882$j60$l0$h0",
+      "domain": ".harvard.edu",
+      "path": "/",
+      "expires": 1790045882.143793,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://hsph.harvard.edu",
+      "localStorage": [
+        {
+          "name": "NRBA_SESSION",
+          "value": "{\"value\":\"c7becbaf1db21817\",\"inactiveAt\":1755487682620,\"expiresAt\":1755500282620,\"updatedAt\":1755485884128,\"sessionReplayMode\":0,\"sessionReplaySentFirstChunk\":false,\"sessionTraceMode\":0,\"traceHarvestStarted\":false,\"loggingMode\":0,\"serverTimeDiff\":-775,\"custom\":{},\"numOfResets\":0}"
+        }
+      ]
+    },
+    {
+      "origin": "https://www.harvard.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755485693011"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755485693028"
+        }
+      ]
+    }
+  ]
+}

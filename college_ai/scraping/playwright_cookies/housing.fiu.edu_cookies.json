@@ -1,0 +1,49 @@
+{
+  "cookies": [
+    {
+      "name": "_ga_N7WK6M9MLN",
+      "value": "GS2.1.s1775134768$o1$g0$t1775134768$j60$l0$h0",
+      "domain": ".fiu.edu",
+      "path": "/",
+      "expires": 1809694768.90216,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.143027521.1775134769",
+      "domain": ".fiu.edu",
+      "path": "/",
+      "expires": 1809694768.90247,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1775134769189.171921218457899014",
+      "domain": ".fiu.edu",
+      "path": "/",
+      "expires": 1782910769,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://housing.fiu.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1775134769184"
+        }
+      ]
+    }
+  ]
+}

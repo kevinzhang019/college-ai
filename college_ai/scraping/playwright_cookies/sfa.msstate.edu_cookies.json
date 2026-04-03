@@ -1,0 +1,55 @@
+{
+  "cookies": [
+    {
+      "name": "f5avraaaaaaaaaaaaaaaa_session_",
+      "value": "NMMFENIPPHMNMBJGEPCLHAFEINKKMOMKIMGBNKBLNIFLKJCNKJAPKLGBNMJFACOFGOHDPLIODBJHPHHGPFKAIGPBDAGGCJBEBLPPFAKCIPNDIPGPDLBNHIPFEIKFLIMP",
+      "domain": "sfa.msstate.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "f5avraaaaaaaaaaaaaaaa_session_",
+      "value": "FADMHFNAKDEONPKKOMECNDKBMHEJIJCBNIHOICIDOKNCLELPPGLIJENMJAMJNNFGGAODKLIEEBAEHOEBNHMAHEDEDAECLAMHFNHNAPAOKNAFCMECHBKAGHNPIJJGHOLH",
+      "domain": "www.sfa.msstate.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_VB7M5MFVML",
+      "value": "GS2.1.s1755447679$o1$g0$t1755447679$j60$l0$h0",
+      "domain": ".msstate.edu",
+      "path": "/",
+      "expires": 1790007679.585355,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1672904011.1755447680",
+      "domain": ".msstate.edu",
+      "path": "/",
+      "expires": 1790007679.758037,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_GL36GFC91M",
+      "value": "GS2.1.s1755447679$o1$g0$t1755447679$j60$l0$h0",
+      "domain": ".msstate.edu",
+      "path": "/",
+      "expires": 1790007679.757874,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

@@ -1,0 +1,45 @@
+{
+  "cookies": [
+    {
+      "name": "_ga",
+      "value": "GA1.2.1188452271.1755452534",
+      "domain": ".arizona.edu",
+      "path": "/",
+      "expires": 1790012533.924378,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.1593341162.1755452534",
+      "domain": ".arizona.edu",
+      "path": "/",
+      "expires": 1755538933,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat",
+      "value": "1",
+      "domain": ".arizona.edu",
+      "path": "/",
+      "expires": 1755452593,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_NDCEMGJTYZ",
+      "value": "GS2.2.s1755452535$o1$g0$t1755452535$j60$l0$h0",
+      "domain": ".arizona.edu",
+      "path": "/",
+      "expires": 1790012535.3831,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

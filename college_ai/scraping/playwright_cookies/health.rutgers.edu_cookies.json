@@ -1,0 +1,103 @@
+{
+  "cookies": [
+    {
+      "name": "_ga_PGVXT41RVC",
+      "value": "GS2.1.s1755473165$o1$g0$t1755473165$j60$l0$h0",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1790033165.889501,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.908208605.1755473166",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1790033165.889726,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "YSC",
+      "value": "3uy0XT1-fXg",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://rutgers.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "R26ANnY0NYA",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771025165.931233,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://rutgers.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgVw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771025165.931256,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://rutgers.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CI_52ebrl6PVCBDBhNeT_5KPAxjBhNeT_5KPAw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771025165.931273,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://rutgers.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_pk_id.89.adfe",
+      "value": "01eb7d18c0ca7653.1755473166.",
+      "domain": "health.rutgers.edu",
+      "path": "/",
+      "expires": 1789428366,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_pk_ses.89.adfe",
+      "value": "1",
+      "domain": "health.rutgers.edu",
+      "path": "/",
+      "expires": 1755474966,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "NID",
+      "value": "525=o8oRhf47O_8B3melbHSTxmW5lHaIklN0HeXq6ZmY-gFRoBJ46dkiAiuHADAmCtbhzIUBCsDQ1v5vmKpmK-uJOb1ZrGFTd2-G51RvFkDl9bM7PipCuH120TpshgaVd9tD2gNL6WuEzeBSWtT4fSiiVt6u2Om-V0-sGR4geL3DIY4JFFnzAkj-ae5aYEvJ_wqyTOT-yJY",
+      "domain": ".google.com",
+      "path": "/",
+      "expires": 1771284367.155907,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": []
+}

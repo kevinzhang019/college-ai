@@ -1,0 +1,85 @@
+{
+  "cookies": [
+    {
+      "name": "category_current_tid",
+      "value": "All",
+      "domain": "preeminence.fsu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "available_to_current_tid",
+      "value": "All",
+      "domain": "preeminence.fsu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "osano_consentmanager_uuid",
+      "value": "d6741dc8-3578-453a-b171-9d6f0f536209",
+      "domain": ".fsu.edu",
+      "path": "/",
+      "expires": 1786970932.548921,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "osano_consentmanager",
+      "value": "zIABHVJnGzv9fB6qYVtmro8FQis9JvbTcmMF-iKiaGdvuThT9oD6vx-VyBzkhG-_DMsJMrSGPj-zuyu7AOgGrQS_xzkYj6ifU7v4q45-f4ShNGgeGwQr2kpYKq1mFG9CQaaF3Sz45iFDyquWmos_XZw4LxUnfGa0mYZLjDaA7wPTmxpQVYpO9YKB7_2sTQ3JuyvKy_3fc-ZvhuouWSvKssjfQ3v7tPdIqNOu16LQqYL0qmf1pNNMLaXX11yOw7VFXw6Gv3nXN6j3uEwr2f3SsRssS2LjcojttkTMNpGToS102jlOGAQRZ6EmeGY3zRyP4_qfP8h-Vqc=",
+      "domain": ".fsu.edu",
+      "path": "/",
+      "expires": 1786970932.54937,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.90870472.1755434933",
+      "domain": ".fsu.edu",
+      "path": "/",
+      "expires": 1763210932,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://preeminence.fsu.edu",
+      "localStorage": [
+        {
+          "name": "osano_consentmanager_tattles-iframe",
+          "value": "[]"
+        },
+        {
+          "name": "osano_consentmanager_tattles-script",
+          "value": "[\"https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6&appId=104580419614646\",\"https://preeminence.fsu.edu/sites/g/files/upcbnu4081/files/js/js_RKAk0L6Ws8yodq56Lww_nzw5pchFQ27ag7K-Y3PTUJ0.js?scope=footer&delta=0&language=en&theme=fsu_strata&include=eJxljlFuwzAMQy9kxEcyFFvplDqmIclrjj9_bE27_pF8FCEyY0_Sds4OjbstlDObyVo5TQktgmaBPnpdcSA9xL9ShzS3lNGK-KxTTSvl-00xWrGwAm6u1ONTpa4818RfYEfHN-tL4kB16SGjQlecsfBGo_ozmBNVGsd__uIVVOKbm0w5Fh2d6lKEKm4L7XQGPn3e3v_Qrw2bjZSHOY54yYXKIS08eN2gR7o-_kh-AHhsjQw\",\"https://preeminence.fsu.edu/sites/g/files/upcbnu4081/files/asset_injector/js/promo_with_points_conditional_backgrounds-28c190d9b9baee76840d5eb8a2cd9f94.js?szi2v5\",\"https://preeminence.fsu.edu/sites/g/files/upcbnu4081/files/js/js_QXJKe85HL7rmUOq7EB77j-3Pb6dBoyUPoTkgSEaAzSE.js?scope=footer&delta=2&language=en&theme=fsu_strata&include=eJxljlFuwzAMQy9kxEcyFFvplDqmIclrjj9_bE27_pF8FCEyY0_Sds4OjbstlDObyVo5TQktgmaBPnpdcSA9xL9ShzS3lNGK-KxTTSvl-00xWrGwAm6u1ONTpa4818RfYEfHN-tL4kB16SGjQlecsfBGo_ozmBNVGsd__uIVVOKbm0w5Fh2d6lKEKm4L7XQGPn3e3v_Qrw2bjZSHOY54yYXKIS08eN2gR7o-_kh-AHhsjQw\",\"https://preeminence.fsu.edu/themes/custom/fsu_strata/js/script.js?szi2v5\",\"https://preeminence.fsu.edu/sites/g/files/upcbnu4081/files/js/js_tlz7Rc3I9NOzJHH801ld5RyCr6PnytdnCYLCUffaSvo.js?scope=footer&delta=4&language=en&theme=fsu_strata&include=eJxljlFuwzAMQy9kxEcyFFvplDqmIclrjj9_bE27_pF8FCEyY0_Sds4OjbstlDObyVo5TQktgmaBPnpdcSA9xL9ShzS3lNGK-KxTTSvl-00xWrGwAm6u1ONTpa4818RfYEfHN-tL4kB16SGjQlecsfBGo_ozmBNVGsd__uIVVOKbm0w5Fh2d6lKEKm4L7XQGPn3e3v_Qrw2bjZSHOY54yYXKIS08eN2gR7o-_kh-AHhsjQw\",\"https://preeminence.fsu.edu/themes/custom/fsu_strata/strata-3.1/_/s3/js/extend/jquery.flexslider.js\",\"https://preeminence.fsu.edu/themes/custom/fsu_strata/strata-3.1/_/s3/js/extend/flexslider.js\",\"https://preeminence.fsu.edu/themes/custom/fsu_strata/strata-3.1/_/s3/js/extend/strata-carousel.js\",\"https://connect.facebook.net/en_US/sdk.js?hash=0c02524363bed165bea3841208b9a76f\",\"https://www.youtube.com/iframe_api\"]"
+        },
+        {
+          "name": "osano_consentmanager_uuid",
+          "value": "d6741dc8-3578-453a-b171-9d6f0f536209"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755434932691},\"expires\":1763210932691}}"
+        },
+        {
+          "name": "osano_consentmanager_tattles-cookie",
+          "value": "[\"category_current_tid\",\"available_to_current_tid\",\"_gcl_au\"]"
+        },
+        {
+          "name": "osano_consentmanager",
+          "value": "zIABHVJnGzv9fB6qYVtmro8FQis9JvbTcmMF-iKiaGdvuThT9oD6vx-VyBzkhG-_DMsJMrSGPj-zuyu7AOgGrQS_xzkYj6ifU7v4q45-f4ShNGgeGwQr2kpYKq1mFG9CQaaF3Sz45iFDyquWmos_XZw4LxUnfGa0mYZLjDaA7wPTmxpQVYpO9YKB7_2sTQ3JuyvKy_3fc-ZvhuouWSvKssjfQ3v7tPdIqNOu16LQqYL0qmf1pNNMLaXX11yOw7VFXw6Gv3nXN6j3uEwr2f3SsRssS2LjcojttkTMNpGToS102jlOGAQRZ6EmeGY3zRyP4_qfP8h-Vqc="
+        }
+      ]
+    }
+  ]
+}

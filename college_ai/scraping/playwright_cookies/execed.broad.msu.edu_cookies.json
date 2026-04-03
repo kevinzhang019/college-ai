@@ -1,0 +1,199 @@
+{
+  "cookies": [
+    {
+      "name": "JSESSIONID",
+      "value": "63FF6F3B661AB54F1B16EBEC33949890",
+      "domain": "execed.broad.msu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "registrarToken",
+      "value": "0ceda853-4b94-4c11-9277-886cc816b353",
+      "domain": "execed.broad.msu.edu",
+      "path": "/",
+      "expires": 1790096205.929566,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1996228421.1755536207",
+      "domain": ".msu.edu",
+      "path": "/",
+      "expires": 1790096206.879111,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_1YLEMB3LBQ",
+      "value": "GS2.1.s1755536206$o1$g0$t1755536206$j60$l0$h0",
+      "domain": ".msu.edu",
+      "path": "/",
+      "expires": 1790096206.808535,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_PDQWDPV3RL",
+      "value": "GS2.1.s1755536206$o1$g0$t1755536206$j60$l0$h0",
+      "domain": ".msu.edu",
+      "path": "/",
+      "expires": 1790096206.849337,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.243497566.1755536207",
+      "domain": ".msu.edu",
+      "path": "/",
+      "expires": 1763312207,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_38ZEL5VQM5",
+      "value": "GS2.1.s1755536206$o1$g0$t1755536206$j60$l0$h0",
+      "domain": ".msu.edu",
+      "path": "/",
+      "expires": 1790096206.895628,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_1ZRDHBYPB3",
+      "value": "GS2.1.s1755536206$o1$g0$t1755536206$j60$l0$h0",
+      "domain": ".msu.edu",
+      "path": "/",
+      "expires": 1790096206.899159,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUkf8SpGgwWWxdSucM8fmMyDpHk8ZRYV9t73cotu0poyjdtkWnOFjTtmrBaj",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1790096207.311787,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_node",
+      "value": "0884b6b69328a2f83a877fac94eb03198b4762757c0dcd5c7c1d88badc29cb79",
+      "domain": "explore.msu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "780d071f-76fc-40c1-8365-f4f5e9a60551",
+      "domain": "explore.msu.edu",
+      "path": "/",
+      "expires": 1790096207.578806,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "explore.msu.edu",
+      "path": "/",
+      "expires": 1790096207.578848,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755536207711.346167195534427245",
+      "domain": ".msu.edu",
+      "path": "/",
+      "expires": 1763312207,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": "px.ads.linkedin.com",
+      "path": "/",
+      "expires": 1758165954.338116,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&04cbd6a4-200b-4a0b-8546-b062bdeff107\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1787072209.338192,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=VGST09:s=V:r=V:a=V:p=V:g=3278:u=1:x=1:i=1755536208:t=1755622608:v=2:sig=AQHtXYgxt_goAN65sbKB0KVZ_55nb0T7\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755622609.338446,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://execed.broad.msu.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755536206880},\"expires\":1763312206880}}"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755536207704"
+        },
+        {
+          "name": "be91dfcc-a948-38b2-147c-fc822144f799_st",
+          "value": "1755536208221"
+        },
+        {
+          "name": "li_adsId",
+          "value": "e782f4cc-2300-414a-8aa8-f2fb6c81a330"
+        },
+        {
+          "name": "be91dfcc-a948-38b2-147c-fc822144f799_pp",
+          "value": "{}"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755536207715"
+        }
+      ]
+    }
+  ]
+}

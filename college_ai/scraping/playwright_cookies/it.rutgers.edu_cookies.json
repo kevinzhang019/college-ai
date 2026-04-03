@@ -1,0 +1,55 @@
+{
+  "cookies": [
+    {
+      "name": "_ga_KMRD2XMMJR",
+      "value": "GS2.1.s1755440737$o1$g0$t1755440737$j60$l0$h0",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1790000737.298479,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.1087742074.1755440737",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1790000737.542657,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.917960243.1755440738",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1755527137,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_gtag_UA_143605809_1",
+      "value": "1",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1755440797,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://it.rutgers.edu",
+      "localStorage": [
+        {
+          "name": "NRBA_SESSION",
+          "value": "{\"value\":\"650be8b0c8fbdbe9\",\"inactiveAt\":1755442537766,\"expiresAt\":1755455137765,\"updatedAt\":1755440738374,\"sessionReplayMode\":0,\"sessionReplaySentFirstChunk\":false,\"sessionTraceMode\":0,\"traceHarvestStarted\":false,\"loggingMode\":0,\"serverTimeDiff\":-356,\"custom\":{},\"numOfResets\":0}"
+        }
+      ]
+    }
+  ]
+}

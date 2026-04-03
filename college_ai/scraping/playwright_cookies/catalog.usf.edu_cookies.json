@@ -1,0 +1,95 @@
+{
+  "cookies": [
+    {
+      "name": "_ga_QB3QP2ZSHX",
+      "value": "GS2.1.s1755457384$o1$g0$t1755457384$j60$l0$h0",
+      "domain": ".usf.edu",
+      "path": "/",
+      "expires": 1790017384,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.329316647.1755457384",
+      "domain": ".usf.edu",
+      "path": "/",
+      "expires": 1790017384,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_clck",
+      "value": "ug2vlq%7C2%7Cfyj%7C0%7C2055",
+      "domain": ".usf.edu",
+      "path": "/",
+      "expires": 1786993385,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "acalog_theme",
+      "value": "1",
+      "domain": "catalog.usf.edu",
+      "path": "/",
+      "expires": 1809732541,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "PHPSESSID",
+      "value": "e95f7323cfee52916c2f20b473bb364e",
+      "domain": "catalog.usf.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ADRUM_BT",
+      "value": "R%3A0%7Cg%3A2da8f115-dd3b-48b8-bfe4-e0c1005744723623%7Cn%3Adigarc_881d5e4b-64f1-425e-8ceb-5e44d2b69b37%7Ci%3A580400%7Cd%3A766%7Ce%3A2086",
+      "domain": "catalog.usf.edu",
+      "path": "/",
+      "expires": 1775172571,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AWSALB",
+      "value": "p+3ec1KN1IavuYwS5McHkmTVRRN9Ru6HUEV6u2iGCvBypaEZcJTH/FHOmiUeGS9l2EGRXblFUy78JrfINYuu/EIMfTllNg5NUafhuXAcDwXVCjsgkvtFHoNw4Dj+",
+      "domain": "catalog.usf.edu",
+      "path": "/",
+      "expires": 1775777343,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AWSALBCORS",
+      "value": "p+3ec1KN1IavuYwS5McHkmTVRRN9Ru6HUEV6u2iGCvBypaEZcJTH/FHOmiUeGS9l2EGRXblFUy78JrfINYuu/EIMfTllNg5NUafhuXAcDwXVCjsgkvtFHoNw4Dj+",
+      "domain": "catalog.usf.edu",
+      "path": "/",
+      "expires": 1775777343,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "CLID",
+      "value": "48dd982e07754a3097a2a22a7611a55f.20250817.20260817",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1786993384,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": []
+}

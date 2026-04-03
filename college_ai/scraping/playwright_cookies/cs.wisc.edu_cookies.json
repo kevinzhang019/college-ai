@@ -1,0 +1,129 @@
+{
+  "cookies": [
+    {
+      "name": "_ga",
+      "value": "GA1.3.1696552061.1755437153",
+      "domain": ".www.wisc.edu",
+      "path": "/",
+      "expires": 1789997152.761553,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_PLJ9E3ZY82",
+      "value": "GS2.1.s1755437153$o1$g0$t1755437153$j60$l0$h0",
+      "domain": ".wisc.edu",
+      "path": "/",
+      "expires": 1789997153.274424,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1696552061.1755437153",
+      "domain": ".wisc.edu",
+      "path": "/",
+      "expires": 1789997153.274609,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_D04HXCEERG",
+      "value": "GS2.3.s1755437152$o1$g0$t1755437153$j59$l0$h0",
+      "domain": ".www.wisc.edu",
+      "path": "/",
+      "expires": 1789997153.298851,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "uw_madison_cookieconsent_timestamp",
+      "value": "1755437153",
+      "domain": ".wisc.edu",
+      "path": "/",
+      "expires": 1786973153,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AWSALB",
+      "value": "cCFSm5B0liTJN1yL7HV9cNLQ0V2j9IXWzAW1WFY/o0YVcQgPATUDnxSszZP0qadmsCABraxlIvdOXBzNQEAjmCplMsfMK7hliX1jHzPbVl3yFqmrCpAc8Nfz0Ukd",
+      "domain": "www.cs.wisc.edu",
+      "path": "/",
+      "expires": 1756187213.840044,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AWSALBCORS",
+      "value": "cCFSm5B0liTJN1yL7HV9cNLQ0V2j9IXWzAW1WFY/o0YVcQgPATUDnxSszZP0qadmsCABraxlIvdOXBzNQEAjmCplMsfMK7hliX1jHzPbVl3yFqmrCpAc8Nfz0Ukd",
+      "domain": "www.cs.wisc.edu",
+      "path": "/",
+      "expires": 1756187213.840077,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_KNGPTL6MWL",
+      "value": "GS2.1.s1755582414$o1$g0$t1755582414$j60$l0$h0",
+      "domain": "www.cs.wisc.edu",
+      "path": "/",
+      "expires": 1790142414.051314,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1696552061.1755437153",
+      "domain": "www.cs.wisc.edu",
+      "path": "/",
+      "expires": 1790142414.072389,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.1.1818799522.1755582414",
+      "domain": "www.cs.wisc.edu",
+      "path": "/",
+      "expires": 1755668814,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_gtag_UA_23253185_4",
+      "value": "1",
+      "domain": "www.cs.wisc.edu",
+      "path": "/",
+      "expires": 1755582474,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://www.wisc.edu",
+      "localStorage": [
+        {
+          "name": "mapbox.eventData.uuid:dXdtYWRpc29uLXVjb21t",
+          "value": "767ee47c-0ca5-4273-87e6-f8d9a5429e22"
+        },
+        {
+          "name": "mapbox.eventData:dXdtYWRpc29uLXVjb21t",
+          "value": "{\"lastSuccess\":1755437153174,\"tokenU\":\"uwmadison-ucomm\"}"
+        }
+      ]
+    }
+  ]
+}

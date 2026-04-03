@@ -1,0 +1,289 @@
+{
+  "cookies": [
+    {
+      "name": "YSC",
+      "value": "U9KbMjLOjgE",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://tamu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1441076853.1755435247",
+      "domain": ".tamu.edu",
+      "path": "/",
+      "expires": 1809689533.194911,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_3LYM4WJM04",
+      "value": "GS2.1.s1755498029$o4$g0$t1755498050$j39$l0$h0",
+      "domain": ".tamu.edu",
+      "path": "/",
+      "expires": 1790058050.661102,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__Secure-YNID",
+      "value": "17.YT=QCTsDq60JSgy3JgEcSHOizYjSQ4vC9gFaK-LX6PLKwnXsAhdoJ8wsf49XDeFtW0mbzJ2geMe8XjkdVUD8S35pSseaTCJKzxoUmNr7ZmslGFciQ19G-9lGXmo3JbcHxI24WgS_Av9pZxeL7201tUhAuT_F3r7trIicf8AbCvLOn0c3YI8-BDpwZG-b26VSTSGiIjjWNrGPmHoHMlmJpS7kF4FF_ya6CH1qqdU2NKbN1Zo7Op4VfSjFwL6uhwF6xi_htWTs38KTbjp-BP2XVQ1xm-pQXf0mHOld60VknlaGC9PfQoxvpVa7Qfli0XRXKtB1O5y5n8_elJT4qKztaCiFw",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790681481.395586,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "ntjCyzCuZfJguO7n9n9bAu7DI2heICU2ZvlShixwlfc-1775129481-1.0.1.1-u6y5EpP_56on_kxcPNKbhqb5Q9_Ctv6CjEg9DRr1AZ5l6HL1m5lqSfP64RWU8WOq0WgRwjmDTyJrjaeCzMdy.wrYCczDdyecmhV3AHchjyI",
+      "domain": ".stories.tamu.edu",
+      "path": "/",
+      "expires": 1775131281.401851,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "QXbfQHaxO-A",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790681483.104027,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgDA%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790681483.104064,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "CLID",
+      "value": "636fc006eff94400bcb1bfba2b6ce2f6.20250817.20270402",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1806665481.822801,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "COmtk-yJgem_hgEQreGz0YjPkwMY-Z7R0YjPkwM%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790681481.835156,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://tamu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_clck",
+      "value": "13p6yjz%5E2%5Eg4v%5E0%5E2055",
+      "domain": ".tamu.edu",
+      "path": "/",
+      "expires": 1806665482,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "MUID",
+      "value": "3AD677BCC04F68A81EB76093C1CC691A",
+      "domain": ".bing.com",
+      "path": "/",
+      "expires": 1808825482.820634,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MR",
+      "value": "0",
+      "domain": ".c.bing.com",
+      "path": "/",
+      "expires": 1775734282.820716,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "SRM_B",
+      "value": "3AD677BCC04F68A81EB76093C1CC691A",
+      "domain": ".c.bing.com",
+      "path": "/",
+      "expires": 1808825482.820747,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "SM",
+      "value": "C",
+      "domain": ".c.clarity.ms",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MUID",
+      "value": "3AD677BCC04F68A81EB76093C1CC691A",
+      "domain": ".clarity.ms",
+      "path": "/",
+      "expires": 1808825482.936828,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MR",
+      "value": "0",
+      "domain": ".c.clarity.ms",
+      "path": "/",
+      "expires": 1775734282.936849,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ANONCHK",
+      "value": "0",
+      "domain": ".c.clarity.ms",
+      "path": "/",
+      "expires": 1775130082.936861,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_YEYQJ0XWPL",
+      "value": "GS2.1.s1775129481$o5$g1$t1775129536$j5$l0$h409020975",
+      "domain": ".tamu.edu",
+      "path": "/",
+      "expires": 1809689536.012089,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_7SWSBYHBHJ",
+      "value": "GS2.1.s1775129481$o5$g1$t1775129536$j5$l0$h0",
+      "domain": ".tamu.edu",
+      "path": "/",
+      "expires": 1809689536.017689,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "howdy_webservices",
+      "value": "!1s2wklw5bIvXN++O8e22NYGX+BEJHwjX6yj5k1nGUw/KJ+zDvx6atEo0wrGaW4RRy41LGelimJKevpU=",
+      "domain": "howdy.tamu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "nmstat",
+      "value": "399fa542-5ab7-acd8-00e0-0659b2edd142",
+      "domain": ".tamu.edu",
+      "path": "/",
+      "expires": 1809689551.319686,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "howdy_ga",
+      "value": "GA1.1.150145079.1775129551",
+      "domain": "howdy.tamu.edu",
+      "path": "/",
+      "expires": 1809689551.459034,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "HAPI.SESSIONID.PROD",
+      "value": "s%3AIPYHhhzq8UNqoIUTBb3NalfIutWLByVF.z2Fg04BFWguBkQfBDXg218McK28BI8WQkgbnO2pMSQY",
+      "domain": "howdy.tamu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "productiontidc",
+      "value": "!rutLL/NMs1eQVauO8e22NYGX+BEJH9L+n+5oa7FLvyRIs2cETBd72qEiuiU1AGytBdbcYOVvl1bHQvU=",
+      "domain": "unleash-edge.eis.tamu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "howdy_ga_DLNDDLLV9Z",
+      "value": "GS2.1.s1775129551$o1$g1$t1775129555$j56$l0$h272467378",
+      "domain": "howdy.tamu.edu",
+      "path": "/",
+      "expires": 1809689555.163882,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "portal_443",
+      "value": "!+C6yVzWY9Ue/Z2GO8e22NYGX+BEJHz+MRQACOYoaelh2p3OCpAQr5uaF8AFeS1W83qe7OrV5cNMTHP8=",
+      "domain": "howdy.tamu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "TS016092e8",
+      "value": "014200a85b988b5db34974e97fc5bcd0af4c0700ef2fb0ae8fd5bdf7ae02a07204cc0d73473cd02ced305aede5de331f1712e9092dddc31a9c9d5ff6dfc866788cbc4362b9bf738c82905d139cf5b3ee6cbcb63bf3",
+      "domain": "howdy.tamu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://howdy.tamu.edu",
+      "localStorage": [
+        {
+          "name": "unleash:repository:repo",
+          "value": "[{\"name\":\"ParentGuardianAccess\",\"enabled\":true,\"variant\":{\"name\":\"disabled\",\"enabled\":false,\"payload\":null},\"impression_data\":false,\"impressionData\":false},{\"name\":\"CompassSecurityUserSearch\",\"enabled\":true,\"variant\":{\"name\":\"disabled\",\"enabled\":false,\"payload\":null},\"impression_data\":false,\"impressionData\":false},{\"name\":\"CarfApprovals\",\"enabled\":true,\"variant\":{\"name\":\"disabled\",\"enabled\":false,\"payload\":null},\"impression_data\":false,\"impressionData\":false},{\"name\":\"FormerStudentQuestionnaire\",\"enabled\":true,\"variant\":{\"name\":\"disabled\",\"enabled\":false,\"payload\":null},\"impression_data\":false,\"impressionData\":false},{\"name\":\"ViewGrades\",\"enabled\":true,\"variant\":{\"name\":\"disabled\",\"enabled\":false,\"payload\":null},\"impression_data\":false,\"impressionData\":false},{\"name\":\"CompassSecurityObjectsSearch\",\"enabled\":true,\"variant\":{\"name\":\"disabled\",\"enabled\":false,\"payload\":null},\"impression_data\":false,\"impressionData\":false},{\"name\":\"TuitionAndFees\",\"enabled\":true,\"variant\":{\"name\":\"disabled\",\"enabled\":false,\"payload\":null},\"impression_data\":false,\"impressionData\":false},{\"name\":\"CreditByExam\",\"enabled\":true,\"variant\":{\"name\":\"disabled\",\"enabled\":false,\"payload\":null},\"impression_data\":false,\"impressionData\":false},{\"name\":\"DegreePlanner\",\"enabled\":true,\"variant\":{\"name\":\"disabled\",\"enabled\":false,\"payload\":null},\"impression_data\":false,\"impressionData\":false},{\"name\":\"EtamStudent\",\"enabled\":true,\"variant\":{\"name\":\"disabled\",\"enabled\":false,\"payload\":null},\"impression_data\":false,\"impressionData\":false},{\"name\":\"GraduationAppStatusCheck\",\"enabled\":true,\"variant\":{\"name\":\"disabled\",\"enabled\":false,\"payload\":null},\"impression_data\":false,\"impressionData\":false},{\"name\":\"PaaAnnualReview\",\"enabled\":true,\"variant\":{\"name\":\"disabled\",\"enabled\":false,\"payload\":null},\"impression_data\":false,\"impressionData\":false},{\"name\":\"DirectoryHolds\",\"enabled\":true,\"variant\":{\"name\":\"disabled\",\"enabled\":false,\"payload\":null},\"impression_data\":false,\"impressionData\":false},{\"name\":\"DegreeEvaluation\",\"enabled\":true,\"variant\":{\"name\":\"disabled\",\"enabled\":false,\"payload\":null},\"impression_data\":false,\"impressionData\":false},{\"name\":\"LockOutUsers\",\"enabled\":true,\"variant\":{\"name\":\"disabled\",\"enabled\":false,\"payload\":null},\"impression_data\":false,\"impressionData\":false},{\"name\":\"SecondaryEdCollegeCredits\",\"enabled\":true,\"variant\":{\"name\":\"disabled\",\"enabled\":false,\"payload\":null},\"impression_data\":false,\"impressionData\":false},{\"name\":\"ManageApps\",\"enabled\":true,\"variant\":{\"name\":\"disabled\",\"enabled\":false,\"payload\":null},\"impression_data\":false,\"impressionData\":false},{\"name\":\"StudentSchedule\",\"enabled\":true,\"variant\":{\"name\":\"disabled\",\"enabled\":false,\"payload\":null},\"impression_data\":false,\"impressionData\":false},{\"name\":\"1098TaxForms\",\"enabled\":true,\"variant\":{\"name\":\"disabled\",\"enabled\":false,\"payload\":null},\"impression_data\":false,\"impressionData\":false},{\"name\":\"EmergencyContacts\",\"enabled\":true,\"variant\":{\"name\":\"disabled\",\"enabled\":false,\"payload\":null},\"impression_data\":false,\"impressionData\":false},{\"name\":\"ContactInformation\",\"enabled\":true,\"variant\":{\"name\":\"disabled\",\"enabled\":false,\"payload\":null},\"impression_data\":false,\"impressionData\":false},{\"name\":\"AcademicRecord\",\"enabled\":true,\"variant\":{\"name\":\"disabled\",\"enabled\":false,\"payload\":null},\"impression_data\":false,\"impressionData\":false},{\"name\":\"TsiAndCoreCurriculum\",\"enabled\":true,\"variant\":{\"name\":\"disabled\",\"enabled\":false,\"payload\":null},\"impression_data\":false,\"impressionData\":false},{\"name\":\"PaaList\",\"enabled\":true,\"variant\":{\"name\":\"disabled\",\"enabled\":false,\"payload\":null},\"impression_data\":false,\"impressionData\":false},{\"name\":\"MailingAddresses\",\"enabled\":true,\"variant\":{\"name\":\"disabled\",\"enabled\":false,\"payload\":null},\"impression_data\":false,\"impressionData\":false},{\"name\":\"EmailAddresses\",\"enabled\":true,\"variant\":{\"name\":\"disabled\",\"enabled\":false,\"payload\":null},\"impression_data\":false,\"impressionData\":false},{\"name\":\"RegistrationReadiness\",\"enabled\":true,\"variant\":{\"name\":\"disabled\",\"enabled\":false,\"payload\":null},\"impression_data\":false,\"impressionData\":false},{\"name\":\"TestScores\",\"enabled\":true,\"variant\":{\"name\":\"disabled\",\"enabled\":false,\"payload\":null},\"impression_data\":false,\"impressionData\":false},{\"name\":\"MaintenanceAllowAccess\",\"enabled\":true,\"variant\":{\"name\":\"disabled\",\"enabled\":false,\"payload\":null},\"impression_data\":false,\"impressionData\":false},{\"name\":\"CarfSubmission\",\"enabled\":true,\"variant\":{\"name\":\"disabled\",\"enabled\":false,\"payload\":null},\"impression_data\":false,\"impressionData\":false},{\"name\":\"PhoneNumbers\",\"enabled\":true,\"variant\":{\"name\":\"disabled\",\"enabled\":false,\"payload\":null},\"impression_data\":false,\"impressionData\":false}]"
+        }
+      ]
+    }
+  ]
+}

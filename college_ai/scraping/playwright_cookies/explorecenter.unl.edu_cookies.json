@@ -1,0 +1,385 @@
+{
+  "cookies": [
+    {
+      "name": "X-AB",
+      "value": "12f715ca71194ad9a1b12bba6d1da4c6",
+      "domain": "sc-static.net",
+      "path": "/scevent.min.js",
+      "expires": 1755535155.902036,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "UNL_Visitorchat_Session",
+      "value": "34ad90d77fabc5f778095332342ae224",
+      "domain": "ucommchat.unl.edu",
+      "path": "/",
+      "expires": 1755477555.305321,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_TPN1JJFH6K",
+      "value": "GS2.3.s1755448755$o1$g0$t1755448755$j60$l0$h0",
+      "domain": ".explorecenter.unl.edu",
+      "path": "/",
+      "expires": 1790008755.401373,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.3.192972513.1755448755",
+      "domain": ".explorecenter.unl.edu",
+      "path": "/",
+      "expires": 1790008755.401505,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.192972513.1755448755",
+      "domain": ".unl.edu",
+      "path": "/",
+      "expires": 1790008755.433308,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_XYGRJGQFZK",
+      "value": "GS2.1.s1755448755$o1$g1$t1755448755$j60$l0$h0",
+      "domain": ".unl.edu",
+      "path": "/",
+      "expires": 1790008755.441471,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_GNJC9KPY9R",
+      "value": "GS2.1.s1755448755$o1$g1$t1755448755$j60$l0$h0",
+      "domain": ".unl.edu",
+      "path": "/",
+      "expires": 1790008755.444175,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "unlAlertsData",
+      "value": "1",
+      "domain": ".unl.edu",
+      "path": "/",
+      "expires": 1755448785,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_scid",
+      "value": "mnjlvvP1tU92einp9l5QSoGNoT64GU59",
+      "domain": ".unl.edu",
+      "path": "/",
+      "expires": 1789635453,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_scid_r",
+      "value": "mnjlvvP1tU92einp9l5QSoGNoT64GU59",
+      "domain": ".unl.edu",
+      "path": "/",
+      "expires": 1789635453,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_pk_id.1.23b5",
+      "value": "2f80f0fdbcfa56cd.1755448756.",
+      "domain": "explorecenter.unl.edu",
+      "path": "/",
+      "expires": 1789403956,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_pk_ses.1.23b5",
+      "value": "1",
+      "domain": "explorecenter.unl.edu",
+      "path": "/",
+      "expires": 1755450555,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_pk_id.1.98ba",
+      "value": "5c5becb014cc042d.1755448756.",
+      "domain": ".unl.edu",
+      "path": "/",
+      "expires": 1789403956,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_pk_ses.1.98ba",
+      "value": "1",
+      "domain": ".unl.edu",
+      "path": "/",
+      "expires": 1755450555,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755448756307.427994272978532276",
+      "domain": ".unl.edu",
+      "path": "/",
+      "expires": 1763224756,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ScCbts",
+      "value": "%5B%5D",
+      "domain": ".unl.edu",
+      "path": "/",
+      "expires": 1756053556,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ssi",
+      "value": "5152f5e5-8d86-4c5c-a9db-7d4c55ae3b61#1755448756954",
+      "domain": ".sitescout.com",
+      "path": "/",
+      "expires": 1786984756.947592,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ssuma",
+      "value": "eyIyIjoxNzU1NDQ4NzU3MDA5LCI0IjoxNzU1NDQ4NzU3MDA5LCIzOSI6MTc1NTQ0ODc1NzAwOSwiNyI6MTc1NTQ0ODc1NzAwOSwiOCI6MTc1NTQ0ODc1NzAwOX0",
+      "domain": ".sitescout.com",
+      "path": "/",
+      "expires": 1758040756.947627,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&119e65df-d94b-4aec-8b65-c467c0455612\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1786984757.97052,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=TGST09:s=T:r=T:a=T:p=T:g=3101:u=1:x=1:i=1755448757:t=1755535157:v=2:sig=AQHH_Gxnim0zfV7BijdYY7xyk14q2go2\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755535157.970551,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sc_at",
+      "value": "v2|H4sIAAAAAAAAAE3GuQ3AMAwDwIkESDBp0dkm8jOFh0+bq26e0Byitehu4HZ7dy9bS1VZagO4AX8iSUBJ3V/9A9KgcbdAAAAA",
+      "domain": ".snapchat.com",
+      "path": "/",
+      "expires": 1789144758.766003,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_TS",
+      "value": "1755448758624",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760632758.66451,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_DID",
+      "value": "237dc3d7-540a-41d9-8c84-2fce0fb609ed",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760632758.66454,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_3WAY_SYNCS",
+      "value": "",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760632758.664556,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_sctr",
+      "value": "1%7C1755388800000",
+      "domain": ".unl.edu",
+      "path": "/",
+      "expires": 1789635456,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "TDID",
+      "value": "9946ea50-7cd1-43ee-9f20-2ce55d821012",
+      "domain": ".adsrvr.org",
+      "path": "/",
+      "expires": 1786984761.473514,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "test_cookie",
+      "value": "CheckForPermission",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1755449661.276506,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "XANDR_PANID",
+      "value": "OjtOOKvkECPS9wmWsIdgn_mox1m4eY-VvVWEC6RZnanZv8EbnDJNhbvEp3CzVD003mm_YIsBohmFPjzKEfwVfkyIuvruUz2n0fTPhuu3Utw.",
+      "domain": ".adnxs.com",
+      "path": "/",
+      "expires": 1763224761.399571,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://unl.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "uuid2",
+      "value": "1075548534470992058",
+      "domain": ".adnxs.com",
+      "path": "/",
+      "expires": 1763224761.399608,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "audit_p",
+      "value": "1|0h4YgA3qIJr82e6qT9HsMVthUAzYoCPKruAyZo2/nxVYWnTHWQoX3147S3ZsuLs/3NT11MXGO+Zw0S94mtzOH0pB9H8pjytykCdHvyxZSda4+fmvJK8R6fs/mvR1S1TK1n6nkdr/Xzpo+EbTaPrvEdkUTElAQdN/i8N7BAmaQgdJt49mPrPRUFyo1mMSXCQ85kHVXO4iITS/uI9Aj+Yjkr7KKI+4mJy3oGirqm5gUhh8KMm0j6uXBGY3KwFBcKEE94+z9/eToJrLtHkR71fkUv/JTzblBZm7jOq1oSpaE+yma+WVcS1g3g==",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1786984761.33141,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://unl.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "khaos",
+      "value": "MEFWV96F-Y-VL0",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1786984761.331437,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "khaos_p",
+      "value": "MEFWV96F-Y-VL0",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1786984761.331446,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://unl.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "audit",
+      "value": "1|0h4YgA3qIJr82e6qT9HsMVthUAzYoCPKruAyZo2/nxVYWnTHWQoX3147S3ZsuLs/3NT11MXGO+Zw0S94mtzOH0pB9H8pjytykCdHvyxZSda4+fmvJK8R6fs/mvR1S1TK1n6nkdr/Xzpo+EbTaPrvEdkUTElAQdN/i8N7BAmaQgdJt49mPrPRUFyo1mMSXCQ85kHVXO4iITS/uI9Aj+Yjkr7KKI+4mJy3oGirqm5gUhh8KMm0j6uXBGY3KwFBcKEE94+z9/eToJrLtHkR71fkUv/JTzblBZm7jOq1oSpaE+yma+WVcS1g3g==",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1786984761.331452,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TDCPM",
+      "value": "CAESFQoGZ29vZ2xlEgsI2OjB1NTtrj4QBRIWCgdydWJpY29uEgsIkI_C1NTtrj4QBRIXCghhcHBuZXh1cxILCIKtrejU7a4-EAUYBSABKAYyCwi2wMSB6-2uPhAFQg8iDQgBEgkKBXRpZXIzEAFaB2hvMDJoZjJgAQ..",
+      "domain": ".adsrvr.org",
+      "path": "/",
+      "expires": 1786984761.473552,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://explorecenter.unl.edu",
+      "localStorage": [
+        {
+          "name": "u_sclid_r",
+          "value": "retUdfQ2VaMOCjPIsW-tbaX_EPW5Wu7RmnjlvvP1tU92einp9l5QSoGNoT64GU59"
+        },
+        {
+          "name": "u_sclid",
+          "value": "retUdfQ2VaMOCjPIsW-tbaX_EPW5Wu7RmnjlvvP1tU92einp9l5QSoGNoT64GU59"
+        },
+        {
+          "name": "cntr_attr",
+          "value": "[]"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755448756305"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "li_adsId",
+          "value": "50adfd79-7ee3-4cc2-b815-5f765057f299"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755448756717"
+        }
+      ]
+    }
+  ]
+}

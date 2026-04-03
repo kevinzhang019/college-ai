@@ -1,0 +1,155 @@
+{
+  "cookies": [
+    {
+      "name": "_ga_6R1VYGFM4D",
+      "value": "GS2.1.s1755480330$o1$g0$t1755480330$j60$l0$h1719879998",
+      "domain": ".ucsd.edu",
+      "path": "/",
+      "expires": 1790040330.415154,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.2144986132.1755480330",
+      "domain": ".ucsd.edu",
+      "path": "/",
+      "expires": 1790040330.415289,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CLID",
+      "value": "302b9b4c53804b21a94a1a7d956e28a8.20250818.20260818",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1787016330.513828,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "FPID",
+      "value": "FPID2.2.dFzSd7%2F%2BiwZ1pv707rIru60h46b%2B8Q5ddUcv%2FPNnwTg%3D.1755480330",
+      "domain": ".ucsd.edu",
+      "path": "/",
+      "expires": 1790040331.043295,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "FPLC",
+      "value": "rYvTnCS4N6SGoZ%2FUV9BoTai7I5SB4%2F7%2Ba2Q06TnqXrLLTyBlnHh938vwNMONxZfaq4kgSA8mD53oqvCoUA1Sf1OaZ4i32jUQShYrD9totMfieXeI0F%2F04wjSoOQ7xg%3D%3D",
+      "domain": ".ucsd.edu",
+      "path": "/",
+      "expires": 1755552331.043353,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "FPAU",
+      "value": "1.2.1270918307.1755480331",
+      "domain": ".ucsd.edu",
+      "path": "/",
+      "expires": 1763256331.043375,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "FPGSID",
+      "value": "1.1755480331.1755480331.G-6R1VYGFM4D.CPUsBRuFAGBovFnroQnnBA",
+      "domain": ".ucsd.edu",
+      "path": "/",
+      "expires": 1755482131.043397,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_uetsid",
+      "value": "3aef8f607bd211f0aa903b2f30cf1150",
+      "domain": ".ucsd.edu",
+      "path": "/",
+      "expires": 1755566731,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_uetvid",
+      "value": "3aefc8707bd211f0b9c021d89a84b955",
+      "domain": ".ucsd.edu",
+      "path": "/",
+      "expires": 1789176331,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": "px.ads.linkedin.com",
+      "path": "/",
+      "expires": 1758110078.594842,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&f93ddc88-2b49-45c1-892e-627b6897b224\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1787016332.59487,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=VGST09:s=V:r=V:a=V:p=V:g=3278:u=1:x=1:i=1755480332:t=1755566732:v=2:sig=AQFXVm36GqDIG4mIitDHXPFUfZbmJnm-\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755566732.594891,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://extendedstudies.ucsd.edu",
+      "localStorage": [
+        {
+          "name": "_uetvid",
+          "value": "3aefc8707bd211f0b9c021d89a84b955"
+        },
+        {
+          "name": "gtmBrowserId",
+          "value": "1755481166560"
+        },
+        {
+          "name": "_uetvid_exp",
+          "value": "Sat, 12 Sep 2026 01:25:31 GMT"
+        },
+        {
+          "name": "_uetsid",
+          "value": "3aef8f607bd211f0aa903b2f30cf1150"
+        },
+        {
+          "name": "li_adsId",
+          "value": "c1ffbc1c-3b74-4498-98f4-750bdd7148d8"
+        },
+        {
+          "name": "_uetsid_exp",
+          "value": "Tue, 19 Aug 2025 01:25:31 GMT"
+        }
+      ]
+    }
+  ]
+}

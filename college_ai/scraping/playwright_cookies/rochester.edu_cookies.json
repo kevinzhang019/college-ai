@@ -1,0 +1,119 @@
+{
+  "cookies": [
+    {
+      "name": "BIGipServer~DMZ~prod_www_dmz_www.rochester.edu_81_pool",
+      "value": "!WSb23tcmjt641opY2PSIx3NoIHSlL7VawP91lA4JGlPqdPiuaFDHPQ42c+o8VcWZljhDtSPJlvZiagkyLAdxwVgW0KZqG00LZ/j+gJs=",
+      "domain": "rochester.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "BIGipServer~DMZ~prod_www_dmz_www.rochester.edu_81_pool",
+      "value": "!jQMhCVmM2UCV7R1Y2PSIx3NoIHSlLxvS2w8lnjulYSl/srFwhIogrspYckqLwJCShhcE71zpTE5QHreL2sQXNCGzxq0GyJnI84hkf14=",
+      "domain": "www.rochester.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_node",
+      "value": "c523366081f6753122c7083b06f7004cb1578f023610c6681ce4518af285fe98",
+      "domain": "apply.grad.rochester.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "d7ab4457-5162-4a87-bb0f-334aea801893",
+      "domain": "apply.grad.rochester.edu",
+      "path": "/",
+      "expires": 1790011737.991153,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "apply.grad.rochester.edu",
+      "path": "/",
+      "expires": 1790011737.991689,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1558881802.1755451738",
+      "domain": ".rochester.edu",
+      "path": "/",
+      "expires": 1790011806.468021,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__gsas",
+      "value": "ID=f35e8325d918f67d:T=1755451739:RT=1755451739:S=ALNI_MbZJlR5wDEKnYwOTSqy0qCHau8T7w",
+      "domain": ".rochester.edu",
+      "path": "/",
+      "expires": 1789147739,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_W4C887LXCG",
+      "value": "GS2.1.s1755451738$o1$g1$t1755451806$j60$l0$h0",
+      "domain": ".rochester.edu",
+      "path": "/",
+      "expires": 1790011806.428009,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_HV00NPNX1N",
+      "value": "GS2.1.s1755451738$o1$g1$t1755451806$j60$l0$h0",
+      "domain": ".rochester.edu",
+      "path": "/",
+      "expires": 1790011806.451244,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_NLJHQXH6R7",
+      "value": "GS2.1.s1755451738$o1$g1$t1755451806$j60$l0$h0",
+      "domain": ".rochester.edu",
+      "path": "/",
+      "expires": 1790011806.469541,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://rochester.edu",
+      "localStorage": [
+        {
+          "name": "59a1bc88-a5b5-2733-2da1-59da2a147742_pp",
+          "value": "{}"
+        },
+        {
+          "name": "59a1bc88-a5b5-2733-2da1-59da2a147742_st",
+          "value": "1755451738331"
+        }
+      ]
+    }
+  ]
+}

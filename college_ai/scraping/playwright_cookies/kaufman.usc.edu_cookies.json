@@ -1,0 +1,49 @@
+{
+  "cookies": [
+    {
+      "name": "_ga",
+      "value": "GA1.1.1677930210.1775168797",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1809750288.309847,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_H87Z4SKEM3",
+      "value": "GS2.1.s1775190288$o2$g0$t1775190288$j60$l0$h0",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1809750288.309675,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "test_cookie",
+      "value": "CheckForPermission",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1775191188.351708,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://kaufman.usc.edu",
+      "localStorage": [
+        {
+          "name": "NRBA_SESSION",
+          "value": "{\"value\":\"37fd10df1916356b\",\"inactiveAt\":1775192089202,\"expiresAt\":1775204689202,\"updatedAt\":1775190290006,\"sessionReplayMode\":0,\"sessionReplaySentFirstChunk\":false,\"sessionTraceMode\":0,\"traceHarvestStarted\":false,\"loggingMode\":0,\"logApiMode\":0,\"serverTimeDiff\":-528,\"custom\":{},\"numOfResets\":0,\"consent\":false}"
+        },
+        {
+          "name": "volume",
+          "value": "0"
+        }
+      ]
+    }
+  ]
+}

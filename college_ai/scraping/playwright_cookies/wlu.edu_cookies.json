@@ -1,0 +1,514 @@
+{
+  "cookies": [
+    {
+      "name": "IGXSessionState",
+      "value": "0phje1cdqj0r14hgctov51sl",
+      "domain": "www.wlu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "B100Serverpoolcookie",
+      "value": "4197071020.1.2509999344.822639104",
+      "domain": "www.wlu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_node",
+      "value": "79e8292408f61f87b01c2918105ca2c70ae2dd1bf9acb5e69f7af28265befa30",
+      "domain": "access.wlu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "04c39bc6-54b2-4150-b42b-1ec6b28da2a1",
+      "domain": "access.wlu.edu",
+      "path": "/",
+      "expires": 1809696531,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "mtc_id",
+      "value": "2176180",
+      "domain": "access.wlu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ASP.NET_SessionId",
+      "value": "uirsihi15tnocsm42ez5tsdr",
+      "domain": "store.wlu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "",
+      "value": "Secure",
+      "domain": "store.wlu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.3.683830960.1755440259",
+      "domain": ".my.wlu.edu",
+      "path": "/",
+      "expires": 1790000361,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "B100Serverpoolcookie",
+      "value": "4197071020.1.2509999344.920594944",
+      "domain": "wlu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "mtc_sid",
+      "value": "xkllhu88b9os2tzudmek52w",
+      "domain": "access.wlu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "mautic_device_id",
+      "value": "xkllhu88b9os2tzudmek52w",
+      "domain": "access.wlu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_S5XEE9M7FL",
+      "value": "GS2.1.s1755589549$o3$g0$t1755589549$j60$l0$h0",
+      "domain": ".wlu.edu",
+      "path": "/",
+      "expires": 1790149549,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cf_clearance",
+      "value": "x_XeRbroLIxN2Arcg1QYs5BMkxcQXSuhyeCLh.knxJI-1755589549-1.2.1.1-MZtH_VsvtrJmUSENHYR0aCmocTrGpT2VZ5NSr6gz_ORH.3WvuGBXMTbOc0B2bJvlnJKA0H8UdXYeKKM1kg_YvTBZSDThsl4K44Mc0NjXtEI64TK2W8LVhgQhciMv4KIw15Hc03oZViXOwh1a.ld9FcfLTs6HNsafGek1fjbBOBlx67ZdLNWd_vf.5ECk.zduHWHAz9wAVtlvl.qiL6anT543W96EMPfrrJItOuNu4mI",
+      "domain": ".wlu.edu",
+      "path": "/",
+      "expires": 1787125549,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.1795598249.1775136531",
+      "domain": ".wlu.edu",
+      "path": "/",
+      "expires": 1775233945,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_hashV",
+      "value": "202604/1",
+      "domain": "access.wlu.edu",
+      "path": "/",
+      "expires": 1809696531,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1775136531496.463455865581796462",
+      "domain": ".wlu.edu",
+      "path": "/",
+      "expires": 1782923544,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "mtc_id",
+      "value": "2176180",
+      "domain": "www.wlu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_cs_c",
+      "value": "0",
+      "domain": "www.wlu.edu",
+      "path": "/",
+      "expires": 1809301114,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_cs_id",
+      "value": "b236bc2e-2dfb-a668-b090-d275a0a471da.1775137114.1.1775137114.1775137114.1.1808301114938.0.x",
+      "domain": "www.wlu.edu",
+      "path": "/",
+      "expires": 1808301114,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "mtc_id",
+      "value": "2176180",
+      "domain": "my.discoverwlu.org",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "barometric[cuid]",
+      "value": "cuid_69ce6f13-d74f-4431-874f-f292a30fc8d2",
+      "domain": ".trkn.us",
+      "path": "/",
+      "expires": 1806683543.878821,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "vuid",
+      "value": "pl909663919.1135877920",
+      "domain": ".vimeo.com",
+      "path": "/",
+      "expires": 1809696968,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.2067038094.1775137145",
+      "domain": ".generalssports.com",
+      "path": "/",
+      "expires": 1775223545,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1596378275.1755537208",
+      "domain": ".generalssports.com",
+      "path": "/",
+      "expires": 1809697145,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_TP0TV9VF69",
+      "value": "GS2.1.s1775137145$o3$g0$t1775137145$j60$l0$h0",
+      "domain": ".generalssports.com",
+      "path": "/",
+      "expires": 1809697145,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_Y29PC3P5S9",
+      "value": "GS2.1.s1775137145$o3$g0$t1775137145$j60$l0$h0",
+      "domain": ".generalssports.com",
+      "path": "/",
+      "expires": 1809697145,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_42J6C0S7B4",
+      "value": "GS2.2.s1775137145$o3$g0$t1775137145$j60$l0$h0",
+      "domain": ".generalssports.com",
+      "path": "/",
+      "expires": 1809697145,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "UID",
+      "value": "11877168974f1a693670b651775137145",
+      "domain": ".scorecardresearch.com",
+      "path": "/",
+      "expires": 1808833145,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "XID",
+      "value": "11877168974f1a693670b651775137145",
+      "domain": ".scorecardresearch.com",
+      "path": "/",
+      "expires": 1808833145,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gat_UA-37964691-8",
+      "value": "1",
+      "domain": ".wlu.edu",
+      "path": "/",
+      "expires": 1775147578,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_cfuvid",
+      "value": "AtWYGnOtQrse.sJhBPFgvI_p5jtRRNTkU5YGTHpmtS0-1775147542.235727-1.0.1.1-2hzqTK3tnYbHwTNk5HIsV9wvPgVZk3R2LchdbLvDrTc",
+      "domain": ".highcharts.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_G0PT6VX8WW",
+      "value": "GS2.1.s1775146971$o2$g1$t1775147543$j35$l0$h0",
+      "domain": ".wlu.edu",
+      "path": "/",
+      "expires": 1809707543.898923,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_8K307BT0GV",
+      "value": "GS2.1.s1775146971$o3$g1$t1775147543$j35$l0$h0",
+      "domain": ".wlu.edu",
+      "path": "/",
+      "expires": 1809707543.935215,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.683830960.1755440259",
+      "domain": ".wlu.edu",
+      "path": "/",
+      "expires": 1809707545.050775,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_CYP52XN2H3",
+      "value": "GS2.1.s1775146971$o2$g1$t1775147545$j33$l0$h0",
+      "domain": ".wlu.edu",
+      "path": "/",
+      "expires": 1809707545.047441,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_cfuvid",
+      "value": "IW5P735.biFoxDwlZwxa6xdTUlQkSfFlSWfn4TqpHUc-1775147545.4598827-1.0.1.1-nCm0BefLd.Romxp_LMfzb0aQAjEdCtGiIjY8_ojzyZ4",
+      "domain": ".vimeo.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "mautic_device_id",
+      "value": "xkllhu88b9os2tzudmek52w",
+      "domain": "my.discoverwlu.org",
+      "path": "/",
+      "expires": 1806683545.63412,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "mtc_sid",
+      "value": "xkllhu88b9os2tzudmek52w",
+      "domain": "my.discoverwlu.org",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "mtc_sid",
+      "value": "xkllhu88b9os2tzudmek52w",
+      "domain": "www.wlu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "mautic_device_id",
+      "value": "xkllhu88b9os2tzudmek52w",
+      "domain": "www.wlu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://www.wlu.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "69c1ac9c-3f60-20c3-7503-1b09cc717d22_st",
+          "value": "1775147377168"
+        },
+        {
+          "name": "69c1ac9c-3f60-20c3-7503-1b09cc717d22_pp",
+          "value": "{}"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1775147544245"
+        },
+        {
+          "name": "mtc_sid",
+          "value": "xkllhu88b9os2tzudmek52w"
+        },
+        {
+          "name": "mautic_device_id",
+          "value": "xkllhu88b9os2tzudmek52w"
+        },
+        {
+          "name": "mtc_id",
+          "value": "2176180"
+        }
+      ]
+    },
+    {
+      "origin": "https://generalssports.com",
+      "localStorage": [
+        {
+          "name": "tsurround",
+          "value": "{\"lastVisit\":\"2026-04-02\"}"
+        },
+        {
+          "name": "lastActive",
+          "value": "1775137144943"
+        },
+        {
+          "name": "ss.t",
+          "value": "{\"id\":\"2e7c4aef-41ee-47a3-89d7-628e71c16a31\"}"
+        },
+        {
+          "name": "tcmu",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "origin": "https://access.wlu.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755588829310"
+        },
+        {
+          "name": "mtc_sid",
+          "value": "xkllhu88b9os2tzudmek52w"
+        },
+        {
+          "name": "mautic_device_id",
+          "value": "xkllhu88b9os2tzudmek52w"
+        },
+        {
+          "name": "mtc_id",
+          "value": "2176180"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755588829327"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "69c1ac9c-3f60-20c3-7503-1b09cc717d22_st",
+          "value": "1755588828738"
+        },
+        {
+          "name": "69c1ac9c-3f60-20c3-7503-1b09cc717d22_pp",
+          "value": "{}"
+        },
+        {
+          "name": "session_/expires",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "origin": "https://player.vimeo.com",
+      "localStorage": [
+        {
+          "name": "LOCAL_STORAGE_ID_VIMEO_PLAYER",
+          "value": "5a0b84a3-a07d-44fe-aecd-f9bc6a47e616"
+        },
+        {
+          "name": "LOCAL_STORAGE_ID_PICOX_ID",
+          "value": "34d08b4b-0c92-4e9f-9124-b2dc9986dc55"
+        }
+      ]
+    }
+  ]
+}

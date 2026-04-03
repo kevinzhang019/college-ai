@@ -1,0 +1,234 @@
+{
+  "cookies": [
+    {
+      "name": "BIGipServercmsdisp_443_pool",
+      "value": "2663959936.47873.0000",
+      "domain": "www.buffalo.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755454400953.568043837440500303",
+      "domain": ".buffalo.edu",
+      "path": "/",
+      "expires": 1763346272,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.1127403517.1755454401",
+      "domain": ".buffalo.edu",
+      "path": "/",
+      "expires": 1763230401,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.664143010.1755454401",
+      "domain": ".buffalo.edu",
+      "path": "/",
+      "expires": 1790130271.853454,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_hjSessionUser_1234795",
+      "value": "eyJpZCI6ImY4YTIzYWZmLWRhNGYtNTc2Mi04NTg3LTFhMjJlOWM5MjRhZCIsImNyZWF0ZWQiOjE3NTU0NTQ0MDE0NTQsImV4aXN0aW5nIjpmYWxzZX0=",
+      "domain": ".buffalo.edu",
+      "path": "/",
+      "expires": 1786990401,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&c117ace7-096e-44c0-8b90-4fd58b7e1844\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1787106272.677518,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_YT227PTHYE",
+      "value": "GS2.1.s1755454401$o1$g0$t1755454401$j60$l0$h241974110",
+      "domain": ".buffalo.edu",
+      "path": "/",
+      "expires": 1790014401.781633,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ubCookieBannerAccepted",
+      "value": "true",
+      "domain": ".buffalo.edu",
+      "path": "/",
+      "expires": 1786990402,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_node",
+      "value": "0b096070ae997675162db1cdea19e020e96e4a411a2ca2219d6c31534aeb6497",
+      "domain": "ubmgtconnect.buffalo.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "e144e888-a4e4-461e-b2b2-45801a3ba237",
+      "domain": "ubmgtconnect.buffalo.edu",
+      "path": "/",
+      "expires": 1790130271.476881,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "ubmgtconnect.buffalo.edu",
+      "path": "/",
+      "expires": 1790130271.479478,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_3PJF3J45DE",
+      "value": "GS2.1.s1755570271$o1$g0$t1755570271$j60$l0$h0",
+      "domain": ".buffalo.edu",
+      "path": "/",
+      "expires": 1790130271.493782,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "BIGipServercmsdisp_443_pool",
+      "value": "2663959936.47873.0000",
+      "domain": "management.buffalo.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_XV534ZVGMN",
+      "value": "GS2.1.s1755570271$o2$g0$t1755570271$j60$l0$h0",
+      "domain": ".buffalo.edu",
+      "path": "/",
+      "expires": 1790130271.858121,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "test_cookie",
+      "value": "CheckForPermission",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1755571172.543088,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=OGST09:s=O:r=O:a=O:p=O:g=3220:u=1:x=1:i=1755570272:t=1755656672:v=2:sig=AQFLs1rZ78XerBDGYQX5yqTs0QDzubDW\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755656672.677542,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": "px.ads.linkedin.com",
+      "path": "/",
+      "expires": 1758200018.677487,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://management.buffalo.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755570271612},\"expires\":1763346271612}}"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755570272477"
+        },
+        {
+          "name": "27cb98f3-c709-cea1-a57c-4fcd9697225d_st",
+          "value": "1755570271659"
+        },
+        {
+          "name": "li_adsId",
+          "value": "fd61da51-89aa-46c0-82c2-b565f4932550"
+        },
+        {
+          "name": "27cb98f3-c709-cea1-a57c-4fcd9697225d_pp",
+          "value": "{}"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755570272492"
+        }
+      ]
+    },
+    {
+      "origin": "https://www.buffalo.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":1,\"creationTimeMs\":1755454401516},\"expires\":1763230401516}}"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755454400944"
+        },
+        {
+          "name": "li_adsId",
+          "value": "b4f904fc-1005-4fec-b7b1-b223fe1b4869"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755454402203"
+        }
+      ]
+    }
+  ]
+}

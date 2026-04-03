@@ -1,0 +1,125 @@
+{
+  "cookies": [
+    {
+      "name": "AWSALB",
+      "value": "Fy8dGbLN8sts+OYlL+W86bU6j7S2AlYxw2bifDHGmkHybF8lNvmyyhviG07PwUuyzb09Ka8axtfsvxyxCQADsMGxH+GscFUiXdRAtjCWIdwIORrlJ8qCgNR22dxB",
+      "domain": "www.gatech.edu",
+      "path": "/",
+      "expires": 1775743425.824319,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CLID",
+      "value": "73382eba2e1441f5933d6da2a1718ca1.20260402.20270402",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1806674667.4872,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1834633984.1775138668",
+      "domain": ".gatech.edu",
+      "path": "/",
+      "expires": 1809698667.977148,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_clck",
+      "value": "m1i1la%5E2%5Eg4v%5E0%5E2283",
+      "domain": ".gatech.edu",
+      "path": "/",
+      "expires": 1806674668,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_DBF4MB426N",
+      "value": "GS2.1.s1775138667$o1$g0$t1775138668$j59$l0$h0",
+      "domain": ".gatech.edu",
+      "path": "/",
+      "expires": 1809698668.089125,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "MUID",
+      "value": "258154F8D23E6CE6352B43D7D3016D73",
+      "domain": ".bing.com",
+      "path": "/",
+      "expires": 1808834668.550684,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MR",
+      "value": "0",
+      "domain": ".c.bing.com",
+      "path": "/",
+      "expires": 1775743468.550737,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "SRM_B",
+      "value": "258154F8D23E6CE6352B43D7D3016D73",
+      "domain": ".c.bing.com",
+      "path": "/",
+      "expires": 1808834668.550754,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "SM",
+      "value": "C",
+      "domain": ".c.clarity.ms",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MUID",
+      "value": "258154F8D23E6CE6352B43D7D3016D73",
+      "domain": ".clarity.ms",
+      "path": "/",
+      "expires": 1808834668.630705,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MR",
+      "value": "0",
+      "domain": ".c.clarity.ms",
+      "path": "/",
+      "expires": 1775743468.630731,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ANONCHK",
+      "value": "0",
+      "domain": ".c.clarity.ms",
+      "path": "/",
+      "expires": 1775139268.630745,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": []
+}

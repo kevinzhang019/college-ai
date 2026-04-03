@@ -1,0 +1,93 @@
+{
+  "cookies": [
+    {
+      "name": "dtCookie",
+      "value": "v_4_srv_1_sn_98B99093CA59B810315A3D961BA69DF3_perc_100000_ol_0_mul_1_app-3Ab3444c7c6be1490e_0_rcs-3Acss_0",
+      "domain": ".byu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.741746951.1755556800",
+      "domain": ".byu.edu",
+      "path": "/",
+      "expires": 1790116800.176878,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.878479432.1755556800",
+      "domain": ".byu.edu",
+      "path": "/",
+      "expires": 1755643200,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat",
+      "value": "1",
+      "domain": ".byu.edu",
+      "path": "/",
+      "expires": 1755556860,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_1P73NRZK3Z",
+      "value": "GS2.3.s1755556800$o1$g0$t1755556800$j60$l0$h0",
+      "domain": ".marriott.byu.edu",
+      "path": "/",
+      "expires": 1790116800.574379,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.3.741746951.1755556800",
+      "domain": ".marriott.byu.edu",
+      "path": "/",
+      "expires": 1790116800.596071,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_YV961DRGYJ",
+      "value": "GS2.3.s1755556800$o1$g0$t1755556800$j60$l0$h0",
+      "domain": ".marriott.byu.edu",
+      "path": "/",
+      "expires": 1790116800.595922,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://marriott.byu.edu",
+      "localStorage": [
+        {
+          "name": "bsp.analytics.visitStarted.00000174-b1b0-d888-a97e-f5b58fbb0000",
+          "value": "1755556800021"
+        },
+        {
+          "name": "bsp.analytics.uniqueVisit.00000174-b1b0-d888-a97e-f5b58fbb0000",
+          "value": "true"
+        },
+        {
+          "name": "bsp.analytics.lastActivity.00000174-b1b0-d888-a97e-f5b58fbb0000",
+          "value": "1755556800021"
+        }
+      ]
+    }
+  ]
+}

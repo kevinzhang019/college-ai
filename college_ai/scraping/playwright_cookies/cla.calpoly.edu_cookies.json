@@ -1,0 +1,452 @@
+{
+  "cookies": [
+    {
+      "name": "X-AB",
+      "value": "12f715ca71194ad9a1b12bba6d1da4c6",
+      "domain": "sc-static.net",
+      "path": "/scevent.min.js",
+      "expires": 1755529340.86297,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_node",
+      "value": "706d5032f60f7d5b4b441dc9fefb10df697c1164d8717d513b95a052a3031360",
+      "domain": "connect.calpoly.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "aabb6b97-6d96-4547-bc71-b4e4d2343697",
+      "domain": "connect.calpoly.edu",
+      "path": "/",
+      "expires": 1790002940.457617,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "connect.calpoly.edu",
+      "path": "/",
+      "expires": 1790002940.457873,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "jPjIPOmhrl_aUkYMd0aUc7YQ_PPxEvttoelULiICLBM-1755442940-1.0.1.1-X5x1tm6WrTwba8ysTzdaytigftJKh.19GY8mqEuW4MizHlqZ233.Zvqkh5g2WXh4",
+      "domain": ".vimeo.com",
+      "path": "/",
+      "expires": 1755444740.775553,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_cfuvid",
+      "value": "IG7slv0J5LWZxAoOkXjZ6lYX6U0Ux6cJChBRSFmaKSE-1755442940903-0.0.1.1-604800000",
+      "domain": ".vimeo.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.463188540.1755442941",
+      "domain": ".calpoly.edu",
+      "path": "/",
+      "expires": 1763218940,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_scid",
+      "value": "98CvLbrgtfj78VTxFRa9ot3Va61_q4Rs",
+      "domain": ".calpoly.edu",
+      "path": "/",
+      "expires": 1789629638,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_scid_r",
+      "value": "98CvLbrgtfj78VTxFRa9ot3Va61_q4Rs",
+      "domain": ".calpoly.edu",
+      "path": "/",
+      "expires": 1789629638,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ttp",
+      "value": "31Q4Px1lZqMxgGVQZWqjnGDY3Jz",
+      "domain": ".tiktok.com",
+      "path": "/",
+      "expires": 1789138940.962513,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "vuid",
+      "value": "pl561146016.1235787579",
+      "domain": ".vimeo.com",
+      "path": "/",
+      "expires": 1790002941.388267,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755442941385.953162708448158624",
+      "domain": ".calpoly.edu",
+      "path": "/",
+      "expires": 1763218941,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_tt_enable_cookie",
+      "value": "1",
+      "domain": ".calpoly.edu",
+      "path": "/",
+      "expires": 1789138941,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ttp",
+      "value": "01K2W8V3J085DW65SN15SAJSDZ_.tt.1",
+      "domain": ".calpoly.edu",
+      "path": "/",
+      "expires": 1789138941,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ttcsid",
+      "value": "1755442941506::M0b73uQ5P2sd8M6xMNjc.1.1755442941506",
+      "domain": ".calpoly.edu",
+      "path": "/",
+      "expires": 1789138941,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ScCbts",
+      "value": "%5B%5D",
+      "domain": ".calpoly.edu",
+      "path": "/",
+      "expires": 1756047741,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ttcsid_D0VKHD3C77U2P4BEC98G",
+      "value": "1755442941505::8GqViIWkCNLqM2U82gaZ.1.1755442941715",
+      "domain": ".calpoly.edu",
+      "path": "/",
+      "expires": 1789138941,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "TDID",
+      "value": "09794cf0-c994-4b1a-b7df-7c3c7d1a0853",
+      "domain": ".adsrvr.org",
+      "path": "/",
+      "expires": 1786978944.515065,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_TS",
+      "value": "1755442943882",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760626943.833468,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_DID",
+      "value": "82fd0000-82b9-4cb6-8854-a8ff5af05376",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760626943.833513,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_3WAY_SYNCS",
+      "value": "",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760626943.833531,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sc_at",
+      "value": "v2|H4sIAAAAAAAAAE3GwRHAIAgEwIqYETy8kG5gglVYvN/sa9WKGTkln24Bvy1l26WjFiaXN3kU41W6AxbA+XVcfYumn0AAAAA=",
+      "domain": ".snapchat.com",
+      "path": "/",
+      "expires": 1789138943.930749,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_sctr",
+      "value": "1%7C1755403200000",
+      "domain": ".calpoly.edu",
+      "path": "/",
+      "expires": 1789629641,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "XANDR_PANID",
+      "value": "WmOwz_WeY9vm0_NSDadYipFwDzjyfAschNgXyeRGhc9sRQtT2xJQiPbhXvB4-DnjX7cEIbB2HqyuI2_rAwcU_yoVtaScrcg0AI-iVibtmpI.",
+      "domain": ".adnxs.com",
+      "path": "/",
+      "expires": 1763218944.350914,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://calpoly.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "uuid2",
+      "value": "3620836147940355509",
+      "domain": ".adnxs.com",
+      "path": "/",
+      "expires": 1763218944.350955,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "audit_p",
+      "value": "1|kS0DSNJhS4DJoEH06loS45HKQ5vIWKAnFO2E3Y90duyqcLSLiv9/T/xExsLlGnGHybhBEUki4/CM1KxoLazIt9i2Wk5FrGos0XY24Ec+XLsBQWGHwCsQy2u4G1uAfqGChJPyhSBke7/N+BkRO2DElOPfeWqHh6vvRZgcto6CYGlbOz6AjJtUa8ZnH3r7x5VAdeodiyl5GGjkt77VmXBK7kiCfUmSYXqD+ohH/uuQN8oOr/S07bYDcYQkZmofZQkSVSwKu1RXSJT0/fhu8/pkBO4VeIulq+4M1TRwmTZWV3Xc6UO785F0Pw==",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1786978944.368898,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://calpoly.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "khaos",
+      "value": "MEFTEKTQ-T-73EU",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1786978944.368933,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "khaos_p",
+      "value": "MEFTEKTQ-T-73EU",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1786978944.368947,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://calpoly.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "audit",
+      "value": "1|kS0DSNJhS4DJoEH06loS45HKQ5vIWKAnFO2E3Y90duyqcLSLiv9/T/xExsLlGnGHybhBEUki4/CM1KxoLazIt9i2Wk5FrGos0XY24Ec+XLsBQWGHwCsQy2u4G1uAfqGChJPyhSBke7/N+BkRO2DElOPfeWqHh6vvRZgcto6CYGlbOz6AjJtUa8ZnH3r7x5VAdeodiyl5GGjkt77VmXBK7kiCfUmSYXqD+ohH/uuQN8oOr/S07bYDcYQkZmofZQkSVSwKu1RXSJT0/fhu8/pkBO4VeIulq+4M1TRwmTZWV3Xc6UO785F0Pw==",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1786978944.368959,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "test_cookie",
+      "value": "CheckForPermission",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1755443844.369182,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TDCPM",
+      "value": "CAESFgoHcnViaWNvbhILCIbfh6-j6q4-EAUSFQoGZ29vZ2xlEgsIoIKIr6Pqrj4QBRIXCghhcHBuZXh1cxILCPrumrWj6q4-EAUYBSACKAYyCwjKuYrcuequPhAFQg8iDQgBEgkKBXRpZXIyEAFaBzAxNzBsdWNgAQ..",
+      "domain": ".adsrvr.org",
+      "path": "/",
+      "expires": 1786978944.515113,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AWSALB",
+      "value": "z6bFH4Y9ICwediPANzD6GPg04uNOA5o5WlHugbtGbLXL+UW8VTkilsUWJepVjdPAuzRq8uRhrLRvwl6GEjwIQl/a2NkHqYCniMMWmOkNh+QqviKlOWsFGJJ85cZY",
+      "domain": "cla.calpoly.edu",
+      "path": "/",
+      "expires": 1756047858.728595,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AWSALBCORS",
+      "value": "z6bFH4Y9ICwediPANzD6GPg04uNOA5o5WlHugbtGbLXL+UW8VTkilsUWJepVjdPAuzRq8uRhrLRvwl6GEjwIQl/a2NkHqYCniMMWmOkNh+QqviKlOWsFGJJ85cZY",
+      "domain": "cla.calpoly.edu",
+      "path": "/",
+      "expires": 1756047858.728742,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_F0STE4G34H",
+      "value": "GS2.1.s1755443059$o1$g0$t1755443059$j60$l0$h0",
+      "domain": ".calpoly.edu",
+      "path": "/",
+      "expires": 1790003059.747394,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.1016749026.1755442941",
+      "domain": ".calpoly.edu",
+      "path": "/",
+      "expires": 1790003059.775083,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.2111261299.1755443060",
+      "domain": ".calpoly.edu",
+      "path": "/",
+      "expires": 1755529459,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_gtag_UA_102181678_1",
+      "value": "1",
+      "domain": ".calpoly.edu",
+      "path": "/",
+      "expires": 1755443119,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_gtag_UA_50725111_2",
+      "value": "1",
+      "domain": ".calpoly.edu",
+      "path": "/",
+      "expires": 1755443119,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_CY2GPTVZY7",
+      "value": "GS2.1.s1755442940$o1$g1$t1755443059$j60$l0$h0",
+      "domain": ".calpoly.edu",
+      "path": "/",
+      "expires": 1790003059.804215,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://cla.calpoly.edu",
+      "localStorage": [
+        {
+          "name": "4e2b48d3-a5fc-fabe-30f1-c1a95714e84d_st",
+          "value": "1755443059721"
+        },
+        {
+          "name": "4e2b48d3-a5fc-fabe-30f1-c1a95714e84d_pp",
+          "value": "{}"
+        }
+      ]
+    },
+    {
+      "origin": "https://www.calpoly.edu",
+      "localStorage": [
+        {
+          "name": "u_sclid_r",
+          "value": "j7s5AxDbjIlRUJJN3sR4eoXP9YPVllv998CvLbrgtfj78VTxFRa9ot3Va61_q4Rs"
+        },
+        {
+          "name": "u_sclid",
+          "value": "j7s5AxDbjIlRUJJN3sR4eoXP9YPVllv998CvLbrgtfj78VTxFRa9ot3Va61_q4Rs"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755442941383"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755442941387"
+        },
+        {
+          "name": "4e2b48d3-a5fc-fabe-30f1-c1a95714e84d_st",
+          "value": "1755442940591"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "4e2b48d3-a5fc-fabe-30f1-c1a95714e84d_pp",
+          "value": "{}"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755442940905},\"expires\":1763218940905}}"
+        }
+      ]
+    }
+  ]
+}

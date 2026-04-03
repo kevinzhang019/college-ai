@@ -1,0 +1,424 @@
+{
+  "cookies": [
+    {
+      "name": "X-AB",
+      "value": "12f715ca71194ad9a1b12bba6d1da4c6",
+      "domain": "sc-static.net",
+      "path": "/scevent.min.js",
+      "expires": 1755623074.889493,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "BIGipServer~WebComm~wsuwp.web.wsu.edu_443_pool",
+      "value": "555048640.47873.0000",
+      "domain": "wsu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.1463829969.1755439973",
+      "domain": ".wsu.edu",
+      "path": "/",
+      "expires": 1763215973,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.2025946571.1755439973",
+      "domain": ".wsu.edu",
+      "path": "/",
+      "expires": 1755623170,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_node",
+      "value": "667e507a20de1427759793439ba1e70914180f289659d92247ca62f80bdc14c9",
+      "domain": "futurecoug.wsu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "191f1a61-08d8-4c29-8b5a-f26d52a4b834",
+      "domain": "futurecoug.wsu.edu",
+      "path": "/",
+      "expires": 1789999973.073378,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "futurecoug.wsu.edu",
+      "path": "/",
+      "expires": 1789999973.07341,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755439973555.269844620633338311",
+      "domain": ".wsu.edu",
+      "path": "/",
+      "expires": 1763312775,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ssi",
+      "value": "a75469d1-fff2-4bb4-b8cd-5279fc48847d#1755439973574",
+      "domain": ".sitescout.com",
+      "path": "/",
+      "expires": 1787072770.899304,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "receive-cookie-deprecation",
+      "value": "1",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1771088675.106495,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://wsu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "suid",
+      "value": "E86C1551417F4EBF9E27192ADC251EB2",
+      "domain": ".simpli.fi",
+      "path": "/",
+      "expires": 1787062373.753995,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "uid_syncd_secure",
+      "value": "true",
+      "domain": ".simpli.fi",
+      "path": "/",
+      "expires": 1756044776.894623,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_scid",
+      "value": "wX1GsAOrcM1mZr12AlXL8giCAjDISRT8",
+      "domain": ".wsu.edu",
+      "path": "/",
+      "expires": 1789626674,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__spdt",
+      "value": "27f6ec8498d74971a0283a2e2e5bbb9d",
+      "domain": "wsu.edu",
+      "path": "/",
+      "expires": 1786975976,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_ScCbts",
+      "value": "%5B%5D",
+      "domain": ".wsu.edu",
+      "path": "/",
+      "expires": 1756044778,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&861cb029-7060-4c48-8787-e612e9b452ae\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1787072775.787911,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sc_at",
+      "value": "v2|H4sIAAAAAAAAAE3GyREAIQgEwIioArkcs1HRKAx+v9uvbnYgS5O8opHV6TR5F8XiWzOUYf2J8ZB0NwUS71f+AH+Cn0VAAAAA",
+      "domain": ".snapchat.com",
+      "path": "/",
+      "expires": 1789135979.901464,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_TS",
+      "value": "1755439979735",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760623979.819574,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_DID",
+      "value": "a61e1dde-8d4f-4875-9fa7-421fd8873e14",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760623979.819639,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_3WAY_SYNCS",
+      "value": "",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760623979.819665,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_sctr",
+      "value": "1%7C1755403200000",
+      "domain": ".wsu.edu",
+      "path": "/",
+      "expires": 1789626677,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": "px.ads.linkedin.com",
+      "path": "/",
+      "expires": 1758166521.787829,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_NHJ0V9MJMB",
+      "value": "GS2.1.s1755504602$o3$g0$t1755504602$j60$l0$h0",
+      "domain": ".wsu.edu",
+      "path": "/",
+      "expires": 1790064602.083124,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_C2TCHJ8XTF",
+      "value": "GS2.2.s1755504602$o3$g0$t1755504602$j60$l0$h0",
+      "domain": ".wsu.edu",
+      "path": "/",
+      "expires": 1790064602.349479,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_XMM38JS40Y",
+      "value": "GS2.2.s1755504602$o3$g0$t1755504602$j60$l0$h0",
+      "domain": ".wsu.edu",
+      "path": "/",
+      "expires": 1790064602.376734,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUkgwfLfPbFiQB2K0aqpzA5wqsM4zBaMz2RajRahsN3kdc-rC8Wg1iB4W0CkQw0",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1790064602.902322,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_DZGEFB395J",
+      "value": "GS2.1.s1755536674$o1$g0$t1755536674$j60$l0$h0",
+      "domain": ".wsu.edu",
+      "path": "/",
+      "expires": 1790096674.090951,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_PVNR8NMV0T",
+      "value": "GS2.2.s1755536674$o1$g0$t1755536674$j60$l0$h0",
+      "domain": ".wsu.edu",
+      "path": "/",
+      "expires": 1790096674.353883,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__spdt",
+      "value": "310930e70b8441d39e0fcf5cfc919028",
+      "domain": "business.wsu.edu",
+      "path": "/",
+      "expires": 1787072674,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=OGST09:s=O:r=O:a=O:p=O:g=3219:u=1:x=1:i=1755536675:t=1755623075:v=2:sig=AQHnx7n5YiryBxFOfyYmsXwj2dCpdiJX\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755623076.231295,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_CFV4Y78L3N",
+      "value": "GS2.1.s1755536674$o4$g1$t1755536770$j60$l0$h0",
+      "domain": ".wsu.edu",
+      "path": "/",
+      "expires": 1790096770.846886,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_45KYZDYHXM",
+      "value": "GS2.1.s1755536674$o4$g1$t1755536770$j60$l0$h0",
+      "domain": ".wsu.edu",
+      "path": "/",
+      "expires": 1790096770.851019,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ssuma",
+      "value": "eyI0NCI6MTc1NTUzNjY3NDE0MSwiNDUiOjE3NTU0NzE5NTMyNzEsIjc4IjoxNzU1NTM2Njc0MTQxLCIzNCI6MTc1NTUzNjc3MDkyNywiNjgiOjE3NTU0NzE5NTMyNzEsIjI0IjoxNzU1NTA0NjAyMTYwLCI0OCI6MTc1NTUwNDYwMjE2MCwiMjYiOjE3NTU1MzY2NzQxNDEsIjI3IjoxNzU1NTM2Njc0MTQxLCIzOSI6MTc1NTUzNjY3NDE0MSwiMTciOjE3NTU0NzE5NTMyNzEsIjIiOjE3NTU0Mzk5NzM2MjEsIjQiOjE3NTU0Mzk5NzM2MjEsIjciOjE3NTU0Mzk5NzM2MjEsIjgiOjE3NTU0Mzk5NzM2MjEsIjg0IjoxNzU1NTM2NzcwOTI3LCI1MSI6MTc1NTUzNjc3MDkyNywiNDEiOjE3NTU1MzY3NzA5MjcsIjg1IjoxNzU1NTM2NzcwOTI3LCI1MyI6MTc1NTQ3MTk1MzI3MSwiNDIiOjE3NTU1MDQ2MDIxNjAsIjEwIjoxNzU1NTA0NjAyMTYwfQ",
+      "domain": ".sitescout.com",
+      "path": "/",
+      "expires": 1758128770.899321,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.1898460799.1755439973",
+      "domain": ".wsu.edu",
+      "path": "/",
+      "expires": 1790096770.909212,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_scid_r",
+      "value": "3f1GsAOrcM1mZr12AlXL8giCAjDISRT8zU3YNA",
+      "domain": ".wsu.edu",
+      "path": "/",
+      "expires": 1789723472,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://business.wsu.edu",
+      "localStorage": [
+        {
+          "name": "u_sclid_r",
+          "value": "YGnoATnDcY2dnJJXj59lJ3b9pIH0JJRJSodyZt39RrADq3DNZma9dgJVy_IIggIwyEkU_M1N2DQ"
+        },
+        {
+          "name": "u_sclid",
+          "value": "Z-noATnDcY2dnJJXj59lJ3b9pIH0JJRJ3P1GsAOrcM1mZr12AlXL8giCAjDISRT8zU3YMw"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755536770742"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755536775504"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755536673927},\"expires\":1763312673927}}"
+        },
+        {
+          "name": "li_adsId",
+          "value": "6e41a861-fdea-4a36-b5d1-addffed12505"
+        }
+      ]
+    },
+    {
+      "origin": "https://wsu.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "u_sclid",
+          "value": "8WY7zSeGhUSooU4KXkZh3Bx6903sJClzwX1GsAOrcM1mZr12AlXL8giCAjDISRT8"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755439972797},\"expires\":1763215972797}}"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755504602392"
+        },
+        {
+          "name": "u_sclid_r",
+          "value": "C-Y7zSeGhUSooU4KXkZh3Bx6903sJClzGT5-HNv9RrADq3DNZma9dgJVy_IIggIwyEkU_M1N2DI"
+        },
+        {
+          "name": "li_adsId",
+          "value": "7e5b4ce9-e48b-46a5-9af2-2eff0db0cf19"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755504603140"
+        }
+      ]
+    }
+  ]
+}

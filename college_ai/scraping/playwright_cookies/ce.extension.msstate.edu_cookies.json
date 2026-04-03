@@ -1,0 +1,565 @@
+{
+  "cookies": [
+    {
+      "name": "X-AB",
+      "value": "12f715ca71194ad9a1b12bba6d1da4c6",
+      "domain": "sc-static.net",
+      "path": "/scevent.min.js",
+      "expires": 1755534081.660809,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "BCSessionID",
+      "value": "29d21eca-a41a-44c4-b634-090804436c42",
+      "domain": "blueconic.msstate.edu",
+      "path": "/DG/DEFAULT",
+      "expires": 1790007685.051223,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "BCSessionID",
+      "value": "29d21eca-a41a-44c4-b634-090804436c42",
+      "domain": "mississippistate.blueconic.net",
+      "path": "/DG/DEFAULT",
+      "expires": 1786983685.825804,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.929174325.1755447681",
+      "domain": ".msstate.edu",
+      "path": "/",
+      "expires": 1763223681,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.1640251281.1755447682",
+      "domain": ".msstate.edu",
+      "path": "/",
+      "expires": 1755534081,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1882438723.1755447681",
+      "domain": ".msstate.edu",
+      "path": "/",
+      "expires": 1790073890.636319,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_V5K7GCZ9T5",
+      "value": "GS2.1.s1755447681$o1$g0$t1755447681$j60$l0$h0",
+      "domain": ".msstate.edu",
+      "path": "/",
+      "expires": 1790007681.591475,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_CD9J1DXVMC",
+      "value": "GS2.1.s1755447681$o1$g0$t1755447681$j60$l0$h1758898257",
+      "domain": ".msstate.edu",
+      "path": "/",
+      "expires": 1790007681.667293,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CLID",
+      "value": "d8fe9b9c90894b83a657db08ff050136.20250817.20260817",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1786983681.690023,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_scid",
+      "value": "VkkYICDxopFiamwWrwUrtmpe1KDlBNf1",
+      "domain": ".msstate.edu",
+      "path": "/",
+      "expires": 1789634379,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_scid_r",
+      "value": "VkkYICDxopFiamwWrwUrtmpe1KDlBNf1",
+      "domain": ".msstate.edu",
+      "path": "/",
+      "expires": 1789634379,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_cfuvid",
+      "value": "0xzgHv7AAOWDsNq3J8npErZavTCxHVJQhzBcBrzmeuk-1755447681856-0.0.1.1-604800000",
+      "domain": ".lightboxcdn.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "suid",
+      "value": "9A0FEAE2F0E9446C88309A5482AC89AA",
+      "domain": ".simpli.fi",
+      "path": "/",
+      "expires": 1787070081.828215,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_mkto_trk",
+      "value": "id:976-RKA-196&token:_mch-msstate.edu-b8bc4fd6b2d3131099fafa1ce1c06214",
+      "domain": ".msstate.edu",
+      "path": "/",
+      "expires": 1790007681.828521,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_uetsid",
+      "value": "3682f4707b8611f0823ab5685878c788",
+      "domain": ".msstate.edu",
+      "path": "/",
+      "expires": 1755534081,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_uetvid",
+      "value": "36830c907b8611f09e331d2906eea802",
+      "domain": ".msstate.edu",
+      "path": "/",
+      "expires": 1789143681,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "YSC",
+      "value": "Irj3ocThXBA",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://msstate.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "yCCEp2isb80",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1770999681.919466,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://msstate.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgMg%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1770999681.919484,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://msstate.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "COe71pKEjtqYZxDizoOcoJKPAxjizoOcoJKPAw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1770999681.919499,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://msstate.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755447681987.490197010112319171",
+      "domain": ".msstate.edu",
+      "path": "/",
+      "expires": 1763223682,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUkhgurNBgstVHMtfUKzPPpdQfLY6OvAlq5Mj7Fj1r7nmuw2MlOukPvOjJk6",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1790007682.047157,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_clck",
+      "value": "v1cla%7C2%7Cfyj%7C0%7C2055",
+      "domain": ".msstate.edu",
+      "path": "/",
+      "expires": 1786983682,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ScCbts",
+      "value": "%5B%5D",
+      "domain": ".msstate.edu",
+      "path": "/",
+      "expires": 1756052482,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sc_at",
+      "value": "v2|H4sIAAAAAAAAAE3GuRGAMAwEwIo0o+eMLLrRGVOFiydlo43GXoUQkBS0ppTPFN9W6PUE+R6D3pZjAHlNP7/qB+O1aolAAAAA",
+      "domain": ".snapchat.com",
+      "path": "/",
+      "expires": 1789143682.60268,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_TS",
+      "value": "1755447682462",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760631682.504546,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_DID",
+      "value": "49aa7cd3-513a-4a6c-a0ce-7d00381a2ad4",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760631682.50459,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_3WAY_SYNCS",
+      "value": "",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760631682.504607,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_sctr",
+      "value": "1%7C1755414000000",
+      "domain": ".msstate.edu",
+      "path": "/",
+      "expires": 1789634380,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "uid_syncd_secure",
+      "value": "true",
+      "domain": ".simpli.fi",
+      "path": "/",
+      "expires": 1756052483.537595,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TDID",
+      "value": "e2e70389-6c28-429a-acdf-1d0874af65a0",
+      "domain": ".adsrvr.org",
+      "path": "/",
+      "expires": 1786983685.555724,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "BCSessionID",
+      "value": "29d21eca-a41a-44c4-b634-090804436c42",
+      "domain": "www.msstate.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "audit_p",
+      "value": "1|fb3xPaSy0CqV41JKMOSdm4D9VMUmnqlq1klV3GMsTLElYgK+kvPZDDDY1LwNPgy6bBuCZ+06oUYwHTRO1/p4iHX0qfg68IpFQAPcN3ARK85kS1nCiSKxKUgBVpk6Y9FWQNx2bXv8EbQ8OMyD43+HChyjkfTF8cyGHmwECbkwYrnREvsM2ra73MRmS8gGs6ylTlon0IrnE1p4+byUJuUHKNl4Am3SUH3rwETMVR8lnVPictVKI3nW/ZSmfFa9k+2RfCCm1vF3Tgn8ih/oL8+08tuVaVkDFDbShAUs62yL6R/QD5U7tEfUTQ==",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1786983685.071764,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://msstate.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "khaos",
+      "value": "MEFW86PM-17-I8OG",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1786983685.071782,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "khaos_p",
+      "value": "MEFW86PM-17-I8OG",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1786983685.071793,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://msstate.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "audit",
+      "value": "1|fb3xPaSy0CqV41JKMOSdm4D9VMUmnqlq1klV3GMsTLElYgK+kvPZDDDY1LwNPgy6bBuCZ+06oUYwHTRO1/p4iHX0qfg68IpFQAPcN3ARK85kS1nCiSKxKUgBVpk6Y9FWQNx2bXv8EbQ8OMyD43+HChyjkfTF8cyGHmwECbkwYrnREvsM2ra73MRmS8gGs6ylTlon0IrnE1p4+byUJuUHKNl4Am3SUH3rwETMVR8lnVPictVKI3nW/ZSmfFa9k+2RfCCm1vF3Tgn8ih/oL8+08tuVaVkDFDbShAUs62yL6R/QD5U7tEfUTQ==",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1786983685.07182,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "XANDR_PANID",
+      "value": "DlhYUSywSAn_4WM4YkMsNFS3MArVnwsb17ZaPa3K3M6UiwICJ98DWRcHN-JTBZztpEuoBgPe52ZigwY3aA_Dx-rVxK8VRAqCLYGEjwaNI-s.",
+      "domain": ".adnxs.com",
+      "path": "/",
+      "expires": 1763223685.12901,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://msstate.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "uuid2",
+      "value": "8595844697966023250",
+      "domain": ".adnxs.com",
+      "path": "/",
+      "expires": 1763223685.129091,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "receive-cookie-deprecation",
+      "value": "1",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1770999685.114631,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://msstate.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "demdex",
+      "value": "08733653028851077734446800744175173806",
+      "domain": ".demdex.net",
+      "path": "/",
+      "expires": 1770999685.321946,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "dpm",
+      "value": "08733653028851077734446800744175173806",
+      "domain": ".dpm.demdex.net",
+      "path": "/",
+      "expires": 1770999685.32198,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TDCPM",
+      "value": "CAESFgoHcnViaWNvbhILCKzXwcGE7a4-EAUSFQoGZ29vZ2xlEgsIhPzBwYTtrj4QBRIXCghhcHBuZXh1cxILCIyl-c-E7a4-EAUYBSADKAYyCwj8s8Tumu2uPhAFQg8iDQgBEgkKBXRpZXIzEAFaB2J4aWQwOHVgAQ..",
+      "domain": ".adsrvr.org",
+      "path": "/",
+      "expires": 1786983685.555791,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AWSALB",
+      "value": "BwQ6tINutlcruMzRvwJMMNJKRm+zluA+Dv01/IbN8MXSRviB+wdH0SSbCvgp2UTOa8Ut+usuLpiHkQTte3MrnfrOtW0IBibZrVtVVhiYjS1cG4K1vuuYmdEuxLzU",
+      "domain": "blueconic.msstate.edu",
+      "path": "/",
+      "expires": 1756052485.687767,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AWSALBCORS",
+      "value": "BwQ6tINutlcruMzRvwJMMNJKRm+zluA+Dv01/IbN8MXSRviB+wdH0SSbCvgp2UTOa8Ut+usuLpiHkQTte3MrnfrOtW0IBibZrVtVVhiYjS1cG4K1vuuYmdEuxLzU",
+      "domain": "blueconic.msstate.edu",
+      "path": "/",
+      "expires": 1756052485.687867,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AWSALBCORS",
+      "value": "sbCFAhDmc/QcThpcl6JoAMVDYiiQvpp52yyYvAK+cXjWav2yDAdW5g8yP78spr6AZIMekkJPiNF9a74Azfy3SNy6CINFsC3tkq1nphn3Wuo/c4oyrZh4+gYRssYs",
+      "domain": "mississippistate.blueconic.net",
+      "path": "/",
+      "expires": 1756052485.825736,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "f5avraaaaaaaaaaaaaaaa_session_",
+      "value": "LHOKDLAINNHHCJAGMGCLCHBKKJPGFALGOOLEGHKKNJEJCFLIMAPJGIPOALMHNDDCALJDCPAPGDFHMDGIOBMAGAAANANJECMLFBELIPFFIKPLPKMDDGGJOFIPBEGOHKPP",
+      "domain": "www.ce.msstate.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_VB7M5MFVML",
+      "value": "GS2.1.s1755513890$o3$g0$t1755513890$j60$l0$h0",
+      "domain": ".msstate.edu",
+      "path": "/",
+      "expires": 1790073890.434709,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_K5B29Z45WP",
+      "value": "GS2.1.s1755513890$o2$g0$t1755513890$j60$l0$h0",
+      "domain": ".msstate.edu",
+      "path": "/",
+      "expires": 1790073890.604684,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_GL36GFC91M",
+      "value": "GS2.1.s1755513890$o3$g0$t1755513890$j60$l0$h0",
+      "domain": ".msstate.edu",
+      "path": "/",
+      "expires": 1790073890.63615,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://www.msstate.edu",
+      "localStorage": [
+        {
+          "name": "u_sclid_r",
+          "value": "u8Q2sLhr7Kfj7E8NLyKGgJ3Y8jB9fhELVkkYICDxopFiamwWrwUrtmpe1KDlBNf1"
+        },
+        {
+          "name": "u_sclid",
+          "value": "u8Q2sLhr7Kfj7E8NLyKGgJ3Y8jB9fhELVkkYICDxopFiamwWrwUrtmpe1KDlBNf1"
+        },
+        {
+          "name": "dgdr",
+          "value": "N4Ig5gpg9iBcoBcCWBbCB9AXlAdhOIAgmgE5IDGAhgPQDCAFhZWDADQgkRhK7rlQATfLBAAVABoh2.HMjyy-g4SAByhKSH4BXWSQCeioQQCqAZQ0AbSsgRajsAEwBOAHQBWACwBGABzSkCHoEppQ4AASEsrg8GpzcvDiUaASiEAAelADOlrjctvYAtE4-Lh4OXg7SuHIQConJIipQJAj0EaRMGmgIJFCGwgBs3lU6PQb1ysY4ARACYaYI1hDZ7JhIAA789iAA7D7lOxobBF47Du4DpecObgAMIAC-7CShAnBuvl4DTuyZWuTkZbZWA9LQQdgIYGnNyeDw7Ab7Aa3HbsASUAgAdwAfgAjTAAKhwAB8GL00ABSHGZfE4gCO-PIAGt8SQseR1gASW4APXI9HxlHouMo-K0WIQuLANPWAogWMouP55Bx-PWZBQlH0pigADMEBjNRBRHp1hAiQAhXoYzIQEjkyjkeU6tkCGkkVW45mYC0WJA4RmU8j4zK4rQ0pD4sBYgSunEIBm0rm8iz4oSp-koIkVW4uHN5-0KgRSygqpDyqM4lA0gTRlWA1PU8ju2lYgBW0ej.PoRJUojCXnzOOjFiTlAERIAIstGQgoOtyXLyBHyGG9ESAOp-gRQa3927kixsrHrTXISgWACSQlkSB1TGQuAZaXxADdozhUzrU0HyB-AfjnRxCwiXQSxIRgWAAGYHiAA_"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755447681984"
+        },
+        {
+          "name": "_uetvid_exp",
+          "value": "Fri, 11 Sep 2026 16:21:21 GMT"
+        },
+        {
+          "name": "_uetsid_exp",
+          "value": "Mon, 18 Aug 2025 16:21:21 GMT"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755447682248"
+        },
+        {
+          "name": "_uetvid",
+          "value": "36830c907b8611f09e331d2906eea802"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755447681428},\"expires\":1763223681428}}"
+        },
+        {
+          "name": "xdibx",
+          "value": "N4Ig-mBGAeDGCuAnRIBcoAOGAuBnNAjAOwCsJALOUQGwAcATNQAxEA0IGAbrAHbaHtc-VMTKUaDZmw6dcvfiPaIkAGzQgQ7FavUB6AGbxsSAKYBaXMYAmJvrl0BDLCoCemkCryFSFKnUYs7Bg6qADaIAZGphbWtniOzm4AugC-7BAwGIgmnGigVg4uwqGivhIBRKnpUNA5ccLAaeA1sACWVur0TLBETPQkDmawkPTkZuQkfWYO5PoAnNMO1OTUAMzkc7REtPpmpeL-BNT0IClAA_"
+        },
+        {
+          "name": "_uetsid",
+          "value": "3682f4707b8611f0823ab5685878c788"
+        }
+      ]
+    }
+  ]
+}

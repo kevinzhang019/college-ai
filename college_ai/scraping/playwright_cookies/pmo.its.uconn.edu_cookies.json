@@ -1,0 +1,55 @@
+{
+  "cookies": [
+    {
+      "name": "XSRF-TOKEN",
+      "value": "0a15badb-0062-4e37-9310-c8a520c8e12f",
+      "domain": "login.uconn.edu",
+      "path": "/cas",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "PHPSESSID",
+      "value": "0caaqecas5v5954lpgkvstbkro",
+      "domain": "pmo.its.uconn.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "spo_3721_fa",
+      "value": "f13c0db2a395a2a6cbc0ce424f983d6c",
+      "domain": "pmo.its.uconn.edu",
+      "path": "/",
+      "expires": 1755522503.067724,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "wordpress_test_cookie",
+      "value": "WP%20Cookie%20check",
+      "domain": ".pmo.its.uconn.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "org.springframework.web.servlet.i18n.CookieLocaleResolver.LOCALE",
+      "value": "en-CA",
+      "domain": "login.uconn.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

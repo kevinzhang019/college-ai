@@ -1,0 +1,57 @@
+{
+  "cookies": [
+    {
+      "name": "cf_clearance",
+      "value": "N6WYPDFKVdxmG9OoxVg9A4nqyjhi8mwxVLQiXF1zw8Y-1775126210-1.2.1.1-.ngb8KfZ1a.9NVDa9NnKRoqAyusDtlm_oSQQWaxwzZrGAPGp4F2TWGb_vLloN3CcUQjPfcHE47w0zvLIINgSl0r8TnyCrGQJ3zh_cAEXIqz8E9ZBzEHsVXFjpRuK5rdNDTQmxb7_Hv7IshPSoa3Mx_oPVsYL2_x_PjyIRdNMsdrTkMR.VdV5vV54nK4P3cTR4JNuL13hbxCBbb9m8MfOyaZOr8OT0cgWtFOAbf0xy3U",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1806662210,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1279468796.1775128658",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1809750198.040307,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "RHEJ9XBv9d7tmQY27yOmc5lvUT7izjuht76UHR7WpZA-1775190197-1.0.1.1-mPUPzvTjcGY2iyHfgSzGQ4EGRbK8OHmu1vaRyUcjuYk7.Dhu1NVDSleFNjA3os7iP6jFpX_YiDDvKqnjY.EjOYFPxzNON02zeDA2Z41S7BQ",
+      "domain": ".vrc.usc.edu",
+      "path": "/",
+      "expires": 1775191997.601373,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_QQF5RKD7VX",
+      "value": "GS2.1.s1775190198$o3$g0$t1775190198$j60$l0$h0",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1809750198.040166,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cf_clearance",
+      "value": "S5h8VucrO2HhfUwjDAiWUaUCGs5uhjOuHPxOUbYO4ps-1775190199-1.2.1.1-1h7hBwDE.x0hM87QRWmTdyKkW9nUCMw6.zusEvo_6k5ibH3E.VxE4PZsZMtueY0EIkN2wDSMWTwfsnDuHx.r_kTC93dft6QlRm37CMLGB8f3_ZmBEPqOTjpTquIIDrhAst9YBvqgH.dN1tPRUHyku3D5EkT1j.CxiVjD9yV99XOqpSKaJWk4quFpMm1Qu0t7KQBVgYIk8cNE3CJXE9PUpXljt_wLoS3ZCAn5A4C9.1k",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1806726199.596708,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://usc.edu",
+      "_crHasCrossSiteAncestor": false
+    }
+  ],
+  "origins": []
+}

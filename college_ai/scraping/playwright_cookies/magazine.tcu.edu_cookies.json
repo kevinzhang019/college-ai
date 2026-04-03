@@ -1,0 +1,93 @@
+{
+  "cookies": [
+    {
+      "name": "",
+      "value": "test",
+      "domain": "magazine.tcu.edu",
+      "path": "/fall-2025/charity-ketu-chancellors-scholar-sga",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "R_PB_QUd7oC84DMhL2CvHr0ynNPZR3xyRhoP4M1ktTA-1755453274-1.0.1.1-B0Vz0Pe0uCkUDKw_.cKLaiUO2nD6Z2akNytZWxx._SNHwf9vgd1IbZXxDkx5gSfqBuSbyIIfnBp.BkFOAgo.UI0mN2qYaKCrFjfvow3GJ.c",
+      "domain": ".magazine.tcu.edu",
+      "path": "/",
+      "expires": 1755455074.350521,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_parsely_session",
+      "value": "{%22sid%22:1%2C%22surl%22:%22https://magazine.tcu.edu/fall-2025/charity-ketu-chancellors-scholar-sga/%22%2C%22sref%22:%22%22%2C%22sts%22:1755453274889%2C%22slts%22:0}",
+      "domain": ".tcu.edu",
+      "path": "/",
+      "expires": 1755455074,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_parsely_visitor",
+      "value": "{%22id%22:%22pid=313585b736782973de12e80f69ec65ba%22%2C%22session_count%22:1%2C%22last_session_ts%22:1755453274889}",
+      "domain": ".tcu.edu",
+      "path": "/",
+      "expires": 1789617274,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_5GZC60591D",
+      "value": "GS2.1.s1755453275$o1$g0$t1755453275$j60$l0$h0",
+      "domain": ".tcu.edu",
+      "path": "/",
+      "expires": 1790013275.315899,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1038554260.1755453275",
+      "domain": ".tcu.edu",
+      "path": "/",
+      "expires": 1790013275.316079,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755453275329.739174272512682589",
+      "domain": ".tcu.edu",
+      "path": "/",
+      "expires": 1763229275,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://magazine.tcu.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755453275321"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755453275334"
+        }
+      ]
+    }
+  ]
+}

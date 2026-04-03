@@ -1,0 +1,146 @@
+{
+  "cookies": [
+    {
+      "name": "BUARRAffinitywww",
+      "value": "f60b081be38b2d648fe74aec46e1e7cefcc117ac062f81ca9b9f49fc2e814e82",
+      "domain": ".www.baylor.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.1025654195.1755443202",
+      "domain": ".baylor.edu",
+      "path": "/",
+      "expires": 1763219202,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1463954555.1755443202",
+      "domain": ".baylor.edu",
+      "path": "/",
+      "expires": 1790069096.448524,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_node",
+      "value": "24cb4d6272b3a99e2195e26e8d714f3ce21a96f7c97ec09ea6f7c181d27bb3be",
+      "domain": "apply.baylor.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "ceb422b0-a253-4194-922f-f02149763e1e",
+      "domain": "apply.baylor.edu",
+      "path": "/",
+      "expires": 1790003202.826907,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "apply.baylor.edu",
+      "path": "/",
+      "expires": 1790003202.826933,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755443203019.374785903304957936",
+      "domain": ".baylor.edu",
+      "path": "/",
+      "expires": 1763285096,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_576K0MV60P",
+      "value": "GS2.1.s1755509096$o2$g0$t1755509096$j60$l0$h0",
+      "domain": ".baylor.edu",
+      "path": "/",
+      "expires": 1790069096.408642,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_JRZNJF61SK",
+      "value": "GS2.1.s1755509096$o1$g0$t1755509096$j60$l0$h0",
+      "domain": ".baylor.edu",
+      "path": "/",
+      "expires": 1790069096.448152,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://hr.web.baylor.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755509096229},\"expires\":1763285096229}}"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755509096784"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755509096795"
+        }
+      ]
+    },
+    {
+      "origin": "https://about.web.baylor.edu",
+      "localStorage": [
+        {
+          "name": "8763bb9c-0970-96f4-cca6-4c206c2a359d_st",
+          "value": "1755443203039"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "8763bb9c-0970-96f4-cca6-4c206c2a359d_pp",
+          "value": "{}"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755443201811},\"expires\":1763219201811}}"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755443203011"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755443203073"
+        }
+      ]
+    }
+  ]
+}

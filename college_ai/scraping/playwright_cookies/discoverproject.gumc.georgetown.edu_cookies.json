@@ -1,0 +1,35 @@
+{
+  "cookies": [
+    {
+      "name": "_ga",
+      "value": "GA1.1.1262663787.1775168965",
+      "domain": ".georgetown.edu",
+      "path": "/",
+      "expires": 1809728965.264971,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_BWL0WT9P60",
+      "value": "GS2.1.s1775168965$o1$g0$t1775168965$j60$l0$h0",
+      "domain": ".georgetown.edu",
+      "path": "/",
+      "expires": 1809728965.269621,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "NID",
+      "value": "530=tGJtY49gqz1I456pAezYe9_Y5ek3Hsp1IVtNNtDnqQZPhCBWFqu9mTyRQGuu-kD-DRFP4yvMVGUDELt3ZN1sXc5vplRZHoiEDA1rSw2-zml_CkXAriXDLCGP1Co45p_o7Quw68zntHwv1yAxduF8eqLYJIGK9JdJz2lQrSn-QNlbVtTL9OL6ef6qknZCJAbdQK4N-Z6gzW9nJFGI4S66XnQ",
+      "domain": ".google.com",
+      "path": "/",
+      "expires": 1790980168.736997,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": []
+}

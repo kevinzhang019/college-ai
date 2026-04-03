@@ -1,0 +1,426 @@
+{
+  "cookies": [
+    {
+      "name": "_gcl_au",
+      "value": "1.1.148580878.1755436343",
+      "domain": ".ucf.edu",
+      "path": "/",
+      "expires": 1763212343,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_7X9NJGNJES",
+      "value": "GS2.1.s1755436342$o1$g1$t1755436353$j49$l0$h0",
+      "domain": ".ucf.edu",
+      "path": "/",
+      "expires": 1789996353.880588,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.918550551.1755436383",
+      "domain": ".ucf.edu",
+      "path": "/",
+      "expires": 1755614074,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_rdt_uuid",
+      "value": "1755436383494.c0f9ca5c-97a1-47ef-ad6b-12a9f663b4f3",
+      "domain": ".ucf.edu",
+      "path": "/",
+      "expires": 1763212383,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_ga_JHN14MRV58",
+      "value": "GS2.1.s1755436383$o1$g0$t1755436383$j60$l0$h0",
+      "domain": ".ucf.edu",
+      "path": "/",
+      "expires": 1789996383.591207,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755436383950.564943505352002412",
+      "domain": ".ucf.edu",
+      "path": "/",
+      "expires": 1763303674,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUlhkxEZULHMCgT2F0dO8f1-geX5Gv60tcG_xn2FXa3tcnYNB0KlMWFaSlYC",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1789996384.418015,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&418a6fc7-a389-4f81-8dec-c5c27113ba51\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1787063675.376283,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TDID",
+      "value": "a075266f-dc27-41e1-9e47-4248d5b6b3bb",
+      "domain": ".adsrvr.org",
+      "path": "/",
+      "expires": 1786972387.00601,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "demdex",
+      "value": "41488132155622890800176190822965439348",
+      "domain": ".demdex.net",
+      "path": "/",
+      "expires": 1770988386.934147,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "XANDR_PANID",
+      "value": "X4V_dCFjGNWwvvkVPgmso_ACcIqOxPY69apzgtVM0-4Pf_UPJ64zCvhfsPbf6HX7667Flf-WK01UrUViGgVl-cla-yji45dBbfA5IPItAsA.",
+      "domain": ".adnxs.com",
+      "path": "/",
+      "expires": 1763212386.933971,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://ucf.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "uuid2",
+      "value": "7966532705397939219",
+      "domain": ".adnxs.com",
+      "path": "/",
+      "expires": 1763212386.93401,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "dpm",
+      "value": "41488132155622890800176190822965439348",
+      "domain": ".dpm.demdex.net",
+      "path": "/",
+      "expires": 1770988386.934162,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TDCPM",
+      "value": "CAESEgoDYWFtEgsI4qXi5Lrmrj4QBRIXCghhcHBuZXh1cxILCLSd8Ou65q4-EAUSFQoGZ29vZ2xlEgsI4vni5Lrmrj4QBRgFIAIoBjILCKju5JHR5q4-EAU4AUIEIgIIAVoHYXU0cm9jYWAB",
+      "domain": ".adsrvr.org",
+      "path": "/",
+      "expires": 1786972387.006036,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "test",
+      "value": "test",
+      "domain": "7d65653a-6340-4899-a190-93ea75b72202.rlets.com",
+      "path": "/",
+      "expires": 1755614074,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "rl_visitor_history",
+      "value": "ee3500c6-8cff-4aa9-981a-1b7e9fb4aa91",
+      "domain": "business.ucf.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sifi_user_id",
+      "value": "undefined",
+      "domain": "business.ucf.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "suid",
+      "value": "4D8867C928B248D9B74625A622A3BC97",
+      "domain": ".simpli.fi",
+      "path": "/",
+      "expires": 1787081792.657873,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "uid_syncd_secure",
+      "value": "true",
+      "domain": ".simpli.fi",
+      "path": "/",
+      "expires": 1756064193.280561,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gat",
+      "value": "1",
+      "domain": ".ucf.edu",
+      "path": "/",
+      "expires": 1755527734,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_NP5ZWEN32S",
+      "value": "GS2.1.s1755527674$o2$g0$t1755527674$j60$l0$h0",
+      "domain": ".ucf.edu",
+      "path": "/",
+      "expires": 1790087674.319818,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1385528870.1755436343",
+      "domain": ".ucf.edu",
+      "path": "/",
+      "expires": 1790087674.336483,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_YJ2LQ7CMQX",
+      "value": "GS2.1.s1755527674$o3$g0$t1755527674$j60$l0$h0",
+      "domain": ".ucf.edu",
+      "path": "/",
+      "expires": 1790087674.336319,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": "px.ads.linkedin.com",
+      "path": "/",
+      "expires": 1758157420.376265,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=TGST09:s=T:r=T:a=T:p=T:g=3101:u=1:x=1:i=1755527674:t=1755614074:v=2:sig=AQHutPnLFF5ZUPabWFwSUcUPCcj8r74u\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755614075.376306,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bot_type",
+      "value": "",
+      "domain": "7d65653a-6340-4899-a190-93ea75b72202.rlets.com",
+      "path": "/",
+      "expires": 1790087674.556478,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "history_campaign",
+      "value": "",
+      "domain": "7d65653a-6340-4899-a190-93ea75b72202.rlets.com",
+      "path": "/",
+      "expires": 1790087674.556546,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "history_referrer_type",
+      "value": "DIRECT",
+      "domain": "7d65653a-6340-4899-a190-93ea75b72202.rlets.com",
+      "path": "/",
+      "expires": 1790087674.556593,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "last_activity_at",
+      "value": "1755527674555",
+      "domain": "7d65653a-6340-4899-a190-93ea75b72202.rlets.com",
+      "path": "/",
+      "expires": 1790087674.556656,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "visitor_id",
+      "value": "ee3500c6-8cff-4aa9-981a-1b7e9fb4aa91",
+      "domain": "7d65653a-6340-4899-a190-93ea75b72202.rlets.com",
+      "path": "/",
+      "expires": 1790087674.701923,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sifi_user_id",
+      "value": "",
+      "domain": "7d65653a-6340-4899-a190-93ea75b72202.rlets.com",
+      "path": "/",
+      "expires": 1790087674.556754,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "visit_id",
+      "value": "d3c3d98b-6694-4ec7-8775-64797aa044cc",
+      "domain": "7d65653a-6340-4899-a190-93ea75b72202.rlets.com",
+      "path": "/",
+      "expires": 1790087674.556803,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://business.ucf.edu",
+      "localStorage": [
+        {
+          "name": "7d65653a-6340-4899-a190-93ea75b72202_bot_type",
+          "value": ""
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755527674342"
+        },
+        {
+          "name": "rl_last_known_activity_at",
+          "value": "1755527674640"
+        },
+        {
+          "name": "7d65653a-6340-4899-a190-93ea75b72202_visitor_id",
+          "value": "ee3500c6-8cff-4aa9-981a-1b7e9fb4aa91"
+        },
+        {
+          "name": "rl_initial_referrer",
+          "value": ""
+        },
+        {
+          "name": "capture_base_site_id",
+          "value": "7d65653a-6340-4899-a190-93ea75b72202"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755527674280"
+        },
+        {
+          "name": "rl_os",
+          "value": "Linux -"
+        },
+        {
+          "name": "7d65653a-6340-4899-a190-93ea75b72202_history_referrer_type",
+          "value": "DIRECT"
+        },
+        {
+          "name": "7d65653a-6340-4899-a190-93ea75b72202_history_campaign",
+          "value": ""
+        },
+        {
+          "name": "7d65653a-6340-4899-a190-93ea75b72202_visit_id",
+          "value": "d3c3d98b-6694-4ec7-8775-64797aa044cc"
+        },
+        {
+          "name": "rl_initial_page_uri",
+          "value": "https://business.ucf.edu/ucf-economist-sean-snaith-bitcoin-cryptocurrency/"
+        },
+        {
+          "name": "7d65653a-6340-4899-a190-93ea75b72202_sifi_user_id",
+          "value": ""
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "7d65653a-6340-4899-a190-93ea75b72202_last_activity_at",
+          "value": "1755527674555"
+        },
+        {
+          "name": "li_adsId",
+          "value": "a1e77275-1b6b-4afc-8105-de89b62aecf9"
+        }
+      ]
+    },
+    {
+      "origin": "https://www.ucf.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755436342625},\"expires\":1763212342625}}"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755436383942"
+        },
+        {
+          "name": "NRBA_SESSION",
+          "value": "{\"value\":\"d04497ec269e01e5\",\"inactiveAt\":1755438143087,\"expiresAt\":1755450743087,\"updatedAt\":1755436343901,\"sessionReplayMode\":0,\"sessionReplaySentFirstChunk\":false,\"sessionTraceMode\":0,\"traceHarvestStarted\":false,\"loggingMode\":0,\"serverTimeDiff\":-401,\"custom\":{},\"numOfResets\":0}"
+        },
+        {
+          "name": "li_adsId",
+          "value": "04759d4b-6e3b-4f91-b62b-ed8eaba976a0"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755436383954"
+        }
+      ]
+    }
+  ]
+}

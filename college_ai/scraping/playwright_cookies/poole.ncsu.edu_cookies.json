@@ -1,0 +1,509 @@
+{
+  "cookies": [
+    {
+      "name": "_gcl_au",
+      "value": "1.1.1281657330.1755557886",
+      "domain": ".ncsu.edu",
+      "path": "/",
+      "expires": 1763333886,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.67119383.1755557887",
+      "domain": ".ncsu.edu",
+      "path": "/",
+      "expires": 1755644649,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-4c7017da-fbdf-412c-7d4f-e5550338b531.u9NNMs1Sk6quymUNAVjG0Pxf0mmm2lhse%2FpBMV2XAGA",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1787093886.910347,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-4c7017da-fbdf-412c-7d4f-e5550338b531.u9NNMs1Sk6quymUNAVjG0Pxf0mmm2lhse%2FpBMV2XAGA",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1787093886.910361,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3ATHAX2vvfQSx9T-VVAzi1MQ.pnaIK7sXTXY%2F8gp8LtTboqoT0pi1L52HfHwnnGtDkhs",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1787094249.621484,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3ATHAX2vvfQSx9T-VVAzi1MQ.pnaIK7sXTXY%2F8gp8LtTboqoT0pi1L52HfHwnnGtDkhs",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1787094249.621512,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEHwYAiD-347FBjoEmw576UIEPwXMnQ.ry%2BvJpkFr7vxoBV%2BnYwb%2FIjs6W18ZOdcvf0j35y%2Bl8k",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1787093886.910402,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEHwYAiD-347FBjoEmw576UIEPwXMnQ.ry%2BvJpkFr7vxoBV%2BnYwb%2FIjs6W18ZOdcvf0j35y%2Bl8k",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1787093886.91041,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%253A0-4c7017da-fbdf-412c-7d4f-e5550338b531.u9NNMs1Sk6quymUNAVjG0Pxf0mmm2lhse%252FpBMV2XAGA",
+      "domain": "poole.ncsu.edu",
+      "path": "/",
+      "expires": 1787093886,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%253ATHAX2vvfQSx9T-VVAzi1MQ.pnaIK7sXTXY%252F8gp8LtTboqoT0pi1L52HfHwnnGtDkhs",
+      "domain": "poole.ncsu.edu",
+      "path": "/",
+      "expires": 1787093886,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%253AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEHwYAiD-347FBjoEmw576UIEPwXMnQ.ry%252BvJpkFr7vxoBV%252BnYwb%252FIjs6W18ZOdcvf0j35y%252Bl8k",
+      "domain": "poole.ncsu.edu",
+      "path": "/",
+      "expires": 1787093886,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755557886935.1025553924101840",
+      "domain": ".ncsu.edu",
+      "path": "/",
+      "expires": 1763334249,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CLID",
+      "value": "5085a69f2cf34005a2ad76b3d3ba7c25.20250818.20260818",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1787093887.060279,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUmyuAW5ErTw4XOrVraeZNO9AF983NIDrrKlyltEU68ob7aJ6-n37O9HBm3Z",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1790117887.064102,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&7b53b337-2b46-4480-876d-51f20341d8db\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1787094044.909723,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=TGST09:s=T:r=T:a=T:p=T:g=3101:u=1:x=1:i=1755557887:t=1755644287:v=2:sig=AQE4DJmicJmTpyXiRQS1E_mjqx9qeLGz\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755644287.153088,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_clck",
+      "value": "1uqqr2s%7C2%7Cfyk%7C0%7C2056",
+      "domain": ".ncsu.edu",
+      "path": "/",
+      "expires": 1787093887,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__hstc",
+      "value": "232213632.67aeb5f023176f0fb56903992205e2f6.1755557887340.1755557887340.1755557887340.1",
+      "domain": ".ncsu.edu",
+      "path": "/",
+      "expires": 1771110249,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "hubspotutk",
+      "value": "67aeb5f023176f0fb56903992205e2f6",
+      "domain": ".ncsu.edu",
+      "path": "/",
+      "expires": 1771110249,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__hssrc",
+      "value": "1",
+      "domain": ".ncsu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CHA",
+      "value": "iws-wph-100.oit.ncsu.edu",
+      "domain": "poole.ncsu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.3.310724065.1755557886",
+      "domain": ".poole.ncsu.edu",
+      "path": "/",
+      "expires": 1790118044.444601,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.3.67119383.1755557887",
+      "domain": ".poole.ncsu.edu",
+      "path": "/",
+      "expires": 1755644444,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_node",
+      "value": "c523366081f6753122c7083b06f7004cb1578f023610c6681ce4518af285fe98",
+      "domain": "apply.ncsu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "0ec6ec22-8f67-4c97-884c-c5258ac0988c",
+      "domain": "apply.ncsu.edu",
+      "path": "/",
+      "expires": 1790118044.595727,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "apply.ncsu.edu",
+      "path": "/",
+      "expires": 1790118044.59576,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": "px.ads.linkedin.com",
+      "path": "/",
+      "expires": 1758187790.909562,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_G35STHN9SW",
+      "value": "GS2.3.s1755558044$o1$g0$t1755558044$j60$l0$h0",
+      "domain": ".poole.ncsu.edu",
+      "path": "/",
+      "expires": 1790118044.961257,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_node",
+      "value": "c523366081f6753122c7083b06f7004cb1578f023610c6681ce4518af285fe98",
+      "domain": "applynds.ncsu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "26cedd84-c5bb-4fec-b3e0-d266f1089f03",
+      "domain": "applynds.ncsu.edu",
+      "path": "/",
+      "expires": 1790118045.253938,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "applynds.ncsu.edu",
+      "path": "/",
+      "expires": 1790118045.25403,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "flb",
+      "value": "iws-wsproxy-100|aKOxb",
+      "domain": "poole.ncsu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_3BCCQK39HR",
+      "value": "GS2.2.s1755557886$o1$g1$t1755558249$j60$l0$h511538610",
+      "domain": ".ncsu.edu",
+      "path": "/",
+      "expires": 1790118249.118535,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_52ZBXKJW18",
+      "value": "GS2.1.s1755558249$o1$g0$t1755558249$j60$l0$h0",
+      "domain": ".ncsu.edu",
+      "path": "/",
+      "expires": 1790118249.358424,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.310724065.1755557886",
+      "domain": ".ncsu.edu",
+      "path": "/",
+      "expires": 1790118249.367462,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_UA-1958320-1",
+      "value": "1",
+      "domain": ".ncsu.edu",
+      "path": "/",
+      "expires": 1755558309,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "ap_6Pyhf.iPmVL7.phf9JuwqmRf.cauR8dxx7TB5x1E-1755558249-1.0.1.1-2yHd4gA.coyOvvAiB3RWgD4icS.3KZe7qgLsDRyeJm_a54ny.WyYoYsQAIC.KPNyAbfdrFaFyqsA14wKnxD_I70lsOVmBZ8JO.XLu8wf2aE",
+      "domain": ".hs-scripts.com",
+      "path": "/",
+      "expires": 1755560049.488451,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_G35STHN9SW",
+      "value": "GS2.2.s1755558044$o1$g1$t1755558249$j60$l0$h0",
+      "domain": ".ncsu.edu",
+      "path": "/",
+      "expires": 1790118249.728986,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "5c0p2fvNpVMnZu524VR6wS87SsLb9Pz0S.DPGMIdjNk-1755558249-1.0.1.1-FnJJJp1isQ_.VUgSLEO_bVy.IO2CKehupuPUixLv71jXjbFXDefN8LoMd6Kvu8JwNiO4Fho3mgCT_uLDXIDGq5UcrTkdINuGyPuUNXNemao",
+      "domain": ".hs-banner.com",
+      "path": "/",
+      "expires": 1755560049.732277,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "FiDjOCyfUxo4wAVTDw9Ywo151VpWoy4xIaXZK50NOYM-1755558249-1.0.1.1-_YK7quWa2GaRWxSX.ReC7QLTj6ncvsz6FsO4H.wUdo5SlWBebM8sCbjaAq1fP7064Zi6qDH63xOstT5DwLcNZUV1BY21vcXmgCrrPu_N3sk",
+      "domain": ".hubspot.com",
+      "path": "/",
+      "expires": 1755560049.738486,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_cfuvid",
+      "value": "Oszl2Zr32O94_.yY.FJATUsD2QcuhDOSdvWx3MsI950-1755558249823-0.0.1.1-604800000",
+      "domain": ".hubspot.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "0NiPmzXS00.ZFiAfYUJ7.ZlPmxgxp.wzzYWusYqrhak-1755558249-1.0.1.1-XIkQZz8KWMtI_3QyHv_gNGc27W4Wi.ohfNL0gePnV5cNJ9cBZDh7Qy9IIIPD0F2bCNYpTPjr65fKsrKeh81UnxDSxaCMpMzoUYWWmiAy_JM",
+      "domain": ".hs-analytics.net",
+      "path": "/",
+      "expires": 1755560049.770813,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "izFyf.v2XaEb_b2uOyouZ1f_p3TkgTVKud_E_LHuK.o-1755558249-1.0.1.1-8p4bBAXhfnnJkH4Dw03w8D_W3TV7gpvXwfQl9H8a0KCKS3fe4RUXKGVkM37W3E_ptQqAfuSwer4v2szkWvOxMNdRPtUshFZFICv7tctouWk",
+      "domain": ".usemessages.com",
+      "path": "/",
+      "expires": 1755560049.792375,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "IhpCZ1U7FaH3L0.NQsJEAwPmjAaC44A00vb0a.s5BP4-1755558249-1.0.1.1-ZQWltsfcGDWwDEeWg6iIFEucLj71KgExLDusphw4JXpHzK0ov7W21RhXStZQfLCHxjpBqnGFJenRZjDEvlueL3eJ2bi6naE.7alLNRoqGNA",
+      "domain": ".hscollectedforms.net",
+      "path": "/",
+      "expires": 1755560049.800037,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__hssc",
+      "value": "232213632.4.1755557887340",
+      "domain": ".ncsu.edu",
+      "path": "/",
+      "expires": 1755560049,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://poole.ncsu.edu",
+      "localStorage": [
+        {
+          "name": "fdc9bda6-abc0-4b06-e21a-42dbc4fa4b50_pp",
+          "value": "{}"
+        },
+        {
+          "name": "sa-user-id",
+          "value": "s%3A0-4c7017da-fbdf-412c-7d4f-e5550338b531.u9NNMs1Sk6quymUNAVjG0Pxf0mmm2lhse%2FpBMV2XAGA"
+        },
+        {
+          "name": "af2c5dbf-3284-936d-bc3d-0a9d33956397_st",
+          "value": "1755558044984"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755558249631"
+        },
+        {
+          "name": "fdc9bda6-abc0-4b06-e21a-42dbc4fa4b50_st",
+          "value": "1755558045313"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755558249646"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755557886308},\"expires\":1763333886308}}"
+        },
+        {
+          "name": "af2c5dbf-3284-936d-bc3d-0a9d33956397_pp",
+          "value": "{}"
+        },
+        {
+          "name": "sa-user-id-v3",
+          "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEHwYAiD-347FBjoEmw576UIEPwXMnQ.ry%2BvJpkFr7vxoBV%2BnYwb%2FIjs6W18ZOdcvf0j35y%2Bl8k"
+        },
+        {
+          "name": "li_adsId",
+          "value": "c6eaeead-f813-41e5-ad41-8bbd8c2fd3fc"
+        },
+        {
+          "name": "sa-user-id-v2",
+          "value": "s%3ATHAX2vvfQSx9T-VVAzi1MQ.pnaIK7sXTXY%2F8gp8LtTboqoT0pi1L52HfHwnnGtDkhs"
+        }
+      ]
+    }
+  ]
+}

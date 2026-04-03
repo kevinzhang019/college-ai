@@ -1,0 +1,193 @@
+{
+  "cookies": [
+    {
+      "name": "__utma",
+      "value": "12023858.1544744063.1755583047.1755583047.1755583047.1",
+      "domain": ".website.cs.vt.edu",
+      "path": "/",
+      "expires": 1790143046.793069,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__utmb",
+      "value": "12023858.0.10.1755583047",
+      "domain": ".website.cs.vt.edu",
+      "path": "/",
+      "expires": 1755584846,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__utmc",
+      "value": "12023858",
+      "domain": ".website.cs.vt.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__utmz",
+      "value": "12023858.1755583047.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)",
+      "domain": ".website.cs.vt.edu",
+      "path": "/",
+      "expires": 1771351046,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.130911920.1755583047",
+      "domain": ".vt.edu",
+      "path": "/",
+      "expires": 1763359047,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_JHMTZTGLR9",
+      "value": "GS2.1.s1755583047$o1$g0$t1755583047$j60$l0$h0",
+      "domain": ".vt.edu",
+      "path": "/",
+      "expires": 1790143047.098346,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1576706943.1755583047",
+      "domain": ".vt.edu",
+      "path": "/",
+      "expires": 1790143047.328239,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__spdt",
+      "value": "34c8c430e6dc424e8bacd642a7bd91a1",
+      "domain": "website.cs.vt.edu",
+      "path": "/",
+      "expires": 1787119047,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_rdt_uuid",
+      "value": "1755583047347.8256dba7-ad58-47ae-a62e-001d28dc8b8c",
+      "domain": ".vt.edu",
+      "path": "/",
+      "expires": 1763359047,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "test_cookie",
+      "value": "CheckForPermission",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1755583947.514452,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755583047517.47675783317065671",
+      "domain": ".vt.edu",
+      "path": "/",
+      "expires": 1763359047,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_uetsid",
+      "value": "62b83d207cc111f0af0079e583f4acd2",
+      "domain": ".vt.edu",
+      "path": "/",
+      "expires": 1755669447,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_uetvid",
+      "value": "62b822607cc111f0ae6d95b2760cfc7d",
+      "domain": ".vt.edu",
+      "path": "/",
+      "expires": 1789279047,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_5Z60EH83Q9",
+      "value": "GS2.1.s1755583047$o1$g0$t1755583047$j60$l0$h0",
+      "domain": ".vt.edu",
+      "path": "/",
+      "expires": 1790143047.629464,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_DTEQ1JM2SG",
+      "value": "GS2.1.s1755583047$o1$g0$t1755583047$j60$l0$h0",
+      "domain": ".vt.edu",
+      "path": "/",
+      "expires": 1790143047.631881,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://website.cs.vt.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755583047509"
+        },
+        {
+          "name": "_uetvid_exp",
+          "value": "Sun, 13 Sep 2026 05:57:27 GMT"
+        },
+        {
+          "name": "_uetsid_exp",
+          "value": "Wed, 20 Aug 2025 05:57:27 GMT"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755583047600"
+        },
+        {
+          "name": "_uetvid",
+          "value": "62b822607cc111f0ae6d95b2760cfc7d"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":1,\"creationTimeMs\":1755583047194},\"expires\":1763359047194}}"
+        },
+        {
+          "name": "_uetsid",
+          "value": "62b83d207cc111f0af0079e583f4acd2"
+        }
+      ]
+    }
+  ]
+}

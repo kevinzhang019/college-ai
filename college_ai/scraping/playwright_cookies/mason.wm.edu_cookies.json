@@ -1,0 +1,657 @@
+{
+  "cookies": [
+    {
+      "name": "_node",
+      "value": "0b096070ae997675162db1cdea19e020e96e4a411a2ca2219d6c31534aeb6497",
+      "domain": "admission.wm.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "829ec1df-37f1-49a8-9edb-42bf64e5cadd",
+      "domain": "admission.wm.edu",
+      "path": "/",
+      "expires": 1790001749.898049,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "admission.wm.edu",
+      "path": "/",
+      "expires": 1790001749.898466,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.2119366488.1755441751",
+      "domain": ".wm.edu",
+      "path": "/",
+      "expires": 1763217751,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_scid",
+      "value": "MhQNPv1Jqsfr4wiSwTLMtzIpyb6y8lFx",
+      "domain": ".wm.edu",
+      "path": "/",
+      "expires": 1789628449,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1766008121.1755441751",
+      "domain": ".wm.edu",
+      "path": "/",
+      "expires": 1790102244.649914,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755441751546.139006014620539035",
+      "domain": ".wm.edu",
+      "path": "/",
+      "expires": 1763318245,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ScCbts",
+      "value": "%5B%5D",
+      "domain": ".wm.edu",
+      "path": "/",
+      "expires": 1756046551,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sc_at",
+      "value": "v2|H4sIAAAAAAAAAE3GwQ2AMAwDwIkiOcQFlW1SEk/R4eHJ53SIVcXjsUq1MSNtTcgA6OzZknw7cfs1BvkZ+1e82Tqyb0AAAAA=",
+      "domain": ".snapchat.com",
+      "path": "/",
+      "expires": 1789137753.492255,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_TS",
+      "value": "1755441753437",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760625753.408907,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_DID",
+      "value": "8846b4be-822c-49fa-951c-ae41d3ae0988",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760625753.409032,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_3WAY_SYNCS",
+      "value": "",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760625753.409073,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_sctr",
+      "value": "1%7C1755403200000",
+      "domain": ".wm.edu",
+      "path": "/",
+      "expires": 1789628451,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUlRRk2CxDgMzqUG9QZUxlB0cIgBOB6q6sNNl8AwDKAVjB57QhJnvxjQ9uEz",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1790001862.295154,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__gsas",
+      "value": "ID=4b241482d5f0e925:T=1755441863:RT=1755441863:S=ALNI_MY95yVWo3rZ-h0uMeauQJk035leJw",
+      "domain": ".wm.edu",
+      "path": "/",
+      "expires": 1789137863,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_NTEL3PV6DW",
+      "value": "GS2.1.s1755506831$o3$g0$t1755506831$j60$l0$h0",
+      "domain": ".wm.edu",
+      "path": "/",
+      "expires": 1790066831.945955,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_scid_r",
+      "value": "T5QNPv1Jqsfr4wiSwTLMtzIpyb6y8lFxjCrZ-g",
+      "domain": ".wm.edu",
+      "path": "/",
+      "expires": 1789693529,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_43SDREREDN",
+      "value": "GS2.1.s1755506831$o3$g0$t1755506832$j59$l0$h0",
+      "domain": ".wm.edu",
+      "path": "/",
+      "expires": 1790066832.40478,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "YSC",
+      "value": "SPCHTq8ePGY",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://wm.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CMKT2cT00Pn-jQEQl_ryvoCVjwMYl_ryvoCVjwM%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771094244.323618,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://wm.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "AQn7dZ5QmWo",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771094244.323973,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://wm.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgGQ%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771094244.323988,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://wm.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "__cf_bm",
+      "value": "U_Cq3QsjN5EfyRE2jBFkFMzh7ycsEjsaHVR4vFjyz6g-1755542244-1.0.1.1-V8skZOo9WCgWShes8BLQzVeO_vT4C5rdUEGgkbT0Ivu1HpSb7syHyQxg2V9yvsrn5g4WuKqE2hLOl9u4QcFr24SM4QELakPMIWeb6UWQlAY",
+      "domain": ".hs-scripts.com",
+      "path": "/",
+      "expires": 1755544044.542377,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_WY7L41J7CT",
+      "value": "GS2.1.s1755542244$o1$g1$t1755542244$j60$l0$h0",
+      "domain": ".wm.edu",
+      "path": "/",
+      "expires": 1790102244.611922,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_DZXQ7VBEBN",
+      "value": "GS2.1.s1755542244$o1$g0$t1755542244$j60$l0$h0",
+      "domain": ".wm.edu",
+      "path": "/",
+      "expires": 1790102244.649562,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_uetsid",
+      "value": "6253f6407c6211f0943e99d965f988cb",
+      "domain": ".wm.edu",
+      "path": "/",
+      "expires": 1755628644,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_uetvid",
+      "value": "6253f5007c6211f0a6bee304785592ab",
+      "domain": ".wm.edu",
+      "path": "/",
+      "expires": 1789238244,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "xHiX.ch0llcIC0L.gZtVoQID4ndUt24zoYi.yNBG990-1755542244-1.0.1.1-XX8f2hrIRdaOlGXWAp2x5gL7lY1gR0LYVCYcylTcm3J7_zPbDJOzvIctFZrlNVi69vVotwqp5H7btmy0PnaxrPFATX.zLoooe6d1DNS1B4g",
+      "domain": ".hs-banner.com",
+      "path": "/",
+      "expires": 1755544044.700733,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "HvKmGWLjyr0es9OEAAzcKbI03shVDL5HuLVRyAi3vh8-1755542244-1.0.1.1-clm_7SQ1_9WuSrnvf8P.5K.A7O4mWwDKncSN77oQuKUCI.Wn7H_oJX4uukh.KXnASXKWz_3iRnNT1TmmSyC7os420JRgBPSu4FrOnt6yJvY",
+      "domain": ".hs-analytics.net",
+      "path": "/",
+      "expires": 1755544044.701179,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "AAmihit8kjAQcrHt7tvlsDy5VwVv7.ldLzTQXV0q8co-1755542244-1.0.1.1-1GfzdmBZOR9d.fX2QMj8iOFBIO0itkvzFlHWKDj3PF0Tb_yOSFOnn37RaxCGJ7iLHJ4MvEzTWXOE6Lc4vvCYtsy2cJcU9b4lKJQPsdbYp44",
+      "domain": ".hscollectedforms.net",
+      "path": "/",
+      "expires": 1755544044.705071,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "uEZ4_q1xoStXGvGw4Phw.G4pS.A7gcencZ1HYnaSgCI-1755542244-1.0.1.1-PdTqZ3GIun44FkhX9Z0RLHMzmc4IobL0ZWfjQFOT.jovYp3vHXCCJmb8Jz9cQkD_c5vv5w5y53PL_gug93Mr57AIkNvrvzbfQ8cOQhjT8.g",
+      "domain": ".hsadspixel.net",
+      "path": "/",
+      "expires": 1755544044.757689,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=TGST09:s=T:r=T:a=T:p=T:g=3101:u=1:x=1:i=1755542244:t=1755628644:v=2:sig=AQF1CYHJVP-pwPbhTkX5Py2nVLCapRhB\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755628644.868643,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": "px.ads.linkedin.com",
+      "path": "/",
+      "expires": 1758171990.868578,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&fe519546-1fda-4bae-8043-cde2873fc9de\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1787078244.8686,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "YY1.E.k0m5WHsA1VRhOe5ufurEqBgPlRlLT52ztP11c-1755542245-1.0.1.1-VqKnevyyuJEAyVefQilReFOC9SjNy7MfYXXAisB45Moi9rbJ7aD4YKE1N.nPOX5d0NJyzMoGCh2TmRy85plKa8pJ2qieHfTMdscG6uHcslg",
+      "domain": ".hubapi.com",
+      "path": "/",
+      "expires": 1755544044.98957,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "nmstat",
+      "value": "10a49e62-6d88-2fa1-d77f-33f123cf30a6",
+      "domain": ".wm.edu",
+      "path": "/",
+      "expires": 1790102245.009694,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__hstc",
+      "value": "54504567.c284b4923f61df23fad3b1711612bccf.1755542245451.1755542245451.1755542245451.1",
+      "domain": ".wm.edu",
+      "path": "/",
+      "expires": 1771094245,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "hubspotutk",
+      "value": "c284b4923f61df23fad3b1711612bccf",
+      "domain": ".wm.edu",
+      "path": "/",
+      "expires": 1771094245,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__hssrc",
+      "value": "1",
+      "domain": ".wm.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__hssc",
+      "value": "54504567.1.1755542245451",
+      "domain": ".wm.edu",
+      "path": "/",
+      "expires": 1755544045,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "mautic_device_id",
+      "value": "qk82vir1670vt6qoa2qaqlc",
+      "domain": "go.msba.mason.wm.edu",
+      "path": "/",
+      "expires": 1787078246.001251,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "mtc_id",
+      "value": "323626",
+      "domain": "go.msba.mason.wm.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "mtc_sid",
+      "value": "qk82vir1670vt6qoa2qaqlc",
+      "domain": "go.msba.mason.wm.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "mautic_device_id",
+      "value": "sjrdwesm08jb011gvqi8a8h",
+      "domain": "go.macc.mason.wm.edu",
+      "path": "/",
+      "expires": 1787078246.024208,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "mtc_id",
+      "value": "308551",
+      "domain": "go.macc.mason.wm.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "mtc_sid",
+      "value": "sjrdwesm08jb011gvqi8a8h",
+      "domain": "go.macc.mason.wm.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "mautic_device_id",
+      "value": "wsrf8dyeuqltph6k2zdug4z",
+      "domain": "go.mba.mason.wm.edu",
+      "path": "/",
+      "expires": 1787078246.039001,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "mtc_id",
+      "value": "633121",
+      "domain": "go.mba.mason.wm.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "mtc_sid",
+      "value": "wsrf8dyeuqltph6k2zdug4z",
+      "domain": "go.mba.mason.wm.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "mtc_id",
+      "value": "633121",
+      "domain": "mason.wm.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "mtc_sid",
+      "value": "wsrf8dyeuqltph6k2zdug4z",
+      "domain": "mason.wm.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "mautic_device_id",
+      "value": "wsrf8dyeuqltph6k2zdug4z",
+      "domain": "mason.wm.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://mason.wm.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755542244745"
+        },
+        {
+          "name": "mtc_sid",
+          "value": "wsrf8dyeuqltph6k2zdug4z"
+        },
+        {
+          "name": "_uetvid_exp",
+          "value": "Sat, 12 Sep 2026 18:37:24 GMT"
+        },
+        {
+          "name": "mtc_id",
+          "value": "633121"
+        },
+        {
+          "name": "_uetsid_exp",
+          "value": "Tue, 19 Aug 2025 18:37:24 GMT"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755542245514"
+        },
+        {
+          "name": "mautic_device_id",
+          "value": "wsrf8dyeuqltph6k2zdug4z"
+        },
+        {
+          "name": "_uetvid",
+          "value": "6253f5007c6211f0a6bee304785592ab"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755542244369},\"expires\":1763318244369}}"
+        },
+        {
+          "name": "_uetsid",
+          "value": "6253f6407c6211f0943e99d965f988cb"
+        },
+        {
+          "name": "li_adsId",
+          "value": "dc5c97f6-5d6c-43f6-9f69-3ef4b9fc64e2"
+        }
+      ]
+    },
+    {
+      "origin": "https://www.wm.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "u_sclid",
+          "value": "V-a37rBcX87Iy65M6uVqfyP6c251B7ayO5QNPv1Jqsfr4wiSwTLMtzIpyb6y8lFxjCrZ9g"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755441861219},\"expires\":1763217861219}}"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755506832063"
+        },
+        {
+          "name": "u_sclid_r",
+          "value": "Y2a37rBcX87Iy65M6uVqfyP6c251B7aypd13sU-UDT79SarH6-MIksEyzLcyKcm-svJRcYwq2fo"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755506832068"
+        }
+      ]
+    },
+    {
+      "origin": "https://admission.wm.edu",
+      "localStorage": [
+        {
+          "name": "u_sclid_r",
+          "value": "bJ6arG4A10kkL7BV3K11UXmiViwjuY7zMhQNPv1Jqsfr4wiSwTLMtzIpyb6y8lFx"
+        },
+        {
+          "name": "u_sclid",
+          "value": "bJ6arG4A10kkL7BV3K11UXmiViwjuY7zMhQNPv1Jqsfr4wiSwTLMtzIpyb6y8lFx"
+        },
+        {
+          "name": "d36d9db1-bdcc-84ac-0ea9-3ab85127a80e_st",
+          "value": "1755441750447"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755441751543"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755441751549"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755441750607},\"expires\":1763217750607}}"
+        },
+        {
+          "name": "d36d9db1-bdcc-84ac-0ea9-3ab85127a80e_pp",
+          "value": "\"#PING_PONG#\""
+        },
+        {
+          "name": "session_/expires",
+          "value": "0"
+        }
+      ]
+    }
+  ]
+}

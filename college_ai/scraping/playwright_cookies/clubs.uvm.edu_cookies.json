@@ -1,0 +1,405 @@
+{
+  "cookies": [
+    {
+      "name": "sc_at",
+      "value": "v2|H4sIAAAAAAAAAE3GwRGAMAgEwIqYOfCYoN0gkCpSvF/3tVGp9P3K5G5hcyS0VQZWlXHF3ThKPLrc3Wjw8ys+TqQ43kAAAAA=",
+      "domain": ".snapchat.com",
+      "path": "/",
+      "expires": 1789220205,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-eee336cb-0002-4fe4-6b69-bad462cbf777.jClDylU4h0Ma9nqal9dEFGtZ06qN7zzKu3Ry0afZJ2o",
+      "domain": "qvdt3feo.com",
+      "path": "/",
+      "expires": 1787060205,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-eee336cb-0002-4fe4-6b69-bad462cbf777.jClDylU4h0Ma9nqal9dEFGtZ06qN7zzKu3Ry0afZJ2o",
+      "domain": ".qvdt3feo.com",
+      "path": "/",
+      "expires": 1787060205,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3A7uM2ywACT-RrabrUYsv3dw.Eb1L6woldgc9lUrnu2yXw%2Fr7WcVe3ulYnPuYgIRE4eI",
+      "domain": "qvdt3feo.com",
+      "path": "/",
+      "expires": 1787060205,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3A7uM2ywACT-RrabrUYsv3dw.Eb1L6woldgc9lUrnu2yXw%2Fr7WcVe3ulYnPuYgIRE4eI",
+      "domain": ".qvdt3feo.com",
+      "path": "/",
+      "expires": 1787060205,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEKsEGAIg7diMxQY6BIIfcDZCBJMqJP0.SI9p0P6QAI6Hp%2FHqvPYC6yS6Th9aT9sPNs13B33BEXw",
+      "domain": "qvdt3feo.com",
+      "path": "/",
+      "expires": 1787060205,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEKsEGAIg7diMxQY6BIIfcDZCBJMqJP0.SI9p0P6QAI6Hp%2FHqvPYC6yS6Th9aT9sPNs13B33BEXw",
+      "domain": ".qvdt3feo.com",
+      "path": "/",
+      "expires": 1787060205,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUlzun_tsqKtrRLsZN7XIhSYPpwJLT8ZR1pOk7afGzn0gaOH_GOvTwivzdks",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1790084238,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.849043844.1755524205",
+      "domain": ".uvm.edu",
+      "path": "/",
+      "expires": 1790129742,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_scid",
+      "value": "ee-MNL_P4oORnybjbZohT0z0SLR5Yr7p",
+      "domain": ".uvm.edu",
+      "path": "/",
+      "expires": 1789710903,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_node",
+      "value": "24cb4d6272b3a99e2195e26e8d714f3ce21a96f7c97ec09ea6f7c181d27bb3be",
+      "domain": "admissions.uvm.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "0d21751f-811a-49a1-a94d-d0beb35f6f1b",
+      "domain": "admissions.uvm.edu",
+      "path": "/",
+      "expires": 1790084205,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "admissions.uvm.edu",
+      "path": "/",
+      "expires": 1790084205,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_sctr",
+      "value": "1%7C1755475200000",
+      "domain": ".uvm.edu",
+      "path": "/",
+      "expires": 1789710903,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_4JTET9KDVF",
+      "value": "GS2.1.s1755524238$o1$g0$t1755524238$j60$l0$h0",
+      "domain": ".uvm.edu",
+      "path": "/",
+      "expires": 1790084238,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_0QHPZLW3RE",
+      "value": "GS2.1.s1755569661$o2$g0$t1755569661$j60$l0$h0",
+      "domain": ".uvm.edu",
+      "path": "/",
+      "expires": 1790129661,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_clck",
+      "value": "8kqrp6%7C2%7Cfyl%7C0%7C2056",
+      "domain": ".uvm.edu",
+      "path": "/",
+      "expires": 1787105661,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%253A0-eee336cb-0002-4fe4-6b69-bad462cbf777.jClDylU4h0Ma9nqal9dEFGtZ06qN7zzKu3Ry0afZJ2o",
+      "domain": "www.uvm.edu",
+      "path": "/",
+      "expires": 1787105661,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%253A.o6W7wkJsHSTU4%252BLlDruZ%252FwNjVcUZZMvakQpSatDoAgo",
+      "domain": "www.uvm.edu",
+      "path": "/",
+      "expires": 1787105661,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%253AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEKsEGAIg7diMxQY6BIIfcDZCBJMqJP0.SI9p0P6QAI6Hp%252FHqvPYC6yS6Th9aT9sPNs13B33BEXw",
+      "domain": "www.uvm.edu",
+      "path": "/",
+      "expires": 1787105661,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_scid_r",
+      "value": "dG-MNL_P4oORnybjbZohT0z0SLR5Yr7pKII-gA",
+      "domain": ".uvm.edu",
+      "path": "/",
+      "expires": 1789756439,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_G3S3K4BJ32",
+      "value": "GS2.1.s1755569661$o2$g1$t1755569741$j60$l0$h1987687549",
+      "domain": ".uvm.edu",
+      "path": "/",
+      "expires": 1790129742,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_L5WDHKK4X8",
+      "value": "GS2.1.s1755569742$o1$g0$t1755569742$j60$l0$h0",
+      "domain": ".uvm.edu",
+      "path": "/",
+      "expires": 1790129742,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "TiPMix",
+      "value": "29.7253599996819",
+      "domain": ".clubs.uvm.edu",
+      "path": "/",
+      "expires": 1775207105,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "x-ms-routing-name",
+      "value": "self",
+      "domain": ".clubs.uvm.edu",
+      "path": "/",
+      "expires": 1775207105,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": ".AspNetCore.Antiforgery.Pnjfq5WAl6o",
+      "value": "CfDJ8Az9GcAD4TpIm2NmyW6ywWEW5-mqMVFrgWuGivYxSfBEQSWD2wZn93QwL0o5QDTDesWWChwNiGXOmAvhM8uF13S3xIhOD_vS1dVCnY8976E7d-SoDFMkscoRO--ocNgXjZi2sRS_K_f-F0aQwd2Y_YY",
+      "domain": "clubs.uvm.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "CLID",
+      "value": "12a5bebf873d444295a3cbf684d6c751.20250818.20260819",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1787105661,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-90bf0c68-cfa6-4f55-6116-514a1ed20dfd.7kTNfdG8mLwXEyWG8bYVps0iTfkXYjy5VA0gc9C8JOw",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1787060205,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-90bf0c68-cfa6-4f55-6116-514a1ed20dfd.7kTNfdG8mLwXEyWG8bYVps0iTfkXYjy5VA0gc9C8JOw",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1787060205,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3AkL8MaM-mT1VhFlFKHtIN_Q.BzuUKvw%2Benxng339sNs2OGYCvY2Wlssz8eBIrOnCbl8",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1787060238,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3AkL8MaM-mT1VhFlFKHtIN_Q.BzuUKvw%2Benxng339sNs2OGYCvY2Wlssz8eBIrOnCbl8",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1787060238,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEKsEGAIg7diMxQY6BIIfcDZCBNQE0D4.MEXv8NCpNDjNSM11zvrYnvNSzouJz5KY%2FfgBE%2FnnyLw",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1787060205,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEKsEGAIg7diMxQY6BIIfcDZCBNQE0D4.MEXv8NCpNDjNSM11zvrYnvNSzouJz5KY%2FfgBE%2FnnyLw",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1787060205,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ASLBSA",
+      "value": "0003f9dd40b680b62447b3eb68c33ac886fd76a61a96ebb0bb05e86ef6affc2468fb",
+      "domain": "se-images.campuslabs.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ASLBSACORS",
+      "value": "0003f9dd40b680b62447b3eb68c33ac886fd76a61a96ebb0bb05e86ef6affc2468fb",
+      "domain": "se-images.campuslabs.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://www.uvm.edu",
+      "localStorage": [
+        {
+          "name": "sa-user-id-v3",
+          "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEKsEGAIg7diMxQY6BIIfcDZCBJMqJP0.SI9p0P6QAI6Hp%2FHqvPYC6yS6Th9aT9sPNs13B33BEXw"
+        },
+        {
+          "name": "sa-user-id-v2",
+          "value": "s%3A.o6W7wkJsHSTU4%2BLlDruZ%2FwNjVcUZZMvakQpSatDoAgo"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"timeouts\":0,\"creationTimeMs\":1755524204795},\"expires\":1763300204795}}"
+        },
+        {
+          "name": "u_sclid_r",
+          "value": "-e_fYLJc46r28N9um9dRl8lzm-B8_78AVs9u2HRvjDS_z-KDkZ8m422aIU9M9Ei0eWK-6SiCPoA"
+        },
+        {
+          "name": "u_sclid",
+          "value": "7m_fYLJc46r28N9um9dRl8lzm-B8_78Aee-MNL_P4oORnybjbZohT0z0SLR5Yr7p"
+        },
+        {
+          "name": "da2b8e3d-ff1b-6704-8383-7f17693d0784_st",
+          "value": "1755569661637"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "sa-user-id",
+          "value": "s%3A0-eee336cb-0002-4fe4-6b69-bad462cbf777.jClDylU4h0Ma9nqal9dEFGtZ06qN7zzKu3Ry0afZJ2o"
+        },
+        {
+          "name": "da2b8e3d-ff1b-6704-8383-7f17693d0784_pp",
+          "value": "{}"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755569742243"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755569742315"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,567 @@
+{
+  "cookies": [
+    {
+      "name": "IDE",
+      "value": "AHWqTUka2jcKM-5eJncXUwp33c95ia9m9uHvEYEk-zHsMA4dXe4H03aIgCj6KXbx",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1809685276,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "dataprivacy-acknowledge-uga.edu",
+      "value": "true",
+      "domain": ".uga.edu",
+      "path": "/",
+      "expires": 1786970653,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1033229053.1755463527",
+      "domain": ".uga.edu",
+      "path": "/",
+      "expires": 1809751180.567509,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_hjSessionUser_3534591",
+      "value": "eyJpZCI6ImEyY2VlNTVjLWM5OTAtNWFmMi04YTc3LTdiZGNjOTBmMGVmMyIsImNyZWF0ZWQiOjE3NTU0NjM1MjgyMzksImV4aXN0aW5nIjp0cnVlfQ==",
+      "domain": ".uga.edu",
+      "path": "/",
+      "expires": 1787033054,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_clck",
+      "value": "1mjz91x%7C2%7Cfyk%7C0%7C2055",
+      "domain": ".uga.edu",
+      "path": "/",
+      "expires": 1787030677,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%253A0-dc298060-0fef-4446-45fa-05289a7461d1.TeW3WLwCrcvVIFhkBVln1X%252Fp1vHmMnjwPBoa8s0mHH0",
+      "domain": "www.uga.edu",
+      "path": "/",
+      "expires": 1787030725,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%253A.o6W7wkJsHSTU4%252BLlDruZ%252FwNjVcUZZMvakQpSatDoAgo",
+      "domain": "www.uga.edu",
+      "path": "/",
+      "expires": 1787030725,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%253AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEKsEGAIg5_6IxQY6BIIfcDZCBIMukV0.m29teaGFuXOiKTnWrFyRjaWDjZDwwzEWOjlBMGuireE",
+      "domain": "www.uga.edu",
+      "path": "/",
+      "expires": 1787030725,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_60FWSR3PHL",
+      "value": "GS2.1.s1755494726$o1$g0$t1755494726$j60$l0$h1543926987",
+      "domain": ".uga.edu",
+      "path": "/",
+      "expires": 1790054726,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_6H213MG7X1",
+      "value": "GS2.1.s1755497053$o3$g0$t1755497053$j60$l0$h0",
+      "domain": ".uga.edu",
+      "path": "/",
+      "expires": 1790057053,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_3EL9X6BY4P",
+      "value": "GS2.1.s1755497053$o3$g0$t1755497053$j60$l0$h492602620",
+      "domain": ".uga.edu",
+      "path": "/",
+      "expires": 1790057053,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1775125276072.390641949280912139",
+      "domain": ".uga.edu",
+      "path": "/",
+      "expires": 1782967180,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.1103164053.1775125276",
+      "domain": ".uga.edu",
+      "path": "/",
+      "expires": 1782901276,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sp",
+      "value": "a702540c-684f-455e-b7e9-2046ecef3a56",
+      "domain": ".smugmug.com",
+      "path": "/",
+      "expires": 1806661309,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "CLID",
+      "value": "dbdb974ad9c447d0b58a4d67522db085.20250817.20260818",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1787030676,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&986e86d1-e296-41cb-8df6-61f615c12591\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1806727180.851446,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "li_sugr",
+      "value": "3e1d1174-2aa2-417a-b035-4083e179edf3",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1782967180.85141,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": "px.ads.linkedin.com",
+      "path": "/",
+      "expires": 1777820926.580176,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "UserMatchHistory",
+      "value": "AQIDSVfsd7KudQAAAZ1NtieFahTx7Pd5zfVJrDmrGjqWxlA-VGiYRqHVhC0CqjVddcGwk8-Zm-r7BA",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1777717276,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AnalyticsSyncHistory",
+      "value": "AQLFgtfvDYVRqAAAAZ1NtieF-1chsdjLF--CZCOYjCuPynFK1krISiuerzpdo1ewqXGUFrcI-rZRh8yr7DrWIg",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1777717276,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bscookie",
+      "value": "\"v=1&20260402102116a8441996-e0ec-4f06-88a7-661b41f367f3AQHN_LwTKRwYL7aV6bScT84Kwugz7CpQ\"",
+      "domain": ".www.linkedin.com",
+      "path": "/",
+      "expires": 1806661276,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=TGST03:s=T:r=T:a=T:p=T:g=3690:u=1:x=1:i=1775182017:t=1775268417:v=2:sig=AQGVprg-ExFPdwCpbZBTMA94ABROFzLB\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1775268417,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-dc298060-0fef-4446-45fa-05289a7461d1.TeW3WLwCrcvVIFhkBVln1X%2Fp1vHmMnjwPBoa8s0mHH0",
+      "domain": "qvdt3feo.com",
+      "path": "/",
+      "expires": 1786999527,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-dc298060-0fef-4446-45fa-05289a7461d1.TeW3WLwCrcvVIFhkBVln1X%2Fp1vHmMnjwPBoa8s0mHH0",
+      "domain": ".qvdt3feo.com",
+      "path": "/",
+      "expires": 1786999527,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3A3CmAYA_vREZF-gUomnRh0Q.B%2FTslhxwMs%2Bb2W6FVi%2FR%2F0LbRM2m%2FJEdiB%2BCWRNAm2U",
+      "domain": "qvdt3feo.com",
+      "path": "/",
+      "expires": 1786999527,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3A3CmAYA_vREZF-gUomnRh0Q.B%2FTslhxwMs%2Bb2W6FVi%2FR%2F0LbRM2m%2FJEdiB%2BCWRNAm2U",
+      "domain": ".qvdt3feo.com",
+      "path": "/",
+      "expires": 1786999527,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEKsEGAIg5_6IxQY6BIIfcDZCBIMukV0.m29teaGFuXOiKTnWrFyRjaWDjZDwwzEWOjlBMGuireE",
+      "domain": "qvdt3feo.com",
+      "path": "/",
+      "expires": 1786999527,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEKsEGAIg5_6IxQY6BIIfcDZCBIMukV0.m29teaGFuXOiKTnWrFyRjaWDjZDwwzEWOjlBMGuireE",
+      "domain": ".qvdt3feo.com",
+      "path": "/",
+      "expires": 1786999527,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "vuid",
+      "value": "pl797467717.1776003602",
+      "domain": ".vimeo.com",
+      "path": "/",
+      "expires": 1809750466.624407,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "player",
+      "value": "\"\"",
+      "domain": ".vimeo.com",
+      "path": "/",
+      "expires": 1806705012,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "mid",
+      "value": "ac8hzgALAAGoE_tSltOMaBEaSvD_",
+      "domain": ".instagram.com",
+      "path": "/",
+      "expires": 1809742286,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-3e0ba63b-fe04-4040-6c47-cf51e45d5e43.0GFEStoZ%2FsD8CMH5QJNibZ0Ln1nR%2BLTYxP5sdZqqr2g",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1786999527,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-3e0ba63b-fe04-4040-6c47-cf51e45d5e43.0GFEStoZ%2FsD8CMH5QJNibZ0Ln1nR%2BLTYxP5sdZqqr2g",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1786999527,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3APgumO_4EQEBsR89R5F1eQw.qAKpCDUL%2BpKe3U146VWcPAGaeWf3gMzyh3%2F0%2Bi74Hbs",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1787030676,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3APgumO_4EQEBsR89R5F1eQw.qAKpCDUL%2BpKe3U146VWcPAGaeWf3gMzyh3%2F0%2Bi74Hbs",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1787030676,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEKsEGAIg5_6IxQY6BIIfcDZCBLD73Pk.YpqDewX00kEfxVvzYjkYJtbODNNDrdNA28BgoEJHffM",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1786999527,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEKsEGAIg5_6IxQY6BIIfcDZCBLD73Pk.YpqDewX00kEfxVvzYjkYJtbODNNDrdNA28BgoEJHffM",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1786999527,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "YSC",
+      "value": "UwIVm9CxQpo",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CJC--8HEy8PzYRC7po-B-c6TAxiTmJiB-c6TAw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790677286,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "41kNqTn2_tE",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790734642.897891,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgbg%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790734642.897928,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "41kNqTn2_tE",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790743142.384441,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://uga.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgbg%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790743142.384469,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://uga.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_cfuvid",
+      "value": "jaD7DhSNxXkmwzBkGV.jmYIQ2d03oAvsWQkcqLge77M-1775190465.0851724-1.0.1.1-akD8NlY_bEVSEAwRO_hhr7mU4SCckRGxxnHZA62nogc",
+      "domain": ".vimeo.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_PMF1ZPRNJ5",
+      "value": "GS2.1.s1775190355$o5$g1$t1775191182$j58$l0$h0",
+      "domain": ".uga.edu",
+      "path": "/",
+      "expires": 1809751182.526813,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_D9HFV69MB3",
+      "value": "GS2.1.s1775190355$o5$g1$t1775191182$j58$l0$h1241954425",
+      "domain": ".uga.edu",
+      "path": "/",
+      "expires": 1809751182.531509,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://alumni.uga.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"timeouts\":0,\"errors\":0,\"eopCount\":0,\"creationTimeMs\":1775125276116},\"expires\":1782901276116}}"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1775191180291"
+        },
+        {
+          "name": "li_adsId",
+          "value": "cac76ac6-c6dc-4dc7-a5db-87952e560279"
+        }
+      ]
+    },
+    {
+      "origin": "https://www.uga.edu",
+      "localStorage": [
+        {
+          "name": "sa-user-id",
+          "value": "s%3A0-dc298060-0fef-4446-45fa-05289a7461d1.TeW3WLwCrcvVIFhkBVln1X%2Fp1vHmMnjwPBoa8s0mHH0"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755497054021"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755497054532"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755434653776},\"expires\":1763210653776}}"
+        },
+        {
+          "name": "sa-user-id-v3",
+          "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEKsEGAIg5_6IxQY6BIIfcDZCBIMukV0.m29teaGFuXOiKTnWrFyRjaWDjZDwwzEWOjlBMGuireE"
+        },
+        {
+          "name": "li_adsId",
+          "value": "a90f1a19-39b8-400e-a644-e71b1250385b"
+        },
+        {
+          "name": "sa-user-id-v2",
+          "value": "s%3A.o6W7wkJsHSTU4%2BLlDruZ%2FwNjVcUZZMvakQpSatDoAgo"
+        }
+      ]
+    },
+    {
+      "origin": "https://www.google.com",
+      "localStorage": [
+        {
+          "name": "rc::a",
+          "value": "bXd4dW1oMTA5dmZ6cw=="
+        }
+      ]
+    },
+    {
+      "origin": "https://player.vimeo.com",
+      "localStorage": [
+        {
+          "name": "sync_active",
+          "value": "\"0fb30fc566f1a1c51a6ab59032196e64d86946f81775169008\""
+        },
+        {
+          "name": "LOCAL_STORAGE_ID_VIMEO_PLAYER",
+          "value": "da9ea04a-521c-4411-b39c-4b4b490c7f72"
+        },
+        {
+          "name": "LOCAL_STORAGE_ID_PICOX_ID",
+          "value": "c58c34ac-1567-4f0a-910d-d2e9252cd202"
+        }
+      ]
+    },
+    {
+      "origin": "https://www.youtube.com",
+      "localStorage": [
+        {
+          "name": "ytidb::LAST_RESULT_ENTRY_KEY",
+          "value": "{\"data\":{\"hasSucceededOnce\":true},\"expiration\":1777774574388,\"creation\":1775182574388}"
+        },
+        {
+          "name": "yt-icons-last-purged",
+          "value": "1774391452336"
+        }
+      ]
+    }
+  ]
+}

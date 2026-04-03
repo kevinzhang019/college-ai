@@ -1,0 +1,85 @@
+{
+  "cookies": [
+    {
+      "name": "TESTCOOKIESENABLED",
+      "value": "1",
+      "domain": "w3.mp.lura.live",
+      "path": "/player/3.12.16/v3",
+      "expires": 1755510959,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755444785553.56301456225605881",
+      "domain": ".stthomas.edu",
+      "path": "/",
+      "expires": 1763286919,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "UUagCmnEjAbqRixfCbnK26pY16vLEfREfsy334ppzG4-1755510897-1.0.1.1-30okTUceL4G4TQdWBBOp62VT0Q.5Y4VVVvdd2Hc.XyeqqhOK8Cc8_uut72TR3WlWUgAItOWENLIFq1tszFDkSmJXr9dPvlV30IOyA5iSyGA",
+      "domain": ".news.stthomas.edu",
+      "path": "/",
+      "expires": 1755512697.292805,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "cf_clearance",
+      "value": "uan1Pe8SNnpKHty_0PrvYc9sO1XW6VtZlEsrnjqbE9k-1755510898-1.2.1.1-42RylZpgSzyCHm8JcCpJjUEVebiljE.wIWtEjx43MWjBlRjjtxBAARdvwv.yI_NGgzv9UyCgkSifJaB7jIM6ZLT5VF1MmtU5NH4Y2Vc8R_xkLmcWWks.jjHBDSxTU0oknBovNStXzG_wtxh4xUyU1C70bMYqSOEn50OuUzo5zU8sgNrJC11lDtM0C6CFIObfmuQBAt78Fy21IlDWWlhq6aUgLMHgaoIKPzrQb.2P3v0",
+      "domain": ".stthomas.edu",
+      "path": "/",
+      "expires": 1787046898.09705,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://stthomas.edu",
+      "_crHasCrossSiteAncestor": false
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUn_lx2zYnFOMC_RnXHFhhbHhNZgr6qH72urgbEjZ9EuJQJtc67YHtcyX2XSeww",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1790070900.403576,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__gads",
+      "value": "ID=8cfd898c6e2a39fb:T=1755510899:RT=1755510899:S=ALNI_MbbTxozQPT7Zg-EihhkM9CiKR5gmw",
+      "domain": ".lura.live",
+      "path": "/",
+      "expires": 1789206899,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://news.stthomas.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755510919816"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755510919834"
+        }
+      ]
+    }
+  ]
+}

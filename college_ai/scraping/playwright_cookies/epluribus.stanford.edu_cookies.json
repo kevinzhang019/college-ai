@@ -1,0 +1,55 @@
+{
+  "cookies": [
+    {
+      "name": "su_ga",
+      "value": "GA1.3.1250533659.1755450373",
+      "domain": ".epluribus.stanford.edu",
+      "path": "/",
+      "expires": 1771002372,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "su_ga_HYW2H5CESD",
+      "value": "GS2.3.s1755450372$o1$g0$t1755450372$j60$l0$h0",
+      "domain": ".epluribus.stanford.edu",
+      "path": "/",
+      "expires": 1771002372,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sws_ga_BECJQXLNCY",
+      "value": "GS2.3.s1755450372$o1$g0$t1755450372$j60$l0$h0",
+      "domain": ".epluribus.stanford.edu",
+      "path": "/",
+      "expires": 1790010372.938192,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sws_ga",
+      "value": "GA1.3.1250533659.1755450373",
+      "domain": ".epluribus.stanford.edu",
+      "path": "/",
+      "expires": 1790010372.938367,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "nmstat",
+      "value": "f61b159d-d366-de54-fe29-6256d497f29c",
+      "domain": ".stanford.edu",
+      "path": "/",
+      "expires": 1790010373.057342,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

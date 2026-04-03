@@ -1,0 +1,132 @@
+{
+  "cookies": [
+    {
+      "name": "BIGipServerwww_ou_edu_cms_servers",
+      "value": "520166154.20480.0000",
+      "domain": "ou.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.948802447.1755441947",
+      "domain": ".ou.edu",
+      "path": "/",
+      "expires": 1755630129,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755441947724.555989702267699017",
+      "domain": ".ou.edu",
+      "path": "/",
+      "expires": 1763319729,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "BIGipServerwww_ou_edu_cms_servers",
+      "value": "520166154.20480.0000",
+      "domain": "www.ou.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.241987042.1755441947",
+      "domain": ".ou.edu",
+      "path": "/",
+      "expires": 1790103729.399537,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "Es3KlIliBr_._MXv7yWteTokfJL_Qfa8hKvjnYZPlps-1755543728-1.0.1.1-H4PkmsU842QIso0mGW6rbKpyeqRrDVHqtDPPlZqEUBQD2hMW0GACsuiIqOK7Fzq66tQmsCus5lkcUc2wK5cRMjmp.JhB.jfjfGXZ0NnSS3c",
+      "domain": ".twitter.com",
+      "path": "/",
+      "expires": 1755545528.645264,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_0N6ZR0C2QE",
+      "value": "GS2.1.s1755543635$o4$g1$t1755543729$j52$l0$h0",
+      "domain": ".ou.edu",
+      "path": "/",
+      "expires": 1790103729.403746,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_node",
+      "value": "0884b6b69328a2f83a877fac94eb03198b4762757c0dcd5c7c1d88badc29cb79",
+      "domain": "gograd.ou.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "a5bea86b-1fe1-4e22-a6e6-30432e0e6f3c",
+      "domain": "gograd.ou.edu",
+      "path": "/",
+      "expires": 1790103916.786376,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "gograd.ou.edu",
+      "path": "/",
+      "expires": 1790103916.787253,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://gograd.ou.edu",
+      "localStorage": [
+        {
+          "name": "session_/expires",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "origin": "https://ou.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755543728381"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755543729396"
+        }
+      ]
+    }
+  ]
+}

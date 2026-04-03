@@ -1,0 +1,177 @@
+{
+  "cookies": [
+    {
+      "name": "_ga",
+      "value": "GA1.1.615581332.1755439166",
+      "domain": ".asu.edu",
+      "path": "/",
+      "expires": 1809705434.662138,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "YSC",
+      "value": "yciQOah-A_4",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "SyrenisCookieFormConsent_434a2412-d1b7-47cd-9d14-9f0dd4d68924",
+      "value": "s27c20-1.s26c19-1.s24c17-1",
+      "domain": ".asu.edu",
+      "path": "/",
+      "expires": 1786975168,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CassieGuid_434a2412-d1b7-47cd-9d14-9f0dd4d68924",
+      "value": "56c7d0c9-9a6f-4127-800b-d8b6ba8db4c4",
+      "domain": ".asu.edu",
+      "path": "/",
+      "expires": 1786975171.936212,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CassieCookieFormConsent_434a2412-d1b7-47cd-9d14-9f0dd4d68924",
+      "value": "s27c20-1.s26c19-1.s24c17-1",
+      "domain": ".asu.edu",
+      "path": "/",
+      "expires": 1786975171.936363,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.1895383130.1775144869",
+      "domain": ".asu.edu",
+      "path": "/",
+      "expires": 1782920869,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cf_clearance",
+      "value": "S7rL0uaBbzdJJwm3VhqCZCrEWRSCPwHm6uxbCaENpjE-1775144869-1.2.1.1-1FLBG2UBqkWHc9zObUYOzvq1mzvAFBB27I4GPz4wrhVXHltkzPk9F_V0nbf4SFjK7Rj713ET_VAdWUYzFyy8CYjnSMRtXT_DI9nwHzIFl8FYsAwqxUhRbVnWZD3WBBjAe6654.7QuuaWHiLWz.CagyHAd6kNGjEGygzoqdjiR1IhYDmCTVUp3SnK2l9SOE_iLXhGNXN1ltPqpqfVcFlxF8ZzC3DYfHNjojNry7diUHU",
+      "domain": ".asu.edu",
+      "path": "/",
+      "expires": 1806680868.963787,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://asu.edu",
+      "_crHasCrossSiteAncestor": false
+    },
+    {
+      "name": "__cf_bm",
+      "value": "24iy3Xv7RVMgLLa5q_Gtm6zuxOVmqB5bIBQwE9abZTM-1775144869.3344262-1.0.1.1-u2q5OTFSd4XvIGaPQyrwJLAR0H6Pj0zUiWUgjh_kilTr.FJa04UghW2iO8eoSfcymuUopdT0mCLg_SaOgPrfHgoLWiJNEBNH1l7Z_vbXx5_bQRvHdhwGNHGq2B2SctZM",
+      "domain": ".cassie.web.asu.edu",
+      "path": "/",
+      "expires": 1775146669.237046,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "AvTp-4mge1Q",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790696870.030819,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://asu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgKw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790696870.030879,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://asu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "FPAU",
+      "value": "1.1.1895383130.1775144869",
+      "domain": ".asu.edu",
+      "path": "/",
+      "expires": 1782920868.765533,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "geoRegion",
+      "value": "US-CA",
+      "domain": ".asu.edu",
+      "path": "/",
+      "expires": 1777736870.428943,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CNO9vK3puonlThC51qH7wc-TAxjo_eCCws-TAw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790696885.74467,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://asu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "FPGSID",
+      "value": "1.1775144871.1775145423.G-TEHJR60KD9.TaeMFatf-iYU7GO7-urkpQ",
+      "domain": ".asu.edu",
+      "path": "/",
+      "expires": 1775146671.173622,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_ga_TEHJR60KD9",
+      "value": "GS2.1.s1775144869$o2$g1$t1775145434$j47$l0$h782037970",
+      "domain": ".asu.edu",
+      "path": "/",
+      "expires": 1809705434.701913,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://news.asu.edu",
+      "localStorage": [
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"timeouts\":0,\"errors\":0,\"eopCount\":0,\"creationTimeMs\":1775144868690},\"expires\":1782920868690}}"
+        },
+        {
+          "name": "title_loaded",
+          "value": "1775145484367"
+        }
+      ]
+    }
+  ]
+}

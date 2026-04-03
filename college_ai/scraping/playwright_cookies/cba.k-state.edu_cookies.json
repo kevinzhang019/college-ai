@@ -1,0 +1,414 @@
+{
+  "cookies": [
+    {
+      "name": "X-AB",
+      "value": "484dc1522c084fa28c71a454396da900",
+      "domain": "sc-static.net",
+      "path": "/scevent.min.js",
+      "expires": 1755643637.439732,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.244997199.1755447864",
+      "domain": ".k-state.edu",
+      "path": "/",
+      "expires": 1763223864,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "nmstat",
+      "value": "263568ae-cf82-6ebc-7ab3-e1f10314f2a9",
+      "domain": ".k-state.edu",
+      "path": "/",
+      "expires": 1790007864.524844,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cebs",
+      "value": "1",
+      "domain": ".k-state.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "cebsp_",
+      "value": "1",
+      "domain": ".k-state.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_ce.s",
+      "value": "v~31477e96a5f7a86822f7f9823a86507feeb572d4~lcw~1755447866697~vir~new~lva~1755447866514~vpv~0~as~false~v11.cs~345397~v11.s~a4aa3e60-7b86-11f0-9b93-03398523a90c~v11.vs~31477e96a5f7a86822f7f9823a86507feeb572d4~v11.fsvd~eyJ1cmwiOiJrLXN0YXRlLmVkdS9uZXdzL2FydGljbGVzIiwicmVmIjoiIiwidXRtIjpbXX0%3D~v11.sla~1755447866695~v11.ss~1755447866697~v11ls~a4aa3e60-7b86-11f0-9b93-03398523a90c~lcw~1755447867251",
+      "domain": ".k-state.edu",
+      "path": "/",
+      "expires": 1786983867,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "A3",
+      "value": "d=AQABBGwComgCECzu0qsrtB0qpdnJwQh-Q1YFEgEBAQFTo2iraNwr0iMA_eMCAA&S=AQAAAgAhRO6RaAdLCqHagAv2xD8",
+      "domain": ".yahooapis.com",
+      "path": "/",
+      "expires": 1787040222.615446,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.1525205334.1755447917",
+      "domain": ".k-state.edu",
+      "path": "/",
+      "expires": 1755569022,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CLID",
+      "value": "34e2bbcbc1764706b7000e2f7deb33c0.20250817.20260818",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1787018401.114942,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_63424GWCPL",
+      "value": "GS2.1.s1755482401$o2$g0$t1755482401$j60$l0$h0",
+      "domain": ".k-state.edu",
+      "path": "/",
+      "expires": 1790042401.154698,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_clck",
+      "value": "rg77vh%7C2%7Cfyk%7C0%7C2055",
+      "domain": ".k-state.edu",
+      "path": "/",
+      "expires": 1787018401,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_F98R10JB7K",
+      "value": "GS2.2.s1755482622$o2$g0$t1755482622$j60$l0$h0",
+      "domain": ".k-state.edu",
+      "path": "/",
+      "expires": 1790042622.838054,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1515240476.1755447864",
+      "domain": ".k-state.edu",
+      "path": "/",
+      "expires": 1790117265.841096,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_scid",
+      "value": "C-t82po1vmlSVnEoskpF0grwOFpWwJOX",
+      "domain": ".k-state.edu",
+      "path": "/",
+      "expires": 1789743935,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ttp",
+      "value": "31To59gZaYPhJggqsBehsGba4bH",
+      "domain": ".tiktok.com",
+      "path": "/",
+      "expires": 1789253264.007941,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_tt_enable_cookie",
+      "value": "1",
+      "domain": ".k-state.edu",
+      "path": "/",
+      "expires": 1789253264,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ttp",
+      "value": "01K2ZNV54D3HQQB40VCQED9SBH_.tt.1",
+      "domain": ".k-state.edu",
+      "path": "/",
+      "expires": 1789253264,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ScCbts",
+      "value": "%5B%5D",
+      "domain": ".k-state.edu",
+      "path": "/",
+      "expires": 1756162037,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755557239399.479162743240634178",
+      "domain": ".k-state.edu",
+      "path": "/",
+      "expires": 1763333265,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "mtc_id",
+      "value": "9316931",
+      "domain": "my.kansasstateinfo.org",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "mtc_id",
+      "value": "9316931",
+      "domain": "cba.k-state.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sc_at",
+      "value": "v2|H4sIAAAAAAAAAEXHyREAIAgEwYioQmHxyEYUozB4/TmvHta5F9xoTBPSCKcWwwkBg0ttAj5JuaeCV8n69pMvabaUZEAAAAA=",
+      "domain": ".snapchat.com",
+      "path": "/",
+      "expires": 1789253240.286368,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_TS",
+      "value": "1755557240207",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760741240.201122,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_DID",
+      "value": "34e2f107-4326-4f12-819e-f5bcb3c85c11",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760741240.201172,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_3WAY_SYNCS",
+      "value": "",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760741240.201188,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_sctr",
+      "value": "1%7C1755500400000",
+      "domain": ".k-state.edu",
+      "path": "/",
+      "expires": 1789743938,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_scid_r",
+      "value": "BGt82po1vmlSVnEoskpF0grwOFpWwJOXfTJSEQ",
+      "domain": ".k-state.edu",
+      "path": "/",
+      "expires": 1789743961,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ttcsid",
+      "value": "1755557237903::kI-e--fWIXkfimeAOSHP.1.1755557264275",
+      "domain": ".k-state.edu",
+      "path": "/",
+      "expires": 1789253264,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ttcsid_C5FJ6FS6J7TSRVQCQJ0G",
+      "value": "1755557237902::v-evZXiJB7lPHH5bOwRg.1.1755557264498",
+      "domain": ".k-state.edu",
+      "path": "/",
+      "expires": 1789253264,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_GW590J7QV2",
+      "value": "GS2.1.s1755557237$o1$g1$t1755557266$j31$l0$h0",
+      "domain": ".k-state.edu",
+      "path": "/",
+      "expires": 1790117266.181093,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_LN1LMYMEK9",
+      "value": "GS2.1.s1755557237$o3$g1$t1755557266$j31$l0$h1225497147",
+      "domain": ".k-state.edu",
+      "path": "/",
+      "expires": 1790117266.195354,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "mautic_device_id",
+      "value": "pkdlkekvt9zgvbjazgdx1bo",
+      "domain": "my.kansasstateinfo.org",
+      "path": "/",
+      "expires": 1787093266.693863,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "mtc_sid",
+      "value": "pkdlkekvt9zgvbjazgdx1bo",
+      "domain": "my.kansasstateinfo.org",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "mtc_sid",
+      "value": "pkdlkekvt9zgvbjazgdx1bo",
+      "domain": "cba.k-state.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "mautic_device_id",
+      "value": "pkdlkekvt9zgvbjazgdx1bo",
+      "domain": "cba.k-state.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://cba.k-state.edu",
+      "localStorage": [
+        {
+          "name": "u_sclid_r",
+          "value": "lKnuffGkNXGLikX83Rku4W89qv29PxqvmAE7IARrfNqaNb5pUlZxKLJKRdIK8DhaVsCTl30yUhE"
+        },
+        {
+          "name": "u_sclid",
+          "value": "mynuffGkNXGLikX83Rku4W89qv29PxqvC-t82po1vmlSVnEoskpF0grwOFpWwJOX"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755557264112"
+        },
+        {
+          "name": "mtc_sid",
+          "value": "pkdlkekvt9zgvbjazgdx1bo"
+        },
+        {
+          "name": "mautic_device_id",
+          "value": "pkdlkekvt9zgvbjazgdx1bo"
+        },
+        {
+          "name": "mtc_id",
+          "value": "9316931"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755557265653"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755557237143},\"expires\":1763333237143}}"
+        }
+      ]
+    },
+    {
+      "origin": "https://www.k-state.edu",
+      "localStorage": [
+        {
+          "name": "ce_fvd",
+          "value": "{\"landingUrl\":\"https://www.k-state.edu/news/articles/\",\"referrer\":\"\",\"time\":1755447866515,\"utm\":[],\"dailyVisitTime\":1755447866515,\"userData\":[]}"
+        },
+        {
+          "name": "ce_successful_csp_check",
+          "value": "1755534266664"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755447863870},\"expires\":1763223863870}}"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,211 @@
+{
+  "cookies": [
+    {
+      "name": "YSC",
+      "value": "U9KbMjLOjgE",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://tamu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "iaIyt2GEhTI",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771050052.349974,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://tamu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgSg%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771050052.350014,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://tamu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1441076853.1755435247",
+      "domain": ".tamu.edu",
+      "path": "/",
+      "expires": 1790136372.703673,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CIOZ2tn-3Kbl1AEQlJbM8vGRjwMYhJGX8_GRjwM%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1770987248.192237,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://tamu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "NID",
+      "value": "525=n2MRnAGjtnCzYp3jA2NF3v-IwhT88am5Hl1Nmdq1mJee9Qh8Zldty4KvqdHiAb3HKS91bwsxzrRcr3sp0SFmMEqPwAzeckoGbtvryOTd3nEojOTlkvt0eF5upJAXneRx--4u4dzb_j3pfOhea7l1w8WXRJ4JroC1g2E1plLpFWwReZsxtdrbTG7FcpJYAriOTn5WGQg",
+      "domain": ".google.com",
+      "path": "/",
+      "expires": 1771246448.352232,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "iaIyt2GEhTI",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771050030.660878,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgSg%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771050030.660955,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_3LYM4WJM04",
+      "value": "GS2.1.s1755498029$o4$g0$t1755498050$j39$l0$h0",
+      "domain": ".tamu.edu",
+      "path": "/",
+      "expires": 1790058050.661102,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_YEYQJ0XWPL",
+      "value": "GS2.1.s1755498029$o4$g1$t1755498051$j38$l0$h434982907",
+      "domain": ".tamu.edu",
+      "path": "/",
+      "expires": 1790058051.139728,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_7SWSBYHBHJ",
+      "value": "GS2.1.s1755498029$o4$g1$t1755498051$j38$l0$h0",
+      "domain": ".tamu.edu",
+      "path": "/",
+      "expires": 1790058051.143587,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "nmstat",
+      "value": "0d72971e-78a9-a19e-0b68-059e71825a7f",
+      "domain": ".tamu.edu",
+      "path": "/",
+      "expires": 1790136371.882008,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_Y4VFE4GGGB",
+      "value": "GS2.1.s1755576372$o1$g0$t1755576372$j60$l0$h0",
+      "domain": ".tamu.edu",
+      "path": "/",
+      "expires": 1790136372.674652,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CLID",
+      "value": "636fc006eff94400bcb1bfba2b6ce2f6.20250817.20260819",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1787112372.721551,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755576373021.343237857685499993",
+      "domain": ".tamu.edu",
+      "path": "/",
+      "expires": 1763352373,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_clck",
+      "value": "13p6yjz%7C2%7Cfyl%7C0%7C2055",
+      "domain": ".tamu.edu",
+      "path": "/",
+      "expires": 1787112373,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_7PGL0R41WK",
+      "value": "GS2.1.s1755576372$o1$g1$t1755576374$j58$l0$h1686839153",
+      "domain": ".tamu.edu",
+      "path": "/",
+      "expires": 1790136374.475077,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_1V7RK8KW8C",
+      "value": "GS2.1.s1755576372$o1$g0$t1755576374$j58$l0$h0",
+      "domain": ".tamu.edu",
+      "path": "/",
+      "expires": 1790136374.476512,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://engineering.tamu.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755576373014"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755576373025"
+        }
+      ]
+    }
+  ]
+}

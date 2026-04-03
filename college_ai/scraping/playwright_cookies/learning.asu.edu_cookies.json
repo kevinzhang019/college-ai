@@ -1,0 +1,416 @@
+{
+  "cookies": [
+    {
+      "name": "_gcl_au",
+      "value": "1.1.2023333880.1755439178",
+      "domain": ".asu.edu",
+      "path": "/",
+      "expires": 1763215178,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "YSC",
+      "value": "xT_DEgAGXvo",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "BomGzjIXJ6I",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1770991179.71296,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgDA%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1770991179.712974,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "CLID",
+      "value": "e230eba8c2494499bb02bd0fe44873ff.20250817.20260817",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1786975179.749625,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "FPAU",
+      "value": "1.1.2023333880.1755439178",
+      "domain": ".asu.edu",
+      "path": "/",
+      "expires": 1763215177.992046,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "geoRegion",
+      "value": "US-CA",
+      "domain": ".asu.edu",
+      "path": "/",
+      "expires": 1758031180.314065,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "SyrenisCookieFormConsent_434a2412-d1b7-47cd-9d14-9f0dd4d68924",
+      "value": "s27c20-1.s26c19-1.s24c17-1",
+      "domain": ".asu.edu",
+      "path": "/",
+      "expires": 1786975180,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_clck",
+      "value": "1u0ygwb%7C2%7Cfyj%7C0%7C2055",
+      "domain": ".asu.edu",
+      "path": "/",
+      "expires": 1786975181,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CassieGuid_434a2412-d1b7-47cd-9d14-9f0dd4d68924",
+      "value": "51eda0f2-8c93-4a9e-8e09-3ae477b5ae31",
+      "domain": ".asu.edu",
+      "path": "/",
+      "expires": 1786975183.986868,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CassieCookieFormConsent_434a2412-d1b7-47cd-9d14-9f0dd4d68924",
+      "value": "s27c20-1.s26c19-1.s24c17-1",
+      "domain": ".asu.edu",
+      "path": "/",
+      "expires": 1786975183.986916,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CPuXpeCVxYGHSRCXmOvFgJKPAxjZqMPNgJKPAw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1770991195.836648,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://asu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "__cf_bm",
+      "value": "CxDXCgicrF7ZBd45UOSCDXqxBenZy17JpCMEHJkApg0-1755471320-1.0.1.1-T04poEtHJwx2boK6hy5AWKYO87kr6D.wDujdveyu0ZyWahPDoVoXjYFQ4QR_1YUkFKfgWTHsozxZV7u9miEKXPpt3P3etK8ag9dFZEPKEk0",
+      "domain": ".learning.asu.edu",
+      "path": "/",
+      "expires": 1755473120.28209,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.681000917.1755471322",
+      "domain": ".asu.edu",
+      "path": "/",
+      "expires": 1755557721,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "WiJw.59u0fLabxYyFDaVHLbwFIp4Eh5djBdbb14Udyk-1755471321-1.0.1.1-uz3ee2rt1pDWX2XjK_0CQOeyt4Fv2SosHf1AIWVL9apFuQ8nfZ6pTdxUo.hq8q1i5pMckxCbR.ZrW2ACUvix7Ijftc2H9XA4L10YOEgo3Uo",
+      "domain": ".hs-analytics.net",
+      "path": "/",
+      "expires": 1755473121.81248,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gat",
+      "value": "1",
+      "domain": ".asu.edu",
+      "path": "/",
+      "expires": 1755471381,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_TEHJR60KD9",
+      "value": "GS2.1.s1755471322$o2$g0$t1755471322$j60$l0$h1720474560",
+      "domain": ".asu.edu",
+      "path": "/",
+      "expires": 1790031322.528127,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1100503801.1755439179",
+      "domain": ".asu.edu",
+      "path": "/",
+      "expires": 1790031322.528314,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "iXrgIhRcXCAmPgHRD8LN3RKIi6uUYyfnm25OX8s2EKs-1755471323-1.0.1.1-oG5uHFS1b5mqyo3ETCjgCM_JohzLUUFVNAmAQxdC6bB_nUQwml1BUDPs5AOnmn18de7dH5PUO6D_0Go2SUDI8mMW4iVyPcc1UBFzrjm4fFo",
+      "domain": ".hs-scripts.com",
+      "path": "/",
+      "expires": 1755473123.211506,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "FPGSID",
+      "value": "1.1755471323.1755471323.G-TEHJR60KD9.4q7Y2Xyrro4s7F9_vqPulg",
+      "domain": ".asu.edu",
+      "path": "/",
+      "expires": 1755473123.992081,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "9_otBWcmkHU5fAX4OFytCYi7oIXf7p7ZKo99AAPi.qQ-1755471324-1.0.1.1-lLgUjKg5ZJWfLjmW5RIKz3W0ce7kmqfIZE7muUDaqEIe06wBmiEy0f6s4GvM0Io0zc7y4LlDL4H77Qv26iG9zRIzPQHQdjpnSIhE8850hrE",
+      "domain": ".hsadspixel.net",
+      "path": "/",
+      "expires": 1755473124.603149,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "rtEMlzhpN9tChbXV.yfBOdUCTqkHdHBIZxOk17w6sig-1755471324-1.0.1.1-pXXnxaYm8Fg1SZpOeW86bAanaH2aW2yVbawkmYuLRGkFGX.eCGSr.rLzh0pUTdcni4HuUxYqC4HFe.ujRbAntj68qA7R5zngDXjj1kSBjd8",
+      "domain": ".usemessages.com",
+      "path": "/",
+      "expires": 1755473124.603483,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "XksVIJZyxkCfsLGBhCBrvUkUoXgbjwzThBxnpFwP4Cg-1755471324-1.0.1.1-7yiIDnsLi1vY5VVXqy.cptxnqeWizN0Ou2Y2U2dhZD.q0gNVdor66qGiT4iAoM3FvQz4v0xH0IbuM3p.PGGKvFlWttSyOHCnHqoAmgIR6No",
+      "domain": ".hs-banner.com",
+      "path": "/",
+      "expires": 1755473124.659317,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "9mGqtxM4CIvDmXpegt5QZrE21oi63U9hHPbuYaklBa4-1755471324-1.0.1.1-u8VLfVZtggYdyFRjeH1MB2GSvuNeztEhSvE5SPK1.4AljZoFWmcUYCS1omjIwXXCQdlm_iIRs1EHw.OBlJONXkB69ULF7Rf8yPa6yGM2t8s",
+      "domain": ".hsleadflows.net",
+      "path": "/",
+      "expires": 1755473124.698294,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": ".lnSrzTukrq8TwrwaOrhYJDO266s00otN7fD9wnI8U0-1755471324-1.0.1.1-X0UFTLRhASXvvFfdC_HV0HLvRyM3Za8Z7nUhI5WJOHm91Bm4MAEKAOTeBBq9y47RjaHm05uf38Feq1XCRajqjYfVZw23sAdq.vskB1gECB4",
+      "domain": ".hubspot.com",
+      "path": "/",
+      "expires": 1755473124.717935,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_cfuvid",
+      "value": "dbIbB74M0somACcv.oHwFB3TjCZtqTSsDaHqPOVQMzM-1755471324707-0.0.1.1-604800000",
+      "domain": ".hubspot.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__hstc",
+      "value": "59190898.392449b24025d5c24030390da2f59027.1755471324734.1755471324734.1755471324734.1",
+      "domain": ".asu.edu",
+      "path": "/",
+      "expires": 1771023324,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "hubspotutk",
+      "value": "392449b24025d5c24030390da2f59027",
+      "domain": ".asu.edu",
+      "path": "/",
+      "expires": 1771023324,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__hssrc",
+      "value": "1",
+      "domain": ".asu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__hssc",
+      "value": "59190898.1.1755471324734",
+      "domain": ".asu.edu",
+      "path": "/",
+      "expires": 1755473124,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "JELa1wLFsi2wD8ll2vVv1MzFdTv4c1ZTI5DdilA.sSQ-1755471325-1.0.1.1-L0WvTcwPkkGlOHHe1xE_Pkaak5YzRFk5QvN2ySAAYezdlPSrr3F7QiuYZKwbntueg4NkS5UtQWL2ulQIy_aSt3uHjGUXUJanyjBkm_I7Zk4",
+      "domain": ".hubapi.com",
+      "path": "/",
+      "expires": 1755473125.525534,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_zitok",
+      "value": "ac5e2b36c5f70df27a371755471326",
+      "domain": ".learning.asu.edu",
+      "path": "/",
+      "expires": 1787007326,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "test_cookie",
+      "value": "CheckForPermission",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1755472227.801013,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": "px.ads.linkedin.com",
+      "path": "/",
+      "expires": 1758101073.921585,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&2edeed66-aa8b-4c39-8983-1d14bdc748e7\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1787007327.921614,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=TGST01:s=T:r=T:a=T:p=T:g=3711:u=1:x=1:i=1755471327:t=1755557727:v=2:sig=AQEB1ido7WMhB6UrdMoUifA-X-8vnovn\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755557727.921643,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_cfuvid",
+      "value": "ETmxsu4NLKziaEQvu.2yshrilOiNwaVSWfCH3KLYhUA-1755471327967-0.0.1.1-604800000",
+      "domain": ".zoominfo.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://learning.asu.edu",
+      "localStorage": [
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755471321860},\"expires\":1763247321860}}"
+        },
+        {
+          "name": "wistia",
+          "value": "{\"__distillery\":\"1755471_bdac2ae4-d3ef-4423-9366-a57cf9b473bb-4d6a34d7e-7202b9d30338-fde3\",\"accounts_loaded\":{\"wistia-production_1726286\":1755471321905},\"medias_loaded\":{\"0xotnrqnqy\":1755471321905},\"visitor_version\":0}"
+        },
+        {
+          "name": "gtmBrowserId",
+          "value": "1755471661139"
+        },
+        {
+          "name": "li_adsId",
+          "value": "723dbbb6-bc3a-40ba-aee2-cd3606bdbb66"
+        },
+        {
+          "name": "title_loaded",
+          "value": "1755471921567"
+        }
+      ]
+    },
+    {
+      "origin": "https://www.asu.edu",
+      "localStorage": [
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755439178315},\"expires\":1763215178315}}"
+        },
+        {
+          "name": "title_loaded",
+          "value": "1755439778246"
+        }
+      ]
+    }
+  ]
+}

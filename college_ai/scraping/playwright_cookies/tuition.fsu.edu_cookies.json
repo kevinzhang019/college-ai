@@ -1,0 +1,276 @@
+{
+  "cookies": [
+    {
+      "name": "YSC",
+      "value": "3XeqBO1ktSk",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "do_GGB_9ess",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790680457,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgJA%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790680457,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__Secure-YNID",
+      "value": "17.YT=GHwqfiZMZgMdZpPIMHgs2j1Cw5X8ivE7pxGBvZw_Xpzw6jtU-KMfQrqO0iPaLzVWZTkbUR_5Um8AXMiMdkLhGrMWIa7BIBdMMqFqRJY-0Ughl6MLHqTVjHVP-F4Da5IhujXrFSURtmmwUaicAb430LT8NnwEIwkomRnV5XZ9oZ53cqeh_R3t1gUKK6b479I7PSMtz7GNWdnOp0KVvYLAUlwLV2BD2wV30tX4uy7uZgsi3gXTN88Rircu_ZxgpFNUOaF3K9qY9YTqgr-p4uo-z0ZK_9SghH6Y7O99sqYUxlbiQwGfQR5ow7ncc78cywDup5tW6HdDM205siH7S6lPyA",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790680456,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CL_x_eWe1PqNexDhl5fphM-TAxiPw-C_h8-TAw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790681175,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "BIGipServer~ITS-UNIXAdmins~www_fsu_edu_http_pool",
+      "value": "3149791498.20480.0000",
+      "domain": "fsu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "BIGipServer~ITS-UNIXAdmins~www_fsu_edu_http_pool",
+      "value": "3049128202.20480.0000",
+      "domain": "www.fsu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "nmstat",
+      "value": "5891b4cc-916c-5bd3-17b3-60b021543f4e",
+      "domain": ".fsu.edu",
+      "path": "/",
+      "expires": 1789994937,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1716081446.1755434938",
+      "domain": ".fsu.edu",
+      "path": "/",
+      "expires": 1809688458,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_tq_id.TV-4572722781-1.f67f",
+      "value": "08fc94481b53a1b2.1755434937.0.1755497587..",
+      "domain": "www.fsu.edu",
+      "path": "/",
+      "expires": 1790057587,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_N0R1FDECKP",
+      "value": "GS2.1.s1775128457$o4$g0$t1775128457$j60$l0$h0",
+      "domain": ".fsu.edu",
+      "path": "/",
+      "expires": 1809688457,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_3QQXPP1KM0",
+      "value": "GS2.1.s1775128457$o1$g0$t1775128457$j60$l0$h0",
+      "domain": ".fsu.edu",
+      "path": "/",
+      "expires": 1809688457,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_BM0TKWCDDX",
+      "value": "GS2.1.s1775128457$o4$g0$t1775128458$j59$l0$h0",
+      "domain": ".fsu.edu",
+      "path": "/",
+      "expires": 1809688458,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "osano_consentmanager_uuid",
+      "value": "b463ffcb-6221-419b-8fe0-054b491a935a",
+      "domain": ".fsu.edu",
+      "path": "/",
+      "expires": 1806665174,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "osano_consentmanager",
+      "value": "ctcxpz_wcGOQqDoegbV2B8HrdQ6h4hML_C9Y6AR2T13UX4bpf1geWJRHLCS6JmAsBUSZyQ1e4WLQJn36M0plUSo5SMZt6DwPsBZm7vgW1Hg5Lz4TAcEgNem5MbsTKiloaxr6PNi2YHR64PqYmWbl_2RiLXd3YvTzEuSYNoe6VAbvvkFnBy5GnHwhjpDPFNl9R_NyDn40SuBpMf3Kb0hvHiPzsLE27cfxh9tI3B6Wv3XsS1aUxEMOI6Mak27fuDOtmSo4GUpcMCBFIKfbQBBqIehFIlQNONr-xmVN_5ZzaLkeMVs8ssEkys0KDQUGxIVV3VJk__UVUM4=",
+      "domain": ".fsu.edu",
+      "path": "/",
+      "expires": 1806665174,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.1164044604.1775128457",
+      "domain": ".fsu.edu",
+      "path": "/",
+      "expires": 1782904457,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "category_current_tid",
+      "value": "All",
+      "domain": "tuition.fsu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "available_to_current_tid",
+      "value": "All",
+      "domain": "tuition.fsu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CLID",
+      "value": "303610d0a88f4cca94ccd08264d1b285.20260402.20270402",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1806664457,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "XANDR_PANID",
+      "value": "PR34A8000q7EV2IAFEM_tptDC6etFAHol8EGOvdoS7_L29HvoBqzrmDD59l8mL4CG-fFoAWXhvLmiEEXQRGacRIXFuanYAFu8mjvVGayCYs.",
+      "domain": ".adnxs.com",
+      "path": "/",
+      "expires": 1782904457,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "uuid2",
+      "value": "5735983409543626777",
+      "domain": ".adnxs.com",
+      "path": "/",
+      "expires": 1782904457,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "anj",
+      "value": "dTM7k!M4/8CxrEQF']wIg2C$OmpwOM!]tbP6j2F-XstGt!@DRU$dn@_",
+      "domain": ".adnxs.com",
+      "path": "/",
+      "expires": 1782904457,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://tuition.fsu.edu",
+      "localStorage": [
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"timeouts\":0,\"errors\":0,\"eopCount\":0,\"creationTimeMs\":1775128456652},\"expires\":1782904456652}}"
+        },
+        {
+          "name": "osano_consentmanager_tattles",
+          "value": "{\"40\":{\"queue\":{\"script\":[\"https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6&appId=104580419614646\",\"https://tuition.fsu.edu/modules/contrib/gtranslate/js/dropdown.js\",\"https://tuition.fsu.edu/sites/default/files/js/js_16tHwN_nNY1gvDtmwcoDncvgx508q6ltU-n4aJGX130.js?scope=footer&delta=0&language=en&theme=fsu_strata&include=eJxlkFFywyAMRC9EzZEYGeRUDmYZSW7c25d2mjht_nb3STsgMmNP0lbODo2rTZQzm8lcOQ0JLYJmgV7mumJDuom_pw5pbimjFfExTjXNlK8Xxd6KhRlwc6UeHyp15dEm_gQ7Oj5YnxIHqksPGRU644iFF9qrP4JRUaVx_OdPXkEl_nGDKceie6c6FaGKy0QrHYEPH7vXO_q1YbE95d0cWzzlRGWT9sO-X-oUNx5db_fbSRX_DDeeF-iWzg-9JF86Tpk4\",\"https://tuition.fsu.edu/sites/default/files/asset_injector/js/promo_with_points_conditional_backgrounds-28c190d9b9baee76840d5eb8a2cd9f94.js?tcsx3u\",\"https://tuition.fsu.edu/sites/default/files/js/js_qaia_ZiULVWA0gNr_qaaA2H0SR-fAq5t5fre4nVxzNQ.js?scope=footer&delta=2&language=en&theme=fsu_strata&include=eJxlkFFywyAMRC9EzZEYGeRUDmYZSW7c25d2mjht_nb3STsgMmNP0lbODo2rTZQzm8lcOQ0JLYJmgV7mumJDuom_pw5pbimjFfExTjXNlK8Xxd6KhRlwc6UeHyp15dEm_gQ7Oj5YnxIHqksPGRU644iFF9qrP4JRUaVx_OdPXkEl_nGDKceie6c6FaGKy0QrHYEPH7vXO_q1YbE95d0cWzzlRGWT9sO-X-oUNx5db_fbSRX_DDeeF-iWzg-9JF86Tpk4\",\"https://tuition.fsu.edu/themes/custom/fsu_strata/js/script.js?tcsx3u\",\"https://tuition.fsu.edu/sites/default/files/js/js_owbqCiuZ3Q-xWYTNlj7eXdktFqwfRVuvht4Wqdy4lZo.js?scope=footer&delta=4&language=en&theme=fsu_strata&include=eJxlkFFywyAMRC9EzZEYGeRUDmYZSW7c25d2mjht_nb3STsgMmNP0lbODo2rTZQzm8lcOQ0JLYJmgV7mumJDuom_pw5pbimjFfExTjXNlK8Xxd6KhRlwc6UeHyp15dEm_gQ7Oj5YnxIHqksPGRU644iFF9qrP4JRUaVx_OdPXkEl_nGDKceie6c6FaGKy0QrHYEPH7vXO_q1YbE95d0cWzzlRGWT9sO-X-oUNx5db_fbSRX_DDeeF-iWzg-9JF86Tpk4\",\"https://tuition.fsu.edu/themes/custom/fsu_strata/strata-3.1/_/s3/js/extend/jquery.flexslider.js\",\"https://tuition.fsu.edu/themes/custom/fsu_strata/strata-3.1/_/s3/js/extend/flexslider.js\",\"https://tuition.fsu.edu/themes/custom/fsu_strata/strata-3.1/_/s3/js/extend/strata-carousel.js\",\"https://connect.facebook.net/en_US/bundle/sdk.js/\",\"https://www.youtube.com/iframe_api\",\"https://siteimproveanalytics.com/js/siteanalyze_40856.js\",\"https://www.googletagmanager.com/gtag/js?id=G-N0R1FDECKP&cx=c&gtm=4e63v0\",\"https://www.clarity.ms/tag/t8odjk7on0?ref=gtm\",\"https://www.googletagmanager.com/gtag/js?id=G-BM0TKWCDDX&cx=c&gtm=4e63v0\",\"https://www.youtube.com/s/player/f4c47414/www-widgetapi.vflset/www-widgetapi.js\",\"https://scripts.clarity.ms/0.8.59/clarity.js\"],\"cookie\":[\"category_current_tid\",\"available_to_current_tid\",\"_gcl_au\",\"_ga_N0R1FDECKP\",\"_ga\",\"_ga_3QQXPP1KM0\",\"_ga_BM0TKWCDDX\"]},\"ignore\":{\"localStorage\":[\"_gcl_ls\"]}}}"
+        },
+        {
+          "name": "osano_consentmanager_uuid",
+          "value": "b463ffcb-6221-419b-8fe0-054b491a935a"
+        },
+        {
+          "name": "osano_consentmanager",
+          "value": "ctcxpz_wcGOQqDoegbV2B8HrdQ6h4hML_C9Y6AR2T13UX4bpf1geWJRHLCS6JmAsBUSZyQ1e4WLQJn36M0plUSo5SMZt6DwPsBZm7vgW1Hg5Lz4TAcEgNem5MbsTKiloaxr6PNi2YHR64PqYmWbl_2RiLXd3YvTzEuSYNoe6VAbvvkFnBy5GnHwhjpDPFNl9R_NyDn40SuBpMf3Kb0hvHiPzsLE27cfxh9tI3B6Wv3XsS1aUxEMOI6Mak27fuDOtmSo4GUpcMCBFIKfbQBBqIehFIlQNONr-xmVN_5ZzaLkeMVs8ssEkys0KDQUGxIVV3VJk__UVUM4="
+        }
+      ]
+    },
+    {
+      "origin": "https://www.fsu.edu",
+      "localStorage": [
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755434937122},\"expires\":1763210937122}}"
+        },
+        {
+          "name": "osano_consentmanager_tattles-cookie",
+          "value": "[\"_gcl_au\",\"_tq_id.TV-4572722781-1.f67f\",\"nmstat\",\"_ga_N0R1FDECKP\",\"_ga\",\"_ga_BM0TKWCDDX\"]"
+        },
+        {
+          "name": "osano_consentmanager_tattles-iframe",
+          "value": "[]"
+        },
+        {
+          "name": "osano_consentmanager_uuid",
+          "value": "b463ffcb-6221-419b-8fe0-054b491a935a"
+        },
+        {
+          "name": "osano_consentmanager",
+          "value": "9eUy7i-wJ4XG7IjQs6iEaRozISO-AEeHebFR5yzzllgsz6lx6iO-Bv-6jEzB2wYkLTjKSSEQm6lmyb5Z1hJ1K2EJ_G6OV_vy704WONm3cNCUY9vmFl2aqn1_WUnfO7J92MyYftlX9CPwno6hm0IXrYFps4eSQNXYocjkeg13ov1SbiySkFtB6AzUj7-lPRivM-1J1h_6SnldXLr09L68P_87rYn1tfYhwQvbvqqQcBcomW6YM4DypaByQvVyIs34GAXavZl-Euh3Liuh_Ec883CDbl5bmcxD8mIG1rx0UlaET9r2fSzRtx5fdLgiY84LpcUIyQB3OKs="
+        },
+        {
+          "name": "osano_consentmanager_tattles-script",
+          "value": "[\"https://www.fsu.edu/_/s3.4/js/cookie.js\",\"https://www.fsu.edu/_/s3.4/js/jquery.easing.js\",\"https://www.fsu.edu/_/s3.4/js/modernizr.js\",\"https://www.fsu.edu/_/local/js/nav-1.js\",\"https://www.youtube.com/iframe_api\",\"https://www.googletagmanager.com/gtag/js?id=G-N0R1FDECKP&cx=c&gtm=45He58d1h1v71073382za200&tag_exp=101509157~103116026~103200004~103233427~104684208~104684211~105033763~105033765~105103161~105103163~105231383~105231385\",\"https://siteimproveanalytics.com/js/siteanalyze_40856.js\",\"https://www.youtube.com/s/player/9f49a55a/www-widgetapi.vflset/www-widgetapi.js\",\"https://www.googletagmanager.com/gtag/js?id=G-BM0TKWCDDX&cx=c&gtm=45He58d1h1v71073382za200&tag_exp=101509157~103116026~103200004~103233427~104684208~104684211~105033763~105033765~105103161~105103163~105231383~105231385\",\"https://www.fsu.edu/_/local/js/nav-3.js\",\"https://www.googletagmanager.com/gtag/js?id=G-N0R1FDECKP&cx=c&gtm=45He58d1v71073382za200&tag_exp=101509157~103116026~103200004~103233427~104684208~104684211~105033763~105033765~105103161~105103163~105231383~105231385\",\"https://www.googletagmanager.com/gtag/js?id=G-BM0TKWCDDX&cx=c&gtm=45He58d1v71073382za200&tag_exp=101509157~103116026~103200004~103233427~104684208~104684211~105033763~105033765~105103161~105103163~105231383~105231385\"]"
+        }
+      ]
+    }
+  ]
+}

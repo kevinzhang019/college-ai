@@ -1,0 +1,47 @@
+{
+  "cookies": [
+    {
+      "name": "__cf_bm",
+      "value": "7dXPLyWpCS9XNKgCELj0cr59vFCXBwj8X5YMjBnHbNA-1755463248-1.0.1.1-sF94hCnp7nMYp_uTqAr_Ci8S7LeyAnO_pw6H.GgssmkaQrNKoRGm94ZaV1_nPLQEUPmN_WS_wUEnAnNCwtHFCdyJ.gJ8rttd72R2fLY0YQc",
+      "domain": ".presidentialsearch.usc.edu",
+      "path": "/",
+      "expires": 1755465048.040938,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_0GWPGT5KXN",
+      "value": "GS2.1.s1755463248$o1$g0$t1755463248$j60$l0$h0",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1790023248.362263,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1428163190.1755463248",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1790023248.362396,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cf_clearance",
+      "value": "sifiXhpJPzMsXaDZzkRQ.GtYa0oVIJxCkMOlWiQ0vQE-1755463249-1.2.1.1-FELlIJPoKIzz3Rd6rqMlwsa8tPCQJYeNv6AIzm.5zkQWh0VCwu70N0RIG.7RkBoHkqmRd0HppF2Tgv0f2PPKIQcSU41dqMBYO3BLtbO8D.k7UGWrIgdj.MrO_HrRSfEiD3NXn4q3F5kJIbt8bPpjSFWgchwML8kFxABmIjt7zaS2KyfatH1JGBPjD0d519KHrf6r4ThAmlLsJ94lHD0s11tZd2m_AkXgDLfwv6v9mBA",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1786999249.040786,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://usc.edu",
+      "_crHasCrossSiteAncestor": false
+    }
+  ],
+  "origins": []
+}

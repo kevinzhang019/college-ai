@@ -1,0 +1,883 @@
+{
+  "cookies": [
+    {
+      "name": "cee",
+      "value": "lKTr3o3GGtWkebJAxkbJer7L9Boq7RDO98TQ0GkDFfM%3D.%7B%7D",
+      "domain": ".test-drive-8-s6uit34pua-uc.a.run.app",
+      "path": "/events/c40d63bf967fde3ad0583a23154e884628a681c49122bdb0a7c8f767e4b8bb10",
+      "expires": 1763329610.240322,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "X-AB",
+      "value": "12f715ca71194ad9a1b12bba6d1da4c6",
+      "domain": "sc-static.net",
+      "path": "/scevent.min.js",
+      "expires": 1755639975.232272,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ttp",
+      "value": "31TgeuNUVH1RpryUic8BtNner5G",
+      "domain": ".tiktok.com",
+      "path": "/",
+      "expires": 1789249608.455127,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_tt_enable_cookie",
+      "value": "1",
+      "domain": ".american.edu",
+      "path": "/",
+      "expires": 1789249608,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ttp",
+      "value": "01K2ZJBBGDSP4S8FEAS2Q2RXSF_.tt.1",
+      "domain": ".american.edu",
+      "path": "/",
+      "expires": 1789249608,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.1347729784.1755553575",
+      "domain": ".american.edu",
+      "path": "/",
+      "expires": 1763329575,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "YSC",
+      "value": "9jsXQNB3wGI",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://american.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "vP27r52H9ro",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771105575.321972,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://american.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgYw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771105575.321984,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://american.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "nmstat",
+      "value": "4b86c693-c0ee-2e3c-65c4-2ff2b54f469f",
+      "domain": ".american.edu",
+      "path": "/",
+      "expires": 1790113575.404067,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_scid",
+      "value": "bE1Jh3VVelPr7hu3X77x9mdSBQcxuH6-",
+      "domain": ".american.edu",
+      "path": "/",
+      "expires": 1789740273,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CLID",
+      "value": "75c448ac763e4656b7190dab0bd9baa7.20250818.20260818",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1787089575.570312,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-3ebfd6d0-f858-461b-7289-9bd7ebb7612c.hf5xOVdWkKXNvbWOlrrDoPt70sE5RU6riDl4L%2FeF00s",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1787089575.636505,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-3ebfd6d0-f858-461b-7289-9bd7ebb7612c.hf5xOVdWkKXNvbWOlrrDoPt70sE5RU6riDl4L%2FeF00s",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1787089575.636531,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3APr_W0PhYRhtyiZvX67dhLA.HalEZsJjRNoMrgnI8%2BGZLsElEb2Mha%2B%2FYABvo%2FWEr60",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1787089575.636572,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3APr_W0PhYRhtyiZvX67dhLA.HalEZsJjRNoMrgnI8%2BGZLsElEb2Mha%2B%2FYABvo%2FWEr60",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1787089575.636582,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEHwYAiCnvo7FBjoEmw576UIEbxwYiw.RFjuSY9w7ifA3vcXirPmPq9GwKM2U6fBN94T61%2BAUlQ",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1787089575.636556,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEHwYAiCnvo7FBjoEmw576UIEbxwYiw.RFjuSY9w7ifA3vcXirPmPq9GwKM2U6fBN94T61%2BAUlQ",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1787089575.636564,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUnzlr5Fb6sRWJmDUD46dJ5x4-SGFH4QSMf4OgtILE1RSwrICAD5Wi0-SozPGhQ",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1790113575.657588,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "receive-cookie-deprecation",
+      "value": "1",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1771105575.657638,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://american.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_ScCbts",
+      "value": "%5B%5D",
+      "domain": ".american.edu",
+      "path": "/",
+      "expires": 1756158375,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1212633292.1755553576",
+      "domain": ".american.edu",
+      "path": "/",
+      "expires": 1790113609.338812,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__spdt",
+      "value": "9e64f6a320a9430095ddb44c7f7c82af",
+      "domain": "kogod.american.edu",
+      "path": "/",
+      "expires": 1787089575,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "sc_at",
+      "value": "v2|H4sIAAAAAAAAAE3GuQ3AMAwDwIkEyKEfKNuIobfQ8HaZq05wFxn2fJzWiTDulFEbyZQQUa3729a4MNasX/0A02m+HUAAAAA=",
+      "domain": ".snapchat.com",
+      "path": "/",
+      "expires": 1789249576.373304,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ssi",
+      "value": "41c22ca4-6ad5-45db-9ffd-06ceff62fa7e#1755553576121",
+      "domain": ".sitescout.com",
+      "path": "/",
+      "expires": 1787089609.655655,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_TS",
+      "value": "1755553576319",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760737576.281265,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_DID",
+      "value": "f3c1fe2b-7e92-48d6-9557-61d1b30ea03a",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760737576.281306,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_clck",
+      "value": "1eb59t5%7C2%7Cfyk%7C0%7C2056",
+      "domain": ".american.edu",
+      "path": "/",
+      "expires": 1787089576,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&62ee68f3-11f7-4868-84e6-381a4fd59bf2\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1787089577.245425,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=TGST09:s=T:r=T:a=T:p=T:g=3101:u=1:x=1:i=1755553576:t=1755639976:v=2:sig=AQEWPVzeUYh4yNMKYMFrGZlU953mMFk_\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755639977.245451,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_3WAY_SYNCS",
+      "value": "",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760737576.281321,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_sctr",
+      "value": "1%7C1755475200000",
+      "domain": ".american.edu",
+      "path": "/",
+      "expires": 1789740274,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "mtc_id",
+      "value": "7755337",
+      "domain": "start.chooseamericanu.org",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "mtc_id",
+      "value": "7755337",
+      "domain": "kogod.american.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755553578349.251158948920689542",
+      "domain": ".american.edu",
+      "path": "/",
+      "expires": 1763329610,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "gwkaLHMTc6wztd.VWqvb4_5qcWN1PWkB9LrhWs13_is-1755553607-1.0.1.1-1pCfl6RsibsI7ywd.4vRRyB.oDSZ.TjD4uHfamis.RqwlBXvFsXXIl.xjhoKAPL0f.EkhXxajZtWxktzgtTv2xgiyJR2mw.WZKZHJOhbwzw",
+      "domain": ".kogod.american.edu",
+      "path": "/",
+      "expires": 1755555407.246347,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_cfuvid",
+      "value": "TqAdPOFcKzeVkcxVaIC1GgdXpAaWyUz9YbAFzaDXcJk-1755553607358-0.0.1.1-604800000",
+      "domain": ".kogod.american.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "O4huXYVeRao73zxTftcW.pBpEQy8xGGKzxtIJLZ40So-1755553607-1.0.1.1-l.ABFuZy67D5Wc.E2SoPBOqBN6Ad9zQBLC3PeLHDDJBbwDUQj3TydqrnZqLBG4cNA.jTRAqGGqTHu7OOAZM7vz9.AOmsdaZw7LmIyyIPeIo",
+      "domain": ".hscollectedforms.net",
+      "path": "/",
+      "expires": 1755555407.60577,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "OvUIXywwh.ZpNUMV.fr5wMQ8RXFjqRXZWHDLVoAdhcw-1755553607-1.0.1.1-qLHy2SUGzXNPic8kjhYaftJWBtlXA2Qz0Dn409HLAjP8IwqcmRMzGXBxkSiRFpPdgGHNtouM8Ad6mczIiNbHjqukRZUw0I7fhZCZTOVxHFI",
+      "domain": ".hsadspixel.net",
+      "path": "/",
+      "expires": 1755555407.829373,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "0GXGaJRjhELYbLQKzHxdt1ALBpPKlE2lXt7db8pz3rs-1755553607-1.0.1.1-V6PTp8X_ZK5kWFMsHaFo94xOF1pHJenfejswTIa.O0iFO1TYJ9Qx76i5fp9bZFP1bwqM7O4i2Fm3K5H5UXgSOEr1T2D_ygAJGRVlCCiI9l4",
+      "domain": ".hs-banner.com",
+      "path": "/",
+      "expires": 1755555407.830354,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "dbvrdBJrWW2uvRST6ca_NLo28oD4tYsUzQ.JBjrMo0A-1755553607-1.0.1.1-hGFXV3VxNgr0Yc92D7PuXOReClW0Bwne7Lg21o10Exy5hbP0VyLvDrSd.uD.qCOhIGaBs4WVPmww_r5IKShRBGSGAQM7OxFoD4sT9AFggbw",
+      "domain": ".hs-analytics.net",
+      "path": "/",
+      "expires": 1755555407.831154,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "yh8WHOuxN.ekJuOvz2Pe2AgYI3_IjAS5GL9RfGLMIVQ-1755553607-1.0.1.1-X5TSxoZSN8BiQ09vBE69amXxTzAopQQ_nBnQVC.Z5.UeVg_BhhkMOVqbyjvdL1PPkvHvveqB5aKknXEWAprvrq3wT0UXR8fm2MZAUw7NQ_Q",
+      "domain": ".hubspot.com",
+      "path": "/",
+      "expires": 1755555407.83403,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_cfuvid",
+      "value": "cszrSSYvmb6ioDnKzlV9dETj.QvqqcC264isEWJaqIs-1755553607927-0.0.1.1-604800000",
+      "domain": ".hubspot.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "p00trXjHEGY7Vgc4KeSaICnUb5Ov_SWkGv0M_U3Ib_I-1755553607-1.0.1.1-KHCGkwyxYnekhQco4D.PIQ0VCkwhvKo_rADX9A3Ig_FDrKqUT96zLMSr_kCuxqCsjzSrbic5wX3VWkXpApCHt6jVmCxPJcb.inY44qygmEo",
+      "domain": ".usemessages.com",
+      "path": "/",
+      "expires": 1755555407.836206,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "JyXGeE_GIylBRc9YWaHp9pgDt0T95S7oB0GTGGBrS_4-1755553608-1.0.1.1-3ht_RmEbj9MPKotcQo7pEew2tIlrexOxXZhVeZDtw5mW8_xZEwd43.d23uRKTb5shW9ni6zNg48mGh.IXZM4CPi5mozZgKEC2nNV9szavxM",
+      "domain": ".hubapi.com",
+      "path": "/",
+      "expires": 1755555408.148001,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ttcsid_C5S03PK247CAE4T3UGJ0",
+      "value": "1755553574415::RzdWDDrE8R_NqZkKqblC.1.1755553608170",
+      "domain": ".american.edu",
+      "path": "/",
+      "expires": 1789249608,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CN3ei9u95bm9RhDq_vrZqpWPAxjq3evpqpWPAw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771105608.607066,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://american.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "ttcsid",
+      "value": "1755553574415::rVAAXzVTheATfSFTZe3t.1.1755553608953",
+      "domain": ".american.edu",
+      "path": "/",
+      "expires": 1789249608,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_scid_r",
+      "value": "dc1Jh3VVelPr7hu3X77x9mdSBQcxuH6-GqYONQ",
+      "domain": ".american.edu",
+      "path": "/",
+      "expires": 1789740306,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ttcsid_C0S1HH6F998V43B95V60",
+      "value": "1755553575807::WCahRml0teu8tm5a611Y.1.1755553609183",
+      "domain": ".american.edu",
+      "path": "/",
+      "expires": 1789249609,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_1R60WKC4PF",
+      "value": "GS2.1.s1755553575$o1$g1$t1755553609$j26$l0$h0",
+      "domain": ".american.edu",
+      "path": "/",
+      "expires": 1790113609.298499,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-b3119e5a-1ef5-45f0-4d84-0da814b09c99.3afjBwNDaQxyGa%2FnIOWBAf6071xGXUzGRDps3R9NOVs",
+      "domain": "qvdt3feo.com",
+      "path": "/",
+      "expires": 1787089609.318189,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-b3119e5a-1ef5-45f0-4d84-0da814b09c99.3afjBwNDaQxyGa%2FnIOWBAf6071xGXUzGRDps3R9NOVs",
+      "domain": ".qvdt3feo.com",
+      "path": "/",
+      "expires": 1787089609.318315,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3AsxGeWh71RfBNhA2oFLCcmQ.ADjkpOQqwgxI2YaDif12o9g9zv41iFPq5ifoY9xn28U",
+      "domain": "qvdt3feo.com",
+      "path": "/",
+      "expires": 1787089609.318347,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3AsxGeWh71RfBNhA2oFLCcmQ.ADjkpOQqwgxI2YaDif12o9g9zv41iFPq5ifoY9xn28U",
+      "domain": ".qvdt3feo.com",
+      "path": "/",
+      "expires": 1787089609.318408,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEKsEGAIgyb6OxQY6BIIfcDZCBDXCAQY.%2FDCV2BGNogaLJp8lat%2Fz5kfeRx3Zjpvn%2BNezYj%2F6qOc",
+      "domain": "qvdt3feo.com",
+      "path": "/",
+      "expires": 1787089609.318441,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEKsEGAIgyb6OxQY6BIIfcDZCBDXCAQY.%2FDCV2BGNogaLJp8lat%2Fz5kfeRx3Zjpvn%2BNezYj%2F6qOc",
+      "domain": ".qvdt3feo.com",
+      "path": "/",
+      "expires": 1787089609.318481,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_L2B0YN4S81",
+      "value": "GS2.1.s1755553575$o1$g1$t1755553609$j26$l0$h0",
+      "domain": ".american.edu",
+      "path": "/",
+      "expires": 1790113609.338628,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%253A0-b3119e5a-1ef5-45f0-4d84-0da814b09c99.3afjBwNDaQxyGa%252FnIOWBAf6071xGXUzGRDps3R9NOVs",
+      "domain": "kogod.american.edu",
+      "path": "/",
+      "expires": 1787089609,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%253A.o6W7wkJsHSTU4%252BLlDruZ%252FwNjVcUZZMvakQpSatDoAgo",
+      "domain": "kogod.american.edu",
+      "path": "/",
+      "expires": 1787089609,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%253AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEKsEGAIgyb6OxQY6BIIfcDZCBDXCAQY.%252FDCV2BGNogaLJp8lat%252Fz5kfeRx3Zjpvn%252BNezYj%252F6qOc",
+      "domain": "kogod.american.edu",
+      "path": "/",
+      "expires": 1787089609,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_uetsid",
+      "value": "c447dd807c7c11f0863c615ba72850d2",
+      "domain": ".american.edu",
+      "path": "/",
+      "expires": 1755640009,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_uetvid",
+      "value": "c447c4607c7c11f08df2db5b0c15007c",
+      "domain": ".american.edu",
+      "path": "/",
+      "expires": 1789249609,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ssuma",
+      "value": "eyI0NSI6MTc1NTU1MzYwOTYwMSwiMiI6MTc1NTU1MzU3NjIxMCwiNjgiOjE3NTU1NTM2MDk2MDEsIjQiOjE3NTU1NTM1NzYyMTAsIjM5IjoxNzU1NTUzNTc2MjEwLCIxNyI6MTc1NTU1MzYwOTYwMSwiNyI6MTc1NTU1MzU3NjIxMCwiOCI6MTc1NTU1MzU3NjIxMCwiNTMiOjE3NTU1NTM2MDk2MDEsIjQyIjoxNzU1NTUzNjA5NjAxfQ",
+      "domain": ".sitescout.com",
+      "path": "/",
+      "expires": 1758145609.655674,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "mautic_device_id",
+      "value": "1ojmt3h5ezvmdx3h7z55qzo",
+      "domain": "start.chooseamericanu.org",
+      "path": "/",
+      "expires": 1787089610.15318,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "mtc_sid",
+      "value": "1ojmt3h5ezvmdx3h7z55qzo",
+      "domain": "start.chooseamericanu.org",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "mtc_sid",
+      "value": "1ojmt3h5ezvmdx3h7z55qzo",
+      "domain": "kogod.american.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "mautic_device_id",
+      "value": "1ojmt3h5ezvmdx3h7z55qzo",
+      "domain": "kogod.american.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__hstc",
+      "value": "202819022.fd37e932ca40a88d96c64a248080fb03.1755553610163.1755553610163.1755553610163.1",
+      "domain": ".american.edu",
+      "path": "/",
+      "expires": 1771105610,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "hubspotutk",
+      "value": "fd37e932ca40a88d96c64a248080fb03",
+      "domain": ".american.edu",
+      "path": "/",
+      "expires": 1771105610,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__hssrc",
+      "value": "1",
+      "domain": ".american.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__hssc",
+      "value": "202819022.1.1755553610163",
+      "domain": ".american.edu",
+      "path": "/",
+      "expires": 1755555410,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "TDID",
+      "value": "b9c1721f-d4a7-477e-bf73-81471eaf35cb",
+      "domain": ".adsrvr.org",
+      "path": "/",
+      "expires": 1787089610.97766,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "uuid2",
+      "value": "7284654721332335439",
+      "domain": ".adnxs.com",
+      "path": "/",
+      "expires": 1763329610.720309,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "audit_p",
+      "value": "1|EcNt3XxTGlSpKMUZEevcD//vTHd4y679CQ4kre44xYiqcLSLiv9/T4mxzbC4lZXwoqkLj70uFtWM1KxoLazIt9i2Wk5FrGos0XY24Ec+XLt3hTEazwlqi5R6rtTUBvnnu2u+HS12Wzmo/7QYg9gUBQEdHvln2fsgweJ0Jmvi3i5bOz6AjJtUa8ZnH3r7x5VAdeodiyl5GGjkt77VmXBK7kiCfUmSYXqD+ohH/uuQN8oOr/S07bYDcYQkZmofZQkSVSwKu1RXSJT0/fhu8/pkBO4VeIulq+4M1TRwmTZWV3Xc6UO785F0Pw==",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1787089610.654817,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://american.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "khaos",
+      "value": "MEHNAJGY-T-A873",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1787089610.654883,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "khaos_p",
+      "value": "MEHNAJGY-T-A873",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1787089610.654907,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://american.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "audit",
+      "value": "1|EcNt3XxTGlSpKMUZEevcD//vTHd4y679CQ4kre44xYiqcLSLiv9/T4mxzbC4lZXwoqkLj70uFtWM1KxoLazIt9i2Wk5FrGos0XY24Ec+XLt3hTEazwlqi5R6rtTUBvnnu2u+HS12Wzmo/7QYg9gUBQEdHvln2fsgweJ0Jmvi3i5bOz6AjJtUa8ZnH3r7x5VAdeodiyl5GGjkt77VmXBK7kiCfUmSYXqD+ohH/uuQN8oOr/S07bYDcYQkZmofZQkSVSwKu1RXSJT0/fhu8/pkBO4VeIulq+4M1TRwmTZWV3Xc6UO785F0Pw==",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1787089610.654928,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TDCPM",
+      "value": "CAESFQoGZ29vZ2xlEgsI8NDq1tiqrz4QBRIWCgdydWJpY29uEgsIjJPr1tiqrz4QBRIXCghhcHBuZXh1cxILCPaT39nYqq8-EAUYBSACKAYyCwjCl-2D76qvPhAFQg8iDQgBEgkKBXRpZXIyEAFaB2RhczB2bWlgAQ..",
+      "domain": ".adsrvr.org",
+      "path": "/",
+      "expires": 1787089610.978008,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://kogod.american.edu",
+      "localStorage": [
+        {
+          "name": "u_sclid",
+          "value": "1VTaeU4Db3UtLNRh2V2xh91olvkKZmPQbE1Jh3VVelPr7hu3X77x9mdSBQcxuH6-"
+        },
+        {
+          "name": "sa-user-id",
+          "value": "s%3A0-b3119e5a-1ef5-45f0-4d84-0da814b09c99.3afjBwNDaQxyGa%2FnIOWBAf6071xGXUzGRDps3R9NOVs"
+        },
+        {
+          "name": "_uetvid_exp",
+          "value": "Sat, 12 Sep 2026 21:46:49 GMT"
+        },
+        {
+          "name": "mautic_device_id",
+          "value": "1ojmt3h5ezvmdx3h7z55qzo"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755553610156"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755553575017},\"expires\":1763329575017}}"
+        },
+        {
+          "name": "_uetsid",
+          "value": "c447dd807c7c11f0863c615ba72850d2"
+        },
+        {
+          "name": "sa-user-id-v3",
+          "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEKsEGAIgyb6OxQY6BIIfcDZCBDXCAQY.%2FDCV2BGNogaLJp8lat%2Fz5kfeRx3Zjpvn%2BNezYj%2F6qOc"
+        },
+        {
+          "name": "sa-user-id-v2",
+          "value": "s%3A.o6W7wkJsHSTU4%2BLlDruZ%2FwNjVcUZZMvakQpSatDoAgo"
+        },
+        {
+          "name": "cntr_attr",
+          "value": "[]"
+        },
+        {
+          "name": "u_sclid_r",
+          "value": "7tTaeU4Db3UtLNRh2V2xh91olvkKZmPQlEXOxnXNSYd1VXpT6-4bt1--8fZnUgUHMbh-vhqmDjU"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755553609347"
+        },
+        {
+          "name": "mtc_sid",
+          "value": "1ojmt3h5ezvmdx3h7z55qzo"
+        },
+        {
+          "name": "mtc_id",
+          "value": "7755337"
+        },
+        {
+          "name": "_uetsid_exp",
+          "value": "Tue, 19 Aug 2025 21:46:49 GMT"
+        },
+        {
+          "name": "_uetvid",
+          "value": "c447c4607c7c11f08df2db5b0c15007c"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        }
+      ]
+    }
+  ]
+}

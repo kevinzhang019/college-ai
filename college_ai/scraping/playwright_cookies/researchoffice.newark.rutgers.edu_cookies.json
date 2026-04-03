@@ -1,0 +1,35 @@
+{
+  "cookies": [
+    {
+      "name": "_ga_ZYY85J4EN8",
+      "value": "GS2.1.s1755480114$o1$g0$t1755480114$j60$l0$h0",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1790040114.21254,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1676201825.1755480114",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1790040114.212704,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://researchoffice.newark.rutgers.edu",
+      "localStorage": [
+        {
+          "name": "NRBA_SESSION",
+          "value": "{\"value\":\"4531e545dcc17ee4\",\"inactiveAt\":1755481915110,\"expiresAt\":1755494515110,\"updatedAt\":1755480115740,\"sessionReplayMode\":0,\"sessionReplaySentFirstChunk\":false,\"sessionTraceMode\":0,\"traceHarvestStarted\":false,\"loggingMode\":0,\"serverTimeDiff\":-288,\"custom\":{},\"numOfResets\":0}"
+        }
+      ]
+    }
+  ]
+}

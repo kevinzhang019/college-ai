@@ -1,0 +1,245 @@
+{
+  "cookies": [
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-d70cd77c-4b70-4660-76cb-2c65009b95bc.K3paEo7oGGYP3d8%2BYaELVfHytoifBf93RgoaXOt%2FYWw",
+      "domain": "qvdt3feo.com",
+      "path": "/",
+      "expires": 1786984995,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-d70cd77c-4b70-4660-76cb-2c65009b95bc.K3paEo7oGGYP3d8%2BYaELVfHytoifBf93RgoaXOt%2FYWw",
+      "domain": ".qvdt3feo.com",
+      "path": "/",
+      "expires": 1786984995,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3A1wzXfEtwRmB2yyxlAJuVvA.0BTGNvOSgnYRqC%2BKktAa61broElfpZpJUdoJlWKRzu0",
+      "domain": "qvdt3feo.com",
+      "path": "/",
+      "expires": 1786984995,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3A1wzXfEtwRmB2yyxlAJuVvA.0BTGNvOSgnYRqC%2BKktAa61broElfpZpJUdoJlWKRzu0",
+      "domain": ".qvdt3feo.com",
+      "path": "/",
+      "expires": 1786984995,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEL8CGAIgo42IxQY6BGFKycJCBBj_8qM.x2ubnvprQx1gz3uL4mYbFqdXre1bhvU%2Fx1q1Chsc8Jk",
+      "domain": "qvdt3feo.com",
+      "path": "/",
+      "expires": 1786984995,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEL8CGAIgo42IxQY6BGFKycJCBBj_8qM.x2ubnvprQx1gz3uL4mYbFqdXre1bhvU%2Fx1q1Chsc8Jk",
+      "domain": ".qvdt3feo.com",
+      "path": "/",
+      "expires": 1786984995,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sc_at",
+      "value": "v2|H4sIAAAAAAAAAE3GwRHAIAgEwIqY4eAMYDcko1VYfL7ua5XReF5I53Ih4JK6XSzLPqchVh9QJ2IMMqviXNUfUy9IWUAAAAA=",
+      "domain": ".snapchat.com",
+      "path": "/",
+      "expires": 1789144997,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "CLID",
+      "value": "72bda1a9c1d545899c5c4f1ecdd85d3b.20250817.20260817",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1786984995,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&9bc29494-e9a2-4e9f-8f6b-a5ca0910e364\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1786984998,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_X5WTGNM3XF",
+      "value": "GS2.2.s1755448995$o1$g0$t1755448995$j60$l0$h0",
+      "domain": ".missouri.edu",
+      "path": "/",
+      "expires": 1790008995,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.1652143377.1755448995",
+      "domain": ".missouri.edu",
+      "path": "/",
+      "expires": 1790008995,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_scid",
+      "value": "5pNH1ywcMAddU5MjKM54FQyoA1fhM2Hy",
+      "domain": ".missouri.edu",
+      "path": "/",
+      "expires": 1789635693,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_scid_r",
+      "value": "5pNH1ywcMAddU5MjKM54FQyoA1fhM2Hy",
+      "domain": ".missouri.edu",
+      "path": "/",
+      "expires": 1789635693,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_clck",
+      "value": "1j6j480%7C2%7Cfyj%7C0%7C2055",
+      "domain": ".missouri.edu",
+      "path": "/",
+      "expires": 1786984995,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%253A0-d70cd77c-4b70-4660-76cb-2c65009b95bc.K3paEo7oGGYP3d8%252BYaELVfHytoifBf93RgoaXOt%252FYWw",
+      "domain": "missouri.edu",
+      "path": "/",
+      "expires": 1786984995,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%253A.o6W7wkJsHSTU4%252BLlDruZ%252FwNjVcUZZMvakQpSatDoAgo",
+      "domain": "missouri.edu",
+      "path": "/",
+      "expires": 1786984995,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%253AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEL8CGAIgo42IxQY6BGFKycJCBBj_8qM.x2ubnvprQx1gz3uL4mYbFqdXre1bhvU%252Fx1q1Chsc8Jk",
+      "domain": "missouri.edu",
+      "path": "/",
+      "expires": 1786984995,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_sctr",
+      "value": "1%7C1755414000000",
+      "domain": ".missouri.edu",
+      "path": "/",
+      "expires": 1789635695,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_node",
+      "value": "24cb4d6272b3a99e2195e26e8d714f3ce21a96f7c97ec09ea6f7c181d27bb3be",
+      "domain": "futuretigers.missouri.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "597d673c-3155-4627-9a9b-924d320bec21",
+      "domain": "futuretigers.missouri.edu",
+      "path": "/",
+      "expires": 1809757407,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202604/1",
+      "domain": "futuretigers.missouri.edu",
+      "path": "/",
+      "expires": 1809757407,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://missouri.edu",
+      "localStorage": [
+        {
+          "name": "sa-user-id-v3",
+          "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEL8CGAIgo42IxQY6BGFKycJCBBj_8qM.x2ubnvprQx1gz3uL4mYbFqdXre1bhvU%2Fx1q1Chsc8Jk"
+        },
+        {
+          "name": "sa-user-id-v2",
+          "value": "s%3A.o6W7wkJsHSTU4%2BLlDruZ%2FwNjVcUZZMvakQpSatDoAgo"
+        },
+        {
+          "name": "u_sclid",
+          "value": "vRnz8ESn8cNkaye3zXIvo6Mtv3AJziK-5pNH1ywcMAddU5MjKM54FQyoA1fhM2Hy"
+        },
+        {
+          "name": "li_adsId",
+          "value": "482cbdd5-d76a-477d-96d8-f4bdcd8a5dd3"
+        },
+        {
+          "name": "sa-user-id",
+          "value": "s%3A0-d70cd77c-4b70-4660-76cb-2c65009b95bc.K3paEo7oGGYP3d8%2BYaELVfHytoifBf93RgoaXOt%2FYWw"
+        },
+        {
+          "name": "u_sclid_r",
+          "value": "vRnz8ESn8cNkaye3zXIvo6Mtv3AJziK-5pNH1ywcMAddU5MjKM54FQyoA1fhM2Hy"
+        }
+      ]
+    }
+  ]
+}

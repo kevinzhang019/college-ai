@@ -1,0 +1,475 @@
+{
+  "cookies": [
+    {
+      "name": "taboola_session_id",
+      "value": "v2_943b8c57608ae443222114126994f8a4_977b804b-58e6-4142-b1cb-5334085a1b38-tuctf9cf14f_1755540431_1755540470_CNawjgYQ55FcGJ709vKLMyACKAEw4QE4kaQOQIuwDkjz2NgDUKcGWABgAGi1s7WS356PweABcAGAAQA",
+      "domain": ".taboola.com",
+      "path": "/taboolaaccount-junkominervaedu/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "X-AB",
+      "value": "12f715ca71194ad9a1b12bba6d1da4c6",
+      "domain": "sc-static.net",
+      "path": "/scevent.min.js",
+      "expires": 1755626831.28003,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "mu-sessionid",
+      "value": "7rn7km4kezjq6eavdvslrv2d28c5h0qo",
+      "domain": ".minerva.edu",
+      "path": "/",
+      "expires": 1755626870.391282,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "YSC",
+      "value": "zBONkJUR_IA",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "jzjqEc7ceSQ",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771092431.441369,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgag%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771092431.441398,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ttp",
+      "value": "31TG1FX7UJ6RCmbmmG4WXqHWlFn",
+      "domain": ".tiktok.com",
+      "path": "/",
+      "expires": 1789236470.34527,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_scid",
+      "value": "-slPpEmLYIpORtSFBDKgOiDeCyQEFtSq",
+      "domain": ".minerva.edu",
+      "path": "/",
+      "expires": 1789727129,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ssi--sessionId",
+      "value": "a2abe850-f363-5023-b963-32271dd5f53d",
+      "domain": "www.minerva.edu",
+      "path": "/",
+      "expires": 1787076431,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "ssi--lastInteraction",
+      "value": "1755540431326",
+      "domain": "www.minerva.edu",
+      "path": "/",
+      "expires": 1755541031,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "COjKmIeZ66fFORCanaHe-ZSPAxiUiLLe-ZSPAw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771092431.441417,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://minerva.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "t_gid",
+      "value": "977b804b-58e6-4142-b1cb-5334085a1b38-tuctf9cf14f",
+      "domain": ".taboola.com",
+      "path": "/",
+      "expires": 1787076475.091064,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "t_pt_gid",
+      "value": "977b804b-58e6-4142-b1cb-5334085a1b38-tuctf9cf14f",
+      "domain": ".taboola.com",
+      "path": "/",
+      "expires": 1787076475.091101,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://minerva.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_tt_enable_cookie",
+      "value": "1",
+      "domain": ".minerva.edu",
+      "path": "/",
+      "expires": 1789236470,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ttp",
+      "value": "01K2Z5T8M5NVSXX3NN02RJ89S3_.tt.1",
+      "domain": ".minerva.edu",
+      "path": "/",
+      "expires": 1789236470,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&17361656-1755-4af5-8edb-72625f9d33b8\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1787076432.592763,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=OGST09:s=O:r=O:a=O:p=O:g=3219:u=1:x=1:i=1755540431:t=1755626831:v=2:sig=AQELXJ5r-4OwTyG48rNI-sk30cLYxBzb\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755626832.592801,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_TS",
+      "value": "1755540432047",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760724432.102385,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_DID",
+      "value": "f2b77b90-ffe9-4a22-bb23-a9f624603d9c",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760724432.102429,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_3WAY_SYNCS",
+      "value": "",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760724432.102449,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sc_at",
+      "value": "v2|H4sIAAAAAAAAAE3GwRHAIAgEwIqY4fAYg90kgFVYfL7ua6OtagZlI0P4DJW36UJYIsujvj6gLkx3p3LYuao/9Lq+UEAAAAA=",
+      "domain": ".snapchat.com",
+      "path": "/",
+      "expires": 1789236432.196404,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_sctr",
+      "value": "1%7C1755475200000",
+      "domain": ".minerva.edu",
+      "path": "/",
+      "expires": 1789727130,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "NID",
+      "value": "525=o2kwkzx2GYkRaKN73F7nJkOpEupbgb9QWsDjYkGp9i343DYVMn4JTfYvSk5L-DDk_P7QEVCAHxUlc7tyKqWqRCcRe3BeSX5njfMbPLjEJoSzevZ0sNlp14vJLyngUDg3Fxu7AYubbpDsbGihmAE6gH4vW_8v9ja3UNXD3Ql7MR3eXFXk3Lj01qUidbE0J2R_aKEZZw",
+      "domain": ".google.com",
+      "path": "/",
+      "expires": 1771351632.486094,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "CookieConsent",
+      "value": "{stamp:%27YOMPl3vxv44q/TBOeSbFKCwDWcBUapnHXQ6nXICZmouuIfwPG3xuFw==%27%2Cnecessary:true%2Cpreferences:true%2Cstatistics:true%2Cmarketing:true%2Cmethod:%27explicit%27%2Cver:1%2Cutc:1755540433348%2Cregion:%27us-06%27}",
+      "domain": "www.minerva.edu",
+      "path": "/",
+      "expires": 1787076433,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.573383025.1755540433",
+      "domain": ".minerva.edu",
+      "path": "/",
+      "expires": 1763316433,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.138039911.1755540433",
+      "domain": ".minerva.edu",
+      "path": "/",
+      "expires": 1755626870,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_UA-33547340-2",
+      "value": "1",
+      "domain": ".minerva.edu",
+      "path": "/",
+      "expires": 1755540493,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_gtag_UA_33547340_2",
+      "value": "1",
+      "domain": ".minerva.edu",
+      "path": "/",
+      "expires": 1755540493,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_D2GLWCJB5R",
+      "value": "GS2.1.s1755540430$o1$g1$t1755540470$j20$l0$h328110955",
+      "domain": ".minerva.edu",
+      "path": "/",
+      "expires": 1790100470.052775,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "clrl75ado0k75elpvqzxm5qig-hh_trk_id",
+      "value": "11220476-6248-4c4e-b213-497e49b5cf85",
+      "domain": "www.minerva.edu",
+      "path": "/",
+      "expires": 1790100470,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_rdt_uuid",
+      "value": "1755540431231.af770832-5cc2-41c0-ae43-c3d660f621cb",
+      "domain": ".minerva.edu",
+      "path": "/",
+      "expires": 1763316470,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_scid_r",
+      "value": "A0lPpEmLYIpORtSFBDKgOiDeCyQEFtSqzyq9eQ",
+      "domain": ".minerva.edu",
+      "path": "/",
+      "expires": 1789727168,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.2064442116.1755540431",
+      "domain": ".minerva.edu",
+      "path": "/",
+      "expires": 1790100470.301195,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ttcsid",
+      "value": "1755540470520::t7tOvr6HqyWwgKwitM69.1.1755540470520",
+      "domain": ".minerva.edu",
+      "path": "/",
+      "expires": 1789236470,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ScCbts",
+      "value": "%5B%5D",
+      "domain": ".minerva.edu",
+      "path": "/",
+      "expires": 1756145270,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ttcsid_CFLQOVJC77U1MMAF95P0",
+      "value": "1755540470520::sCqrKc951P1zZnVpPY23.1.1755540470726",
+      "domain": ".minerva.edu",
+      "path": "/",
+      "expires": 1789236470,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__insp_wid",
+      "value": "799128071",
+      "domain": ".minerva.edu",
+      "path": "/",
+      "expires": 1787076471.359643,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__insp_slim",
+      "value": "1755540471359",
+      "domain": ".minerva.edu",
+      "path": "/",
+      "expires": 1787076471.359714,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__insp_nv",
+      "value": "true",
+      "domain": ".minerva.edu",
+      "path": "/",
+      "expires": 1787076471.359877,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__insp_targlpu",
+      "value": "aHR0cHM6Ly93d3cubWluZXJ2YS5lZHUvYmxvZy8%3D",
+      "domain": ".minerva.edu",
+      "path": "/",
+      "expires": 1787076471.360103,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__insp_targlpt",
+      "value": "QmxvZw%3D%3D",
+      "domain": ".minerva.edu",
+      "path": "/",
+      "expires": 1787076471.360141,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__insp_norec_sess",
+      "value": "true",
+      "domain": ".minerva.edu",
+      "path": "/",
+      "expires": 1787076471.723716,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://www.minerva.edu",
+      "localStorage": [
+        {
+          "name": "u_sclid_r",
+          "value": "XfGEoqrwtMuVnVTpuBjihUiFQCJliyjrcwD_xANJT6RJi2CKTkbUhQQyoDog3gskBBbUqs8qvXk"
+        },
+        {
+          "name": "u_sclid",
+          "value": "VHGEoqrwtMuVnVTpuBjihUiFQCJliyjr-slPpEmLYIpORtSFBDKgOiDeCyQEFtSq"
+        },
+        {
+          "name": "1509607:session-data",
+          "value": "v2_943b8c57608ae443222114126994f8a4_977b804b-58e6-4142-b1cb-5334085a1b38-tuctf9cf14f_1755540431_1755540470_CNawjgYQ55FcGJ709vKLMyACKAEw4QE4kaQOQIuwDkjz2NgDUKcGWABgAGi1s7WS356PweABcAGAAQA"
+        },
+        {
+          "name": "eng_mt",
+          "value": "{\"ver\":36,\"sessionStartTime\":1755540431306,\"scrollDepth\":0,\"sessionDepth\":[\"745483690\",\"-1745370877\"],\"timeOnSite\":0,\"crossSessionsData\":{\"sessionsHistory\":[1755540431306]},\"numOfTimesMetricsSent\":2}"
+        },
+        {
+          "name": "intellimize_data_tracking_type",
+          "value": "optOut"
+        },
+        {
+          "name": "hh_referrer_url",
+          "value": ""
+        },
+        {
+          "name": "intellimize_tracking_policy",
+          "value": "optOut"
+        },
+        {
+          "name": "taboola global:user-id",
+          "value": "977b804b-58e6-4142-b1cb-5334085a1b38-tuctf9cf14f"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755540433410},\"expires\":1763316433410}}"
+        },
+        {
+          "name": "hh_trk_id",
+          "value": "11220476-6248-4c4e-b213-497e49b5cf85"
+        }
+      ]
+    }
+  ]
+}

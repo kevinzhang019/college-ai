@@ -1,0 +1,65 @@
+{
+  "cookies": [
+    {
+      "name": "_ga_L3KDESR6P8",
+      "value": "GS2.1.s1775138707$o1$g1$t1775138855$j43$l0$h0",
+      "domain": ".gatech.edu",
+      "path": "/",
+      "expires": 1809698855.484169,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AWSALB",
+      "value": "RRu/kYgaVklZoMPK5fQbjl6wJOaYK3yvyo77EzY1gIzKg1CKtFNBe3UehAJCIuBRCgoa/DfAJdSSrR4dlbShfdHc8Vz6FMk+bZzdFD87bFFKRKSQXZOHQByo4mPe",
+      "domain": "www.gatech.edu",
+      "path": "/",
+      "expires": 1775743679.041946,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_F8EYZRF0Q4",
+      "value": "GS2.1.s1775138946$o1$g0$t1775138946$j60$l0$h0",
+      "domain": ".gatech.edu",
+      "path": "/",
+      "expires": 1809698946.879551,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.872514821.1775138707",
+      "domain": ".gatech.edu",
+      "path": "/",
+      "expires": 1809698946.894559,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.541643196.1775138947",
+      "domain": ".gatech.edu",
+      "path": "/",
+      "expires": 1775225346,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_gtag_UA_53752261_1",
+      "value": "1",
+      "domain": ".gatech.edu",
+      "path": "/",
+      "expires": 1775139006,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

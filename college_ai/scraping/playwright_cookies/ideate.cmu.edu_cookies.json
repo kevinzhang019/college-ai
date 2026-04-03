@@ -1,0 +1,564 @@
+{
+  "cookies": [
+    {
+      "name": "__lc_cid",
+      "value": "f25ff384-9e2e-4da4-9992-19142cbd8a9e",
+      "domain": ".accounts.livechatinc.com",
+      "path": "/v2/customer/token",
+      "expires": 1809686757.778097,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://cmu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "__lc_cst",
+      "value": "c90715bd19e508c62e29a0ab3e11aa62f921fad8244b5d7c538dbfe200b2cbe1b4b4f9b0249daf5d0acad0f4b23b83e73d1cdf2fb013813f82036223bc1c",
+      "domain": ".accounts.livechatinc.com",
+      "path": "/v2/customer/token",
+      "expires": 1809686757.778139,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://cmu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "__lc_cid",
+      "value": "f25ff384-9e2e-4da4-9992-19142cbd8a9e",
+      "domain": ".accounts.livechatinc.com",
+      "path": "/customer/token",
+      "expires": 1809686757.778151,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://cmu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "__lc_cst",
+      "value": "c90715bd19e508c62e29a0ab3e11aa62f921fad8244b5d7c538dbfe200b2cbe1b4b4f9b0249daf5d0acad0f4b23b83e73d1cdf2fb013813f82036223bc1c",
+      "domain": ".accounts.livechatinc.com",
+      "path": "/customer/token",
+      "expires": 1809686757.77816,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://cmu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.1717031936.1775126544",
+      "domain": ".cmu.edu",
+      "path": "/",
+      "expires": 1775213227,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ipCheckCompleted",
+      "value": "true",
+      "domain": "www.cmu.edu",
+      "path": "/",
+      "expires": 1775128344,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_X2X7MBRYFK",
+      "value": "GS2.1.s1775126544$o1$g0$t1775126544$j60$l0$h0",
+      "domain": ".cmu.edu",
+      "path": "/",
+      "expires": 1809686544.953524,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.1640020626.1775126545",
+      "domain": ".cmu.edu",
+      "path": "/",
+      "expires": 1782902545,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "JSESSIONID",
+      "value": "ajax:8076084221496002186",
+      "domain": ".www.linkedin.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lang",
+      "value": "v=2&lang=en-us",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&b684525e-7b96-49f7-8f97-d247fe830fca\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1806662828.522769,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bscookie",
+      "value": "\"v=1&20260402104337bb8eecfa-e19e-4da5-815f-c96fd9e70647AQEr0_4xLaNR3oTTdtm-YxhQfJ47mIqa\"",
+      "domain": ".www.linkedin.com",
+      "path": "/",
+      "expires": 1806662617.556037,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=OGST09:s=O:r=O:a=O:p=O:g=3348:u=1:x=1:i=1775126617:t=1775213017:v=2:sig=AQF8fmLC9ymb5IE7YDW9dLscT-J84G2M\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1775213017.556057,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_pxvid",
+      "value": "cecbf95f-2e80-11f1-8089-ff609cc292a6",
+      "domain": ".protechts.net",
+      "path": "/",
+      "expires": 1806662618.489026,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://cmu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "pxcts",
+      "value": "cecc01d1-2e80-11f1-8089-b48604e3c856",
+      "domain": ".protechts.net",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://cmu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_px3",
+      "value": "696555ba7eb8e74048a03a1589c594f712d481c7be2e5380f1b1158562b9071c:aC+fkphE+T3StHpRNc3z9hBguNKAacWDU+2fanmsphp3259iX0ECOdm3joPZiDLvlFO2aAnyA+u+uevzFHm0GA==:1000:ipb2s8S8V/TgPCKL+giPv2kZ6Gho5ZotHAlOrV2jgWjD1RbLthyJwxPhopB6CaosxlFKt/V2XIkXiPw2RhhySMoIrfboIf30VU0tfR8wukbhUd29CqeAg4A9aKAYL4TGEOjzxeuuJvlia/CiFv9HmmnILq21AhEsQgQrN6M3w9gKLmix8yj38w0gMEwD0i8X9NGYmNtkpRh50AWZGcCIYGCf9epqpJOLuq6LymeZOTqQslkMiHtl0+BeszC3LhkvYv9BFzg8ZqlQqa5q7x5zwW/IzN1hUYYB/GVfoxjJbwoNWu0mrCkU9/qnRwIy8G8g4W1+KuBZ1TfxTAvwML9eoLa/EMQ7SkYz14CJgbxIh9w/z1lgNIeA/ObRQGZWZIDdwhZA9uzZ86Yn0NJwCTKP0HIHWwvVMVPMZaa2R12CaVsj3OVE/hKpmOuWwrv9WPKCv9Z2gz7w9UnN6CaEcO/60xh6rCp57Hl10Kdwq3kYhPPiyP+4bNWXujVEN0fq6Q4v",
+      "domain": ".protechts.net",
+      "path": "/",
+      "expires": 1775126949.369407,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://cmu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "AWSALB",
+      "value": "spTRbtlhaD6WD9DYNfuN90QVzjGlAYzkERIfQumomb29BulDGpW0tn+twl118VfJGaO/3i01hU23YvlKTvuc7ZOZBsNjNhvpDwj5bO5X67oJDze0lQT+sxutBi7b",
+      "domain": "events.cmu.edu",
+      "path": "/",
+      "expires": 1775731452.783387,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AWSALBCORS",
+      "value": "spTRbtlhaD6WD9DYNfuN90QVzjGlAYzkERIfQumomb29BulDGpW0tn+twl118VfJGaO/3i01hU23YvlKTvuc7ZOZBsNjNhvpDwj5bO5X67oJDze0lQT+sxutBi7b",
+      "domain": "events.cmu.edu",
+      "path": "/",
+      "expires": 1775731452.783439,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "CLID",
+      "value": "353e1fcd8f2c4eda8e6e2ae9e92bc5c1.20260402.20270402",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1806662652.78917,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "li_sugr",
+      "value": "87784eb4-8726-4d6f-9bd6-3f0cfab6bc63",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1782902828.52144,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": "px.ads.linkedin.com",
+      "path": "/",
+      "expires": 1777756574.423756,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_clck",
+      "value": "8oyq0r%5E2%5Eg4v%5E0%5E2283",
+      "domain": ".cmu.edu",
+      "path": "/",
+      "expires": 1806662652,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1775126653021.599016829178488862",
+      "domain": ".cmu.edu",
+      "path": "/",
+      "expires": 1782902828,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "UserMatchHistory",
+      "value": "AQI9fjuhBOKTCAAAAZ1NyyjYTtKGV8mpa7QvD5b8OwLCTcUoOxbWKF06Ll9oTfKBoC-AFJ6bpQOaiQ",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1777718653.058971,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AnalyticsSyncHistory",
+      "value": "AQL7NnhVIU94fQAAAZ1NyyjY6g61nZgGQmkKOK89Ut-DgSapfGklq_gsZyzMcXzP0Jio6k8rgyaBUGuzMXnOtg",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1777718653.058981,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "tgx2sBY6bS69c7StT0QpcQSVgVjm0f.9zJyztIs4Sww-1775126653-1.0.1.1-_xG1l6vxO_g2cIQUVValXGBrgJmwWooksY.ieCG6Xmm7dpMFhdQYHCeynpMzCYbxD4tKy4vOphHSfOmIbWMTl4pTCmaBE._9ZIadYBpWzgE",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1775128453.220482,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_node",
+      "value": "0b096070ae997675162db1cdea19e020e96e4a411a2ca2219d6c31534aeb6497",
+      "domain": "apply.tepper.cmu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "30771dfb-1daa-4e8f-9462-c051c6dee35b",
+      "domain": "apply.tepper.cmu.edu",
+      "path": "/",
+      "expires": 1809686653.225546,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202604/1",
+      "domain": "apply.tepper.cmu.edu",
+      "path": "/",
+      "expires": 1809686653.226085,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "clive-visitor-tid-156",
+      "value": "mnhckri1o7nvkz8s3us7k9ft5imhfvnpkrekh9cmrvlygagew9di8cqpcg1ho7rv",
+      "domain": ".cmu.edu",
+      "path": "/",
+      "expires": 1809686653.550593,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "clive-visitor-tid-156",
+      "value": "mnhckri1o7nvkz8s3us7k9ft5imhfvnpkrekh9cmrvlygagew9di8cqpcg1ho7rv",
+      "domain": "live.clive.cloud",
+      "path": "/",
+      "expires": 1809686653.546236,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MUID",
+      "value": "15D8BD00D7A26D3B2A0FAA2FD6D46CA4",
+      "domain": ".bing.com",
+      "path": "/",
+      "expires": 1808822655.175644,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MR",
+      "value": "0",
+      "domain": ".c.bing.com",
+      "path": "/",
+      "expires": 1775731455.175695,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "SRM_B",
+      "value": "15D8BD00D7A26D3B2A0FAA2FD6D46CA4",
+      "domain": ".c.bing.com",
+      "path": "/",
+      "expires": 1808822655.175717,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "SM",
+      "value": "C",
+      "domain": ".c.clarity.ms",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MUID",
+      "value": "15D8BD00D7A26D3B2A0FAA2FD6D46CA4",
+      "domain": ".clarity.ms",
+      "path": "/",
+      "expires": 1808822654.259569,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MR",
+      "value": "0",
+      "domain": ".c.clarity.ms",
+      "path": "/",
+      "expires": 1775731454.259595,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ANONCHK",
+      "value": "0",
+      "domain": ".c.clarity.ms",
+      "path": "/",
+      "expires": 1775127254.259609,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "YSC",
+      "value": "DAbgUCroxoY",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://cmu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "VWY0kF-Ct0s",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790678881.384245,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://cmu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgHQ%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790678881.384281,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://cmu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_node",
+      "value": "79e8292408f61f87b01c2918105ca2c70ae2dd1bf9acb5e69f7af28265befa30",
+      "domain": "gradadmissions.engineering.cmu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "390e1537-8f9c-432d-8ccf-79fca8713a43",
+      "domain": "gradadmissions.engineering.cmu.edu",
+      "path": "/",
+      "expires": 1809686826.515674,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202604/1",
+      "domain": "gradadmissions.engineering.cmu.edu",
+      "path": "/",
+      "expires": 1809686826.515788,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CJGrpqaOopeCyAEQ-oau3_7OkwMYn__A3_7OkwM%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790678826.70794,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://cmu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_rdt_uuid",
+      "value": "1775126826881.f9d1fed6-c758-43e2-9923-ceab016a724d",
+      "domain": ".cmu.edu",
+      "path": "/",
+      "expires": 1782902826,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_ga_YDNCLHPWW7",
+      "value": "GS2.1.s1775126826$o1$g0$t1775126826$j60$l0$h0",
+      "domain": ".cmu.edu",
+      "path": "/",
+      "expires": 1809686827.562677,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.2011011511.1775126544",
+      "domain": ".cmu.edu",
+      "path": "/",
+      "expires": 1809686882.144974,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUm25IvSpXIrpHfPKmR8j7DyP_-nSR4lDjtUSY2uNvP_X-jOLXsGF24msb8lZDI",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1809686827.99483,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ipCheckCompleted",
+      "value": "true",
+      "domain": "ideate.cmu.edu",
+      "path": "/",
+      "expires": 1775128683,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_1XQYSMEBVE",
+      "value": "GS2.1.s1775126544$o1$g1$t1775126891$j6$l0$h0",
+      "domain": ".cmu.edu",
+      "path": "/",
+      "expires": 1809686891.546306,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://ideate.cmu.edu",
+      "localStorage": [
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":1,\"timeouts\":0,\"errors\":0,\"eopCount\":0,\"creationTimeMs\":1775126882156},\"expires\":1782902882156}}"
+        }
+      ]
+    },
+    {
+      "origin": "https://www.cmu.edu",
+      "localStorage": [
+        {
+          "name": "li_adsId",
+          "value": "c367fd1e-0651-4f02-98ab-72de2e6d4ff4"
+        },
+        {
+          "name": "396796e5-2305-bafb-c82a-42ddd47c43d1_st",
+          "value": "1775126826861"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":2,\"timeouts\":0,\"errors\":0,\"eopCount\":0,\"creationTimeMs\":1775126859133},\"expires\":1782902859133}}"
+        }
+      ]
+    }
+  ]
+}

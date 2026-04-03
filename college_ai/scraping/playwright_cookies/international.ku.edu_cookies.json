@@ -1,0 +1,288 @@
+{
+  "cookies": [
+    {
+      "name": "BOCMFPDZ",
+      "value": "0292a28678-ac26-40XpoqX80AmZ7N28cbfyFFpn2xeBWLXan9MXJ4lfAn-8MPUrD0XxZgQ1hvztUDZFankqY",
+      "domain": "ku.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.677452337.1755445317",
+      "domain": "ku.edu",
+      "path": "/",
+      "expires": 1790005316.812518,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.1.634186494.1755445317",
+      "domain": "ku.edu",
+      "path": "/",
+      "expires": 1755531716,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_node",
+      "value": "0884b6b69328a2f83a877fac94eb03198b4762757c0dcd5c7c1d88badc29cb79",
+      "domain": "gograd.ku.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "6270dc23-0d2f-4611-9b8f-64c33e2b91af",
+      "domain": "gograd.ku.edu",
+      "path": "/",
+      "expires": 1790005316.938827,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "gograd.ku.edu",
+      "path": "/",
+      "expires": 1790005316.938858,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_node",
+      "value": "c523366081f6753122c7083b06f7004cb1578f023610c6681ce4518af285fe98",
+      "domain": "go2.ku.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "c418b09f-bf93-404d-b948-e51e0e688a64",
+      "domain": "go2.ku.edu",
+      "path": "/",
+      "expires": 1790005317.089114,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "go2.ku.edu",
+      "path": "/",
+      "expires": 1790005317.089141,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_0X0JW8DT0Z",
+      "value": "GS2.1.s1755445317$o1$g0$t1755445317$j60$l0$h0",
+      "domain": ".ku.edu",
+      "path": "/",
+      "expires": 1790005317.226898,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.677452337.1755445317",
+      "domain": ".ku.edu",
+      "path": "/",
+      "expires": 1790005469.070622,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_MZ1DP9K165",
+      "value": "GS2.1.s1755445317$o1$g0$t1755445317$j60$l0$h0",
+      "domain": "ku.edu",
+      "path": "/",
+      "expires": 1790005317.247231,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_8V0BWTWSE9",
+      "value": "GS2.1.s1755445317$o1$g0$t1755445317$j60$l0$h0",
+      "domain": "ku.edu",
+      "path": "/",
+      "expires": 1790005317.266624,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ku_gdpr_cookie_consent",
+      "value": "default-consent-1",
+      "domain": "ku.edu",
+      "path": "/",
+      "expires": 1770997318.180584,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "BOCMFPDZ",
+      "value": "0292a28678-ac26-40I0cP9olCDo6k9WloMuDe7MnhDj13NGHRhyWdmK7i9xc2XAgbdGA56iHK4iYQxHyEPVY",
+      "domain": "international.ku.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.677452337.1755445317",
+      "domain": "international.ku.edu",
+      "path": "/",
+      "expires": 1790005468.893348,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.1.819523136.1755445469",
+      "domain": "international.ku.edu",
+      "path": "/",
+      "expires": 1755531868,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_allaccountrollup",
+      "value": "1",
+      "domain": "international.ku.edu",
+      "path": "/",
+      "expires": 1755445528,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_organization",
+      "value": "1",
+      "domain": "international.ku.edu",
+      "path": "/",
+      "expires": 1755445528,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_trackingid",
+      "value": "1",
+      "domain": "international.ku.edu",
+      "path": "/",
+      "expires": 1755445528,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_RK7Y1TGV8G",
+      "value": "GS2.1.s1755445469$o1$g0$t1755445469$j60$l0$h0",
+      "domain": ".ku.edu",
+      "path": "/",
+      "expires": 1790005469.070366,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_MZ1DP9K165",
+      "value": "GS2.1.s1755445469$o1$g0$t1755445469$j60$l0$h0",
+      "domain": "international.ku.edu",
+      "path": "/",
+      "expires": 1790005469.167428,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_8V0BWTWSE9",
+      "value": "GS2.1.s1755445469$o1$g0$t1755445469$j60$l0$h0",
+      "domain": "international.ku.edu",
+      "path": "/",
+      "expires": 1790005469.18918,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ku_gdpr_cookie_consent",
+      "value": "default-consent-1",
+      "domain": "international.ku.edu",
+      "path": "/",
+      "expires": 1770997471.491716,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://international.ku.edu",
+      "localStorage": [
+        {
+          "name": "de2c31b9-6e91-7dff-77ea-4184a4acccea_pp",
+          "value": "{}"
+        },
+        {
+          "name": "e22f5230-9754-8765-3a2d-1a6d83e997cf_st",
+          "value": "1755445469221"
+        },
+        {
+          "name": "de2c31b9-6e91-7dff-77ea-4184a4acccea_st",
+          "value": "1755445469222"
+        },
+        {
+          "name": "e22f5230-9754-8765-3a2d-1a6d83e997cf_pp",
+          "value": "{}"
+        }
+      ]
+    },
+    {
+      "origin": "https://ku.edu",
+      "localStorage": [
+        {
+          "name": "de2c31b9-6e91-7dff-77ea-4184a4acccea_pp",
+          "value": "{}"
+        },
+        {
+          "name": "e22f5230-9754-8765-3a2d-1a6d83e997cf_st",
+          "value": "1755445317149"
+        },
+        {
+          "name": "de2c31b9-6e91-7dff-77ea-4184a4acccea_st",
+          "value": "1755445317119"
+        },
+        {
+          "name": "e22f5230-9754-8765-3a2d-1a6d83e997cf_pp",
+          "value": "{}"
+        }
+      ]
+    }
+  ]
+}

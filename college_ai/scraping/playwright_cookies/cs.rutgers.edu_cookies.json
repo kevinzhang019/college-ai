@@ -1,0 +1,35 @@
+{
+  "cookies": [
+    {
+      "name": "1292be8769ee7a488354f41cb0903cf9",
+      "value": "e012910e4063303fdc7e3edf6c4cb02e",
+      "domain": "www.cs.rutgers.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.866683807.1755591943",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1790152038.541376,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_DVCN4VQT8D",
+      "value": "GS2.1.s1755591943$o1$g1$t1755592038$j60$l0$h0",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1790152038.541158,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

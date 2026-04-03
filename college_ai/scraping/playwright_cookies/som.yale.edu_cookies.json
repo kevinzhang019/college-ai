@@ -1,0 +1,124 @@
+{
+  "cookies": [
+    {
+      "name": "_ga",
+      "value": "GA1.1.1718185080.1755563600",
+      "domain": ".yale.edu",
+      "path": "/",
+      "expires": 1790123731.345838,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.2009996380.1755563600",
+      "domain": ".yale.edu",
+      "path": "/",
+      "expires": 1763339600,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cookies-analytics",
+      "value": "true",
+      "domain": "som.yale.edu",
+      "path": "/",
+      "expires": 1787099601,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cookies-functional",
+      "value": "true",
+      "domain": "som.yale.edu",
+      "path": "/",
+      "expires": 1787099601,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cookies-marketing",
+      "value": "true",
+      "domain": "som.yale.edu",
+      "path": "/",
+      "expires": 1787099601,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cookies-preferences",
+      "value": "true",
+      "domain": "som.yale.edu",
+      "path": "/",
+      "expires": 1787099601,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_620D48E9FK",
+      "value": "GS2.1.s1755563599$o1$g0$t1755563599$j60$l0$h815527754",
+      "domain": ".yale.edu",
+      "path": "/",
+      "expires": 1790123601.773774,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "test_cookie",
+      "value": "CheckForPermission",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1755564501.903827,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_9TJ9J4C3WW",
+      "value": "GS2.1.s1755563731$o1$g0$t1755563731$j60$l0$h0",
+      "domain": ".yale.edu",
+      "path": "/",
+      "expires": 1790123731.165678,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_M6QD9CF88W",
+      "value": "GS2.1.s1755563731$o1$g0$t1755563731$j60$l0$h0",
+      "domain": ".yale.edu",
+      "path": "/",
+      "expires": 1790123731.345631,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://cdo.som.yale.edu",
+      "localStorage": [
+        {
+          "name": "NRBA_SESSION",
+          "value": "{\"value\":\"a2f684f4140ccfa3\",\"inactiveAt\":1755565531595,\"expiresAt\":1755578131595,\"updatedAt\":1755563732001,\"sessionReplayMode\":0,\"sessionReplaySentFirstChunk\":false,\"sessionTraceMode\":0,\"traceHarvestStarted\":false,\"loggingMode\":0,\"serverTimeDiff\":-183,\"custom\":{},\"numOfResets\":0}"
+        }
+      ]
+    },
+    {
+      "origin": "https://som.yale.edu",
+      "localStorage": [
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755563600483},\"expires\":1763339600483}}"
+        }
+      ]
+    }
+  ]
+}

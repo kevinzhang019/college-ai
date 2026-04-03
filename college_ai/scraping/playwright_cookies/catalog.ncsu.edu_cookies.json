@@ -1,0 +1,25 @@
+{
+  "cookies": [
+    {
+      "name": "_ga_PZ770C48VJ",
+      "value": "GS2.1.s1755448594$o1$g0$t1755448594$j60$l0$h0",
+      "domain": ".ncsu.edu",
+      "path": "/",
+      "expires": 1790008594.912547,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1730655328.1755448595",
+      "domain": ".ncsu.edu",
+      "path": "/",
+      "expires": 1790008594.912699,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

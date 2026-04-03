@@ -1,0 +1,127 @@
+{
+  "cookies": [
+    {
+      "name": "auth_verification",
+      "value": "%7B%22nonce%22%3A%22aDEbfQ70xtm1HXENIbLWgrEc-X1tkXZxv2Jq3dgR5EM%22%2C%22state%22%3A%22eyJyZXR1cm5UbyI6Ii9hcGkvdjMvdXNlcnMvbWUifQ%22%7D.sMGeINdLeHfzaqTH2-KnGQqraT34cIMksOhE9ingjkA",
+      "domain": ".in-part.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_auth_verification",
+      "value": "%7B%22nonce%22%3A%22aDEbfQ70xtm1HXENIbLWgrEc-X1tkXZxv2Jq3dgR5EM%22%2C%22state%22%3A%22eyJyZXR1cm5UbyI6Ii9hcGkvdjMvdXNlcnMvbWUifQ%22%7D.kqqzA2LLQO8dwympUH7Ka1GlwkQBOhxV1p9IRvaPL60",
+      "domain": ".in-part.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "YSC",
+      "value": "9qXDVsVq04k",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__Secure-YNID",
+      "value": "17.YT=mqEumxvBminPl-csfpk-1gJTxzMuH1t-Cs8IPHu8mOxOkppF0mKnrbOL-R2poUQh-BewzgMwex5HolO_rXZuVGcyvnOlBdVnDuQSogl_7dqeKpoJlAhVVbgewUCxuN9P4b52aIMu149U7Dv32C01BpOmAbBhYPIFUuUXC0Sf8ICqvEy1NNduQdCV4aHZHUB2iANgjJ7D7MJC3arU0kHwgy6rwtbxvkzoc1cpW6f5PXr7ygOHEss3qb8LsjsK12AH51IU0xIfdYpgdsIrn1b3BbEzvJm10mQAPC8gvVyLXveyD_p400lOT4SHDWqML-3V_5JentrotgZ3_XzMjbmJaA",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790681094,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "brYO520-M2A",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790734594,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgHg%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790734594,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CKrtjbrk9-2PaRDIxtuYh8-TAxik6sq_ztCTAw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790734594,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.186918839.1775126800",
+      "domain": ".upenn.edu",
+      "path": "/",
+      "expires": 1809750337,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_WG5B9X4E8E",
+      "value": "GS2.1.s1775190337$o3$g0$t1775190337$j60$l0$h0",
+      "domain": ".upenn.edu",
+      "path": "/",
+      "expires": 1809750337,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://pci.upenn.edu",
+      "localStorage": [
+        {
+          "name": "NRBA_SESSION",
+          "value": "{\"value\":\"15b14f53272d8561\",\"inactiveAt\":1775192139557,\"expiresAt\":1775204739557,\"updatedAt\":1775190340239,\"sessionReplayMode\":0,\"sessionReplaySentFirstChunk\":false,\"sessionTraceMode\":0,\"traceHarvestStarted\":false,\"loggingMode\":0,\"logApiMode\":0,\"serverTimeDiff\":-466,\"custom\":{},\"numOfResets\":0,\"consent\":false}"
+        }
+      ]
+    },
+    {
+      "origin": "https://www.youtube.com",
+      "localStorage": [
+        {
+          "name": "yt-icons-last-purged",
+          "value": "1774092295317"
+        },
+        {
+          "name": "ytidb::LAST_RESULT_ENTRY_KEY",
+          "value": "{\"data\":{\"hasSucceededOnce\":true},\"expiration\":1777774597654,\"creation\":1775182597654}"
+        }
+      ]
+    },
+    {
+      "origin": "https://www.recaptcha.net",
+      "localStorage": [
+        {
+          "name": "rc::a",
+          "value": "MW9sdWpnNGJyY2Y4aw=="
+        }
+      ]
+    }
+  ]
+}

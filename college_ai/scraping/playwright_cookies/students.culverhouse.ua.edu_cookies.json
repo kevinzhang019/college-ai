@@ -1,0 +1,23 @@
+{
+  "cookies": [],
+  "origins": [
+    {
+      "origin": "https://culverhouse.ua.edu",
+      "localStorage": [
+        {
+          "name": "elementor",
+          "value": "{\"__expiration\":{},\"pageViews\":1,\"sessions\":1}"
+        }
+      ]
+    },
+    {
+      "origin": "https://students.culverhouse.ua.edu",
+      "localStorage": [
+        {
+          "name": "elementor",
+          "value": "{\"__expiration\":{},\"pageViews\":1,\"sessions\":1}"
+        }
+      ]
+    }
+  ]
+}

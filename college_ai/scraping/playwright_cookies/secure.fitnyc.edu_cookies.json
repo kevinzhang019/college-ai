@@ -1,0 +1,221 @@
+{
+  "cookies": [
+    {
+      "name": "sc_at",
+      "value": "v2|H4sIAAAAAAAAAE3Gyw0AIQgFwIpIfMjP7YaIVGHxXndO05WVO4y2niKZYMoFoVje6tV2hC9kfHBVmcGG++t4urXECEAAAAA=",
+      "domain": ".snapchat.com",
+      "path": "/",
+      "expires": 1789134261,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": ".pinterest.com",
+      "path": "/",
+      "expires": 1786974271,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "YSC",
+      "value": "JtAFplcIKU0",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUmAU8dnJu9zCkrjmET0BPUNEMOaZO6ZKzAwYjnB5R1HtrZekqGT_XQ7xG0OQaA",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1789998261,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&4010127c-6424-4b49-8f7d-63d9335187e9\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1786974262,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "X-Mapping-fjhppofk",
+      "value": "F2B99BCADC82945887D55A7A6F93265C",
+      "domain": "fitnyc.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "X-Mapping-fjhppofk",
+      "value": "C884F95E83DFB0883624AF40EFCBE2C5",
+      "domain": "www.fitnyc.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1208854307.1755438261",
+      "domain": ".fitnyc.edu",
+      "path": "/",
+      "expires": 1789998271,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_scid",
+      "value": "Jp51l7Xu6ei5vKxdqKzlbBajMRd6Yl6M",
+      "domain": ".fitnyc.edu",
+      "path": "/",
+      "expires": 1789624958,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cebs",
+      "value": "1",
+      "domain": ".fitnyc.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_pin_unauth",
+      "value": "dWlkPU5tSXhNRFprTWpNdE5EQmxNUzAwT0RBMUxXSm1abVF0WVdOak0ySXlOelV6WkRKbA",
+      "domain": ".fitnyc.edu",
+      "path": "/",
+      "expires": 1786974271,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cebsp_",
+      "value": "1",
+      "domain": ".fitnyc.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_ce.s",
+      "value": "v~4d9d0c0e34d7af28e8237c3fa8f834199458762c~lcw~1755438261344~vir~new~lva~1755438261121~vpv~0~v11.cs~239263~v11.s~476d89c0-7b70-11f0-9a8c-dfb10c166666~v11.vs~4d9d0c0e34d7af28e8237c3fa8f834199458762c~v11.fsvd~eyJ1cmwiOiJmaXRueWMuZWR1L2xpZmUtYXQtZml0L2NhbXB1cy9tYXAucGhwIiwicmVmIjoiIiwidXRtIjpbXX0%3D~v11.sla~1755438261341~v11.ss~1755438261344~v11ls~476d89c0-7b70-11f0-9a8c-dfb10c166666~lcw~1755438261350",
+      "domain": ".fitnyc.edu",
+      "path": "/",
+      "expires": 1786974261,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_sctr",
+      "value": "1%7C1755414000000",
+      "domain": ".fitnyc.edu",
+      "path": "/",
+      "expires": 1789624959,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "nmstat",
+      "value": "66312053-21a8-0f12-88eb-547df0d394d7",
+      "domain": ".fitnyc.edu",
+      "path": "/",
+      "expires": 1789998263,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_scid_r",
+      "value": "Lx51l7Xu6ei5vKxdqKzlbBajMRd6Yl6MY5Tyqw",
+      "domain": ".fitnyc.edu",
+      "path": "/",
+      "expires": 1789624969,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_ZVWXER5YS0",
+      "value": "GS2.1.s1755438260$o1$g1$t1755438273$j47$l0$h0",
+      "domain": ".fitnyc.edu",
+      "path": "/",
+      "expires": 1789998273,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://www.fitnyc.edu",
+      "localStorage": [
+        {
+          "name": "ce_fvd",
+          "value": "{\"landingUrl\":\"https://www.fitnyc.edu/life-at-fit/campus/map.php\",\"referrer\":\"\",\"time\":1755438261122,\"utm\":[],\"dailyVisitTime\":1755438261122,\"userData\":[]}"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755438260397},\"expires\":1763214260397}}"
+        },
+        {
+          "name": "u_sclid",
+          "value": "IduvfSGg5ePR03A0WBETQ2Dva_3mJFqHJp51l7Xu6ei5vKxdqKzlbBajMRd6Yl6M"
+        },
+        {
+          "name": "ce_bot_detector",
+          "value": "{\"visits\":0,\"clicks\":1,\"firstVisitTime\":1755438263206,\"detected\":false}"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "u_sclid_r",
+          "value": "KluvfSGg5ePR03A0WBETQ2Dva_3mJFqHEwkggi8edZe17unoubysXais5WwWozEXemJejGOU8qs"
+        },
+        {
+          "name": "li_adsId",
+          "value": "afe61ea7-1271-4773-af9f-c125007b1817"
+        },
+        {
+          "name": "ce_successful_csp_check",
+          "value": "1755524661297"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755438275239"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755438275246"
+        }
+      ]
+    }
+  ]
+}

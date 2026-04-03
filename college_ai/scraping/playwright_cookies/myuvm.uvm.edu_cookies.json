@@ -1,0 +1,45 @@
+{
+  "cookies": [
+    {
+      "name": "JSESSIONID",
+      "value": "9792E8ACA513EF496ACAB97E224632B6",
+      "domain": "idp.uvm.edu",
+      "path": "/idp",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__Host-JSESSIONID",
+      "value": "38D9AE6355B7EB5F4426A66DE549E3EC",
+      "domain": "idp.uvm.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "connect.sid",
+      "value": "s%3A4NRr7qAssioKPyGdllCICb77HrMFfygg.Xgp7o%2BmvWZewkkNKKoVVv9JlNPD1R2HMj0djvbpkSkM",
+      "domain": "experience.elluciancloud.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "uvm-exp.sid",
+      "value": "s%3AmXCRsTwGyxqQmJ3ugYdzrUjUT21mvdlM.akKLzevFevPAuH%2Fjju8K27%2FFObrEJX4vbDvd9Vf%2B3Dk",
+      "domain": "experience.elluciancloud.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

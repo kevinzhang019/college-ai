@@ -1,0 +1,95 @@
+{
+  "cookies": [
+    {
+      "name": "NSC_JOwksol2ewlhc5se3isuc1ehdvgzmb3",
+      "value": "ffffffff090c69a945525d5f4f58455e445a4a423660",
+      "domain": "news.drgator.ufl.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "NSC_JOwksol2ewlhc5se3isuc1ehdvgzmb3",
+      "value": "ffffffff090c69a945525d5f4f58455e445a4a423660",
+      "domain": "com-drgator.sites.medinfo.ufl.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.4.140759455.1775130605",
+      "domain": ".news.drgator.ufl.edu",
+      "path": "/",
+      "expires": 1809690658.173785,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "NSC_JOwksol2ewlhc5se3isuc1ehdvgzmb3",
+      "value": "ffffffff090c69a945525d5f4f58455e445a4a423660",
+      "domain": "sites.medinfo.ufl.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "chronos_contrast",
+      "value": "1",
+      "domain": "news.drgator.ufl.edu",
+      "path": "/",
+      "expires": 1777722641.586306,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_7KLVPER4GJ",
+      "value": "GS2.4.s1775130604$o1$g1$t1775130658$j6$l0$h0",
+      "domain": ".news.drgator.ufl.edu",
+      "path": "/",
+      "expires": 1809690658.005349,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_JTQWLW9C12",
+      "value": "GS2.4.s1775130605$o1$g1$t1775130658$j7$l0$h0",
+      "domain": ".news.drgator.ufl.edu",
+      "path": "/",
+      "expires": 1809690658.15583,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_88Z5TCLEDD",
+      "value": "GS2.4.s1775130604$o1$g1$t1775130659$j5$l0$h0",
+      "domain": ".news.drgator.ufl.edu",
+      "path": "/",
+      "expires": 1809690659.641759,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_QBE8W6K414",
+      "value": "GS2.4.s1775130605$o1$g1$t1775130659$j6$l0$h0",
+      "domain": ".news.drgator.ufl.edu",
+      "path": "/",
+      "expires": 1809690659.648722,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

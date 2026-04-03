@@ -1,0 +1,223 @@
+{
+  "cookies": [
+    {
+      "name": "OptanonConsent",
+      "value": "isGpcEnabled=0&datestamp=Sun+Aug+17+2025+13%3A03%3A17+GMT-0700+(Pacific+Daylight+Time)&version=202411.2.0&browserGpcFlag=0&isIABGlobal=false&hosts=&consentId=9b6bc499-f8b0-4dac-add6-1ceb807ac862&interactionCount=0&isAnonUser=1&landingPath=NotLandingPage&groups=C0001%3A1%2CC0002%3A1%2CC0003%3A1%2CC0004%3A1&AwaitingReconsent=false",
+      "domain": ".fisher.osu.edu",
+      "path": "/",
+      "expires": 1786996997,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "OptanonAlertBoxClosed",
+      "value": "2025-08-17T20:03:17.588Z",
+      "domain": ".fisher.osu.edu",
+      "path": "/",
+      "expires": 1786996997,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "INGRESSAFFINITY",
+      "value": "dadbc9a8d5c43afe",
+      "domain": "www.osu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&0f5fbe6f-1caa-4d50-898d-41ac4cb13ccb\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1806673838.777895,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.1314221575.1775137837",
+      "domain": ".osu.edu",
+      "path": "/",
+      "expires": 1782913837,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_09WC99HMPE",
+      "value": "GS2.1.s1775137837$o3$g0$t1775137837$j60$l0$h0",
+      "domain": ".osu.edu",
+      "path": "/",
+      "expires": 1809697837.059825,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.1420831700.1755460977",
+      "domain": ".osu.edu",
+      "path": "/",
+      "expires": 1809697837.321424,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.345911595.1775137837",
+      "domain": ".osu.edu",
+      "path": "/",
+      "expires": 1775224237,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_UA-877359-3",
+      "value": "1",
+      "domain": ".osu.edu",
+      "path": "/",
+      "expires": 1775137897,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AWSALBTG",
+      "value": "1vQwqj3i6XWrEgZBbJ+HSKXfH2uE6a+QvwW/PwaAlrBDWBw9Kfvf76WSL2zOspZRog7EdKF6wVR1IACs+3QBzpmSivlH/nUai3sx8I2DD7kdwPmYf59FwqfpxfLXI95shUAmep6CpLoMiNvfQ/U95lQRJYTbdqS9Gs+qeyzG8J5tqXO407g=",
+      "domain": "www.osu.edu",
+      "path": "/",
+      "expires": 1775742637.530079,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AWSALBTGCORS",
+      "value": "1vQwqj3i6XWrEgZBbJ+HSKXfH2uE6a+QvwW/PwaAlrBDWBw9Kfvf76WSL2zOspZRog7EdKF6wVR1IACs+3QBzpmSivlH/nUai3sx8I2DD7kdwPmYf59FwqfpxfLXI95shUAmep6CpLoMiNvfQ/U95lQRJYTbdqS9Gs+qeyzG8J5tqXO407g=",
+      "domain": "www.osu.edu",
+      "path": "/",
+      "expires": 1775742637.530134,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AWSALB",
+      "value": "0LWskZmGb21tZIMpvsRUL/bfGhA5uYPnLXfiE3fjYYc6MLjPAjvCKEEN4KsDYC6j2qE7lu1704Dug5t+FcD94wQzagDcp5ylaFGu/Y1fCCTo6zrlA3kt7RPg9xe3FNO1/4v4otplarY84NVNn14xT9S4JVTZ45EE8Jd9/EXhZjgCLpNkeW31GPXm0p1yx94YHureOqR/pb4tf1t4ER11o093UBlfxnYj/qrORBTXbFnUufD4i7c+oOziMqyzfGfviMdHW37cO0gjFafy8A==",
+      "domain": "www.osu.edu",
+      "path": "/",
+      "expires": 1775742637.530154,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AWSALBCORS",
+      "value": "0LWskZmGb21tZIMpvsRUL/bfGhA5uYPnLXfiE3fjYYc6MLjPAjvCKEEN4KsDYC6j2qE7lu1704Dug5t+FcD94wQzagDcp5ylaFGu/Y1fCCTo6zrlA3kt7RPg9xe3FNO1/4v4otplarY84NVNn14xT9S4JVTZ45EE8Jd9/EXhZjgCLpNkeW31GPXm0p1yx94YHureOqR/pb4tf1t4ER11o093UBlfxnYj/qrORBTXbFnUufD4i7c+oOziMqyzfGfviMdHW37cO0gjFafy8A==",
+      "domain": "www.osu.edu",
+      "path": "/",
+      "expires": 1775742637.530171,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "li_sugr",
+      "value": "bd7104ea-69d9-4503-a14b-ce149c10acda",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1782913838.77785,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": "px.ads.linkedin.com",
+      "path": "/",
+      "expires": 1777767584.167394,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=TGST09:s=T:r=T:a=T:p=T:g=3224:u=1:x=1:i=1775137838:t=1775224238:v=2:sig=AQE8w6myLuzDkQTArcsQgywMH5IZUkVC\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1775224238.167457,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "UserMatchHistory",
+      "value": "AQJD1JrRfPgpxgAAAZ1OddTCfaaXCnvgrQ7tSi5SUCPdEafVS166DTKNWbG1p0wouem0gr9onmRMxA",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1777729838.195739,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AnalyticsSyncHistory",
+      "value": "AQIiT5uscMsIxAAAAZ1OddTCX0kgU6AfQwA3t0fXZjUejU0pk0FgxjoT_wsM6QhA9ym3o0OLx1Dv8L2DyH9Kdg",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1777729838.195747,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bscookie",
+      "value": "\"v=1&20260402135038aa2815e7-05f6-483e-8aa2-477cc394c81bAQHGSxfIn_vExa_uQBkApSaVKW0ZXlYY\"",
+      "domain": ".www.linkedin.com",
+      "path": "/",
+      "expires": 1806673838.428292,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "nH8W2v1scVwexDR4TnTxuSVCi5RvQB6Gmyq6XFotrD8-1775137838-1.0.1.1-TKqUx6wSC_h7c6aCw_XzfkNsE71.rUbfDDxgLJpn4XEIFbJJU9l6MNn_pwA8WQIT5jf9MotceBgmcCqRl0LeEnQ9tRagK8gJQQ0hphh3wyo",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1775139638.42936,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://fisher.osu.edu",
+      "localStorage": [
+        {
+          "name": "_grecaptcha",
+          "value": "09ANMylNCI458F0lx4OPqfeSWHphaV3Vz5NNT24B2d7tV7cjnBCKCfctzxo4mwin4Ezacj7aDYZqS_GlQgtdCnk7l4EXUF_2M9lQdA0J0XhShnu6OttUZQ6sbLTto3isCb"
+        },
+        {
+          "name": "li_adsId",
+          "value": "e3c2d349-4b63-4b0f-aa1c-71bb09cc4aa5"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"timeouts\":0,\"errors\":0,\"eopCount\":0,\"creationTimeMs\":1775137836873},\"expires\":1782913836873}}"
+        }
+      ]
+    }
+  ]
+}

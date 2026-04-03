@@ -1,0 +1,58 @@
+{
+  "cookies": [
+    {
+      "name": "_ga",
+      "value": "GA1.1.448556899.1775181478",
+      "domain": ".upenn.edu",
+      "path": "/",
+      "expires": 1809750057,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_X2F7TF8LD4",
+      "value": "GS2.1.s1775190057$o2$g0$t1775190057$j60$l0$h0",
+      "domain": ".upenn.edu",
+      "path": "/",
+      "expires": 1809750057,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "None"
+    },
+    {
+      "name": "_GRECAPTCHA",
+      "value": "09AKhCRwhxNqSFfg7gS-CPa7qlibTv-nyR-xHNshzNxB4cEX9gFLOoUGKWbFb63b6KiY0QsBShHzjTSBSMW_r_ZI8",
+      "domain": "www.google.com",
+      "path": "/recaptcha",
+      "expires": 1790743345,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://research.upenn.edu",
+      "localStorage": [
+        {
+          "name": "__vue:resources",
+          "value": "{\"entries\":[]}"
+        }
+      ]
+    },
+    {
+      "origin": "https://www.google.com",
+      "localStorage": [
+        {
+          "name": "rc::f",
+          "value": "0aAMm6y28mjQtkc1uV9pzB1woCyWkmjW8h5oBmcEtjymncSjMZD9axx6u0lB3kAjRBwbN8OH4"
+        },
+        {
+          "name": "rc::a",
+          "value": "MWFkM2lpNzF3NHd6ODk="
+        }
+      ]
+    }
+  ]
+}

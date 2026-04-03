@@ -1,0 +1,364 @@
+{
+  "cookies": [
+    {
+      "name": "YSC",
+      "value": "LqCi5VoCqag",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://unc.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "nmstat",
+      "value": "cebad1cb-fb7b-ff2b-fbe4-fc4f82971ba1",
+      "domain": ".unc.edu",
+      "path": "/",
+      "expires": 1790000054.704113,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&86bc044a-ef94-4ee4-88b4-8dab267a8ec1\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1806673350.384779,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__Secure-YNID",
+      "value": "17.YT=K9E130bIOBCI7SosjOoWC_J7g3XtRJSoBGnIbMgWjTEerc02JAwMVAQu0TnFurRCttNNIlIt5w3O2R1MgNa6Xze_K_We_uJSRIbBXohp-9y23DOzb8bqTW5FjGyd72FST0gRUFEAoxwSrPCGrIJI6c4BZ1Mqv_rFJumRfqBqGCv6OAtacrhHR_3zcWyk2TIkaEW-hn5vadWKIELSwdUqXc49y3e02LfDkNB5XfuA4AhbzoUrEMrKo68efsAG219W5wynzvSVPjG8_gFhUqZ651d8l-bGs4u_g4H7xl81jy9muHD2uM40TU76vmRJD2duAZckZXLcr0p_yvhpF43WRg",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790689348.69866,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://unc.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CNHKvrj5zabnbhDU-eX4pc-TAxjU-eX4pc-TAw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790689348.698722,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://unc.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "baW4vbVQt3M",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790689348.698803,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://unc.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgOQ%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790689348.698821,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://unc.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1775137348862.693874336355166186",
+      "domain": ".unc.edu",
+      "path": "/",
+      "expires": 1782913352,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.1920135623.1775137349",
+      "domain": ".unc.edu",
+      "path": "/",
+      "expires": 1782913349,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "li_sugr",
+      "value": "83fa80f5-7f0e-45a6-87f6-a1d4e2ad5e9e",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1782913350.384737,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "SSESSe72ae1e2a426fcc87e0b9585c5c3749c",
+      "value": "be19442a4bbb838acb7705279bacb289",
+      "domain": ".www.unc.edu",
+      "path": "/",
+      "expires": 1782913349.602717,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": "px.ads.linkedin.com",
+      "path": "/",
+      "expires": 1777767095.659313,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=VGST09:s=V:r=V:a=V:p=V:g=3390:u=1:x=1:i=1775137349:t=1775223749:v=2:sig=AQH_fTh0AGbY77aomN-ErGMpkusC3R1n\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1775223749.659368,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "UserMatchHistory",
+      "value": "AQIpesXmf64fGAAAAZ1ObmBpN9yo-hpg1Q_HI1go4GFHJzqZq8lPupeAMYCD-KQgUEXL5R08aZ3tSA",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1777729349.696183,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AnalyticsSyncHistory",
+      "value": "AQLwILyCWbwXGQAAAZ1ObmBp524Zg0eVehNz9CXJUxF2FaqmGO1KNzOwU3O1PPxgg8zFDLFUjuD5MvchDSJU8A",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1777729349.696198,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bscookie",
+      "value": "\"v=1&202604021342299495525d-946a-4aad-8d31-07e7fbd5459eAQFP-feBv7PAUPfixa0dQw5vSy8YR31r\"",
+      "domain": ".www.linkedin.com",
+      "path": "/",
+      "expires": 1806673348.946158,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_BWYTL825SN",
+      "value": "GS2.1.s1775137348$o3$g0$t1775137351$j57$l0$h0",
+      "domain": ".unc.edu",
+      "path": "/",
+      "expires": 1809697351.891476,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_85Z7G6V6TR",
+      "value": "GS2.1.s1775137348$o3$g0$t1775137351$j57$l0$h0",
+      "domain": ".unc.edu",
+      "path": "/",
+      "expires": 1809697351.89503,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_E95BWS6VCF",
+      "value": "GS2.1.s1775137349$o1$g0$t1775137351$j58$l0$h1961030589",
+      "domain": ".unc.edu",
+      "path": "/",
+      "expires": 1809697351.899677,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cookie_accepted",
+      "value": "1",
+      "domain": "www.unc.edu",
+      "path": "/",
+      "expires": 1780321352,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.1602229569.1775146726",
+      "domain": ".unc.edu",
+      "path": "/",
+      "expires": 1775233148,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_gtag_UA_23967027_5",
+      "value": "1",
+      "domain": ".unc.edu",
+      "path": "/",
+      "expires": 1775146785,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__hstc",
+      "value": "10393834.e735ac31ec656c00d1b6ae10e913f7b2.1775146727849.1775146727849.1775146727849.1",
+      "domain": ".unc.edu",
+      "path": "/",
+      "expires": 1790698748,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "hubspotutk",
+      "value": "e735ac31ec656c00d1b6ae10e913f7b2",
+      "domain": ".unc.edu",
+      "path": "/",
+      "expires": 1790698748,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__hssrc",
+      "value": "1",
+      "domain": ".unc.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_0L7VF5DP5K",
+      "value": "GS2.1.s1775146725$o1$g1$t1775146745$j40$l0$h0",
+      "domain": ".unc.edu",
+      "path": "/",
+      "expires": 1809706745.12434,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_Y92RPK9TTE",
+      "value": "GS2.1.s1775146725$o1$g1$t1775146745$j40$l0$h0",
+      "domain": ".unc.edu",
+      "path": "/",
+      "expires": 1809706745.320613,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.1928792609.1755440055",
+      "domain": ".unc.edu",
+      "path": "/",
+      "expires": 1809706748.229172,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__hssc",
+      "value": "10393834.2.1775146727850",
+      "domain": ".unc.edu",
+      "path": "/",
+      "expires": 1775148548,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "eQEsDNvlM2LLmofvD2qkJkF0Kmn7ZReTMgZTYCPl0C4-1775146748-1.0.1.1-ejHvw2MCCy61HT1uf7t7AE7ihqnzoqUoCiqTeb0tFVXWA73WzzPD_4_iCb1xgRXDWrduvdIPysH1.0PTdiDmU3LuLQOI.0hG3s.tU9Ve_lw",
+      "domain": ".hubspot.com",
+      "path": "/",
+      "expires": 1775148548.682442,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_cfuvid",
+      "value": "e1ExrHIZntp8rsjAhKw4ITG5z2GwyBgjDW7BF.t35Xk-1775146748726-0.0.1.1-604800000",
+      "domain": ".hubspot.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://www.sog.unc.edu",
+      "localStorage": [
+        {
+          "name": "NRBA_SESSION",
+          "value": "{\"value\":\"ed742f7b345dd403\",\"inactiveAt\":1775148528050,\"expiresAt\":1775161128050,\"updatedAt\":1775146748961,\"sessionReplayMode\":0,\"sessionReplaySentFirstChunk\":false,\"sessionTraceMode\":1,\"traceHarvestStarted\":true,\"loggingMode\":0,\"logApiMode\":0,\"serverTimeDiff\":-145,\"custom\":{},\"numOfResets\":0,\"consent\":false}"
+        }
+      ]
+    },
+    {
+      "origin": "https://www.unc.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"timeouts\":0,\"errors\":0,\"eopCount\":0,\"creationTimeMs\":1775137348906},\"expires\":1782913348906}}"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1775137348856"
+        },
+        {
+          "name": "NRBA_SESSION",
+          "value": "{\"value\":\"065242a6b9b27432\",\"inactiveAt\":1775139152412,\"expiresAt\":1775151750595,\"updatedAt\":1775137352412,\"sessionReplayMode\":0,\"sessionReplaySentFirstChunk\":false,\"sessionTraceMode\":0,\"traceHarvestStarted\":false,\"loggingMode\":0,\"logApiMode\":0,\"serverTimeDiff\":-240,\"custom\":{},\"numOfResets\":0,\"consent\":false}"
+        },
+        {
+          "name": "li_adsId",
+          "value": "a3b95b32-62fa-4ad6-a0e9-ce210a15f0b6"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755472290210"
+        }
+      ]
+    }
+  ]
+}

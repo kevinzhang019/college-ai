@@ -1,0 +1,318 @@
+{
+  "cookies": [
+    {
+      "name": "_gcl_au",
+      "value": "1.1.79490538.1755464265",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1763240265,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUnCl4xq-h3ccMKxE_Gy4yWPOBU1sJct_HM5Cbj2U1gGxWLgrqpiyp0d2_6c",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1790024290.017647,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.1262091019.1755464309",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1755550708,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.2136655728.1755464265",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1790057826.562397,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_5T9SG25SVE",
+      "value": "GS2.1.s1755464308$o1$g0$t1755464308$j60$l0$h0",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1790024308.915997,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AWSALB",
+      "value": "r74b7v04N/JG7FdGPUVccxeXJKxp/dg2CX7HSghpH456TYYn04r7STSrA5ll09b0NELveZY93XxiJ1NCU7lKf/87A3GJbGv0Y2UfArLX5CC30vd+GWlvEDbTmSWR",
+      "domain": "www.nyu.edu",
+      "path": "/",
+      "expires": 1756100393.897935,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AWSALBCORS",
+      "value": "r74b7v04N/JG7FdGPUVccxeXJKxp/dg2CX7HSghpH456TYYn04r7STSrA5ll09b0NELveZY93XxiJ1NCU7lKf/87A3GJbGv0Y2UfArLX5CC30vd+GWlvEDbTmSWR",
+      "domain": "www.nyu.edu",
+      "path": "/",
+      "expires": 1756100393.898357,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_H4KKXQKFSM",
+      "value": "GS2.1.s1755497807$o3$g1$t1755497826$j41$l0$h0",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1790057826.484212,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_S4TP6272FF",
+      "value": "GS2.1.s1755497807$o3$g1$t1755497826$j41$l0$h0",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1790057826.497944,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_YKLBDQJ61W",
+      "value": "GS2.1.s1755497807$o3$g1$t1755497826$j41$l0$h0",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1790057826.56223,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755497826585.990324145762454810",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1763273826,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_VR2BFTJ92R",
+      "value": "GS2.1.s1755497807$o3$g1$t1755497826$j41$l0$h0",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1790057826.615284,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_8Y5XM9YCFW",
+      "value": "GS2.1.s1755497807$o3$g1$t1755497826$j41$l0$h0",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1790057826.617059,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_9CWXCZX89G",
+      "value": "GS2.1.s1755497807$o3$g1$t1755497826$j41$l0$h0",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1790057826.618246,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_S194DLZYBD",
+      "value": "GS2.1.s1755497807$o3$g1$t1755497826$j41$l0$h0",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1790057826.620184,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "OptanonAlertBoxClosed",
+      "value": "2025-08-18T06:17:23.638Z",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1787033843,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "OptanonConsent",
+      "value": "isGpcEnabled=0&datestamp=Mon+Aug+18+2025+02%3A17%3A23+GMT-0400+(Eastern+Daylight+Time)&version=202501.2.0&browserGpcFlag=0&isIABGlobal=false&hosts=&landingPath=NotLandingPage&groups=C0002%3A1%2CC0003%3A1%2CC0004%3A1%2CC0001%3A1&geolocation=%3B&AwaitingReconsent=false",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1787033843,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "twqvpHSeiR.dqKO3Am7Z3sN_P9GYP3SAtW0a0ggAPJE-1755497907-1.0.1.1-VZrZLP_UZ5.DIVCOzLnIsXsP7nNpNnZJKVEDscxot_6KJzpfPtdd1Nd1gmRJX5xwdOU16W74AGDXCnZvIoVTqiaO7qKy1bhd_PKM7swmmBo",
+      "domain": ".givecampus.com",
+      "path": "/",
+      "expires": 1755499707.818761,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_077DKBSTPV",
+      "value": "GS2.1.s1755497908$o1$g0$t1755497908$j60$l0$h0",
+      "domain": ".givecampus.com",
+      "path": "/",
+      "expires": 1790057908.554985,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.1347738.1755497909",
+      "domain": ".givecampus.com",
+      "path": "/",
+      "expires": 1790057908.780515,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.1273958841.1755497909",
+      "domain": ".givecampus.com",
+      "path": "/",
+      "expires": 1755584308,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat",
+      "value": "1",
+      "domain": ".givecampus.com",
+      "path": "/",
+      "expires": 1755497968,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_schoolTracker",
+      "value": "1",
+      "domain": ".givecampus.com",
+      "path": "/",
+      "expires": 1755497968,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cf_clearance",
+      "value": "O9SCbvA._Qbe8Uxtikl0Sl4qj3TMAGypKzkwvm96urI-1755497908-1.2.1.1-A_mUKbbLWuj1uoKKZWoyrJhxUeoMEbMccQv2fCmvYyLavFh9ofM6d5JTOJsn3j6e6G.bEeM9d4S76oyw72isf0rBxdb3y4HskC5rRbbaYCifoRbmGa2dmYj4f2aLEaSlY7NddQMjrMLjZz0xpjXQboBpVtmHYiKdyS7XHt_uZzmBnAAexH8v2GVIvda8H8lbgtp5XTjMpwBzVge2r3ZNGs8i4RLZPRCmbVXdMVKIgDk",
+      "domain": ".givecampus.com",
+      "path": "/",
+      "expires": 1787033908.797037,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://givecampus.com",
+      "_crHasCrossSiteAncestor": false
+    },
+    {
+      "name": "slireg",
+      "value": "https://scout.us1.salesloft.com",
+      "domain": "www.givecampus.com",
+      "path": "/",
+      "expires": 1756102709,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "vEuhSc8yRBp0_sVO67gyt8ZWvASs9kaD4O7tY0ANzBk-1755497909-1.0.1.1-Ag_lasHqo8OV9UwZpkC5Ql4AqC2TJR_p0mx4wGdeMffPIDA7Od2kwPe_sE.tnj6NyoJuB3arj7M_V1eko.57YWKjXr4R7CAHN1Bn5IOrEkU",
+      "domain": ".twitter.com",
+      "path": "/",
+      "expires": 1755499709.141748,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sliguid",
+      "value": "461a3baf-2f6a-428b-a5b1-a476c7060568",
+      "domain": "www.givecampus.com",
+      "path": "/",
+      "expires": 1787033909,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "slirequested",
+      "value": "true",
+      "domain": "www.givecampus.com",
+      "path": "/",
+      "expires": 1787033909,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://www.givecampus.com",
+      "localStorage": [
+        {
+          "name": "NRBA_SESSION",
+          "value": "{\"value\":\"7a5f871f83fc915b\",\"inactiveAt\":1755499709289,\"expiresAt\":1755512309289,\"updatedAt\":1755497909849,\"sessionReplayMode\":0,\"sessionReplaySentFirstChunk\":false,\"sessionTraceMode\":0,\"traceHarvestStarted\":false,\"loggingMode\":0,\"serverTimeDiff\":-238,\"custom\":{},\"numOfResets\":0}"
+        }
+      ]
+    },
+    {
+      "origin": "https://www.nyu.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755464264777},\"expires\":1763240264777}}"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755497826577"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755497826588"
+        }
+      ]
+    }
+  ]
+}

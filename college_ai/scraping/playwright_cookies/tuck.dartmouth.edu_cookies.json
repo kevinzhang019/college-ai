@@ -1,0 +1,157 @@
+{
+  "cookies": [
+    {
+      "name": "tuck_tracker",
+      "value": "%7B%220%22%3A%22index%22%2C%22token%22%3A%2255dfef37324e0d9d70b7d935658e8518281fd604a6015b6cc0f9e04c57a54a6c6a51f96fbc9b70cfa9d8239c762b5ee6%22%7D",
+      "domain": "tuck.dartmouth.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "tuck_csrf_token",
+      "value": "013c577855a3b0fcac2af09f6f66e66faaa0d10f",
+      "domain": "tuck.dartmouth.edu",
+      "path": "/",
+      "expires": 1755571014.219086,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_NMTFNS313S",
+      "value": "GS2.1.s1755563815$o1$g0$t1755563815$j60$l0$h0",
+      "domain": ".dartmouth.edu",
+      "path": "/",
+      "expires": 1790123815.057273,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1122830651.1755563815",
+      "domain": ".dartmouth.edu",
+      "path": "/",
+      "expires": 1790123815.140294,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_FDKJ4M25RS",
+      "value": "GS2.1.s1755563815$o1$g0$t1755563815$j60$l0$h0",
+      "domain": ".dartmouth.edu",
+      "path": "/",
+      "expires": 1790123815.093343,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755563815121.455688069616092631",
+      "domain": ".dartmouth.edu",
+      "path": "/",
+      "expires": 1763339815,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_LYM9BHLC98",
+      "value": "GS2.1.s1755563815$o1$g0$t1755563815$j60$l0$h0",
+      "domain": ".dartmouth.edu",
+      "path": "/",
+      "expires": 1790123815.140152,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "apply.tuck.dartmouth.edu",
+      "path": "/",
+      "expires": 1790123815.173705,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_node",
+      "value": "706d5032f60f7d5b4b441dc9fefb10df697c1164d8717d513b95a052a3031360",
+      "domain": "apply.tuck.dartmouth.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "cf71d3a9-e307-41e3-bfae-877cc72fcfb2",
+      "domain": "apply.tuck.dartmouth.edu",
+      "path": "/",
+      "expires": 1790123815.173681,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=VGST09:s=V:r=V:a=V:p=V:g=3278:u=1:x=1:i=1755563815:t=1755650215:v=2:sig=AQH9hHL9_n9bGWPqXatJzU4uztSDr05N\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755650216.382092,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": "px.ads.linkedin.com",
+      "path": "/",
+      "expires": 1758193561.382037,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&9ede6091-ebcf-4747-8610-00d680b501f5\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1787099816.382068,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://tuck.dartmouth.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755563815113"
+        },
+        {
+          "name": "li_adsId",
+          "value": "52c3a0da-8e9c-4b56-9013-52d6a6cc3232"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755563815124"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,255 @@
+{
+  "cookies": [
+    {
+      "name": "cee",
+      "value": "%2F9EDnwsEMqwryfk2xPqOnBQ7PMkjBFY7vvBnbOFpge0%3D.%7B%7D",
+      "domain": ".mpc-prod-2-1053047382554.us-central1.run.app",
+      "path": "/events/9257a738f2173d42c4e02debd4e3c65a1c7e748ef0d62c24a4b368dd2a1cc2b3",
+      "expires": 1763223433.80859,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "BIGipServerwww_443_pool",
+      "value": "3466983323.47873.0000",
+      "domain": "temple.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "BIGipServerwww_443_pool",
+      "value": "4154849179.47873.0000",
+      "domain": "www.temple.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "YSC",
+      "value": "NxHfEsl5f-w",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://temple.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CNPtpdO4hYGPiAEQk4bao5-SjwMYk4bao5-SjwM%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1770999429.59437,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://temple.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "qB1ta1Yo9hM",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1770999429.595123,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://temple.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgbg%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1770999429.595172,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://temple.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.1261794228.1755447430",
+      "domain": ".temple.edu",
+      "path": "/",
+      "expires": 1763223430,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cookie-agreed",
+      "value": "2",
+      "domain": ".temple.edu",
+      "path": "/",
+      "expires": 1764087430,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "cookie-agreed-version",
+      "value": "1.0.0",
+      "domain": ".temple.edu",
+      "path": "/",
+      "expires": 1764087430,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_ga_18X6B7F78P",
+      "value": "GS2.1.s1755447431$o1$g0$t1755447431$j60$l0$h0",
+      "domain": ".temple.edu",
+      "path": "/",
+      "expires": 1790007431.755429,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.145140171.1755447432",
+      "domain": ".temple.edu",
+      "path": "/",
+      "expires": 1790007431.755607,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_4PTTNQMFPM",
+      "value": "GS2.3.s1755447432$o1$g0$t1755447432$j60$l0$h0",
+      "domain": ".www.temple.edu",
+      "path": "/",
+      "expires": 1790007432.730892,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.3.145140171.1755447432",
+      "domain": ".www.temple.edu",
+      "path": "/",
+      "expires": 1790007432.731036,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755447433499.984454100878932741",
+      "domain": ".temple.edu",
+      "path": "/",
+      "expires": 1763223433,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cebs",
+      "value": "1",
+      "domain": ".temple.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_ce.clock_data",
+      "value": "-37%2C172.56.42.250%2C1%2C4be5075824dfc9ebfcea962f3188097c%2CChrome%2CUS",
+      "domain": ".temple.edu",
+      "path": "/",
+      "expires": 1755533833,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "cebsp_",
+      "value": "1",
+      "domain": ".temple.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_ce.s",
+      "value": "v~ca3caa1d147386e327f5d4f2cad9eb036d793813~lcw~1755447433800~vir~new~lva~1755447433660~vpv~0~as~false~v11.cs~435532~v11.s~a2a3b570-7b85-11f0-99b1-afe4846b35d1~v11.vs~ca3caa1d147386e327f5d4f2cad9eb036d793813~v11.fsvd~eyJ1cmwiOiJ0ZW1wbGUuZWR1L2Fib3V0L2NhbXB1cy1kZXZlbG9wbWVudCIsInJlZiI6IiIsInV0bSI6W119~v11.sla~1755447433800~v11ls~a2a3b570-7b85-11f0-99b1-afe4846b35d1~lcw~1755447433802",
+      "domain": ".temple.edu",
+      "path": "/",
+      "expires": 1786983433,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUkvxJBBUea8EaDmjOk-QulRtEiSk6jtgyfpKJg6ST1ubrHhtY2IRmko0ZaCYCM",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1790007433.870719,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "receive-cookie-deprecation",
+      "value": "1",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1770999433.870782,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://temple.edu",
+      "_crHasCrossSiteAncestor": true
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://www.temple.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "ce_bot_detector",
+          "value": "{\"visits\":0,\"clicks\":1,\"firstVisitTime\":1755447433711,\"detected\":false}"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755447429881},\"expires\":1763223429881}}"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755447433490"
+        },
+        {
+          "name": "ce_fvd",
+          "value": "{\"landingUrl\":\"https://www.temple.edu/about/campus-development\",\"referrer\":\"\",\"time\":1755447433660,\"utm\":[],\"dailyVisitTime\":1755447433660,\"userData\":[]}"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755447433505"
+        }
+      ]
+    }
+  ]
+}

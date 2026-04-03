@@ -1,0 +1,45 @@
+{
+  "cookies": [
+    {
+      "name": "YSC",
+      "value": "2wMLMNojKTA",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "_6ENbs84yIM",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790733945,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgLQ%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790733945,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CIeQ2dTY-_yhGBDhz4CKzNCTAxjhz4CKzNCTAw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790733945,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": []
+}

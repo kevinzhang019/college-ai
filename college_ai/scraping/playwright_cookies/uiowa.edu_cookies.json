@@ -1,0 +1,411 @@
+{
+  "cookies": [
+    {
+      "name": "X-AB",
+      "value": "12f715ca71194ad9a1b12bba6d1da4c6",
+      "domain": "sc-static.net",
+      "path": "/scevent.min.js",
+      "expires": 1755527364.168081,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "YSC",
+      "value": "gUyMgt_oerw",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://uiowa.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CNOV_tWY3PngWBDH29iYh5KPAxjH29iYh5KPAw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1770992964.034522,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://uiowa.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "xI84OnrbbQI",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1770992964.0348,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://uiowa.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgKA%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1770992964.034814,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://uiowa.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1282075236.1755440964",
+      "domain": ".uiowa.edu",
+      "path": "/",
+      "expires": 1790000964.183604,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.171432301.1755440964",
+      "domain": ".uiowa.edu",
+      "path": "/",
+      "expires": 1763216964,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_sp_ses.12a6",
+      "value": "*",
+      "domain": ".uiowa.edu",
+      "path": "/",
+      "expires": 1755442764,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_sp_id.12a6",
+      "value": "0d56a9d0-86db-4b5a-bf0d-38aea0976f45.1755440964.1.1755440964..a209f996-89e4-4f82-af8e-e837b3428fef..85708724-62ed-4336-b884-3eb7e443c786.1755440964163.1",
+      "domain": ".uiowa.edu",
+      "path": "/",
+      "expires": 1790000964.163702,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "f_Ziihx_XFQiiIW7p_a54hr1sKa.kA6VT3uNOqQLrDU-1755440964-1.0.1.1-2bHk86nHpzN7ARYELsVcPXwPcj5H50jamJ3bXOVcPckv6PQwDeNrKVepgAnyfZfsnTTKljZQt1O0WiKeF68EpZrSiofaQE1BrAX7ANN22iw",
+      "domain": ".js.ubembed.com",
+      "path": "/",
+      "expires": 1755442764.176082,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__spdt",
+      "value": "3df65122a840438c9aad3d763e9ac1b6",
+      "domain": "uiowa.edu",
+      "path": "/",
+      "expires": 1786976964,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_scid",
+      "value": "LLICLdL4myQLAFoH6E25az3Hzq2XlUAZ",
+      "domain": ".uiowa.edu",
+      "path": "/",
+      "expires": 1789627662,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_scid_r",
+      "value": "LLICLdL4myQLAFoH6E25az3Hzq2XlUAZ",
+      "domain": ".uiowa.edu",
+      "path": "/",
+      "expires": 1789627662,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "nmstat",
+      "value": "a14b9979-2da9-ea05-d01b-a228d174d92a",
+      "domain": ".uiowa.edu",
+      "path": "/",
+      "expires": 1790000964.269142,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_tq_id.TV-8136813618-1.b7d6",
+      "value": "7c85518e98ca43ea.1755440964.0.1755440964..",
+      "domain": "uiowa.edu",
+      "path": "/",
+      "expires": 1790000964.411642,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755440964757.465080423133004043",
+      "domain": ".uiowa.edu",
+      "path": "/",
+      "expires": 1763216967,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "test_cookie",
+      "value": "CheckForPermission",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1755441864.80953,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ScCbts",
+      "value": "%5B%5D",
+      "domain": ".uiowa.edu",
+      "path": "/",
+      "expires": 1756045764,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sp",
+      "value": "2545dcb4-4d0b-4f4d-ac29-da180959e484",
+      "domain": ".uiowa.edu",
+      "path": "/",
+      "expires": 1786976964.988021,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "NID",
+      "value": "525=M7M2jX04MiYVfmIwB6KpPDQDnWzhKSIdfx4G0Ut6DK0eNrvo_hrKrH_NslOiab3cp5G_SYXQpzk6KdGiqgeQ4q0RquVOY5onlQ6O4laCBIByJIyoT5IJ098dFB7xiP0Xz3vNuAwx9mffVfTYr4y8RfGZqqKiHVZV5_ZyKPMX6BUAJbE0T993SUrxbkemui6Fuk_BZaw",
+      "domain": ".google.com",
+      "path": "/",
+      "expires": 1771252166.881677,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_TS",
+      "value": "1755440967080",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760624967.080334,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_DID",
+      "value": "267fc7cb-f765-49b9-b6e5-45628ca0eaba",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760624967.080546,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_3WAY_SYNCS",
+      "value": "",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760624967.080641,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sc_at",
+      "value": "v2|H4sIAAAAAAAAAE3GwQ3AIAwDwIkiGXBi6DZRyhYM3z75nG6lB0e9VvwhJi27b0P02hqElKcRT5M7iRU6V/EBmdcvTUAAAAA=",
+      "domain": ".snapchat.com",
+      "path": "/",
+      "expires": 1789136967.166615,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_sctr",
+      "value": "1%7C1755388800000",
+      "domain": ".uiowa.edu",
+      "path": "/",
+      "expires": 1789627665,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_SRRQRTB87W",
+      "value": "GS2.1.s1755440964$o1$g0$t1755440967$j57$l0$h0",
+      "domain": ".uiowa.edu",
+      "path": "/",
+      "expires": 1790000967.434918,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_VY7PBWCPNJ",
+      "value": "GS2.1.s1755440964$o1$g0$t1755440967$j57$l0$h0",
+      "domain": ".uiowa.edu",
+      "path": "/",
+      "expires": 1790000967.437331,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "TDID",
+      "value": "710cb54c-c8d6-407a-9ef5-8293b1757229",
+      "domain": ".adsrvr.org",
+      "path": "/",
+      "expires": 1786976969.874035,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "XANDR_PANID",
+      "value": "o-jI0MA_nDT6Dy8TpyPxi1xyJSdBcWuPMB4eaFLOfZxIzEHm3e_GC0Mmv2VkOCLFDHqK13PMF58Wv1l19rrX7YDrH4aTsVhioR2bfB2a4dE.",
+      "domain": ".adnxs.com",
+      "path": "/",
+      "expires": 1763216969.719666,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://uiowa.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "uuid2",
+      "value": "461943732688289888",
+      "domain": ".adnxs.com",
+      "path": "/",
+      "expires": 1763216969.719701,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "demdex",
+      "value": "17893159519068017301574821711395005943",
+      "domain": ".demdex.net",
+      "path": "/",
+      "expires": 1770992969.799024,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "dpm",
+      "value": "17893159519068017301574821711395005943",
+      "domain": ".dpm.demdex.net",
+      "path": "/",
+      "expires": 1770992969.799051,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TDCPM",
+      "value": "CAESEgoDYWFtEgsIxJnalpDprj4QBRIXCghhcHBuZXh1cxILCOaUq6WQ6a4-EAUSFQoGZ29vZ2xlEgsIhuHalpDprj4QBRgFIAMoBjILCKD13MOm6a4-EAU4AUIEIgIIAVoHZ20zbmh2eGAB",
+      "domain": ".adsrvr.org",
+      "path": "/",
+      "expires": 1786976969.874175,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "OptanonAlertBoxClosed",
+      "value": "2025-08-17T14:29:32.054Z",
+      "domain": ".uiowa.edu",
+      "path": "/",
+      "expires": 1786976972,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "OptanonConsent",
+      "value": "isGpcEnabled=0&datestamp=Sun+Aug+17+2025+14%3A29%3A32+GMT%2B0000+(Coordinated+Universal+Time)&version=202309.1.0&browserGpcFlag=0&isIABGlobal=false&hosts=&landingPath=NotLandingPage&groups=C0001%3A1%2CC0002%3A1%2CC0004%3A1%2CC0003%3A1",
+      "domain": ".uiowa.edu",
+      "path": "/",
+      "expires": 1786976972,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://uiowa.edu",
+      "localStorage": [
+        {
+          "name": "u_sclid_r",
+          "value": "EN8OEuBv41ovLchqvv1BNB_jypKlDJhPLLICLdL4myQLAFoH6E25az3Hzq2XlUAZ"
+        },
+        {
+          "name": "u_sclid",
+          "value": "EN8OEuBv41ovLchqvv1BNB_jypKlDJhPLLICLdL4myQLAFoH6E25az3Hzq2XlUAZ"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755440964754"
+        },
+        {
+          "name": "NRBA_SESSION",
+          "value": "{\"value\":\"0aaf60ad2573cee1\",\"inactiveAt\":1755442768080,\"expiresAt\":1755455368080,\"updatedAt\":1755440969613,\"sessionReplayMode\":0,\"sessionReplaySentFirstChunk\":false,\"sessionTraceMode\":0,\"traceHarvestStarted\":false,\"loggingMode\":0,\"serverTimeDiff\":-822,\"custom\":{},\"numOfResets\":0}"
+        },
+        {
+          "name": "snowplowOutQueue_snowplow_sp_post2.expires",
+          "value": "1818512965025"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755440967867"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "ub-emb-id",
+          "value": "66d7ca2a1bc0449398bb1e57c393397c"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755440964137},\"expires\":1763216964137}}"
+        },
+        {
+          "name": "snowplowOutQueue_snowplow_sp_post2",
+          "value": "[]"
+        }
+      ]
+    }
+  ]
+}

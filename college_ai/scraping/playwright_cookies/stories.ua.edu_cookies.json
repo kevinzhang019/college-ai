@@ -1,0 +1,45 @@
+{
+  "cookies": [
+    {
+      "name": "_gcl_au",
+      "value": "1.1.336395726.1755451968",
+      "domain": ".ua.edu",
+      "path": "/",
+      "expires": 1763227968,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_F0KB0FSE5C",
+      "value": "GS2.1.s1755451968$o1$g0$t1755451968$j60$l0$h0",
+      "domain": ".ua.edu",
+      "path": "/",
+      "expires": 1790011968.760311,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1156089924.1755451969",
+      "domain": ".ua.edu",
+      "path": "/",
+      "expires": 1790011968.760519,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://stories.ua.edu",
+      "localStorage": [
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"timeouts\":0,\"creationTimeMs\":1755451968101},\"expires\":1763227968101}}"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,998 @@
+{
+  "cookies": [
+    {
+      "name": "BCSessionID",
+      "value": "ebecfbcb-53fe-406b-8845-a224ec63b354",
+      "domain": "rutgers.blueconic.net",
+      "path": "/DG/DEFAULT",
+      "expires": 1806674529.738153,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_li_ss",
+      "value": "CggKBgj1ARClHQ",
+      "domain": "i.liadm.com",
+      "path": "/s",
+      "expires": 1777730537.00742,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__stid",
+      "value": "CgsElmnOdt4AAAAJEP3dAw==",
+      "domain": ".sharethis.com",
+      "path": "/",
+      "expires": 1806674526.218868,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__stidv",
+      "value": "2",
+      "domain": ".sharethis.com",
+      "path": "/",
+      "expires": 1806674526.218991,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "fpestid",
+      "value": "s4saVZh_9zHjCEHvj1KDENt8-g1rlnkzAnYO5cSDLNmDPBVU4FlcK8ImgsuBCEO0m6zhCg",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1806674526.264803,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_NQ7HLJ30E3",
+      "value": "GS2.1.s1775138526$o1$g0$t1775138526$j60$l0$h0",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1809698526.515065,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1074652223.1775138527",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1809698621.593895,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "uid",
+      "value": "3264926357737951986",
+      "domain": ".turn.com",
+      "path": "/",
+      "expires": 1790690624.871811,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "CLID",
+      "value": "1cc2b2ad7266441c86fb31133cc9b431.20260402.20270402",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1806674526.862084,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_clck",
+      "value": "7edndl%5E2%5Eg4v%5E0%5E2283",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1806674528,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_cc_id",
+      "value": "ccc99f2da0dce78c7a10274d50fdabaf",
+      "domain": ".crwdcntrl.net",
+      "path": "/",
+      "expires": 1798467120.447449,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_cc_id",
+      "value": "ccc99f2da0dce78c7a10274d50fdabaf",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1798466528,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "panoramaId_expiry",
+      "value": "1775224928871",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1775224929,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_cc_dc",
+      "value": "3",
+      "domain": ".crwdcntrl.net",
+      "path": "/",
+      "expires": 1798467120.447367,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "BCSessionID",
+      "value": "ebecfbcb-53fe-406b-8845-a224ec63b354",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1806674529,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "pi",
+      "value": "3660109961154789414",
+      "domain": ".ml314.com",
+      "path": "/",
+      "expires": 1806674529.558678,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TDID",
+      "value": "c68d4846-3eeb-4742-8c0a-9b6a2d28b651",
+      "domain": ".adsrvr.org",
+      "path": "/",
+      "expires": 1806674629.443694,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "EE",
+      "value": "\"2b5b282816242b73173861b526f65476\"",
+      "domain": ".exelator.com",
+      "path": "/",
+      "expires": 1785506529.788324,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AWSALBCORS",
+      "value": "XO02zE3zs9pIFGOEkO9HFjp24AL+w7wlJMfkDlUY8jch5bAjo8N5d+sutvM6koyuG5Vf+1k2rdn4lzCTZzmWzxIwrOf0P+YFA0hYDNMf5Qbspee5OZ8unJAJHaHz",
+      "domain": "rutgers.blueconic.net",
+      "path": "/",
+      "expires": 1775743329.756209,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "mako_uid",
+      "value": "19d4e80624a-6b200000010a4033",
+      "domain": ".eyeota.net",
+      "path": "/",
+      "expires": 1806674529.772777,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "SERVERID",
+      "value": "16435~DM",
+      "domain": ".eyeota.net",
+      "path": "/",
+      "expires": 1775139148.826288,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ud",
+      "value": "\"eJxrXxzq6XKLQcEoyTTJyMLIwtDMyMQoydzY0NzYwswwydTILM3M1MTcbHFZatGCpaXFqSlJh5ZU5JTkNK0uiw91jHdz9PX0iVzmnFGUn5u6AiwU5hq02NDEdEl%252BUWb6otDgxUUpaQyLSopPBZ9b7gAANG0pIA%253D%253D\"",
+      "domain": ".exelator.com",
+      "path": "/",
+      "expires": 1785506529.78836,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-6f3aac7a-0ff6-4fdb-53f5-6a76955eb3c8.Rd270aM5Q01X8itXmOWo%2FHvPvFuEqq%2BTMLHuqRODRkA",
+      "domain": "sync.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1806674529.976974,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-6f3aac7a-0ff6-4fdb-53f5-6a76955eb3c8.Rd270aM5Q01X8itXmOWo%2FHvPvFuEqq%2BTMLHuqRODRkA",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1806674529.977009,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3Abzqseg_2T9tT9Wp2lV6zyA.QUEDV3OIA727BhMjlX7xTBjfoQH5sS0XsB9RaE2%2FfU4",
+      "domain": "sync.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1806674537.999533,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3Abzqseg_2T9tT9Wp2lV6zyA.QUEDV3OIA727BhMjlX7xTBjfoQH5sS0XsB9RaE2%2FfU4",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1806674537.999621,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIC4vieSEfkJ2D6c4QigRx5pzoymNYlXxEXSqiNC1Bz9WEHwYAiDi7bnOBjoEUzBLLkIEM-wNIQ.fzPNY5WZ%2BvwZX2dU8RE%2BgVD3HW0k9W7%2BBRkhsmIfxPQ",
+      "domain": "sync.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1806674529.97704,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIC4vieSEfkJ2D6c4QigRx5pzoymNYlXxEXSqiNC1Bz9WEHwYAiDi7bnOBjoEUzBLLkIEM-wNIQ.fzPNY5WZ%2BvwZX2dU8RE%2BgVD3HW0k9W7%2BBRkhsmIfxPQ",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1806674529.977049,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MUID",
+      "value": "1659B701E43560B53CA9A02EE50A6143",
+      "domain": ".bing.com",
+      "path": "/",
+      "expires": 1808834531.01714,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MR",
+      "value": "0",
+      "domain": ".c.bing.com",
+      "path": "/",
+      "expires": 1775743331.017212,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "SRM_B",
+      "value": "1659B701E43560B53CA9A02EE50A6143",
+      "domain": ".c.bing.com",
+      "path": "/",
+      "expires": 1808834531.017264,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "SM",
+      "value": "C",
+      "domain": ".c.clarity.ms",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MUID",
+      "value": "1659B701E43560B53CA9A02EE50A6143",
+      "domain": ".clarity.ms",
+      "path": "/",
+      "expires": 1808834530.099134,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MR",
+      "value": "0",
+      "domain": ".c.clarity.ms",
+      "path": "/",
+      "expires": 1775743330.099164,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ANONCHK",
+      "value": "0",
+      "domain": ".c.clarity.ms",
+      "path": "/",
+      "expires": 1775139130.099177,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "A3",
+      "value": "d=AQABBOJ2zmkCEGyCn2o7MHM-grhMuCntAfEFEgEBAQHIz2nYadwr0iMA_eMDAA&S=AQAAAotyJB0f6U9WbmzVUyAePaQ",
+      "domain": ".yahoo.com",
+      "path": "/",
+      "expires": 1806696148.709423,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&359a01ef-3967-4444-80be-d65d9fb884c4\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1806674536.780002,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=OGST09:s=O:r=O:a=O:p=O:g=3348:u=1:x=1:i=1775138536:t=1775224936:v=2:sig=AQGgHpe0ZR238wfwl9RIztMfSYMSZAux\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1775224937.555668,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ASP.NET_SessionId",
+      "value": "i2n4kqfjcbrv51krv2glfmqa",
+      "domain": "ib.mookie1.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "tuuid",
+      "value": "9a93391b-01f6-45f0-8576-ee15e4b481ba",
+      "domain": ".company-target.com",
+      "path": "/",
+      "expires": 1809352936.577615,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "tuuid_lu",
+      "value": "1775138536",
+      "domain": ".company-target.com",
+      "path": "/",
+      "expires": 1809352936.57765,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "did",
+      "value": "WS89Ys5VanQiXcQ7",
+      "domain": ".pippio.com",
+      "path": "/",
+      "expires": 1806674536.710959,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "didts",
+      "value": "1775138536",
+      "domain": ".pippio.com",
+      "path": "/",
+      "expires": 1806674536.71102,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "nnls",
+      "value": "",
+      "domain": ".pippio.com",
+      "path": "/",
+      "expires": 1780322536.711036,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "pxrc",
+      "value": "COjtuc4GEgYIgr0rEAA=",
+      "domain": ".pippio.com",
+      "path": "/",
+      "expires": 1780322536.711086,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "browser_id",
+      "value": "1:200e2444-4734-4cfe-8fa4-bfda1df93d3d",
+      "domain": ".rqtrk.eu",
+      "path": "/",
+      "expires": 1775743336.748275,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "test_cookie",
+      "value": "CheckForPermission",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1775139436.753788,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "li_sugr",
+      "value": "6f71b17f-2e52-4aee-9f58-71606fd8c872",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1782914536.77992,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidid",
+      "value": "f65d122e-e6e9-4fa4-8eca-c43b32698c7d",
+      "domain": ".liadm.com",
+      "path": "/",
+      "expires": 1809698537.007461,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ASP.NET_SessionId",
+      "value": "zlo3zpjzmu0j3arwxyvdw2kq",
+      "domain": "global.ib-ibi.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ibkukiuno",
+      "value": "s=3bf3ce2d-64b3-468a-a34c-246cccd30a43&h=&c=0&l=-8584264683482458420&op=&hl=0&clu=0&tcs=1&dcc=-8584264683488230036",
+      "domain": ".ib.mookie1.com",
+      "path": "/",
+      "expires": 1806674537.160685,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "XANDR_PANID",
+      "value": "UC3yEpIXPdLhwMWVN_onMZ0sSP_NyoiB-oudq3O0N-ZeLoPVOJbnywfl7HavDqddrVchKS5ZZ_Lz_AAzvkg0Gli7JOMurERn6lNzLYE16XU.",
+      "domain": ".adnxs.com",
+      "path": "/",
+      "expires": 1782914629.39953,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://rutgers.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "uuid2",
+      "value": "8452742943582820912",
+      "domain": ".adnxs.com",
+      "path": "/",
+      "expires": 1782914629.399623,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "mc",
+      "value": "eyJpZCI6IjViZGFjYjlhLWMwZjAtNDFlMy1iMTc2LTU1MGRlNzI1MThlNiIsImwiOjE3NzUxMzg1Mzg1MjQsInQiOjR9",
+      "domain": ".thrtle.com",
+      "path": "/",
+      "expires": 1792418538.432578,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sc",
+      "value": "eyJpIjoiNWJkYWNiOWEtYzBmMC00MWUzLWIxNzYtNTUwZGU3MjUxOGU2Iiwic2lkIjoic2lkLThmYTlkYjI4LTJlOWMtMTFmMS1hMDY4LTAyNDIwYWZmMDMyYiIsIm1zIjozLCJwcyI6Mywic3AiOjUwMDYsInBwIjozLCJ0c2UiOjMsImx0c2UiOjE3NzUxMzg1MzgxOTR9",
+      "domain": ".thrtle.com",
+      "path": "/",
+      "expires": 1792418538.432647,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ab",
+      "value": "0001%3Aekw030mKIof17RX95OjPkRluAsSC5%2Fpu",
+      "domain": ".agkn.com",
+      "path": "/",
+      "expires": 1806674542.699665,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_TS",
+      "value": "1775138542712",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1780322543.011065,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_DID",
+      "value": "05383af1-efc3-44ac-aef5-ca9d31bd7ad9",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1780322543.0111,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ljt_reader",
+      "value": "Mbyq3RZHXvGVfRwpQxyJrIDg",
+      "domain": ".lijit.com",
+      "path": "/",
+      "expires": 1806674542.707046,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "u",
+      "value": "C|0AAAAAAAAMWEzbgAAAAAA",
+      "domain": ".agkn.com",
+      "path": "/",
+      "expires": 1806674542.699707,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "cookie",
+      "value": "2d7798cae7389493",
+      "domain": ".onaudience.com",
+      "path": "/",
+      "expires": 1806674544.111742,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "done_redirects297",
+      "value": "1",
+      "domain": ".onaudience.com",
+      "path": "/",
+      "expires": 1775224942.997172,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_3WAY_SYNCS",
+      "value": "1!2222",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1780322543.011304,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "id5",
+      "value": "be7fb695-3d71-7d1f-b5cf-9c0503d79564#1775138543055#2",
+      "domain": ".id5-sync.com",
+      "path": "/",
+      "expires": 1782914543.210662,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__uis",
+      "value": "1502b414-d492-4fc9-9645-203d1fd8dc54",
+      "domain": ".go.sonobi.com",
+      "path": "/",
+      "expires": 1806674542.579543,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "HAPLB3G",
+      "value": "s3592|ac528",
+      "domain": ".go.sonobi.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "done_redirects147",
+      "value": "1",
+      "domain": ".onaudience.com",
+      "path": "/",
+      "expires": 1775224943.853222,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sw_user_params_infos",
+      "value": "U2RPLLlMBjL6A2T45xuG3jJV%2BxBb4fx5XuEzd%2F%2BWyT1d47SKgoTuNAgn71JFYqxk6GUibOFu2CoD%2FVx05bf%2BSaT9YgHQ3McTPP%2F2vV3m%2BqElM3lG8%2F8aVN5CjqGKvcuMP5Fmx6PAXk6jZcaXfbvQPNAdkKAynPh4tNJlj8YUKL5h7UEiXfCkST5h2MbnP73O",
+      "domain": ".smilewanted.com",
+      "path": "/",
+      "expires": 1806695496.009471,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "done_redirects200",
+      "value": "1",
+      "domain": ".onaudience.com",
+      "path": "/",
+      "expires": 1775224944.111779,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "3pi",
+      "value": "434#1775138543804#-1434548366|121#1775138543257#338995568|846#1775138544259#205698570",
+      "domain": ".id5-sync.com",
+      "path": "/",
+      "expires": 1782914544.211899,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "cookie",
+      "value": "2d7798cae7389493",
+      "domain": ".bidberry.net",
+      "path": "/",
+      "expires": 1806674544.985598,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "done_redirects280414",
+      "value": "1",
+      "domain": ".bidberry.net",
+      "path": "/",
+      "expires": 1775224944.709602,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ck",
+      "value": "69ce76f4abf691000101b2a7",
+      "domain": ".go.affec.tv",
+      "path": "/",
+      "expires": 1806674548.972711,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "uuid",
+      "value": "0b7a69ce-76f4-4000-a200-0e5f2c9af972",
+      "domain": ".mathtag.com",
+      "path": "/",
+      "expires": 1809093748.307739,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "demdex",
+      "value": "76598439029258517060036071005222149129",
+      "domain": ".demdex.net",
+      "path": "/",
+      "expires": 1790690548.577246,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "D41ID",
+      "value": "v3|v4|ddf2f5e908f044a584ed76f6f31629bc|https://d41.co",
+      "domain": ".d41.co",
+      "path": "/",
+      "expires": 1806674548.692742,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "dpm",
+      "value": "76598439029258517060036071005222149129",
+      "domain": ".dpm.demdex.net",
+      "path": "/",
+      "expires": 1790690548.577283,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "tuuid",
+      "value": "a40d2009-63c0-410d-b678-0bc5293d6836",
+      "domain": ".360yield.com",
+      "path": "/",
+      "expires": 1782914548.614846,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "tuuid_lu",
+      "value": "1775138548",
+      "domain": ".360yield.com",
+      "path": "/",
+      "expires": 1782914548.614897,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "IDSYNC",
+      "value": "\"19b8~2v5q:19cl~2v5q\"",
+      "domain": ".analytics.yahoo.com",
+      "path": "/",
+      "expires": 1806674548.709381,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "um",
+      "value": "!440,qwDwHa-EqQ4GovqC7fgSl-h0BmtjHlmFJKHMGRwQNoFQ7W0LVoEGsuDtxSvVHW..UtpNAg,1782914548",
+      "domain": ".360yield.com",
+      "path": "/",
+      "expires": 1782914548.715382,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "umeh",
+      "value": "!440,0,1837346548,-1",
+      "domain": ".360yield.com",
+      "path": "/",
+      "expires": 1782914548.715427,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "pt",
+      "value": "eyJhbiI6eyJkdCI6MTc3NTEzODU0OCwiaWQiOiI4NDUyNzQyOTQzNTgyODIwOTEyIiwibHMiOjE3NzUxMzg1NDh9LCJzdCI6eyJkdCI6MTc3NTEzODU0OCwiaWQiOiJDZ3NFbG1uT2R0NEFBQUFKRVAzZEF3PT0iLCJscyI6MTc3NTEzODU0OH0sInRkIjp7ImR0IjoxNzc1MTM4NTQ5LCJpZCI6ImM2OGQ0ODQ2LTNlZWItNDc0Mi04YzBhLTliNmEyZDI4YjY1MSIsImxzIjoxNzc1MTM4NTQ5fSwiaW0iOnsiZHQiOjE3NzUxMzg1NDgsImlkIjoiYTQwZDIwMDktNjNjMC00MTBkLWI2NzgtMGJjNTI5M2Q2ODM2IiwibHMiOjE3NzUxMzg1NDh9LCJ2IjowfQ==|1775138549|33942165785fee61d874ee99e45f4eb008be93db",
+      "domain": ".go.affec.tv",
+      "path": "/",
+      "expires": 1782914548.972755,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_4HRY1M0X7Z",
+      "value": "GS2.1.s1775138621$o1$g0$t1775138621$j60$l0$h0",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1809698621.59369,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ssi",
+      "value": "01636f74-f207-409c-9d90-026ecfc1c387#1775138624904",
+      "domain": ".sitescout.com",
+      "path": "/",
+      "expires": 1806674624.871636,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "KTPCACOOKIE",
+      "value": "YES",
+      "domain": ".pubmatic.com",
+      "path": "/",
+      "expires": 1775225024.790505,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "i",
+      "value": "e3bd601f-7184-44ba-9f7e-cc275c7b4f2e|1775138624",
+      "domain": ".openx.net",
+      "path": "/",
+      "expires": 1806674624.909937,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "KADUSERCOOKIE",
+      "value": "59A45107-F5FE-4153-B5AA-065DDCDFA849",
+      "domain": ".pubmatic.com",
+      "path": "/",
+      "expires": 1806674624.857256,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ssuma",
+      "value": "eyI4NCI6MTc3NTEzODYyNDk4OH0",
+      "domain": ".sitescout.com",
+      "path": "/",
+      "expires": 1777730624.871678,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "pd",
+      "value": "v2|1775138625|gyvMkWxhhEs7",
+      "domain": ".openx.net",
+      "path": "/",
+      "expires": 1776434624.909983,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "pxcelPage_default_c010_B",
+      "value": "1_0_1775138529354",
+      "domain": ".t.sharethis.com",
+      "path": "/",
+      "expires": 1777730529,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "rlas3",
+      "value": "t6JrHfJWSB+nR86sRePk9wVcYN2crifzSJ2ikXb6MIM=",
+      "domain": ".rlcdn.com",
+      "path": "/",
+      "expires": 1806674629.760871,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "pxrc",
+      "value": "COLtuc4GEgUI6AcQABIFCOhHEAYSBQjbThAAEgYIuuoBEF4SBgjq3CoQYxIGCJi7KxAS",
+      "domain": ".rlcdn.com",
+      "path": "/",
+      "expires": 1780322629.760934,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TDCPM",
+      "value": "CAESFAoFdGFwYWQSCwjG8dTtz7KIPxAFEhcKCGxpdmVyYW1wEgsIgMbYptayiD8QBRgBIAEoAjILCIC829Pssog_EAU4AVoIbGl2ZXJhbXBgAg..",
+      "domain": ".adsrvr.org",
+      "path": "/",
+      "expires": 1806674629.443753,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ad-id",
+      "value": "A45tMB-WsE9TpCI0ARh36Wo",
+      "domain": ".amazon-adsystem.com",
+      "path": "/",
+      "expires": 1798812229.798936,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ad-privacy",
+      "value": "0",
+      "domain": ".amazon-adsystem.com",
+      "path": "/",
+      "expires": 1809698629.799048,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://governmentrelations.rutgers.edu",
+      "localStorage": [
+        {
+          "name": "ally-supports-cache",
+          "value": "{\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36\",\"version\":\"1.4.1\",\"focusAreaImgTabindex\":false,\"focusAreaTabindex\":false,\"focusAreaWithoutHref\":false,\"focusAudioWithoutControls\":false,\"focusBrokenImageMap\":true,\"focusChildrenOfFocusableFlexbox\":false,\"focusFieldsetDisabled\":true,\"focusFieldset\":false,\"focusFlexboxContainer\":false,\"focusFormDisabled\":true,\"focusImgIsmap\":false,\"focusImgUsemapTabindex\":true,\"focusInHiddenIframe\":true,\"focusInvalidTabindex\":false,\"focusLabelTabindex\":true,\"focusObjectSvg\":true,\"focusObjectSvgHidden\":false,\"focusRedirectImgUsemap\":false,\"focusRedirectLegend\":\"\",\"focusScrollBody\":false,\"focusScrollContainerWithoutOverflow\":false,\"focusScrollContainer\":true,\"focusSummary\":true,\"focusSvgFocusableAttribute\":false,\"focusSvgTabindexAttribute\":true,\"focusSvgNegativeTabindexAttribute\":true,\"focusSvgUseTabindex\":true,\"focusSvgForeignobjectTabindex\":true,\"focusSvg\":false,\"focusTabindexTrailingCharacters\":true,\"focusTable\":false,\"focusVideoWithoutControls\":false,\"cssShadowPiercingDeepCombinator\":\"\",\"focusInZeroDimensionObject\":true,\"focusObjectSwf\":true,\"focusSvgInIframe\":false,\"tabsequenceAreaAtImgPosition\":false,\"time\":\"2026-04-02T14:03:45.990Z\"}"
+        }
+      ]
+    },
+    {
+      "origin": "https://www.rutgers.edu",
+      "localStorage": [
+        {
+          "name": "panoramaId_expiry",
+          "value": "1775224928871"
+        },
+        {
+          "name": "_cc_id_update_ts",
+          "value": "1775138528763"
+        },
+        {
+          "name": "_cc_id",
+          "value": "ccc99f2da0dce78c7a10274d50fdabaf"
+        },
+        {
+          "name": "ally-supports-cache",
+          "value": "{\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36\",\"version\":\"1.4.1\",\"focusAreaImgTabindex\":false,\"focusAreaTabindex\":false,\"focusAreaWithoutHref\":false,\"focusAudioWithoutControls\":false,\"focusBrokenImageMap\":true,\"focusChildrenOfFocusableFlexbox\":false,\"focusFieldsetDisabled\":true,\"focusFieldset\":false,\"focusFlexboxContainer\":false,\"focusFormDisabled\":true,\"focusImgIsmap\":false,\"focusImgUsemapTabindex\":true,\"focusInHiddenIframe\":true,\"focusInvalidTabindex\":false,\"focusLabelTabindex\":true,\"focusObjectSvg\":true,\"focusObjectSvgHidden\":false,\"focusRedirectImgUsemap\":false,\"focusRedirectLegend\":\"\",\"focusScrollBody\":false,\"focusScrollContainerWithoutOverflow\":false,\"focusScrollContainer\":true,\"focusSummary\":true,\"focusSvgFocusableAttribute\":false,\"focusSvgTabindexAttribute\":true,\"focusSvgNegativeTabindexAttribute\":true,\"focusSvgUseTabindex\":true,\"focusSvgForeignobjectTabindex\":true,\"focusSvg\":false,\"focusTabindexTrailingCharacters\":true,\"focusTable\":false,\"focusVideoWithoutControls\":false,\"cssShadowPiercingDeepCombinator\":\"\",\"focusInZeroDimensionObject\":true,\"focusObjectSwf\":true,\"focusSvgInIframe\":false,\"tabsequenceAreaAtImgPosition\":false,\"time\":\"2026-04-02T14:02:09.440Z\"}"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,364 @@
+{
+  "cookies": [
+    {
+      "name": "INGRESSAFFINITY",
+      "value": "dadbc9a8d5c43afe",
+      "domain": "osu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "INGRESSAFFINITY",
+      "value": "fb5a1066e98023d2",
+      "domain": "maps.osu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_CCZQVED2Z5",
+      "value": "GS2.1.s1755501602$o2$g0$t1755501602$j60$l0$h0",
+      "domain": ".osu.edu",
+      "path": "/",
+      "expires": 1790061602,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AWSALBTGCORS",
+      "value": "HUD6WdZ5mYz2LiqsoX9oClfqBtXfhVSl2XZJdksUFGvVr/39wmJ1o7o9Ie++DRF8Nk+K5GuTX41nOiKdAwD6sjAtQZC+KbiF0bQ8NP6j9IK4OztA3pZ8+juXw5Xhbd7tbJCY/brAJ+brMmnUnku9jBmg+13zGT1PeFRECuzkUCXfWhemApY=",
+      "domain": "maps.osu.edu",
+      "path": "/",
+      "expires": 1775736554,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AWSALBCORS",
+      "value": "sk7/opGQP1tQDz4sxkpKFMCmcZbP2AKj8dCMZWs2Il1fGWUIzao/I+39OQ4MEjltrv+2jbwOVfmXEhvJNXSwTwNjPicQK9IqHw0c1rwFSHIBChZUpyHB5EBHNg/pX1pT1Y9FEHtS0YJD7QGGt0MZHjRY0XFwIV9gSmOKvyBpmgYlgIsGTpbob41lP/Yq+JTeqqIWnbRUgn6EjQXzdbVJp+Q/FJcQaVdh7cP+vUAnSkAkPXSPHZB7bqNnE2xoluxGrCwCv6B8AW9Mw+TXeg==",
+      "domain": "maps.osu.edu",
+      "path": "/",
+      "expires": 1775736554,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AWSALBTGCORS",
+      "value": "bFxj5HGEq4JGqwj/CDf2Tz7RsEw2ntmoMIjjFzcE0CzQh53dWinTB5dlsFAg2nMXV9a7nZRZb/A5/EtbecgGqyMKIzcXcN9/9hj7eyqTnTlKKLLuvroXWjYGwZ+14Vbph2SbOAPCcWT1evGZ6Sp2Q8HbgjkTwsWUR9ODEOZOXTanJwlExX0=",
+      "domain": "osu.edu",
+      "path": "/",
+      "expires": 1775736729,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AWSALBCORS",
+      "value": "r5HQUyf6skE2PkNkqt3LrH+uNsLZDM6QEX4/hKqakmNcNTArwv1Ny3bAePjdzwCPxDNr3OL+kAap7DZ+w2VdO9f8UTf8pKUcCzb63iKkLXAqj34gW+Z+97hd8rsUjqBdtMkmnJgZJn2SSexeGmWe9h5JyBPW1hyhz7TR9uU3vpc3hij+AjwF3Nld8iP7NEiez4P3mASZNxB4e+dzk1AN0cHPdK89yfFsygJ9clFR/Mlj35jzqr7h4AcMm1aQ4HXJIAUmhCz9HNHqvvq5rA==",
+      "domain": "osu.edu",
+      "path": "/",
+      "expires": 1775736729,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AWSALBCORS",
+      "value": "ocDZsFT6XoVsgtTCJmL1nA/t7L+ITnTPXMahZ3JOPa8TDXDftT75LsFdihjPh8PQaIImma3w1elHnF1pBau2BVqF/nhh6l/v0VIiDbLEi9Qmxso7uULX5j9GPynt",
+      "domain": "search-api.intcomm.osu.edu",
+      "path": "/",
+      "expires": 1775736737,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "OptanonAlertBoxClosed",
+      "value": "2026-04-02T12:13:27.928Z",
+      "domain": ".osu.edu",
+      "path": "/",
+      "expires": 1806668007,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "OptanonConsent",
+      "value": "isGpcEnabled=1&datestamp=Thu+Apr+02+2026+05%3A13%3A27+GMT-0700+(Pacific+Daylight+Time)&version=202501.1.0&browserGpcFlag=1&isIABGlobal=false&hosts=&consentId=9d22c466-3045-4637-b7d4-e7e751eac98e&interactionCount=1&isAnonUser=1&landingPath=NotLandingPage&groups=C0001%3A1%2CC0002%3A1%2CC0003%3A1%2CC0004%3A1&intType=1",
+      "domain": ".osu.edu",
+      "path": "/",
+      "expires": 1806668007,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "INGRESSAFFINITY",
+      "value": "dadbc9a8d5c43afe",
+      "domain": "www.osu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AWSALBTG",
+      "value": "wH/ztOQcYfvsDf2s0faB5HsrVzbxuGUr3msNaGPMG79BVseJDeZrSyHHEeyPm4tfTeM4bGzTCAj+BSAlXjpaHhc+BsitFiUMT/A+Cd4m729INPTCfNE8OmoQuwCnzbjHL5mnyA8soTXUHDAue3UXIpYCkq0JYRFjy/MuWcL9HtuDL4cZ3jw=",
+      "domain": "www.osu.edu",
+      "path": "/",
+      "expires": 1775742727.396913,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AWSALBTGCORS",
+      "value": "wH/ztOQcYfvsDf2s0faB5HsrVzbxuGUr3msNaGPMG79BVseJDeZrSyHHEeyPm4tfTeM4bGzTCAj+BSAlXjpaHhc+BsitFiUMT/A+Cd4m729INPTCfNE8OmoQuwCnzbjHL5mnyA8soTXUHDAue3UXIpYCkq0JYRFjy/MuWcL9HtuDL4cZ3jw=",
+      "domain": "www.osu.edu",
+      "path": "/",
+      "expires": 1775742727.397007,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AWSALB",
+      "value": "jSRYW9cuhPLRDojiBzwZ4o+anlFpNyyJ8l424FXvvXsZTF2n2UnRvaDjYMnaRg1ZMbJWGMHFeQwc07/2C9/m3gH7jveMoKO7vNuJWVvItC0X/RNRgAhqeoj33LJN5Sx6ZyCxo/1VKVKNIXUgb/sgBjQC1uww9bXrB44RPVa2RBmln6WiLk8dDeOlnO8kXhtLZxqwU0qDRP141QK8m7IC9wUP0gFU85nnyan6wbPWzGKHIl08B8/Pwf5GQ2w41Kp1SFh1qJVc0ACYn94PSA==",
+      "domain": "www.osu.edu",
+      "path": "/",
+      "expires": 1775742727.397091,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AWSALBCORS",
+      "value": "jSRYW9cuhPLRDojiBzwZ4o+anlFpNyyJ8l424FXvvXsZTF2n2UnRvaDjYMnaRg1ZMbJWGMHFeQwc07/2C9/m3gH7jveMoKO7vNuJWVvItC0X/RNRgAhqeoj33LJN5Sx6ZyCxo/1VKVKNIXUgb/sgBjQC1uww9bXrB44RPVa2RBmln6WiLk8dDeOlnO8kXhtLZxqwU0qDRP141QK8m7IC9wUP0gFU85nnyan6wbPWzGKHIl08B8/Pwf5GQ2w41Kp1SFh1qJVc0ACYn94PSA==",
+      "domain": "www.osu.edu",
+      "path": "/",
+      "expires": 1775742727.397188,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.833594729.1775137927",
+      "domain": ".osu.edu",
+      "path": "/",
+      "expires": 1782913927,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_09WC99HMPE",
+      "value": "GS2.1.s1775137927$o3$g0$t1775137927$j60$l0$h0",
+      "domain": ".osu.edu",
+      "path": "/",
+      "expires": 1809697927.628111,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.3.1563283280.1755469484",
+      "domain": ".ehe.osu.edu",
+      "path": "/",
+      "expires": 1809697927.701241,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.3.377178559.1775137928",
+      "domain": ".ehe.osu.edu",
+      "path": "/",
+      "expires": 1775224327,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_UA-24610600-14",
+      "value": "1",
+      "domain": ".ehe.osu.edu",
+      "path": "/",
+      "expires": 1775137987,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.1563283280.1755469484",
+      "domain": ".osu.edu",
+      "path": "/",
+      "expires": 1809697938.435561,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.377178559.1775137928",
+      "domain": ".osu.edu",
+      "path": "/",
+      "expires": 1775224338,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_UA-1169126-1",
+      "value": "1",
+      "domain": ".osu.edu",
+      "path": "/",
+      "expires": 1775137987,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CLID",
+      "value": "6e478a02fcd540f09588bd6c184df408.20260402.20270402",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1806673927.852983,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_P0NLD5XDTY",
+      "value": "GS2.3.s1775137927$o1$g0$t1775137927$j60$l0$h0",
+      "domain": ".ehe.osu.edu",
+      "path": "/",
+      "expires": 1809697927.948135,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_clck",
+      "value": "37kqko%5E2%5Eg4v%5E0%5E2283",
+      "domain": ".osu.edu",
+      "path": "/",
+      "expires": 1806673928,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "MUID",
+      "value": "0AE97D5D17656C27124E6A72165A6D05",
+      "domain": ".bing.com",
+      "path": "/",
+      "expires": 1808833928.617492,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MR",
+      "value": "0",
+      "domain": ".c.bing.com",
+      "path": "/",
+      "expires": 1775742728.61754,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "SRM_B",
+      "value": "0AE97D5D17656C27124E6A72165A6D05",
+      "domain": ".c.bing.com",
+      "path": "/",
+      "expires": 1808833928.617555,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "SM",
+      "value": "C",
+      "domain": ".c.clarity.ms",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MUID",
+      "value": "0AE97D5D17656C27124E6A72165A6D05",
+      "domain": ".clarity.ms",
+      "path": "/",
+      "expires": 1808833928.709305,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MR",
+      "value": "0",
+      "domain": ".c.clarity.ms",
+      "path": "/",
+      "expires": 1775742728.709329,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ANONCHK",
+      "value": "0",
+      "domain": ".c.clarity.ms",
+      "path": "/",
+      "expires": 1775138528.709343,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_8QCQ6865RM",
+      "value": "GS2.2.s1775137928$o1$g1$t1775137938$j50$l0$h0",
+      "domain": ".osu.edu",
+      "path": "/",
+      "expires": 1809697938.447166,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://ehe.osu.edu",
+      "localStorage": [
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":1,\"timeouts\":0,\"errors\":0,\"eopCount\":0,\"creationTimeMs\":1775137927831},\"expires\":1782913927831}}"
+        }
+      ]
+    },
+    {
+      "origin": "https://maps.osu.edu",
+      "localStorage": [
+        {
+          "name": "exb-build-number",
+          "value": "1.18.0-8"
+        }
+      ]
+    }
+  ]
+}

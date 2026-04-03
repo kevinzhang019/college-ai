@@ -1,0 +1,55 @@
+{
+  "cookies": [
+    {
+      "name": "BIGipServerpool_univofdenver",
+      "value": "9432f028541828616cf150588765e388",
+      "domain": "univofdenver.service-now.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "JSESSIONID",
+      "value": "2DB75B1DC0F7F0900930A654D7B79B05",
+      "domain": "univofdenver.service-now.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "glide_user_route",
+      "value": "glide.bb40d5926cfd29b6bb72bcbcd2c28159",
+      "domain": "univofdenver.service-now.com",
+      "path": "/",
+      "expires": 1790013919.058994,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "glide_node_id_for_js",
+      "value": "09aafa4806d8b11ae64418a294b78696a4f44bc98e19d617e99b659e80342b79",
+      "domain": "univofdenver.service-now.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://univofdenver.service-now.com",
+      "localStorage": [
+        {
+          "name": "sn.tabs.sn.$sp.activeTab",
+          "value": "2d9c0102d983802d906b02d96e802d96"
+        }
+      ]
+    }
+  ]
+}

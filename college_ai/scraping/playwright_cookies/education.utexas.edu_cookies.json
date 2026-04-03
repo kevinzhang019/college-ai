@@ -1,0 +1,123 @@
+{
+  "cookies": [
+    {
+      "name": "_ga",
+      "value": "GA1.3.1029055608.1775131355",
+      "domain": ".education.utexas.edu",
+      "path": "/",
+      "expires": 1809696977.157788,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.3.2144013371.1775131355",
+      "domain": ".education.utexas.edu",
+      "path": "/",
+      "expires": 1775223377,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1029055608.1775131355",
+      "domain": ".utexas.edu",
+      "path": "/",
+      "expires": 1809696977.149026,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "wp-wpml_current_language",
+      "value": "en",
+      "domain": "education.utexas.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_dc_gtm_UA-72556790-1",
+      "value": "1",
+      "domain": ".education.utexas.edu",
+      "path": "/",
+      "expires": 1775137018,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_4KQDHCWLR4",
+      "value": "GS2.1.s1775136958$o2$g1$t1775136977$j41$l0$h0",
+      "domain": ".utexas.edu",
+      "path": "/",
+      "expires": 1809696977.109629,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_J4KB43EPY7",
+      "value": "GS2.1.s1775136958$o2$g1$t1775136977$j41$l0$h0",
+      "domain": ".utexas.edu",
+      "path": "/",
+      "expires": 1809696977.148387,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "YSC",
+      "value": "drxelZgarkw",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://utexas.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "Y9XXEIhYH4U",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790688979.422408,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://utexas.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgWQ%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790688979.422441,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://utexas.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CLLEi_ymno-lhgEQr4PQx6TPkwMYh_rTyKTPkwM%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790688979.422512,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://utexas.edu",
+      "_crHasCrossSiteAncestor": true
+    }
+  ],
+  "origins": []
+}

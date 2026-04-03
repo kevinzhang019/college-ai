@@ -1,0 +1,25 @@
+{
+  "cookies": [
+    {
+      "name": "_ga_4TW76PBJ0Q",
+      "value": "GS2.1.s1755583878$o1$g0$t1755583878$j60$l0$h0",
+      "domain": ".gatech.edu",
+      "path": "/",
+      "expires": 1790143878.672463,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1913843744.1755583879",
+      "domain": ".gatech.edu",
+      "path": "/",
+      "expires": 1790143878.672631,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

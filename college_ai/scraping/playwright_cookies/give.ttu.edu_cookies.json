@@ -1,0 +1,153 @@
+{
+  "cookies": [
+    {
+      "name": "ENCOMPASSCC_1422",
+      "value": "bsc",
+      "domain": "give.ttu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ENCOMPASSSESSIONID_1422",
+      "value": "dfadf33e-f6ad-46aa-8538-3c4608daebda",
+      "domain": "securelb.imodules.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ENCOMPASSSESSIONID_1422",
+      "value": "dfadf33e-f6ad-46aa-8538-3c4608daebda",
+      "domain": "give.ttu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1631040322.1755473903",
+      "domain": ".ttu.edu",
+      "path": "/",
+      "expires": 1790033902.86718,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__utma",
+      "value": "198335033.1631040322.1755473903.1755473903.1755473903.1",
+      "domain": ".give.ttu.edu",
+      "path": "/",
+      "expires": 1790033902.953339,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__utmb",
+      "value": "198335033.0.10.1755473903",
+      "domain": ".give.ttu.edu",
+      "path": "/",
+      "expires": 1755475702,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__utmc",
+      "value": "198335033",
+      "domain": ".give.ttu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__utmz",
+      "value": "198335033.1755473903.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)",
+      "domain": ".give.ttu.edu",
+      "path": "/",
+      "expires": 1771241902,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "YSC",
+      "value": "IisL2Cru0Kc",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://ttu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "LZ53wrupbNM",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771025903.477923,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://ttu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgDg%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771025903.477941,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://ttu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CJSvyYSMjvG6GRCZn5zzgZOPAxi5_LTzgZOPAw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771025903.477865,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://ttu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "NID",
+      "value": "525=fWtAueNxa4lLt6QOzzUXF35F98ifXh8A2JuMqMsfff4JFgpJH3oUVvS6ADFolP6WraydxDS1v12jdTEpivpuD-vMs_5WDtDvPRWZXRJJ5SHd5OTFCjXoxMw1EW-POPmb-dIuFkidBgqT-i19mbQTgqJZ1eduLSfPrAhNURrhIQHy7Yz9MlFv6Tgox7hvDTIw0sI8QkQ",
+      "domain": ".google.com",
+      "path": "/",
+      "expires": 1771285104.33244,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_7KWE6PF2V5",
+      "value": "GS2.1.s1755473902$o1$g1$t1755473915$j47$l0$h0",
+      "domain": ".ttu.edu",
+      "path": "/",
+      "expires": 1790033915.410761,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

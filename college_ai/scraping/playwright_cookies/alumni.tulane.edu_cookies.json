@@ -1,0 +1,95 @@
+{
+  "cookies": [
+    {
+      "name": "ENCOMPASSCC_1586",
+      "value": "bsc",
+      "domain": "alumni.tulane.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ENCOMPASSSESSIONID_1586",
+      "value": "3789c488-8fe3-46d6-81cf-01118f420914",
+      "domain": "securetu.tulane.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ENCOMPASSSESSIONID_1586",
+      "value": "3789c488-8fe3-46d6-81cf-01118f420914",
+      "domain": "alumni.tulane.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__utma",
+      "value": "37324656.211814541.1755453623.1755453623.1755453623.1",
+      "domain": ".alumni.tulane.edu",
+      "path": "/",
+      "expires": 1790013724.311061,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__utmb",
+      "value": "37324656.0.10.1755453623",
+      "domain": ".alumni.tulane.edu",
+      "path": "/",
+      "expires": 1755455524,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__utmc",
+      "value": "37324656",
+      "domain": ".alumni.tulane.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__utmz",
+      "value": "37324656.1755453623.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)",
+      "domain": ".alumni.tulane.edu",
+      "path": "/",
+      "expires": 1771221724,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.2082674201.1755453623",
+      "domain": ".tulane.edu",
+      "path": "/",
+      "expires": 1790013724.180677,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_LTFFK5FW9X",
+      "value": "GS2.1.s1755453622$o1$g1$t1755453724$j60$l0$h0",
+      "domain": ".tulane.edu",
+      "path": "/",
+      "expires": 1790013724.18051,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

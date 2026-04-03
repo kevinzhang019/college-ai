@@ -1,0 +1,149 @@
+{
+  "cookies": [
+    {
+      "name": "_gcl_au",
+      "value": "1.1.2068361449.1775137046",
+      "domain": ".utexas.edu",
+      "path": "/",
+      "expires": 1782913046,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1308246594.1775137046",
+      "domain": ".utexas.edu",
+      "path": "/",
+      "expires": 1809697046.016025,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_WQRWFS8P26",
+      "value": "GS2.1.s1775137046$o1$g0$t1775137046$j60$l0$h0",
+      "domain": ".utexas.edu",
+      "path": "/",
+      "expires": 1809697046.160898,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_mkto_trk",
+      "value": "id:234-KBR-443&token:_mch-utexas.edu-c70f6859e10a4ac86d533b81b6cddfa0",
+      "domain": ".utexas.edu",
+      "path": "/",
+      "expires": 1809697046.384737,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "test_cookie",
+      "value": "CheckForPermission",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1775137946.494709,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": "px.ads.linkedin.com",
+      "path": "/",
+      "expires": 1777766792.516438,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "li_sugr",
+      "value": "0642d458-4a72-4214-9e8b-0006f7773545",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1782913047.447044,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=VGST09:s=V:r=V:a=V:p=V:g=3390:u=1:x=1:i=1775137046:t=1775223446:v=2:sig=AQEK3_VMyeT2FtYcX_XoKa7WZGQP2msu\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1775223446.545397,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&96176fa8-6905-4ada-8a1a-23ee532563f8\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1806673048.4471,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "UserMatchHistory",
+      "value": "AQK2M7GIUGf7zwAAAZ1OacCfx-_Jsm_0Rm2yml1jNKcZLO-_MCMg3HJN03EVrXUr7Xeh09_YQX8PXg",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1777729046.664196,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AnalyticsSyncHistory",
+      "value": "AQKmV4ivjYbUaQAAAZ1OacCfp3AOpJ2gHtbLaYZk-tRpV958r0QIT7OjH5W5-OYxgpT-YF_5niRLv0-wGds0ZQ",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1777729046.664216,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bscookie",
+      "value": "\"v=1&20260402133727114c0ad4-c1aa-4993-8b9d-c7697e07c487AQE-mkaxuaAF6ETzzRFLq9t0UwRr8k-d\"",
+      "domain": ".www.linkedin.com",
+      "path": "/",
+      "expires": 1806673047.030204,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "elREHxdUMOzK67zv30a4jQA3V9b0nzuAKOdXJqtYiQ8-1775137047-1.0.1.1-9XBiaoi13Ti8nZwZBi8ixNRuKMeGJFyr.KXYv3NUmWRnLP_SZwsT5tLX9qgBPXAPwvZHSKRp_IyqVANX0fgETSeQthdEdcE7Rw3fM6YAMEM",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1775138847.030315,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://nursing.utexas.edu",
+      "localStorage": [
+        {
+          "name": "li_adsId",
+          "value": "9ee39930-1aae-4ba5-b22c-93eec9ae906f"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"timeouts\":0,\"errors\":0,\"eopCount\":0,\"creationTimeMs\":1775137045547},\"expires\":1782913045547}}"
+        }
+      ]
+    }
+  ]
+}

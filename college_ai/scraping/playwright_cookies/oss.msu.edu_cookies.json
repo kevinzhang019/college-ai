@@ -1,0 +1,55 @@
+{
+  "cookies": [
+    {
+      "name": "visid_incap_2397365",
+      "value": "bzNvdDHSS46bPc2QCVLKJG3hoWgAAAAAQUIPAAAAAAC9yz+0soUiQR/WI7lxZT+e",
+      "domain": "oss.msu.edu",
+      "path": "/",
+      "expires": 1786956030.174765,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "incap_ses_84_2397365",
+      "value": "Fmd2X35fZjIzCn3QBG4qAZXhoWgAAAAAgGW60ACGE4Qviwroq3iCDg==",
+      "domain": "oss.msu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "visid_incap_2279914",
+      "value": "JbG7G5bJQV+eDgoH2YJPWpXhoWgAAAAAQUIPAAAAAAAkkyPcisMV7UWIwn5SNWKM",
+      "domain": "nssc.msu.edu",
+      "path": "/",
+      "expires": 1786956030.54091,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "incap_ses_84_2279914",
+      "value": "QTV+QMLh8ARPE33QBG4qAZXhoWgAAAAAJgV4y3iE1QUNjxeDfkEpcQ==",
+      "domain": "nssc.msu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "___utmvc",
+      "value": "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",
+      "domain": "nssc.msu.edu",
+      "path": "/",
+      "expires": 1755439531,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

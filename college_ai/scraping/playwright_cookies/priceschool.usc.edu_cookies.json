@@ -1,0 +1,377 @@
+{
+  "cookies": [
+    {
+      "name": "MUID",
+      "value": "3882A5CE11CF63DC1916B38510B96206",
+      "domain": ".bing.com",
+      "path": "/",
+      "expires": 1808820746,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MR",
+      "value": "0",
+      "domain": ".bat.bing.com",
+      "path": "/",
+      "expires": 1775729543,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MR",
+      "value": "0",
+      "domain": ".c.bing.com",
+      "path": "/",
+      "expires": 1775729546,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "SRM_B",
+      "value": "3882A5CE11CF63DC1916B38510B96206",
+      "domain": ".c.bing.com",
+      "path": "/",
+      "expires": 1808820746,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&96aa399d-7e7f-4b68-8fdf-5f600a9c8cd7\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1806726481.124137,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": "px.ads.linkedin.com",
+      "path": "/",
+      "expires": 1777820225.839284,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "li_sugr",
+      "value": "fde97d68-fbb4-4f6d-9fc5-e72978b5ca8a",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1782966480.124092,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "UserMatchHistory",
+      "value": "AQJecBcXtDweVwAAAZ1NrggkujzDhG0RNj26uSmS45B2EnEmYR4Gb6bz5K8kvTAh25jK-msc5HfDhQ",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1777716744,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AnalyticsSyncHistory",
+      "value": "AQL3Kl05QAWI0gAAAZ1Nrggk2Q4-iBB3ElNEQ57tp38KN8eyRYitqrFm23VQjd_GgYl2W-VQhP0hxfFqPKgtSw",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1777716744,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bscookie",
+      "value": "\"v=1&20260402101224d5fca131-3df5-48fe-850c-7454a2543b96AQGoZOQSr-Ul7wkO5KUYKJP8Sy9ZGpiE\"",
+      "domain": ".www.linkedin.com",
+      "path": "/",
+      "expires": 1806660744,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUlwGq5Ip8j7MCEHQab7A9UBzvx2ljwkRDI21FU2NqvTAC8UZPJF-1wzQTC8",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1809689468,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__spdt",
+      "value": "98d69fbb3d9341d9af26a693f3555b01",
+      "domain": "priceschool.usc.edu",
+      "path": "/",
+      "expires": 1786999248,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_cq_suid",
+      "value": "1.1755463249.TNabPEEsTJdYox4a",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.84067901.1755463251",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1809750479.710011,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cookieyes-consent",
+      "value": "consentid:U2VPRXZDVXZPYWxQNlRjOXVUd0laVGJDUm5aR2NIV1A,consent:no,action:,necessary:yes,functional:yes,analytics:yes,performance:yes,advertisement:yes,other:yes",
+      "domain": "priceschool.usc.edu",
+      "path": "/",
+      "expires": 1806726479,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.2073277598.1775124744",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1782900744,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1775124744028.69597871529218290",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1782966479,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_cq_duid",
+      "value": "1.1775124744.Z2SeP7ve1HqaWShR",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1783074480,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "SM",
+      "value": "C",
+      "domain": ".c.clarity.ms",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MUID",
+      "value": "3882A5CE11CF63DC1916B38510B96206",
+      "domain": ".clarity.ms",
+      "path": "/",
+      "expires": 1808820745,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MR",
+      "value": "0",
+      "domain": ".c.clarity.ms",
+      "path": "/",
+      "expires": 1775729545,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "cg_uuid",
+      "value": "937beeb9e6d23862ca5778636785976b",
+      "domain": "obseu.bmccfortress.com",
+      "path": "/",
+      "expires": 1784493649,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=TGST03:s=T:r=T:a=T:p=T:g=3690:u=1:x=1:i=1775168626:t=1775255026:v=2:sig=AQG0YN4PEDkRA0MI79AXpVWmW6fL_xV9\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1775255026.847794,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "CLID",
+      "value": "70a3639c5d8d4d67a5222d12788d77e6.20250817.20270403",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1806717383.722913,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_clck",
+      "value": "1m9kmqh%5E2%5Eg4w%5E0%5E2055",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1806717661,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "6zv7jnLmwQ1CFAvyyAlIVrh5PaS0WDbgWKA94z1DzjA-1775190478-1.0.1.1-TQi0Hb5EFlVqgipqvIgoQywX6S9EeUFOed1G_vCbRqn6IxFnBc5U9dNScdKmpXMovxk5twNAzcWxHHUVR3ny.caMYPEC6FeVGViqCYnu6fw",
+      "domain": ".priceschool.usc.edu",
+      "path": "/",
+      "expires": 1775192278.408319,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_rdt_uuid",
+      "value": "1775124743740.71badd55-66e5-462c-ab9c-6289a3e0764a",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1782966479,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_uetsid",
+      "value": "716a1ca02e7c11f1a1ac5338eb7a03c2",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1775276879,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_uetvid",
+      "value": "75413f707baa11f09922234eb015b048",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1808886479,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_cq_session",
+      "value": "5.1775190162859.DKcdZAvxVIhcMZB2.1775190480389",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1809750480.389793,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_cheq_rti_en",
+      "value": "gLY9ISYI8JRrtUmY5AJkpV2SA8o%3Dctpl0XSVjIIPV4ckTZLSFEgV%2BvdNGlMdpQ1YtKKe22elRcLIZ8SiQTCJPeSeQdW%2FO%2BFgz%2Fo5B4ElI8l6l19Ag%2BmLmwwTcZ3gFJVCuwKeih2x6moXqqjFIavZiLfhyzIJD6M%3D",
+      "domain": "priceschool.usc.edu",
+      "path": "/",
+      "expires": 1806730482.609254,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_cheq_rti",
+      "value": "gLY9ISYI8JRrtUmY5AJkpV2SA8o=ctpl0XSVjIIPV4ckTZLSFEgV+vdNGlMdpQ1YtKKe22elRcLIZ8SiQTCJPeSeQdW/O+Fgz/o5B4ElI8l6l19Ag+mLmwwTcZ3gFJVCuwKeih2x6moXqqjFIavZiLfhyzIJD6M=",
+      "domain": "priceschool.usc.edu",
+      "path": "/",
+      "expires": 1806730482.609291,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_VVNHLESQ14",
+      "value": "GS2.1.s1775190162$o8$g1$t1775190483$j56$l0$h0",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1809750483.612949,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://priceschool.usc.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1775190479814"
+        },
+        {
+          "name": "_uetvid_exp",
+          "value": "Wed, 28 Apr 2027 04:27:59 GMT"
+        },
+        {
+          "name": "_uetsid_exp",
+          "value": "Sat, 04 Apr 2026 04:27:59 GMT"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755496778549"
+        },
+        {
+          "name": "_uetvid",
+          "value": "75413f707baa11f09922234eb015b048"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"timeouts\":0,\"errors\":0,\"eopCount\":0,\"creationTimeMs\":1775124743533},\"expires\":1782900743533}}"
+        },
+        {
+          "name": "_uetsid",
+          "value": "716a1ca02e7c11f1a1ac5338eb7a03c2"
+        },
+        {
+          "name": "li_adsId",
+          "value": "e3568580-8627-4228-8db0-1d7edf04829d"
+        }
+      ]
+    }
+  ]
+}

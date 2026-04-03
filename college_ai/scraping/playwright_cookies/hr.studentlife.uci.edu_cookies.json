@@ -1,0 +1,35 @@
+{
+  "cookies": [
+    {
+      "name": "_ga_TJ4TMSCSES",
+      "value": "GS2.1.s1775136632$o1$g0$t1775136632$j60$l0$h0",
+      "domain": ".uci.edu",
+      "path": "/",
+      "expires": 1809696632.605804,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.159311926.1775136633",
+      "domain": ".uci.edu",
+      "path": "/",
+      "expires": 1809696632.615042,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_HX51BC2BLN",
+      "value": "GS2.1.s1775136632$o1$g0$t1775136633$j59$l0$h0",
+      "domain": ".uci.edu",
+      "path": "/",
+      "expires": 1809696633.190874,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

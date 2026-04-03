@@ -1,0 +1,99 @@
+{
+  "cookies": [
+    {
+      "name": "YSC",
+      "value": "OKVZ-HczGT0",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "NdMuBQZLOI8",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790675480,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgNQ%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790675480,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CMvv7LPVv-nNIBD1-emj8s6TAxjhmtDsgM-TAw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790679390,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_BSC82Y20RS",
+      "value": "GS2.1.s1775123480$o1$g0$t1775123480$j60$l0$h0",
+      "domain": ".georgetown.edu",
+      "path": "/",
+      "expires": 1809683480,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.123642871.1775123481",
+      "domain": ".georgetown.edu",
+      "path": "/",
+      "expires": 1809683480,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_8MXRLN1BFQ",
+      "value": "GS2.1.s1775123480$o1$g0$t1775123483$j57$l0$h0",
+      "domain": ".georgetown.edu",
+      "path": "/",
+      "expires": 1809683483,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.1290581588.1775123480",
+      "domain": ".georgetown.edu",
+      "path": "/",
+      "expires": 1782899480,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://college.georgetown.edu",
+      "localStorage": [
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"timeouts\":0,\"errors\":0,\"eopCount\":0,\"creationTimeMs\":1775123480422},\"expires\":1782899480422}}"
+        },
+        {
+          "name": "NRBA_SESSION",
+          "value": "{\"value\":\"606e5b7d3bc370be\",\"inactiveAt\":1775125281893,\"expiresAt\":1775137881893,\"updatedAt\":1775123482434,\"sessionReplayMode\":0,\"sessionReplaySentFirstChunk\":false,\"sessionTraceMode\":0,\"traceHarvestStarted\":false,\"loggingMode\":0,\"logApiMode\":0,\"serverTimeDiff\":-307,\"custom\":{},\"numOfResets\":0,\"consent\":false}"
+        }
+      ]
+    }
+  ]
+}

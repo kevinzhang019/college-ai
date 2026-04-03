@@ -1,0 +1,35 @@
+{
+  "cookies": [
+    {
+      "name": "_ga_122G7ESH4C",
+      "value": "GS2.1.s1755541985$o1$g0$t1755541985$j60$l0$h0",
+      "domain": ".iastate.edu",
+      "path": "/",
+      "expires": 1790101985.468421,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.500735446.1755541985",
+      "domain": ".iastate.edu",
+      "path": "/",
+      "expires": 1790101985.46855,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "nmstat",
+      "value": "b2e6a654-a84f-99f4-5ef6-9d1019d59d71",
+      "domain": ".iastate.edu",
+      "path": "/",
+      "expires": 1790101986.025837,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

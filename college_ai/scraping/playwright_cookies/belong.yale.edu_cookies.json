@@ -1,0 +1,65 @@
+{
+  "cookies": [
+    {
+      "name": "adaptive_image",
+      "value": "1280",
+      "domain": "belong.yale.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_7J7ZSYCEZ1",
+      "value": "GS2.3.s1755450858$o1$g0$t1755450858$j60$l0$h0",
+      "domain": ".belong.yale.edu",
+      "path": "/",
+      "expires": 1790010858.138246,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.3.1878092039.1755450858",
+      "domain": ".belong.yale.edu",
+      "path": "/",
+      "expires": 1790010858.235085,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "nmstat",
+      "value": "58a2eb5d-9899-9ac1-0ad9-e7008684a77a",
+      "domain": ".yale.edu",
+      "path": "/",
+      "expires": 1790010858.165832,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.3.1731965117.1755450858",
+      "domain": ".belong.yale.edu",
+      "path": "/",
+      "expires": 1755537258,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_gtag_UA_991898_24",
+      "value": "1",
+      "domain": ".belong.yale.edu",
+      "path": "/",
+      "expires": 1755450918,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

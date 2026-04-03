@@ -1,0 +1,55 @@
+{
+  "cookies": [
+    {
+      "name": "_shibstate_1755535916_a8ca",
+      "value": "https%3A%2F%2Finternal.broad.msu.edu%2F",
+      "domain": "internal.broad.msu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "visid_incap_2685709",
+      "value": "34xXAIJYSvS+rLIGii5Izytao2gAAAAAQUIPAAAAAAA98uESDA3UyyX7tLJLjJDy",
+      "domain": "internal.broad.msu.edu",
+      "path": "/",
+      "expires": 1787036619.465051,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "incap_ses_2105_2685709",
+      "value": "CgWrSMjEOhrTx0x4h3Y2HStao2gAAAAACBihajtx+JzCSfMykjD+Og==",
+      "domain": "internal.broad.msu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "DT",
+      "value": "DI1urHGChxsTXil67kX6E4NVw",
+      "domain": "auth.msu.edu",
+      "path": "/",
+      "expires": 1790095916.820771,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "JSESSIONID",
+      "value": "36959AACD9F92F514FCACC529C1B8541",
+      "domain": "auth.msu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

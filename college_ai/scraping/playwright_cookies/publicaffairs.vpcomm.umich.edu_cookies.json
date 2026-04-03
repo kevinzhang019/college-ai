@@ -1,0 +1,107 @@
+{
+  "cookies": [
+    {
+      "name": "__cf_bm",
+      "value": "1wU7Wn6jsm9Pba6PA0js7ZYGnc.rRKmvUNNpoPikR_Q-1775126300.3798876-1.0.1.1-qsN6tnG4cEywEpRQxuTHXLp1woobEq3da5WG4Y6wd.xqu340uzPrLf.QB2wUk5cyVw6A5tI_UYogBNTulqib7pYAtR8b5hPTdRmpgi5TV3rOP9ctI7o2kMB6naRQ0gB1",
+      "domain": ".umich.edu",
+      "path": "/",
+      "expires": 1775128100.379354,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "um_privacy_consent",
+      "value": "%7B%22categories%22%3A%5B%22necessary%22%2C%22analytics%22%5D%2C%22revision%22%3A1%2C%22data%22%3A%7B%22country%22%3A%7B%22code%22%3A%22US%22%2C%22timestamp%22%3A%222026-04-02T10%3A38%3A21.112Z%22%7D%7D%2C%22consentTimestamp%22%3A%222026-04-02T10%3A38%3A21.113Z%22%2C%22consentId%22%3A%223f7e311a-7159-4bf5-a091-ebc17eba64ad%22%2C%22services%22%3A%7B%22necessary%22%3A%5B%5D%2C%22analytics%22%3A%5B%5D%7D%2C%22languageCode%22%3A%22en%22%2C%22lastConsentTimestamp%22%3A%222026-04-02T10%3A38%3A21.113Z%22%2C%22expirationTime%22%3A1806662301113%7D",
+      "domain": ".umich.edu",
+      "path": "/",
+      "expires": 1806662301,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_29C4RBNCNZ",
+      "value": "GS2.1.s1775126301$o1$g0$t1775126302$j59$l0$h0",
+      "domain": ".umich.edu",
+      "path": "/",
+      "expires": 1809686302.020197,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_cfuvid",
+      "value": "Hl6gxbrvTc_A0wzHq61AdwwAJD7Ge_bZBqfgJkm6DKQ-1775126410.7317986-1.0.1.1-fdI3EffjO4BQoQlFadmpmFnE8L682xQ3LIsyr5QMw2Y",
+      "domain": ".highcharts.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_pk_id.3.27b5",
+      "value": "f6c0bc426afb9ce4.1775126411.",
+      "domain": "publicaffairs.vpcomm.umich.edu",
+      "path": "/",
+      "expires": 1809081611,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_pk_ses.3.27b5",
+      "value": "1",
+      "domain": "publicaffairs.vpcomm.umich.edu",
+      "path": "/",
+      "expires": 1775128211,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cf_clearance",
+      "value": "oKejEx8XqqV7ns9Z8ZAJVi9aqiM341ai0QyPj0zDy4k-1775126411-1.2.1.1-bMvK5E5KnfMDSeGTSRRLD203.q5Nf6.1d6U88LUzdpgdQw7b_jfi1QS4g8a4udqTNBMLRXCsGaq3BHz.oBqx4fU48vWpszgWCc14FqCW52gGeHd2fqWt9r1Wb7u1bxOuVI1LU09Ohp42c6HJfPeHGtPEg3jOhwuaf1bA0AFIKoDnhzXvYnVAjX.iEo.AEOJ3Xzn6yZ.tBrGafqNQBFKXDCoKWAw6IzfLROQw2v6yibU",
+      "domain": ".vpcomm.umich.edu",
+      "path": "/",
+      "expires": 1806662411.078446,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://umich.edu",
+      "_crHasCrossSiteAncestor": false
+    },
+    {
+      "name": "_ga_Y9NRXBGM9E",
+      "value": "GS2.1.s1775126411$o1$g0$t1775126411$j60$l0$h0",
+      "domain": ".umich.edu",
+      "path": "/",
+      "expires": 1809686411.144429,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1785618682.1775126411",
+      "domain": ".umich.edu",
+      "path": "/",
+      "expires": 1809686411.144631,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "SzoH5d8Ug8SDhzgPacpwD8CviajjvbD5.jMaGFX56Mg-1775126449.8453453-1.0.1.1-IqyXAhI93swKqIXieTb4Hi8wPvTe9A49KeXNGbXarK5OwJfz7hgdllPNlfxhN4waMagvKHUAEvodIpLt41VSYwHeeVHgHC4Nc5SGrDwUrE50fffnQzKa7zcQs.u.1FR.",
+      "domain": ".vpcomm.umich.edu",
+      "path": "/",
+      "expires": 1775128249.781455,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

@@ -1,0 +1,213 @@
+{
+  "cookies": [
+    {
+      "name": "YSC",
+      "value": "4qG0CgzPHIQ",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "g9lNW0iZ0Rs",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790675490,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgNg%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790675490,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__Secure-YNID",
+      "value": "17.YT=a8s5NGaw1wnvmrRzGnwagTpsoF7ePHOBmEoctoG1ZN5P0Dhrf67M5TtcJDz7gHnwl-MHDvkupyBCWxWnTbTwgM-DJjQj9Ak0ycFKr5h0mj6W3Wqfa9FLPcGkjYJcY335RQHiTY54PfhhWDT7tg0QWHluTnWxmFLpGaXEU8X85PYtVVz2M1SefH8mhXr87g2IBQlugBCKDmGEwEn4blfk7cBrZxHh_x78B_ceMME3QsPcPRNgT7ubAV7OPLnge3E4oLbxb6f7FwfOrffgOfs5h_LVY1f_jVvuJLFSkNdXlSKimftcWfg5Kk0FvUtIEtqz3pN9qHOwJbUg1tRNL93_DA",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790675490,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CNy2-LjOuNzygAEQ5JfCqPLOkwMY3dSw8oPPkwM%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790680208,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "li_sugr",
+      "value": "90ecdac3-d584-44b7-a611-9c487d133d3c",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1782944964.300088,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": "px.ads.linkedin.com",
+      "path": "/",
+      "expires": 1777798707.917829,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&07f8e33e-6e95-4a1a-8477-f1cb9386dcf5\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1806704964.300151,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "UserMatchHistory",
+      "value": "AQJJMckJpbResAAAAZ1NmuhMwPSRNkP358FV32GkBSZCTUJcu1MYsKlIje_O6sEL-LDPHTkEP8W_Aw",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1777715490,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AnalyticsSyncHistory",
+      "value": "AQJgNkqsPPTfXQAAAZ1NmuhMzRLzFtV1C7pW7LV2dX-HVbPqwQs_a8bBDhm8iX2HTEl6Dm7k0P6HshIPOQfAxw",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1777715490,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bscookie",
+      "value": "\"v=1&20260402095131505eebdc-ae51-46de-8378-c67ce3ac0105AQFo5ISZStF7t6uONCRM15YVggL2YCG3\"",
+      "domain": ".www.linkedin.com",
+      "path": "/",
+      "expires": 1806659491,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.2098583704.1775123491",
+      "domain": ".georgetown.edu",
+      "path": "/",
+      "expires": 1809728961.03938,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.1528930022.1775168957",
+      "domain": ".georgetown.edu",
+      "path": "/",
+      "expires": 1782944957,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "test_cookie",
+      "value": "CheckForPermission",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1775169859.987275,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_BSC82Y20RS",
+      "value": "GS2.1.s1775168960$o2$g0$t1775168960$j60$l0$h0",
+      "domain": ".georgetown.edu",
+      "path": "/",
+      "expires": 1809728960.669371,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_BGY3FMHF72",
+      "value": "GS2.1.s1775168961$o2$g0$t1775168961$j60$l0$h0",
+      "domain": ".georgetown.edu",
+      "path": "/",
+      "expires": 1809728961.039161,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "tfpsi",
+      "value": "9660e290-99ff-4417-962d-44d2df80b6c3",
+      "domain": ".georgetown.edu",
+      "path": "/",
+      "expires": 1775170767.696385,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=TGST03:s=T:r=T:a=T:p=T:g=3690:u=1:x=1:i=1775168962:t=1775255362:v=2:sig=AQEjJ-Iz7gnMqegvhVoj3t5GfaTQAurt\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1775255363.149024,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "tfpai",
+      "value": "eyJvdXRicmFpbiI6ImRpY2JvX2lkPSU3QiUyMmRpY2JvX2ZldGNoJTIyJTNBMTc3NTE2ODk2NjY2NyU3RCJ9",
+      "domain": ".georgetown.edu",
+      "path": "/",
+      "expires": 1777760966.667286,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://earthcommons.georgetown.edu",
+      "localStorage": [
+        {
+          "name": "NRBA_SESSION",
+          "value": "{\"value\":\"11598052377bcd5a\",\"inactiveAt\":1775170768531,\"expiresAt\":1775183368531,\"updatedAt\":1775168970495,\"sessionReplayMode\":0,\"sessionReplaySentFirstChunk\":false,\"sessionTraceMode\":0,\"traceHarvestStarted\":false,\"loggingMode\":0,\"logApiMode\":0,\"serverTimeDiff\":-1069,\"custom\":{},\"numOfResets\":0,\"consent\":false}"
+        },
+        {
+          "name": "li_adsId",
+          "value": "fa7e80b8-a606-4bb9-9f6f-fcaa41580a40"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"timeouts\":0,\"errors\":0,\"eopCount\":0,\"creationTimeMs\":1775168956868},\"expires\":1782944956868}}"
+        }
+      ]
+    }
+  ]
+}

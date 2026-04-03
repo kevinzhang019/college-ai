@@ -1,0 +1,75 @@
+{
+  "cookies": [
+    {
+      "name": "arcgisLocale",
+      "value": "en",
+      "domain": "maps.usf.edu",
+      "path": "/portal/home",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.1788136629.1755457384",
+      "domain": ".usf.edu",
+      "path": "/",
+      "expires": 1755543784,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_QB3QP2ZSHX",
+      "value": "GS2.1.s1755457384$o1$g0$t1755457384$j60$l0$h0",
+      "domain": ".usf.edu",
+      "path": "/",
+      "expires": 1790017384.721663,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.329316647.1755457384",
+      "domain": ".usf.edu",
+      "path": "/",
+      "expires": 1790017384.721844,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CLID",
+      "value": "48dd982e07754a3097a2a22a7611a55f.20250817.20260817",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1786993384.84476,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_clck",
+      "value": "ug2vlq%7C2%7Cfyj%7C0%7C2055",
+      "domain": ".usf.edu",
+      "path": "/",
+      "expires": 1786993385,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "esri_locale",
+      "value": "en",
+      "domain": ".maps.usf.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

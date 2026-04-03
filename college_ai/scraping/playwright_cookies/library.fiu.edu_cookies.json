@@ -1,0 +1,125 @@
+{
+  "cookies": [
+    {
+      "name": "ARRAffinity",
+      "value": "d74269b73e2b4084a8800d28d4abe04cb25d4dac589e975f5bfb7ab3e673d98c",
+      "domain": ".digicdn.fiu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ARRAffinitySameSite",
+      "value": "d74269b73e2b4084a8800d28d4abe04cb25d4dac589e975f5bfb7ab3e673d98c",
+      "domain": ".digicdn.fiu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sts",
+      "value": "{\"id\":\"36f6c2a4b73ad487991c\",\"start\":1755436597553}",
+      "domain": "library.fiu.edu",
+      "path": "/",
+      "expires": 1755438398,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__utma",
+      "value": "216660235.1756260418.1755436598.1755436598.1755436598.1",
+      "domain": ".library.fiu.edu",
+      "path": "/",
+      "expires": 1789996597.781374,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__utmb",
+      "value": "216660235.0.10.1755436598",
+      "domain": ".library.fiu.edu",
+      "path": "/",
+      "expires": 1755438397,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__utmc",
+      "value": "216660235",
+      "domain": ".library.fiu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__utmz",
+      "value": "216660235.1755436598.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)",
+      "domain": ".library.fiu.edu",
+      "path": "/",
+      "expires": 1771204597,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_JGTXC76E1D",
+      "value": "GS2.1.s1755436597$o1$g0$t1755436597$j60$l0$h0",
+      "domain": ".fiu.edu",
+      "path": "/",
+      "expires": 1789996597.85282,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.414209411.1755436598",
+      "domain": ".fiu.edu",
+      "path": "/",
+      "expires": 1789996597.85302,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ZQWSQRVJ",
+      "value": "025cef8b64-fab4-44be1Shk3waRJcyuDjxglB8h9l1QUpPHinGBPc8ImM4_Lc8NgaYSdBHcF_UVPcnfUVh9E",
+      "domain": "widgets.ebscohost.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "mid",
+      "value": "aKHWNgAEAAH3ftXH-uEf0SGFwMQf",
+      "domain": ".instagram.com",
+      "path": "/",
+      "expires": 1789996598.688976,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "NID",
+      "value": "525=LC6DPsKBvxIpvJZJk8MGRIJiYhxnp9GDihG84QFq-5ReRS_6WIckMr0Xq8YEhdeOf34mCmRkclyHL7i3Egz0-hIiAh7C-NRQL9C8zZq6HoU_cTpD_9P_2EMbQOE6Et8go1mLTlcsONZ3qr2JikQvcAc6GPYbCKKOCtXyNn067iAnn1UWs2k8dloVAvxjb1NqP7jHd9U",
+      "domain": ".google.com",
+      "path": "/",
+      "expires": 1771247798.715029,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": []
+}

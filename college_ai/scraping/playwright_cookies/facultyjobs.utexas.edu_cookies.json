@@ -1,0 +1,85 @@
+{
+  "cookies": [
+    {
+      "name": "cache_id",
+      "value": "4d383bc6b30bd2512be34dabd640fb0d",
+      "domain": "facultyjobs.utexas.edu",
+      "path": "/",
+      "expires": 1755440773.865316,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "balancer_id",
+      "value": "utweb-px-z1-p06_https|aKHYe|aKHYe",
+      "domain": "facultyjobs.utexas.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cache_id",
+      "value": "b0e6ca8c02ff5906fa7e441dc0fd46ef",
+      "domain": "faculty.utexas.edu",
+      "path": "/",
+      "expires": 1755440774.49584,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "balancer_id",
+      "value": "utweb-px-z1-p06_https|aKHYe|aKHYe",
+      "domain": "faculty.utexas.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.409816448.1755437175",
+      "domain": ".utexas.edu",
+      "path": "/",
+      "expires": 1789997174.602424,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.1090948336.1755437175",
+      "domain": ".utexas.edu",
+      "path": "/",
+      "expires": 1755523574,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat",
+      "value": "1",
+      "domain": ".utexas.edu",
+      "path": "/",
+      "expires": 1755437234,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_8VTTXLPZ0L",
+      "value": "GS2.2.s1755437175$o1$g0$t1755437175$j60$l0$h0",
+      "domain": ".utexas.edu",
+      "path": "/",
+      "expires": 1789997175.249093,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

@@ -1,0 +1,45 @@
+{
+  "cookies": [
+    {
+      "name": "_ga_SF1PSFPLCQ",
+      "value": "GS2.1.s1755444303$o1$g0$t1755444303$j60$l0$h0",
+      "domain": ".utah.edu",
+      "path": "/",
+      "expires": 1790004303.082432,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.739522267.1755444303",
+      "domain": ".utah.edu",
+      "path": "/",
+      "expires": 1790004303.091712,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.1843022682.1755444303",
+      "domain": ".utah.edu",
+      "path": "/",
+      "expires": 1755530703,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_gtag_UA_61390938_5",
+      "value": "1",
+      "domain": ".utah.edu",
+      "path": "/",
+      "expires": 1755444363,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

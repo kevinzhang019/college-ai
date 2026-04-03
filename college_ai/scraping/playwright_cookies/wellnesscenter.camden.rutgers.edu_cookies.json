@@ -1,0 +1,55 @@
+{
+  "cookies": [
+    {
+      "name": "_ga_W99PRZ9C4X",
+      "value": "GS2.1.s1755473164$o1$g0$t1755473164$j60$l0$h0",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1790033164.648048,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1524263270.1755473165",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1790033164.648209,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "wCm0z4vr7JfhFST7ujj4AuyltrBXvZ3onWww44IT0J0-1755473165-1.0.1.1-2vexrxj_kgx1AmyfxF7kHhDOiGAEVppvuEx5Fh9IARk2.FemeJj0r7lmd_lsdGaj",
+      "domain": ".vimeo.com",
+      "path": "/",
+      "expires": 1755474965.877917,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_cfuvid",
+      "value": "7DlKjPXoVL4GIcPXkiKPrFxqVmv6P4ZX2IETVZlDwSc-1755473165888-0.0.1.1-604800000",
+      "domain": ".vimeo.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "vuid",
+      "value": "pl41131128.502466906",
+      "domain": ".vimeo.com",
+      "path": "/",
+      "expires": 1790033166.52054,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": []
+}

@@ -1,0 +1,105 @@
+{
+  "cookies": [
+    {
+      "name": "_ga_PMZ19X3F8W",
+      "value": "GS2.1.s1755434186$o1$g0$t1755434186$j60$l0$h0",
+      "domain": ".cornell.edu",
+      "path": "/",
+      "expires": 1789994186,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.93315479.1755434186",
+      "domain": ".cornell.edu",
+      "path": "/",
+      "expires": 1789994186,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__utma",
+      "value": "220513694.93315479.1755434186.1755434186.1755434186.1",
+      "domain": ".www.cornell.edu",
+      "path": "/",
+      "expires": 1789994186,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__utmc",
+      "value": "220513694",
+      "domain": ".www.cornell.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "nmstat",
+      "value": "d3ee73cc-4d3e-c4e2-1682-bb5fb801f64c",
+      "domain": ".cornell.edu",
+      "path": "/",
+      "expires": 1789994186,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "YSC",
+      "value": "mNWmUajr0Zo",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "iwurQl5CzXg",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790748578,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgDg%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790748578,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__Secure-YNID",
+      "value": "17.YT=aJaYWX4zrifzl_p3U8vt6uufOqDbdKm0Swy5_VIPhwJTwvt_WepTae7_Trx6FgxM_vO-QTE9wN8xaQc7Qc63Ss07-oGLjZ5sLOqH-VbtmEIkmr4DeWhz54LFoGYLPKjYoxIwvpjvlffU6DVeOMZc8Bt0ueRiMCuFDn_JYMSuK9y7MCcpMed6RRBHRWs51clYSnrE7EbuftgC0OFTVbOflJr8elubI0U3M6VoRbr0eew0LXY87Av6LvsySlPT6Lsrvn3klzgr0S_uXmmoBdNBBOrwJLEmKRfzzcRHqjWX78GbiyKdrQNNKq6B4aoNpyOc4wDR32pdZkiBignULfrkLA",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790748578,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CJ7Bp9iQ3pOpyQEQ9Z_uy4LRkwMYvruQ1ILRkwM%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790748596,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": []
+}

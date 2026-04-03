@@ -1,0 +1,445 @@
+{
+  "cookies": [
+    {
+      "name": "lidid",
+      "value": "00c901f5-e890-4800-a20b-f285279e4fea",
+      "domain": ".liadm.com",
+      "path": "/j",
+      "expires": 1790015684.999517,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_li_ss",
+      "value": "CncKBgj5ARDBGwoFCAoQwRsKBgikARDBGwoGCN0BEMEbCgYIgQEQwRsKBQgMEMsbCgYI9QEQwRsKBgiiARDBGwoJCP____8HEMsbCgUICxDBGwoFCH4QwRsKBgiJARDBGwoGCKUBEMEbCgYIgAIQwxsKBgjhARDBGw",
+      "domain": "i.liadm.com",
+      "path": "/s",
+      "expires": 1758047684.730177,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_PMZ19X3F8W",
+      "value": "GS2.1.s1755434186$o1$g0$t1755434186$j60$l0$h0",
+      "domain": ".cornell.edu",
+      "path": "/",
+      "expires": 1789994186.366489,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.93315479.1755434186",
+      "domain": ".cornell.edu",
+      "path": "/",
+      "expires": 1790015678.332553,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__utma",
+      "value": "220513694.93315479.1755434186.1755434186.1755434186.1",
+      "domain": ".www.cornell.edu",
+      "path": "/",
+      "expires": 1789994186.488564,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__utmc",
+      "value": "220513694",
+      "domain": ".www.cornell.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__utmz",
+      "value": "220513694.1755434186.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)",
+      "domain": ".www.cornell.edu",
+      "path": "/",
+      "expires": 1771202186,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "nmstat",
+      "value": "d3ee73cc-4d3e-c4e2-1682-bb5fb801f64c",
+      "domain": ".cornell.edu",
+      "path": "/",
+      "expires": 1789994186.585878,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cookieList",
+      "value": "[[\"_ga\",\"_ga\"]]",
+      "domain": ".cornell.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "Qc4B1HYUDnxWltHlskr04WRho3c68YOLZqvvL29AG4A-1755455525-1.0.1.1-FdjW1u6K_Up7pChe2ynkoHDqDNz2NahG9oqWU3XRW6yU0wmX6341Il1ZBkxQnhluLevNHn86ISjAgYN.c_DV_Kv1xb_2rdTbr8C5xie8JMU",
+      "domain": ".ecornell.cornell.edu",
+      "path": "/",
+      "expires": 1755457325.084621,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "test_cookie",
+      "value": "CheckForPermission",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1755456428.251196,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.2008385603.1755455529",
+      "domain": ".cornell.edu",
+      "path": "/",
+      "expires": 1763231529,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cookieyes-consent",
+      "value": "consentid:M2tTaVRMSWF5dHdockdab1FEQ1hmaUhjUElOMzdab1A,consent:no,action:,necessary:yes,functional:yes,analytics:yes,performance:yes,advertisement:yes,other:yes",
+      "domain": ".cornell.edu",
+      "path": "/",
+      "expires": 1786991683,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_li_dcdm_c",
+      "value": ".cornell.edu",
+      "domain": ".cornell.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_lc2_fpi",
+      "value": "7340e87fb695--01k2wmv8xjt8zf34zwnznab153",
+      "domain": ".cornell.edu",
+      "path": "/",
+      "expires": 1790015529.906582,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_lc2_fpi_js",
+      "value": "7340e87fb695--01k2wmv8xjt8zf34zwnznab153",
+      "domain": ".cornell.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-8e37095d-81bc-474c-7ce3-63c9bbc987d8.rm7Rn5IJQrehlcn6CLQWntCxrPTzgXBN5Qoko6MwZlQ",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1786991530.036368,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-8e37095d-81bc-474c-7ce3-63c9bbc987d8.rm7Rn5IJQrehlcn6CLQWntCxrPTzgXBN5Qoko6MwZlQ",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1786991530.036399,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3AjjcJXYG8R0x842PJu8mH2A.eRRCWbGIKDMJV0%2BCsB3%2ByqTUs7okC%2FsW60fDqg6lpwU",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1786991683.974299,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3AjjcJXYG8R0x842PJu8mH2A.eRRCWbGIKDMJV0%2BCsB3%2ByqTUs7okC%2FsW60fDqg6lpwU",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1786991683.974331,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEHwYAiCqwIjFBjoEmw576UIErpp5LA.elH6%2Fy%2F%2FzT4ZinmWKRcMhYQecWXV7eWzr30aBVFyIm4",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1786991530.036425,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEHwYAiCqwIjFBjoEmw576UIErpp5LA.elH6%2Fy%2F%2FzT4ZinmWKRcMhYQecWXV7eWzr30aBVFyIm4",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1786991530.036435,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755455530394.299072530392662720",
+      "domain": ".cornell.edu",
+      "path": "/",
+      "expires": 1763231684,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&f12ce48e-4ad6-46ea-8e16-65d973082500\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1786991531.475504,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=OGST09:s=O:r=O:a=O:p=O:g=3219:u=1:x=1:i=1755455530:t=1755541930:v=2:sig=AQFHBqAWWWeHeZ7EjqrxacivoZ2k6mKt\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755541931.475538,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hjSession_1360898",
+      "value": "eyJpZCI6ImY2MzAyOGQ0LTJjNGItNGIzMy1iMjBhLTVkYjYzZWM4ODAyMiIsImMiOjE3NTU0NTU1MzA0OTIsInMiOjAsInIiOjAsInNiIjowLCJzciI6MCwic2UiOjAsImZzIjoxLCJzcCI6MH0=",
+      "domain": ".cornell.edu",
+      "path": "/",
+      "expires": 1755457330,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidid",
+      "value": "00c901f5-e890-4800-a20b-f285279e4fea",
+      "domain": ".liadm.com",
+      "path": "/",
+      "expires": 1790015530.636459,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-80397cfd-d77f-429b-44d3-f696e92ff32d.lry2Ow8N82y5dEDuh4QJSZbGRGAMuRoSzBKkOnF2dUo",
+      "domain": "qvdt3feo.com",
+      "path": "/",
+      "expires": 1786991551.941568,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-80397cfd-d77f-429b-44d3-f696e92ff32d.lry2Ow8N82y5dEDuh4QJSZbGRGAMuRoSzBKkOnF2dUo",
+      "domain": ".qvdt3feo.com",
+      "path": "/",
+      "expires": 1786991551.941598,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3AgDl8_dd_QptE0_aW6S_zLQ.hPlbAP7tCfcqDlsyp2F%2Bfts3UDkhNGHENlCHeg4yRUI",
+      "domain": "qvdt3feo.com",
+      "path": "/",
+      "expires": 1786991551.941606,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3AgDl8_dd_QptE0_aW6S_zLQ.hPlbAP7tCfcqDlsyp2F%2Bfts3UDkhNGHENlCHeg4yRUI",
+      "domain": ".qvdt3feo.com",
+      "path": "/",
+      "expires": 1786991551.941614,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEKsEGAIgv8CIxQY6BIIfcDZCBOImRrg.4%2F6TwNeJPVlfgkYf%2BTY85oAiQZPySpK0MiOm2aofc6A",
+      "domain": "qvdt3feo.com",
+      "path": "/",
+      "expires": 1786991551.941623,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEKsEGAIgv8CIxQY6BIIfcDZCBOImRrg.4%2F6TwNeJPVlfgkYf%2BTY85oAiQZPySpK0MiOm2aofc6A",
+      "domain": ".qvdt3feo.com",
+      "path": "/",
+      "expires": 1786991551.94163,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hjSessionUser_1360898",
+      "value": "eyJpZCI6ImRlNWIzNTg1LWEwNjctNTM4Mi1hYmY3LWJmOWEzMzE3ZTVhOSIsImNyZWF0ZWQiOjE3NTU0NTU1MzA0OTIsImV4aXN0aW5nIjp0cnVlfQ==",
+      "domain": ".cornell.edu",
+      "path": "/",
+      "expires": 1786991684,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_PJ9SLZ1H8W",
+      "value": "GS2.1.s1755455524$o1$g1$t1755455678$j60$l0$h0",
+      "domain": ".cornell.edu",
+      "path": "/",
+      "expires": 1790015678.82382,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%253A0-8e37095d-81bc-474c-7ce3-63c9bbc987d8.rm7Rn5IJQrehlcn6CLQWntCxrPTzgXBN5Qoko6MwZlQ",
+      "domain": "business.cornell.edu",
+      "path": "/",
+      "expires": 1786991683,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%253AjjcJXYG8R0x842PJu8mH2A.eRRCWbGIKDMJV0%252BCsB3%252ByqTUs7okC%252FsW60fDqg6lpwU",
+      "domain": "business.cornell.edu",
+      "path": "/",
+      "expires": 1786991683,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%253AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEHwYAiCqwIjFBjoEmw576UIErpp5LA.elH6%252Fy%252F%252FzT4ZinmWKRcMhYQecWXV7eWzr30aBVFyIm4",
+      "domain": "business.cornell.edu",
+      "path": "/",
+      "expires": 1786991683,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_li_ss",
+      "value": "CncKBgj5ARDBGwoFCAoQwRsKBgikARDBGwoGCN0BEMEbCgYIgQEQwRsKBQgMEMsbCgYI9QEQwRsKBgiiARDBGwoJCP____8HEMsbCgUICxDBGwoFCH4QwRsKBgiJARDBGwoGCKUBEMEbCgYIgAIQwxsKBgjhARDBGw",
+      "domain": ".cornell.edu",
+      "path": "/",
+      "expires": 1790015684.734334,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://business.cornell.edu",
+      "localStorage": [
+        {
+          "name": "sa-user-id",
+          "value": "s%3A0-8e37095d-81bc-474c-7ce3-63c9bbc987d8.rm7Rn5IJQrehlcn6CLQWntCxrPTzgXBN5Qoko6MwZlQ"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755455684287"
+        },
+        {
+          "name": "_li_duid",
+          "value": "7340e87fb695--01k2wmv8xjt8zf34zwnznab153"
+        },
+        {
+          "name": "NRBA_SESSION",
+          "value": "{\"value\":\"1435a32babf60813\",\"inactiveAt\":1755457329861,\"expiresAt\":1755469929861,\"updatedAt\":1755455530556,\"sessionReplayMode\":0,\"sessionReplaySentFirstChunk\":false,\"sessionTraceMode\":0,\"traceHarvestStarted\":false,\"loggingMode\":0,\"serverTimeDiff\":-360,\"custom\":{},\"numOfResets\":0}"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755455684301"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755455529425},\"expires\":1763231529425}}"
+        },
+        {
+          "name": "sa-user-id-v3",
+          "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEHwYAiCqwIjFBjoEmw576UIErpp5LA.elH6%2Fy%2F%2FzT4ZinmWKRcMhYQecWXV7eWzr30aBVFyIm4"
+        },
+        {
+          "name": "li_adsId",
+          "value": "aceec48c-25cd-4715-85a5-893cb1dafbe4"
+        },
+        {
+          "name": "sa-user-id-v2",
+          "value": "s%3AjjcJXYG8R0x842PJu8mH2A.eRRCWbGIKDMJV0%2BCsB3%2ByqTUs7okC%2FsW60fDqg6lpwU"
+        },
+        {
+          "name": "_li_ss",
+          "value": "CncKBgj5ARDBGwoFCAoQwRsKBgikARDBGwoGCN0BEMEbCgYIgQEQwRsKBQgMEMsbCgYI9QEQwRsKBgiiARDBGwoJCP____8HEMsbCgUICxDBGwoFCH4QwRsKBgiJARDBGwoGCKUBEMEbCgYIgAIQwxsKBgjhARDBGw"
+        }
+      ]
+    }
+  ]
+}

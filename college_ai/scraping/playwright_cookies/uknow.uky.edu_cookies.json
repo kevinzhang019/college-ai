@@ -1,0 +1,105 @@
+{
+  "cookies": [
+    {
+      "name": "_ga",
+      "value": "GA1.3.1594307433.1755447138",
+      "domain": ".uknow.uky.edu",
+      "path": "/",
+      "expires": 1790007138.277691,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.3.1803721917.1755447138",
+      "domain": ".uknow.uky.edu",
+      "path": "/",
+      "expires": 1755533538,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_UA-48983721-1",
+      "value": "1",
+      "domain": ".uknow.uky.edu",
+      "path": "/",
+      "expires": 1755447198,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_UA-48983721-3",
+      "value": "1",
+      "domain": ".uknow.uky.edu",
+      "path": "/",
+      "expires": 1755447198,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_cap",
+      "value": "993796011755447139",
+      "domain": ".uky.edu",
+      "path": "/",
+      "expires": 1790007138.577525,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_caps",
+      "value": "383661755447139",
+      "domain": ".uky.edu",
+      "path": "/",
+      "expires": 1755448038,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_hjSessionUser_1372229",
+      "value": "eyJpZCI6IjM5MTQ2YjE3LTZjMTQtNWU1ZS05M2I1LWQ1OTUwOTYyMmU1ZiIsImNyZWF0ZWQiOjE3NTU0NDcxMzg4MjMsImV4aXN0aW5nIjpmYWxzZX0=",
+      "domain": ".uky.edu",
+      "path": "/",
+      "expires": 1786983138,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hjSession_1372229",
+      "value": "eyJpZCI6IjYwYWQ4NzlmLTZjOWUtNGNkMy1hYzQ2LTE1N2YwNWZkNmEyMCIsImMiOjE3NTU0NDcxMzg4MjQsInMiOjAsInIiOjAsInNiIjowLCJzciI6MCwic2UiOjAsImZzIjoxLCJzcCI6MX0=",
+      "domain": ".uky.edu",
+      "path": "/",
+      "expires": 1755448938,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_X27W24ZZ6X",
+      "value": "GS2.3.s1755447140$o1$g0$t1755447140$j60$l0$h0",
+      "domain": ".uknow.uky.edu",
+      "path": "/",
+      "expires": 1790007140.286427,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://uknow.uky.edu",
+      "localStorage": [
+        {
+          "name": "NRBA_SESSION",
+          "value": "{\"value\":\"eb46cad3a7173ee4\",\"inactiveAt\":1755448941027,\"expiresAt\":1755461541027,\"updatedAt\":1755447141629,\"sessionReplayMode\":0,\"sessionReplaySentFirstChunk\":false,\"sessionTraceMode\":0,\"traceHarvestStarted\":false,\"loggingMode\":0,\"serverTimeDiff\":-295,\"custom\":{},\"numOfResets\":0}"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,133 @@
+{
+  "cookies": [
+    {
+      "name": "JSESSIONID",
+      "value": "7EE2185CF37F4727F66A2223D012A34F",
+      "domain": "ieeexplore.ieee.org",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TS016349ac",
+      "value": "01f15fc87ce27c14d19b843e8bbad11cb1027185acaed2b1f56fdb77980a09102117de8568143c95c42d79e01631cee806ba1a9b15",
+      "domain": ".ieeexplore.ieee.org",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "None"
+    },
+    {
+      "name": "AWSALBAPP-0",
+      "value": "AAAAAAAAAACNaqgh1EBS1r9lGLrZBMrnVLOD2U1lWnLWwVxvxHV+LBtvzUxLte2hrrbZVAHverQasGEUt1FpYDgcyj7mFSnZoJrM/Hd2AYIR6JkoaxKONb5dwFhN6QbW+RzDzxGTjjZXmubaHfU+BBsDIZ+BZZKNBH9S+y7DI3UiOZhH1pFbR//UkZWiTS+SqJ+zmTAiL4fsVpazzpk1aQ==",
+      "domain": "ieeexplore.ieee.org",
+      "path": "/",
+      "expires": 1775808052,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AWSALBAPP-1",
+      "value": "_remove_",
+      "domain": "ieeexplore.ieee.org",
+      "path": "/",
+      "expires": 1775808052,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AWSALBAPP-2",
+      "value": "_remove_",
+      "domain": "ieeexplore.ieee.org",
+      "path": "/",
+      "expires": 1775808052,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AWSALBAPP-3",
+      "value": "_remove_",
+      "domain": "ieeexplore.ieee.org",
+      "path": "/",
+      "expires": 1775808052,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "WLSESSION",
+      "value": "1375957514.47873.0000",
+      "domain": "ieeexplore.ieee.org",
+      "path": "/",
+      "expires": 1775289652,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TSaf720a17029",
+      "value": "0807dc117eab2800affc42dd8900845c21521c97b49d8b1797abd1c8459f94938d9f5daa4b58d78cfc3d7e083717d2cc",
+      "domain": "ieeexplore.ieee.org",
+      "path": "/",
+      "expires": 1775203282,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "None"
+    },
+    {
+      "name": "TS8b476361027",
+      "value": "0807dc117eab2000d7e0aa6876e887634dbc2c13d3aa6e0681ab91fa4f8590e2da70a1f9f98341bb08b21bc47a1130006c56d641470014668d668a5da928abf427d0660b8f25ea9fd4d36615d6205a9d5814eb273826bc47d08d0f2e822cf903",
+      "domain": "ieeexplore.ieee.org",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "None"
+    },
+    {
+      "name": "com.adobe.alloy.getTld",
+      "value": "com.adobe.alloy.getTld",
+      "domain": ".ieee.org",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "com.adobe.alloy.getTld",
+      "value": "com.adobe.alloy.getTld",
+      "domain": ".ieeexplore.ieee.org",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://ieeexplore.ieee.org",
+      "localStorage": [
+        {
+          "name": "osano_consentmanager_tattles",
+          "value": "{\"17\":{\"queue\":{\"script\":[\"https://ieeexplore.ieee.org/Xplorehelp/js/jquery-3.6.0.min.js\",\"https://ieeexplore.ieee.org/Xplorehelp/js/jquery-migrate-3.3.2.js\",\"https://ieeexplore.ieee.org/Xplorehelp/js/jquery.treeview.js\",\"https://ieeexplore.ieee.org/Xplorehelp/js/jquery-ui-1.10.3.js\",\"https://ieeexplore.ieee.org/Xplorehelp/js/jquery.cookie.js\",\"https://ieeexplore.ieee.org/Xplorehelp/js/jquery.form-validator.min.js\",\"https://ieeexplore.ieee.org/Xplorehelp/js/lib.js\",\"https://ieeexplore.ieee.org/Xplorehelp/js/search.js\",\"https://config.datas3ntinel.com/tag/js-web-sdk/latest/init.min.js\",\"https://ieeexplore.ieee.org/Xplorehelp/resources-help-vue/dist/app.js\"]},\"ignore\":{}}}"
+        },
+        {
+          "name": "osano_consentmanager_uuid",
+          "value": "9736faf3-b5b1-40cd-b18a-1521ee3017a1"
+        },
+        {
+          "name": "osano_consentmanager",
+          "value": "tIFx6KQSRsIo2vOSS98vGfZUkQ3vkx7-K7XzOK3ocJHQ7sa9uAK6vq0F-WM5_zuHQQA6GnBIouvtfGwtNrBPoQBxzZgF3i4oy7lmR-gu8FbqU8NmwpwVFQ75WZdt7zR-W6HOrauvpFat99iEKTxLGlbS_w2HSBsJy0fDEBpi6dsTx3ToF8Kjw5U7YAH8LcSvnLxlDu4ZfasZd3GDlPJRv03wOeFTXanwkugQS0TALUBTfpBLfHL90-R-CwIoWkbFaH0aYN4L5tjBgUke3I2XF2ERZ7IDLPFcdBJex14YifAASkHjbQ6mj9oHl1rIi3UenG7R7UCB6ng="
+        }
+      ]
+    }
+  ]
+}

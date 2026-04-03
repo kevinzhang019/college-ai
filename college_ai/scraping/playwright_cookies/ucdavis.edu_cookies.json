@@ -1,0 +1,95 @@
+{
+  "cookies": [
+    {
+      "name": "_ga",
+      "value": "GA1.1.1703951888.1755452170",
+      "domain": ".ucdavis.edu",
+      "path": "/",
+      "expires": 1790080368.824461,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_2N9JP0W2PC",
+      "value": "GS2.1.s1755520368$o2$g0$t1755520368$j60$l0$h0",
+      "domain": ".ucdavis.edu",
+      "path": "/",
+      "expires": 1790080368.549669,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_XJ9SKW94MM",
+      "value": "GS2.1.s1755520368$o2$g0$t1755520368$j60$l0$h0",
+      "domain": ".ucdavis.edu",
+      "path": "/",
+      "expires": 1790080368.741039,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_3F5L6WYJ4W",
+      "value": "GS2.1.s1755520368$o2$g0$t1755520368$j60$l0$h0",
+      "domain": ".ucdavis.edu",
+      "path": "/",
+      "expires": 1790080368.775898,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_ME34C31GN5",
+      "value": "GS2.1.s1755520368$o2$g0$t1755520368$j60$l0$h0",
+      "domain": ".ucdavis.edu",
+      "path": "/",
+      "expires": 1790080368.790901,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_0NH6X9E3PT",
+      "value": "GS2.1.s1755520368$o2$g0$t1755520368$j60$l0$h0",
+      "domain": ".ucdavis.edu",
+      "path": "/",
+      "expires": 1790080368.792204,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_146JJ54CZ8",
+      "value": "GS2.1.s1755520368$o2$g0$t1755520368$j60$l0$h0",
+      "domain": ".ucdavis.edu",
+      "path": "/",
+      "expires": 1790080368.793596,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_8W6464WH4Z",
+      "value": "GS2.1.s1755520368$o2$g0$t1755520368$j60$l0$h0",
+      "domain": ".ucdavis.edu",
+      "path": "/",
+      "expires": 1790080368.794876,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_0WNSFZE492",
+      "value": "GS2.1.s1755520368$o2$g0$t1755520368$j60$l0$h0",
+      "domain": ".ucdavis.edu",
+      "path": "/",
+      "expires": 1790080368.824284,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

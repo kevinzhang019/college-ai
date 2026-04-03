@@ -1,0 +1,257 @@
+{
+  "cookies": [
+    {
+      "name": "_ga",
+      "value": "GA1.1.972290472.1755446999",
+      "domain": ".oregonstate.edu",
+      "path": "/",
+      "expires": 1790041474.206606,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.1247904426.1755447000",
+      "domain": ".oregonstate.edu",
+      "path": "/",
+      "expires": 1763223000,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "hubspotutk",
+      "value": "f92facdaeecc5112ebda7fe21fb71a8a",
+      "domain": ".oregonstate.edu",
+      "path": "/",
+      "expires": 1771033476,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__hssrc",
+      "value": "1",
+      "domain": ".oregonstate.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755447002687.942381116143650602",
+      "domain": ".oregonstate.edu",
+      "path": "/",
+      "expires": 1763257477,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CLID",
+      "value": "48bee20825784609a65fbd5e87b3ef5b.20250817.20260818",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1787017236.620407,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hjSessionUser_1396251",
+      "value": "eyJpZCI6IjAxZTMzYTQyLTQ0NzYtNTkwYy05MjE5LWEwNmVjYjQzMWJlNSIsImNyZWF0ZWQiOjE3NTU0NDY5OTk0ODQsImV4aXN0aW5nIjp0cnVlfQ==",
+      "domain": ".oregonstate.edu",
+      "path": "/",
+      "expires": 1787017475,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hjSession_1396251",
+      "value": "eyJpZCI6IjQ2OWY4NTM1LWMzNDYtNDBjYi1hYTViLTVjNTQ3ZjA1YmNkNyIsImMiOjE3NTU0ODEyMzcyNjksInMiOjAsInIiOjAsInNiIjowLCJzciI6MCwic2UiOjAsImZzIjowLCJzcCI6MH0=",
+      "domain": ".oregonstate.edu",
+      "path": "/",
+      "expires": 1755483037,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_clck",
+      "value": "1hdjh8v%7C2%7Cfyk%7C0%7C2055",
+      "domain": ".oregonstate.edu",
+      "path": "/",
+      "expires": 1787017237,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "googtrans",
+      "value": "/auto/es",
+      "domain": "extension.oregonstate.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "googtrans",
+      "value": "/auto/es",
+      "domain": ".oregonstate.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__hstc",
+      "value": "117864662.f92facdaeecc5112ebda7fe21fb71a8a.1755447001825.1755447001825.1755481239111.2",
+      "domain": ".oregonstate.edu",
+      "path": "/",
+      "expires": 1771033476,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUkPCP3FCCnO8hLOBQErbw2jTj8CRhUlmegPZFncmkIsaMerrqXrTakiiT32",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1790041263.054983,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "xq1LQ1Hn9eXVPM8oLNEUJ8P_yYoDFnTUSyc3WZ_YfxM-1755481473-1.0.1.1-hysMqwRYIF6ly..8DF2kaJ0QonzPP1xlwNd59sqGGuXBB2n8NFQBO6AhnHYObsvJZMwx1Ifu5.Kv0.rf9IUuyhx1uxaPFqEDSqRhflvyfxE",
+      "domain": ".hs-scripts.com",
+      "path": "/",
+      "expires": 1755483273.853602,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "OGRx1n1lsYkBTswD7MJJqy_JYNIRKxum46CPPS7Zn4A-1755481474-1.0.1.1-rucQDSUn.eT01v2FwrRnEe3Z_fM62617u1Ud4CvCbuVf3jd0QFoc8H0Gf3FOzkAeUNGb7eZyN6smxl8EBvzA7w3Wk_a0EhC3nT104grji.0",
+      "domain": ".hsleadflows.net",
+      "path": "/",
+      "expires": 1755483274.01458,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "xlOeaWBFsPa0SpbQA8YGFxT6WGkXKReYW7plTvjjKzU-1755481474-1.0.1.1-ACM5bgHV06XlvVNrLNIjruQkbuP56e6iqqXItHq18UzEpC78ZeQ0dP4UtJmRxumtmkNFabwAPmCYBdonhQoaHblelNFflm8HNonm_zUHBWQ",
+      "domain": ".hs-analytics.net",
+      "path": "/",
+      "expires": 1755483274.014835,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "9M3F6ap.b5.sBFvRYm7akiuIKhYGy.jufj9Z6CI_Pns-1755481474-1.0.1.1-pXsE8y.HiAu1OCSPtVQDXEN7asyM9nYJC7VnFoRDznlxfxj_DKcuW.phrC2bji7V0oIUyxzuwRw6VplWFiSE2mo6xovSPVUoJp33JZiDuAo",
+      "domain": ".hs-banner.com",
+      "path": "/",
+      "expires": 1755483274.021335,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "xwxbEKaDE5.cjSPt_pgt6.sGfXy7rcuoBaByS6BNFCE-1755481474-1.0.1.1-eTqWZbGkQRJBR.b6BLFJGCAbhqVz4ELiTwEZ1OfdsqNbs4IKdDnjkXNGa72TC6LibjadhMT2rKTPfIfP_4HIbSRK19_lLA3I1oKOv4TjAHc",
+      "domain": ".hsadspixel.net",
+      "path": "/",
+      "expires": 1755483274.038096,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "7n3kUfykv3PMCen6vSO3J5BIIGeUJTTh68NHgzKrcMI-1755481474-1.0.1.1-ILz6pe5uEjQ2rx9jJdLjXi8Hlemo9erZgC0Rl89IlITlO_1y4LVPv1GUTJt_iIj_Mn9hQlQV7iZctiK6BV1y4L1FXYI0xcZHenBWXbf0tb0",
+      "domain": ".hubspot.com",
+      "path": "/",
+      "expires": 1755483274.038635,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_cfuvid",
+      "value": "ZIyl7rHVLoGua2D1zAftAX..7AlUMk1QDcBoibf_M6E-1755481474100-0.0.1.1-604800000",
+      "domain": ".hubspot.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_GWZQ97KDBP",
+      "value": "GS2.1.s1755481236$o2$g1$t1755481474$j60$l0$h0",
+      "domain": ".oregonstate.edu",
+      "path": "/",
+      "expires": 1790041474.206424,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "aWws1nczxZ46pN0Bfevajmkw4BS.nIuog2TnRpMPVz4-1755481474-1.0.1.1-OyOo2p4dDFZxspx92PQjZQnHrwdUjmP9k8PVkGgaoOF3q3P8HBeFQKMFZIcOer21xCM1sEaDlvwXiqZ4V.6IiIkKKtY.GuF9bjKpmQyTDkQ",
+      "domain": ".hubapi.com",
+      "path": "/",
+      "expires": 1755483274.309761,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__hssc",
+      "value": "117864662.3.1755481239111",
+      "domain": ".oregonstate.edu",
+      "path": "/",
+      "expires": 1755483276,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://extension.oregonstate.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755447000035},\"expires\":1763223000035}}"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755481477369"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755481477381"
+        }
+      ]
+    }
+  ]
+}

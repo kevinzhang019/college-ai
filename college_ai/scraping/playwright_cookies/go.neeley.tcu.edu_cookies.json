@@ -1,0 +1,139 @@
+{
+  "cookies": [
+    {
+      "name": "TDID",
+      "value": "f03b3f93-d3f2-4c41-a291-b88ee8e8350e",
+      "domain": ".adsrvr.org",
+      "path": "/",
+      "expires": 1786989279,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TDCPM",
+      "value": "CAESEgoDYWFtEgsIrK6rrqXwrj4QBRIVCgZnb29nbGUSCwjW0quupfCuPhAFEhcKCGFwcG5leHVzEgsIkJGCs6Xwrj4QBRgFIAIoBjILCOKGrtu78K4-EAU4AUIEIgIIAVoHNmYyOG53N2AB",
+      "domain": ".adsrvr.org",
+      "path": "/",
+      "expires": 1786989279,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&be417f5e-6d23-4a5d-8598-e5a112714231\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1786989277,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_cfuvid",
+      "value": "4exxdaTVRApv2vxKI_Su3Ba7HcpCXCqH56rI2V7QE_M-1755453276337-0.0.1.1-604800000",
+      "domain": ".vimeo.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "vuid",
+      "value": "pl766044221.1251755525",
+      "domain": ".vimeo.com",
+      "path": "/",
+      "expires": 1790013277,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.444069517.1755453277",
+      "domain": ".tcu.edu",
+      "path": "/",
+      "expires": 1790013276,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_node",
+      "value": "62e1f5c1bd7f2c76c2bc875abb82831e90dce9bfe858b41415dc3519a9b4c965",
+      "domain": "apply.tcu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "1b1f831b-66e7-4da7-b175-0f23aa0cf55f",
+      "domain": "apply.tcu.edu",
+      "path": "/",
+      "expires": 1790013277,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "apply.tcu.edu",
+      "path": "/",
+      "expires": 1790013277,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_TCYT51BBHT",
+      "value": "GS2.1.s1755453276$o1$g0$t1755453278$j58$l0$h0",
+      "domain": ".tcu.edu",
+      "path": "/",
+      "expires": 1790013278,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://www.tcu.edu",
+      "localStorage": [
+        {
+          "name": "2422a55f-6fd0-7ef4-60e7-d34db7c45009_pp",
+          "value": "{\"1077247640\":[{\"id\":\"86b9a6fa-7be4-4db5-ada5-99c3abb08814\"}],\"v\":\"9608ef68-cc29-8b19-4595-ed20d7c193af\"}"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755453276564},\"expires\":1763229276564}}"
+        },
+        {
+          "name": "2422a55f-6fd0-7ef4-60e7-d34db7c45009_st",
+          "value": "1755453277497"
+        },
+        {
+          "name": "li_adsId",
+          "value": "e4e754d3-1714-4b81-bae6-06bd73820f0a"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755453277745"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755453277755"
+        }
+      ]
+    }
+  ]
+}

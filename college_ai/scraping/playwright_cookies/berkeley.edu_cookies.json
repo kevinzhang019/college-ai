@@ -1,0 +1,93 @@
+{
+  "cookies": [
+    {
+      "name": "YSC",
+      "value": "ig-4mnX8NZ0",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://berkeley.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "cZFZK-7okpA",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1770987479.706658,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://berkeley.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgQw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1770987479.706682,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://berkeley.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "nmstat",
+      "value": "fd248b0a-d0b1-d466-c4a5-d08176c42328",
+      "domain": ".berkeley.edu",
+      "path": "/",
+      "expires": 1789995480.13984,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.645027461.1755435481",
+      "domain": ".berkeley.edu",
+      "path": "/",
+      "expires": 1790058742.247585,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CNf1sbGm5veTVBCmw8jh8pGPAxjXhuGW4pKPAw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771017387.643271,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://berkeley.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "__cf_bm",
+      "value": "IVoy_7Edq_qOuh1J_xU76Vkte_6dHFXbbYxL2V0v4No-1755498741-1.0.1.1-uzKaWpeCYrDDnpU9gNQBuKMXVfhCYlvUjA8NKr5ObIReBaH32WTsvZHZDxaUCubLs6JyBn4YKUwOY65bQDZHBLSDmQgfKUat0PePIp3puhs",
+      "domain": ".berkeley.edu",
+      "path": "/",
+      "expires": 1755500541.132428,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_JD06GX6S4V",
+      "value": "GS2.1.s1755498724$o4$g1$t1755498742$j42$l0$h0",
+      "domain": ".berkeley.edu",
+      "path": "/",
+      "expires": 1790058742.247332,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

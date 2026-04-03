@@ -1,0 +1,119 @@
+{
+  "cookies": [
+    {
+      "name": "YSC",
+      "value": "__GIpAUR_bY",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "oL-TPr4y1cU",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790678818,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgbA%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790678818,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__Secure-YNID",
+      "value": "17.YT=SnBXbosot4FrLNbvwG1xipr7AhoU6JbA9CyAA9D8CYqkBwydzKNxFi0ulToqojVRYxxwKEL9wTJvSsQVDyqGyjZgoUf6qaCB0NzL2nwTzvzAsxGXMDCUY8V5bT5YeOkWqtbMMeXBAjRRnHbcXZgvGX3bX7mnmK72CKnj9st5ngT5aNBW_2_itW0Vli2bZmdxVjFa8cBkptx5L3gJ8P3kKIm4Zxp-eDyoGch7gd0MFIKQ8uRw5SQXqcWNfdVm7q_MV8PXgVs1GoNy4izxCsReBtfLJDWTSf38IQTVi32j0AJrWGKB4R9ZGP_zbdyx-XhJt5UDpoZBcW8GCj9Op-VuBA",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790678818,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CMmYkKi3s6bIcBDN88zb_s6TAxjymfXFytCTAw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790733533,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.518286618.1775126818",
+      "domain": ".georgetown.edu",
+      "path": "/",
+      "expires": 1782902818,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.2102789858.1775126819",
+      "domain": ".georgetown.edu",
+      "path": "/",
+      "expires": 1809686819,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_BSC82Y20RS",
+      "value": "GS2.1.s1775126818$o1$g0$t1775126818$j60$l0$h0",
+      "domain": ".georgetown.edu",
+      "path": "/",
+      "expires": 1809686818,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_QV80096HW3",
+      "value": "GS2.1.s1775126818$o1$g0$t1775126819$j59$l0$h0",
+      "domain": ".georgetown.edu",
+      "path": "/",
+      "expires": 1809686819,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_PMZB7WHYPX",
+      "value": "GS2.1.s1775126819$o1$g0$t1775126819$j60$l0$h0",
+      "domain": ".georgetown.edu",
+      "path": "/",
+      "expires": 1809686819,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://ophthalmology.georgetown.edu",
+      "localStorage": [
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"timeouts\":0,\"errors\":0,\"eopCount\":0,\"creationTimeMs\":1775126818441},\"expires\":1782902818441}}"
+        },
+        {
+          "name": "NRBA_SESSION",
+          "value": "{\"value\":\"e58c66646fc27f19\",\"inactiveAt\":1775128619260,\"expiresAt\":1775141219260,\"updatedAt\":1775126819970,\"sessionReplayMode\":0,\"sessionReplaySentFirstChunk\":false,\"sessionTraceMode\":0,\"traceHarvestStarted\":false,\"loggingMode\":0,\"logApiMode\":0,\"serverTimeDiff\":-422,\"custom\":{},\"numOfResets\":0,\"consent\":false}"
+        }
+      ]
+    }
+  ]
+}

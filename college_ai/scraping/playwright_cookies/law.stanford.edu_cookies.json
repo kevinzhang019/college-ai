@@ -1,0 +1,135 @@
+{
+  "cookies": [
+    {
+      "name": "__cf_bm",
+      "value": "wqN09hoBGTahDUDnDUt4oe0VIs5WL2ciSRPmWFGFRR4-1755450347-1.0.1.1-z_ZX2dqbz45czWRFVZIuidSRDhJLWFppM_pLWKJwpm5SBIuJkE_4PewzemknoyCXPlceNI6K8k4pwTX1_Yls90HNCA7VyIkw4IptnBn.Dq4",
+      "domain": ".law.stanford.edu",
+      "path": "/",
+      "expires": 1755452147.37478,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "YSC",
+      "value": "699I8lydhdY",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://stanford.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CMm40MDQ-Z7_aBCq5NmTqpKPAxiq5NmTqpKPAw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771002348.740296,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://stanford.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "tpaR6sGbM_0",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771002348.740527,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://stanford.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgEw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771002348.740543,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://stanford.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.581494232.1755450349",
+      "domain": ".stanford.edu",
+      "path": "/",
+      "expires": 1790010348.963183,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cf_clearance",
+      "value": "Q4c2m.q6tF4ParuRodNMhpKTDZEtbbpep8A5Nh9PpnU-1755450349-1.2.1.1-0xRdUjStw4.yBK5f6DaKdefkii3R6Lcwh8WRIXKyrmbluf2j0khpErfOyMcx5DlzombWnKUzSJv20yTSEQlM3mMQHyXng4aD71NANh3edfYpwcvPItYXMfBXerR4cMoVvEtOElEPCUX4bKRthR7WSxbXFGg85.RpKIM_vRYbLnes4UMuCamNL0KYILK3.svq78KbJcUnW73RU6bEJw41xTUYwN8SVWpQWPeynLGQE2I",
+      "domain": ".stanford.edu",
+      "path": "/",
+      "expires": 1786986349.010418,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://stanford.edu",
+      "_crHasCrossSiteAncestor": false
+    },
+    {
+      "name": "nmstat",
+      "value": "801d464c-9741-fffc-f3f0-6460943a76a1",
+      "domain": ".stanford.edu",
+      "path": "/",
+      "expires": 1790010349.038776,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.3.581494232.1755450349",
+      "domain": ".law.stanford.edu",
+      "path": "/",
+      "expires": 1790010349.044081,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.3.524759587.1755450349",
+      "domain": ".law.stanford.edu",
+      "path": "/",
+      "expires": 1755536749,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_dc_gtm_UA-1544716-20",
+      "value": "1",
+      "domain": ".law.stanford.edu",
+      "path": "/",
+      "expires": 1755450409,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_V5N94C85NK",
+      "value": "GS2.1.s1755450348$o1$g0$t1755450350$j58$l0$h0",
+      "domain": ".stanford.edu",
+      "path": "/",
+      "expires": 1790010350.204481,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

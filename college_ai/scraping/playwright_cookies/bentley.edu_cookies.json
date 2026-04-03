@@ -1,0 +1,837 @@
+{
+  "cookies": [
+    {
+      "name": "sess_map",
+      "value": "ucvxywsbyrsfvwtzbzvxwrsssrxyzezuqasuwdwxqduubqxzvdtqxcrrtzcbavyyywbdbqdyzqywuuzcwezsbcbqzrauzfysfuxeabsxvfvxqxxvaxxfsyfadufwfbfscwyasqazecartrtcqzzqtbazeafydwwtcvebfuazxtstxeqrecsrxvddbsewqrsyrscdaqcuyqqcyacffqtcxcsvrdcvvcxesuacdwfqtwwxatyqfyvvrqfabbzcqqbqyfbyfezdubaxdedq",
+      "domain": "www.bentley.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "DBMS_RETURNURL_10487",
+      "value": "https://bentley.imodules.com/?sid=1696&gid=2&SiteId=1696",
+      "domain": "bentley.imodules.com",
+      "path": "/",
+      "expires": 1790004134.000861,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_node",
+      "value": "24cb4d6272b3a99e2195e26e8d714f3ce21a96f7c97ec09ea6f7c181d27bb3be",
+      "domain": "community.bentley.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "f49ddb89-2d3e-42af-81b4-0d05abd4a628",
+      "domain": "community.bentley.edu",
+      "path": "/",
+      "expires": 1790004134.919662,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "community.bentley.edu",
+      "path": "/",
+      "expires": 1790004134.919705,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755444135156.8832917741476044",
+      "domain": ".imodules.com",
+      "path": "/",
+      "expires": 1763220135,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__utma",
+      "value": "100055949.61874960.1755444135.1755444135.1755444135.1",
+      "domain": ".bentley.imodules.com",
+      "path": "/",
+      "expires": 1790004135.215461,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__utmc",
+      "value": "100055949",
+      "domain": ".bentley.imodules.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__utmz",
+      "value": "100055949.1755444135.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)",
+      "domain": ".bentley.imodules.com",
+      "path": "/",
+      "expires": 1771212135,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "nmstat",
+      "value": "7864ece6-0bbe-e7e1-afd3-a5046624d3b9",
+      "domain": ".imodules.com",
+      "path": "/",
+      "expires": 1790004135.331182,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_node",
+      "value": "79e8292408f61f87b01c2918105ca2c70ae2dd1bf9acb5e69f7af28265befa30",
+      "domain": "ugadmission.bentley.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "030b1d73-2cfc-4406-86c2-fd3a992fb03f",
+      "domain": "ugadmission.bentley.edu",
+      "path": "/",
+      "expires": 1790004135.376799,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "ugadmission.bentley.edu",
+      "path": "/",
+      "expires": 1790004135.376858,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_node",
+      "value": "667e507a20de1427759793439ba1e70914180f289659d92247ca62f80bdc14c9",
+      "domain": "applygrad.bentley.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "140a5fc5-9034-4536-b65b-3d15da8a7222",
+      "domain": "applygrad.bentley.edu",
+      "path": "/",
+      "expires": 1790004135.377353,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "applygrad.bentley.edu",
+      "path": "/",
+      "expires": 1790004135.377398,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "PHPSESSID",
+      "value": "di33g539ooebdmclieua1uieh2",
+      "domain": ".youvisit.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "embed",
+      "value": "156430652521050873",
+      "domain": ".youvisit.com",
+      "path": "/",
+      "expires": 1786980135.43601,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://imodules.com",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "embed",
+      "value": "156430652521050873",
+      "domain": ".youvisit.com",
+      "path": "/",
+      "expires": 1787084573.628051,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&79366e83-78ac-40c0-83b7-dbc62f3e626f\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1787084573.878197,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "csrf_token",
+      "value": "a2cc9ff0-9dd2-4dd7-8417-6dc2cc8688a8",
+      "domain": "www.bentley.edu",
+      "path": "/",
+      "expires": 1758036150,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax",
+      "partitionKey": "https://bentley.edu",
+      "_crHasCrossSiteAncestor": false
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.251924629.1755444151",
+      "domain": ".bentley.edu",
+      "path": "/",
+      "expires": 1790108573.530285,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "nmstat",
+      "value": "a2b1637b-c1ab-1015-b3b1-1c9e90026df4",
+      "domain": ".bentley.edu",
+      "path": "/",
+      "expires": 1790004150.595756,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "embed",
+      "value": "156430652521050873",
+      "domain": ".youvisit.com",
+      "path": "/",
+      "expires": 1787084573.628039,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://bentley.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.2004363493.1755444151",
+      "domain": ".bentley.edu",
+      "path": "/",
+      "expires": 1763220151,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755444151103.66478607178674724",
+      "domain": ".bentley.edu",
+      "path": "/",
+      "expires": 1763324575,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "receive-cookie-deprecation",
+      "value": "1",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1771062545.345592,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://bentley.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "hubspotutk",
+      "value": "10c82b24758542ad980d683910d0c56f",
+      "domain": ".bentley.edu",
+      "path": "/",
+      "expires": 1771100574,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__hssrc",
+      "value": "1",
+      "domain": ".bentley.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "inside-us2",
+      "value": "926178248-2631bff56703473497ba1de1f228dfbecf9c60ec43f78e0b35908ebdde775b7b-0-0",
+      "domain": ".bentley.edu",
+      "path": "/",
+      "expires": 1786980151,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "NID",
+      "value": "525=d67F7HpRZcNll4cWagGa9KhRvxVDDjIKloh4066mWIPhFqUJBvxogqvabDdMlO3r52PY4Pege9LGUuor0gWeAgGUdxC5gfxR8jYSqtQxb-wBxQEMSa3_r9G7huOEQkzjIUMiWV-NYlqEjm2t7hZjzoowjPHF7VO4lRGDqo6ZVftPw8dQSKPKj5-ghkpzrghuZvatejI",
+      "domain": ".google.com",
+      "path": "/",
+      "expires": 1771321744.835731,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": "px.ads.linkedin.com",
+      "path": "/",
+      "expires": 1758178319.878158,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_NGRWPNX5WB",
+      "value": "GS2.1.s1755548573$o3$g0$t1755548573$j60$l0$h1331738373",
+      "domain": ".bentley.edu",
+      "path": "/",
+      "expires": 1790108573.539887,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "ZjUQU3T.Ku_fx1mo16mH93mtw0qQ1Mo97hRe.EkRMo4-1755548573-1.0.1.1-Upt1qlTgDoGS9nb3upm5WS1k0uWdiZ9huMtGHyssZZ1v3mljD2nQVFL754q2MioQLQnJjBRTE7IOvrJhIIsWvP1ncE1.BdZ4pvga_YwJw_A",
+      "domain": ".hs-scripts.com",
+      "path": "/",
+      "expires": 1755550373.618795,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "yvrequiregdrp19",
+      "value": "false",
+      "domain": ".youvisit.com",
+      "path": "/",
+      "expires": 1755634973.627998,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://bentley.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "yvrequiregdrp19",
+      "value": "false",
+      "domain": ".youvisit.com",
+      "path": "/",
+      "expires": 1755634973.62802,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "yv_gpc",
+      "value": "0",
+      "domain": ".youvisit.com",
+      "path": "/",
+      "expires": 1755634973.628027,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://bentley.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "yv_gpc",
+      "value": "0",
+      "domain": ".youvisit.com",
+      "path": "/",
+      "expires": 1755634973.628034,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=VGST09:s=V:r=V:a=V:p=V:g=3278:u=1:x=1:i=1755548573:t=1755634973:v=2:sig=AQEa01mq-vOsTIuqpXK7Dy9wfuJ1NdkN\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755634973.878237,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "5q1yLlPpP1ke5LXHp6Fzuz.DmUk4ldlIo.2Akeq64Mw-1755548574-1.0.1.1-ibDojil1w0VOKgH3E.wFgL7Z.OaAXxc2XoGyUYaTDymyC.KKdWzgdZ9LTLVUqz0DGyTz2u3k.B71cjtNxZuSgttPqncddBdzI1x4dzqw.ic",
+      "domain": ".usemessages.com",
+      "path": "/",
+      "expires": 1755550374.010172,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "6wpABobxJuYGFoxALFjmE1lPrUlMlkjpwyOXk_mLsYg-1755548574-1.0.1.1-OxdSkkYMQh.WStE3WJz0J_x4y5oN7uDgbIsoaVWJo3UPE3eJLWWeYSCL_GlCDHzeNaCuX6a6y0J9sCJNkTZDRKNVu_xL5GjEVERKh46QHUc",
+      "domain": ".hubspot.com",
+      "path": "/",
+      "expires": 1755550374.048346,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_cfuvid",
+      "value": "6qUe2IKMy9qiNrJCz1qCdp2cbcyFlbo5oPpYzc7sddI-1755548574068-0.0.1.1-604800000",
+      "domain": ".hubspot.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "GhkIn1ziTnaCwSzEevWRQmEsz_NpE5_beBg9X7t64Tc-1755548574-1.0.1.1-du89SGzxI2Mgu00e66Dl1jiJKCcbpb7mQ00d1yP8l0lWMEYCZ9G2HLUp8wAPCDhsoIOW3a74IwvdPdCeaGMKDWmqlx_Wd5130H8LlwXXGYU",
+      "domain": ".hs-banner.com",
+      "path": "/",
+      "expires": 1755550374.057879,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "I1TEMVY8Tu2zYJNaFZG8DaRU21mVvKrt5qdbkUsMk_I-1755548574-1.0.1.1-yPLCkizAFhkJ3qmq2SV3.xHFZx_kqpovuaGS0TMHzSJwLCyfcPvx7l.YaKYwmXSMutqwBbvDItQmRpkPRc4agb4LchVa.50WOI9IaVuToBc",
+      "domain": ".hs-analytics.net",
+      "path": "/",
+      "expires": 1755550374.102315,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUmOKaNmgxBXo4_pfiuxxkRgH2_OcfUeMzlpy8D8cmxgecixKZ3QhFCV549jguo",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1790108574.20376,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__hstc",
+      "value": "27927331.10c82b24758542ad980d683910d0c56f.1755444151644.1755510545484.1755548574267.3",
+      "domain": ".bentley.edu",
+      "path": "/",
+      "expires": 1771100574,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__hssc",
+      "value": "27927331.1.1755548574267",
+      "domain": ".bentley.edu",
+      "path": "/",
+      "expires": 1755550374,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_opensaml_req_ss%3Amem%3A68a0d798efe38c7192e80432f6dedb501dde1f64d1a764079ee56bf12da622d9",
+      "value": "_0c856fcab1bfa71f585c4d6a1ba70a1f",
+      "domain": "bentley.datacenter.adirondacksolutions.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "buid",
+      "value": "1.AQMArr4wkPw8iEep4hMCBP8fEOsd0mz-0wtHhIFhsJIrzEkDAAADAA.AQABGgEAAABVrSpeuWamRam2jAF1XRQEkC9EjAPLsDn2YXW_ufpbv4sZ1_y2c_SKHVFqqFv7vhvph31IeKa7zGb-JqQJbTW1Wud4f9ReuAQbbr-UUGBziIwfQ8Uy8ssW05Sh6Ni2GNQgAA",
+      "domain": "login.microsoftonline.com",
+      "path": "/",
+      "expires": 1758140754.902991,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "esctx",
+      "value": "PAQABBwEAAABVrSpeuWamRam2jAF1XRQEBAsQml-D0ny0VMXu_vLhFTeUll93B4n0AIAHUnjrRnC6ph6aavTTBgR2tjSYw8Vy7SF3axdSyx-hKUreA9u4QYeWD4tYvytI2Qo1GXcgP20k13_YactfsTeqHtoEyl7jZNE4BMoJ5zCLWWiSxcDq-zlJ4gAkUOU__7yM-hyVKIggAA",
+      "domain": ".login.microsoftonline.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "esctx-w3MNyiV0OZw",
+      "value": "AQABCQEAAABVrSpeuWamRam2jAF1XRQE73I4dQ4kUUh1PY9V2u_Q1e_PPqi-vkvfYWWvjcxemiIvIjRTt6PYks1TvewUZXjLSkuLCNNVf5c36UDhtK-rPi6UlDDp288fIFUtenoow41e0_Oiz8SqTx6T1-x7oS0W74N3IXfY8k3ATkFkwREZ9yAA",
+      "domain": ".login.microsoftonline.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "fpc",
+      "value": "AkLh9N9BgsxGlYMyTjORJApnX7meAQAAAFKDNeAOAAAA",
+      "domain": "login.microsoftonline.com",
+      "path": "/",
+      "expires": 1758140756.478162,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "x-ms-gateway-slice",
+      "value": "estsfd",
+      "domain": "login.microsoftonline.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "stsservicecookie",
+      "value": "estsfd",
+      "domain": "login.microsoftonline.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "uaid",
+      "value": "149c1a4dd47b4b248a621127742263e1",
+      "domain": ".login.live.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MSPRequ",
+      "value": "id=N&lt=1755548755&co=1",
+      "domain": ".login.live.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MicrosoftApplicationsTelemetryDeviceId",
+      "value": "6ed4b258-f639-4311-9b98-94b563d1172f",
+      "domain": "login.microsoftonline.com",
+      "path": "/",
+      "expires": 1787084755.428016,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "brcap",
+      "value": "0",
+      "domain": ".login.microsoftonline.com",
+      "path": "/",
+      "expires": 1789244755,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "fpc",
+      "value": "AkvqhUg_d3JAiVTkGns9Mx8",
+      "domain": "autologon.microsoftazuread-sso.com",
+      "path": "/",
+      "expires": 1758140756.355639,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "esctx",
+      "value": "PAQABBwEAAABVrSpeuWamRam2jAF1XRQEHj0fnj_JhHWCzv9i5tXiEQWeKQvAbueqNcadCYCRlsKDfikPLgVNI8IWl5rUjZNq2kMh-db0ckwx0d9pgQFsCa8-ub25C-tZeJ2GMmxYm9iurSaB48K7c7NsJn5lGWUCChhsOgHg2LPU11IYGrcSeoDddcFhvwWVa3-Whc8_rPcgAA",
+      "domain": ".autologon.microsoftazuread-sso.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "x-ms-gateway-slice",
+      "value": "estsfd",
+      "domain": "autologon.microsoftazuread-sso.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "stsservicecookie",
+      "value": "estsfd",
+      "domain": "autologon.microsoftazuread-sso.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ai_session",
+      "value": "N0O8HWYTx1Uq5iXfl+3Cbj|1755548756364|1755548756364",
+      "domain": "login.microsoftonline.com",
+      "path": "/",
+      "expires": 1755550556,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MC1",
+      "value": "GUID=a9163479c81e497590d5426183bc9cc2&HASH=a916&LV=202508&V=4&LU=1755548759189",
+      "domain": ".microsoft.com",
+      "path": "/",
+      "expires": 1787084760.446123,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MS0",
+      "value": "b2cdc2b5ffc148ef88b3830eab631ea4",
+      "domain": ".microsoft.com",
+      "path": "/",
+      "expires": 1755550560.446236,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MSFPC",
+      "value": "GUID=a9163479c81e497590d5426183bc9cc2&HASH=a916&LV=202508&V=4&LU=1755548759189",
+      "domain": "login.microsoftonline.com",
+      "path": "/",
+      "expires": 1787084759.449223,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://www.bentley.edu",
+      "localStorage": [
+        {
+          "name": "96383bb2-ca86-8157-2112-97d92767935f_st",
+          "value": "1755548573947"
+        },
+        {
+          "name": "mailmunch_pageview_count",
+          "value": "{\"expiry\":\"Tue, 18 Aug 2026 20:22:53 GMT\",\"value\":3}"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755548575164"
+        },
+        {
+          "name": "mailmunch_second_pageview",
+          "value": "{\"expiry\":\"Tue, 18 Aug 2026 20:22:53 GMT\",\"value\":\"true\"}"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"timeouts\":0,\"creationTimeMs\":1755444150678},\"expires\":1763220150678}}"
+        },
+        {
+          "name": "TERMLY_API_CACHE",
+          "value": "{\"TERMLY_STATISTIC\":{\"createdAt\":1755444150269,\"value\":\"__tltpl_207ba082-81da-4add-b339-c383d8049898\"},\"__tltpl_207ba082-81da-4add-b339-c383d8049898\":{\"createdAt\":1755548573303,\"value\":{\"e01af4ca-24c8-46c1-9a2b-e852a6fabf61\":{\"notify\":true,\"version\":24,\"showBanner\":true}}}}"
+        },
+        {
+          "name": "_mailmunch_lead_quality",
+          "value": "{\"expiry\":\"Tue, 18 Aug 2026 20:22:54 GMT\",\"value\":true}"
+        },
+        {
+          "name": "96383bb2-ca86-8157-2112-97d92767935f_pp",
+          "value": "{}"
+        },
+        {
+          "name": "7a4caf71-79bb-021a-68f9-51dfa2987e05_pp",
+          "value": "{}"
+        },
+        {
+          "name": "_mailmunch_visitor_id",
+          "value": "{\"expiry\":\"Mon, 17 Aug 2026 15:22:31 GMT\",\"value\":\"1386557a-eda5-45f1-89b2-ae9b1a2a61de\"}"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755548573874"
+        },
+        {
+          "name": "9ae7ffc6-d75a-5547-f023-3560b2993298_st",
+          "value": "1755548573928"
+        },
+        {
+          "name": "7a4caf71-79bb-021a-68f9-51dfa2987e05_st",
+          "value": "1755548573937"
+        },
+        {
+          "name": "9ae7ffc6-d75a-5547-f023-3560b2993298_pp",
+          "value": "{}"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "inside-us2",
+          "value": "926178248-2631bff56703473497ba1de1f228dfbecf9c60ec43f78e0b35908ebdde775b7b-5-5"
+        },
+        {
+          "name": "li_adsId",
+          "value": "2ff8adf2-ed17-402e-b858-c733203aac6a"
+        },
+        {
+          "name": "termly_gtm_template_default_consents",
+          "value": "{\"ad_personalization\":\"granted\",\"ad_storage\":\"granted\",\"ad_user_data\":\"granted\",\"analytics_storage\":\"granted\",\"functionality_storage\":\"granted\",\"personalization_storage\":\"granted\",\"security_storage\":\"granted\",\"social_storage\":\"granted\",\"unclassified_storage\":\"granted\"}"
+        }
+      ]
+    },
+    {
+      "origin": "https://community.bentley.edu",
+      "localStorage": [
+        {
+          "name": "96383bb2-ca86-8157-2112-97d92767935f_pp",
+          "value": "{}"
+        },
+        {
+          "name": "96383bb2-ca86-8157-2112-97d92767935f_st",
+          "value": "1755444139710"
+        },
+        {
+          "name": "session_/expires",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "origin": "https://bentley.imodules.com",
+      "localStorage": [
+        {
+          "name": "96383bb2-ca86-8157-2112-97d92767935f_pp",
+          "value": "{}"
+        },
+        {
+          "name": "96383bb2-ca86-8157-2112-97d92767935f_st",
+          "value": "1755444135324"
+        },
+        {
+          "name": "7a4caf71-79bb-021a-68f9-51dfa2987e05_pp",
+          "value": "{}"
+        },
+        {
+          "name": "mailmunch_pageview_count",
+          "value": "{\"expiry\":\"Mon, 17 Aug 2026 15:22:15 GMT\",\"value\":1}"
+        },
+        {
+          "name": "_mailmunch_visitor_id",
+          "value": "{\"expiry\":\"Mon, 17 Aug 2026 15:22:16 GMT\",\"value\":\"bf2e075e-6b87-4156-876e-44d2e6189a19\"}"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755444135147"
+        },
+        {
+          "name": "9ae7ffc6-d75a-5547-f023-3560b2993298_st",
+          "value": "1755444135863"
+        },
+        {
+          "name": "7a4caf71-79bb-021a-68f9-51dfa2987e05_st",
+          "value": "1755444135855"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755444135760"
+        },
+        {
+          "name": "9ae7ffc6-d75a-5547-f023-3560b2993298_pp",
+          "value": "{}"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "mailmunch_second_pageview",
+          "value": "{\"expiry\":\"Mon, 17 Aug 2026 15:22:15 GMT\",\"value\":\"true\"}"
+        },
+        {
+          "name": "li_adsId",
+          "value": "51b79486-bb48-4c1d-9bc4-c905886b0efb"
+        },
+        {
+          "name": "termly_gtm_template_default_consents",
+          "value": "{\"ad_personalization\":\"denied\",\"ad_storage\":\"denied\",\"ad_user_data\":\"denied\",\"analytics_storage\":\"denied\",\"functionality_storage\":\"denied\",\"personalization_storage\":\"denied\",\"security_storage\":\"denied\",\"wait_for_update\":500}"
+        },
+        {
+          "name": "_mailmunch_lead_quality",
+          "value": "{\"expiry\":\"Mon, 17 Aug 2026 15:22:16 GMT\",\"value\":true}"
+        }
+      ]
+    }
+  ]
+}

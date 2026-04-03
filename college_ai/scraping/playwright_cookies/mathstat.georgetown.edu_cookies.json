@@ -1,0 +1,143 @@
+{
+  "cookies": [
+    {
+      "name": "YSC",
+      "value": "jiV85w00XFU",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "0ZmD3rSD48U",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790733694,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgEQ%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790733694,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "COP4z-yy9oaCxQEQte-kksvQkwMYh8qWmsvQkwM%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790733710,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.390789072.1775181772",
+      "domain": ".georgetown.edu",
+      "path": "/",
+      "expires": 1782957772,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.501154702.1775181772",
+      "domain": ".georgetown.edu",
+      "path": "/",
+      "expires": 1809741772.544085,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "test_cookie",
+      "value": "CheckForPermission",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1775182672.90842,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hjSessionUser_5039938",
+      "value": "eyJpZCI6ImZiNzA1MmUxLTcwODEtNWVmYi1iMTM0LTUzN2VhN2E4Y2ViZiIsImNyZWF0ZWQiOjE3NzUxODE3NzMwMTIsImV4aXN0aW5nIjp0cnVlfQ==",
+      "domain": ".georgetown.edu",
+      "path": "/",
+      "expires": 1806717773,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hjSession_5039938",
+      "value": "eyJpZCI6IjdlZDEzOGI2LTg0NWEtNDgxNi04ODgxLWYwMWQ1MmEzNzhhMCIsImMiOjE3NzUxODE3NzMwMTIsInMiOjEsInIiOjEsInNiIjowLCJzciI6MCwic2UiOjAsImZzIjoxLCJzcCI6MX0=",
+      "domain": ".georgetown.edu",
+      "path": "/",
+      "expires": 1775183573,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_BSC82Y20RS",
+      "value": "GS2.1.s1775181772$o1$g0$t1775181774$j58$l0$h0",
+      "domain": ".georgetown.edu",
+      "path": "/",
+      "expires": 1809741774.569796,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_PMZB7WHYPX",
+      "value": "GS2.1.s1775181772$o1$g0$t1775181774$j58$l0$h0",
+      "domain": ".georgetown.edu",
+      "path": "/",
+      "expires": 1809741774.572576,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_2YMKSNESM2",
+      "value": "GS2.1.s1775181772$o1$g0$t1775181774$j58$l0$h0",
+      "domain": ".georgetown.edu",
+      "path": "/",
+      "expires": 1809741774.57582,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://mathstat.georgetown.edu",
+      "localStorage": [
+        {
+          "name": "hjActiveViewportIds",
+          "value": "[{\"id\":\"59917f45-fec3-4189-8ee2-8b4cab2e8bb9\",\"expireTimestamp\":1775203373799}]"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"timeouts\":0,\"errors\":0,\"eopCount\":0,\"creationTimeMs\":1775181772136},\"expires\":1782957772136}}"
+        },
+        {
+          "name": "NRBA_SESSION",
+          "value": "{\"value\":\"85659fd72c2d4eb9\",\"inactiveAt\":1775183573274,\"expiresAt\":1775196173274,\"updatedAt\":1775181773521,\"sessionReplayMode\":0,\"sessionReplaySentFirstChunk\":false,\"sessionTraceMode\":0,\"traceHarvestStarted\":false,\"loggingMode\":0,\"logApiMode\":0,\"serverTimeDiff\":-103,\"custom\":{},\"numOfResets\":0,\"consent\":false}"
+        }
+      ]
+    }
+  ]
+}

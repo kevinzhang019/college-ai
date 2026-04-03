@@ -1,0 +1,45 @@
+{
+  "cookies": [
+    {
+      "name": "_ga",
+      "value": "GA1.2.692246497.1755432371",
+      "domain": ".upenn.edu",
+      "path": "/",
+      "expires": 1789992371.034616,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.1714363364.1755432371",
+      "domain": ".upenn.edu",
+      "path": "/",
+      "expires": 1755518771,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_UA-78054-25",
+      "value": "1",
+      "domain": ".upenn.edu",
+      "path": "/",
+      "expires": 1755432431,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_EMB6WERT92",
+      "value": "GS2.1.s1755432371$o1$g0$t1755432371$j60$l0$h0",
+      "domain": ".upenn.edu",
+      "path": "/",
+      "expires": 1789992371.044518,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

@@ -1,0 +1,583 @@
+{
+  "cookies": [
+    {
+      "name": "BCSessionID",
+      "value": "3a256050-6141-486e-bec2-1df26c856810",
+      "domain": "wfu.blueconic.net",
+      "path": "/DG/DEFAULT",
+      "expires": 1787076761.770604,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "wfusb_has_visited",
+      "value": "true",
+      "domain": "business.wfu.edu",
+      "path": "/",
+      "expires": 1787076758,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755540731681.191785657924651132",
+      "domain": ".wfu.edu",
+      "path": "/",
+      "expires": 1763316763,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__qca",
+      "value": "P1-d3971a80-e289-451e-9758-60aef2c4360b",
+      "domain": ".wfu.edu",
+      "path": "/",
+      "expires": 1789409531,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_node",
+      "value": "0b096070ae997675162db1cdea19e020e96e4a411a2ca2219d6c31534aeb6497",
+      "domain": "apply.business.wfu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "e0c7fca9-f669-46bf-8e23-ade5e6d30db0",
+      "domain": "apply.business.wfu.edu",
+      "path": "/",
+      "expires": 1790100731.698471,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "apply.business.wfu.edu",
+      "path": "/",
+      "expires": 1790100731.698494,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.198350514.1755540732",
+      "domain": ".wfu.edu",
+      "path": "/",
+      "expires": 1763316732,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": "px.ads.linkedin.com",
+      "path": "/",
+      "expires": 1758170506.978812,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=VGST09:s=V:r=V:a=V:p=V:g=3278:u=1:x=1:i=1755540731:t=1755627131:v=2:sig=AQGR97Zh3O25-ciQ9-bPUhcqv2N1EwhG\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755627131.834817,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&e9ab49a0-52f5-466f-8edc-4bb3834e45a8\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1787076760.978842,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.1660593889.1755540732",
+      "domain": ".wfu.edu",
+      "path": "/",
+      "expires": 1755627160,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_hjSession_1532546",
+      "value": "eyJpZCI6IjM2NGYyMjA5LTA2MWMtNGM3ZS1iNWU0LTE1OGI0MzU2NDdkYyIsImMiOjE3NTU1NDA3MzIzNTEsInMiOjAsInIiOjAsInNiIjowLCJzciI6MCwic2UiOjAsImZzIjoxLCJzcCI6MH0=",
+      "domain": ".wfu.edu",
+      "path": "/",
+      "expires": 1755542532,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "CLID",
+      "value": "39f59b6322af437b825e5b22db8945f5.20250818.20260818",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1787076732.478647,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_clck",
+      "value": "cp9q4j%7C2%7Cfyk%7C0%7C2056",
+      "domain": ".wfu.edu",
+      "path": "/",
+      "expires": 1787076732,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "BCSessionID",
+      "value": "3a256050-6141-486e-bec2-1df26c856810",
+      "domain": ".wfu.edu",
+      "path": "/",
+      "expires": 1787076761,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUmHeLIfHFa-rPWDQF4p0QGNT2uaejOZpPkO0XVMZ4PG1N9Sbs-GDrzwdyk8Yns",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1790100733.014757,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "receive-cookie-deprecation",
+      "value": "1",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1771092761.834363,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://wfu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "drift_campaign_refresh",
+      "value": "e41b372a-ad07-4bc3-b628-a5766fd3b0e8",
+      "domain": "business.wfu.edu",
+      "path": "/",
+      "expires": 1755542533,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "TDID",
+      "value": "960ff4a1-0b86-4d75-97bd-b274e7396a6d",
+      "domain": ".adsrvr.org",
+      "path": "/",
+      "expires": 1787076764.521587,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "XANDR_PANID",
+      "value": "vtuFFiDGQrbUnlf2JGmUsvF9lzbkodotPzsNJVRNdrfvfXjpgGbC2JX0DPLQ7v8HA-53xA-axDOZD4Zv2Z_0o8gxsKRaQPquJ2LJv82RYo0.",
+      "domain": ".adnxs.com",
+      "path": "/",
+      "expires": 1763316733.516521,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://wfu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "uuid2",
+      "value": "6585912652614071620",
+      "domain": ".adnxs.com",
+      "path": "/",
+      "expires": 1763316733.516545,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "audit_p",
+      "value": "1|sB0VP6kk6PxvL9ktFygb1/d59F1/rYZV1rGkIWU9RJOqcLSLiv9/TwNWJC0IND/sveY9suQt+LuM1KxoLazIt9i2Wk5FrGos0XY24Ec+XLui9W8R0KF/BuYiVUqRMPMeX3gHulMGjqvgHJvBlXiJgAEzu/JJFystjgh0ef9QhZZbOz6AjJtUa8ZnH3r7x5VAdeodiyl5GGjkt77VmXBK7kiCfUmSYXqD+ohH/uuQN8oOr/S07bYDcYQkZmofZQkSVSwKu1RXSJT0/fhu8/pkBO4VeIulq+4M1TRwmTZWV3Xc6UO785F0Pw==",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1787076733.547009,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://wfu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "khaos",
+      "value": "MEHFMJDS-K-5QA9",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1787076733.54705,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "khaos_p",
+      "value": "MEHFMJDS-K-5QA9",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1787076733.547068,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://wfu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "audit",
+      "value": "1|sB0VP6kk6PxvL9ktFygb1/d59F1/rYZV1rGkIWU9RJOqcLSLiv9/TwNWJC0IND/sveY9suQt+LuM1KxoLazIt9i2Wk5FrGos0XY24Ec+XLui9W8R0KF/BuYiVUqRMPMeX3gHulMGjqvgHJvBlXiJgAEzu/JJFystjgh0ef9QhZZbOz6AjJtUa8ZnH3r7x5VAdeodiyl5GGjkt77VmXBK7kiCfUmSYXqD+ohH/uuQN8oOr/S07bYDcYQkZmofZQkSVSwKu1RXSJT0/fhu8/pkBO4VeIulq+4M1TRwmTZWV3Xc6UO785F0Pw==",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1787076733.547077,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "drift_aid",
+      "value": "50e65fee-74d9-4675-8b36-10373b2936a6",
+      "domain": "business.wfu.edu",
+      "path": "/",
+      "expires": 1790100733.859316,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "driftt_aid",
+      "value": "50e65fee-74d9-4675-8b36-10373b2936a6",
+      "domain": "business.wfu.edu",
+      "path": "/",
+      "expires": 1790100733.85956,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "wfusb_visit_date",
+      "value": "1755540758",
+      "domain": "business.wfu.edu",
+      "path": "/",
+      "expires": 1787076758,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AWSALB",
+      "value": "dKv4xUxbCmFo0yvR2LOfETaOaDV0vp6AdAmyFswDj6hU4wR3f7JBkZjVA6iUIfYCzA+ER/1FmQJ+tfbieIWFO8TmI5WI0Yd1Yr5Ssj0VavalXpiT1wgl9241SOCs",
+      "domain": "business.wfu.edu",
+      "path": "/",
+      "expires": 1756145558.858928,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AWSALBCORS",
+      "value": "dKv4xUxbCmFo0yvR2LOfETaOaDV0vp6AdAmyFswDj6hU4wR3f7JBkZjVA6iUIfYCzA+ER/1FmQJ+tfbieIWFO8TmI5WI0Yd1Yr5Ssj0VavalXpiT1wgl9241SOCs",
+      "domain": "business.wfu.edu",
+      "path": "/",
+      "expires": 1756145558.858951,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_03VNC5ERF5",
+      "value": "GS2.1.s1755540731$o1$g1$t1755540760$j31$l0$h0",
+      "domain": ".wfu.edu",
+      "path": "/",
+      "expires": 1790100760.774144,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_KCWEYM3L3J",
+      "value": "GS2.1.s1755540731$o1$g1$t1755540760$j31$l0$h0",
+      "domain": ".wfu.edu",
+      "path": "/",
+      "expires": 1790100760.816166,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.2105421599.1755540732",
+      "domain": ".wfu.edu",
+      "path": "/",
+      "expires": 1790100760.825171,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_uetsid",
+      "value": "dcbb17e07c5e11f09c13094cec457488",
+      "domain": ".wfu.edu",
+      "path": "/",
+      "expires": 1755627160,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_uetvid",
+      "value": "dcbb0df07c5e11f081125bf0da7becc5",
+      "domain": ".wfu.edu",
+      "path": "/",
+      "expires": 1789236760,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cm3ypk2pj00iw2grb8ah1jrto-hh_trk_id",
+      "value": "9bfc9f52-0309-4433-9e45-26057b85b0e4",
+      "domain": "business.wfu.edu",
+      "path": "/",
+      "expires": 1790100760,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_hjSessionUser_1532546",
+      "value": "eyJpZCI6IjY4MGI4OWQ1LWQ4NjgtNTBiZi05YzhhLWVkNDRkOTI2MmNjNiIsImNyZWF0ZWQiOjE3NTU1NDA3MzIzNTAsImV4aXN0aW5nIjp0cnVlfQ==",
+      "domain": ".wfu.edu",
+      "path": "/",
+      "expires": 1787076761,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AWSALBCORS",
+      "value": "pW0TOHJWsoCn644wvSA3pI6OHKfYpdejmqtJNO42JM1wEd04K19PW/w0p2vG3AHQxK9Tf/U+DU8Fc/dlL1Y8TfbZPDHtUPPvKgpdWwHEo3WNMtQupxBDyTV2rH+I",
+      "domain": "wfu.blueconic.net",
+      "path": "/",
+      "expires": 1756145563.589078,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "KRTBCOOKIE_377",
+      "value": "22918-960ff4a1-0b86-4d75-97bd-b274e7396a6d&KRTB&6810-960ff4a1-0b86-4d75-97bd-b274e7396a6d&KRTB&23031-960ff4a1-0b86-4d75-97bd-b274e7396a6d&KRTB&22926-960ff4a1-0b86-4d75-97bd-b274e7396a6d",
+      "domain": ".pubmatic.com",
+      "path": "/",
+      "expires": 1763316764.263018,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "PugT",
+      "value": "1755540764",
+      "domain": ".pubmatic.com",
+      "path": "/",
+      "expires": 1758132764.263066,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "CMID",
+      "value": "aKNtHNHM4LQADMQvAS6N-AAA",
+      "domain": ".casalemedia.com",
+      "path": "/",
+      "expires": 1787076764.409117,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "CMPS",
+      "value": "1078",
+      "domain": ".casalemedia.com",
+      "path": "/",
+      "expires": 1763316764.310129,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "CMPRO",
+      "value": "1078",
+      "domain": ".casalemedia.com",
+      "path": "/",
+      "expires": 1763316764.409148,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "tuuid",
+      "value": "580ec725-4ef3-4d2f-bdaf-1848c5eba45d",
+      "domain": ".bidswitch.net",
+      "path": "/",
+      "expires": 1787076764.462982,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "c",
+      "value": "1755540764",
+      "domain": ".bidswitch.net",
+      "path": "/",
+      "expires": 1787076764.38819,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "tuuid_lu",
+      "value": "1755540764",
+      "domain": ".bidswitch.net",
+      "path": "/",
+      "expires": 1787076764.463024,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TDCPM",
+      "value": "CAESFgoHcnViaWNvbhILCKDqw6CZo68-EAUSFQoGZ29vZ2xlEgsIgo7EoJmjrz4QBRIXCghhcHBuZXh1cxILCJCtxKCZo68-EAUSFQoGY2FzYWxlEgsItvSswZujrz4QBRIYCgliaWRzd2l0Y2gSCwjKmq3Bm6OvPhAFEhcKCHB1Ym1hdGljEgsI_s2twZujrz4QBRgFIAIoBjILCNrHr-6xo68-EAVCDyINCAESCQoFdGllcjIQAVoHd3h2ZmNvNmAB",
+      "domain": ".adsrvr.org",
+      "path": "/",
+      "expires": 1787076764.521632,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://business.wfu.edu",
+      "localStorage": [
+        {
+          "name": "_uetvid_exp",
+          "value": "Sat, 12 Sep 2026 18:12:40 GMT"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755540763520"
+        },
+        {
+          "name": "@wfusb-trails-stamp",
+          "value": "2025-08-18"
+        },
+        {
+          "name": "DRIFT_visitCounts",
+          "value": "{\"total\":2,\"daysSinceLastVisit\":0,\"lastVisit\":1755540766505,\"firstVisit\":1755540733856,\"lastSessionId\":\"c07c4f0f-0b9b-449d-b791-fc5717907dc4\",\"/stories/evaluating-ethos/Gate%20Code%202251\":1,\"currentSessionStartedAt\":1755540733856,\"/stories/leveraging-analytics/www.aeaweb.org/articles\":1}"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":6,\"creationTimeMs\":1755540761210},\"expires\":1763316761210}}"
+        },
+        {
+          "name": "_uetsid",
+          "value": "dcbb17e07c5e11f09c13094cec457488"
+        },
+        {
+          "name": "@wfusb-site-search-categories-checked",
+          "value": "[]"
+        },
+        {
+          "name": "cb1edf06-7f91-456e-e56d-1c5322202048_st",
+          "value": "1755540731841"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755540760666"
+        },
+        {
+          "name": "cb1edf06-7f91-456e-e56d-1c5322202048_pp",
+          "value": "{}"
+        },
+        {
+          "name": "bc_geo_events",
+          "value": "{\"lat\":\"29.4213\",\"long\":\"-98.5313\",\"ts\":1755540733273,\"events\":[]}"
+        },
+        {
+          "name": "ig-joined",
+          "value": "1755540759313"
+        },
+        {
+          "name": "_uetsid_exp",
+          "value": "Tue, 19 Aug 2025 18:12:40 GMT"
+        },
+        {
+          "name": "hh_referrer_url",
+          "value": ""
+        },
+        {
+          "name": "_qcses_p-Lkq_kW9ac0-ST",
+          "value": "{\"lastEvent\":1755540760728,\"sid\":\"bd6b0c2c-0b5d-4afc-86ed-0df4e18dfb0e\",\"engagementState\":{\"eventsCount\":2,\"engagementDurationMs\":0,\"hasConversionEvent\":false,\"lastVisibleTs\":1755540731556},\"config\":{\"timeoutMs\":1800000}}"
+        },
+        {
+          "name": "_uetvid",
+          "value": "dcbb0df07c5e11f081125bf0da7becc5"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "hh_trk_id",
+          "value": "9bfc9f52-0309-4433-9e45-26057b85b0e4"
+        },
+        {
+          "name": "@wfusb-trails",
+          "value": "[{\"title\":\"Supporting NC Families in Need\",\"location\":{\"ancestorOrigins\":{},\"href\":\"https://business.wfu.edu/newsroom/supporting-nc-families-in-need/\",\"origin\":\"https://business.wfu.edu\",\"protocol\":\"https:\",\"host\":\"business.wfu.edu\",\"hostname\":\"business.wfu.edu\",\"port\":\"\",\"pathname\":\"/newsroom/supporting-nc-families-in-need/\",\"search\":\"\",\"hash\":\"\"},\"url\":\"/newsroom/supporting-nc-families-in-need/\"},{\"title\":\"\",\"location\":{\"ancestorOrigins\":{},\"href\":\"https://business.wfu.edu/stories/evaluating-ethos/Gate%20Code%202251\",\"origin\":\"https://business.wfu.edu\",\"protocol\":\"https:\",\"host\":\"business.wfu.edu\",\"hostname\":\"business.wfu.edu\",\"port\":\"\",\"pathname\":\"/stories/evaluating-ethos/Gate%20Code%202251\",\"search\":\"\",\"hash\":\"\"},\"url\":\"/stories/evaluating-ethos/Gate%20Code%202251\"},{\"title\":\"\",\"location\":{\"ancestorOrigins\":{},\"href\":\"https://business.wfu.edu/stories/leveraging-analytics/www.aeaweb.org/articles?id=10.1257%2Faer.20141123\",\"origin\":\"https://business.wfu.edu\",\"protocol\":\"https:\",\"host\":\"business.wfu.edu\",\"hostname\":\"business.wfu.edu\",\"port\":\"\",\"pathname\":\"/stories/leveraging-analytics/www.aeaweb.org/articles\",\"search\":\"?id=10.1257%2Faer.20141123\",\"hash\":\"\"},\"url\":\"/stories/leveraging-analytics/www.aeaweb.org/articles?id=10.1257%2Faer.20141123\"}]"
+        },
+        {
+          "name": "li_adsId",
+          "value": "bda61e7b-2da1-47f2-8915-4da4ea005d32"
+        },
+        {
+          "name": "__qca",
+          "value": "{\"value\":\"P1-d3971a80-e289-451e-9758-60aef2c4360b\",\"expiry\":1789409531697}"
+        }
+      ]
+    }
+  ]
+}

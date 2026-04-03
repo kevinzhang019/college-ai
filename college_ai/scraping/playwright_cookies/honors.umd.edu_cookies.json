@@ -1,0 +1,65 @@
+{
+  "cookies": [
+    {
+      "name": "nfd-enable-cf-opt",
+      "value": "63a6825d27cab0f204d3b602",
+      "domain": "honors.umd.edu",
+      "path": "/",
+      "expires": 1755524182.437017,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.1607552218.1755437783",
+      "domain": ".umd.edu",
+      "path": "/",
+      "expires": 1755524183,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_gtag_UA_36700307_1",
+      "value": "1",
+      "domain": ".umd.edu",
+      "path": "/",
+      "expires": 1755437843,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_6HFQB7M478",
+      "value": "GS2.1.s1755437783$o1$g0$t1755437783$j60$l0$h0",
+      "domain": ".umd.edu",
+      "path": "/",
+      "expires": 1789997783.517134,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.855232743.1755437783",
+      "domain": ".umd.edu",
+      "path": "/",
+      "expires": 1789997783.517281,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://honors.umd.edu",
+      "localStorage": [
+        {
+          "name": "umd-alert-time",
+          "value": "Sun Aug 17 2025 09:37:23 GMT-0400 (Eastern Daylight Saving Time)"
+        }
+      ]
+    }
+  ]
+}

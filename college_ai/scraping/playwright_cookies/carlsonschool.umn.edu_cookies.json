@@ -1,0 +1,319 @@
+{
+  "cookies": [
+    {
+      "name": "_gcl_au",
+      "value": "1.1.811699762.1755462235",
+      "domain": ".umn.edu",
+      "path": "/",
+      "expires": 1763238235,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.231588282.1755462236",
+      "domain": ".umn.edu",
+      "path": "/",
+      "expires": 1790022322.692239,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "nmstat",
+      "value": "e5d14218-95d3-c439-92fc-42052b9c6150",
+      "domain": ".umn.edu",
+      "path": "/",
+      "expires": 1790022235.902518,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CLID",
+      "value": "12ea6f6e50ec4567b09239f43db63bb4.20250817.20260817",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1786998234.949866,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_node",
+      "value": "706d5032f60f7d5b4b441dc9fefb10df697c1164d8717d513b95a052a3031360",
+      "domain": "choose.umn.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "e6c7afcc-479d-4f29-9662-622f23b41792",
+      "domain": "choose.umn.edu",
+      "path": "/",
+      "expires": 1790022236.099879,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "choose.umn.edu",
+      "path": "/",
+      "expires": 1790022236.099957,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_pk_id.3.1ec1",
+      "value": "72b162a0dfab6454.1755462236.",
+      "domain": "carlsonschool.umn.edu",
+      "path": "/",
+      "expires": 1789417436,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_pk_ses.3.1ec1",
+      "value": "1",
+      "domain": "carlsonschool.umn.edu",
+      "path": "/",
+      "expires": 1755464123,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&5a888fa8-625f-431b-8282-651bb3b8b4c0\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1786998237.228063,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=VGST01:s=V:r=V:a=V:p=V:g=3635:u=1:x=1:i=1755462236:t=1755548636:v=2:sig=AQHq_On2pWxoU-0ZXmtvhtXl5L7erAsv\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755548637.228154,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755462236756.620334045980473062",
+      "domain": ".umn.edu",
+      "path": "/",
+      "expires": 1763238323,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_clck",
+      "value": "17m6p3r%7C2%7Cfyj%7C0%7C2055",
+      "domain": ".umn.edu",
+      "path": "/",
+      "expires": 1786998236,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUlkTyfzSTsymV0AZeo9CGqPxPKgr-8v8Q4peXU-X0Ho3TWp3y5fMOaXKj6x",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1790022264.511564,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_NKWXWEPQT2",
+      "value": "GS2.1.s1755462236$o1$g1$t1755462322$j41$l0$h1818783357",
+      "domain": ".umn.edu",
+      "path": "/",
+      "expires": 1790022322.373761,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_6FR2X05R3D",
+      "value": "GS2.1.s1755462235$o1$g1$t1755462322$j41$l0$h0",
+      "domain": ".umn.edu",
+      "path": "/",
+      "expires": 1790022322.399222,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_SHHVJ0J8T4",
+      "value": "GS2.1.s1755462235$o1$g1$t1755462322$j41$l0$h0",
+      "domain": ".umn.edu",
+      "path": "/",
+      "expires": 1790022322.551971,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_VTRQJBKGTS",
+      "value": "GS2.1.s1755462235$o1$g1$t1755462322$j41$l0$h0",
+      "domain": ".umn.edu",
+      "path": "/",
+      "expires": 1790022322.641293,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_91QQXZ24VB",
+      "value": "GS2.1.s1755462236$o1$g1$t1755462322$j41$l0$h0",
+      "domain": ".umn.edu",
+      "path": "/",
+      "expires": 1790022322.691906,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "HoPTwZjnrJxaMNSs6LJ6XAxQ5Qn1i7h5sbYWvRYolx4-1755462323-1.0.1.1-q1qARV02ZZRj_JPWJg1vTS.XRuB7nqzkqV36gdblGZ22Tai.8nhCdg2r39DV_w1WFl4bJn9Syz666rIPgd1ybCg_TFq9B7MIFZymVNoTqyM",
+      "domain": ".js.ubembed.com",
+      "path": "/",
+      "expires": 1755464123.031523,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_uetsid",
+      "value": "19ac2a807ba811f0abc5935d35a5d2cb",
+      "domain": ".umn.edu",
+      "path": "/",
+      "expires": 1755548723,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_uetvid",
+      "value": "19ac4c407ba811f0a0a2ff25f63109a3",
+      "domain": ".umn.edu",
+      "path": "/",
+      "expires": 1789158323,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://carlsonschool.umn.edu",
+      "localStorage": [
+        {
+          "name": "d48a0fdb-2fb1-9f1b-502e-0f76fa505756_pp",
+          "value": "{}"
+        },
+        {
+          "name": "ub-emb-10846684-d3da-4c35-a25d-836967bebc11",
+          "value": "{\"events\":[{\"timestamp\":1755462323490,\"type\":\"HOST_PAGE_VISIT\"}],\"variantLetter\":\"i\"}"
+        },
+        {
+          "name": "ub-emb-db91444b-49b8-486b-8b3d-8340eaa18db6",
+          "value": "{\"events\":[],\"variantLetter\":\"i\"}"
+        },
+        {
+          "name": "_uetvid_exp",
+          "value": "Fri, 11 Sep 2026 20:25:23 GMT"
+        },
+        {
+          "name": "ub-emb-d5bd6c4a-9660-422a-b14d-328135dfa38b",
+          "value": "{\"events\":[],\"variantLetter\":\"h\"}"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755462323970"
+        },
+        {
+          "name": "ub-emb-fd399112-e31d-4940-8b26-9641d6ce0d65",
+          "value": "{\"events\":[],\"variantLetter\":\"h\"}"
+        },
+        {
+          "name": "ub-emb-id",
+          "value": "5a6b739b1f7242259f1bbf5b47ac467d"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755462234580},\"expires\":1763238234580}}"
+        },
+        {
+          "name": "_uetsid",
+          "value": "19ac2a807ba811f0abc5935d35a5d2cb"
+        },
+        {
+          "name": "ub-emb-be58b63d-fd76-486c-a6c5-fc7c63cca6ae",
+          "value": "{\"events\":[],\"variantLetter\":\"j\"}"
+        },
+        {
+          "name": "d48a0fdb-2fb1-9f1b-502e-0f76fa505756_st",
+          "value": "1755462236536"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755462323712"
+        },
+        {
+          "name": "_uetsid_exp",
+          "value": "Mon, 18 Aug 2025 20:25:23 GMT"
+        },
+        {
+          "name": "ub-emb-47af8c33-0b5c-4b39-bf5f-96c659bba6df",
+          "value": "{\"events\":[],\"variantLetter\":\"h\"}"
+        },
+        {
+          "name": "ub-emb-262c5dd6-77bf-43b3-8f81-d8b21357001a",
+          "value": "{\"events\":[],\"variantLetter\":\"f\"}"
+        },
+        {
+          "name": "_uetvid",
+          "value": "19ac4c407ba811f0a0a2ff25f63109a3"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "ub-emb-9cc4581f-6694-4feb-b994-38038eeff3d4",
+          "value": "{\"events\":[],\"variantLetter\":\"i\"}"
+        },
+        {
+          "name": "ub-emb-ab167028-9ce1-4d92-b052-84ec41feb39e",
+          "value": "{\"events\":[],\"variantLetter\":\"k\"}"
+        },
+        {
+          "name": "li_adsId",
+          "value": "ed736942-42b0-405d-973b-f08fad021a1f"
+        },
+        {
+          "name": "ub-emb-ca915d37-6724-4e06-9e85-e6f1e39dbb82",
+          "value": "{\"events\":[],\"variantLetter\":\"n\"}"
+        }
+      ]
+    }
+  ]
+}

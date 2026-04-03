@@ -1,0 +1,35 @@
+{
+  "cookies": [
+    {
+      "name": "_ga",
+      "value": "GA1.1.577310894.1775127619",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1809728644,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_D1P15N0YFY",
+      "value": "GS2.1.s1775168643$o2$g0$t1775168643$j60$l0$h0",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1809728643,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_FP74D566MM",
+      "value": "GS2.1.s1775168644$o2$g0$t1775168644$j60$l0$h0",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1809728644,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

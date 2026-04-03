@@ -1,0 +1,533 @@
+{
+  "cookies": [
+    {
+      "name": "f5avraaaaaaaaaaaaaaaa_session_",
+      "value": "FCMHDGKJCLCHCKGJCEEDJNCMDKNCABPNJHJLHBFJJLHBNIICNLJJOJIIJCICEDCPHHADBFHDGBLKJDNFMCAABDNELNMIOLBPHFIPHNIAIPCFHKMNBFDPOLIIOAKDEMNF",
+      "domain": "northwestern.edu",
+      "path": "/provost/faculty-honors",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "f5avraaaaaaaaaaaaaaaa_session_",
+      "value": "MFPCFACIKDIPFLIEMDEJNKKDFNLAKNGLMJFJIKLJAKNFCDKIEKHHCLAMFONHFMBODBIDNGNHHBGHOMCEIBMAKEEALNLNMKNEIIGBDBKDLIINLCIKCOKFKLBPJPGOLILL",
+      "domain": "www.northwestern.edu",
+      "path": "/provost/faculty-honors",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "f5avraaaaaaaaaaaaaaaa_session_",
+      "value": "MCHMDEMHCKECJPOMHIJJLIGNDMOGBNCLEOKIDEMNNOOPMLIMLBMGADFAFGIGJNEAPCADKBLMECPNEPALKPKAKCKNCNJGPLGELLLOPIMMGKMDFENGIIIILOJBFCIPANBK",
+      "domain": "common.northwestern.edu",
+      "path": "/dept/4.0/css",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "f5avraaaaaaaaaaaaaaaa_session_",
+      "value": "CDFIBIPAAJLODIBPNBFONDAAOPBIHDBDGLGCCFCPKNKAJOBLAIKEMEENNALMMHKADFIDJBIJIBGGEKMKADPADOJBLNACMGCJEDEGIGGCDACMOEPNEDDAHHOFIKBEBLJB",
+      "domain": "common.northwestern.edu",
+      "path": "/dept/3.0/js",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "f5avraaaaaaaaaaaaaaaa_session_",
+      "value": "CANCFMLDFAOFAILLNACNJCLCJFLFMOBIIOIOCCCJHIDJCIEFAKAAMPEFLCBAKFIFDHGDHIFMECDBAOFMKJJAKPNDCNDGOHDOLMCNOEHFMKPOCDENFJJBINHEPIEJONNP",
+      "domain": "common.northwestern.edu",
+      "path": "/dept/4.0/js",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "f5avraaaaaaaaaaaaaaaa_session_",
+      "value": "OBPKCPBAFPDIIEEFIOGJNPNECFKMAPNLJPNLEBIKCEEBJDLPDMDEBPKHMGGFOADFKEKDHFOMIBEEKKAGHOHAKOOMLNDCKLKNJOKNPCIBGMCPPNPGDDAECLMPBCEPCHOJ",
+      "domain": "common.northwestern.edu",
+      "path": "/dept/3.0",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "f5avraaaaaaaaaaaaaaaa_session_",
+      "value": "OEGKMLFGBJPIMMAHDNFPLPEANDKJHMGACDPAKLHDECJOMBLIPLEKJFMNNCGBDCGOEGADNNHOECHLJEKNHNJAJPHGCNKNGLBIKKFFFMIKOCILDDJEBAILGEIDGPFKBMED",
+      "domain": "common.northwestern.edu",
+      "path": "/v9/css",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "f5avraaaaaaaaaaaaaaaa_session_",
+      "value": "NNFHNEEHHJANEMICICKAOJOJHDABJCLAEKBPOKBGNBJKPHFHNHPGAHIMLGNAKOMJCAIDINOPECNCBGNGGGFAAKEHCNDBOINCPNNNIODFANAPEFGNMGLNODKKKHLEGHBJ",
+      "domain": "common.northwestern.edu",
+      "path": "/v9/js",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "BIGipServer~trust-662~pool_evnuinfo_80",
+      "value": "!YdcqhnEfzHS2nBZhqWSXwNz1yBZ7/stWyjAicuMVaEr/yyBKuS+86xc6WoM/4OxZ9Y72jGVqUKHASg==",
+      "domain": "northwestern.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "BIGipServer~trust-662~pool_evnuinfo_80",
+      "value": "!vev4P4OeMKdqfl1hqWSXwNz1yBZ7/hu74rnMk7CzLQKWIL8s8MXNZ2xlEh31dJSfF8fWGBwsafxiOw==",
+      "domain": "www.northwestern.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "BIGipServer~trust-662~pool_evnuinfo_80",
+      "value": "!zW/kQWl3OnKZ42thqWSXwNz1yBZ7/uudzkZSAjHG+A8kTYhvGTvy3l4BB5LzqqgFrvz7jngkBDaQUw==",
+      "domain": "common.northwestern.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "f5avraaaaaaaaaaaaaaaa_session_",
+      "value": "FDAIMHMCFBHCKOKLCNCBDOBLEKIABJELGGMDKJKNALANECPDPPPIDLFMNFLBBNHCPLADGMOLDCMPOLCDDIBAGGGKCNAEACEOOPOJJIGJEGGIIFGCONACJGPGMKINHAAK",
+      "domain": "northwestern.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "f5avraaaaaaaaaaaaaaaa_session_",
+      "value": "BCDEALGNHMMGFDAFGBJPMMOJMBHKOEDNAFAKJDMLLIAOIBLIBPMFDKKEBOABIMNLGNIDEABLDCAJKCGIJHJAHGJDCNEAMMJAGHLPKHLGALEIMPLIAPLDJGILFINNEKCC",
+      "domain": "www.northwestern.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cookieyes-consent",
+      "value": "consentid:a0JRYU5TdGZabVBzYWxPWWlPRHZSU3hUdFFjRmtSTG0,consent:yes,action:yes,necessary:yes,functional:yes,analytics:yes,performance:yes,advertisement:yes,other:yes,lastRenewedDate:1746477722000",
+      "domain": ".northwestern.edu",
+      "path": "/",
+      "expires": 1786971634,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_ga_JF7CBCTDRN",
+      "value": "GS2.1.s1755435634$o1$g0$t1755435634$j60$l0$h0",
+      "domain": ".northwestern.edu",
+      "path": "/",
+      "expires": 1789995634.73521,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.508386821.1755435635",
+      "domain": ".northwestern.edu",
+      "path": "/",
+      "expires": 1790017141.290809,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_7XLBH2NC54",
+      "value": "GS2.1.s1755435523$o1$g1$t1755435634$j60$l0$h0",
+      "domain": ".northwestern.edu",
+      "path": "/",
+      "expires": 1789995634.737504,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_node",
+      "value": "0884b6b69328a2f83a877fac94eb03198b4762757c0dcd5c7c1d88badc29cb79",
+      "domain": "admissions.kellogg.northwestern.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "fbddc7fb-5936-46ad-9104-39bc5b0f6087",
+      "domain": "admissions.kellogg.northwestern.edu",
+      "path": "/",
+      "expires": 1790017139.495951,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "admissions.kellogg.northwestern.edu",
+      "path": "/",
+      "expires": 1790017139.496395,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.2071360330.1755457141",
+      "domain": ".northwestern.edu",
+      "path": "/",
+      "expires": 1763233141,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_DTHFMPBSZ1",
+      "value": "GS2.1.s1755457140$o1$g0$t1755457141$j59$l0$h0",
+      "domain": ".northwestern.edu",
+      "path": "/",
+      "expires": 1790017141.294195,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "test_cookie",
+      "value": "CheckForPermission",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1755458042.801402,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "cust-referrer",
+      "value": "direct-visit",
+      "domain": ".kellogg.northwestern.edu",
+      "path": "/",
+      "expires": 1755543543,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cust-landing",
+      "value": "https://admissions.kellogg.northwestern.edu/portal/admissions-events",
+      "domain": ".kellogg.northwestern.edu",
+      "path": "/",
+      "expires": 1755543543,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CLID",
+      "value": "5183c25f06f844f5befa7ece5f56230b.20250817.20260817",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1786993145.583518,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-ddbe96bd-2339-4c15-42b9-a203d6503906.VVK11TED%2FOGG1zckSjqRjFsZBVR5PQOkd5beROGNiRY",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1786993145.673452,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-ddbe96bd-2339-4c15-42b9-a203d6503906.VVK11TED%2FOGG1zckSjqRjFsZBVR5PQOkd5beROGNiRY",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1786993145.673487,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3A3b6WvSM5TBVCuaID1lA5Bg.Y5pAbLIsvQ%2Fu01LUYBvsMe5GjhJVy4N9p%2FmAl31W0hc",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1786993145.673606,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3A3b6WvSM5TBVCuaID1lA5Bg.Y5pAbLIsvQ%2Fu01LUYBvsMe5GjhJVy4N9p%2FmAl31W0hc",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1786993145.673617,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEHwYAiD5zIjFBjoEmw576UIEpBOpMg.1gYeDxbX%2FT3qSWwreiIcma8%2BowlIXZFUmnlTmbvkWrI",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1786993145.673548,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEHwYAiD5zIjFBjoEmw576UIEpBOpMg.1gYeDxbX%2FT3qSWwreiIcma8%2BowlIXZFUmnlTmbvkWrI",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1786993145.673584,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%253A0-ddbe96bd-2339-4c15-42b9-a203d6503906.VVK11TED%252FOGG1zckSjqRjFsZBVR5PQOkd5beROGNiRY",
+      "domain": "admissions.kellogg.northwestern.edu",
+      "path": "/",
+      "expires": 1786993145,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%253A3b6WvSM5TBVCuaID1lA5Bg.Y5pAbLIsvQ%252Fu01LUYBvsMe5GjhJVy4N9p%252FmAl31W0hc",
+      "domain": "admissions.kellogg.northwestern.edu",
+      "path": "/",
+      "expires": 1786993145,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%253AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEHwYAiD5zIjFBjoEmw576UIEpBOpMg.1gYeDxbX%252FT3qSWwreiIcma8%252BowlIXZFUmnlTmbvkWrI",
+      "domain": "admissions.kellogg.northwestern.edu",
+      "path": "/",
+      "expires": 1786993145,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&e09afc83-3860-4fbf-8fd0-928ccfa1a290\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1786993145.887377,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=TGST09:s=T:r=T:a=T:p=T:g=3101:u=1:x=1:i=1755457145:t=1755543545:v=2:sig=AQELclQaQoJIrOgP6iRYcLiYQYwAeMMm\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755543545.887422,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_clck",
+      "value": "yqlc4i%7C2%7Cfyj%7C1%7C2055",
+      "domain": ".northwestern.edu",
+      "path": "/",
+      "expires": 1786993145,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "rl_anonymous_id",
+      "value": "RS_ENC_v3_ImYyODhkN2U1LWZiMjgtNDk2Ni04YjU3LTRiNzU2MThhMzNiZSI%3D",
+      "domain": ".northwestern.edu",
+      "path": "/",
+      "expires": 1786993146,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "rl_page_init_referrer",
+      "value": "RS_ENC_v3_IiRkaXJlY3Qi",
+      "domain": ".northwestern.edu",
+      "path": "/",
+      "expires": 1786993146,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "rl_session",
+      "value": "RS_ENC_v3_eyJpZCI6MTc1NTQ1NzE0Njg5MywiZXhwaXJlc0F0IjoxNzU1NDU4OTQ2ODkzLCJ0aW1lb3V0IjoxODAwMDAwLCJhdXRvVHJhY2siOnRydWV9",
+      "domain": ".northwestern.edu",
+      "path": "/",
+      "expires": 1786993146,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "OptanonAlertBoxClosed",
+      "value": "2025-08-17T18:59:08.426Z",
+      "domain": ".kellogg.northwestern.edu",
+      "path": "/",
+      "expires": 1786993148,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "OptanonConsent",
+      "value": "isGpcEnabled=0&datestamp=Sun+Aug+17+2025+14%3A59%3A08+GMT-0400+(Eastern+Daylight+Time)&version=202507.1.0&browserGpcFlag=0&isIABGlobal=false&hosts=&consentId=509a0beb-f6bc-4794-a7b8-78c6c54238b6&interactionCount=1&isAnonUser=1&landingPath=NotLandingPage&groups=C0001%3A1%2CC0003%3A1%2CC0002%3A1%2CC0004%3A1&intType=1",
+      "domain": ".kellogg.northwestern.edu",
+      "path": "/",
+      "expires": 1786993148,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://admissions.kellogg.northwestern.edu",
+      "localStorage": [
+        {
+          "name": "36d59d92-bccb-894f-c37a-7ba2cad6e4b5_pp",
+          "value": "{}"
+        },
+        {
+          "name": "__reff",
+          "value": "[[https://admissions.kellogg.northwestern.edu/portal/admissions-events]](direct)&1755457143588.1755457143588.1./portal/admissions-events"
+        },
+        {
+          "name": "mtaLastEvt",
+          "value": "1999562b-1585-4cae-847d-f291be7b41b2"
+        },
+        {
+          "name": "sa-user-id",
+          "value": "s%3A0-ddbe96bd-2339-4c15-42b9-a203d6503906.VVK11TED%2FOGG1zckSjqRjFsZBVR5PQOkd5beROGNiRY"
+        },
+        {
+          "name": "mtaClientIp",
+          "value": "2607:fb90:9c20:cc04:7423:5db6:95a9:f9b3"
+        },
+        {
+          "name": "mtaGUID",
+          "value": "7489da64-2e4d-48c5-b866-4ec19411a21d"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755457140738},\"expires\":1763233140738}}"
+        },
+        {
+          "name": "session_/expires",
+          "value": "0"
+        },
+        {
+          "name": "sa-user-id-v3",
+          "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEHwYAiD5zIjFBjoEmw576UIEpBOpMg.1gYeDxbX%2FT3qSWwreiIcma8%2BowlIXZFUmnlTmbvkWrI"
+        },
+        {
+          "name": "sa-user-id-v2",
+          "value": "s%3A3b6WvSM5TBVCuaID1lA5Bg.Y5pAbLIsvQ%2Fu01LUYBvsMe5GjhJVy4N9p%2FmAl31W0hc"
+        },
+        {
+          "name": "__arcalea_mta",
+          "value": "1755457211167"
+        },
+        {
+          "name": "rudder_2wSYEOgXSAivGXDJjRvUwzupb6X.52fe60a3-7e50-4530-bcbe-ad497e3e7ad5.batchQueue",
+          "value": "\"[]\""
+        },
+        {
+          "name": "mtaBrowser",
+          "value": "Chrome"
+        },
+        {
+          "name": "rudder_2wSYEOgXSAivGXDJjRvUwzupb6X.52fe60a3-7e50-4530-bcbe-ad497e3e7ad5.inProgress",
+          "value": "\"{}\""
+        },
+        {
+          "name": "mtaScreenResolution",
+          "value": "1366x768"
+        },
+        {
+          "name": "mtaLongitude",
+          "value": "-122.4121"
+        },
+        {
+          "name": "36d59d92-bccb-894f-c37a-7ba2cad6e4b5_st",
+          "value": "1755457145618"
+        },
+        {
+          "name": "rudder_2wSYEOgXSAivGXDJjRvUwzupb6X.52fe60a3-7e50-4530-bcbe-ad497e3e7ad5.queue",
+          "value": "\"[]\""
+        },
+        {
+          "name": "rudder_2wSYEOgXSAivGXDJjRvUwzupb6X.52fe60a3-7e50-4530-bcbe-ad497e3e7ad5.ack",
+          "value": "\"1755457149900\""
+        },
+        {
+          "name": "utm_data",
+          "value": "{\"cust-referrer\":\"direct-visit\",\"cust-landing\":\"https://admissions.kellogg.northwestern.edu/portal/admissions-events\"}"
+        },
+        {
+          "name": "mtaLatitude",
+          "value": "37.7506"
+        },
+        {
+          "name": "li_adsId",
+          "value": "eba1dd56-a0af-4202-9f09-a68614085a06"
+        },
+        {
+          "name": "mtaPageName",
+          "value": "portaladmissions-events"
+        }
+      ]
+    }
+  ]
+}

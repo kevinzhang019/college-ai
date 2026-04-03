@@ -1,0 +1,65 @@
+{
+  "cookies": [
+    {
+      "name": "cache_id",
+      "value": "4d383bc6b30bd2512be34dabd640fb0d",
+      "domain": "faculty.utexas.edu",
+      "path": "/",
+      "expires": 1755440776.20101,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "balancer_id",
+      "value": "utweb-px-z1-p06_https|aKHYe|aKHYe",
+      "domain": "faculty.utexas.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.6195782.1755437176",
+      "domain": ".utexas.edu",
+      "path": "/",
+      "expires": 1789997176.181181,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.918546922.1755437176",
+      "domain": ".utexas.edu",
+      "path": "/",
+      "expires": 1755523576,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat",
+      "value": "1",
+      "domain": ".utexas.edu",
+      "path": "/",
+      "expires": 1755437236,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_8VTTXLPZ0L",
+      "value": "GS2.2.s1755437176$o1$g0$t1755437176$j60$l0$h0",
+      "domain": ".utexas.edu",
+      "path": "/",
+      "expires": 1789997176.958595,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

@@ -1,0 +1,85 @@
+{
+  "cookies": [
+    {
+      "name": "_gid",
+      "value": "GA1.2.852169713.1755438704",
+      "domain": ".emory.edu",
+      "path": "/",
+      "expires": 1755525146,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_emoryUniversityTracker",
+      "value": "1",
+      "domain": ".emory.edu",
+      "path": "/",
+      "expires": 1755438764,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_emoryCollegeTracker",
+      "value": "1",
+      "domain": ".emory.edu",
+      "path": "/",
+      "expires": 1755438764,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AWSALB",
+      "value": "PX2gEi9bB9h7vWMEZNe0W8lvOMu3EqV1HBKScB32HHvhPI0L4V0fTcyXIUVvw9/LNrBU+qPVv/Fto+3sApid04ZvnAdZiFMa5iR7PoJtyaQaj6t75uO8S/qC93EP",
+      "domain": "web.college.emory.edu",
+      "path": "/",
+      "expires": 1756043546.024384,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AWSALBCORS",
+      "value": "PX2gEi9bB9h7vWMEZNe0W8lvOMu3EqV1HBKScB32HHvhPI0L4V0fTcyXIUVvw9/LNrBU+qPVv/Fto+3sApid04ZvnAdZiFMa5iR7PoJtyaQaj6t75uO8S/qC93EP",
+      "domain": "web.college.emory.edu",
+      "path": "/",
+      "expires": 1756043546.024459,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_9NESQSDH62",
+      "value": "GS2.1.s1755438704$o1$g1$t1755438746$j18$l0$h0",
+      "domain": ".emory.edu",
+      "path": "/",
+      "expires": 1789998746.129416,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.1440534809.1755438704",
+      "domain": ".emory.edu",
+      "path": "/",
+      "expires": 1789998746.267824,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_S608MY9PZC",
+      "value": "GS2.2.s1755438705$o1$g1$t1755438747$j18$l0$h0",
+      "domain": ".emory.edu",
+      "path": "/",
+      "expires": 1789998747.456446,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

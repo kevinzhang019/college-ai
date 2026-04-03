@@ -1,0 +1,243 @@
+{
+  "cookies": [
+    {
+      "name": "_gcl_au",
+      "value": "1.1.614929270.1755563025",
+      "domain": ".stanford.edu",
+      "path": "/",
+      "expires": 1763339025,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1290826271.1755563025",
+      "domain": ".stanford.edu",
+      "path": "/",
+      "expires": 1790123038.851091,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "smartrfi_prospect_id",
+      "value": "1290826271.1755563025.",
+      "domain": ".stanford.edu",
+      "path": "/",
+      "expires": 1787099038,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__spdt",
+      "value": "11049bd7cb9c430e816f2c7ea6a61c2b",
+      "domain": "www.gsb.stanford.edu",
+      "path": "/",
+      "expires": 1787099024,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "__qca",
+      "value": "P1-2e0ac516-2de1-458c-99f7-29e094f69293",
+      "domain": ".stanford.edu",
+      "path": "/",
+      "expires": 1789431824,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755563025088.371541656708273981",
+      "domain": ".stanford.edu",
+      "path": "/",
+      "expires": 1763339039,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "receive-cookie-deprecation",
+      "value": "1",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1771115039.067574,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://stanford.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "lo-uid",
+      "value": "7d9bd849-1755563025081-37df15bb5078cf3e",
+      "domain": ".stanford.edu",
+      "path": "/",
+      "expires": 1790123025.228158,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "lo-visits",
+      "value": "1",
+      "domain": ".stanford.edu",
+      "path": "/",
+      "expires": 1790123025.228484,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": "px.ads.linkedin.com",
+      "path": "/",
+      "expires": 1758192785.015582,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&7d1fa28e-920e-47aa-88bb-e105c0476d80\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1787099039.015607,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=VGST09:s=V:r=V:a=V:p=V:g=3278:u=1:x=1:i=1755563025:t=1755649425:v=2:sig=AQHNvd3S8SUMWPqobrWN5NZbbAlu2nUm\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755649426.236475,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "nmstat",
+      "value": "fb21b82f-487a-b50b-7ef4-b839b8825633",
+      "domain": ".stanford.edu",
+      "path": "/",
+      "expires": 1790123025.296273,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ssi",
+      "value": "34a38149-e9d8-44a3-9932-ced09c82c202#1755563025510",
+      "domain": ".sitescout.com",
+      "path": "/",
+      "expires": 1787099039.919525,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "SSESSfa01bbdee6d6fa19415203c80a71cbc6",
+      "value": "q9o1X2DMrsJd2M3zq1Kpb-EpsreizXXkU453osCH9iLCw%2CAq",
+      "domain": ".www.gsb.stanford.edu",
+      "path": "/",
+      "expires": 1757563026.965021,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_C01SM0HKYW",
+      "value": "GS2.1.s1755563024$o1$g1$t1755563038$j46$l0$h0",
+      "domain": ".stanford.edu",
+      "path": "/",
+      "expires": 1790123038.858931,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_WR457YGH1M",
+      "value": "GS2.1.s1755563024$o1$g1$t1755563038$j46$l0$h0",
+      "domain": ".stanford.edu",
+      "path": "/",
+      "expires": 1790123038.863663,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUnyv0MN0QTfPQCB39fxB0FeMjQuNP4aEwx_P_yCZzzAHWkL5Lux-LTt85JSpTY",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1790123039.06736,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ssuma",
+      "value": "eyI0NCI6MTc1NTU2MzAzOTkwOSwiNDUiOjE3NTU1NjMwMjU3OTAsIjc4IjoxNzU1NTYzMDM5OTA5LCI2OCI6MTc1NTU2MzAyNTc5MCwiMjQiOjE3NTU1NjMwMzk1NzYsIjQ4IjoxNzU1NTYzMDM5NTc2LCIyNiI6MTc1NTU2MzAzOTU3NiwiMjciOjE3NTU1NjMwMzk1NzYsIjM5IjoxNzU1NTYzMDI1NTYwLCIxNyI6MTc1NTU2MzAyNTc5MCwiMiI6MTc1NTU2MzAyNTU2MCwiNCI6MTc1NTU2MzAyNTU2MCwiNyI6MTc1NTU2MzAyNTU2MCwiOCI6MTc1NTU2MzAyNTU2MCwiODQiOjE3NTU1NjMwMzk5MDksIjQxIjoxNzU1NTYzMDM5OTA5LCI4NSI6MTc1NTU2MzAzOTkwOSwiNTMiOjE3NTU1NjMwMjU3OTAsIjQyIjoxNzU1NTYzMDI1NzkwLCIxMCI6MTc1NTU2MzAzOTU3Nn0",
+      "domain": ".sitescout.com",
+      "path": "/",
+      "expires": 1758155039.91955,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://www.gsb.stanford.edu",
+      "localStorage": [
+        {
+          "name": "cntr_attr",
+          "value": "[]"
+        },
+        {
+          "name": "lo-session",
+          "value": "{\"id\":\"7d9bd849-1755563025199-02064ecb6c8cde7d\",\"siteId\":\"7d9bd849\",\"createdAt\":\"2025-08-19T00:23:45.199Z\",\"visitorId\":\"7d9bd849-1755563025081-37df15bb5078cf3e\",\"url\":\"https://www.gsb.stanford.edu/gsb-box/route-download/626153\",\"updatedAt\":1755563038883,\"expired\":false,\"pagePath\":\"1744450369-1744450369\",\"pageOrder\":2,\"pageId\":\"7d9bd849-1755563038867-6d37e19498944d24\",\"recordingId\":\"7d9bd849-1755563038868-77c0e9045afbeb6b\",\"queues\":{\"visitors\":[],\"events\":[],\"recording-data\":[]}}"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755563025031"
+        },
+        {
+          "name": "_qcses_p-g1TrDkhDYs0yB",
+          "value": "{\"lastEvent\":1755563038718,\"sid\":\"731bb047-ff81-4414-9e60-63e04c44a4b8\",\"engagementState\":{\"eventsCount\":2,\"engagementDurationMs\":0,\"hasConversionEvent\":false,\"lastVisibleTs\":1755563024820},\"config\":{\"timeoutMs\":1800000}}"
+        },
+        {
+          "name": "lo-visitor",
+          "value": "{\"firstVisit\":1755563025199,\"lastVisit\":1755563025199}"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755563039021"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755563024647},\"expires\":1763339024647}}"
+        },
+        {
+          "name": "li_adsId",
+          "value": "edd6884d-54d0-49af-94b7-6ad42368270a"
+        },
+        {
+          "name": "__qca",
+          "value": "{\"value\":\"P1-2e0ac516-2de1-458c-99f7-29e094f69293\",\"expiry\":1789431824993}"
+        }
+      ]
+    }
+  ]
+}

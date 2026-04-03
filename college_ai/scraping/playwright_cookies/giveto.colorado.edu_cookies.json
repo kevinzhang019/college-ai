@@ -1,0 +1,470 @@
+{
+  "cookies": [
+    {
+      "name": "_ga_WW2LE17NC1",
+      "value": "GS2.1.s1755446747$o1$g0$t1755446747$j60$l0$h0",
+      "domain": ".colorado.edu",
+      "path": "/",
+      "expires": 1790006747.743721,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_scid",
+      "value": "c2cOZ27jXAXT2YI2BpvPFHp8yucj6EEN",
+      "domain": ".colorado.edu",
+      "path": "/",
+      "expires": 1789633445,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_scid_r",
+      "value": "c2cOZ27jXAXT2YI2BpvPFHp8yucj6EEN",
+      "domain": ".colorado.edu",
+      "path": "/",
+      "expires": 1789633445,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_node",
+      "value": "706d5032f60f7d5b4b441dc9fefb10df697c1164d8717d513b95a052a3031360",
+      "domain": "ugrad.apply.colorado.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "a5cdb426-acee-4309-9fa0-e5ab5b624b83",
+      "domain": "ugrad.apply.colorado.edu",
+      "path": "/",
+      "expires": 1790006747.915617,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "ugrad.apply.colorado.edu",
+      "path": "/",
+      "expires": 1790006747.915732,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_tt_enable_cookie",
+      "value": "1",
+      "domain": ".colorado.edu",
+      "path": "/",
+      "expires": 1789142748,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ttp",
+      "value": "01K2WCF9621ZA5VFGQ57K3BDYQ_.tt.1",
+      "domain": ".colorado.edu",
+      "path": "/",
+      "expires": 1789142748,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ttcsid",
+      "value": "1755446748356::221CsAswpoY_-R2it7JA.1.1755446748356",
+      "domain": ".colorado.edu",
+      "path": "/",
+      "expires": 1789142748,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ScCbts",
+      "value": "%5B%5D",
+      "domain": ".colorado.edu",
+      "path": "/",
+      "expires": 1756051548,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.1347511924.1755446748",
+      "domain": ".colorado.edu",
+      "path": "/",
+      "expires": 1763222748,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_node",
+      "value": "706d5032f60f7d5b4b441dc9fefb10df697c1164d8717d513b95a052a3031360",
+      "domain": "grad.apply.colorado.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "c374be5d-3f2b-4996-93e3-b1a22b877ccc",
+      "domain": "grad.apply.colorado.edu",
+      "path": "/",
+      "expires": 1790006748.494892,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "grad.apply.colorado.edu",
+      "path": "/",
+      "expires": 1790006748.494914,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ttcsid_CCRH2EJC77UDPV42AVRG",
+      "value": "1755446748356::faZdy4V_Kwpp4XrZDF_6.1.1755446748563",
+      "domain": ".colorado.edu",
+      "path": "/",
+      "expires": 1789142748,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_viewedMap",
+      "value": "true",
+      "domain": "map.concept3d.com",
+      "path": "/",
+      "expires": 1786982749,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&261704f5-4540-4de5-8c83-ce01895dfc8b\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1786982749.878697,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_TS",
+      "value": "1755446750080",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760630750.126605,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_DID",
+      "value": "8197daa9-4162-4d87-898a-00b24e4d6f92",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760630750.126684,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_3WAY_SYNCS",
+      "value": "",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760630750.126727,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sc_at",
+      "value": "v2|H4sIAAAAAAAAAE3GwRHAIAgEwIqYAefIQbqJiFVYvN/sa7NzqZVLrTZB5JTc1RK7g5MD4+Mx6Gt0Bx66nl/1AqFYv4ZAAAAA",
+      "domain": ".snapchat.com",
+      "path": "/",
+      "expires": 1789142750.2092,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_sctr",
+      "value": "1%7C1755388800000",
+      "domain": ".colorado.edu",
+      "path": "/",
+      "expires": 1789633448,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__spdt",
+      "value": "7bc6503995604e4caeefdacb227b6d02",
+      "domain": "www.colorado.edu",
+      "path": "/",
+      "expires": 1786982751,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755446752591.620440663987451164",
+      "domain": ".colorado.edu",
+      "path": "/",
+      "expires": 1763222752,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUl7cAUHslWJ_85stnn18oAa1OPahkGSS9_Ws4TG9wBVKMXtNLI1SSo0n3UI",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1790006752.647709,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "cu",
+      "value": "d1536ba8-d745-4d20-bf90-03b492fe66f4|1755446752826",
+      "domain": ".ipredictive.com",
+      "path": "/",
+      "expires": 1786982752.811113,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gc_user_testing_uuid",
+      "value": "dbca0420-6482-4e35-ac58-77f5d3e96579",
+      "domain": "giveto.colorado.edu",
+      "path": "/",
+      "expires": 1790114949.825031,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gdpr",
+      "value": "1",
+      "domain": "giveto.colorado.edu",
+      "path": "/",
+      "expires": 1790006783.583202,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_session_id",
+      "value": "cdf2a099a90d994ce26bb73c86e51f76",
+      "domain": "giveto.colorado.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "browser.timezone",
+      "value": "Etc/UTC",
+      "domain": "giveto.colorado.edu",
+      "path": "/",
+      "expires": 1787090949,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "current_school_id",
+      "value": "2843",
+      "domain": "giveto.colorado.edu",
+      "path": "/",
+      "expires": 1755641349.824959,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "KZxgcfqhUL.YkMR4Zwnjpytvbrxmm5PnAYjuQXIgYPA-1755554949-1.0.1.1-YcPqotcgpsRxVm_Xlp9dXG2OsYmYD2HieRTHOxsSKf7jWnQd7pUvpak1tExQnkQcgqgjCz3_nsyIi7eN3LzB41kM7nkLiILcIxKPKJRxKCY",
+      "domain": ".giveto.colorado.edu",
+      "path": "/",
+      "expires": 1755556749.05279,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "nsfZqSWUsk7AkBqiudQq4K3twK1mvEf2RfSi55YjFH4-1755554950-1.0.1.1-ZnrHnaa4SWT6MT0Jjfa6XRObSR0Z.lD8p3OK32VGxnVYjIQhvDt_3zaDnOibiSDUQMQQqC7roUVAtFO_Emuth_.B.gWFtLLtw3KqfJjda6s",
+      "domain": ".www.paypal.com",
+      "path": "/",
+      "expires": 1755556750.011189,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.851377824.1755554950",
+      "domain": ".colorado.edu",
+      "path": "/",
+      "expires": 1755641350,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cf_clearance",
+      "value": "VijZA5Werjw8y7MjbFWeRKsGq6wRGNXXID8FZJCNqpM-1755554950-1.2.1.1-YW1Bd20koy.5LQUrNKmWDIC6EKpAqkkiZEJsOPgVrFHOy75C4dyvPUWYKmo5OSfJi1eorfSKYSjyt8s64Sc0OeLdsL9nGH3KhDA5aaBHOudjAn6Kaz0i6JKRCA0EKocKjB4ivol4.l1MzTOu3HPOCC0mOTB..V8BVSVTRdcesX2fFjskcx2W8DyJ043JohtOCKftosRxwdzXEI6Evfj9.hEN5yinP.B5bLLhBoW.MV0",
+      "domain": ".colorado.edu",
+      "path": "/",
+      "expires": 1787090950.196538,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://colorado.edu",
+      "_crHasCrossSiteAncestor": false
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.15920021.1755446748",
+      "domain": ".colorado.edu",
+      "path": "/",
+      "expires": 1790114950.213728,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_077DKBSTPV",
+      "value": "GS2.1.s1755554950$o2$g0$t1755554950$j60$l0$h0",
+      "domain": ".colorado.edu",
+      "path": "/",
+      "expires": 1790114950.220032,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat",
+      "value": "1",
+      "domain": ".colorado.edu",
+      "path": "/",
+      "expires": 1755555010,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gali",
+      "value": "contribution_accept_tos",
+      "domain": ".colorado.edu",
+      "path": "/",
+      "expires": 1755554980,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "QU68Lu.K4mVypXFus2LKbVFKUsCWdCPvpu7rOPW_myM-1755554950-1.0.1.1-egdYqBDWIbBvuAs8tRcTMLkwxTeJsCS2MlKDHiFKF8xfP.8BwEVLrbY5NIqYZeAymgY5MVQ9.EfApZlJnEu0R44QmD7pnwa01h6hpAHTHqY",
+      "domain": ".twitter.com",
+      "path": "/",
+      "expires": 1755556750.730506,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://giveto.colorado.edu",
+      "localStorage": [
+        {
+          "name": "__paypal_global_5_0_502_storage__",
+          "value": "{\"id\":\"uid_9f2e36d491_mty6mdy6mju\"}"
+        },
+        {
+          "name": "__paypal_storage__",
+          "value": "{\"id\":\"uid_6b261af0f3_mty6mdy6mju\",\"funding\":{},\"__session__\":{\"guid\":\"uid_fd0d1a7635_mji6mdk6mta\",\"created\":1755554950132}}"
+        }
+      ]
+    },
+    {
+      "origin": "https://www.colorado.edu",
+      "localStorage": [
+        {
+          "name": "7405749a-27fc-ebdd-9b36-cf8f393d5cfb_st",
+          "value": "1755446749687"
+        },
+        {
+          "name": "171bc323-1fbd-60d1-b235-887ef353afd0_st",
+          "value": "1755446748360"
+        },
+        {
+          "name": "u_sclid",
+          "value": "x_5bIlOGwSzs72n8LoUefs8CF6IYi7Ykc2cOZ27jXAXT2YI2BpvPFHp8yucj6EEN"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755446752588"
+        },
+        {
+          "name": "7405749a-27fc-ebdd-9b36-cf8f393d5cfb_pp",
+          "value": "{}"
+        },
+        {
+          "name": "u_sclid_r",
+          "value": "x_5bIlOGwSzs72n8LoUefs8CF6IYi7Ykc2cOZ27jXAXT2YI2BpvPFHp8yucj6EEN"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755446752595"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":1,\"creationTimeMs\":1755446748469},\"expires\":1763222748469}}"
+        },
+        {
+          "name": "171bc323-1fbd-60d1-b235-887ef353afd0_pp",
+          "value": "{}"
+        },
+        {
+          "name": "li_adsId",
+          "value": "486bf5c3-7331-4798-9682-efe9cb29909a"
+        }
+      ]
+    }
+  ]
+}

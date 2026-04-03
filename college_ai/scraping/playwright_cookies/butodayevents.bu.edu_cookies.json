@@ -1,0 +1,372 @@
+{
+  "cookies": [
+    {
+      "name": "_GRECAPTCHA",
+      "value": "09ANMylNDH7ycDslY-qMKtxXvOU09xpZ642v-j38EOUjNy6AEbZ9Q1GOJc3HDluWliGWfGUJHuHCtUFOe58A1oUaU",
+      "domain": "www.google.com",
+      "path": "/recaptcha",
+      "expires": 1771051415.375831,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1249609299.1755436057",
+      "domain": ".bu.edu",
+      "path": "/",
+      "expires": 1790018163.040811,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "loid",
+      "value": "000000001vv1a7e0vk.2.1755436072112.Z0FBQUFBQm9vZFFvSlNxdGU3aEtVdXRFamFlN3VVNzZVSHNzR1ItYVNkWGxZWDBNT0dGSFZobms2TVBsODBIYTcyWXFtUlZKVWkxeS1sdUx5ODN2SnRiTjU3WThfV3V0REd1bVBRbGVqX2d3ZFVKM2g3RjF6bV9ubUdCTFV2MmV0YzhRTmRoUkVnNzY",
+      "domain": ".reddit.com",
+      "path": "/",
+      "expires": 1789996072.091807,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "csrf_token",
+      "value": "e89fee2e240458fd0547a985556e6cbd",
+      "domain": ".reddit.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "csv",
+      "value": "2",
+      "domain": ".reddit.com",
+      "path": "/",
+      "expires": 1789996072.091976,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "edgebucket",
+      "value": "gNEBY5PwOemxU0hR39",
+      "domain": ".reddit.com",
+      "path": "/",
+      "expires": 1789996072.091989,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__utma",
+      "value": "21468840.1249609299.1755436057.1755436132.1755436132.1",
+      "domain": ".bu.edu",
+      "path": "/",
+      "expires": 1789996132.312845,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__utmc",
+      "value": "21468840",
+      "domain": ".bu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__utmz",
+      "value": "21468840.1755436132.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)",
+      "domain": ".bu.edu",
+      "path": "/",
+      "expires": 1771204132,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755436132924.185054373915264690",
+      "domain": ".bu.edu",
+      "path": "/",
+      "expires": 1763212132,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_J8M8M8YDL8",
+      "value": "GS2.1.s1755436133$o1$g0$t1755436133$j60$l0$h0",
+      "domain": ".bu.edu",
+      "path": "/",
+      "expires": 1789996133.380618,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_0Z1EBE5RV7",
+      "value": "GS2.1.s1755458162$o2$g0$t1755458162$j60$l0$h0",
+      "domain": ".bu.edu",
+      "path": "/",
+      "expires": 1790018162.497106,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_8Q8ZDGGYM5",
+      "value": "GS2.1.s1755458163$o2$g0$t1755458163$j60$l0$h0",
+      "domain": ".bu.edu",
+      "path": "/",
+      "expires": 1790018163.06419,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AWSALB",
+      "value": "UMt73T3RxHDXl2dZ2SV0MMjRR9KisB1H4J9WO6pwJi/wJ9QWAnk2SBw2WJGH1LWDTKyxP260r73Ur5qubW7J9mWHBSxzInroX2f+K3RPcc+5TFYKnYYEezeCy04F",
+      "domain": "www.bu.edu",
+      "path": "/",
+      "expires": 1756104212.710705,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AWSALBCORS",
+      "value": "UMt73T3RxHDXl2dZ2SV0MMjRR9KisB1H4J9WO6pwJi/wJ9QWAnk2SBw2WJGH1LWDTKyxP260r73Ur5qubW7J9mWHBSxzInroX2f+K3RPcc+5TFYKnYYEezeCy04F",
+      "domain": "www.bu.edu",
+      "path": "/",
+      "expires": 1756104212.711789,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "session_tracker",
+      "value": "eojicgkjjhjabpjkok.0.1755499417406.Z0FBQUFBQm9vc3VaSm02M0NFVUJTeTdxM3BTUldiWDR3SUpOWmY5R09qeFNCSmJORThQNGRrNmNMSUViZWFrcHJabXNWU3o2TlJXRW1xNUU0Z0wxRWdYNlltVk1IZFh3SWE2SjdwZTVLMzhaWnJZOXRvNzBsaXpIWG1TbzRZdWx2RFI4U25wRkhRdGE",
+      "domain": ".reddit.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_session_id",
+      "value": "of6rnsi8z7f3kfBIRuBEKPNNQdGeNyE%2Bvjae6twVa%2FvouHDN1mPXMVqu4gUXqQk4rkvCPGGSb2sZUeFKUtDJYhpzWSt9y8503DFYOq8C%2B8uel37PCcCbjeKXD9DtGPe6ZIyfTSWlLxkdVpWFFzYD%2BHeNsRwPCYs9ELyxPlQda4TO2IvppJqqIHsTqcfrm5HFqs%2Ba0uDMSg5gCxjua39J2kQH2jwdGWGBs%2FQXHfZC54pbcvKmTF5kRWFh3fcRLIxHMgPIDa%2FjBt36nfUX4l2DBNTn%2BJXsZm16Q7D7ZZly4bBCulBxRXHqLSVBze7711OPCauLD%2F%2BwsWZnj8Ks7rc9ruCWA2NYwhgKPeF2Rc%2Ff%2BdSZDV8L9xg%2B%2BSoYC2ngzKvZphr8mloHEbIkyNbo8XcH2YdFwgjqMEPGnnxEhAzZvAzhJK%2FIYfZIL51eTrxkkZ9aGypncpribEaW7D9jZRReLD%2BX7hWpLunM0efFn0ca11WhJk6j9B71%2BPr7caGqtZLX3DrRmNZF7Cjhed5oFaOLKe5V4lS6elqT6uWlsohS5vvzJo9zJayuzNRYNpY%2BM5EX2XJNIYmfkZN2Ljur2n6Q3w%2BES0xgXojOCZfDyM%2Bk--G0s4o1eYW5blQ5fM--3mpqhBW%2FCxyTybPWiQi1VA%3D%3D",
+      "domain": "login.localist.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "PLAY_SESSION",
+      "value": "eyJhbGciOiJIUzI1NiJ9.eyJkYXRhIjp7ImZsb3dUcmFja2luZ0lkIjoiNWVzOGxXRWdTdFdxRSs0NjkzTGh2UT09In0sIm5iZiI6MTc1NTU3OTIwOSwiaWF0IjoxNzU1NTc5MjA5fQ.eH8z1TPO3B0CfOqh61xI5LB3Dpu3cJOOljqGxuhwfeI",
+      "domain": "www.linkedin.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "JSESSIONID",
+      "value": "ajax:8288301004614413490",
+      "domain": ".www.linkedin.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lang",
+      "value": "v=2&lang=en-us",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&2d3491fb-bb64-4c44-8164-a89c893443aa\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1787115209.489246,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bscookie",
+      "value": "\"v=1&20250819045329730d4c35-822d-4e59-80e3-e78babca0ceaAQFDTwE6IH3xwKkSD8Nvj6ju7MlvKJu5\"",
+      "domain": ".www.linkedin.com",
+      "path": "/",
+      "expires": 1787115209.4896,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=OGST09:s=O:r=O:a=O:p=O:g=3221:u=1:x=1:i=1755579209:t=1755665609:v=2:sig=AQGagqjzZ4D55kLPM2eLmnx8dfT1Y-JR\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755665609.489619,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "GOXrPz6L2SknLEgdj8eYoHlHr9Unsmcdc2DTXNXpj4I-1755579209-1.0.1.1-vb5Bj629qe0dYX2Lo3EqJuYgB44ZYyHcdAJEDyWA24pq49Rsbf1jpDTkYVKpD.X83n0JXHxlK7Q1aF.Mx2DsNpnTyRd32U9lofvCvTvzqGw",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755581009.489633,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "pxcts",
+      "value": "74c51f9f-7cb8-11f0-83e2-b9d8f36553a2",
+      "domain": ".protechts.net",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://linkedin.com",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_pxvid",
+      "value": "74c4b323-7cb8-11f0-83e0-00e932d32d6d",
+      "domain": ".protechts.net",
+      "path": "/",
+      "expires": 1787115212,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://linkedin.com",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "demdex",
+      "value": "35672602072648430524326074062818296174",
+      "domain": ".demdex.net",
+      "path": "/",
+      "expires": 1771131213.002945,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AMCVS_14215E3D5995C57C0A495C55%40AdobeOrg",
+      "value": "1",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AMCV_14215E3D5995C57C0A495C55%40AdobeOrg",
+      "value": "-637568504%7CMCIDTS%7C20320%7CMCMID%7C35528777554436236554379295767138022053%7CMCAAMLH-1756184012%7C7%7CMCAAMB-1756184012%7C6G1ynYcLPuiQxYZrsz_pkqfLG9yMXBpb2zX5dvJdYQJzPXImdj0y%7CMCOPTOUT-1755586412s%7CNONE%7CvVersion%7C5.1.1",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1771131212,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "aam_uuid",
+      "value": "35672602072648430524326074062818296174",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1758171213,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "dextp",
+      "value": "771-1-1755579213008|1957-1-1755579213119",
+      "domain": ".demdex.net",
+      "path": "/",
+      "expires": 1771131213,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_px3",
+      "value": "63b9109845cd495cb9900753b5c2eb22d9f096052f48fe2b126245f635b61371:OsSYZy9GVYFd1Rh4m2Zj2/GKqhohxO2xeyEKaSvihsElu5HgHhllWKfh9bi8aTrB3udJroK1ExlCsyCuvUUEsQ==:1000:NRrt6ZjGxw+HwsoY+UdM5D6tNrtdFiNO5A8OLPRzzWNLHqYxfH1JFb7pl2TqbvZ9eMclKfpdDUImba1nUAVc3ud/l5FFoPHQD0DAjkRgA8dSeGhUmzikXgkFui70P1wKuctNWh6kYx5NT4Xxvc5vkLyEXeStDXDWL2Qfd/LlqOnr6//ZOIYHyZGSepyv5hoQ2IA6MgyvS/EMwg6EpyT7NcDImBTQZstVwDnuQ6KtjuQ=",
+      "domain": ".protechts.net",
+      "path": "/",
+      "expires": 1755579544,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://linkedin.com",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_session_id",
+      "value": "argkWOJ9mdSg3eNro8EP8bimSbx4wT9t2SZCOFkiPX6ONzKjmPleHZHaBA9jP3dI0LcYzQHzhQtSOLZ8Pu2Hsmaw0Yh8sbiwn6QCK8dK14B5ze1Vduz5DjravtMRn4IUmn3KMVCWP4IIaK2p8Ez3Adf9iJosbBWnlIJkVR9S7w1fanloR5RszP7U406wEn1BFq57tz1h1yekFnMPRL3Ws1tOfkI823wMPLLVwNSOeBCydQNpXVn44IVNjWIF1k1Ty0RUdSfZEXSrYuiYRhwrKh533oSrrQvqMcDyZCrF2uwYuuNFDwYih1s4%2FfgEYR6WCzDpQz7UkfqiUrKF7kJBbymZq9M5l6MWFjLqZPSfuI0S35EAEwMZTUrzYZKJQIACWdxQcW6CK8pWwxRbgGWWzh4kZoo7hIf2S6zq4FxaKUQqcLq5vAaSiC%2Bb78Z7Wg%3D%3D--iRc6keSdmN0immmC--UbQ0MrVgCs4ueHrXP7nBuw%3D%3D",
+      "domain": "butodayevents.bu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://www.reddit.com",
+      "localStorage": [
+        {
+          "name": "_grecaptcha",
+          "value": "09ANMylNAKdT5pRDCd5zHfY69YubmptxqX81pq5HrQ-SpKTB19TsTODRU41Nxc1RN4yrU9fJkapeOKFFum-ICU0mK3gvermHBzj5EsebFe1YSyxpqrO-1hmiGHNemdjAw2"
+        }
+      ]
+    },
+    {
+      "origin": "https://www.bu.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755436132916"
+        },
+        {
+          "name": "NRBA_SESSION",
+          "value": "{\"value\":\"ea475b498fc8048f\",\"inactiveAt\":1755459963627,\"expiresAt\":1755472563627,\"updatedAt\":1755458165169,\"sessionReplayMode\":0,\"sessionReplaySentFirstChunk\":false,\"sessionTraceMode\":0,\"traceHarvestStarted\":false,\"loggingMode\":0,\"serverTimeDiff\":-778,\"custom\":{},\"numOfResets\":0}"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755436132928"
+        }
+      ]
+    }
+  ]
+}

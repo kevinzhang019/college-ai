@@ -1,0 +1,269 @@
+{
+  "cookies": [
+    {
+      "name": "_fbp",
+      "value": "fb.1.1775130286436.670697013569062864",
+      "domain": ".virginia.edu",
+      "path": "/",
+      "expires": 1782906286,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-30fc51c1-1a40-49aa-478e-1abbcef12a35.vr%2BBO8MgA14lRQuZIxpfUM%2F5D8crtUHL07vj%2F%2BES7fM",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1806666286.4516,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-30fc51c1-1a40-49aa-478e-1abbcef12a35.vr%2BBO8MgA14lRQuZIxpfUM%2F5D8crtUHL07vj%2F%2BES7fM",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1806666286.451649,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3AMPxRwRpASapHjhq7zvEqNQ.zSBzhHm9MGnWEufzzobE8wUtrY4AMgrTPbiJeOkLsYk",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1806666286.45188,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3AMPxRwRpASapHjhq7zvEqNQ.zSBzhHm9MGnWEufzzobE8wUtrY4AMgrTPbiJeOkLsYk",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1806666286.451912,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIC4vieSEfkJ2D6c4QigRx5pzoymNYlXxEXSqiNC1Bz9WEJIFGAIgrq25zgY6BAIEg1NCBP_myx0.fwU1G8tjOcQi0mkURTcpUdVGbI8quVHk%2FREyMXkDsKY",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1806666286.451818,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIC4vieSEfkJ2D6c4QigRx5pzoymNYlXxEXSqiNC1Bz9WEJIFGAIgrq25zgY6BAIEg1NCBP_myx0.fwU1G8tjOcQi0mkURTcpUdVGbI8quVHk%2FREyMXkDsKY",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1806666286.451847,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": "px.ads.linkedin.com",
+      "path": "/",
+      "expires": 1777760032.491331,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%253A0-30fc51c1-1a40-49aa-478e-1abbcef12a35.vr%252BBO8MgA14lRQuZIxpfUM%252F5D8crtUHL07vj%252F%252BES7fM",
+      "domain": "news.virginia.edu",
+      "path": "/",
+      "expires": 1806666286,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%253AMPxRwRpASapHjhq7zvEqNQ.zSBzhHm9MGnWEufzzobE8wUtrY4AMgrTPbiJeOkLsYk",
+      "domain": "news.virginia.edu",
+      "path": "/",
+      "expires": 1806666286,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%253AAQAKIC4vieSEfkJ2D6c4QigRx5pzoymNYlXxEXSqiNC1Bz9WEJIFGAIgrq25zgY6BAIEg1NCBP_myx0.fwU1G8tjOcQi0mkURTcpUdVGbI8quVHk%252FREyMXkDsKY",
+      "domain": "news.virginia.edu",
+      "path": "/",
+      "expires": 1806666286,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "li_sugr",
+      "value": "e6205bfd-00f3-46df-bc89-5b4abd53de18",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1782906287.315268,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&fd8d7774-b011-4141-8892-8f3eeba6c165\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1806666288.315321,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=VGST09:s=V:r=V:a=V:p=V:g=3390:u=1:x=1:i=1775130286:t=1775216686:v=2:sig=AQGgkMSudMsoTitmq0n-gxBzy5Kw3cE-\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1775216686.545935,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "UserMatchHistory",
+      "value": "AQJ2DvTyMLHWjgAAAZ1OAppqjiEhB-3cTYb9naLiGj1FRPkd0ED2baEpDWOJOenpkJuqdJPEfdLErg",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1777722286.649261,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AnalyticsSyncHistory",
+      "value": "AQJOFtVqTrw6_wAAAZ1OAppqBKpa9HDCP4_mzXJ14hb4y5R9eXiFHTug2yT0NNG4j90p3b4dge0GqWa3Z2kcCg",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1777722286.64927,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1996712474.1775130287",
+      "domain": ".virginia.edu",
+      "path": "/",
+      "expires": 1809690286.830345,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_parsely_session",
+      "value": "{%22sid%22:1%2C%22surl%22:%22https://news.virginia.edu/%22%2C%22sref%22:%22%22%2C%22sts%22:1775130286877%2C%22slts%22:0}",
+      "domain": ".virginia.edu",
+      "path": "/",
+      "expires": 1775132086,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_parsely_visitor",
+      "value": "{%22id%22:%22pid=bd7a8cb4b17424112eb07f6b01e69cae%22%2C%22session_count%22:1%2C%22last_session_ts%22:1775130286877}",
+      "domain": ".virginia.edu",
+      "path": "/",
+      "expires": 1809294286,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "bscookie",
+      "value": "\"v=1&20260402114446176ab6e2-a653-4f52-8f76-7cd31a5d19a9AQFYROCc1y4UTEGDvLH3gna-bcD5ORim\"",
+      "domain": ".www.linkedin.com",
+      "path": "/",
+      "expires": 1806666286.90146,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "t7tWTOihjFLEiSmw4ZzCZjE81V8WxkHRjvxh37E8bI8-1775130286-1.0.1.1-HS7PWPTn70BLFseap.Y59wXd54AIwH5GMavddsuPwtJuQHODUeqpmJzb_e_G6h4OkUMOvTIgvxFldw2oA.nr2F.PttQr815a9Mp.dt6er98",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1775132086.901506,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.436626561.1775130288",
+      "domain": ".virginia.edu",
+      "path": "/",
+      "expires": 1782906287,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_VLNM8QGD0R",
+      "value": "GS2.1.s1775130286$o1$g0$t1775130287$j59$l0$h0",
+      "domain": ".virginia.edu",
+      "path": "/",
+      "expires": 1809690287.93304,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://news.virginia.edu",
+      "localStorage": [
+        {
+          "name": "sa-user-id",
+          "value": "s%3A0-30fc51c1-1a40-49aa-478e-1abbcef12a35.vr%2BBO8MgA14lRQuZIxpfUM%2F5D8crtUHL07vj%2F%2BES7fM"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1775130286425"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"timeouts\":0,\"errors\":0,\"eopCount\":0,\"creationTimeMs\":1775130287930},\"expires\":1782906287930}}"
+        },
+        {
+          "name": "sa-user-id-v3",
+          "value": "s%3AAQAKIC4vieSEfkJ2D6c4QigRx5pzoymNYlXxEXSqiNC1Bz9WEJIFGAIgrq25zgY6BAIEg1NCBP_myx0.fwU1G8tjOcQi0mkURTcpUdVGbI8quVHk%2FREyMXkDsKY"
+        },
+        {
+          "name": "li_adsId",
+          "value": "ffce9448-c5bc-4ad1-affd-452599fd2034"
+        },
+        {
+          "name": "sa-user-id-v2",
+          "value": "s%3AMPxRwRpASapHjhq7zvEqNQ.zSBzhHm9MGnWEufzzobE8wUtrY4AMgrTPbiJeOkLsYk"
+        }
+      ]
+    }
+  ]
+}

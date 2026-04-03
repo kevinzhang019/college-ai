@@ -1,0 +1,45 @@
+{
+  "cookies": [
+    {
+      "name": "CookieConsentPolicy",
+      "value": "0:1",
+      "domain": "gufaculty360.georgetown.edu",
+      "path": "/",
+      "expires": 1806717900,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "LSKey-c$CookieConsentPolicy",
+      "value": "0:1",
+      "domain": "gufaculty360.georgetown.edu",
+      "path": "/",
+      "expires": 1806717900,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "renderCtx",
+      "value": "%7B%22pageId%22%3A%2284ce356f-c6ff-43d0-ab58-b4949c5bf19a%22%2C%22schema%22%3A%22Published%22%2C%22viewType%22%3A%22Published%22%2C%22brandingSetId%22%3A%22e7c67636-dccc-4710-91e1-eaad984b92ef%22%2C%22audienceIds%22%3A%226Au1Q000000TNTq%22%7D",
+      "domain": "gufaculty360.georgetown.edu",
+      "path": "/s",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "pctrk",
+      "value": "7c8cad15-a802-46e0-b702-2a01bf3beaf8",
+      "domain": "gufaculty360.georgetown.edu",
+      "path": "/",
+      "expires": 1806717905,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "None"
+    }
+  ],
+  "origins": []
+}

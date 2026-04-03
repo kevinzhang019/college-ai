@@ -1,0 +1,35 @@
+{
+  "cookies": [
+    {
+      "name": "_ga_BB9DBF7RRL",
+      "value": "GS2.1.s1755553757$o1$g0$t1755553757$j60$l0$h0",
+      "domain": ".ucsd.edu",
+      "path": "/",
+      "expires": 1790113757.272317,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.718008619.1755553757",
+      "domain": ".ucsd.edu",
+      "path": "/",
+      "expires": 1790113757.272461,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://career.rady.ucsd.edu",
+      "localStorage": [
+        {
+          "name": "NRBA_SESSION",
+          "value": "{\"value\":\"d9b234d56cb9e799\",\"inactiveAt\":1755555558004,\"expiresAt\":1755568158004,\"updatedAt\":1755553758482,\"sessionReplayMode\":0,\"sessionReplaySentFirstChunk\":false,\"sessionTraceMode\":0,\"traceHarvestStarted\":false,\"loggingMode\":0,\"serverTimeDiff\":-324,\"custom\":{},\"numOfResets\":0}"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,208 @@
+{
+  "cookies": [
+    {
+      "name": "_gcl_au",
+      "value": "1.1.965429629.1755451533",
+      "domain": ".vanderbilt.edu",
+      "path": "/",
+      "expires": 1763227533,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.468824584.1755451533",
+      "domain": ".vanderbilt.edu",
+      "path": "/",
+      "expires": 1790079158.728825,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_hjSessionUser_6425798",
+      "value": "eyJpZCI6ImNiOTBhZjJlLTYxMWMtNWE0ZC04MWQ1LWM1NzU4MzUyNWVmZSIsImNyZWF0ZWQiOjE3NTU0NTE1MzM1NDIsImV4aXN0aW5nIjp0cnVlfQ==",
+      "domain": ".vanderbilt.edu",
+      "path": "/",
+      "expires": 1787055158,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUl3SMTBjff8ItYKjlOL5b89RWOJEaxSdjQrPYE0eCq4B6is2aKC8VGINiaY",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1790011543.338723,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755486354852.739191448144404002",
+      "domain": ".vanderbilt.edu",
+      "path": "/",
+      "expires": 1763295158,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "mtc_id",
+      "value": "3919562",
+      "domain": "learn.explorevanderbilt.org",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "mtc_id",
+      "value": "3919562",
+      "domain": "admissions.vanderbilt.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "geo",
+      "value": "success",
+      "domain": "admissions.vanderbilt.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hjSessionUser_3146100",
+      "value": "eyJpZCI6IjgzMzhiN2E4LTEyNzUtNWE2MS1hMzRkLWZlMDFiMjUyNjQ0YiIsImNyZWF0ZWQiOjE3NTU0ODYzNTQ0MzEsImV4aXN0aW5nIjp0cnVlfQ==",
+      "domain": ".vanderbilt.edu",
+      "path": "/",
+      "expires": 1787055112,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hjSession_3146100",
+      "value": "eyJpZCI6IjZmOTc1ZmVjLTEwZTYtNDc4MS05ZTliLTU3MjNkMDg1YTY4YSIsImMiOjE3NTU1MTkwOTUwNzMsInMiOjAsInIiOjAsInNiIjowLCJzciI6MCwic2UiOjAsImZzIjowLCJzcCI6MH0=",
+      "domain": ".vanderbilt.edu",
+      "path": "/",
+      "expires": 1755520895,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hjSession_6425798",
+      "value": "eyJpZCI6IjM3ZDM0YjExLThmNTEtNGU2Ni05YzhiLWFlY2IyMjQyMTQ2NyIsImMiOjE3NTU1MTkxNTg4NzYsInMiOjAsInIiOjAsInNiIjowLCJzciI6MCwic2UiOjAsImZzIjowLCJzcCI6MH0=",
+      "domain": ".vanderbilt.edu",
+      "path": "/",
+      "expires": 1755520958,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "mautic_device_id",
+      "value": "l3c7c0ntocslr3u953sxr7j",
+      "domain": "learn.explorevanderbilt.org",
+      "path": "/",
+      "expires": 1787055160.057119,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "mtc_sid",
+      "value": "l3c7c0ntocslr3u953sxr7j",
+      "domain": "learn.explorevanderbilt.org",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "mtc_sid",
+      "value": "l3c7c0ntocslr3u953sxr7j",
+      "domain": "admissions.vanderbilt.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "mautic_device_id",
+      "value": "l3c7c0ntocslr3u953sxr7j",
+      "domain": "admissions.vanderbilt.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_Q8Z61J6QLT",
+      "value": "GS2.1.s1755519094$o3$g1$t1755519160$j58$l0$h0",
+      "domain": ".vanderbilt.edu",
+      "path": "/",
+      "expires": 1790079160.856854,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://admissions.vanderbilt.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755519158879"
+        },
+        {
+          "name": "mtc_sid",
+          "value": "l3c7c0ntocslr3u953sxr7j"
+        },
+        {
+          "name": "mautic_device_id",
+          "value": "l3c7c0ntocslr3u953sxr7j"
+        },
+        {
+          "name": "mtc_id",
+          "value": "3919562"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755519158885"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755486353512},\"expires\":1763262353512}}"
+        }
+      ]
+    },
+    {
+      "origin": "https://www.vanderbilt.edu",
+      "localStorage": [
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755451532559},\"expires\":1763227532559}}"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "cookies": [
+    {
+      "name": "_ga_27V23BMTCF",
+      "value": "GS2.1.s1775197666$o2$g0$t1775197666$j60$l0$h0",
+      "domain": ".ua.edu",
+      "path": "/",
+      "expires": 1809757666,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1025802166.1755565315",
+      "domain": ".ua.edu",
+      "path": "/",
+      "expires": 1809757666,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "None"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUmCITm8-M1Ml4Kyg0SoRWdQJaKiJdrdCqG2FcF0fB0UlkTEDMxC8I4e0gFb",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1790125346,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://culverhouse.ua.edu",
+      "localStorage": [
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"timeouts\":0,\"creationTimeMs\":1755565314832},\"expires\":1763341314832}}"
+        },
+        {
+          "name": "elementor",
+          "value": "{\"__expiration\":{},\"pageViews\":17,\"sessions\":17}"
+        }
+      ]
+    }
+  ]
+}

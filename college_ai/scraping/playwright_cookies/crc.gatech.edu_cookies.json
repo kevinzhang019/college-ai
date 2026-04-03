@@ -1,0 +1,147 @@
+{
+  "cookies": [
+    {
+      "name": "_ga",
+      "value": "GA1.1.872514821.1775138707",
+      "domain": ".gatech.edu",
+      "path": "/",
+      "expires": 1809698903.580509,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_L3KDESR6P8",
+      "value": "GS2.1.s1775138707$o1$g1$t1775138855$j43$l0$h0",
+      "domain": ".gatech.edu",
+      "path": "/",
+      "expires": 1809698855.484169,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AWSALB",
+      "value": "RRu/kYgaVklZoMPK5fQbjl6wJOaYK3yvyo77EzY1gIzKg1CKtFNBe3UehAJCIuBRCgoa/DfAJdSSrR4dlbShfdHc8Vz6FMk+bZzdFD87bFFKRKSQXZOHQByo4mPe",
+      "domain": "www.gatech.edu",
+      "path": "/",
+      "expires": 1775743679.041946,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_XVZVX71LCB",
+      "value": "GS2.1.s1775138903$o1$g0$t1775138903$j60$l0$h0",
+      "domain": ".gatech.edu",
+      "path": "/",
+      "expires": 1809698903.2141,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ASP.NET_SessionId",
+      "value": "pyq1vkxfgand4qy22tuof03e",
+      "domain": "www.imleagues.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__Secure-YNID",
+      "value": "17.YT=nWueQjBtmojYrr6Uh0964d2GlHdiwjckuYRCZy24QKAWJhfqx7iRtdokiQLtghT46cCgJiGP5tYB-Yg7arOxKA23FxAfXH5xQT7OnsFAlNCuZUfmEDQshaty9jibIq-O1WBtsXMIkiEcupw0Z5U49GFBFOQgDfx8tew5L7iNrHJLPy69msbaR-6xqXCKEGDhDJ5kCX-SyZx7APflh2wkmwH41_5JLJPfMSsmHvUwXsel38RLyeaWSQAXe0UIAyuPuI7kV5gQS4rmxT2q7xPadS406aK9yCf7krVuGT39HHNRQCFLJrlqN2ISkdJhob-49GCHUP6mNrD_I4F6snqdzQ",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790690903.514286,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://gatech.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "YSC",
+      "value": "aRMWwu2iFHY",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://gatech.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "1rNc1zOkmGc",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790690903.514431,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://gatech.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgVQ%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790690903.514477,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://gatech.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "COfC_tmkupLpLhC2opbeq8-TAxi2opbeq8-TAw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790690903.514524,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://gatech.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_ga_30TT54P0XE",
+      "value": "GS2.1.s1775138903$o1$g0$t1775138903$j60$l0$h0",
+      "domain": ".gatech.edu",
+      "path": "/",
+      "expires": 1809698903.580234,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "UID",
+      "value": "19480e79dbcc1d2741c8baa1775138905",
+      "domain": ".scorecardresearch.com",
+      "path": "/",
+      "expires": 1808834905.571241,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "XID",
+      "value": "19480e79dbcc1d2741c8baa1775138905",
+      "domain": ".scorecardresearch.com",
+      "path": "/",
+      "expires": 1808834905.571322,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://gatech.edu",
+      "_crHasCrossSiteAncestor": true
+    }
+  ],
+  "origins": []
+}

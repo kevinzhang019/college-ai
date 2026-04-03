@@ -1,0 +1,25 @@
+{
+  "cookies": [
+    {
+      "name": "_ga_H58VB1MHWB",
+      "value": "GS2.1.s1755450553$o1$g0$t1755450553$j60$l0$h0",
+      "domain": ".uchicago.edu",
+      "path": "/",
+      "expires": 1790010553.79494,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.2120415943.1755450554",
+      "domain": ".uchicago.edu",
+      "path": "/",
+      "expires": 1790010553.795088,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

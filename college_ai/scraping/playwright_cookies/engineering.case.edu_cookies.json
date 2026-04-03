@@ -1,0 +1,450 @@
+{
+  "cookies": [
+    {
+      "name": "BCSessionID",
+      "value": "0f275128-8553-434e-9b8a-fa4afcfbb663",
+      "domain": "case.blueconic.net",
+      "path": "/DG/DEFAULT",
+      "expires": 1787107367.004147,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "www-case-edu",
+      "value": "59f0451b.63c93aa83b4db",
+      "domain": ".case.edu",
+      "path": "/",
+      "expires": 1786990778.890531,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cwru_webapps",
+      "value": "2114459265.47873.0000",
+      "domain": "webapps.case.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.432208748.1755454779",
+      "domain": ".case.edu",
+      "path": "/",
+      "expires": 1763230779,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.827072988.1755454779",
+      "domain": ".case.edu",
+      "path": "/",
+      "expires": 1790131364.357082,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_node",
+      "value": "c523366081f6753122c7083b06f7004cb1578f023610c6681ce4518af285fe98",
+      "domain": "go.case.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "db926cab-932b-4157-b9fa-cabcc14a43d8",
+      "domain": "go.case.edu",
+      "path": "/",
+      "expires": 1790014779.562913,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "go.case.edu",
+      "path": "/",
+      "expires": 1790014779.563159,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_node",
+      "value": "62e1f5c1bd7f2c76c2bc875abb82831e90dce9bfe858b41415dc3519a9b4c965",
+      "domain": "applygrad.case.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "3ef12caf-388d-4865-a069-fb679314f818",
+      "domain": "applygrad.case.edu",
+      "path": "/",
+      "expires": 1790014779.563864,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "applygrad.case.edu",
+      "path": "/",
+      "expires": 1790014779.564022,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755454781844.626438329784548018",
+      "domain": ".case.edu",
+      "path": "/",
+      "expires": 1763347364,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&ec22924c-8a0a-4255-8daf-7c6c20be8623\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1787107367.035809,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "mtc_id",
+      "value": "67944743",
+      "domain": "my.gocwru.org",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "mtc_id",
+      "value": "67944743",
+      "domain": "case.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "mtc_sid",
+      "value": "cqnlbz3cyhhb7frpnit30z1",
+      "domain": "case.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "mautic_device_id",
+      "value": "cqnlbz3cyhhb7frpnit30z1",
+      "domain": "case.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_hjSessionUser_2954518",
+      "value": "eyJpZCI6IjhiYmNkNzZjLTkwYjEtNWNmNC05MmUyLTJjNGVlYmViMDMyYyIsImNyZWF0ZWQiOjE3NTU0NTQ3ODE5MTIsImV4aXN0aW5nIjp0cnVlfQ==",
+      "domain": ".case.edu",
+      "path": "/",
+      "expires": 1787107364,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUnkFQctlof0u5rJczNl42ko8Po8Xhdb4n2DHOZbvX-wax9h9oz8vDcmrA5a",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1790014786.088598,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "mtc_id",
+      "value": "67944743",
+      "domain": "engineering.case.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_SSQ2BS58ZZ",
+      "value": "GS2.1.s1755571363$o2$g0$t1755571363$j60$l0$h0",
+      "domain": ".case.edu",
+      "path": "/",
+      "expires": 1790131363.373973,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_rdt_uuid",
+      "value": "1755454779388.d8fa2b45-8bf8-443d-89b7-29799f5ea7fa",
+      "domain": ".case.edu",
+      "path": "/",
+      "expires": 1763347363,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_ga_LZP7PQBYX2",
+      "value": "GS2.1.s1755571364$o2$g0$t1755571364$j60$l0$h0",
+      "domain": ".case.edu",
+      "path": "/",
+      "expires": 1790131364.365349,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_RD325GFMCR",
+      "value": "GS2.1.s1755571364$o2$g0$t1755571364$j60$l0$h0",
+      "domain": ".case.edu",
+      "path": "/",
+      "expires": 1790131364.367657,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_hjSession_2954518",
+      "value": "eyJpZCI6IjFiYmNmYzEzLTczOGQtNDU3OC05YzY1LTZlM2U1OTRhNGRhMCIsImMiOjE3NTU1NzEzNjQzOTksInMiOjAsInIiOjAsInNiIjowLCJzciI6MCwic2UiOjAsImZzIjowLCJzcCI6MH0=",
+      "domain": ".case.edu",
+      "path": "/",
+      "expires": 1755573164,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": "px.ads.linkedin.com",
+      "path": "/",
+      "expires": 1758201112.03577,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=VGST09:s=V:r=V:a=V:p=V:g=3278:u=1:x=1:i=1755571366:t=1755657766:v=2:sig=AQFeIxM0kVHAf1Yy7vppqrDYB-Q5cqLu\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755657767.035832,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "BCSessionID",
+      "value": "0f275128-8553-434e-9b8a-fa4afcfbb663",
+      "domain": ".case.edu",
+      "path": "/",
+      "expires": 1787107366,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "mautic_device_id",
+      "value": "cqnlbz3cyhhb7frpnit30z1",
+      "domain": "my.gocwru.org",
+      "path": "/",
+      "expires": 1787107366.754476,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "mtc_sid",
+      "value": "cqnlbz3cyhhb7frpnit30z1",
+      "domain": "my.gocwru.org",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "mtc_sid",
+      "value": "cqnlbz3cyhhb7frpnit30z1",
+      "domain": "engineering.case.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "mautic_device_id",
+      "value": "cqnlbz3cyhhb7frpnit30z1",
+      "domain": "engineering.case.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AWSALBCORS",
+      "value": "ujg4pE+gOcvQuM6PmKjP9GVO4bFin1mWgHb06vxxF7hCvZ5ranoXNrxkFYzyfDPwOJ1PBixTzM9SLj1hJCLUweOOI73HN8+waQcyeLakcER1S2c7LGzQaAKhKfq4",
+      "domain": "case.blueconic.net",
+      "path": "/",
+      "expires": 1756176167.019817,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://engineering.case.edu",
+      "localStorage": [
+        {
+          "name": "ab409fb6-f7a7-4034-4cf2-96fdee067175_st",
+          "value": "1755571364383"
+        },
+        {
+          "name": "mautic_device_id",
+          "value": "cqnlbz3cyhhb7frpnit30z1"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755571364382"
+        },
+        {
+          "name": "ab409fb6-f7a7-4034-4cf2-96fdee067175_pp",
+          "value": "{}"
+        },
+        {
+          "name": "57f84c0b-2321-52e3-96ca-70aefc3fad26_pp",
+          "value": "{}"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755454799697},\"expires\":1763230799697}}"
+        },
+        {
+          "name": "57f84c0b-2321-52e3-96ca-70aefc3fad26_st",
+          "value": "1755571364383"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755571364378"
+        },
+        {
+          "name": "mtc_sid",
+          "value": "cqnlbz3cyhhb7frpnit30z1"
+        },
+        {
+          "name": "mtc_id",
+          "value": "67944743"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "li_adsId",
+          "value": "3851dfb5-2f78-4f47-b43b-eee5a0453d41"
+        }
+      ]
+    },
+    {
+      "origin": "https://case.edu",
+      "localStorage": [
+        {
+          "name": "BCRevision_1755454785609",
+          "value": "{\"method\":\"setProperties\",\"param\":{\"properties\":{\"language\":[\"en\"],\"currentscreenwidth\":[1920],\"currentscreenheight\":[1080],\"currentresolution\":[\"1920x1080\"]},\"sources\":{\"listenerinteractiontype\":[\"language\",\"currentscreenwidth\",\"currentscreenheight\",\"currentresolution\"]}},\"requestId\":\"rev_1755454785609\"}"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755454781837"
+        },
+        {
+          "name": "ab409fb6-f7a7-4034-4cf2-96fdee067175_st",
+          "value": "1755454781896"
+        },
+        {
+          "name": "mautic_device_id",
+          "value": "cqnlbz3cyhhb7frpnit30z1"
+        },
+        {
+          "name": "mtc_id",
+          "value": "67944743"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755454786058"
+        },
+        {
+          "name": "ab409fb6-f7a7-4034-4cf2-96fdee067175_pp",
+          "value": "{}"
+        },
+        {
+          "name": "mtc_sid",
+          "value": "cqnlbz3cyhhb7frpnit30z1"
+        },
+        {
+          "name": "BCRevision_1755454785610",
+          "value": "{\"method\":\"addProperties\",\"param\":{\"properties\":{\"resolution\":[\"1920x1080\"]},\"sources\":{\"listenerinteractiontype\":[\"resolution\"]}},\"requestId\":\"rev_1755454785610\"}"
+        },
+        {
+          "name": "57f84c0b-2321-52e3-96ca-70aefc3fad26_pp",
+          "value": "{}"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755454779118},\"expires\":1763230779118}}"
+        },
+        {
+          "name": "li_adsId",
+          "value": "1af3ea58-dbf5-4562-b28a-93753f0a32f8"
+        },
+        {
+          "name": "57f84c0b-2321-52e3-96ca-70aefc3fad26_st",
+          "value": "1755454781891"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,453 @@
+{
+  "cookies": [
+    {
+      "name": "CraftSessionId",
+      "value": "6ace796080600189e354ec04585e190c",
+      "domain": "dellmed.utexas.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CRAFT_CSRF_TOKEN",
+      "value": "595861917b7b76c99b05d154c45704e0b01e1754s%3A40%3A%22UIEWX2Pnp_M9Ouz5xxjNCOr2ZrHjbf3HhwnNiA9k%22%3B",
+      "domain": "dellmed.utexas.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ARRAffinity",
+      "value": "a424a400a76236aa9de032708b03769744bb0532820e633a3699a1f190717cdc",
+      "domain": ".dellmed.utexas.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.953943030.1775131598",
+      "domain": ".utexas.edu",
+      "path": "/",
+      "expires": 1782907598,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.34419861.1775131598",
+      "domain": ".utexas.edu",
+      "path": "/",
+      "expires": 1775223310,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CLID",
+      "value": "3b60b276caae407698ec6f254507dd98.20260402.20270402",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1806667598.292235,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1775131598649.39954619821893622",
+      "domain": ".utexas.edu",
+      "path": "/",
+      "expires": 1782912911,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": "px.ads.linkedin.com",
+      "path": "/",
+      "expires": 1777766656.919516,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "li_sugr",
+      "value": "7b649948-67e6-4ac5-8719-d7ae2e1615d3",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1782912911.220551,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&87cd4552-3591-4f34-8692-5bb3fa99f9a2\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1806672912.220593,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=TGST09:s=T:r=T:a=T:p=T:g=3224:u=1:x=1:i=1775131598:t=1775217998:v=2:sig=AQFtgR2LmWvOUdovjk6wa9qLorwlID0g\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1775217998.765827,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "UserMatchHistory",
+      "value": "AQIpZN370FWwxwAAAZ1OFqCqUmts_y4rnScvg379FwWEQS8yEU72dVnhpS7eoxakWA3WaPJFlvP0Aw",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1777723598.857099,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AnalyticsSyncHistory",
+      "value": "AQIEYzPU9aB-pAAAAZ1OFqCrCzFlI685NazASa1GiyTjUqIZfcVUqywN-mGMmSwSppM6mzulG_4MAYso4-73AQ",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1777723598.857108,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_clck",
+      "value": "1a5kgqe%5E2%5Eg4v%5E0%5E2283",
+      "domain": ".utexas.edu",
+      "path": "/",
+      "expires": 1806667598,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "bscookie",
+      "value": "\"v=1&202604021206391a2271e4-a05e-4f65-819e-fb58177ee4afAQEil7wn5THC7BvLKaDselg0G-bdorzr\"",
+      "domain": ".www.linkedin.com",
+      "path": "/",
+      "expires": 1806667599.099508,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ELOQUA",
+      "value": "GUID=0F92E00EE17E4AADA8AD902CDA81F68A",
+      "domain": ".econnect.dellmed.utexas.edu",
+      "path": "/",
+      "expires": 1809264912.656934,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "MUID",
+      "value": "351ECD0ED6DB60E41660DA21D785618E",
+      "domain": ".bing.com",
+      "path": "/",
+      "expires": 1808827600.770326,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MR",
+      "value": "0",
+      "domain": ".c.bing.com",
+      "path": "/",
+      "expires": 1775736400.770372,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "SRM_B",
+      "value": "351ECD0ED6DB60E41660DA21D785618E",
+      "domain": ".c.bing.com",
+      "path": "/",
+      "expires": 1808827600.770389,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "SM",
+      "value": "C",
+      "domain": ".c.clarity.ms",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MUID",
+      "value": "351ECD0ED6DB60E41660DA21D785618E",
+      "domain": ".clarity.ms",
+      "path": "/",
+      "expires": 1808827599.828847,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MR",
+      "value": "0",
+      "domain": ".c.clarity.ms",
+      "path": "/",
+      "expires": 1775736399.828874,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.1371867056.1775131598",
+      "domain": ".utexas.edu",
+      "path": "/",
+      "expires": 1809696910.517927,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_UA-62231133-5",
+      "value": "1",
+      "domain": ".utexas.edu",
+      "path": "/",
+      "expires": 1775136970,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_5VVHN4MPG0",
+      "value": "GS2.1.s1775136910$o2$g0$t1775136910$j60$l0$h0",
+      "domain": ".utexas.edu",
+      "path": "/",
+      "expires": 1809696910.747717,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://dellmed.utexas.edu",
+      "localStorage": [
+        {
+          "name": "util.ajax.206229921_expiration",
+          "value": "1775137812"
+        },
+        {
+          "name": "util.ajax.-848186499",
+          "value": "[{\"id\":\"1932\",\"name\":\"Role\"},{\"id\":\"53\",\"name\":\"Unit\\/Team\"},{\"id\":\"1911\",\"name\":\"Residency\\/Fellowship Affiliation\"}]"
+        },
+        {
+          "name": "util.ajax.-1809401092",
+          "value": "[{\"id\":\"712\",\"name\":\"Units Unit Type\",\"type\":\"Categories\",\"options\":[{\"default\":\"\",\"label\":\"Department\",\"value\":\"435\"},{\"default\":\"\",\"label\":\"Division\",\"value\":\"18672\"},{\"default\":\"\",\"label\":\"Institute\",\"value\":\"1149\"},{\"default\":\"\",\"label\":\"Center\",\"value\":\"1199\"},{\"default\":\"\",\"label\":\"Clinic\",\"value\":\"1228\"}]}]"
+        },
+        {
+          "name": "util.ajax.-1495409378",
+          "value": "[{\"id\":\"53\",\"name\":\"Unit\\/Team Category\",\"type\":\"Categories\",\"options\":[{\"default\":\"\",\"label\":\"Academic Affairs\",\"value\":\"20028\"},{\"default\":\"\",\"label\":\"Business Affairs\",\"value\":\"21826\"},{\"default\":\"\",\"label\":\"Cardiovascular & Thoracic Surgery\",\"value\":\"256792\"},{\"default\":\"\",\"label\":\"Center for Health & Environment: Education & Research\",\"value\":\"20139\"},{\"default\":\"\",\"label\":\"Center for Health Communication\",\"value\":\"22932\"},{\"default\":\"\",\"label\":\"Center for Youth Mental Health\",\"value\":\"19955\"},{\"default\":\"\",\"label\":\"Charmaine & Gordon McGill Center for Psychedelic Research & Therapy\",\"value\":\"19864\"},{\"default\":\"\",\"label\":\"Clinical Affairs\",\"value\":\"117001\"},{\"default\":\"\",\"label\":\"Community-Driven Initiatives\",\"value\":\"21763\"},{\"default\":\"\",\"label\":\"Computational Medicine\",\"value\":\"271957\"},{\"default\":\"\",\"label\":\"Dean's Cabinet\",\"value\":\"159144\"},{\"default\":\"\",\"label\":\"Dean's Office\",\"value\":\"20220\"},{\"default\":\"\",\"label\":\"Dell Pediatric Research Institute\",\"value\":\"19832\"},{\"default\":\"\",\"label\":\"Development\",\"value\":\"22602\"},{\"default\":\"\",\"label\":\"Diagnostic Medicine\",\"value\":\"21954\"},{\"default\":\"\",\"label\":\"Executive Operational Leadership Team\",\"value\":\"159121\"},{\"default\":\"\",\"label\":\"Facilities\",\"value\":\"23035\"},{\"default\":\"\",\"label\":\"Faculty Academic Affairs\",\"value\":\"218191\"},{\"default\":\"\",\"label\":\"Finance\",\"value\":\"54817\"},{\"default\":\"\",\"label\":\"Health Policy\",\"value\":\"21183\"},{\"default\":\"\",\"label\":\"Health Transformation Research Institute\",\"value\":\"20248\"},{\"default\":\"\",\"label\":\"Human Resources\",\"value\":\"35803\"},{\"default\":\"\",\"label\":\"Information Technology\",\"value\":\"20329\"},{\"default\":\"\",\"label\":\"Innovation & Entrepreneurship\",\"value\":\"250417\"},{\"default\":\"\",\"label\":\"Institute for Military & Veteran Family Wellness\",\"value\":\"32066\"},{\"default\":\"\",\"label\":\"Internal Medicine\",\"value\":\"20132\"},{\"default\":\"\",\"label\":\"Marketing & Communications\",\"value\":\"273617\"},{\"default\":\"\",\"label\":\"Medical Education\",\"value\":\"20254\"},{\"default\":\"\",\"label\":\"Mitchel & Shannon Wong Eye Institute\",\"value\":\"24328\"},{\"default\":\"\",\"label\":\"Mulva Clinic for the Neurosciences\",\"value\":\"20118\"},{\"default\":\"\",\"label\":\"Neurology\",\"value\":\"19884\"},{\"default\":\"\",\"label\":\"Neurosurgery\",\"value\":\"20119\"},{\"default\":\"\",\"label\":\"Ophthalmology\",\"value\":\"24329\"},{\"default\":\"\",\"label\":\"Pediatrics\",\"value\":\"20075\"},{\"default\":\"\",\"label\":\"Population Health\",\"value\":\"19946\"},{\"default\":\"\",\"label\":\"Professional Fulfillment & Well-Being\",\"value\":\"298935\"},{\"default\":\"\",\"label\":\"Psychiatry & Behavioral Sciences\",\"value\":\"19933\"},{\"default\":\"\",\"label\":\"Research\",\"value\":\"20325\"},{\"default\":\"\",\"label\":\"Student Affairs\",\"value\":\"23576\"},{\"default\":\"\",\"label\":\"Surgery and Perioperative Care\",\"value\":\"19891\"},{\"default\":\"\",\"label\":\"UT Health Austin\",\"value\":\"20340\"},{\"default\":\"\",\"label\":\"Women's Health\",\"value\":\"19922\"}]}]"
+        },
+        {
+          "name": "util.ajax.-394923852_expiration",
+          "value": "1775137810"
+        },
+        {
+          "name": "util.ajax.97936323",
+          "value": "[{\"id\":\"54\",\"name\":\"Area of Focus\"},{\"id\":\"53\",\"name\":\"Unit\\/Team\"},{\"id\":\"1884\",\"name\":\"Events Type\"},{\"id\":\"1882\",\"name\":\"Event Series\"},{\"id\":\"1868\",\"name\":\"Month\"}]"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":2,\"timeouts\":0,\"errors\":0,\"eopCount\":0,\"creationTimeMs\":1775136910999},\"expires\":1782912910999}}"
+        },
+        {
+          "name": "util.ajax.1393707746_expiration",
+          "value": "1775137810"
+        },
+        {
+          "name": "util.ajax.-625571001",
+          "value": "[{\"id\":\"1932\",\"name\":\"Directory Role Category\",\"type\":\"Categories\",\"options\":[{\"default\":\"\",\"label\":\"Affiliate Faculty\",\"value\":\"25148\"},{\"default\":\"\",\"label\":\"Assistant Dean\",\"value\":\"24792\"},{\"default\":\"\",\"label\":\"Assistant Director\",\"value\":\"25250\"},{\"default\":\"\",\"label\":\"Assistant Professor\",\"value\":\"24963\"},{\"default\":\"\",\"label\":\"Associate Chair\",\"value\":\"25801\"},{\"default\":\"\",\"label\":\"Associate Dean\",\"value\":\"25216\"},{\"default\":\"\",\"label\":\"Associate Director\",\"value\":\"35153\"},{\"default\":\"\",\"label\":\"Associate Professor\",\"value\":\"24624\"},{\"default\":\"\",\"label\":\"Associate Vice President\",\"value\":\"24836\"},{\"default\":\"\",\"label\":\"Chair\",\"value\":\"24595\"},{\"default\":\"\",\"label\":\"Chief Officer\",\"value\":\"24597\"},{\"default\":\"\",\"label\":\"Clinical Assistant Professor\",\"value\":\"219803\"},{\"default\":\"\",\"label\":\"Dean\",\"value\":\"59384\"},{\"default\":\"\",\"label\":\"Director\",\"value\":\"24651\"},{\"default\":\"\",\"label\":\"Division Chief\",\"value\":\"25632\"},{\"default\":\"\",\"label\":\"Executive Director\",\"value\":\"24898\"},{\"default\":\"\",\"label\":\"Health Professional Specialist\",\"value\":\"36398\"},{\"default\":\"\",\"label\":\"Instructor\",\"value\":\"58843\"},{\"default\":\"\",\"label\":\"Professor\",\"value\":\"24599\"},{\"default\":\"\",\"label\":\"Senior Director\",\"value\":\"36183\"},{\"default\":\"\",\"label\":\"Staff\",\"value\":\"24837\"},{\"default\":\"\",\"label\":\"Vice Dean\",\"value\":\"24601\"},{\"default\":\"\",\"label\":\"Vice President\",\"value\":\"36315\"},{\"default\":\"\",\"label\":\"Clinical Professor\",\"value\":\"263858\"},{\"default\":\"\",\"label\":\"Executive Vice Dean\",\"value\":\"331221\"}]}]"
+        },
+        {
+          "name": "util.ajax.2112035660_expiration",
+          "value": "1775137810"
+        },
+        {
+          "name": "util.ajax.-129078723",
+          "value": "[{\"id\":\"54\",\"name\":\"Area of Focus\"},{\"id\":\"53\",\"name\":\"Unit\\/Team\"},{\"id\":\"1901\",\"name\":\"Publication Type\"},{\"id\":\"1900\",\"name\":\"News Category\"}]"
+        },
+        {
+          "name": "util.ajax.-2138437120_expiration",
+          "value": "1775137811"
+        },
+        {
+          "name": "util.ajax.-1956685112",
+          "value": "[{\"id\":\"1911\",\"name\":\"Directory Affiliation Category\",\"type\":\"Categories\",\"options\":[{\"default\":\"\",\"label\":\"Addiction Psychiatry Fellowship\",\"value\":\"35491\"},{\"default\":\"\",\"label\":\"Cardiac Electrophysiology Fellowship\",\"value\":\"25085\"},{\"default\":\"\",\"label\":\"Cardiovascular Disease Fellowship\",\"value\":\"25086\"},{\"default\":\"\",\"label\":\"Child & Adolescent Psychiatry Fellowship\",\"value\":\"36476\"},{\"default\":\"\",\"label\":\"Child Neurology Residency\",\"value\":\"25840\"},{\"default\":\"\",\"label\":\"Clinical Fellowship in Orthopaedic Surgery\",\"value\":\"24699\"},{\"default\":\"\",\"label\":\"Clinical Neurophysiology Fellowship\",\"value\":\"25479\"},{\"default\":\"\",\"label\":\"Consultation-Liaison Psychiatry Fellowship\",\"value\":\"25190\"},{\"default\":\"\",\"label\":\"Craniofacial & Pediatric Plastic Surgery Fellowship\",\"value\":\"25052\"},{\"default\":\"\",\"label\":\"Dermatology Residency\",\"value\":\"25331\"},{\"default\":\"\",\"label\":\"Diagnostic Radiology Residency\",\"value\":\"36918\"},{\"default\":\"\",\"label\":\"Emergency Medicine Residency\",\"value\":\"25563\"},{\"default\":\"\",\"label\":\"EMS Fellowship\",\"value\":\"37855\"},{\"default\":\"\",\"label\":\"Family Medicine Residency\",\"value\":\"25423\"},{\"default\":\"\",\"label\":\"Female Pelvic Medicine & Reconstructive Surgery Fellowship\",\"value\":\"36062\"},{\"default\":\"\",\"label\":\"Forensic Psychiatry Fellowship\",\"value\":\"288160\"},{\"default\":\"\",\"label\":\"Gastroenterology & Hepatology Fellowship\",\"value\":\"37878\"},{\"default\":\"\",\"label\":\"Geriatric Psychiatry Fellowship\",\"value\":\"26532\"},{\"default\":\"\",\"label\":\"Hematology & Medical Oncology Fellowship\",\"value\":\"25191\"},{\"default\":\"\",\"label\":\"Hospice & Palliative Medicine Fellowship\",\"value\":\"25192\"},{\"default\":\"\",\"label\":\"Internal Medicine Residency\",\"value\":\"24793\"},{\"default\":\"\",\"label\":\"Interventional Cardiology Fellowship\",\"value\":\"25087\"},{\"default\":\"\",\"label\":\"Maternal-Fetal Medicine Fellowship\",\"value\":\"25996\"},{\"default\":\"\",\"label\":\"Minimally Invasive Gynecologic Surgery Fellowship\",\"value\":\"25802\"},{\"default\":\"\",\"label\":\"Neonatal-Perinatal Medicine Fellowship\",\"value\":\"37789\"},{\"default\":\"\",\"label\":\"Neuroendovascular Fellowship\",\"value\":\"267231\"},{\"default\":\"\",\"label\":\"Neurology Residency\",\"value\":\"24750\"},{\"default\":\"\",\"label\":\"Neurosurgery Residency\",\"value\":\"123100\"},{\"default\":\"\",\"label\":\"Obstetrics & Gynecology Residency\",\"value\":\"24602\"},{\"default\":\"\",\"label\":\"Ophthalmology Residency\",\"value\":\"24652\"},{\"default\":\"\",\"label\":\"Orthopaedic Surgery Residency\",\"value\":\"25053\"},{\"default\":\"\",\"label\":\"Orthopaedic Value-Based Health Care Fellowship\",\"value\":\"24700\"},{\"default\":\"\",\"label\":\"Pathology\",\"value\":\"229267\"},{\"default\":\"\",\"label\":\"Pediatric & Adolescent Gynecology Fellowship\",\"value\":\"155612\"},{\"default\":\"\",\"label\":\"Pediatric Cardiac Critical Care Fellowship\",\"value\":\"278207\"},{\"default\":\"\",\"label\":\"Pediatric Cardiology Fellowship\",\"value\":\"284098\"},{\"default\":\"\",\"label\":\"Pediatric Critical Care Medicine Fellowship\",\"value\":\"37236\"},{\"default\":\"\",\"label\":\"Pediatric Emergency Medicine Fellowship\",\"value\":\"36961\"},{\"default\":\"\",\"label\":\"Pediatric Epilepsy Fellowship\",\"value\":\"37493\"},{\"default\":\"\",\"label\":\"Pediatric Headache Fellowship\",\"value\":\"83105\"},{\"default\":\"\",\"label\":\"Pediatric Hospital Medicine Fellowship\",\"value\":\"37217\"},{\"default\":\"\",\"label\":\"Pediatrics Residency\",\"value\":\"36512\"},{\"default\":\"\",\"label\":\"Physical Medicine & Rehabilitation Residency\",\"value\":\"25685\"},{\"default\":\"\",\"label\":\"Postdoctoral Fellowship in Pediatric Psychology\",\"value\":\"38448\"},{\"default\":\"\",\"label\":\"Predoctoral Internship in Pediatric & Child & Adolescent Psychology\",\"value\":\"38449\"},{\"default\":\"\",\"label\":\"Primary Care Sports Medicine Fellowship\",\"value\":\"25217\"},{\"default\":\"\",\"label\":\"Psychiatry Residency\",\"value\":\"24869\"},{\"default\":\"\",\"label\":\"Psychiatry Residency Physician-Scientist Track\",\"value\":\"252270\"},{\"default\":\"\",\"label\":\"Pulmonary & Critical Care Medicine Fellowship\",\"value\":\"37942\"},{\"default\":\"\",\"label\":\"Surgery Residency\",\"value\":\"25465\"},{\"default\":\"\",\"label\":\"Transitional Residency\",\"value\":\"24653\"},{\"default\":\"\",\"label\":\"Vascular Neurology Fellowship\",\"value\":\"26279\"},{\"default\":\"\",\"label\":\"Complex Benign Gynecology Fellowship\",\"value\":\"326153\"}]}]"
+        },
+        {
+          "name": "util.ajax.-625571001_expiration",
+          "value": "1775137811"
+        },
+        {
+          "name": "util.ajax.-129078723_expiration",
+          "value": "1775137810"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "util.ajax.1969180711",
+          "value": "[{\"id\":\"1888\",\"name\":\"Media Publication Type\",\"type\":\"Categories\",\"options\":[{\"default\":\"\",\"label\":\"Local\\/Regional\",\"value\":\"19823\"},{\"default\":\"\",\"label\":\"Op-ed\",\"value\":\"20063\"},{\"default\":\"\",\"label\":\"National\",\"value\":\"19839\"}]}]"
+        },
+        {
+          "name": "util.ajax.-2100967227",
+          "value": "[{\"id\":\"1897\",\"name\":\"Blog Category\",\"type\":\"Categories\",\"options\":[{\"default\":\"\",\"label\":\"Caring, Character & Calling: Stories of Inspiring Teachers\",\"value\":\"26948\"},{\"default\":\"\",\"label\":\"Comprehensive Care\",\"value\":\"26979\"},{\"default\":\"\",\"label\":\"Culinary Medicine\",\"value\":\"171786\"},{\"default\":\"\",\"label\":\"Global Health\",\"value\":\"27139\"},{\"default\":\"\",\"label\":\"Graduate Medical Education\",\"value\":\"155498\"},{\"default\":\"\",\"label\":\"Health Communication\",\"value\":\"27177\"},{\"default\":\"\",\"label\":\"Health Equity Blogs\",\"value\":\"27274\"},{\"default\":\"\",\"label\":\"Health Leadership Apprentice Program\",\"value\":\"27091\"},{\"default\":\"\",\"label\":\"Health Product Innovation\",\"value\":\"28217\"},{\"default\":\"\",\"label\":\"Surgery & Perioperative Care Research\",\"value\":\"27181\"},{\"default\":\"\",\"label\":\"Texas Health Catalyst\",\"value\":\"26935\"},{\"default\":\"\",\"label\":\"Value-Based Health Care\",\"value\":\"26980\"}]}]"
+        },
+        {
+          "name": "util.ajax.-848186499_expiration",
+          "value": "1775137810"
+        },
+        {
+          "name": "util.ajax.-1337498968_expiration",
+          "value": "1775137811"
+        },
+        {
+          "name": "util.ajax.230071519_expiration",
+          "value": "1775137811"
+        },
+        {
+          "name": "util.ajax.230071519",
+          "value": "[{\"id\":\"54\",\"name\":\"Area Of Focus\",\"type\":\"Categories\",\"options\":[{\"default\":\"\",\"label\":\"Education\",\"value\":\"19870\"},{\"default\":\"\",\"label\":\"Clinical Care\",\"value\":\"19846\"},{\"default\":\"\",\"label\":\"Community Impact\",\"value\":\"259154\"},{\"default\":\"\",\"label\":\"Research\",\"value\":\"19863\"}]}]"
+        },
+        {
+          "name": "li_adsId",
+          "value": "f4efd165-0dee-4b58-80a0-7923ef6da353"
+        },
+        {
+          "name": "util.ajax.387981929",
+          "value": "[{\"id\":\"1901\",\"name\":\"News Publication Type\",\"type\":\"Categories\",\"options\":[{\"default\":\"\",\"label\":\"News\",\"value\":\"31425\"},{\"default\":\"\",\"label\":\"Feature\",\"value\":\"31431\"},{\"default\":\"\",\"label\":\"Announcement\",\"value\":\"190541\"}]}]"
+        },
+        {
+          "name": "util.ajax.744845229_expiration",
+          "value": "1775137810"
+        },
+        {
+          "name": "util.ajax.744845229",
+          "value": "[{\"handle\":\"entireSite\",\"name\":\"Entire Site\"},{\"handle\":\"units\",\"name\":\"Units\"},{\"handle\":\"media\",\"name\":\"Media\"},{\"handle\":\"news\",\"name\":\"News\"},{\"handle\":\"blog\",\"name\":\"Blog\"},{\"handle\":\"events\",\"name\":\"Events\"},{\"handle\":\"directory\",\"name\":\"Directory\"}]"
+        },
+        {
+          "name": "util.ajax.-637775581_expiration",
+          "value": "1775137812"
+        },
+        {
+          "name": "util.ajax.-1931419799_expiration",
+          "value": "1775137812"
+        },
+        {
+          "name": "util.ajax.-2138437120",
+          "value": "[{\"id\":\"1892\",\"name\":\"Blog Author\",\"type\":\"Entries\",\"options\":[{\"label\":\"Christian Leal\",\"value\":\"333342\"},{\"label\":\"Laurel Blumentritt\",\"value\":\"333051\"},{\"label\":\"Daylena Shatto\",\"value\":\"333043\"},{\"label\":\"Thi Quynh Nguyen\",\"value\":\"333048\"},{\"label\":\"Vicky Valdiviezo\",\"value\":\"333039\"},{\"label\":\"Traci Espenship\",\"value\":\"333041\"},{\"label\":\"Linda Carnes\",\"value\":\"333046\"},{\"label\":\"Jesse Telles\",\"value\":\"333030\"},{\"label\":\"Justin Wyrick\",\"value\":\"333032\"},{\"label\":\"Helena Sawvel\",\"value\":\"333028\"},{\"label\":\"Tanner Dale\",\"value\":\"333022\"},{\"label\":\"Jason Meekins\",\"value\":\"333026\"},{\"label\":\"Salwa Almasri\",\"value\":\"333020\"},{\"label\":\"Greg Wittenburg\",\"value\":\"332603\"},{\"label\":\"Robert Feldman\",\"value\":\"332526\"},{\"label\":\"Marco Ji, M.D.\",\"value\":\"332529\"},{\"label\":\"Oluseyi Ogunleye\",\"value\":\"332269\"},{\"label\":\"Matthew Coghill\",\"value\":\"332272\"},{\"label\":\"Shikha Singla\",\"value\":\"332266\"},{\"label\":\"Rosanna Turner\",\"value\":\"332119\"},{\"label\":\"Jose Yanez\",\"value\":\"332111\"},{\"label\":\"Eslin Arellano\",\"value\":\"332115\"},{\"label\":\"Robin Mygatt\",\"value\":\"332113\"},{\"label\":\"Gyselle Barrera Ortiz\",\"value\":\"332117\"},{\"label\":\"Angela Alvarez\",\"value\":\"332107\"},{\"label\":\"Ciera Culcasi\",\"value\":\"332109\"},{\"label\":\"Meera Subash\",\"value\":\"331670\"},{\"label\":\"Satya Chalasani\",\"value\":\"331667\"},{\"label\":\"Alireza Shamshirsaz\",\"value\":\"322226\"},{\"label\":\"Malarie Gutierrez\",\"value\":\"331181\"},{\"label\":\"Anita Rhodes\",\"value\":\"331174\"},{\"label\":\"Carina Ramirez\",\"value\":\"331169\"},{\"label\":\"David Collard\",\"value\":\"331166\"},{\"label\":\"Sarahi Adame\",\"value\":\"331159\"},{\"label\":\"Eli Rivero\",\"value\":\"331156\"},{\"label\":\"Barbara Deglomine\",\"value\":\"331164\"},{\"label\":\"Serena Garcia\",\"value\":\"331161\"},{\"label\":\"Kayla Cordova\",\"value\":\"331154\"},{\"label\":\"Elizabeth Sloan\",\"value\":\"331150\"},{\"label\":\"Christopher Nicholson\",\"value\":\"331152\"},{\"label\":\"Jordan Ashcraft, M.D.\",\"value\":\"330699\"},{\"label\":\"Aaron Roller, M.D.\",\"value\":\"330696\"},{\"label\":\"Lisset Reyes\",\"value\":\"330628\"},{\"label\":\"Curtis Cummings\",\"value\":\"330631\"},{\"label\":\"Henry Mumford\",\"value\":\"330626\"},{\"label\":\"Godslove Wryter\",\"value\":\"330611\"},{\"label\":\"Kendall July\",\"value\":\"330615\"},{\"label\":\"Amanda Fonseca\",\"value\":\"330617\"},{\"label\":\"Laesha Cole\",\"value\":\"330613\"},{\"label\":\"Julia Blood\",\"value\":\"330544\"},{\"label\":\"Kimberly Harrison\",\"value\":\"330514\"},{\"label\":\"Diana Carreon\",\"value\":\"330183\"},{\"label\":\"Norma Young\",\"value\":\"330189\"},{\"label\":\"Lauren Pischinger\",\"value\":\"330191\"},{\"label\":\"Lakeisha Hullaby\",\"value\":\"330187\"},{\"label\":\"Higareda Higareda\",\"value\":\"330185\"},{\"label\":\"Khushi Thorat\",\"value\":\"330180\"},{\"label\":\"Grant Woods\",\"value\":\"330176\"},{\"label\":\"Hunter Bleser\",\"value\":\"330174\"},{\"label\":\"Hosanna McBride\",\"value\":\"330172\"},{\"label\":\"Ella Branson\",\"value\":\"329874\"},{\"label\":\"Jennifer Jefferson\",\"value\":\"329860\"},{\"label\":\"Garlene Guadron\",\"value\":\"329857\"},{\"label\":\"Katharine Vancil\",\"value\":\"329850\"},{\"label\":\"Kayla Alexander\",\"value\":\"329846\"},{\"label\":\"Maria Vanillo Enriquez\",\"value\":\"329854\"},{\"label\":\"Yahen Gasca\",\"value\":\"329830\"},{\"label\":\"Mariya Bobrovnyk\",\"value\":\"329562\"},{\"label\":\"jennifer rodriguez\",\"value\":\"329497\"},{\"label\":\"Laura Gomez\",\"value\":\"329503\"},{\"label\":\"Delicia Davila\",\"value\":\"329500\"},{\"label\":\"Angelyn Villarin\",\"value\":\"329491\"},{\"label\":\"Kalup Cuellar\",\"value\":\"329494\"},{\"label\":\"Ashley serrano\",\"value\":\"329487\"},{\"label\":\"Kassidie Waters\",\"value\":\"329483\"},{\"label\":\"Lauren Coats\",\"value\":\"329479\"},{\"label\":\"Amanda Campos\",\"value\":\"329485\"},{\"label\":\"Megan Gentry\",\"value\":\"329476\"},{\"label\":\"Courtney Wiese\",\"value\":\"329473\"},{\"label\":\"Chukwuma Mmuo\",\"value\":\"329249\"},{\"label\":\"Robin Gurasich\",\"value\":\"329234\"},{\"label\":\"Cassandra Fleming\",\"value\":\"328933\"},{\"label\":\"Brenda Sanchez\",\"value\":\"328931\"},{\"label\":\"Nilay Shah, Ph.D.\",\"value\":\"327941\"},{\"label\":\"Traci Nordberg, J.D.\",\"value\":\"325788\"},{\"label\":\"Nadia Leach\",\"value\":\"327902\"},{\"label\":\"Ehsan Rojhani\",\"value\":\"327894\"},{\"label\":\"Esha Mahal\",\"value\":\"327891\"},{\"label\":\"Alena Raza\",\"value\":\"327899\"},{\"label\":\"Mia Serrano\",\"value\":\"327897\"},{\"label\":\"Joshua Morris\",\"value\":\"327243\"},{\"label\":\"Will Whiting, M.A.\",\"value\":\"327218\"},{\"label\":\"Ameet Pathak\",\"value\":\"327211\"},{\"label\":\"Meme Rofeh\",\"value\":\"327213\"},{\"label\":\"Daniella Santos\",\"value\":\"327208\"},{\"label\":\"Mahek Dhuka, MPAS, PA-C\",\"value\":\"327205\"},{\"label\":\"Michael Lattanzi\",\"value\":\"327091\"},{\"label\":\"Natalie Rusk\",\"value\":\"326632\"},{\"label\":\"Delaney Berrios\",\"value\":\"326287\"},{\"label\":\"Sara Bohra\",\"value\":\"326281\"}]}]"
+        },
+        {
+          "name": "util.ajax.1087705316_expiration",
+          "value": "1775137811"
+        },
+        {
+          "name": "util.ajax.206229921",
+          "value": "[{\"id\":\"1882\",\"name\":\"Events Series Category\",\"type\":\"Categories\",\"options\":[{\"default\":\"\",\"label\":\"AMPATH\\/MAPAS M\\u00e9xico Monthly Seminar Series\",\"value\":\"33863\"},{\"default\":\"\",\"label\":\"Best Practices in Medical Education Grand Rounds\",\"value\":\"33866\"},{\"default\":\"\",\"label\":\"Caffeinate & Innovate\",\"value\":\"253655\"},{\"default\":\"\",\"label\":\"Cancer Research Seminar\",\"value\":\"33868\"},{\"default\":\"\",\"label\":\"CHEER Lecture Series\",\"value\":\"33870\"},{\"default\":\"\",\"label\":\"Community Engagement & Health Equity Speaker Series\",\"value\":\"33873\"},{\"default\":\"\",\"label\":\"Dell Med Grand Rounds\",\"value\":\"33875\"},{\"default\":\"\",\"label\":\"Diagnostic Medicine Grand Rounds\",\"value\":\"33879\"},{\"default\":\"\",\"label\":\"Dr. John & Suzanne Shore Distinguished Lectureship for Excellence in Ophthalmology\",\"value\":\"33880\"},{\"default\":\"\",\"label\":\"Extraordinary Learning & Teaching in the Clinical Setting\",\"value\":\"33881\"},{\"default\":\"\",\"label\":\"General Surgery Grand Rounds\",\"value\":\"33884\"},{\"default\":\"\",\"label\":\"Global Health Grand Rounds\",\"value\":\"33885\"},{\"default\":\"\",\"label\":\"Health & Humanities Research Seminar\",\"value\":\"33886\"},{\"default\":\"\",\"label\":\"Health Disparities Lunch & Learn\",\"value\":\"33887\"},{\"default\":\"\",\"label\":\"Health Equity Forum\",\"value\":\"33888\"},{\"default\":\"\",\"label\":\"Health Social Work Grand Rounds\",\"value\":\"33891\"},{\"default\":\"\",\"label\":\"Humanities, Health & Medicine Lecture Series\",\"value\":\"174470\"},{\"default\":\"\",\"label\":\"In Conversation Series\",\"value\":\"228501\"},{\"default\":\"\",\"label\":\"Internal Medicine Grand Rounds\",\"value\":\"33893\"},{\"default\":\"\",\"label\":\"Leadership Starts Here: Faculty Development Workshop Series\",\"value\":\"280117\"},{\"default\":\"\",\"label\":\"NED Talks\",\"value\":\"258982\"},{\"default\":\"\",\"label\":\"Neurology Grand Rounds\",\"value\":\"33895\"},{\"default\":\"\",\"label\":\"Neurosurgery Grand Rounds\",\"value\":\"33896\"},{\"default\":\"\",\"label\":\"Neurosurgery Virtual Visiting Professor Lecture Series\",\"value\":\"33897\"},{\"default\":\"\",\"label\":\"Oncology Grand Rounds\",\"value\":\"135179\"},{\"default\":\"\",\"label\":\"Ophthalmology Grand Rounds\",\"value\":\"33899\"},{\"default\":\"\",\"label\":\"Orthopaedic Surgery Grand Rounds\",\"value\":\"33900\"},{\"default\":\"\",\"label\":\"Orthopaedic Surgery Visiting Professor Lecture Series\",\"value\":\"247062\"},{\"default\":\"\",\"label\":\"The Oskar Fischer Lecture Series\",\"value\":\"33901\"},{\"default\":\"\",\"label\":\"Parker Expert Lecture Series\",\"value\":\"33904\"},{\"default\":\"\",\"label\":\"Pediatric Emergency Medicine Grand Rounds\",\"value\":\"33905\"},{\"default\":\"\",\"label\":\"Pediatric Grand Rounds\",\"value\":\"33906\"},{\"default\":\"\",\"label\":\"Pediatric Neuroscience Forum\",\"value\":\"33907\"},{\"default\":\"\",\"label\":\"Pediatric Research Seminar\",\"value\":\"33908\"},{\"default\":\"\",\"label\":\"Population Health Grand Rounds\",\"value\":\"181120\"},{\"default\":\"\",\"label\":\"Psychiatry & Behavioral Sciences Grand Rounds\",\"value\":\"33909\"},{\"default\":\"\",\"label\":\"Research Nuts & Bolts\",\"value\":\"33911\"},{\"default\":\"\",\"label\":\"Senior Scientist Seminar Series\",\"value\":\"33912\"},{\"default\":\"\",\"label\":\"Surgery and Perioperative Care Combined Grand Rounds\",\"value\":\"33937\"},{\"default\":\"\",\"label\":\"Surgery & Perioperative Care Discovery & Investigation Seminar Series\",\"value\":\"227368\"},{\"default\":\"\",\"label\":\"Teaching Health Equity in the Clinical Setting\",\"value\":\"33940\"},{\"default\":\"\",\"label\":\"University Lecture Series\",\"value\":\"33943\"},{\"default\":\"\",\"label\":\"Women's Health Grand Rounds\",\"value\":\"33951\"}]}]"
+        },
+        {
+          "name": "util.ajax.950089087",
+          "value": "[{\"id\":\"712\",\"name\":\"Type\"}]"
+        },
+        {
+          "name": "util.ajax.-1337498968",
+          "value": "[{\"id\":\"1900\",\"name\":\"News Category\",\"type\":\"Categories\",\"options\":[{\"default\":\"\",\"label\":\"Voices\",\"value\":\"31430\"},{\"default\":\"\",\"label\":\"Graduate Medical Education\",\"value\":\"153247\"}]}]"
+        },
+        {
+          "name": "util.ajax.950089087_expiration",
+          "value": "1775137810"
+        },
+        {
+          "name": "util.ajax.-1931419799",
+          "value": "[{\"id\":\"1868\",\"name\":\"Event Month\",\"type\":\"Categories\",\"options\":[{\"default\":\"\",\"label\":\"January\",\"value\":\"33975\"},{\"default\":\"\",\"label\":\"February\",\"value\":\"33976\"},{\"default\":\"\",\"label\":\"March\",\"value\":\"33977\"},{\"default\":\"\",\"label\":\"April\",\"value\":\"33978\"},{\"default\":\"\",\"label\":\"May\",\"value\":\"33979\"},{\"default\":\"\",\"label\":\"June\",\"value\":\"33980\"},{\"default\":\"\",\"label\":\"July\",\"value\":\"33981\"},{\"default\":\"\",\"label\":\"August\",\"value\":\"33982\"},{\"default\":\"\",\"label\":\"September\",\"value\":\"33983\"},{\"default\":\"\",\"label\":\"October\",\"value\":\"33984\"},{\"default\":\"\",\"label\":\"November\",\"value\":\"33985\"},{\"default\":\"\",\"label\":\"December\",\"value\":\"33986\"}]}]"
+        },
+        {
+          "name": "util.ajax.-1809401092_expiration",
+          "value": "1775137811"
+        },
+        {
+          "name": "util.ajax.-1495409378_expiration",
+          "value": "1775137811"
+        },
+        {
+          "name": "util.ajax.-1956685112_expiration",
+          "value": "1775137811"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1775136911685"
+        },
+        {
+          "name": "util.ajax.-637775581",
+          "value": "[{\"id\":\"1884\",\"name\":\"Events Type\",\"type\":\"Categories\",\"options\":[{\"default\":\"\",\"label\":\"Celebration\",\"value\":\"143310\"},{\"default\":\"\",\"label\":\"CME\",\"value\":\"33954\"},{\"default\":\"\",\"label\":\"Conference\\/Symposium\",\"value\":\"33955\"},{\"default\":\"\",\"label\":\"Grand Rounds\",\"value\":\"33959\"},{\"default\":\"\",\"label\":\"Info Session\",\"value\":\"33961\"},{\"default\":\"\",\"label\":\"Lecture\\/Seminar\",\"value\":\"33962\"},{\"default\":\"\",\"label\":\"Partner Event\",\"value\":\"33967\"},{\"default\":\"\",\"label\":\"Workshop\\/Professional Development\",\"value\":\"33973\"}]}]"
+        },
+        {
+          "name": "util.ajax.387981929_expiration",
+          "value": "1775137811"
+        },
+        {
+          "name": "util.ajax.97936323_expiration",
+          "value": "1775137810"
+        },
+        {
+          "name": "util.ajax.-2100967227_expiration",
+          "value": "1775137811"
+        },
+        {
+          "name": "util.ajax.1969180711_expiration",
+          "value": "1775137811"
+        },
+        {
+          "name": "util.ajax.-394923852",
+          "value": "[{\"id\":\"54\",\"name\":\"Area of Focus\"},{\"id\":\"53\",\"name\":\"Unit\\/Team\"},{\"id\":\"1888\",\"name\":\"Publication Type\"},{\"id\":\"1885\",\"name\":\"Featured Faculty\"}]"
+        },
+        {
+          "name": "util.ajax.2112035660",
+          "value": "[{\"id\":\"54\",\"name\":\"Area of Focus\"},{\"id\":\"1897\",\"name\":\"Category\"},{\"id\":\"53\",\"name\":\"Unit\\/Team Category\"},{\"id\":\"1892\",\"name\":\"Author\"}]"
+        },
+        {
+          "name": "util.ajax.1087705316",
+          "value": "[{\"id\":\"1885\",\"name\":\"Media Associated Directories\",\"type\":\"Entries\",\"options\":[{\"label\":\"Christian Leal\",\"value\":\"333342\"},{\"label\":\"Laurel Blumentritt\",\"value\":\"333051\"},{\"label\":\"Daylena Shatto\",\"value\":\"333043\"},{\"label\":\"Thi Quynh Nguyen\",\"value\":\"333048\"},{\"label\":\"Vicky Valdiviezo\",\"value\":\"333039\"},{\"label\":\"Traci Espenship\",\"value\":\"333041\"},{\"label\":\"Linda Carnes\",\"value\":\"333046\"},{\"label\":\"Jesse Telles\",\"value\":\"333030\"},{\"label\":\"Justin Wyrick\",\"value\":\"333032\"},{\"label\":\"Helena Sawvel\",\"value\":\"333028\"},{\"label\":\"Tanner Dale\",\"value\":\"333022\"},{\"label\":\"Jason Meekins\",\"value\":\"333026\"},{\"label\":\"Salwa Almasri\",\"value\":\"333020\"},{\"label\":\"Greg Wittenburg\",\"value\":\"332603\"},{\"label\":\"Robert Feldman\",\"value\":\"332526\"},{\"label\":\"Marco Ji, M.D.\",\"value\":\"332529\"},{\"label\":\"Oluseyi Ogunleye\",\"value\":\"332269\"},{\"label\":\"Matthew Coghill\",\"value\":\"332272\"},{\"label\":\"Shikha Singla\",\"value\":\"332266\"},{\"label\":\"Rosanna Turner\",\"value\":\"332119\"},{\"label\":\"Jose Yanez\",\"value\":\"332111\"},{\"label\":\"Eslin Arellano\",\"value\":\"332115\"},{\"label\":\"Robin Mygatt\",\"value\":\"332113\"},{\"label\":\"Gyselle Barrera Ortiz\",\"value\":\"332117\"},{\"label\":\"Angela Alvarez\",\"value\":\"332107\"},{\"label\":\"Ciera Culcasi\",\"value\":\"332109\"},{\"label\":\"Meera Subash\",\"value\":\"331670\"},{\"label\":\"Satya Chalasani\",\"value\":\"331667\"},{\"label\":\"Alireza Shamshirsaz\",\"value\":\"322226\"},{\"label\":\"Malarie Gutierrez\",\"value\":\"331181\"},{\"label\":\"Anita Rhodes\",\"value\":\"331174\"},{\"label\":\"Carina Ramirez\",\"value\":\"331169\"},{\"label\":\"David Collard\",\"value\":\"331166\"},{\"label\":\"Sarahi Adame\",\"value\":\"331159\"},{\"label\":\"Eli Rivero\",\"value\":\"331156\"},{\"label\":\"Barbara Deglomine\",\"value\":\"331164\"},{\"label\":\"Serena Garcia\",\"value\":\"331161\"},{\"label\":\"Kayla Cordova\",\"value\":\"331154\"},{\"label\":\"Elizabeth Sloan\",\"value\":\"331150\"},{\"label\":\"Christopher Nicholson\",\"value\":\"331152\"},{\"label\":\"Jordan Ashcraft, M.D.\",\"value\":\"330699\"},{\"label\":\"Aaron Roller, M.D.\",\"value\":\"330696\"},{\"label\":\"Lisset Reyes\",\"value\":\"330628\"},{\"label\":\"Curtis Cummings\",\"value\":\"330631\"},{\"label\":\"Henry Mumford\",\"value\":\"330626\"},{\"label\":\"Godslove Wryter\",\"value\":\"330611\"},{\"label\":\"Kendall July\",\"value\":\"330615\"},{\"label\":\"Amanda Fonseca\",\"value\":\"330617\"},{\"label\":\"Laesha Cole\",\"value\":\"330613\"},{\"label\":\"Julia Blood\",\"value\":\"330544\"},{\"label\":\"Kimberly Harrison\",\"value\":\"330514\"},{\"label\":\"Diana Carreon\",\"value\":\"330183\"},{\"label\":\"Norma Young\",\"value\":\"330189\"},{\"label\":\"Lauren Pischinger\",\"value\":\"330191\"},{\"label\":\"Lakeisha Hullaby\",\"value\":\"330187\"},{\"label\":\"Higareda Higareda\",\"value\":\"330185\"},{\"label\":\"Khushi Thorat\",\"value\":\"330180\"},{\"label\":\"Grant Woods\",\"value\":\"330176\"},{\"label\":\"Hunter Bleser\",\"value\":\"330174\"},{\"label\":\"Hosanna McBride\",\"value\":\"330172\"},{\"label\":\"Ella Branson\",\"value\":\"329874\"},{\"label\":\"Jennifer Jefferson\",\"value\":\"329860\"},{\"label\":\"Garlene Guadron\",\"value\":\"329857\"},{\"label\":\"Katharine Vancil\",\"value\":\"329850\"},{\"label\":\"Kayla Alexander\",\"value\":\"329846\"},{\"label\":\"Maria Vanillo Enriquez\",\"value\":\"329854\"},{\"label\":\"Yahen Gasca\",\"value\":\"329830\"},{\"label\":\"Mariya Bobrovnyk\",\"value\":\"329562\"},{\"label\":\"jennifer rodriguez\",\"value\":\"329497\"},{\"label\":\"Laura Gomez\",\"value\":\"329503\"},{\"label\":\"Delicia Davila\",\"value\":\"329500\"},{\"label\":\"Angelyn Villarin\",\"value\":\"329491\"},{\"label\":\"Kalup Cuellar\",\"value\":\"329494\"},{\"label\":\"Ashley serrano\",\"value\":\"329487\"},{\"label\":\"Kassidie Waters\",\"value\":\"329483\"},{\"label\":\"Lauren Coats\",\"value\":\"329479\"},{\"label\":\"Amanda Campos\",\"value\":\"329485\"},{\"label\":\"Megan Gentry\",\"value\":\"329476\"},{\"label\":\"Courtney Wiese\",\"value\":\"329473\"},{\"label\":\"Chukwuma Mmuo\",\"value\":\"329249\"},{\"label\":\"Robin Gurasich\",\"value\":\"329234\"},{\"label\":\"Cassandra Fleming\",\"value\":\"328933\"},{\"label\":\"Brenda Sanchez\",\"value\":\"328931\"},{\"label\":\"Nilay Shah, Ph.D.\",\"value\":\"327941\"},{\"label\":\"Traci Nordberg, J.D.\",\"value\":\"325788\"},{\"label\":\"Nadia Leach\",\"value\":\"327902\"},{\"label\":\"Ehsan Rojhani\",\"value\":\"327894\"},{\"label\":\"Esha Mahal\",\"value\":\"327891\"},{\"label\":\"Alena Raza\",\"value\":\"327899\"},{\"label\":\"Mia Serrano\",\"value\":\"327897\"},{\"label\":\"Joshua Morris\",\"value\":\"327243\"},{\"label\":\"Will Whiting, M.A.\",\"value\":\"327218\"},{\"label\":\"Ameet Pathak\",\"value\":\"327211\"},{\"label\":\"Meme Rofeh\",\"value\":\"327213\"},{\"label\":\"Daniella Santos\",\"value\":\"327208\"},{\"label\":\"Mahek Dhuka, MPAS, PA-C\",\"value\":\"327205\"},{\"label\":\"Michael Lattanzi\",\"value\":\"327091\"},{\"label\":\"Natalie Rusk\",\"value\":\"326632\"},{\"label\":\"Delaney Berrios\",\"value\":\"326287\"},{\"label\":\"Sara Bohra\",\"value\":\"326281\"}]}]"
+        },
+        {
+          "name": "util.ajax.1393707746",
+          "value": "[{\"id\":\"712\",\"name\":\"Type\"},{\"id\":\"1932\",\"name\":\"Role\"},{\"id\":\"54\",\"name\":\"Area of Focus\"},{\"id\":\"53\",\"name\":\"Unit\\/Team\"},{\"id\":\"1897\",\"name\":\"Category\"},{\"id\":\"1911\",\"name\":\"Residency\\/Fellowship Affiliation\"},{\"id\":\"1888\",\"name\":\"Publication Type\"},{\"id\":\"1901\",\"name\":\"Publication Type\"},{\"id\":\"1885\",\"name\":\"Featured Faculty\"},{\"id\":\"1900\",\"name\":\"News Category\"},{\"id\":\"1892\",\"name\":\"Author\"}]"
+        }
+      ]
+    }
+  ]
+}

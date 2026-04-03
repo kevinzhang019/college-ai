@@ -1,0 +1,77 @@
+{
+  "cookies": [
+    {
+      "name": "YSC",
+      "value": "ig-4mnX8NZ0",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://berkeley.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "nmstat",
+      "value": "fd248b0a-d0b1-d466-c4a5-d08176c42328",
+      "domain": ".berkeley.edu",
+      "path": "/",
+      "expires": 1789995480.13984,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.645027461.1755435481",
+      "domain": ".berkeley.edu",
+      "path": "/",
+      "expires": 1790058742.247585,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_JD06GX6S4V",
+      "value": "GS2.1.s1755498724$o4$g1$t1755498742$j42$l0$h0",
+      "domain": ".berkeley.edu",
+      "path": "/",
+      "expires": 1790058742.247332,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.3.645027461.1755435481",
+      "domain": ".artshumanities.berkeley.edu",
+      "path": "/",
+      "expires": 1809690932.848497,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.3.875331093.1775129744",
+      "domain": ".artshumanities.berkeley.edu",
+      "path": "/",
+      "expires": 1775217332,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_XTWCT5PVPE",
+      "value": "GS2.3.s1775129743$o1$g1$t1775130932$j60$l0$h0",
+      "domain": ".artshumanities.berkeley.edu",
+      "path": "/",
+      "expires": 1809690932.632577,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

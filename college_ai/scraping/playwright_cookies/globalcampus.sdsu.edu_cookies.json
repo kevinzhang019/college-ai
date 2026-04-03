@@ -1,0 +1,640 @@
+{
+  "cookies": [
+    {
+      "name": "__lc_cid",
+      "value": "5726bb15-9192-42d2-a6eb-f0fc79a1af9a",
+      "domain": ".accounts.livechatinc.com",
+      "path": "/v2/customer/token",
+      "expires": 1790060027.218109,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://sdsu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "__lc_cst",
+      "value": "e819afc34018d65d6b3f9814fa5f63fca41f56b7161bf7a2af01c98387ddfc73d9b05aa02be5b153bb84715e9cf7beb162dc941297ec62d85e6485372bab",
+      "domain": ".accounts.livechatinc.com",
+      "path": "/v2/customer/token",
+      "expires": 1790060027.218152,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://sdsu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "X-AB",
+      "value": "12f715ca71194ad9a1b12bba6d1da4c6",
+      "domain": "sc-static.net",
+      "path": "/scevent.min.js",
+      "expires": 1755522648.505122,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__lc_cid",
+      "value": "5726bb15-9192-42d2-a6eb-f0fc79a1af9a",
+      "domain": ".accounts.livechatinc.com",
+      "path": "/customer/token",
+      "expires": 1790060027.218166,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://sdsu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "__lc_cst",
+      "value": "e819afc34018d65d6b3f9814fa5f63fca41f56b7161bf7a2af01c98387ddfc73d9b05aa02be5b153bb84715e9cf7beb162dc941297ec62d85e6485372bab",
+      "domain": ".accounts.livechatinc.com",
+      "path": "/customer/token",
+      "expires": 1790060027.218181,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://sdsu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "BIGipServer~org-10459~SDSU-Primary",
+      "value": "rd2221o00000000000000000000ffff0a0d9a14o80",
+      "domain": "sdsu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "BIGipServer~org-10459~SDSU-Primary",
+      "value": "rd2221o00000000000000000000ffff0a0d9a14o80",
+      "domain": "www.sdsu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "YSC",
+      "value": "0A3-IXJGFnc",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "0aKJifed8KY",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771051981.608379,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgSQ%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771051981.608403,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.1698520580.1755436248",
+      "domain": ".sdsu.edu",
+      "path": "/",
+      "expires": 1763212248,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755436248322.47881774109389859",
+      "domain": ".sdsu.edu",
+      "path": "/",
+      "expires": 1763243799,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CJK7xI_B3__dGBCU1OTP9ZGPAxiw24vQ9ZGPAw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1770988248.445891,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://sdsu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_scid",
+      "value": "QCke1fY3vGnHzO98jm7D9i0-2lW7nGyV",
+      "domain": ".sdsu.edu",
+      "path": "/",
+      "expires": 1789622946,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "test",
+      "value": "test",
+      "domain": "8a5e7a58-cf02-4302-a62b-bcc1af878097.rlets.com",
+      "path": "/",
+      "expires": 1755554199,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ScCbts",
+      "value": "%5B%5D",
+      "domain": ".sdsu.edu",
+      "path": "/",
+      "expires": 1756041049,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sc_at",
+      "value": "v2|H4sIAAAAAAAAAE3GwREAIQgEsIqYQWFB7UaQq8Li72te6XWAnUGSJqT2gWZOJQ/s8Kwho25TXs0BFevg+5R/pYV6l0AAAAA=",
+      "domain": ".snapchat.com",
+      "path": "/",
+      "expires": 1789132250.874054,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_TS",
+      "value": "1755436250760",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760620250.785615,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_DID",
+      "value": "cd3a091b-44aa-42e3-95ee-04b5a89d2f77",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760620250.785668,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_3WAY_SYNCS",
+      "value": "",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760620250.785695,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_sctr",
+      "value": "1%7C1755388800000",
+      "domain": ".sdsu.edu",
+      "path": "/",
+      "expires": 1789622948,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "suid",
+      "value": "C3A6FD591D6B43548F2F05A45052FA48",
+      "domain": ".simpli.fi",
+      "path": "/",
+      "expires": 1787058651.413268,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "rl_visitor_history",
+      "value": "d63e5e9f-7e51-4b82-9c60-98d87f1273a0",
+      "domain": "www.sdsu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sifi_user_id",
+      "value": "F1D002590B0745199A6D770AF28F762F",
+      "domain": "www.sdsu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "uid_syncd_secure",
+      "value": "true",
+      "domain": ".simpli.fi",
+      "path": "/",
+      "expires": 1756041053.283862,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_scid_r",
+      "value": "Wake1fY3vGnHzO98jm7D9i0-2lW7nGyVSVbQNQ",
+      "domain": ".sdsu.edu",
+      "path": "/",
+      "expires": 1789654496,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "bot_type",
+      "value": "",
+      "domain": "8a5e7a58-cf02-4302-a62b-bcc1af878097.rlets.com",
+      "path": "/",
+      "expires": 1790027799.175219,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "history_campaign",
+      "value": "{\"scid\":\"\",\"cid\":\"\",\"tc\":\"\",\"rl_key\":\"\",\"kw\":\"\",\"pub_cr_id\":\"\",\"isPaidCampaign\":false,\"tid\":\"\",\"uid\":\"\",\"ohid\":\"\",\"id_creative_resource\":\"\",\"utm_data\":\"\",\"ecid\":\"\"}",
+      "domain": "8a5e7a58-cf02-4302-a62b-bcc1af878097.rlets.com",
+      "path": "/",
+      "expires": 1790027799.175269,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "history_referrer_type",
+      "value": "DIRECT",
+      "domain": "8a5e7a58-cf02-4302-a62b-bcc1af878097.rlets.com",
+      "path": "/",
+      "expires": 1790027799.175352,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "last_activity_at",
+      "value": "1755467799174",
+      "domain": "8a5e7a58-cf02-4302-a62b-bcc1af878097.rlets.com",
+      "path": "/",
+      "expires": 1790027799.175402,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "visitor_id",
+      "value": "d63e5e9f-7e51-4b82-9c60-98d87f1273a0",
+      "domain": "8a5e7a58-cf02-4302-a62b-bcc1af878097.rlets.com",
+      "path": "/",
+      "expires": 1790027799.306034,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sifi_user_id",
+      "value": "F1D002590B0745199A6D770AF28F762F",
+      "domain": "8a5e7a58-cf02-4302-a62b-bcc1af878097.rlets.com",
+      "path": "/",
+      "expires": 1790027799.175505,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "visit_id",
+      "value": "8d395bf6-6785-484d-b294-6675a9a7cf4f",
+      "domain": "8a5e7a58-cf02-4302-a62b-bcc1af878097.rlets.com",
+      "path": "/",
+      "expires": 1790027799.175559,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_PQ982Y29GP",
+      "value": "GS2.1.s1755467798$o2$g1$t1755467817$j41$l0$h0",
+      "domain": ".sdsu.edu",
+      "path": "/",
+      "expires": 1790027817.838853,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.1192143971.1755467844",
+      "domain": ".sdsu.edu",
+      "path": "/",
+      "expires": 1755586426,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUkFbftOHuaL0KyVG_7A_OnZTpKK5oVcOVMeV_A8ZQF4zxDslEYgpVgh6GjF",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1790027844.44965,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=VGST09:s=V:r=V:a=V:p=V:g=3278:u=1:x=1:i=1755467844:t=1755554244:v=2:sig=AQFBIsmQYW_aXsuL-FV8Zq5uChpGB81a\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755554244.669557,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": "px.ads.linkedin.com",
+      "path": "/",
+      "expires": 1758129772.934895,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&2904d038-98e8-4156-81d5-476b2f2ac84f\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1787036026.934921,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__utmc",
+      "value": "57633532",
+      "domain": ".globalcampus.sdsu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__utmz",
+      "value": "57633532.1755467850.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)",
+      "domain": ".globalcampus.sdsu.edu",
+      "path": "/",
+      "expires": 1771268028,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CLID",
+      "value": "08496ee5c4bc4df7ac8b4c441deeadf9.20250817.20260818",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1787035956.344967,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_clck",
+      "value": "omkedv%7C2%7Cfyk%7C0%7C2055",
+      "domain": ".sdsu.edu",
+      "path": "/",
+      "expires": 1787035956,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__utma",
+      "value": "57633532.230990574.1755436248.1755467850.1755499958.2",
+      "domain": ".globalcampus.sdsu.edu",
+      "path": "/",
+      "expires": 1790060028.383497,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "NID",
+      "value": "525=COa2Zclk2PJm5R7WginJJhlASNlfEVuu_zF4gN3fuYdGMS3UudRwcq0TpWCu3nU3tchF3nz4KRPyMLJmINwf2LV0JEX4OdDueC7BEZAR0D6b7X5vKLzZ7C2MQoXArQUd7-40qNZM3mrT22xhWTqeD7II5I0o4cDA8ynC6nyfFqHSfeGQONweNfA0h-JIz0rUMyFRnw",
+      "domain": ".google.com",
+      "path": "/",
+      "expires": 1771247450.280437,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "GmQBYEA8OZJvVe74H3XNu1beUidPXGlKygUAZD.kBA4-1755500025-1.0.1.1-RGwLLAp3N6_k2v8VaJaykje8PWg7aMnVxFoFHPCizfi3NokUXuNC0vWXWED9nyybbxiML4LE4S_hT0zjTheZkPH1QUMH.ZGH7b1ram7jTjc",
+      "domain": ".globalcampus.sdsu.edu",
+      "path": "/",
+      "expires": 1755501825.144705,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "0aKJifed8KY",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771052026.173866,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://sdsu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgSQ%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771052026.173889,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://sdsu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_gat_UA-1402060-1",
+      "value": "1",
+      "domain": ".sdsu.edu",
+      "path": "/",
+      "expires": 1755500086,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_V1CGWR5QH5",
+      "value": "GS2.1.s1755499956$o2$g1$t1755500026$j60$l0$h0",
+      "domain": ".sdsu.edu",
+      "path": "/",
+      "expires": 1790060026.60153,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.230990574.1755436248",
+      "domain": ".sdsu.edu",
+      "path": "/",
+      "expires": 1790060026.601845,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__oauth_redirect_detector",
+      "value": "counter=1&t=1755500057&tag=f1ef62eee5851205b07af73dd92062e127625432",
+      "domain": "accounts.livechatinc.com",
+      "path": "/",
+      "expires": 1755500057.218193,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__utmb",
+      "value": "57633532.0.10.1755500028383",
+      "domain": ".globalcampus.sdsu.edu",
+      "path": "/",
+      "expires": 1755501828,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://globalcampus.sdsu.edu",
+      "localStorage": [
+        {
+          "name": "li_adsId",
+          "value": "de89c309-f4f3-4454-acab-efeb8a56b04e"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755467844096},\"expires\":1763243844096}}"
+        }
+      ]
+    },
+    {
+      "origin": "https://www.sdsu.edu",
+      "localStorage": [
+        {
+          "name": "u_sclid",
+          "value": "b-bzP13pi7lxc3Q4em-nCV36v78STjvlQCke1fY3vGnHzO98jm7D9i0-2lW7nGyV"
+        },
+        {
+          "name": "8a5e7a58-cf02-4302-a62b-bcc1af878097_visitor_id",
+          "value": "d63e5e9f-7e51-4b82-9c60-98d87f1273a0"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755467799346"
+        },
+        {
+          "name": "rl_last_known_activity_at",
+          "value": "1755467799251"
+        },
+        {
+          "name": "8a5e7a58-cf02-4302-a62b-bcc1af878097_sifi_user_id",
+          "value": "F1D002590B0745199A6D770AF28F762F"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755436247855},\"expires\":1763212247855}}"
+        },
+        {
+          "name": "8a5e7a58-cf02-4302-a62b-bcc1af878097_last_activity_at",
+          "value": "1755467799174"
+        },
+        {
+          "name": "8a5e7a58-cf02-4302-a62b-bcc1af878097_history_campaign",
+          "value": "{\"scid\":\"\",\"cid\":\"\",\"tc\":\"\",\"rl_key\":\"\",\"kw\":\"\",\"pub_cr_id\":\"\",\"isPaidCampaign\":false,\"tid\":\"\",\"uid\":\"\",\"ohid\":\"\",\"id_creative_resource\":\"\",\"utm_data\":\"\",\"ecid\":\"\"}"
+        },
+        {
+          "name": "rl_initial_referrer",
+          "value": ""
+        },
+        {
+          "name": "capture_base_site_id",
+          "value": "8a5e7a58-cf02-4302-a62b-bcc1af878097"
+        },
+        {
+          "name": "8a5e7a58-cf02-4302-a62b-bcc1af878097_history_referrer_type",
+          "value": "DIRECT"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755467798060"
+        },
+        {
+          "name": "rl_os",
+          "value": "Windows 10"
+        },
+        {
+          "name": "u_sclid_r",
+          "value": "eGbzP13pi7lxc3Q4em-nCV36v78STjvlNVe0SFmpHtX2N7xpx8zvfI5uw_YtPtpVu5xslUlW0DU"
+        },
+        {
+          "name": "rl_initial_page_uri",
+          "value": "https://www.sdsu.edu/"
+        },
+        {
+          "name": "8a5e7a58-cf02-4302-a62b-bcc1af878097_bot_type",
+          "value": ""
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "8a5e7a58-cf02-4302-a62b-bcc1af878097_visit_id",
+          "value": "8d395bf6-6785-484d-b294-6675a9a7cf4f"
+        }
+      ]
+    }
+  ]
+}

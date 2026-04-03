@@ -1,0 +1,25 @@
+{
+  "cookies": [
+    {
+      "name": "_ga",
+      "value": "GA1.1.461425386.1755448392",
+      "domain": ".pitt.edu",
+      "path": "/",
+      "expires": 1790008421.595067,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_JB8ZNP28ZH",
+      "value": "GS2.1.s1755448391$o1$g1$t1755448421$j30$l0$h0",
+      "domain": ".pitt.edu",
+      "path": "/",
+      "expires": 1790008421.604672,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

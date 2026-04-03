@@ -1,0 +1,165 @@
+{
+  "cookies": [
+    {
+      "name": "_gcl_au",
+      "value": "1.1.894335623.1775138652",
+      "domain": ".gatech.edu",
+      "path": "/",
+      "expires": 1782914652,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.352833028.1775138652",
+      "domain": ".gatech.edu",
+      "path": "/",
+      "expires": 1775225382,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUnDgpWk8Y_v6DLBhQn5gqkTe0x9v7DB__HvocEXgetjH3rNt-MIYkbXOTPG",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1809698786.546588,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "CLID",
+      "value": "ad4961173d0e417e89676823f394ad9e.20250817.20270402",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1806674787.101565,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_clck",
+      "value": "7zrfwl%5E2%5Eg4v%5E0%5E2055",
+      "domain": ".gatech.edu",
+      "path": "/",
+      "expires": 1806674787,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "MUID",
+      "value": "04F0FD56E32A65D513E3EA79E25C64A3",
+      "domain": ".bing.com",
+      "path": "/",
+      "expires": 1808834789.513803,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MR",
+      "value": "0",
+      "domain": ".c.bing.com",
+      "path": "/",
+      "expires": 1775743589.513873,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "SRM_B",
+      "value": "04F0FD56E32A65D513E3EA79E25C64A3",
+      "domain": ".c.bing.com",
+      "path": "/",
+      "expires": 1808834789.51397,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "SM",
+      "value": "C",
+      "domain": ".c.clarity.ms",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MUID",
+      "value": "04F0FD56E32A65D513E3EA79E25C64A3",
+      "domain": ".clarity.ms",
+      "path": "/",
+      "expires": 1808834788.696687,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MR",
+      "value": "0",
+      "domain": ".c.clarity.ms",
+      "path": "/",
+      "expires": 1775743588.697026,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ANONCHK",
+      "value": "0",
+      "domain": ".c.clarity.ms",
+      "path": "/",
+      "expires": 1775139388.697089,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_0QEC0F4BTL",
+      "value": "GS2.1.s1775138651$o2$g1$t1775138982$j60$l0$h0",
+      "domain": ".gatech.edu",
+      "path": "/",
+      "expires": 1809698982.901567,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.379107467.1755437956",
+      "domain": ".gatech.edu",
+      "path": "/",
+      "expires": 1809698982.955865,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_gtag_UA_3585337_55",
+      "value": "1",
+      "domain": ".gatech.edu",
+      "path": "/",
+      "expires": 1775139042,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://news.gatech.edu",
+      "localStorage": [
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":3,\"timeouts\":0,\"errors\":0,\"eopCount\":0,\"creationTimeMs\":1775138983440},\"expires\":1782914983440}}"
+        }
+      ]
+    }
+  ]
+}

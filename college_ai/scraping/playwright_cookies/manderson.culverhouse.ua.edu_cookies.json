@@ -1,0 +1,39 @@
+{
+  "cookies": [
+    {
+      "name": "_ga",
+      "value": "GA1.1.1152607806.1755565318",
+      "domain": ".ua.edu",
+      "path": "/",
+      "expires": 1790125317,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_DLVCCRY28Q",
+      "value": "GS2.1.s1755565317$o1$g1$t1755565317$j60$l0$h0",
+      "domain": ".ua.edu",
+      "path": "/",
+      "expires": 1790125317,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://manderson.culverhouse.ua.edu",
+      "localStorage": [
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":1,\"timeouts\":0,\"creationTimeMs\":1755565317610},\"expires\":1763341317610}}"
+        },
+        {
+          "name": "elementor",
+          "value": "{\"__expiration\":{},\"pageViews\":4,\"sessions\":4}"
+        }
+      ]
+    }
+  ]
+}

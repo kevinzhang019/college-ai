@@ -1,0 +1,93 @@
+{
+  "cookies": [
+    {
+      "name": "_ga_DD7CT8DJ3B",
+      "value": "GS2.1.s1775126227$o1$g0$t1775126227$j60$l0$h0",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1809686227,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.272178887.1775126227",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1809686227,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_9KCG7CPY6G",
+      "value": "GS2.1.s1775126227$o1$g0$t1775126229$j58$l0$h0",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1809686229,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "None"
+    },
+    {
+      "name": "YSC",
+      "value": "uRqNJAlRgCg",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CKydurXxlZHyqwEQutT7wfzOkwMYquWEwvzOkwM%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790678228,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "Hp6rXeG88LE",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790680795,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgYw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790680795,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://www.youtube.com",
+      "localStorage": [
+        {
+          "name": "yt-icons-last-purged",
+          "value": "1769945829726"
+        },
+        {
+          "name": "ytidb::LAST_RESULT_ENTRY_KEY",
+          "value": "{\"data\":{\"hasSucceededOnce\":true},\"expiration\":1777720797923,\"creation\":1775128797923}"
+        },
+        {
+          "name": "yt-player-user-settings",
+          "value": "{\"data\":\"{\\\"484\\\":{\\\"stringValue\\\":\\\"\\\"}}\",\"expiration\":1777720795944,\"creation\":1775128795944}"
+        }
+      ]
+    }
+  ]
+}

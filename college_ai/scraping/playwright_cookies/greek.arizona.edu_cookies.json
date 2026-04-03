@@ -1,0 +1,428 @@
+{
+  "cookies": [
+    {
+      "name": "X-AB",
+      "value": "12f715ca71194ad9a1b12bba6d1da4c6",
+      "domain": "sc-static.net",
+      "path": "/scevent.min.js",
+      "expires": 1755538934.864938,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "optimizelyEndUserId",
+      "value": "oeu1755452534403r0.6773960602199898",
+      "domain": ".arizona.edu",
+      "path": "/",
+      "expires": 1771004534,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.587362266.1755452535",
+      "domain": ".arizona.edu",
+      "path": "/",
+      "expires": 1763228535,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1463485240.1755452535",
+      "domain": ".arizona.edu",
+      "path": "/",
+      "expires": 1790012550.730486,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_scid",
+      "value": "OKEdErrI2C6ekw3JzXHKpD622ZJwFRvu",
+      "domain": ".arizona.edu",
+      "path": "/",
+      "expires": 1789639232,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_node",
+      "value": "79e8292408f61f87b01c2918105ca2c70ae2dd1bf9acb5e69f7af28265befa30",
+      "domain": "slate.admissions.arizona.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "2b28998a-856b-442c-ab83-d1351e744415",
+      "domain": "slate.admissions.arizona.edu",
+      "path": "/",
+      "expires": 1790012534.980964,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "slate.admissions.arizona.edu",
+      "path": "/",
+      "expires": 1790012534.981003,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-d7ff666c-cda8-4ee3-57f0-b8110bd49c6d.nSrIzIUJOvs4QncR2WEzY3ASC3Y97DbRuwl1eTXq5TY",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1786988534.98132,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-d7ff666c-cda8-4ee3-57f0-b8110bd49c6d.nSrIzIUJOvs4QncR2WEzY3ASC3Y97DbRuwl1eTXq5TY",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1786988534.981334,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3A1_9mbM2oTuNX8LgRC9ScbQ.LZj6Vb74AHVuCa6%2BJE4orqmxGpSaeh1TG%2B3iuT%2B%2BOCY",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1786988550.954419,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3A1_9mbM2oTuNX8LgRC9ScbQ.LZj6Vb74AHVuCa6%2BJE4orqmxGpSaeh1TG%2B3iuT%2B%2BOCY",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1786988550.954454,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEJIFGAIg96iIxQY6BNZRaJVCBLbc9rs.beVfM0ReNbhv%2Fn%2BDaBUhucZpHytx2QEdiKjLRpSzvxU",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1786988534.981361,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEJIFGAIg96iIxQY6BNZRaJVCBLbc9rs.beVfM0ReNbhv%2Fn%2BDaBUhucZpHytx2QEdiKjLRpSzvxU",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1786988534.98137,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%253A0-d7ff666c-cda8-4ee3-57f0-b8110bd49c6d.nSrIzIUJOvs4QncR2WEzY3ASC3Y97DbRuwl1eTXq5TY",
+      "domain": "www.arizona.edu",
+      "path": "/",
+      "expires": 1786988534,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%253A1_9mbM2oTuNX8LgRC9ScbQ.LZj6Vb74AHVuCa6%252BJE4orqmxGpSaeh1TG%252B3iuT%252B%252BOCY",
+      "domain": "www.arizona.edu",
+      "path": "/",
+      "expires": 1786988534,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%253AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEJIFGAIg96iIxQY6BNZRaJVCBLbc9rs.beVfM0ReNbhv%252Fn%252BDaBUhucZpHytx2QEdiKjLRpSzvxU",
+      "domain": "www.arizona.edu",
+      "path": "/",
+      "expires": 1786988534,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755452535350.348969249527065309",
+      "domain": ".arizona.edu",
+      "path": "/",
+      "expires": 1763228551,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "arc_id",
+      "value": "eyJfcmFpbHMiOnsibWVzc2FnZSI6IklqVXlNekptTWpnMkxXTmhNR1F0TkRaak1TMWhOV0U1TFdZNU5HSTBNemRoTW1aak5DST0iLCJleHAiOiIyMDI1LTEwLTE2VDE3OjQyOjE1LjQ2NFoiLCJwdXIiOiJjb29raWUuYXJjX2lkIn19--902e13d44831651b75d2250f8ae99bfc797249af",
+      "domain": ".mgln.ai",
+      "path": "/",
+      "expires": 1760636535.425235,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ScCbts",
+      "value": "%5B%5D",
+      "domain": ".arizona.edu",
+      "path": "/",
+      "expires": 1756057335,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sc_at",
+      "value": "v2|H4sIAAAAAAAAAE3GwRHAIAgEwIqY4YCTmG5U6MLi882+1mqNJCh4qiWaLms7RKcdszN3j7oIfZFk0Oh5f9UPM5pL00AAAAA=",
+      "domain": ".snapchat.com",
+      "path": "/",
+      "expires": 1789148537.832464,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_TS",
+      "value": "1755452537694",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760636537.741595,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_DID",
+      "value": "c51a2914-e848-4f85-92e0-1a51cf20330a",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760636537.741706,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_3WAY_SYNCS",
+      "value": "",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760636537.741763,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_sctr",
+      "value": "1%7C1755414000000",
+      "domain": ".arizona.edu",
+      "path": "/",
+      "expires": 1789639235,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_7PV3540XS3",
+      "value": "GS2.1.s1755452534$o1$g1$t1755452550$j44$l0$h355602009",
+      "domain": ".arizona.edu",
+      "path": "/",
+      "expires": 1790012550.730274,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_scid_r",
+      "value": "QSEdErrI2C6ekw3JzXHKpD622ZJwFRvuiGnX4w",
+      "domain": ".arizona.edu",
+      "path": "/",
+      "expires": 1789639248,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%253A0-d7ff666c-cda8-4ee3-57f0-b8110bd49c6d.nSrIzIUJOvs4QncR2WEzY3ASC3Y97DbRuwl1eTXq5TY",
+      "domain": "greek.arizona.edu",
+      "path": "/",
+      "expires": 1786988550,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%253A1_9mbM2oTuNX8LgRC9ScbQ.LZj6Vb74AHVuCa6%252BJE4orqmxGpSaeh1TG%252B3iuT%252B%252BOCY",
+      "domain": "greek.arizona.edu",
+      "path": "/",
+      "expires": 1786988550,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%253AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEJIFGAIg96iIxQY6BNZRaJVCBLbc9rs.beVfM0ReNbhv%252Fn%252BDaBUhucZpHytx2QEdiKjLRpSzvxU",
+      "domain": "greek.arizona.edu",
+      "path": "/",
+      "expires": 1786988550,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://greek.arizona.edu",
+      "localStorage": [
+        {
+          "name": "u_sclid_r",
+          "value": "eTQ6F-lw7OjLylQEPTXLo4tI9pev3l2kQSEdErrI2C6ekw3JzXHKpD622ZJwFRvuiGnX4w"
+        },
+        {
+          "name": "u_sclid",
+          "value": "eTQ6F-lw7OjLylQEPTXLo4tI9pev3l2kQSEdErrI2C6ekw3JzXHKpD622ZJwFRvuiGnX4w"
+        },
+        {
+          "name": "sa-user-id",
+          "value": "s%3A0-d7ff666c-cda8-4ee3-57f0-b8110bd49c6d.nSrIzIUJOvs4QncR2WEzY3ASC3Y97DbRuwl1eTXq5TY"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755452551212"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755452551219"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755452550200},\"expires\":1763228550200}}"
+        },
+        {
+          "name": "sa-user-id-v3",
+          "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEJIFGAIg96iIxQY6BNZRaJVCBLbc9rs.beVfM0ReNbhv%2Fn%2BDaBUhucZpHytx2QEdiKjLRpSzvxU"
+        },
+        {
+          "name": "sa-user-id-v2",
+          "value": "s%3A1_9mbM2oTuNX8LgRC9ScbQ.LZj6Vb74AHVuCa6%2BJE4orqmxGpSaeh1TG%2B3iuT%2B%2BOCY"
+        }
+      ]
+    },
+    {
+      "origin": "https://www.arizona.edu",
+      "localStorage": [
+        {
+          "name": "optimizely_data$$oeu1755452534403r0.6773960602199898$$27293870253$$contextual_mab",
+          "value": "{}"
+        },
+        {
+          "name": "u_sclid",
+          "value": "NVYVMOryTG3-_g2S4B-tFUtq0bCgT48tOKEdErrI2C6ekw3JzXHKpD622ZJwFRvu"
+        },
+        {
+          "name": "sa-user-id",
+          "value": "s%3A0-d7ff666c-cda8-4ee3-57f0-b8110bd49c6d.nSrIzIUJOvs4QncR2WEzY3ASC3Y97DbRuwl1eTXq5TY"
+        },
+        {
+          "name": "c540c217-8ebe-613f-a894-9757f8337ab7_pp",
+          "value": "{}"
+        },
+        {
+          "name": "optimizely_data$$oeu1755452534403r0.6773960602199898$$27293870253$$visitor_profile",
+          "value": "{\"profile\":{\"visitorId\":\"oeu1755452534403r0.6773960602199898\",\"customBehavior\":{},\"first_session\":true,\"browserId\":\"gc\",\"browserVersion\":\"120.0.0.0\",\"device\":\"desktop\",\"device_type\":\"desktop_laptop\",\"queryParams\":[],\"referrer\":null,\"source_type\":\"direct\"},\"metadata\":{\"visitorId\":{},\"events\":{},\"customBehavior\":{},\"first_session\":{},\"browserId\":{},\"browserVersion\":{},\"device\":{},\"device_type\":{},\"queryParams\":{},\"referrer\":{},\"source_type\":{}}}"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755452535354"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"timeouts\":0,\"creationTimeMs\":1755452534573},\"expires\":1763228534573}}"
+        },
+        {
+          "name": "optimizely_data$$oeu1755452534403r0.6773960602199898$$27293870253$$layer_map",
+          "value": "{}"
+        },
+        {
+          "name": "sa-user-id-v3",
+          "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEJIFGAIg96iIxQY6BNZRaJVCBLbc9rs.beVfM0ReNbhv%2Fn%2BDaBUhucZpHytx2QEdiKjLRpSzvxU"
+        },
+        {
+          "name": "sa-user-id-v2",
+          "value": "s%3A1_9mbM2oTuNX8LgRC9ScbQ.LZj6Vb74AHVuCa6%2BJE4orqmxGpSaeh1TG%2B3iuT%2B%2BOCY"
+        },
+        {
+          "name": "optimizely_data$$oeu1755452534403r0.6773960602199898$$27293870253$$layer_states",
+          "value": "[]"
+        },
+        {
+          "name": "u_sclid_r",
+          "value": "NVYVMOryTG3-_g2S4B-tFUtq0bCgT48tOKEdErrI2C6ekw3JzXHKpD622ZJwFRvu"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755452535347"
+        },
+        {
+          "name": "optimizely_data$$pending_events",
+          "value": "{}"
+        },
+        {
+          "name": "c540c217-8ebe-613f-a894-9757f8337ab7_st",
+          "value": "1755452535477"
+        },
+        {
+          "name": "optimizely_data$$oeu1755452534403r0.6773960602199898$$27293870253$$session_state",
+          "value": "{\"lastSessionTimestamp\":1755452534404,\"sessionId\":\"9787c40a-e500-4ae2-bc4e-5c2c6d0bb17e\"}"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "optimizely_data$$oeu1755452534403r0.6773960602199898$$27293870253$$variation_map",
+          "value": "{}"
+        },
+        {
+          "name": "optimizely_data$$oeu1755452534403r0.6773960602199898$$27293870253$$tracker_optimizely",
+          "value": "{}"
+        }
+      ]
+    }
+  ]
+}

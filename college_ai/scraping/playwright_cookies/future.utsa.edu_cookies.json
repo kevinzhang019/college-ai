@@ -1,0 +1,618 @@
+{
+  "cookies": [
+    {
+      "name": "X-AB",
+      "value": "12f715ca71194ad9a1b12bba6d1da4c6",
+      "domain": "sc-static.net",
+      "path": "/scevent.min.js",
+      "expires": 1755534496.392139,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.1089710747.1755448077",
+      "domain": ".utsa.edu",
+      "path": "/",
+      "expires": 1763224077,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.486464401.1755448077",
+      "domain": ".utsa.edu",
+      "path": "/",
+      "expires": 1755534477,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_UA-143713727-1",
+      "value": "1",
+      "domain": ".utsa.edu",
+      "path": "/",
+      "expires": 1755448137,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CLID",
+      "value": "455543b155b340658f2fcc3797f9fef3.20250817.20260817",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1786984077.38502,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755448077634.924284858387692905",
+      "domain": ".utsa.edu",
+      "path": "/",
+      "expires": 1763224099,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_clck",
+      "value": "akpdab%7C2%7Cfyj%7C0%7C2055",
+      "domain": ".utsa.edu",
+      "path": "/",
+      "expires": 1786984077,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&ede958b4-41d8-4835-8ad9-4f874f66e575\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1786984078.000421,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=VGST09:s=V:r=V:a=V:p=V:g=3278:u=1:x=1:i=1755448078:t=1755534478:v=2:sig=AQHXbGRMHshS-EHdJP1WPwTAZBAWdKPI\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755534479.000476,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_vwo_uuid_v2",
+      "value": "D9EEED5E598EDB3992E3A0EEBCB06952D|9769683189bf0d19f319815ee8752ded",
+      "domain": ".utsa.edu",
+      "path": "/",
+      "expires": 1787070491,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AWSALBTGCORS",
+      "value": "KOdIm4fweB9ku27j/tIMAZc9FveH1gWThohOlStrXOAJgXaIdtGoWoutEhMmLyQ4umnwXzQ2C1PIm/Ea3292FP65jDiNh7m1ADhtNBNRmAeP3Yed0LurAnY+KjQt+yXI0af4qM8vL71HuxicK0VNBUSUlt7SX8Q1Ckx8SfsgNciA",
+      "domain": "tfaforms.com",
+      "path": "/",
+      "expires": 1756052891.704905,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AWSALBCORS",
+      "value": "kOAceuDVgvBfCH2aqECzPdj9MvYk241PGqIgZUf2kRA0Bmho86gJ3en239X64ICblyFZm9qdzT/46RBcyfZNkyUL2UxB4J3oh5HogsoTFjBk/c5LMu17J4oS16PV",
+      "domain": "tfaforms.com",
+      "path": "/",
+      "expires": 1756052891.704943,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_vwo_uuid",
+      "value": "D9EEED5E598EDB3992E3A0EEBCB06952D",
+      "domain": ".utsa.edu",
+      "path": "/",
+      "expires": 1787005043,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_vwo_ds",
+      "value": "3%241755448091%3A94.87902677%3A%3A",
+      "domain": ".utsa.edu",
+      "path": "/",
+      "expires": 1758040091,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_vwo_sn",
+      "value": "0%3A1",
+      "domain": ".utsa.edu",
+      "path": "/",
+      "expires": 1755449891,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_vis_opt_s",
+      "value": "1%7C",
+      "domain": ".utsa.edu",
+      "path": "/",
+      "expires": 1764088091,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_vis_opt_test_cookie",
+      "value": "1",
+      "domain": ".utsa.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "t_zXAowPvIj",
+      "value": "ceVKholg",
+      "domain": "future.utsa.edu",
+      "path": "/",
+      "expires": 1755534495.429498,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "uMlICQDn-aipds",
+      "value": "jh1qrD6_d",
+      "domain": "future.utsa.edu",
+      "path": "/",
+      "expires": 1755534495.429545,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "DrxAfUpLMTK",
+      "value": "NhDnw1pvKgPlfyi",
+      "domain": "future.utsa.edu",
+      "path": "/",
+      "expires": 1755534495.429555,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "FgmTcAP_h",
+      "value": "emdkwfS01FYQT%2A",
+      "domain": "future.utsa.edu",
+      "path": "/",
+      "expires": 1755534495.429564,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_1ZM4FXT4XW",
+      "value": "GS2.1.s1755448077$o1$g1$t1755448096$j41$l0$h0",
+      "domain": ".utsa.edu",
+      "path": "/",
+      "expires": 1790008096.290765,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.713388749.1755448077",
+      "domain": ".utsa.edu",
+      "path": "/",
+      "expires": 1790008096.392037,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_JBSEBFRKNG",
+      "value": "GS2.1.s1755448096$o1$g0$t1755448096$j60$l0$h0",
+      "domain": ".utsa.edu",
+      "path": "/",
+      "expires": 1790008096.34828,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.3.713388749.1755448077",
+      "domain": ".future.utsa.edu",
+      "path": "/",
+      "expires": 1790008096.367174,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.3.486464401.1755448077",
+      "domain": ".future.utsa.edu",
+      "path": "/",
+      "expires": 1755534496,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_7K29378EHF",
+      "value": "GS2.1.s1755448077$o1$g1$t1755448096$j41$l0$h0",
+      "domain": ".utsa.edu",
+      "path": "/",
+      "expires": 1790008096.391829,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_scid",
+      "value": "jTfxFjo7jjYeFUbWwS2qr3xMvZb_RQc7",
+      "domain": ".utsa.edu",
+      "path": "/",
+      "expires": 1789634794,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_scid_r",
+      "value": "jTfxFjo7jjYeFUbWwS2qr3xMvZb_RQc7",
+      "domain": ".utsa.edu",
+      "path": "/",
+      "expires": 1789634794,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_rdt_uuid",
+      "value": "1755448096436.d2469104-bae0-4692-8b15-e8d040541f1d",
+      "domain": ".utsa.edu",
+      "path": "/",
+      "expires": 1763224096,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_uetsid",
+      "value": "22ceaca07b8711f0810e2fcc1a02bd21",
+      "domain": ".utsa.edu",
+      "path": "/",
+      "expires": 1755534496,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_uetvid",
+      "value": "22ced8607b8711f0b12b259364155783",
+      "domain": ".utsa.edu",
+      "path": "/",
+      "expires": 1789144096,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUnmevMtmVL4rkzzRIGXB1g0C2dFc0K9Ws-EvZ3a2lZHhUGDjJzwt6_ernSj",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1790008096.839656,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "FORMASSEMBLY",
+      "value": "595f72ebf518f129e081f7604cb90e21",
+      "domain": "utsa.tfaforms.net",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ScCbts",
+      "value": "%5B%5D",
+      "domain": ".utsa.edu",
+      "path": "/",
+      "expires": 1756052896,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-91dd478a-24b0-4456-4b3e-ca833d44a13a.Aid1alde9XbZ%2F2ZO%2BLKLU3Wr0%2FLf0LaqEVE%2FmmFBG8Q",
+      "domain": "qvdt3feo.com",
+      "path": "/",
+      "expires": 1786984097.007604,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-91dd478a-24b0-4456-4b3e-ca833d44a13a.Aid1alde9XbZ%2F2ZO%2BLKLU3Wr0%2FLf0LaqEVE%2FmmFBG8Q",
+      "domain": ".qvdt3feo.com",
+      "path": "/",
+      "expires": 1786984097.007681,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3Akd1HiiSwRFZLPsqDPUShOg.dFLyEhfNwgSeynQY%2BNhpdQoYmaTxxLJYTgEYRpXy94I",
+      "domain": "qvdt3feo.com",
+      "path": "/",
+      "expires": 1786984097.007725,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3Akd1HiiSwRFZLPsqDPUShOg.dFLyEhfNwgSeynQY%2BNhpdQoYmaTxxLJYTgEYRpXy94I",
+      "domain": ".qvdt3feo.com",
+      "path": "/",
+      "expires": 1786984097.007753,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEKsEGAIgoYaIxQY6BIIfcDZCBH68x44.LS%2FHS8c7P000vAOTUEXCMzTVUxy2IixAdMAJaB39W%2B8",
+      "domain": "qvdt3feo.com",
+      "path": "/",
+      "expires": 1786984097.007778,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEKsEGAIgoYaIxQY6BIIfcDZCBH68x44.LS%2FHS8c7P000vAOTUEXCMzTVUxy2IixAdMAJaB39W%2B8",
+      "domain": ".qvdt3feo.com",
+      "path": "/",
+      "expires": 1786984097.007797,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%253A0-91dd478a-24b0-4456-4b3e-ca833d44a13a.Aid1alde9XbZ%252F2ZO%252BLKLU3Wr0%252FLf0LaqEVE%252FmmFBG8Q",
+      "domain": "future.utsa.edu",
+      "path": "/",
+      "expires": 1786984097,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%253A.o6W7wkJsHSTU4%252BLlDruZ%252FwNjVcUZZMvakQpSatDoAgo",
+      "domain": "future.utsa.edu",
+      "path": "/",
+      "expires": 1786984097,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%253AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEKsEGAIgoYaIxQY6BIIfcDZCBH68x44.LS%252FHS8c7P000vAOTUEXCMzTVUxy2IixAdMAJaB39W%252B8",
+      "domain": "future.utsa.edu",
+      "path": "/",
+      "expires": 1786984097,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "TapAd_TS",
+      "value": "1755448100029",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760632100.086214,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_DID",
+      "value": "aef978cc-d5ea-4bbf-b5d1-d7d95c452ec6",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760632100.086266,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_3WAY_SYNCS",
+      "value": "",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760632100.086282,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sc_at",
+      "value": "v2|H4sIAAAAAAAAAE3GuRHAMAwDsIl0RyZ6vU0UjeHh3RoV2PayOuTnlKg/KT01Uhh8PsxQ31QshplqEthXcQDhMyY2QAAAAA==",
+      "domain": ".snapchat.com",
+      "path": "/",
+      "expires": 1789144100.183573,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_sctr",
+      "value": "1%7C1755403200000",
+      "domain": ".utsa.edu",
+      "path": "/",
+      "expires": 1789634798,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://future.utsa.edu",
+      "localStorage": [
+        {
+          "name": "u_sclid",
+          "value": "0ZwFne3Txl97dFoWSHAbaNKgwR2i7U9UjTfxFjo7jjYeFUbWwS2qr3xMvZb_RQc7"
+        },
+        {
+          "name": "sa-user-id",
+          "value": "s%3A0-91dd478a-24b0-4456-4b3e-ca833d44a13a.Aid1alde9XbZ%2F2ZO%2BLKLU3Wr0%2FLf0LaqEVE%2FmmFBG8Q"
+        },
+        {
+          "name": "_uetvid_exp",
+          "value": "Fri, 11 Sep 2026 16:28:16 GMT"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755448099740"
+        },
+        {
+          "name": "_vwo_774094_config",
+          "value": "{}"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755448095879},\"expires\":1763224095879}}"
+        },
+        {
+          "name": "_uetsid",
+          "value": "22ceaca07b8711f0810e2fcc1a02bd21"
+        },
+        {
+          "name": "sa-user-id-v3",
+          "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEKsEGAIgoYaIxQY6BIIfcDZCBH68x44.LS%2FHS8c7P000vAOTUEXCMzTVUxy2IixAdMAJaB39W%2B8"
+        },
+        {
+          "name": "sa-user-id-v2",
+          "value": "s%3A.o6W7wkJsHSTU4%2BLlDruZ%2FwNjVcUZZMvakQpSatDoAgo"
+        },
+        {
+          "name": "gecko-chat-widget-number-of-visits",
+          "value": "1"
+        },
+        {
+          "name": "u_sclid_r",
+          "value": "0ZwFne3Txl97dFoWSHAbaNKgwR2i7U9UjTfxFjo7jjYeFUbWwS2qr3xMvZb_RQc7"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755448096812"
+        },
+        {
+          "name": "gecko-chat-widget-language",
+          "value": "en"
+        },
+        {
+          "name": "_uetsid_exp",
+          "value": "Mon, 18 Aug 2025 16:28:16 GMT"
+        },
+        {
+          "name": "_uetvid",
+          "value": "22ced8607b8711f0b12b259364155783"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "vwoSn",
+          "value": "{\"v\":\"0.1.0\",\"lt\":\"1755448091\",\"r\":\"\",\"cu\":\"https%3A%2F%2Ffuture.utsa.edu%2Frequestinfo%2F\"}"
+        },
+        {
+          "name": "li_adsId",
+          "value": "cb836239-6b17-4413-a04f-9a4bac896476"
+        },
+        {
+          "name": "pusherTransportTLS",
+          "value": "{\"timestamp\":1755448100651,\"transport\":\"ws\",\"latency\":361,\"cacheSkipCount\":0}"
+        }
+      ]
+    },
+    {
+      "origin": "https://www.utsa.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755448077630"
+        },
+        {
+          "name": "_uetvid_exp",
+          "value": "Fri, 11 Sep 2026 16:27:58 GMT"
+        },
+        {
+          "name": "_uetsid_exp",
+          "value": "Mon, 18 Aug 2025 16:27:58 GMT"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755448077808"
+        },
+        {
+          "name": "_uetvid",
+          "value": "22ced8607b8711f0b12b259364155783"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755448077058},\"expires\":1763224077058}}"
+        },
+        {
+          "name": "_uetsid",
+          "value": "22ceaca07b8711f0810e2fcc1a02bd21"
+        },
+        {
+          "name": "li_adsId",
+          "value": "c2978935-483d-495b-89ed-d25091858df5"
+        }
+      ]
+    }
+  ]
+}

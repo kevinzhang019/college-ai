@@ -1,0 +1,157 @@
+{
+  "cookies": [
+    {
+      "name": "_ga",
+      "value": "GA1.1.582259611.1755434782",
+      "domain": ".cmu.edu",
+      "path": "/",
+      "expires": 1789994781.604827,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_PWD1B5KLT7",
+      "value": "GS2.1.s1755434781$o1$g0$t1755434781$j60$l0$h0",
+      "domain": ".cmu.edu",
+      "path": "/",
+      "expires": 1789994781.59358,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_ZRDQX035W5",
+      "value": "GS2.1.s1755434781$o1$g0$t1755434781$j60$l0$h0",
+      "domain": ".cmu.edu",
+      "path": "/",
+      "expires": 1789994781.596135,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_1Y35V9RLL1",
+      "value": "GS2.1.s1755434781$o1$g0$t1755434781$j60$l0$h0",
+      "domain": ".cmu.edu",
+      "path": "/",
+      "expires": 1789994781.598866,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_0LJ42RV7RF",
+      "value": "GS2.1.s1755434781$o1$g0$t1755434781$j60$l0$h0",
+      "domain": ".cmu.edu",
+      "path": "/",
+      "expires": 1789994781.601678,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_R0F0JXXBNT",
+      "value": "GS2.1.s1755434781$o1$g0$t1755434781$j60$l0$h0",
+      "domain": ".cmu.edu",
+      "path": "/",
+      "expires": 1789994781.604671,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.766832385.1755434782",
+      "domain": ".cmu.edu",
+      "path": "/",
+      "expires": 1763210782,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_node",
+      "value": "c523366081f6753122c7083b06f7004cb1578f023610c6681ce4518af285fe98",
+      "domain": "gradadmissions.engineering.cmu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "2d8a88c7-4ef9-4ade-ad0e-c7baaff10f93",
+      "domain": "gradadmissions.engineering.cmu.edu",
+      "path": "/",
+      "expires": 1789994781.92082,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "gradadmissions.engineering.cmu.edu",
+      "path": "/",
+      "expires": 1789994781.920853,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "8kmnwIVwszpJHnb6aksiEcOMoW.ttaOx53YgasVWgVQ-1755434782-1.0.1.1-FJf7xLtt5CJFV7i5.SiFkWROQb2C5FIhWvRXPNCPN.ABNVrhFZR7H7ezTVbgdoSFNtZzwmUktj7.jFkdLJ3zrNfxZAm.b85ufWEnv8PIpzk",
+      "domain": ".myfonts.net",
+      "path": "/",
+      "expires": 1755436582.558104,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_NRCLJZKD8M",
+      "value": "GS2.1.s1755434781$o1$g0$t1755434782$j59$l0$h0",
+      "domain": ".cmu.edu",
+      "path": "/",
+      "expires": 1789994782.629299,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "test_cookie",
+      "value": "CheckForPermission",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1755435683.531026,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "receive-cookie-deprecation",
+      "value": "1",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1770986783.531083,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://cmu.edu",
+      "_crHasCrossSiteAncestor": true
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://engineering.cmu.edu",
+      "localStorage": [
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755434781632},\"expires\":1763210781632}}"
+        }
+      ]
+    }
+  ]
+}

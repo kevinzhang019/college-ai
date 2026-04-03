@@ -1,0 +1,135 @@
+{
+  "cookies": [
+    {
+      "name": "_ga",
+      "value": "GA1.3.305148520.1755438610",
+      "domain": ".news.emory.edu",
+      "path": "/",
+      "expires": 1809703533.015257,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.1879543774.1775143303",
+      "domain": ".emory.edu",
+      "path": "/",
+      "expires": 1775229933,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.3.1879543774.1775143303",
+      "domain": ".news.emory.edu",
+      "path": "/",
+      "expires": 1775229933,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AWSALB",
+      "value": "/+9kneQDXQ8wiYUHOjw6TH/6sj3vU5is7xKZD+pKS/Rdw2EfM6Q7zjswHfM4OTCBmCHVnG2oKicK4lxENMx15TYl8ngML9Qshhe/UyQ0uEowvxPZ/YCyd5JpOGAc",
+      "domain": "news.emory.edu",
+      "path": "/",
+      "expires": 1775748332.814666,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AWSALBCORS",
+      "value": "/+9kneQDXQ8wiYUHOjw6TH/6sj3vU5is7xKZD+pKS/Rdw2EfM6Q7zjswHfM4OTCBmCHVnG2oKicK4lxENMx15TYl8ngML9Qshhe/UyQ0uEowvxPZ/YCyd5JpOGAc",
+      "domain": "news.emory.edu",
+      "path": "/",
+      "expires": 1775748332.814721,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gat_OldnewsEmory",
+      "value": "1",
+      "domain": ".emory.edu",
+      "path": "/",
+      "expires": 1775143593,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_EmoryNews",
+      "value": "1",
+      "domain": ".news.emory.edu",
+      "path": "/",
+      "expires": 1775143593,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_globalEmory",
+      "value": "1",
+      "domain": ".emory.edu",
+      "path": "/",
+      "expires": 1775143593,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_errorpage",
+      "value": "1",
+      "domain": ".emory.edu",
+      "path": "/",
+      "expires": 1775143593,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.305148520.1755438610",
+      "domain": ".emory.edu",
+      "path": "/",
+      "expires": 1809703533.174409,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_DXZV047G8W",
+      "value": "GS2.1.s1775143303$o2$g1$t1775143533$j60$l0$h0",
+      "domain": ".emory.edu",
+      "path": "/",
+      "expires": 1809703533.368159,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AWSALB",
+      "value": "Wb/0nTFSePU3b948ns1EhzZMzsZPr5ZNKLWamyTl4GwgrJrZeZRZTMP4F8dvvoWxtnSrdPHQVGVv8fBvWSJV6C6szYqD8UUIExZD2CmhrShjHNysmxgbw1i3Dyku",
+      "domain": "template.aws.emory.edu",
+      "path": "/",
+      "expires": 1775748333.46359,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AWSALBCORS",
+      "value": "Wb/0nTFSePU3b948ns1EhzZMzsZPr5ZNKLWamyTl4GwgrJrZeZRZTMP4F8dvvoWxtnSrdPHQVGVv8fBvWSJV6C6szYqD8UUIExZD2CmhrShjHNysmxgbw1i3Dyku",
+      "domain": "template.aws.emory.edu",
+      "path": "/",
+      "expires": 1775748333.463646,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": []
+}

@@ -1,0 +1,133 @@
+{
+  "cookies": [
+    {
+      "name": "adaptive_image",
+      "value": "1366",
+      "domain": "lacasa.yalecollege.yale.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.4.2143620292.1755485919",
+      "domain": ".lacasa.yalecollege.yale.edu",
+      "path": "/",
+      "expires": 1790045919.159844,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.4.948192295.1755485919",
+      "domain": ".lacasa.yalecollege.yale.edu",
+      "path": "/",
+      "expires": 1755572319,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_gtag_UA_1769455_13",
+      "value": "1",
+      "domain": ".lacasa.yalecollege.yale.edu",
+      "path": "/",
+      "expires": 1755485979,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_7B34EPDK96",
+      "value": "GS2.1.s1755485919$o1$g0$t1755485919$j60$l0$h0",
+      "domain": ".yale.edu",
+      "path": "/",
+      "expires": 1790045919.175552,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.2143620292.1755485919",
+      "domain": ".yale.edu",
+      "path": "/",
+      "expires": 1790045919.175715,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "YSC",
+      "value": "qIj7ITi1n0w",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://yale.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "icQ4uJ-vFIA",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771037919.290258,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://yale.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgHg%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771037919.290284,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://yale.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CM6vofDpuP6-nAEQhI-A1a6TjwMYhI-A1a6TjwM%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771037919.290309,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://yale.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "nmstat",
+      "value": "42792ca6-0a59-bfcc-30d8-3ba906ef0f2f",
+      "domain": ".yale.edu",
+      "path": "/",
+      "expires": 1790045919.300681,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "NID",
+      "value": "525=KqcNH0Z6zGlNmsYIaXN21gao8idmzP8qTgqwXEUsLXKFsu6AUeuZhpvx9Vq2eqNwkTg3whkO6-3nhpHBunc5Kp5CrhpdgYQiNRIFewkqmavBbrbMvS4uadeW37-92pEREpb7dcCSnUAnxOMt9CLfB3v8cJmZDhQ6bWBbpbSNkKnoLwEAYoZ8r5twAvrYFpDqC7CWS7g",
+      "domain": ".google.com",
+      "path": "/",
+      "expires": 1771297121.925106,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": []
+}

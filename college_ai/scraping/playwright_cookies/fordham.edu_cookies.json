@@ -1,0 +1,1025 @@
+{
+  "cookies": [
+    {
+      "name": "cee",
+      "value": "%2F9EDnwsEMqwryfk2xPqOnBQ7PMkjBFY7vvBnbOFpge0%3D.%7B%7D",
+      "domain": ".mpc-prod-2-1053047382554.us-central1.run.app",
+      "path": "/events/b39b84d313c59f32cac21898f60854589890f977f508d6715bed21fb295bb295",
+      "expires": 1763342484.880135,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "X-AB",
+      "value": "12f715ca71194ad9a1b12bba6d1da4c6",
+      "domain": "sc-static.net",
+      "path": "/scevent.min.js",
+      "expires": 1755652858.572197,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "nmstat",
+      "value": "bc8970b9-27f1-423c-8e4a-52c6e10a97c6",
+      "domain": ".fordham.edu",
+      "path": "/",
+      "expires": 1790012935.583763,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.1742849756.1755452936",
+      "domain": ".fordham.edu",
+      "path": "/",
+      "expires": 1763228936,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.115287818.1755452936",
+      "domain": ".fordham.edu",
+      "path": "/",
+      "expires": 1755652882,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "YSC",
+      "value": "nT6Ns19Jau0",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "WeDqRo5r1a0",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771118484.215014,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgXw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771118484.215078,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_cq_duid",
+      "value": "1.1755452936.lxBcngxCys8bOL1E",
+      "domain": ".fordham.edu",
+      "path": "/",
+      "expires": 1763450483,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_cq_suid",
+      "value": "1.1755452936.avAz7U188xcS8LCv",
+      "domain": ".fordham.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_scid",
+      "value": "ghu-p_nPsQIkLQO_T41csoYgeie_IxSO",
+      "domain": ".fordham.edu",
+      "path": "/",
+      "expires": 1789639634,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_cap",
+      "value": "2949276371755452936",
+      "domain": ".fordham.edu",
+      "path": "/",
+      "expires": 1790126483.581251,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ttp",
+      "value": "31QOg1MEsn9SZ5e49bFpzKQGslW",
+      "domain": ".tiktok.com",
+      "path": "/",
+      "expires": 1789262483.382834,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755452936384.227941348325245114",
+      "domain": ".fordham.edu",
+      "path": "/",
+      "expires": 1763342484,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ScCbts",
+      "value": "%5B%5D",
+      "domain": ".fordham.edu",
+      "path": "/",
+      "expires": 1756057736,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-83eebaa7-171d-4752-7699-981f9c190143.AhTvMOujojz17ea%2BY9ifOFGrX0otj5D0JL3A3NCjvSo",
+      "domain": "qvdt3feo.com",
+      "path": "/",
+      "expires": 1786988936.716616,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-83eebaa7-171d-4752-7699-981f9c190143.AhTvMOujojz17ea%2BY9ifOFGrX0otj5D0JL3A3NCjvSo",
+      "domain": ".qvdt3feo.com",
+      "path": "/",
+      "expires": 1786988936.716648,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3Ag-66pxcdR1J2mZgfnBkBQw.fEBxrsLN4nURpODE4PbPfKp1Ctr9VzOMdoPiAF2%2FaQE",
+      "domain": "qvdt3feo.com",
+      "path": "/",
+      "expires": 1786988936.716657,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3Ag-66pxcdR1J2mZgfnBkBQw.fEBxrsLN4nURpODE4PbPfKp1Ctr9VzOMdoPiAF2%2FaQE",
+      "domain": ".qvdt3feo.com",
+      "path": "/",
+      "expires": 1786988936.716667,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEKsEGAIgiKyIxQY6BIIfcDZCBGkwHzY.eUpfYxGNsJN1D7FVuwVduVbJx3YOtgePXOv3hNrNZRg",
+      "domain": "qvdt3feo.com",
+      "path": "/",
+      "expires": 1786988936.716673,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEKsEGAIgiKyIxQY6BIIfcDZCBGkwHzY.eUpfYxGNsJN1D7FVuwVduVbJx3YOtgePXOv3hNrNZRg",
+      "domain": ".qvdt3feo.com",
+      "path": "/",
+      "expires": 1786988936.716682,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "cg_uuid",
+      "value": "7c7153dfdcf87fac4b07cb7e7e30e0c3",
+      "domain": "obs.branderblender.com",
+      "path": "/",
+      "expires": 1784483336.775535,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_tt_enable_cookie",
+      "value": "1",
+      "domain": ".fordham.edu",
+      "path": "/",
+      "expires": 1789262483,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ttp",
+      "value": "01K2WJC4RRAYRXGCSSTWJ5WR8B_.tt.1",
+      "domain": ".fordham.edu",
+      "path": "/",
+      "expires": 1789262483,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__adroll",
+      "value": "dc8d58e308bbf0eb0adb6b217d44ca2a-a_1755452937",
+      "domain": ".d.adroll.com",
+      "path": "/",
+      "expires": 1789694483.868829,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "receive-cookie-deprecation",
+      "value": "1",
+      "domain": ".d.adroll.com",
+      "path": "/",
+      "expires": 1789694483.86901,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://fordham.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "receive-cookie-deprecation",
+      "value": "1",
+      "domain": ".adroll.com",
+      "path": "/",
+      "expires": 1789694483.869048,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://fordham.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "__adroll_shared",
+      "value": "dc8d58e308bbf0eb0adb6b217d44ca2a-a_1755452937",
+      "domain": ".adroll.com",
+      "path": "/",
+      "expires": 1789694483.869061,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__adroll_fpc",
+      "value": "ef9b6b48cd979fcb872b3dfd98e2aef8-1755452937117",
+      "domain": ".fordham.edu",
+      "path": "/",
+      "expires": 1787124083,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&0683444e-a9a1-4b5c-879e-242e1c6cf3b4\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1787102483.845559,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_TS",
+      "value": "1755452938935",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760750484.665588,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_DID",
+      "value": "8c66d5ce-f93c-4bc5-bef8-0ace6868602a",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760750484.665629,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_3WAY_SYNCS",
+      "value": "",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760750484.665646,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "mtc_id",
+      "value": "29586467",
+      "domain": "my.fordhamu.org",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "mtc_id",
+      "value": "29586467",
+      "domain": "www.fordham.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "TDID",
+      "value": "82f342ec-c871-4b65-9cd9-a233704207a9",
+      "domain": ".adsrvr.org",
+      "path": "/",
+      "expires": 1787102485.139386,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "uuid2",
+      "value": "1798521976111731194",
+      "domain": ".adnxs.com",
+      "path": "/",
+      "expires": 1763228940.036104,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "audit_p",
+      "value": "1|hfZs8pYJUNios/xRAOZbLgZGLOrI4WrAhMjyES0QR4glYgK+kvPZDDDY1LwNPgy6BtKg6X//DFQwHTRO1/p4iHX0qfg68IpFQAPcN3ARK861+cnXUpEAHwOAkmiyhf7xL9vMLvlOgqDo9wxms2QdrIkXHcJa4lYz5RnLxBsHMorREvsM2ra73MRmS8gGs6ylTlon0IrnE1p4+byUJuUHKNl4Am3SUH3rwETMVR8lnVPictVKI3nW/ZSmfFa9k+2RfCCm1vF3Tgn8ih/oL8+08tuVaVkDFDbShAUs62yL6R/QD5U7tEfUTQ==",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1786988940.011204,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://fordham.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "khaos",
+      "value": "MEFZCTH4-28-4OVH",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1786988940.011304,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "khaos_p",
+      "value": "MEFZCTH4-28-4OVH",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1786988940.011353,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://fordham.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "audit",
+      "value": "1|hfZs8pYJUNios/xRAOZbLgZGLOrI4WrAhMjyES0QR4glYgK+kvPZDDDY1LwNPgy6BtKg6X//DFQwHTRO1/p4iHX0qfg68IpFQAPcN3ARK861+cnXUpEAHwOAkmiyhf7xL9vMLvlOgqDo9wxms2QdrIkXHcJa4lYz5RnLxBsHMorREvsM2ra73MRmS8gGs6ylTlon0IrnE1p4+byUJuUHKNl4Am3SUH3rwETMVR8lnVPictVKI3nW/ZSmfFa9k+2RfCCm1vF3Tgn8ih/oL8+08tuVaVkDFDbShAUs62yL6R/QD5U7tEfUTQ==",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1786988940.011383,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "CAP.b3bcbe70",
+      "value": "2949276371755452936",
+      "domain": ".cbe.capturehighered.net",
+      "path": "/",
+      "expires": 1790126485.290994,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "OptanonAlertBoxClosed",
+      "value": "2025-08-17T17:49:03.949Z",
+      "domain": ".fordham.edu",
+      "path": "/",
+      "expires": 1763228943,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "OptanonConsent",
+      "value": "isGpcEnabled=0&datestamp=Sun+Aug+17+2025+13%3A49%3A03+GMT-0400+(Eastern+Daylight+Time)&version=6.21.0&isIABGlobal=false&hosts=&consentId=c83050da-9634-4456-a097-b9428f927067&interactionCount=2&landingPath=NotLandingPage&groups=C0001%3A1%2CC0002%3A1%2CC0003%3A1%2CC0004%3A1",
+      "domain": ".fordham.edu",
+      "path": "/",
+      "expires": 1763228943,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CNnM37_5jebKYxDzzLDls5KPAxiDwpzbtpOPAw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771040079.772658,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://fordham.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-5ea0e279-5bd3-41a0-72e0-294503d3b5c9.kV0T9YvZPxqw7VzJWVY%2BX3FKonwVEWixpL0RZmKOVO4",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1787024079.908647,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-5ea0e279-5bd3-41a0-72e0-294503d3b5c9.kV0T9YvZPxqw7VzJWVY%2BX3FKonwVEWixpL0RZmKOVO4",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1787024079.908678,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3AXqDieVvTQaBy4ClFA9O1yQ.uexyyrC3ta1ooHbD0v3T03hSRyXj6NXXyLyZa6f9h8E",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1787057113.825883,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3AXqDieVvTQaBy4ClFA9O1yQ.uexyyrC3ta1ooHbD0v3T03hSRyXj6NXXyLyZa6f9h8E",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1787057113.825953,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEJIFGAIgz76KxQY6BNZRaJVCBNMMU2M.OWBixIJnbrBXUqJ%2F33NQrPfJY8%2BQQue%2F2P9TVK9A85w",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1787024079.908768,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEJIFGAIgz76KxQY6BNZRaJVCBNMMU2M.OWBixIJnbrBXUqJ%2F33NQrPfJY8%2BQQue%2F2P9TVK9A85w",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1787024079.908778,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "receive-cookie-deprecation",
+      "value": "1",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1771073114.416826,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://fordham.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": "px.ads.linkedin.com",
+      "path": "/",
+      "expires": 1758196229.845476,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "CMID",
+      "value": "aKKfUcAoIksAHe9iA8W0CQAA",
+      "domain": ".casalemedia.com",
+      "path": "/",
+      "expires": 1787024081.608182,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "CMPS",
+      "value": "2026",
+      "domain": ".casalemedia.com",
+      "path": "/",
+      "expires": 1763264081.536095,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "CMPRO",
+      "value": "2026",
+      "domain": ".casalemedia.com",
+      "path": "/",
+      "expires": 1763264081.608279,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "KRTBCOOKIE_377",
+      "value": "22918-82f342ec-c871-4b65-9cd9-a233704207a9&KRTB&6810-82f342ec-c871-4b65-9cd9-a233704207a9&KRTB&23031-82f342ec-c871-4b65-9cd9-a233704207a9&KRTB&22926-82f342ec-c871-4b65-9cd9-a233704207a9",
+      "domain": ".pubmatic.com",
+      "path": "/",
+      "expires": 1763264081.549028,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "PugT",
+      "value": "1755488081",
+      "domain": ".pubmatic.com",
+      "path": "/",
+      "expires": 1758080081.549157,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "tuuid",
+      "value": "475bbe6e-6855-472f-9910-08884b9c03bb",
+      "domain": ".bidswitch.net",
+      "path": "/",
+      "expires": 1787024081.816426,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "c",
+      "value": "1755488081",
+      "domain": ".bidswitch.net",
+      "path": "/",
+      "expires": 1787024081.698437,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "tuuid_lu",
+      "value": "1755488081",
+      "domain": ".bidswitch.net",
+      "path": "/",
+      "expires": 1787024081.816567,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "org.springframework.web.servlet.i18n.CookieLocaleResolver.LOCALE",
+      "value": "en",
+      "domain": "loginp.fordham.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUlwJ1hCLzIbfLoiaetTIkax54qFNot0VMCU962sasiT1pOBv9un167sD_YLOYU",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1790081090.774582,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "WeDqRo5r1a0",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771073113.896421,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://fordham.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgXw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771073113.896528,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://fordham.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "__cf_bm",
+      "value": "TPyeEORDUbgo5_hYAdeVal.FnoSRDbkXsFeS462WQ2A-1755566457-1.0.1.1-EPN0vOHbZI3Tx0TgpIk6r66H2Zwmwl0l.L0yzGliSC6vHu37ZXk41MBD.I2DvSxIL8NRFvcJ51yz_i3SC_MUCOa2U66kFT6IuD03f_yJ8vY",
+      "domain": ".fordham.edu",
+      "path": "/",
+      "expires": 1755568257.431967,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gat_UA-48166333-1",
+      "value": "1",
+      "domain": ".fordham.edu",
+      "path": "/",
+      "expires": 1755566518,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_caps",
+      "value": "201471755566459",
+      "domain": ".fordham.edu",
+      "path": "/",
+      "expires": 1755567383,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_dc_gtm_UA-110252805-2",
+      "value": "1",
+      "domain": ".fordham.edu",
+      "path": "/",
+      "expires": 1755566519,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=VGST09:s=V:r=V:a=V:p=V:g=3278:u=1:x=1:i=1755566459:t=1755652859:v=2:sig=AQFL2thH8GWZ3tmZjV_6EF2UB3rQ-gd7\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755652860.436493,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%253A0-83eebaa7-171d-4752-7699-981f9c190143.AhTvMOujojz17ea%252BY9ifOFGrX0otj5D0JL3A3NCjvSo",
+      "domain": "www.fordham.edu",
+      "path": "/",
+      "expires": 1787102459,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%253A.o6W7wkJsHSTU4%252BLlDruZ%252FwNjVcUZZMvakQpSatDoAgo",
+      "domain": "www.fordham.edu",
+      "path": "/",
+      "expires": 1787102459,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%253AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEKsEGAIgiKyIxQY6BIIfcDZCBGkwHzY.eUpfYxGNsJN1D7FVuwVduVbJx3YOtgePXOv3hNrNZRg",
+      "domain": "www.fordham.edu",
+      "path": "/",
+      "expires": 1787102459,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "mautic_device_id",
+      "value": "d3iwcvgiuxamt8dce8cwng1",
+      "domain": "my.fordhamu.org",
+      "path": "/",
+      "expires": 1787102460.441203,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "mtc_sid",
+      "value": "d3iwcvgiuxamt8dce8cwng1",
+      "domain": "my.fordhamu.org",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "mtc_sid",
+      "value": "d3iwcvgiuxamt8dce8cwng1",
+      "domain": "www.fordham.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "mautic_device_id",
+      "value": "d3iwcvgiuxamt8dce8cwng1",
+      "domain": "www.fordham.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "phpCas",
+      "value": "4c78947827f4cbd158d17fb9e26f7a88",
+      "domain": ".fordham.edu",
+      "path": "/",
+      "expires": 1755609681.22767,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_rdt_uuid",
+      "value": "1755452936247.c64d225a-649e-4f48-9db3-3df26fe5913a",
+      "domain": ".fordham.edu",
+      "path": "/",
+      "expires": 1763342482,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.807157185.1755452936",
+      "domain": ".fordham.edu",
+      "path": "/",
+      "expires": 1790126482.950685,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_scid_r",
+      "value": "gJu-p_nPsQIkLQO_T41csoYgeie_IxSOCnVp9g",
+      "domain": ".fordham.edu",
+      "path": "/",
+      "expires": 1789753181,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__ar_v4",
+      "value": "SIOPPF6BKZGL7CQPOE62TQ%3A20250816%3A7%7CHVYM77JHOBC7HGLLM3FHZV%3A20250816%3A7",
+      "domain": ".www.fordham.edu",
+      "path": "/",
+      "expires": 1787102483,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_uetsid",
+      "value": "727116407b9211f098da09618a418658",
+      "domain": ".fordham.edu",
+      "path": "/",
+      "expires": 1755652883,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_uetvid",
+      "value": "727142c07b9211f0a158edb0cb5e4a75",
+      "domain": ".fordham.edu",
+      "path": "/",
+      "expires": 1789262483,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_cq_pxg",
+      "value": "3|h84965480835402053356|1050634373|event=conversion",
+      "domain": ".fordham.edu",
+      "path": "/",
+      "expires": 1755652883,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ttcsid",
+      "value": "1755566459354::2vHOrB84t2rvObUAyuKk.4.1755566484003",
+      "domain": ".fordham.edu",
+      "path": "/",
+      "expires": 1789262484,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "NID",
+      "value": "525=NpamYfxh_yKnmV_NzRYZmLfocaaUZt6_LgF7GH6R6udWW4C1SdmjDp484kMNvPFpOaZ9jokgO51WypDqQZlVtKumXwzLpBZaDKGGZlaCLGkVlggMV70peCIsyhpKG4S1_4bAtDXfUehGfHQwR-3TJe64Ni0EcFsluJmSuyxiBVU8422n6qKtooNkvyxU_WRKvR80Vog",
+      "domain": ".google.com",
+      "path": "/",
+      "expires": 1771299331.018715,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ttcsid_CJ96RTRC77U5K7SPA2NG",
+      "value": "1755566459353::tRFSsR1dOz6ArufhB9OX.4.1755566484212",
+      "domain": ".fordham.edu",
+      "path": "/",
+      "expires": 1789262484,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sc_at",
+      "value": "v2|H4sIAAAAAAAAAE3GwQ3AIAwDwIkiBWEb0m3AjMHw7bP3ujT2kRjQ6AHnjHVcYRe4a/VB3oZ82hdKmLi/5gs1z2OmQAAAAA==",
+      "domain": ".snapchat.com",
+      "path": "/",
+      "expires": 1789262484.763341,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_2H1840JQZK",
+      "value": "GS2.1.s1755566458$o4$g1$t1755566484$j34$l0$h0",
+      "domain": ".fordham.edu",
+      "path": "/",
+      "expires": 1790126484.94986,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "TDCPM",
+      "value": "CAESFQoGZ29vZ2xlEgsIrJfvjozwrj4QBRIXCghhcHBuZXh1cxILCJKyjZOM8K4-EAUSFgoHcnViaWNvbhILCJjZ746M8K4-EAUSFQoGY2FzYWxlEgsIrMmMr8aErz4QBRIYCgliaWRzd2l0Y2gSCwi67YyvxoSvPhAFEhcKCHB1Ym1hdGljEgsIpJiNr8aErz4QBRgFKAYyCwj8tJGirrKvPhAFQg8iDQgBEgkKBXRpZXIzEAFaBzA3bmlhOXZgAQ..",
+      "domain": ".adsrvr.org",
+      "path": "/",
+      "expires": 1787102485.139473,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AWSALB",
+      "value": "H6SsQsEsGMOj8NhSZGfQV+mMcZDiMuqNW/QngY0GJd6n4pKqtUHmVadttHyuyL+1fWCEnFXfH/3q4q1obUXesMIPYN37ACc/dgWuifYM4o2YmsqlyW2tk9TYLnQa",
+      "domain": "www.fordham.edu",
+      "path": "/",
+      "expires": 1756171292.410033,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AWSALBCORS",
+      "value": "H6SsQsEsGMOj8NhSZGfQV+mMcZDiMuqNW/QngY0GJd6n4pKqtUHmVadttHyuyL+1fWCEnFXfH/3q4q1obUXesMIPYN37ACc/dgWuifYM4o2YmsqlyW2tk9TYLnQa",
+      "domain": "www.fordham.edu",
+      "path": "/",
+      "expires": 1756171292.410178,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://www.fordham.edu",
+      "localStorage": [
+        {
+          "name": "u_sclid",
+          "value": "hGZcDXAqktXDxJRO6r5AIrF6GI02jvVRghu-p_nPsQIkLQO_T41csoYgeie_IxSO"
+        },
+        {
+          "name": "sa-user-id",
+          "value": "s%3A0-83eebaa7-171d-4752-7699-981f9c190143.AhTvMOujojz17ea%2BY9ifOFGrX0otj5D0JL3A3NCjvSo"
+        },
+        {
+          "name": "_uetvid_exp",
+          "value": "Sun, 13 Sep 2026 01:21:23 GMT"
+        },
+        {
+          "name": "mautic_device_id",
+          "value": "d3iwcvgiuxamt8dce8cwng1"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755566484681"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":5,\"creationTimeMs\":1755566483672},\"expires\":1763342483672}}"
+        },
+        {
+          "name": "_uetsid",
+          "value": "727116407b9211f098da09618a418658"
+        },
+        {
+          "name": "sa-user-id-v3",
+          "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEKsEGAIgiKyIxQY6BIIfcDZCBGkwHzY.eUpfYxGNsJN1D7FVuwVduVbJx3YOtgePXOv3hNrNZRg"
+        },
+        {
+          "name": "sa-user-id-v2",
+          "value": "s%3A.o6W7wkJsHSTU4%2BLlDruZ%2FwNjVcUZZMvakQpSatDoAgo"
+        },
+        {
+          "name": "u_sclid_r",
+          "value": "kuZcDXAqktXDxJRO6r5AIrF6GI02jvVRpaZdZoCbvqf5z7ECJC0Dv0-NXLKGIHonvyMUjgp1afY"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755566483398"
+        },
+        {
+          "name": "mtc_sid",
+          "value": "d3iwcvgiuxamt8dce8cwng1"
+        },
+        {
+          "name": "mtc_id",
+          "value": "29586467"
+        },
+        {
+          "name": "_uetsid_exp",
+          "value": "Wed, 20 Aug 2025 01:21:23 GMT"
+        },
+        {
+          "name": "_uetvid",
+          "value": "727142c07b9211f0a158edb0cb5e4a75"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "li_adsId",
+          "value": "eebba88a-13a4-41c1-956e-fa729f776379"
+        }
+      ]
+    }
+  ]
+}

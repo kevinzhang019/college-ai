@@ -1,0 +1,74 @@
+{
+  "cookies": [
+    {
+      "name": "_gcl_au",
+      "value": "1.1.275140102.1755484657",
+      "domain": ".brown.edu",
+      "path": "/",
+      "expires": 1763260656,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_S0MX9K9C18",
+      "value": "GS2.1.s1755484657$o1$g0$t1755484657$j60$l0$h0",
+      "domain": ".brown.edu",
+      "path": "/",
+      "expires": 1790044657.087185,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1252552275.1755484657",
+      "domain": ".brown.edu",
+      "path": "/",
+      "expires": 1790044657.149332,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_GPZPF20X3L",
+      "value": "GS2.1.s1755484657$o1$g0$t1755484657$j60$l0$h0",
+      "domain": ".brown.edu",
+      "path": "/",
+      "expires": 1790044657.118778,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_QY13L4Q0C0",
+      "value": "GS2.1.s1755484657$o1$g0$t1755484657$j60$l0$h0",
+      "domain": ".brown.edu",
+      "path": "/",
+      "expires": 1790044657.149177,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://classics.brown.edu",
+      "localStorage": [
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"timeouts\":0,\"creationTimeMs\":1755484656875},\"expires\":1763260656875}}"
+        }
+      ]
+    },
+    {
+      "origin": "https://experience.arcgis.com",
+      "localStorage": [
+        {
+          "name": "exb-build-number",
+          "value": "1.18.0-3183"
+        }
+      ]
+    }
+  ]
+}

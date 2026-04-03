@@ -1,0 +1,97 @@
+{
+  "cookies": [
+    {
+      "name": "YSC",
+      "value": "ig-4mnX8NZ0",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://berkeley.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "nmstat",
+      "value": "fd248b0a-d0b1-d466-c4a5-d08176c42328",
+      "domain": ".berkeley.edu",
+      "path": "/",
+      "expires": 1789995480.13984,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_JD06GX6S4V",
+      "value": "GS2.1.s1755498724$o4$g1$t1755498742$j42$l0$h0",
+      "domain": ".berkeley.edu",
+      "path": "/",
+      "expires": 1790058742.247332,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.948522840.1775131096",
+      "domain": ".berkeley.edu",
+      "path": "/",
+      "expires": 1775217520,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_UA-8265992-1",
+      "value": "1",
+      "domain": ".berkeley.edu",
+      "path": "/",
+      "expires": 1775131155,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "quform_session_c539d3bcce0f076c888f65a2c1f09590",
+      "value": "Jfsm3oSKaWa8MCqFzseqJFkJAufyQq288nv5ulGd",
+      "domain": "dining.berkeley.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_F4NTEFFFMS",
+      "value": "GS2.1.s1775131095$o1$g1$t1775131120$j35$l0$h541171094",
+      "domain": ".berkeley.edu",
+      "path": "/",
+      "expires": 1809691120.096264,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.645027461.1755435481",
+      "domain": ".berkeley.edu",
+      "path": "/",
+      "expires": 1809691120.127849,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://dining.berkeley.edu",
+      "localStorage": [
+        {
+          "name": "NRBA_SESSION",
+          "value": "{\"value\":\"33c8cde0c18f668f\",\"inactiveAt\":1775132921527,\"expiresAt\":1775145496797,\"updatedAt\":1775131121527,\"sessionReplayMode\":0,\"sessionReplaySentFirstChunk\":false,\"sessionTraceMode\":1,\"traceHarvestStarted\":true,\"loggingMode\":0,\"logApiMode\":0,\"serverTimeDiff\":-677,\"custom\":{},\"numOfResets\":0,\"consent\":false}"
+        }
+      ]
+    }
+  ]
+}

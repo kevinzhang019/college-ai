@@ -1,0 +1,389 @@
+{
+  "cookies": [
+    {
+      "name": "_gcl_au",
+      "value": "1.1.2005482427.1755459755",
+      "domain": ".nd.edu",
+      "path": "/",
+      "expires": 1763235755,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.1851602624.1755459756",
+      "domain": ".nd.edu",
+      "path": "/",
+      "expires": 1755614494,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-65486edb-7551-4b8c-5dfc-9552c010aa21.PlV0kjHBq5Lshq40p81bNbPZZ62mqGupHVzDo0TFOZs",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1786995755.752565,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-65486edb-7551-4b8c-5dfc-9552c010aa21.PlV0kjHBq5Lshq40p81bNbPZZ62mqGupHVzDo0TFOZs",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1786995755.752658,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3AZUhu23VRS4xd_JVSwBCqIQ.AlB%2FFzBsyWpEUwRoXItDHL5bpcwcDDTn6wPOUVa3riE",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1787064094.834262,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3AZUhu23VRS4xd_JVSwBCqIQ.AlB%2FFzBsyWpEUwRoXItDHL5bpcwcDDTn6wPOUVa3riE",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1787064094.834295,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GENQHGAIgq-GIxQY6BE5BDgxCBEkUIMs.u2pUzdN07HJF1HFwCwwqjZZFYaymk%2BAk%2FIIo3CcbAg8",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1786995755.752786,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GENQHGAIgq-GIxQY6BE5BDgxCBEkUIMs.u2pUzdN07HJF1HFwCwwqjZZFYaymk%2BAk%2FIIo3CcbAg8",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1786995755.752812,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_node",
+      "value": "79e8292408f61f87b01c2918105ca2c70ae2dd1bf9acb5e69f7af28265befa30",
+      "domain": "go.mendoza.nd.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "a2585053-3784-4fb1-9614-0ac6985c0036",
+      "domain": "go.mendoza.nd.edu",
+      "path": "/",
+      "expires": 1790019755.754766,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "go.mendoza.nd.edu",
+      "path": "/",
+      "expires": 1790019755.754844,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "viewer_token",
+      "value": "198b98e1ef1",
+      "domain": "mendoza.nd.edu",
+      "path": "/",
+      "expires": 1790088094.703814,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%253A0-65486edb-7551-4b8c-5dfc-9552c010aa21.PlV0kjHBq5Lshq40p81bNbPZZ62mqGupHVzDo0TFOZs",
+      "domain": "mendoza.nd.edu",
+      "path": "/",
+      "expires": 1786995755,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%253AZUhu23VRS4xd_JVSwBCqIQ.AlB%252FFzBsyWpEUwRoXItDHL5bpcwcDDTn6wPOUVa3riE",
+      "domain": "mendoza.nd.edu",
+      "path": "/",
+      "expires": 1786995755,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%253AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GENQHGAIgq-GIxQY6BE5BDgxCBEkUIMs.u2pUzdN07HJF1HFwCwwqjZZFYaymk%252BAk%252FIIo3CcbAg8",
+      "domain": "mendoza.nd.edu",
+      "path": "/",
+      "expires": 1786995755,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755459756283.696185986501076100",
+      "domain": ".nd.edu",
+      "path": "/",
+      "expires": 1763304094,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&c3122ac6-c2b7-458a-86e0-c6b3bc962f6d\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1787064094.778046,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=OGST01:s=O:r=O:a=O:p=O:g=3694:u=1:x=1:i=1755459756:t=1755546156:v=2:sig=AQHXa-i3CbuRihW5grWDMUII_I1ydQ1V\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755546156.677571,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "receive-cookie-deprecation",
+      "value": "1",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1771080095.015544,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://nd.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_gat_UA-722404-24",
+      "value": "1",
+      "domain": ".nd.edu",
+      "path": "/",
+      "expires": 1755528118,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "lm_ct",
+      "value": "true",
+      "domain": "mendoza.nd.edu",
+      "path": "/",
+      "expires": 1755529294.702241,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "lm_ssid",
+      "value": "v5aaeghhagejjbcbhadbhfffcjafjkhh",
+      "domain": "mendoza.nd.edu",
+      "path": "/",
+      "expires": 1755529306.789197,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": "px.ads.linkedin.com",
+      "path": "/",
+      "expires": 1758157840.77802,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "CLID",
+      "value": "df75e7271fab4837af9d141bb18861d2.20250817.20260818",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1787064059.137876,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUnQB3aDERBFQuY0BL2FXQ9ttvvYUjtzreg24C5tmcoDXk81qcsTZaX-dre1xmA",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1790088059.314,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_clck",
+      "value": "mx0pkx%7C2%7Cfyk%7C0%7C2055",
+      "domain": ".nd.edu",
+      "path": "/",
+      "expires": 1787064059,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_rdt_uuid",
+      "value": "1755459755603.6a8dc056-a880-4137-a5b9-75fc61c68579",
+      "domain": ".nd.edu",
+      "path": "/",
+      "expires": 1763304094,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.47916236.1755459756",
+      "domain": ".nd.edu",
+      "path": "/",
+      "expires": 1790088094.534309,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_uetsid",
+      "value": "535916707ba211f0bcdfa37cfd93a7c5",
+      "domain": ".nd.edu",
+      "path": "/",
+      "expires": 1755614494,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_uetvid",
+      "value": "535949107ba211f0887a83f20612bb3a",
+      "domain": ".nd.edu",
+      "path": "/",
+      "expires": 1789224094,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "session_pages",
+      "value": "2",
+      "domain": "mendoza.nd.edu",
+      "path": "/",
+      "expires": 1755529306.788755,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_XJ6JCE3SKW",
+      "value": "GS2.1.s1755528058$o2$g1$t1755528095$j23$l0$h0",
+      "domain": ".nd.edu",
+      "path": "/",
+      "expires": 1790088095.186588,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://mendoza.nd.edu",
+      "localStorage": [
+        {
+          "name": "sa-user-id",
+          "value": "s%3A0-65486edb-7551-4b8c-5dfc-9552c010aa21.PlV0kjHBq5Lshq40p81bNbPZZ62mqGupHVzDo0TFOZs"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755528094665"
+        },
+        {
+          "name": "_uetvid_exp",
+          "value": "Sat, 12 Sep 2026 14:41:34 GMT"
+        },
+        {
+          "name": "_uetsid_exp",
+          "value": "Tue, 19 Aug 2025 14:41:34 GMT"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755528094819"
+        },
+        {
+          "name": "e1a925ef-ac70-3b7a-9b0a-21e4fc8c55de_st",
+          "value": "1755528059173"
+        },
+        {
+          "name": "_uetvid",
+          "value": "535949107ba211f0887a83f20612bb3a"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755459755264},\"expires\":1763235755264}}"
+        },
+        {
+          "name": "_uetsid",
+          "value": "535916707ba211f0bcdfa37cfd93a7c5"
+        },
+        {
+          "name": "sa-user-id-v3",
+          "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GENQHGAIgq-GIxQY6BE5BDgxCBEkUIMs.u2pUzdN07HJF1HFwCwwqjZZFYaymk%2BAk%2FIIo3CcbAg8"
+        },
+        {
+          "name": "li_adsId",
+          "value": "6607cf6d-92a0-4161-8a0d-606c9454f690"
+        },
+        {
+          "name": "sa-user-id-v2",
+          "value": "s%3AZUhu23VRS4xd_JVSwBCqIQ.AlB%2FFzBsyWpEUwRoXItDHL5bpcwcDDTn6wPOUVa3riE"
+        },
+        {
+          "name": "e1a925ef-ac70-3b7a-9b0a-21e4fc8c55de_pp",
+          "value": "{}"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "cookies": [
+    {
+      "name": "AWSALB",
+      "value": "JC8S2hDJwp4+Lao+AspP8O0lkdxhbitiDJR23FL/D/7lPg+jZ1KclGAwoEFlhe1K6fotlJX9tiiz0ZQZoJVQlA4GKBwAsvxIDAIo2mhYatot/tIqBxKjf8F33MmE",
+      "domain": "www.gatech.edu",
+      "path": "/",
+      "expires": 1775743468.93242,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_01MXEHCYEL",
+      "value": "GS2.1.s1775138702$o1$g0$t1775138702$j60$l0$h0",
+      "domain": ".gatech.edu",
+      "path": "/",
+      "expires": 1809698702.93555,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_pk_id.3.70f8",
+      "value": "6bf5a10b753bc7e4.1775138703.",
+      "domain": "chemistry.gatech.edu",
+      "path": "/",
+      "expires": 1809093903,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_pk_ses.3.70f8",
+      "value": "1",
+      "domain": "chemistry.gatech.edu",
+      "path": "/",
+      "expires": 1775140503,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.1499268665.1775138703",
+      "domain": ".gatech.edu",
+      "path": "/",
+      "expires": 1809698704.021546,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.1362350730.1775138704",
+      "domain": ".gatech.edu",
+      "path": "/",
+      "expires": 1775225104,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_gtag_UA_34077439_1",
+      "value": "1",
+      "domain": ".gatech.edu",
+      "path": "/",
+      "expires": 1775138764,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

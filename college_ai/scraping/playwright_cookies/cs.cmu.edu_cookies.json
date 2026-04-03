@@ -1,0 +1,129 @@
+{
+  "cookies": [
+    {
+      "name": "BIGipServer~SCS~cs-userdir-pool-443",
+      "value": "516555392.47873.0000",
+      "domain": "cs.cmu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "SHIBLOCATION",
+      "value": "cs_redscale",
+      "domain": ".cs.cmu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "BALANCEID",
+      "value": "balancer.scscf-webdev-prod-vip.andrew.cmu.edu",
+      "domain": "www.cs.cmu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "BIGipServer~SCS~cs-userdir-pool-443",
+      "value": "533332608.47873.0000",
+      "domain": "www.cs.cmu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.331556428.1755456282",
+      "domain": ".cmu.edu",
+      "path": "/",
+      "expires": 1809686720.979981,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.134963264.1775126721",
+      "domain": ".cmu.edu",
+      "path": "/",
+      "expires": 1775213120,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat",
+      "value": "1",
+      "domain": ".cmu.edu",
+      "path": "/",
+      "expires": 1775126780,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_node",
+      "value": "706d5032f60f7d5b4b441dc9fefb10df697c1164d8717d513b95a052a3031360",
+      "domain": "admissions.scs.cmu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "7dc658c2-3cca-40ad-abf2-0b66181c5138",
+      "domain": "admissions.scs.cmu.edu",
+      "path": "/",
+      "expires": 1809686721.436993,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202604/1",
+      "domain": "admissions.scs.cmu.edu",
+      "path": "/",
+      "expires": 1809686721.437021,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_CSELMMLRMD",
+      "value": "GS2.2.s1775126721$o3$g0$t1775126721$j60$l0$h0",
+      "domain": ".cmu.edu",
+      "path": "/",
+      "expires": 1809686721.721459,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://www.cs.cmu.edu",
+      "localStorage": [
+        {
+          "name": "43369d1a-4a02-6fcd-5b13-a7f6db2ab867_pp",
+          "value": "{}"
+        },
+        {
+          "name": "43369d1a-4a02-6fcd-5b13-a7f6db2ab867_st",
+          "value": "1775126721608"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "cookies": [
+    {
+      "name": "_ga_VB2JW4B7DR",
+      "value": "GS2.1.s1775128851$o1$g0$t1775128851$j60$l0$h0",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1809688851.378796,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1442734311.1775128851",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1809688851.379545,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

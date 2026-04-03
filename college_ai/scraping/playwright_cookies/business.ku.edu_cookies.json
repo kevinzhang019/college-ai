@@ -1,0 +1,358 @@
+{
+  "cookies": [
+    {
+      "name": "ku_gdpr_cookie_consent",
+      "value": "default-consent-1",
+      "domain": "business.ku.edu",
+      "path": "/business-professional-development-program",
+      "expires": 1771104994.269477,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "BOCMFPDZ",
+      "value": "0292a28678-ac26-40XpoqX80AmZ7N28cbfyFFpn2xeBWLXan9MXJ4lfAn-8MPUrD0XxZgQ1hvztUDZFankqY",
+      "domain": "ku.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.677452337.1755445317",
+      "domain": "ku.edu",
+      "path": "/",
+      "expires": 1790005316.812518,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_node",
+      "value": "0884b6b69328a2f83a877fac94eb03198b4762757c0dcd5c7c1d88badc29cb79",
+      "domain": "gograd.ku.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "6270dc23-0d2f-4611-9b8f-64c33e2b91af",
+      "domain": "gograd.ku.edu",
+      "path": "/",
+      "expires": 1790005316.938827,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "gograd.ku.edu",
+      "path": "/",
+      "expires": 1790005316.938858,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_node",
+      "value": "c523366081f6753122c7083b06f7004cb1578f023610c6681ce4518af285fe98",
+      "domain": "go2.ku.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "c418b09f-bf93-404d-b948-e51e0e688a64",
+      "domain": "go2.ku.edu",
+      "path": "/",
+      "expires": 1790005317.089114,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "go2.ku.edu",
+      "path": "/",
+      "expires": 1790005317.089141,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_0X0JW8DT0Z",
+      "value": "GS2.1.s1755445317$o1$g0$t1755445317$j60$l0$h0",
+      "domain": ".ku.edu",
+      "path": "/",
+      "expires": 1790005317.226898,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.677452337.1755445317",
+      "domain": ".ku.edu",
+      "path": "/",
+      "expires": 1790113126.644374,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_MZ1DP9K165",
+      "value": "GS2.1.s1755445317$o1$g0$t1755445317$j60$l0$h0",
+      "domain": "ku.edu",
+      "path": "/",
+      "expires": 1790005317.247231,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_8V0BWTWSE9",
+      "value": "GS2.1.s1755445317$o1$g0$t1755445317$j60$l0$h0",
+      "domain": "ku.edu",
+      "path": "/",
+      "expires": 1790005317.266624,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ku_gdpr_cookie_consent",
+      "value": "default-consent-1",
+      "domain": "ku.edu",
+      "path": "/",
+      "expires": 1770997318.180584,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "BOCMFPDZ",
+      "value": "0292a28678-ac26-4057_A0_1ZkNc1zbYl7Iz7SZv8fI_qh64nbTO38zv2RNZkoNcpg5CJL7DpMXPffYKGxjg",
+      "domain": "business.ku.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.677452337.1755445317",
+      "domain": "business.ku.edu",
+      "path": "/",
+      "expires": 1790113126.529962,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.1.1793739183.1755552991",
+      "domain": "business.ku.edu",
+      "path": "/",
+      "expires": 1755639526,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_hjSession_2575314",
+      "value": "eyJpZCI6ImNmNjUxMjNhLWRkYjctNGIyMy05NDg0LTA0NDAxNGVlOGRmNSIsImMiOjE3NTU1NTI5OTIyMDgsInMiOjAsInIiOjAsInNiIjowLCJzciI6MCwic2UiOjAsImZzIjoxLCJzcCI6MH0=",
+      "domain": ".ku.edu",
+      "path": "/",
+      "expires": 1755554792,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_cap",
+      "value": "874270271755552992",
+      "domain": ".ku.edu",
+      "path": "/",
+      "expires": 1790113127.01846,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_caps",
+      "value": "411961755552992",
+      "domain": ".ku.edu",
+      "path": "/",
+      "expires": 1755554027,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "BOCMFPDZ",
+      "value": "0292a28678-ac26-405FPdKMLpnsl-V1c3EGXJONhcE9X2T5_fLYm5TSPiP963NtFotW5lGJUWkP1dyGDTFpg",
+      "domain": "alerts.ku.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hjSessionUser_2575314",
+      "value": "eyJpZCI6Ijc5MDRjYWQ5LTFhMTEtNWRjMy1iODEzLTYyZDFiZGQ0OWNkYSIsImNyZWF0ZWQiOjE3NTU1NTI5OTIyMDgsImV4aXN0aW5nIjp0cnVlfQ==",
+      "domain": ".ku.edu",
+      "path": "/",
+      "expires": 1787089127,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gat_allaccountrollup",
+      "value": "1",
+      "domain": "business.ku.edu",
+      "path": "/",
+      "expires": 1755553147,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_organization",
+      "value": "1",
+      "domain": "business.ku.edu",
+      "path": "/",
+      "expires": 1755553147,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_trackingid",
+      "value": "1",
+      "domain": "business.ku.edu",
+      "path": "/",
+      "expires": 1755553147,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat",
+      "value": "1",
+      "domain": "business.ku.edu",
+      "path": "/",
+      "expires": 1755553147,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ku_gdpr_cookie_consent",
+      "value": "default-consent-1",
+      "domain": "business.ku.edu",
+      "path": "/",
+      "expires": 1771105115.896743,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_XFR9HNQDY3",
+      "value": "GS2.1.s1755552991$o1$g1$t1755553126$j21$l0$h0",
+      "domain": ".ku.edu",
+      "path": "/",
+      "expires": 1790113126.644202,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_MZ1DP9K165",
+      "value": "GS2.1.s1755552991$o1$g1$t1755553126$j21$l0$h0",
+      "domain": "business.ku.edu",
+      "path": "/",
+      "expires": 1790113126.932941,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_8V0BWTWSE9",
+      "value": "GS2.1.s1755552991$o1$g1$t1755553126$j21$l0$h0",
+      "domain": "business.ku.edu",
+      "path": "/",
+      "expires": 1790113126.93724,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_FKCF1G68WD",
+      "value": "GS2.1.s1755552991$o1$g1$t1755553126$j21$l0$h0",
+      "domain": "business.ku.edu",
+      "path": "/",
+      "expires": 1790113126.960791,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://business.ku.edu",
+      "localStorage": [
+        {
+          "name": "de2c31b9-6e91-7dff-77ea-4184a4acccea_pp",
+          "value": "{}"
+        },
+        {
+          "name": "e22f5230-9754-8765-3a2d-1a6d83e997cf_st",
+          "value": "1755552992153"
+        },
+        {
+          "name": "de2c31b9-6e91-7dff-77ea-4184a4acccea_st",
+          "value": "1755552992152"
+        },
+        {
+          "name": "e22f5230-9754-8765-3a2d-1a6d83e997cf_pp",
+          "value": "{}"
+        }
+      ]
+    },
+    {
+      "origin": "https://ku.edu",
+      "localStorage": [
+        {
+          "name": "de2c31b9-6e91-7dff-77ea-4184a4acccea_pp",
+          "value": "{}"
+        },
+        {
+          "name": "e22f5230-9754-8765-3a2d-1a6d83e997cf_st",
+          "value": "1755445317149"
+        },
+        {
+          "name": "de2c31b9-6e91-7dff-77ea-4184a4acccea_st",
+          "value": "1755445317119"
+        },
+        {
+          "name": "e22f5230-9754-8765-3a2d-1a6d83e997cf_pp",
+          "value": "{}"
+        }
+      ]
+    }
+  ]
+}

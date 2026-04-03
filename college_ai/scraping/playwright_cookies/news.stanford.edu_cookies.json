@@ -1,0 +1,125 @@
+{
+  "cookies": [
+    {
+      "name": "YSC",
+      "value": "a0iZZLca3sk",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "SQ_SYSTEM_SESSION",
+      "value": "eb62531pf9d0qjirmhh64ou7p8",
+      "domain": "news.stanford.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.3.620182010.1755450318",
+      "domain": ".news.stanford.edu",
+      "path": "/",
+      "expires": 1790010333,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_hjSessionUser_6430059",
+      "value": "eyJpZCI6ImJjYTQ0ZmE5LTY0NjItNWU5MC1hMmQzLTc4ODNhMTVkNWNjMCIsImNyZWF0ZWQiOjE3NTU0NTAzMjM1ODYsImV4aXN0aW5nIjp0cnVlfQ==",
+      "domain": ".stanford.edu",
+      "path": "/",
+      "expires": 1786986340,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_T8GLKE3TVE",
+      "value": "GS2.3.s1755450317$o1$g1$t1755450340$j37$l0$h0",
+      "domain": ".news.stanford.edu",
+      "path": "/",
+      "expires": 1790010340,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "squiz.cdp.consent",
+      "value": "{\"CDPConsent\":1,\"documentVersion\":\"1.0\"}",
+      "domain": "news.stanford.edu",
+      "path": "/",
+      "expires": 1790922289,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "fT3vch3AsBTbsVoes7s_rgi8zwJ4dSU1xblo4H9arIY-1775197519-1.0.1.1-SikosmIlLWqbNeCz4quSYaYbcbzm0AuoybYYgMDgKwzJ0gxlwQrCbKXmih5OkjuRthwXi01CVXz39uWy064cn.LDO2wNWw.0mv84QZ17Pks",
+      "domain": ".news.stanford.edu",
+      "path": "/",
+      "expires": 1775199319,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "preferences_topics",
+      "value": "{\"viewed\":[],\"topics\":[]}",
+      "domain": "news.stanford.edu",
+      "path": "/",
+      "expires": 1785565521,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "None"
+    },
+    {
+      "name": "AWSALB",
+      "value": "4wvtv82+3VlvyfYO+YBtC7YmfvQx4NSBXuynI75gmDrFIBjo6veJPlATJinaLGybWmz84Hgm7A/9y4SXxnssb+bUxgAfkmG6t2tKLxzSzywpw3FYy1XC0KvLx/9P",
+      "domain": "news.stanford.edu",
+      "path": "/",
+      "expires": 1775802321,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "None"
+    },
+    {
+      "name": "AWSALBCORS",
+      "value": "4wvtv82+3VlvyfYO+YBtC7YmfvQx4NSBXuynI75gmDrFIBjo6veJPlATJinaLGybWmz84Hgm7A/9y4SXxnssb+bUxgAfkmG6t2tKLxzSzywpw3FYy1XC0KvLx/9P",
+      "domain": "news.stanford.edu",
+      "path": "/",
+      "expires": 1775802321,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "dxp-sessionid",
+      "value": "543f4102-5b4a-42dc-96f4-e9bbd5166a99",
+      "domain": "news.stanford.edu",
+      "path": "/",
+      "expires": 1785565522,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://news.stanford.edu",
+      "localStorage": [
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755450317545},\"expires\":1763226317545}}"
+        }
+      ]
+    }
+  ]
+}

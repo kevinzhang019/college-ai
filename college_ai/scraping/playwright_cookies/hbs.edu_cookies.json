@@ -1,0 +1,297 @@
+{
+  "cookies": [
+    {
+      "name": "s_vnumnewsroom",
+      "value": "1758155321383%26vn%3D1",
+      "domain": "www.hbs.edu",
+      "path": "/news/",
+      "expires": 1758155321,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "s_invisitnewsroom",
+      "value": "true",
+      "domain": "www.hbs.edu",
+      "path": "/news/",
+      "expires": 1755565121,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_conv_s",
+      "value": "si%3A1*sh%3A1755563320755-0.8382086782124204*pv%3A1",
+      "domain": ".hbs.edu",
+      "path": "/",
+      "expires": 1755564530,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_conv_v",
+      "value": "vi%3A1*sc%3A1*cs%3A1755563321*fs%3A1755563321*pv%3A1*exp%3A%7B%7D",
+      "domain": ".hbs.edu",
+      "path": "/",
+      "expires": 1771331330,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "F5_HBS_4hr_tomcat_cookie",
+      "value": "2483267776.20480.0000",
+      "domain": "secure.hbs.edu",
+      "path": "/",
+      "expires": 1755577873.074967,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "sMLhxN.O_JUcBSShdi5EfBvNoHahYV99WFFpaqkhjkw-1755563473-1.0.1.1-pIeKySkXt5BpRy0SH_tHfCbxuhOFXGbRK.tspSHoVA3QSFJENdX9rdo8Wd2yOED4.8OJFg8vHqUGDCoWelBtKsyX2O8kUX_OqovGLgcpfao",
+      "domain": ".fonts.net",
+      "path": "/",
+      "expires": 1755565273.662148,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "s_dfa",
+      "value": "null",
+      "domain": ".hbs.edu",
+      "path": "/",
+      "expires": 1755565275,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "test_cookie",
+      "value": "CheckForPermission",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1755564375.738931,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "receive-cookie-deprecation",
+      "value": "1",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1771115475.738999,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://hbs.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "s_nrnull",
+      "value": "1755563475742-New",
+      "domain": "www.hbs.edu",
+      "path": "/",
+      "expires": 1787099475,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "s_vnumnull",
+      "value": "1758155475742%26vn%3D1",
+      "domain": "www.hbs.edu",
+      "path": "/",
+      "expires": 1758155475,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "s_invisitnull",
+      "value": "true",
+      "domain": "www.hbs.edu",
+      "path": "/",
+      "expires": 1755565275,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "undefined_s",
+      "value": "First%20Visit",
+      "domain": ".hbs.edu",
+      "path": "/",
+      "expires": 1755565275,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "s_visit",
+      "value": "1",
+      "domain": ".hbs.edu",
+      "path": "/",
+      "expires": 1755565275,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "s_pv",
+      "value": "www.hbs.edu%2Fabout%2Fannualreport%2F2023%2Fkey-metrics%2Fkey-metrics%2F",
+      "domain": ".hbs.edu",
+      "path": "/",
+      "expires": 1755565275,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "s_tp",
+      "value": "923",
+      "domain": ".hbs.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "s_ppv",
+      "value": "www.hbs.edu%2Fabout%2Fannualreport%2F2023%2Fkey-metrics%2Fkey-metrics%2F%2C87%2C87%2C800",
+      "domain": ".hbs.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "s_pvu",
+      "value": "https%3A%2F%2Fwww.hbs.edu%2Fabout%2Fannualreport%2F2023%2Fkey-metrics%2Fkey-metrics%2F",
+      "domain": ".hbs.edu",
+      "path": "/",
+      "expires": 1755565275,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "s_pl1",
+      "value": "about",
+      "domain": ".hbs.edu",
+      "path": "/",
+      "expires": 1755565275,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "s_pl2",
+      "value": "about%20%3A%20annualreport",
+      "domain": ".hbs.edu",
+      "path": "/",
+      "expires": 1755565275,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "s_pl3",
+      "value": "about%20%3A%20annualreport%20%3A%202023",
+      "domain": ".hbs.edu",
+      "path": "/",
+      "expires": 1755565275,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "s_pv29",
+      "value": "no%20value",
+      "domain": ".hbs.edu",
+      "path": "/",
+      "expires": 1755565275,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "s_pu",
+      "value": "no%20value",
+      "domain": ".hbs.edu",
+      "path": "/",
+      "expires": 1755565275,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AnalyticsData",
+      "value": "role%3DExternal%26roleDetail%3DNon%2520HBS%26campaign%3DNone%26lastprofile%3Dnewsroom%26lastsite%3Dwww.hbs.edu%26lasturl%3Dundefined%26startTime%3D0%26v%3D1",
+      "domain": ".hbs.edu",
+      "path": "/",
+      "expires": 1771115475,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "demdex",
+      "value": "34316112223853135693447205916650270939",
+      "domain": ".demdex.net",
+      "path": "/",
+      "expires": 1771115476.050654,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AMCVS_B08C1C8B533094750A490D4D%40AdobeOrg",
+      "value": "1",
+      "domain": ".hbs.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "s_ecid",
+      "value": "MCMID%7C34293684925022430893449466788542570731",
+      "domain": ".hbs.edu",
+      "path": "/",
+      "expires": 1790123476.412634,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AMCV_B08C1C8B533094750A490D4D%40AdobeOrg",
+      "value": "1585540135%7CMCIDTS%7C20320%7CMCMID%7C34293684925022430893449466788542570731%7CMCAAMLH-1756168276%7C7%7CMCAAMB-1756168276%7CRKhpRz8krg2tLO6pguXWp5olkAcUniQYPHaMWWgdJ3xzPWQmdj0y%7CMCOPTOUT-1755570676s%7CNONE%7CMCAID%7CNONE%7CvVersion%7C4.4.0",
+      "domain": ".hbs.edu",
+      "path": "/",
+      "expires": 1790123476.419003,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "s_cc",
+      "value": "true",
+      "domain": ".hbs.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

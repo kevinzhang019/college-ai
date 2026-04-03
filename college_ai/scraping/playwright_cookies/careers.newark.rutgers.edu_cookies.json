@@ -1,0 +1,35 @@
+{
+  "cookies": [
+    {
+      "name": "_ga_433KF8DKPR",
+      "value": "GS2.1.s1755505091$o1$g0$t1755505091$j60$l0$h0",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1790065091.566345,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.562863371.1755505092",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1790065091.566496,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://careers.newark.rutgers.edu",
+      "localStorage": [
+        {
+          "name": "NRBA_SESSION",
+          "value": "{\"value\":\"405eaf8fc09fc963\",\"inactiveAt\":1755506892246,\"expiresAt\":1755519492246,\"updatedAt\":1755505092784,\"sessionReplayMode\":0,\"sessionReplaySentFirstChunk\":false,\"sessionTraceMode\":0,\"traceHarvestStarted\":false,\"loggingMode\":0,\"serverTimeDiff\":-243,\"custom\":{},\"numOfResets\":0}"
+        }
+      ]
+    }
+  ]
+}

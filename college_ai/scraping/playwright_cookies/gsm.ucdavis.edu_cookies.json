@@ -1,0 +1,243 @@
+{
+  "cookies": [
+    {
+      "name": "_ga_2N9JP0W2PC",
+      "value": "GS2.1.s1755520368$o2$g0$t1755520368$j60$l0$h0",
+      "domain": ".ucdavis.edu",
+      "path": "/",
+      "expires": 1790080368.549669,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_XJ9SKW94MM",
+      "value": "GS2.1.s1755520368$o2$g0$t1755520368$j60$l0$h0",
+      "domain": ".ucdavis.edu",
+      "path": "/",
+      "expires": 1790080368.741039,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_3F5L6WYJ4W",
+      "value": "GS2.1.s1755520368$o2$g0$t1755520368$j60$l0$h0",
+      "domain": ".ucdavis.edu",
+      "path": "/",
+      "expires": 1790080368.775898,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_ME34C31GN5",
+      "value": "GS2.1.s1755520368$o2$g0$t1755520368$j60$l0$h0",
+      "domain": ".ucdavis.edu",
+      "path": "/",
+      "expires": 1790080368.790901,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_0NH6X9E3PT",
+      "value": "GS2.1.s1755520368$o2$g0$t1755520368$j60$l0$h0",
+      "domain": ".ucdavis.edu",
+      "path": "/",
+      "expires": 1790080368.792204,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_146JJ54CZ8",
+      "value": "GS2.1.s1755520368$o2$g0$t1755520368$j60$l0$h0",
+      "domain": ".ucdavis.edu",
+      "path": "/",
+      "expires": 1790080368.793596,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_8W6464WH4Z",
+      "value": "GS2.1.s1755520368$o2$g0$t1755520368$j60$l0$h0",
+      "domain": ".ucdavis.edu",
+      "path": "/",
+      "expires": 1790080368.794876,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_0WNSFZE492",
+      "value": "GS2.1.s1755520368$o2$g0$t1755520368$j60$l0$h0",
+      "domain": ".ucdavis.edu",
+      "path": "/",
+      "expires": 1790080368.824284,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_node",
+      "value": "62e1f5c1bd7f2c76c2bc875abb82831e90dce9bfe858b41415dc3519a9b4c965",
+      "domain": "apply.ucdavis.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "95961f74-ccda-4f4a-bd68-b0d257bffc19",
+      "domain": "apply.ucdavis.edu",
+      "path": "/",
+      "expires": 1790125550.620792,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "apply.ucdavis.edu",
+      "path": "/",
+      "expires": 1790125550.621528,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.634294166.1755565551",
+      "domain": ".ucdavis.edu",
+      "path": "/",
+      "expires": 1763341551,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.1261428236.1755565552",
+      "domain": ".ucdavis.edu",
+      "path": "/",
+      "expires": 1755651969,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_UA-1266842-1",
+      "value": "1",
+      "domain": ".ucdavis.edu",
+      "path": "/",
+      "expires": 1755565611,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "receive-cookie-deprecation",
+      "value": "1",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1771117569.864987,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://ucdavis.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUnKu4hJKAdkxOx_9C0XXFFBf4Az4lh9oU2E7sWDmBCa-ib8lxCtxelgR1GA6wA",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1790125552.301427,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": "px.ads.linkedin.com",
+      "path": "/",
+      "expires": 1758195315.958024,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&f6ac17ab-bc67-47f1-822a-022d4f339526\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1787101569.95805,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=VGST09:s=V:r=V:a=V:p=V:g=3278:u=1:x=1:i=1755565552:t=1755651952:v=2:sig=AQFauoOAEQ7M1F2R_zatVVOQBtO5P38I\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755651952.826527,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_7BKEVTNJYG",
+      "value": "GS2.1.s1755565551$o1$g1$t1755565569$j42$l0$h0",
+      "domain": ".ucdavis.edu",
+      "path": "/",
+      "expires": 1790125569.41039,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.1703951888.1755452170",
+      "domain": ".ucdavis.edu",
+      "path": "/",
+      "expires": 1790125569.611456,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://gsm.ucdavis.edu",
+      "localStorage": [
+        {
+          "name": "92d3d167-b535-f1c7-0b87-32a9f85d0ec0_st",
+          "value": "1755565552309"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755565551328},\"expires\":1763341551328}}"
+        },
+        {
+          "name": "gtmBrowserId",
+          "value": "1755565959709"
+        },
+        {
+          "name": "li_adsId",
+          "value": "fd35a45d-5eb8-4c05-97d8-d400bb36b5ab"
+        },
+        {
+          "name": "92d3d167-b535-f1c7-0b87-32a9f85d0ec0_pp",
+          "value": "{}"
+        }
+      ]
+    }
+  ]
+}

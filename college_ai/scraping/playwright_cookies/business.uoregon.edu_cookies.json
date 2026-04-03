@@ -1,0 +1,152 @@
+{
+  "cookies": [
+    {
+      "name": "_gcl_au",
+      "value": "1.1.1092347984.1755567335",
+      "domain": ".uoregon.edu",
+      "path": "/",
+      "expires": 1763343335,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_node",
+      "value": "62e1f5c1bd7f2c76c2bc875abb82831e90dce9bfe858b41415dc3519a9b4c965",
+      "domain": "insight.uoregon.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "2ec04ddc-6227-42fd-84df-d370844f2caf",
+      "domain": "insight.uoregon.edu",
+      "path": "/",
+      "expires": 1790127335.271114,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "insight.uoregon.edu",
+      "path": "/",
+      "expires": 1790127335.271155,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_29R534B4TL",
+      "value": "GS2.1.s1755567335$o1$g0$t1755567335$j60$l0$h0",
+      "domain": ".uoregon.edu",
+      "path": "/",
+      "expires": 1790127335.54712,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.1141858309.1755567336",
+      "domain": ".uoregon.edu",
+      "path": "/",
+      "expires": 1755653737,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_G5EJQ8L5H6",
+      "value": "GS2.3.s1755567335$o1$g0$t1755567335$j60$l0$h0",
+      "domain": ".business.uoregon.edu",
+      "path": "/",
+      "expires": 1790127335.594049,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.3.422041588.1755567336",
+      "domain": ".business.uoregon.edu",
+      "path": "/",
+      "expires": 1790127335.594195,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cm4aer2bi023xr5ra3pcd9oxc-hh_trk_id",
+      "value": "8e433367-ac93-4d8f-9911-4bffcd45e62c",
+      "domain": "business.uoregon.edu",
+      "path": "/",
+      "expires": 1790127336,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_XSCE2HF2TR",
+      "value": "GS2.1.s1755567387$o1$g0$t1755567387$j60$l0$h0",
+      "domain": ".uoregon.edu",
+      "path": "/",
+      "expires": 1790127387.161676,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.422041588.1755567336",
+      "domain": ".uoregon.edu",
+      "path": "/",
+      "expires": 1790127387.374537,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_S5PPTJ22LD",
+      "value": "GS2.1.s1755567387$o1$g0$t1755567387$j60$l0$h0",
+      "domain": ".uoregon.edu",
+      "path": "/",
+      "expires": 1790127387.374315,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://mohr.uoregon.edu",
+      "localStorage": [
+        {
+          "name": "NRBA_SESSION",
+          "value": "{\"value\":\"5363f587846e4ab3\",\"inactiveAt\":1755569187680,\"expiresAt\":1755581787680,\"updatedAt\":1755567387988,\"sessionReplayMode\":0,\"sessionReplaySentFirstChunk\":false,\"sessionTraceMode\":0,\"traceHarvestStarted\":false,\"loggingMode\":0,\"serverTimeDiff\":-232,\"custom\":{},\"numOfResets\":0}"
+        }
+      ]
+    },
+    {
+      "origin": "https://business.uoregon.edu",
+      "localStorage": [
+        {
+          "name": "hh_referrer_url",
+          "value": ""
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755567335258},\"expires\":1763343335258}}"
+        },
+        {
+          "name": "hh_trk_id",
+          "value": "8e433367-ac93-4d8f-9911-4bffcd45e62c"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "cookies": [
+    {
+      "name": "_axis",
+      "value": "g68MI7PkpY",
+      "domain": "iseb-project.case.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_pk_id.20.428c",
+      "value": "43325b2dfb0d3e0d.1755454747.",
+      "domain": "iseb-project.case.edu",
+      "path": "/",
+      "expires": 1789409947,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_pk_ses.20.428c",
+      "value": "1",
+      "domain": "iseb-project.case.edu",
+      "path": "/",
+      "expires": 1755456549,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://iseb-project.case.edu",
+      "localStorage": [
+        {
+          "name": "analytics",
+          "value": "true"
+        }
+      ]
+    }
+  ]
+}

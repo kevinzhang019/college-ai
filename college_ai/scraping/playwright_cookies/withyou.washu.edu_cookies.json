@@ -1,0 +1,55 @@
+{
+  "cookies": [
+    {
+      "name": "__cf_bm",
+      "value": ".koz6lQNN2HsFNUemr_9Q_4zM8tH.HPaJxlKpQZbyM0-1775184977.3042216-1.0.1.1-LWZexJ6Z9kjKI7GtoZMIbrbgHPMqhh1AAb_KpT_Jls5_nKBFvZNwhiSgbhwCrT3vFZyOjEq_loE81fTJ1FC8q4vW62uU3vkzPyYNVCrw54cjnuGGhz.IWO.9co3OQapp",
+      "domain": ".vimeo.com",
+      "path": "/",
+      "expires": 1775186777,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_cfuvid",
+      "value": "_pTRvL.PWGNiwsIqX6JfX7vHhYrjUuHS_rfVaVtlvGg-1775184977.3042216-1.0.1.1-0oAH54oLQf.5KOh9BkMqAPrrtGKYfMJ0XFeDZmYDFJA",
+      "domain": ".vimeo.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1557246766.1755437320",
+      "domain": ".washu.edu",
+      "path": "/",
+      "expires": 1789997355,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_T94ZQ4ENLH",
+      "value": "GS2.1.s1755437319$o1$g1$t1755437355$j24$l0$h0",
+      "domain": ".washu.edu",
+      "path": "/",
+      "expires": 1789997355,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://withyou.washu.edu",
+      "localStorage": [
+        {
+          "name": "mapbox.eventData.uuid:am9uZ2NhbWJyb24=",
+          "value": "null"
+        }
+      ]
+    }
+  ]
+}

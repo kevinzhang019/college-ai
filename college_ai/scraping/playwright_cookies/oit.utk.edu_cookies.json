@@ -1,0 +1,103 @@
+{
+  "cookies": [
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgQQ%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771026207.094197,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://utk.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "YSC",
+      "value": "1d22v4r3gfM",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://utk.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "12jMN2Wg2YI",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771026207.094152,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://utk.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1921754165.1755441913",
+      "domain": ".utk.edu",
+      "path": "/",
+      "expires": 1790034359.24818,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CMq9qfbm5sSJ2QEQ68iv3YqSjwMYnpKKhIOTjwM%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771026206.838711,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://utk.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "__cf_bm",
+      "value": "C2g9rgwRTJpp5BKaVOvHLiD1q1T9ZxB_EcXKIxSJOcA-1755474261-1.0.1.1-pu00Z2B6tKDJth6eGZ1.z2QiJgrogZ3RZVYQ1_xF0o6BWMwoDaJEhB7x.znWVyP1k9DyNmXCYAFu09vDXHSVCUqHj_QlnYPxTfxMUu3Xygk",
+      "domain": ".utk.edu",
+      "path": "/",
+      "expires": 1755476061.146185,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_KHTJR3J4BS",
+      "value": "GS2.1.s1755474207$o2$g1$t1755474262$j5$l0$h0",
+      "domain": ".utk.edu",
+      "path": "/",
+      "expires": 1790034262.239874,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_459EKBVHD1",
+      "value": "GS2.1.s1755474207$o2$g1$t1755474262$j5$l0$h0",
+      "domain": ".utk.edu",
+      "path": "/",
+      "expires": 1790034262.260102,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_275S8CRNYW",
+      "value": "GS2.1.s1755474359$o1$g0$t1755474359$j60$l0$h0",
+      "domain": ".utk.edu",
+      "path": "/",
+      "expires": 1790034359.248019,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

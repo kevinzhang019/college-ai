@@ -1,0 +1,25 @@
+{
+  "cookies": [
+    {
+      "name": "_ga_VTHQQVTEMM",
+      "value": "GS2.1.s1755565363$o1$g0$t1755565363$j60$l0$h0",
+      "domain": ".ua.edu",
+      "path": "/",
+      "expires": 1790125363.040868,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.421276857.1755565363",
+      "domain": ".ua.edu",
+      "path": "/",
+      "expires": 1790125363.041031,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

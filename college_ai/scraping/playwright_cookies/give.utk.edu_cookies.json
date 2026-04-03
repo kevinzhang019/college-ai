@@ -1,0 +1,559 @@
+{
+  "cookies": [
+    {
+      "name": "lidid",
+      "value": "18971281-98fe-4bf5-b2e4-99dc86f3ca2d",
+      "domain": ".liadm.com",
+      "path": "/j",
+      "expires": 1790066920.077873,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgQQ%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771026207.094197,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://utk.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "YSC",
+      "value": "1d22v4r3gfM",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://utk.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "12jMN2Wg2YI",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771026207.094152,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://utk.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1921754165.1755441913",
+      "domain": ".utk.edu",
+      "path": "/",
+      "expires": 1790066873.604159,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CMq9qfbm5sSJ2QEQ68iv3YqSjwMYnpKKhIOTjwM%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771026206.838711,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://utk.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "12jMN2Wg2YI",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771058854.54936,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgQQ%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771058854.549381,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "J_AZSaPFyaRivdi5VNOy_lS.RsUAZjw88U8HZ1a64rk-1755506872-1.0.1.1-jeRd2.XMAYMAbbaV4LMOslKyNrJhkLZXOFkI8b7KSW7gah6Fo.vFTQIauZOg93T2koKQfItmqOEev6a68l4uz3OAtsKMww5xIP.10B1WKh0",
+      "domain": ".utk.edu",
+      "path": "/",
+      "expires": 1755508672.323052,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_459EKBVHD1",
+      "value": "GS2.1.s1755506854$o3$g1$t1755506873$j41$l0$h0",
+      "domain": ".utk.edu",
+      "path": "/",
+      "expires": 1790066873.604014,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_KHTJR3J4BS",
+      "value": "GS2.1.s1755506854$o3$g1$t1755506873$j41$l0$h0",
+      "domain": ".utk.edu",
+      "path": "/",
+      "expires": 1790066873.622701,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "current_school_id",
+      "value": "3907",
+      "domain": "give.utk.edu",
+      "path": "/",
+      "expires": 1755593316.64826,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gc_user_testing_uuid",
+      "value": "495868b3-da64-4144-a0cc-234805e4aae8",
+      "domain": "give.utk.edu",
+      "path": "/",
+      "expires": 1790066916.649178,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gdpr",
+      "value": "1",
+      "domain": "give.utk.edu",
+      "path": "/",
+      "expires": 1790066916.649242,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_session_id",
+      "value": "1db05fe3855063ad52fbe43871d85e1d",
+      "domain": "give.utk.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "v5isRLU8Vfg6Oj7NnGxZFSHVOh5NeH2WC5msKhQlX8c-1755506916-1.0.1.1-ybCfxQe9s9C3cMORk2sL1zhtDO2Y2.g39Cz._PtDJDV0dtBWawc6q2IdQRAKvxkQmZ9RfvFklyDsWg9AEsHZ56UWzJQtjzczldn0RbxRGQQ",
+      "domain": ".give.utk.edu",
+      "path": "/",
+      "expires": 1755508716.649327,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "H7Y3T1wKidVU2mdi3o6rCLnLPH5YUq._7NhH8cwldGc-1755506917-1.0.1.1-UEEQ889AyVijRIEqHwogtOSLIzjsk31k1nsg50BAyeBCnHb2B3B.HmM0_6VAXc2uJzNSdu7D3fWIc8OnRx19oCMW3nrylc1fkMrTv5HKsKQ",
+      "domain": ".givecampus.com",
+      "path": "/",
+      "expires": 1755508717.090382,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "0XIysjz6cmfliWPjurTXdynuOyty3PyGBRxibNo8z6M-1755506918-1.0.1.1-Mzlfmo897aWYO4YKjoDu9KNOuSy1w7Iltxmw3yoTgGY_a780E3z7FMBY6ypsL5CuijPNh.nwnXqVBNJbH1ajoVcQV6ZwL4oscxppmyGa0J4",
+      "domain": ".hsadspixel.net",
+      "path": "/",
+      "expires": 1755508718.091778,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "uOZI1RS_bLH3KmuU7JQX6Y3NXHtHnvmUR_AgYNUKu8A-1755506918-1.0.1.1-0y42dhk8YWKN7kNz3G_wJFGkkhoFhSkdUOfHEjfpgtSDBwDCnOKPab7Rpj832NmgYNC760FtXQN1dMVOtv96iGLfNUzvgi_lBlg6Hm8WacE",
+      "domain": ".hubspot.com",
+      "path": "/",
+      "expires": 1755508718.096702,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_cfuvid",
+      "value": "nZAFcGhN8VBqAyJgoLnwjIBLBwUxX8dhkImuLEfglwc-1755506918121-0.0.1.1-604800000",
+      "domain": ".hubspot.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_MZE6TS1V7Y",
+      "value": "GS2.1.s1755506918$o1$g0$t1755506918$j60$l0$h0",
+      "domain": ".givecampus.com",
+      "path": "/",
+      "expires": 1790066918.100738,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.809998558.1755506918",
+      "domain": ".givecampus.com",
+      "path": "/",
+      "expires": 1790066918.122652,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.352004587.1755506918",
+      "domain": ".givecampus.com",
+      "path": "/",
+      "expires": 1755593318,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_UA-61169381-4",
+      "value": "1",
+      "domain": ".givecampus.com",
+      "path": "/",
+      "expires": 1755506978,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "L2mAhN849hbAi0.PxJiEYKz2iBcDy4Fe.cRwVxLmKN8-1755506918-1.0.1.1-RPPdKRYxj.5vQQos6tKoAPouvDVKwSxZ1oJxIphQaVcSsZteM2clZ2OKXQC8iCwnw8hJP45qm2EigGsb07iFw5CDmj4XdgwQgOm.fH8gFz4",
+      "domain": ".hscollectedforms.net",
+      "path": "/",
+      "expires": 1755508718.149222,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_reb2buid",
+      "value": "1bb6e675-50bc-40d4-97e9-4d111b90286e-1755506918158",
+      "domain": ".givecampus.com",
+      "path": "/",
+      "expires": 1786610918.158777,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_reb2bsessionID",
+      "value": "RjczyKgUHyYpvrrqQ9HjgOzO",
+      "domain": ".givecampus.com",
+      "path": "/",
+      "expires": 1755508718.158928,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "zSpgl5b9DuIGrkPoszz6Gtm7QRfqwjy39csJLdn67oo-1755506918-1.0.1.1-.IovvTbXtOixJZNbnGQBMGuk2iMTy2A9X1p9XFiJNa2CURx08Jpsx9Hn6.JLKbVNUHZnYoibYcmRtRb1h34N7IQyzE_M0F42TtXHwuPaD.8",
+      "domain": ".hsleadflows.net",
+      "path": "/",
+      "expires": 1755508718.165588,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "cf_clearance",
+      "value": "AGwEPkmbjxIXam1KPWrZu5Y7Q3f4..04_Toy7PJTjgA-1755506918-1.2.1.1-fXJxXMDZDVg5S.5tJgecgsHFAxazqG4C8TrYJAXe2j26AjbRJT0ZQalCCAE4.WZkgJTjp9iEeXgX1zaKrO7l_a3XgO8C7WIdKifhBr8geY3MkbqbqV4PGP6a5DODXB2BskXuZWNzmCYvgUTgp1.XwBHM3m3pa.rXm402lbuAhpIlU9bRzpTUQbFt6aViNZqSgWT6f_dRjaPdOFg9M2wy4CqZTdtRPWpklo4UjOdDrNs",
+      "domain": ".givecampus.com",
+      "path": "/",
+      "expires": 1787042918.169139,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://givecampus.com",
+      "_crHasCrossSiteAncestor": false
+    },
+    {
+      "name": "__cf_bm",
+      "value": "Q6SWgBaDjtUeYV69xNDz6FyDIopINWjgs.UgeePU0Gw-1755506918-1.0.1.1-h_RmEvwCFVs8tFFzV8Ig_UUzBFwM6GbJRmYGvvcztK1DfOZL9G7Xi3dk2E64vgl8oJEyGJqB3MtWgJm4r4cBFWOBISGUXaP5VxHW2quvvjA",
+      "domain": ".g2crowd.com",
+      "path": "/",
+      "expires": 1755508718.203154,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "1PNAL1JcRAprDaGbby_P7rUqp8ytVDZFxQWIYw0kicU-1755506918-1.0.1.1-CCKolsxgf6xsPoPNIeUKDcwOKfvLDx.xd3K.NtYIxuk_WTrdqpji.lEm9MrnTM47JTTRXlN5ybqNDw7yXzrZMRHVBSnzBKu58zslVa.EDGs",
+      "domain": ".hs-analytics.net",
+      "path": "/",
+      "expires": 1755508718.209346,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=OGST09:s=O:r=O:a=O:p=O:g=3219:u=1:x=1:i=1755506918:t=1755593318:v=2:sig=AQE1enSAJjDpBm6onJ9-7jhWoPpsy8o0\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755593319.413515,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": "px.ads.linkedin.com",
+      "path": "/",
+      "expires": 1758136664.413311,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&e088a77d-92f2-4ae6-852c-472cd63b9359\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1787042919.413396,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_reb2bgeo",
+      "value": "%7B%22city%22%3A%22San%20Antonio%22%2C%22country%22%3A%22United%20States%22%2C%22countryCode%22%3A%22US%22%2C%22hosting%22%3Afalse%2C%22isp%22%3A%22T-Mobile%20USA%2C%20Inc.%22%2C%22lat%22%3A29.5418%2C%22proxy%22%3Afalse%2C%22region%22%3A%22TX%22%2C%22regionName%22%3A%22Texas%22%2C%22status%22%3A%22success%22%2C%22timezone%22%3A%22America%2FChicago%22%2C%22zip%22%3A%2278217%22%7D",
+      "domain": ".givecampus.com",
+      "path": "/",
+      "expires": 1757234918.415196,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_reb2bresolve",
+      "value": "1",
+      "domain": ".givecampus.com",
+      "path": "/",
+      "expires": 1755938918.415588,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "1nL7xp3izWZ72uJDAY44B4qqTz4TwW8Zs0X0kTlz.EI-1755506918-1.0.1.1-1DNB27kaPo_5zvKOMKbvdGfnVj3zULtbKZIAIVPQWrmx2GkpBB43AROznvf0CxFSWrIL.hzNUOPx66tkSTdaVZIUBAA9Kq2sCf1i3wkzuYM",
+      "domain": ".hs-banner.com",
+      "path": "/",
+      "expires": 1755508718.449019,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "REXgo2hkpsiF_Wifslu8Fh7LqYqRmef61SStBCYN57M-1755506918-1.0.1.1-eMg1bcGqv3is.LKMsGLPtVuK3R__V7cluHViq_o15SL9u5nNSJDRAKVFgZTngJm2U.ZMjDd1001PXZCksANo4Rk56j_msYD1PNq8OFKnL_8",
+      "domain": ".g2.com",
+      "path": "/",
+      "expires": 1755508718.47007,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_li_dcdm_c",
+      "value": ".givecampus.com",
+      "domain": ".givecampus.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_lc2_fpi",
+      "value": "954e30d03d50--01k2y5vh8m4jtnyth1xt6h3nvt",
+      "domain": ".givecampus.com",
+      "path": "/",
+      "expires": 1790066918.676602,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_lc2_fpi_js",
+      "value": "954e30d03d50--01k2y5vh8m4jtnyth1xt6h3nvt",
+      "domain": ".givecampus.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__hstc",
+      "value": "121702484.e151e1d94e1baf2525af5d9a7c438743.1755506918680.1755506918680.1755506918680.1",
+      "domain": ".givecampus.com",
+      "path": "/",
+      "expires": 1771058918,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "hubspotutk",
+      "value": "e151e1d94e1baf2525af5d9a7c438743",
+      "domain": ".givecampus.com",
+      "path": "/",
+      "expires": 1771058918,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__hssrc",
+      "value": "1",
+      "domain": ".givecampus.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__hssc",
+      "value": "121702484.1.1755506918680",
+      "domain": ".givecampus.com",
+      "path": "/",
+      "expires": 1755508718,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "uuid",
+      "value": "bb3ed2ae-27d8-4512-807b-bbc72e4839fc",
+      "domain": ".alocdn.com",
+      "path": "/",
+      "expires": 1787042918.71938,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "FVKq_I8owQV1TSM4jV63UaNntdRQIeflL89niGaV2.U-1755506918-1.0.1.1-wc_X_1BJwN0Rr7kbUoj7B2iZ7d8FieCisyecuJ2PaJawCv_vXQuhHAJ_M148wHzqsourf1CEl_.BQtXsf_JMpRxNVn4lJq2SSbE6HSF73T8",
+      "domain": ".hubapi.com",
+      "path": "/",
+      "expires": 1755508718.741785,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "tuid",
+      "value": "b5cb52f3-7c80-4a77-9610-148ca0246c27",
+      "domain": ".a.usbrowserspeed.com",
+      "path": "/",
+      "expires": 1787042918.750897,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "gOrW1bm71e9WNpCCUVQ2wxk70KIRhii7Pzd.q7sfMRw-1755506919-1.0.1.1-yS6rTGdY4gj7AMKqsUck5i_kNqRsPNybUGcR43dpsyQY3vtw61GduupFpUsqIwaWQU9kHus1Zrx4e8j15tx91Uin_TwLamdbfL7iKY5jDxc",
+      "domain": ".hs-scripts.com",
+      "path": "/",
+      "expires": 1755508719.007203,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755506919324.936190693680586557",
+      "domain": ".givecampus.com",
+      "path": "/",
+      "expires": 1763282919,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "lidid",
+      "value": "18971281-98fe-4bf5-b2e4-99dc86f3ca2d",
+      "domain": ".liadm.com",
+      "path": "/",
+      "expires": 1790066919.661918,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://go.givecampus.com",
+      "localStorage": [
+        {
+          "name": "g2tracking",
+          "value": "{\"20250718\":[\",Mozilla/5.0(WindowsNT10.0;Win64;x64)AppleWebKit/537.36(KHTML,likeGecko)Chrome/120.0.0.0Safari/537.36,1366x728,en-GB,420,1010198,,\"]}"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755506919304"
+        },
+        {
+          "name": "_li_duid",
+          "value": "954e30d03d50--01k2y5vh8m4jtnyth1xt6h3nvt"
+        },
+        {
+          "name": "li_adsId",
+          "value": "ac7104e3-0c38-4683-8bd0-a61c0a01b06c"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755506919332"
+        },
+        {
+          "name": "_reb2buid",
+          "value": "1bb6e675-50bc-40d4-97e9-4d111b90286e-1755506918158"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,249 @@
+{
+  "cookies": [
+    {
+      "name": "f5avraaaaaaaaaaaaaaaa_session_",
+      "value": "FCMHDGKJCLCHCKGJCEEDJNCMDKNCABPNJHJLHBFJJLHBNIICNLJJOJIIJCICEDCPHHADBFHDGBLKJDNFMCAABDNELNMIOLBPHFIPHNIAIPCFHKMNBFDPOLIIOAKDEMNF",
+      "domain": "northwestern.edu",
+      "path": "/provost/faculty-honors",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "f5avraaaaaaaaaaaaaaaa_session_",
+      "value": "MFPCFACIKDIPFLIEMDEJNKKDFNLAKNGLMJFJIKLJAKNFCDKIEKHHCLAMFONHFMBODBIDNGNHHBGHOMCEIBMAKEEALNLNMKNEIIGBDBKDLIINLCIKCOKFKLBPJPGOLILL",
+      "domain": "www.northwestern.edu",
+      "path": "/provost/faculty-honors",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "f5avraaaaaaaaaaaaaaaa_session_",
+      "value": "MCHMDEMHCKECJPOMHIJJLIGNDMOGBNCLEOKIDEMNNOOPMLIMLBMGADFAFGIGJNEAPCADKBLMECPNEPALKPKAKCKNCNJGPLGELLLOPIMMGKMDFENGIIIILOJBFCIPANBK",
+      "domain": "common.northwestern.edu",
+      "path": "/dept/4.0/css",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "f5avraaaaaaaaaaaaaaaa_session_",
+      "value": "CDFIBIPAAJLODIBPNBFONDAAOPBIHDBDGLGCCFCPKNKAJOBLAIKEMEENNALMMHKADFIDJBIJIBGGEKMKADPADOJBLNACMGCJEDEGIGGCDACMOEPNEDDAHHOFIKBEBLJB",
+      "domain": "common.northwestern.edu",
+      "path": "/dept/3.0/js",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "f5avraaaaaaaaaaaaaaaa_session_",
+      "value": "CANCFMLDFAOFAILLNACNJCLCJFLFMOBIIOIOCCCJHIDJCIEFAKAAMPEFLCBAKFIFDHGDHIFMECDBAOFMKJJAKPNDCNDGOHDOLMCNOEHFMKPOCDENFJJBINHEPIEJONNP",
+      "domain": "common.northwestern.edu",
+      "path": "/dept/4.0/js",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "f5avraaaaaaaaaaaaaaaa_session_",
+      "value": "OBPKCPBAFPDIIEEFIOGJNPNECFKMAPNLJPNLEBIKCEEBJDLPDMDEBPKHMGGFOADFKEKDHFOMIBEEKKAGHOHAKOOMLNDCKLKNJOKNPCIBGMCPPNPGDDAECLMPBCEPCHOJ",
+      "domain": "common.northwestern.edu",
+      "path": "/dept/3.0",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "f5avraaaaaaaaaaaaaaaa_session_",
+      "value": "OEGKMLFGBJPIMMAHDNFPLPEANDKJHMGACDPAKLHDECJOMBLIPLEKJFMNNCGBDCGOEGADNNHOECHLJEKNHNJAJPHGCNKNGLBIKKFFFMIKOCILDDJEBAILGEIDGPFKBMED",
+      "domain": "common.northwestern.edu",
+      "path": "/v9/css",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "f5avraaaaaaaaaaaaaaaa_session_",
+      "value": "NNFHNEEHHJANEMICICKAOJOJHDABJCLAEKBPOKBGNBJKPHFHNHPGAHIMLGNAKOMJCAIDINOPECNCBGNGGGFAAKEHCNDBOINCPNNNIODFANAPEFGNMGLNODKKKHLEGHBJ",
+      "domain": "common.northwestern.edu",
+      "path": "/v9/js",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "BIGipServer~trust-662~pool_evnuinfo_80",
+      "value": "!YdcqhnEfzHS2nBZhqWSXwNz1yBZ7/stWyjAicuMVaEr/yyBKuS+86xc6WoM/4OxZ9Y72jGVqUKHASg==",
+      "domain": "northwestern.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "BIGipServer~trust-662~pool_evnuinfo_80",
+      "value": "!vev4P4OeMKdqfl1hqWSXwNz1yBZ7/hu74rnMk7CzLQKWIL8s8MXNZ2xlEh31dJSfF8fWGBwsafxiOw==",
+      "domain": "www.northwestern.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "BIGipServer~trust-662~pool_evnuinfo_80",
+      "value": "!zW/kQWl3OnKZ42thqWSXwNz1yBZ7/uudzkZSAjHG+A8kTYhvGTvy3l4BB5LzqqgFrvz7jngkBDaQUw==",
+      "domain": "common.northwestern.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "f5avraaaaaaaaaaaaaaaa_session_",
+      "value": "FDAIMHMCFBHCKOKLCNCBDOBLEKIABJELGGMDKJKNALANECPDPPPIDLFMNFLBBNHCPLADGMOLDCMPOLCDDIBAGGGKCNAEACEOOPOJJIGJEGGIIFGCONACJGPGMKINHAAK",
+      "domain": "northwestern.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "f5avraaaaaaaaaaaaaaaa_session_",
+      "value": "BCDEALGNHMMGFDAFGBJPMMOJMBHKOEDNAFAKJDMLLIAOIBLIBPMFDKKEBOABIMNLGNIDEABLDCAJKCGIJHJAHGJDCNEAMMJAGHLPKHLGALEIMPLIAPLDJGILFINNEKCC",
+      "domain": "www.northwestern.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_JF7CBCTDRN",
+      "value": "GS2.1.s1755435634$o1$g0$t1755435634$j60$l0$h0",
+      "domain": ".northwestern.edu",
+      "path": "/",
+      "expires": 1789995634,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.2041503993.1775171423",
+      "domain": ".northwestern.edu",
+      "path": "/",
+      "expires": 1775257822,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_31YGEK8CSK",
+      "value": "GS2.2.s1775171424$o1$g0$t1775171424$j60$l0$h0",
+      "domain": ".northwestern.edu",
+      "path": "/",
+      "expires": 1809731424,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_98BM2HLHXL",
+      "value": "GS2.1.s1775171418$o1$g0$t1775171428$j50$l0$h0",
+      "domain": ".northwestern.edu",
+      "path": "/",
+      "expires": 1809731428,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_7XLBH2NC54",
+      "value": "GS2.1.s1775171421$o2$g0$t1775171428$j53$l0$h0",
+      "domain": ".northwestern.edu",
+      "path": "/",
+      "expires": 1809731428,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "dcapi56a927b",
+      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL2FwaS5kYy5saWJyYXJ5Lm5vcnRod2VzdGVybi5lZHUvYXBpL3YyIiwiZXhwIjoxNzc1MjI2MTQ1LCJpYXQiOjE3NzUxODI5NDUsInNjb3BlcyI6WyJyZWFkOlB1YmxpYyIsInJlYWQ6UHVibGlzaGVkIl0sImVudGl0bGVtZW50cyI6W10sImlzTG9nZ2VkSW4iOmZhbHNlfQ.NDjdTAB6S0Zmm8J8YkidvLvEFgRGfgrjV220IiOc6_c",
+      "domain": ".library.northwestern.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.508386821.1755435635",
+      "domain": ".northwestern.edu",
+      "path": "/",
+      "expires": 1809751955.985626,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cookieyes-consent",
+      "value": "consentid:a0JRYU5TdGZabVBzYWxPWWlPRHZSU3hUdFFjRmtSTG0,consent:yes,action:yes,necessary:yes,functional:yes,analytics:yes,performance:yes,advertisement:yes,other:yes,lastRenewedDate:1746477722000",
+      "domain": ".northwestern.edu",
+      "path": "/",
+      "expires": 1806727962,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_ga_2RR5KG6RWE",
+      "value": "GS2.1.s1775191811$o2$g1$t1775191955$j60$l0$h0",
+      "domain": ".northwestern.edu",
+      "path": "/",
+      "expires": 1809751955.965633,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_54X1H1QK1K",
+      "value": "GS2.1.s1775191811$o2$g1$t1775191955$j60$l0$h0",
+      "domain": ".northwestern.edu",
+      "path": "/",
+      "expires": 1809751955.985446,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://dc.library.northwestern.edu",
+      "localStorage": [
+        {
+          "name": "i18nextLng",
+          "value": "en-US"
+        },
+        {
+          "name": "ai",
+          "value": "{\"enabled\":\"false\"}"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,113 @@
+{
+  "cookies": [
+    {
+      "name": "BIGipServerwww_ou_edu_cms_servers",
+      "value": "520166154.20480.0000",
+      "domain": "ou.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.948802447.1755441947",
+      "domain": ".ou.edu",
+      "path": "/",
+      "expires": 1755593441,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755441947724.555989702267699017",
+      "domain": ".ou.edu",
+      "path": "/",
+      "expires": 1763283041,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "BIGipServerwww_ou_edu_cms_servers",
+      "value": "520166154.20480.0000",
+      "domain": "www.ou.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.241987042.1755441947",
+      "domain": ".ou.edu",
+      "path": "/",
+      "expires": 1790067041.990175,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_0N6ZR0C2QE",
+      "value": "GS2.1.s1755507011$o3$g1$t1755507041$j30$l0$h0",
+      "domain": ".ou.edu",
+      "path": "/",
+      "expires": 1790067041.173831,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "ewVQQHzCXwfIJlzD6xW4LNLIYZjsWN8DrKRwei4wVEU-1755507041-1.0.1.1-LTwg7l4K5ToKWmtLfzmEHtiV0HJx5rdmL4Cluy69iMQYHTyKg8foum1HzfPfV3HTQsjiUB07Y27HpWIAxHo9_juOlaUg7vifftFCFP9SCPQ",
+      "domain": ".twitter.com",
+      "path": "/",
+      "expires": 1755508841.221389,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ASPSESSIONIDSSRQSRTB",
+      "value": "PNKPLGOAFEIOGLABOBCPJNOK",
+      "domain": "ors.ou.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "BIGipServerors.ou.edu.app~ors.ou.edu_pool",
+      "value": "2466257674.20480.0000",
+      "domain": "ors.ou.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://ou.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755507041147"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755507041157"
+        }
+      ]
+    }
+  ]
+}

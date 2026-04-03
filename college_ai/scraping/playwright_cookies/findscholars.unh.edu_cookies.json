@@ -1,0 +1,75 @@
+{
+  "cookies": [
+    {
+      "name": "JSESSIONID",
+      "value": "7ED156ACE08E590217C7885D0CB42E8C",
+      "domain": "findscholars.unh.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.232378422.1755489581",
+      "domain": ".unh.edu",
+      "path": "/",
+      "expires": 1755576013,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_gtag_UA_128035886_1",
+      "value": "1",
+      "domain": ".unh.edu",
+      "path": "/",
+      "expires": 1755489641,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_MMRF5D7KN9",
+      "value": "GS2.1.s1755489581$o1$g1$t1755489613$j28$l0$h0",
+      "domain": ".unh.edu",
+      "path": "/",
+      "expires": 1790049613.340849,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_3DFCMP1B5M",
+      "value": "GS2.1.s1755489581$o1$g1$t1755489613$j28$l0$h0",
+      "domain": ".unh.edu",
+      "path": "/",
+      "expires": 1790049613.360867,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_D963ZCHGZR",
+      "value": "GS2.1.s1755489581$o1$g1$t1755489613$j28$l0$h0",
+      "domain": ".unh.edu",
+      "path": "/",
+      "expires": 1790049613.376879,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.1456837901.1755489581",
+      "domain": ".unh.edu",
+      "path": "/",
+      "expires": 1790049613.38792,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

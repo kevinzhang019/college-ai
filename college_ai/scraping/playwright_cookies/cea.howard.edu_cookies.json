@@ -1,0 +1,35 @@
+{
+  "cookies": [
+    {
+      "name": "_ga",
+      "value": "GA1.1.1640971601.1755453528",
+      "domain": ".howard.edu",
+      "path": "/",
+      "expires": 1790013527.988227,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_TTK6NR7V74",
+      "value": "GS2.1.s1755453527$o1$g0$t1755453527$j60$l0$h0",
+      "domain": ".howard.edu",
+      "path": "/",
+      "expires": 1790013527.993677,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://cea.howard.edu",
+      "localStorage": [
+        {
+          "name": "shoestringMethods",
+          "value": "{\"on\":true,\"each\":true,\"addClass\":true,\"trigger\":true,\"parent\":true,\"find\":true,\"filter\":true}"
+        }
+      ]
+    }
+  ]
+}

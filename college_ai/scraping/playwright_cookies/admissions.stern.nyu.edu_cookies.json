@@ -1,0 +1,299 @@
+{
+  "cookies": [
+    {
+      "name": "cee",
+      "value": "kE6%2FYT6XjwpARunUaq%2FxnE0J%2BzNP3r%2BvVcgTN9P0KAU%3D.%7B%7D",
+      "domain": ".test-drive-20-1053047382554.us-central1.run.app",
+      "path": "/events/e79805cc16794b63a3e731ef6eec57b1d6bce871c45077c3168775069f1eaeb2",
+      "expires": 1763232722.769484,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_node",
+      "value": "79e8292408f61f87b01c2918105ca2c70ae2dd1bf9acb5e69f7af28265befa30",
+      "domain": "admissions.stern.nyu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "f28aa7e1-95be-4a4c-bf30-3166cc0fc423",
+      "domain": "admissions.stern.nyu.edu",
+      "path": "/",
+      "expires": 1790016719.912225,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "admissions.stern.nyu.edu",
+      "path": "/",
+      "expires": 1790016719.912694,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.395038916.1755456721",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1763232721,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ttp",
+      "value": "31QWLYOsNZwmNRcLNqjXF4sw20z",
+      "domain": ".tiktok.com",
+      "path": "/",
+      "expires": 1789152721.347761,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_rdt_uuid",
+      "value": "1755456721563.f4bb5218-d54e-4fb1-b204-e2c378f14ad6",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1763232721,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.536605391.1755456722",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1790016722.049082,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_WJGHFJH7GS",
+      "value": "GS2.1.s1755456721$o1$g0$t1755456721$j60$l0$h0",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1790016721.616504,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUkgRX5YSuCZqKiCLY5rrZLxRHkhMEWCkh1sTowpVv-QEaOKlSqaHq-Jh8_Qn5Q",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1790016721.906775,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_uetsid",
+      "value": "42c738107b9b11f0a211276636e35d00",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1755543121,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_uetvid",
+      "value": "42c73b307b9b11f0a3f9171b5b1d5cd8",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1789152721,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_tt_enable_cookie",
+      "value": "1",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1789152721,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ttp",
+      "value": "01K2WNZN27GBBXC606SVFSQTET_.tt.1",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1789152721,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ttcsid",
+      "value": "1755456721994::zpiv_Y9VnlO3I51Bq5KK.1.1755456721995",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1789152721,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755456722009.332978025314512006",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1763232722,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_DN2CK5PN12",
+      "value": "GS2.1.s1755456722$o1$g0$t1755456722$j60$l0$h0",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1790016722.048555,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&1d3b275c-c8f6-4721-8282-6df1c5569ac7\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1786992723.206527,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=TGST09:s=T:r=T:a=T:p=T:g=3101:u=1:x=1:i=1755456722:t=1755543122:v=2:sig=AQE1berytaWWx__Pkfd_UZ0yFAZOHJB3\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755543123.206681,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ttcsid_C52ADE3G5HFBPDLN3EN0",
+      "value": "1755456721994::-4S_x-N1-GiVxJ6GwkiL.1.1755456722215",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1789152722,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ttcsid_CCBPDC3C77U85D4J6U10",
+      "value": "1755456721995::cFq55e1IExHafxMaPNrB.1.1755456722215",
+      "domain": ".nyu.edu",
+      "path": "/",
+      "expires": 1789152722,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CLID",
+      "value": "5f68a0e3cbe247ff89fdfd9c3658ee82.20250817.20260817",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1786992722.412138,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "guid",
+      "value": "432fd194-7b9b-11f0-96d1-8bbdce3a4d3f",
+      "domain": ".mountain.com",
+      "path": "/",
+      "expires": 1786992723.535812,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "tt",
+      "value": "H4sIAAAAAAAAAKtWKlOyMqoFAP609q8HAAAA",
+      "domain": ".px.mountain.com",
+      "path": "/",
+      "expires": 1786992723.535697,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://admissions.stern.nyu.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755456722005"
+        },
+        {
+          "name": "_uetvid_exp",
+          "value": "Fri, 11 Sep 2026 18:52:01 GMT"
+        },
+        {
+          "name": "5b54bfe5-a9d2-f46b-f8ec-87c8ee9d5d29_pp",
+          "value": "{}"
+        },
+        {
+          "name": "_uetsid_exp",
+          "value": "Mon, 18 Aug 2025 18:52:01 GMT"
+        },
+        {
+          "name": "5b54bfe5-a9d2-f46b-f8ec-87c8ee9d5d29_st",
+          "value": "1755456720720"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755456722724"
+        },
+        {
+          "name": "_uetvid",
+          "value": "42c73b307b9b11f0a3f9171b5b1d5cd8"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755456720821},\"expires\":1763232720821}}"
+        },
+        {
+          "name": "session_/expires",
+          "value": "0"
+        },
+        {
+          "name": "_uetsid",
+          "value": "42c738107b9b11f0a211276636e35d00"
+        },
+        {
+          "name": "li_adsId",
+          "value": "96cac8fa-edb3-4edc-a3db-8d32354ae2f5"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "cookies": [
+    {
+      "name": "_ga_FE8JN8MFJK",
+      "value": "GS2.1.s1775134559$o1$g0$t1775134559$j60$l0$h0",
+      "domain": ".fiu.edu",
+      "path": "/",
+      "expires": 1809694559.636926,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.14203855.1775134560",
+      "domain": ".fiu.edu",
+      "path": "/",
+      "expires": 1809694559.649613,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.390942486.1775134560",
+      "domain": ".fiu.edu",
+      "path": "/",
+      "expires": 1775220959,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_gtag_UA_49241319_22",
+      "value": "1",
+      "domain": ".fiu.edu",
+      "path": "/",
+      "expires": 1775134619,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

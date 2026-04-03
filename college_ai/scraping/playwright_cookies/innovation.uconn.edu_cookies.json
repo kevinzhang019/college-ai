@@ -1,0 +1,85 @@
+{
+  "cookies": [
+    {
+      "name": "PHPSESSID",
+      "value": "knckmna29fsvhiieg4gtaqq0uj",
+      "domain": "innovation.uconn.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "spo_3071_fa",
+      "value": "e8fe849e1fffc16110de249979422f98",
+      "domain": "innovation.uconn.edu",
+      "path": "/",
+      "expires": 1755522503.71489,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.1600820523.1755520705",
+      "domain": ".uconn.edu",
+      "path": "/",
+      "expires": 1763296704,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_Z0287LH9KW",
+      "value": "GS2.1.s1755520704$o1$g0$t1755520704$j60$l0$h0",
+      "domain": ".uconn.edu",
+      "path": "/",
+      "expires": 1790080704.700134,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1439564836.1755520705",
+      "domain": ".uconn.edu",
+      "path": "/",
+      "expires": 1790080704.864482,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_EETPXDJ1BX",
+      "value": "GS2.1.s1755520704$o1$g0$t1755520704$j60$l0$h0",
+      "domain": ".uconn.edu",
+      "path": "/",
+      "expires": 1790080704.86421,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "uconn-cookie-consent",
+      "value": "true",
+      "domain": ".uconn.edu",
+      "path": "/",
+      "expires": 1787056705,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://innovation.uconn.edu",
+      "localStorage": [
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755520704678},\"expires\":1763296704678}}"
+        }
+      ]
+    }
+  ]
+}

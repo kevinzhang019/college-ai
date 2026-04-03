@@ -1,0 +1,61 @@
+{
+  "cookies": [
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755440033055.592762526482691815",
+      "domain": ".unc.edu",
+      "path": "/",
+      "expires": 1763216033,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&34576a6e-f22a-4337-88b0-10c0b93ad25b\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1786976034.189254,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=TGST01:s=T:r=T:a=T:p=T:g=3711:u=1:x=1:i=1755440033:t=1755526433:v=2:sig=AQELrpU43OhkYPR3WBVuIW8STYAWpHII\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755526434.189313,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://excellence.unc.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755440033053"
+        },
+        {
+          "name": "fln_client_id",
+          "value": "{\"id\":\"b47f5f70-d9a2-474e-8fc9-71e3a0767a6a\",\"lastActivity\":1755440033228}"
+        },
+        {
+          "name": "li_adsId",
+          "value": "10503efc-c6ec-482b-9ef2-19b611176cc4"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755440033059"
+        }
+      ]
+    }
+  ]
+}

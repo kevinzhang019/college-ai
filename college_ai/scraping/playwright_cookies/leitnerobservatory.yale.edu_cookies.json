@@ -1,0 +1,25 @@
+{
+  "cookies": [
+    {
+      "name": "adaptive_image",
+      "value": "1280",
+      "domain": "leitnerobservatory.yale.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "nmstat",
+      "value": "4ea4ab62-2c86-6495-0bf7-d4911051751b",
+      "domain": ".yale.edu",
+      "path": "/",
+      "expires": 1790046011.509786,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

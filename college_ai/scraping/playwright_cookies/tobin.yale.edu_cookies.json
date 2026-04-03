@@ -1,0 +1,35 @@
+{
+  "cookies": [
+    {
+      "name": "_ga_4R9ZGL4900",
+      "value": "GS2.1.s1755450728$o1$g0$t1755450728$j60$l0$h0",
+      "domain": ".yale.edu",
+      "path": "/",
+      "expires": 1790010728.562943,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.719045887.1755450729",
+      "domain": ".yale.edu",
+      "path": "/",
+      "expires": 1790010728.563197,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://tobin.yale.edu",
+      "localStorage": [
+        {
+          "name": "NRBA_SESSION",
+          "value": "{\"value\":\"55f0e2389a2d13c6\",\"inactiveAt\":1755452528984,\"expiresAt\":1755465128983,\"updatedAt\":1755450730608,\"sessionReplayMode\":0,\"sessionReplaySentFirstChunk\":false,\"sessionTraceMode\":1,\"traceHarvestStarted\":true,\"loggingMode\":0,\"serverTimeDiff\":-832,\"custom\":{},\"numOfResets\":0}"
+        }
+      ]
+    }
+  ]
+}

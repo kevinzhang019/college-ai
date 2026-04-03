@@ -1,0 +1,217 @@
+{
+  "cookies": [
+    {
+      "name": "BIGipServerwww_443_pool",
+      "value": "3466983323.47873.0000",
+      "domain": "news.temple.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "Temple.cookies.euCompliance.dismissed",
+      "value": "0",
+      "domain": ".temple.edu",
+      "path": "/",
+      "expires": 1790007378.321594,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "SSESSbb45fccb380f6755b43a486b3c0e9818",
+      "value": "-zkF7zNyvQAHYW4ZOU-iGgi1yK_DZ_czIhpwlneZ05M",
+      "domain": ".news.temple.edu",
+      "path": "/",
+      "expires": 1757447378.565623,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.1323219510.1755447379",
+      "domain": ".temple.edu",
+      "path": "/",
+      "expires": 1755600023,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "YSC",
+      "value": "tDxwsqF-o24",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://temple.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CJ31kNHlma_IeBDZtNGLn5KPAxjZtNGLn5KPAw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1770999379.254665,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://temple.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "qu0XjQYdKVo",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1770999379.254737,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://temple.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgKg%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1770999379.254758,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://temple.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.3.1694319425.1755447379",
+      "domain": ".news.temple.edu",
+      "path": "/",
+      "expires": 1790073623.98516,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cebs",
+      "value": "1",
+      "domain": ".temple.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_ce.clock_data",
+      "value": "-21%2C172.56.42.250%2C1%2C9c1ce27f08b16479d2e17743062b28ed%2CChrome%2CUS",
+      "domain": ".temple.edu",
+      "path": "/",
+      "expires": 1755533781,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "cebsp_",
+      "value": "1",
+      "domain": ".temple.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_ce.s",
+      "value": "v~1acb4e617a3aa29f6d18c07418c5c2d5586cedaf~lcw~1755447381420~vir~new~lva~1755447381213~vpv~0~as~false~v11.cs~435532~v11.s~836b27b0-7b85-11f0-a4bf-2da08b0e5c31~v11.vs~1acb4e617a3aa29f6d18c07418c5c2d5586cedaf~v11.fsvd~eyJ1cmwiOiJuZXdzLnRlbXBsZS5lZHUvbmV3cy8qL3RlbXBsZS1icmVha3MtZ3JvdW5kLWNhcm9saW5lLWtpbW1lbC1wYXZpbGlvbi1hcnRzLWFuZC1jb21tdW5pY2F0aW9uIiwicmVmIjoiIiwidXRtIjpbXX0%3D~v11.sla~1755447381420~v11ls~836b27b0-7b85-11f0-a4bf-2da08b0e5c31~lcw~1755447381421",
+      "domain": ".temple.edu",
+      "path": "/",
+      "expires": 1786983381,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "NID",
+      "value": "525=C_KxVi87IY-qV14kBw7xGw88VYk6elluPmUh6H-6xkwQSS2-cIKyuDO8WynySrX2ZM1E37ypgYQLAM7U8hAfZjh_RBlM0S5c-fZr50HzN3YvbhzkmvU6y0cbsHzOvneYfpTb9r6jZ0-b49M_Aj6AihEAWILTEjvCt7s9gGqMBq2ywyRavuw0Hmgkx5HGTof1u5eel4Y",
+      "domain": ".google.com",
+      "path": "/",
+      "expires": 1771258581.947133,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TempleShibSID",
+      "value": "e785f8d117ab1b1d2319bb749c43ed6c",
+      "domain": "news.temple.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_gtag_UA_26453121_1",
+      "value": "1",
+      "domain": ".temple.edu",
+      "path": "/",
+      "expires": 1755513683,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_63C2EEVQN5",
+      "value": "GS2.3.s1755513623$o3$g0$t1755513624$j59$l0$h0",
+      "domain": ".news.temple.edu",
+      "path": "/",
+      "expires": 1790073624.003599,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1694319425.1755447379",
+      "domain": ".temple.edu",
+      "path": "/",
+      "expires": 1790073624.021262,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_18X6B7F78P",
+      "value": "GS2.1.s1755513624$o3$g0$t1755513624$j60$l0$h0",
+      "domain": ".temple.edu",
+      "path": "/",
+      "expires": 1790073624.041377,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://news.temple.edu",
+      "localStorage": [
+        {
+          "name": "NRBA_SESSION",
+          "value": "{\"value\":\"9e92c8ee17235ff2\",\"inactiveAt\":1755515424526,\"expiresAt\":1755528024526,\"updatedAt\":1755513625071,\"sessionReplayMode\":0,\"sessionReplaySentFirstChunk\":false,\"sessionTraceMode\":0,\"traceHarvestStarted\":false,\"loggingMode\":0,\"serverTimeDiff\":-220,\"custom\":{},\"numOfResets\":0}"
+        },
+        {
+          "name": "ce_fvd",
+          "value": "{\"landingUrl\":\"https://news.temple.edu/news/2025-05-15/temple-breaks-ground-caroline-kimmel-pavilion-arts-and-communication\",\"referrer\":\"\",\"time\":1755447381213,\"utm\":[],\"dailyVisitTime\":1755447381213,\"userData\":[]}"
+        }
+      ]
+    }
+  ]
+}

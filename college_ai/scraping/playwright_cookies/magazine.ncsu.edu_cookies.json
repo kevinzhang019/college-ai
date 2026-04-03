@@ -1,0 +1,85 @@
+{
+  "cookies": [
+    {
+      "name": "_ga_3BCCQK39HR",
+      "value": "GS2.1.s1755448593$o1$g0$t1755448593$j60$l0$h2075377523",
+      "domain": ".ncsu.edu",
+      "path": "/",
+      "expires": 1790008593.425189,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.1257243247.1755448594",
+      "domain": ".ncsu.edu",
+      "path": "/",
+      "expires": 1755534993,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_UA-103559746-2",
+      "value": "1",
+      "domain": ".ncsu.edu",
+      "path": "/",
+      "expires": 1755448653,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.280850940.1755448593",
+      "domain": ".ncsu.edu",
+      "path": "/",
+      "expires": 1790008593.576771,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_VFPJ0Z67RV",
+      "value": "GS2.1.s1755448593$o1$g0$t1755448593$j60$l0$h428470714",
+      "domain": ".ncsu.edu",
+      "path": "/",
+      "expires": 1790008593.58235,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CLID",
+      "value": "4f7196dfb258491e86c122c9d9e7262f.20250817.20260817",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1786984593.657728,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_2P53LKTVY1",
+      "value": "GS2.2.s1755448593$o1$g0$t1755448593$j60$l0$h0",
+      "domain": ".ncsu.edu",
+      "path": "/",
+      "expires": 1790008593.81876,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_clck",
+      "value": "qxw81%7C2%7Cfyj%7C0%7C2055",
+      "domain": ".ncsu.edu",
+      "path": "/",
+      "expires": 1786984593,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

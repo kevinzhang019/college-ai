@@ -1,0 +1,75 @@
+{
+  "cookies": [
+    {
+      "name": "FASRV",
+      "value": "abbeaa0b55ffc9e0",
+      "domain": "uscmarshall.tfaforms.net",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.377580387.1775181492",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1782957491,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_D0MZ8QMC1N",
+      "value": "GS2.1.s1775190131$o2$g0$t1775190131$j60$l0$h0",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1809750131,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.487775766.1775181492",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1809750131,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": ".3Jk9AU1yaYxreQI0ioszs9MNKxs7nIg7ww6LQmMnls-1775190132.614295-1.0.1.1-0GECGxlllrXgLsL7_pTdkByg1Reeh5iFmljKda4qmf2TigfAArNqZXnJGh_X3tI7cj.GejTfi6uc8GFiCUFZDC7qHOIlIXGcH2a2MMHjoT6OEPQazVu5zBhZ_C1Oet9o",
+      "domain": ".vimeo.com",
+      "path": "/",
+      "expires": 1775191932,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_cfuvid",
+      "value": "sdnaQoyD_i3DdS8cK.k5pGImSxYuXVfUxllwIT.qQcM-1775190132.614295-1.0.1.1-6k5UECRwvAop7aW_NZ72.N6kTZAb7haK1POlXdYMcFw",
+      "domain": ".vimeo.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://www.marshall.usc.edu",
+      "localStorage": [
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"timeouts\":0,\"errors\":0,\"eopCount\":0,\"creationTimeMs\":1775181491862},\"expires\":1782957491862}}"
+        }
+      ]
+    }
+  ]
+}

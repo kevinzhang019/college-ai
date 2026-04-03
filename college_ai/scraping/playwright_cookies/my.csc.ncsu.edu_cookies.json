@@ -1,0 +1,15 @@
+{
+  "cookies": [
+    {
+      "name": "flb",
+      "value": "iws-wsproxy-100|ac9x8",
+      "domain": "my.csc.ncsu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "None"
+    }
+  ],
+  "origins": []
+}

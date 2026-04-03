@@ -1,0 +1,523 @@
+{
+  "cookies": [
+    {
+      "name": "browserupdateorg",
+      "value": "pause",
+      "domain": "goizueta.emory.edu",
+      "path": "/",
+      "expires": 1755470017,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "YSC",
+      "value": "LIW6cO9HAiE",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "tqhUExwfoIo",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771014818.362933,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgQw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771014818.362957,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.1042999372.1755462817",
+      "domain": ".emory.edu",
+      "path": "/",
+      "expires": 1763238817,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "uuid2",
+      "value": "6661770791164255677",
+      "domain": ".adnxs.com",
+      "path": "/",
+      "expires": 1763238881.11374,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.3.2048648229.1755462818",
+      "domain": ".goizueta.emory.edu",
+      "path": "/",
+      "expires": 1790022881.27364,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.3.1886431709.1755462818",
+      "domain": ".goizueta.emory.edu",
+      "path": "/",
+      "expires": 1755549281,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.1886431709.1755462818",
+      "domain": ".emory.edu",
+      "path": "/",
+      "expires": 1755549283,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_node",
+      "value": "706d5032f60f7d5b4b441dc9fefb10df697c1164d8717d513b95a052a3031360",
+      "domain": "mbaadmissions.emory.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "0b355ee6-64ac-4569-9d93-a2d7cd32267a",
+      "domain": "mbaadmissions.emory.edu",
+      "path": "/",
+      "expires": 1790022818.081324,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "mbaadmissions.emory.edu",
+      "path": "/",
+      "expires": 1790022818.08164,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ttp",
+      "value": "31Qihq40rX1bHHBKVYN6odi7Jz7",
+      "domain": ".tiktok.com",
+      "path": "/",
+      "expires": 1789158881.319794,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_vwo_uuid_v2",
+      "value": "D0B57E23081963DC00C24F857BDC2A2E0|1af6d282ddc106e31faca746ccf71fcc",
+      "domain": ".emory.edu",
+      "path": "/",
+      "expires": 1787085281,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CInPqruo-O_VJxDY5ojN2JKPAxiIrtPN2JKPAw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771014818.410362,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://emory.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755462818752.220241013184197101",
+      "domain": ".emory.edu",
+      "path": "/",
+      "expires": 1763238883,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_tt_enable_cookie",
+      "value": "1",
+      "domain": ".emory.edu",
+      "path": "/",
+      "expires": 1789158881,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ttp",
+      "value": "01K2WVSPZRGR6HA7XSW597VVRB_.tt.1",
+      "domain": ".emory.edu",
+      "path": "/",
+      "expires": 1789158881,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_vwo_uuid",
+      "value": "D0B57E23081963DC00C24F857BDC2A2E0",
+      "domain": ".emory.edu",
+      "path": "/",
+      "expires": 1787019770,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_vis_opt_s",
+      "value": "1%7C",
+      "domain": ".emory.edu",
+      "path": "/",
+      "expires": 1764102818,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_vis_opt_test_cookie",
+      "value": "1",
+      "domain": ".emory.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "atlasvid",
+      "value": "%7B%22visitorid%22%3A%22be01c36f-8476-4982-8e69-ba6aa9391b3c%22%7D",
+      "domain": "goizueta.emory.edu",
+      "path": "/",
+      "expires": 1790022819.694265,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CLID",
+      "value": "78880ba6505f46f194c2de8a5f3a0d47.20250817.20260817",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1786998832.081003,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bid",
+      "value": "us-1755462832-2c6be8da0f374b798c48a2136782002a",
+      "domain": ".consentag.eu",
+      "path": "/",
+      "expires": 1768422883.209252,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__tmbid",
+      "value": "us-1755462832-2c6be8da0f374b798c48a2136782002a",
+      "domain": "goizueta.emory.edu",
+      "path": "/",
+      "expires": 1786998883,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_vwo_ds",
+      "value": "3%3Aa_1%2Ct_1%3A0%241755462818%3A32.09895241%3A%3A%3A2_1%2C1_1%3A14",
+      "domain": ".emory.edu",
+      "path": "/",
+      "expires": 1763238883,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&da24a1ad-0fe1-4a2c-8fe9-26d4b4e96773\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1786998832.602449,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=OGST09:s=O:r=O:a=O:p=O:g=3219:u=1:x=1:i=1755462832:t=1755549232:v=2:sig=AQFkBfQ8TtfHnF2Qz2tz9ifOy5g9X1I0\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755549232.602516,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "NID",
+      "value": "525=L3Dk7hBw9NhoPZUsutIJFjSnzC-CCMvbDa0Hlf2IDfpIX71mbTj4KJchUqg7NiX4a_q4CM7ZwwKP1-2i8GuWTcMaNErGEIAcX24txCpFesZBABHhyoIR-FTSv48Kmj0N-S60ucG0T2aLhG5iLRHF7Qwdqf-KIkoJvBQCW2kmW86M_rJz1qlGD_aO8gpRb1vWVBGz874",
+      "domain": ".google.com",
+      "path": "/",
+      "expires": 1771274032.717523,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_clck",
+      "value": "1qvxcdz%7C2%7Cfyj%7C0%7C2055",
+      "domain": ".emory.edu",
+      "path": "/",
+      "expires": 1786998832,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "atlasseg_d25dc96160214f7c878b6fdc39b356ee",
+      "value": "%7B%22leadType%22%3A%22program%22%2C%22referrer%22%3Anull%2C%22srcUrl%22%3A%22https%3A%2F%2Fgoizueta.emory.edu%2Ffull-time-mba%2Ftwo-year-mba%2Flife%2Fatlanta%22%7D",
+      "domain": "goizueta.emory.edu",
+      "path": "/",
+      "expires": 1790022832.965199,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "anj",
+      "value": "dTM7k!M4/8D>6NRF']wIg2E?ej(6pJNOq><nr?@a+<Ll#>wL5L!!)h-%ZPM#",
+      "domain": ".adnxs.com",
+      "path": "/",
+      "expires": 1763238881.113667,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gat_UA-9248036-1",
+      "value": "1",
+      "domain": ".goizueta.emory.edu",
+      "path": "/",
+      "expires": 1755462941,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.2048648229.1755462818",
+      "domain": ".emory.edu",
+      "path": "/",
+      "expires": 1790022883.666675,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_UA-9248036-15",
+      "value": "1",
+      "domain": ".emory.edu",
+      "path": "/",
+      "expires": 1755462941,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_uetsid",
+      "value": "74bc13407ba911f08c87d3c29aefd0a9",
+      "domain": ".emory.edu",
+      "path": "/",
+      "expires": 1755549281,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_uetvid",
+      "value": "74bc33907ba911f0af1a295eca913e79",
+      "domain": ".emory.edu",
+      "path": "/",
+      "expires": 1789158881,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUnhVafNlANucCzAbOC1Z5hZcaUPQyk-cNo1XDhtDlLNLJ3-IRZDUAVDKc99",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1790022881.648932,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ttcsid",
+      "value": "1755462818812::ojvQd13vwsyW6ZJrWX0F.1.1755462881679",
+      "domain": ".emory.edu",
+      "path": "/",
+      "expires": 1789158881,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ttcsid_C9G3RA3C77U37L801HE0",
+      "value": "1755462818811::tGGPvwYJtml1JOG3oMtf.1.1755462881911",
+      "domain": ".emory.edu",
+      "path": "/",
+      "expires": 1789158881,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_vwo_sn",
+      "value": "0%3A2%3Ar3.visualwebsiteoptimizer.com%3A2%3A1%3Areferrer%3D",
+      "domain": ".emory.edu",
+      "path": "/",
+      "expires": 1755464683,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_K46EV93S1P",
+      "value": "GS2.3.s1755462832$o1$g1$t1755462883$j9$l0$h0",
+      "domain": ".goizueta.emory.edu",
+      "path": "/",
+      "expires": 1790022883.259408,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cid",
+      "value": "d8e02cb0609e4d01afa254a8280a89e5",
+      "domain": ".ctnsnet.com",
+      "path": "/",
+      "expires": 1786998883.409737,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_K46EV93S1P",
+      "value": "GS2.2.s1755462832$o1$g1$t1755462883$j9$l0$h0",
+      "domain": ".emory.edu",
+      "path": "/",
+      "expires": 1790022883.676959,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_697NWLX4LN",
+      "value": "GS2.1.s1755462817$o1$g1$t1755462883$j58$l0$h0",
+      "domain": ".emory.edu",
+      "path": "/",
+      "expires": 1790022883.688704,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://goizueta.emory.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755462881552"
+        },
+        {
+          "name": "_vwo_nls_q_964610",
+          "value": "[]"
+        },
+        {
+          "name": "_uetvid_exp",
+          "value": "Fri, 11 Sep 2026 20:34:41 GMT"
+        },
+        {
+          "name": "d7df29a0-ee5e-69ad-e2ef-9f85e44310d3_st",
+          "value": "1755462818818"
+        },
+        {
+          "name": "_uetsid_exp",
+          "value": "Mon, 18 Aug 2025 20:34:41 GMT"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755462883070"
+        },
+        {
+          "name": "_uetvid",
+          "value": "74bc33907ba911f0af1a295eca913e79"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755462817204},\"expires\":1763238817204}}"
+        },
+        {
+          "name": "_vwo_nlsCache",
+          "value": "{\"hm_root_monitoring_sent\":\"true\",\"asts\":[\"https%3A%2F%2Fgoizueta.emory.edu%2Fsites%2Fdefault%2Ffiles%2Fcss%2Fcss_Rkqv6ZubVYSuwzTN9OkjwdeOeZZ6nJIYGmAJeqz_HjQ.css%3Fdelta%3D0%26language%3Den%26theme%3Dgoizueta_theme%26include%3DeJx9k_2ugyAMxV9I5iOZApU1q9RA0Xmf_uKy-xHR_WPC-bV66ilOWJKVZ-9xhMLa4VOZ4qP3qczAt_exC0JfBRUGveOEvS2qEo-qk6jg9CjjJGkzwJhaFAMENA6S_4CyYcpt74Y2yXqUA4sFbtT30bj3wJcFYx0iH-kdkxw1BsWsJuLalDOG1gJLEBMSNZNOQNFEWMxU2-ojlrZibqTL2hNt92hIcTqCXMU6sSimU7R7boA4AjZU024GzwpaoyJ3Gukvzea1KhRPPlvxY7vmWjfS2ITwuGCfO88WaYFEYBlfrRh19y4lI1-_a90yrVv4VzChJ-hH4vorbw5mpXo_ZkgQEsz3_HOf_pRbiXOx1c8dfZe3XNPpLWTs1A57uHuOrZB1Y8zdQh5lwMmiH0ZC9n3CPNdAaEHzgt8hJIPP\",\"https%3A%2F%2Fgoizueta.emory.edu%2Fsites%2Fdefault%2Ffiles%2Fcss%2Fcss_9GbmvZB_mMG_LAmaf_PX3Wh9r2mkgFAmo2WJD4fCmJo.css%3Fdelta%3D1%26language%3Den%26theme%3Dgoizueta_theme%26include%3DeJx9k_2ugyAMxV9I5iOZApU1q9RA0Xmf_uKy-xHR_WPC-bV66ilOWJKVZ-9xhMLa4VOZ4qP3qczAt_exC0JfBRUGveOEvS2qEo-qk6jg9CjjJGkzwJhaFAMENA6S_4CyYcpt74Y2yXqUA4sFbtT30bj3wJcFYx0iH-kdkxw1BsWsJuLalDOG1gJLEBMSNZNOQNFEWMxU2-ojlrZibqTL2hNt92hIcTqCXMU6sSimU7R7boA4AjZU024GzwpaoyJ3Gukvzea1KhRPPlvxY7vmWjfS2ITwuGCfO88WaYFEYBlfrRh19y4lI1-_a90yrVv4VzChJ-hH4vorbw5mpXo_ZkgQEsz3_HOf_pRbiXOx1c8dfZe3XNPpLWTs1A57uHuOrZB1Y8zdQh5lwMmiH0ZC9n3CPNdAaEHzgt8hJIPP\",\"https%3A%2F%2Fuse.typekit.net%2Fefs7jow.css\",\"https%3A%2F%2Fgoizueta.emory.edu%2Fsites%2Fdefault%2Ffiles%2Fcss%2Fcss_Z30GR-RmJUHYGj5gDK-PogkEb3XeJShks_4p3mpdOrg.css%3Fdelta%3D0%26language%3Den%26theme%3Dgoizueta_theme%26include%3DeJx1U-1uwyAMfKHQPFJlwCFeAUfYtM2efiRrtSk0f5B8d3z4fDiOXCw_R48T1KiD44KjL3WBeIEveA741Ej59sZe5RCYvisqXHXGhKOtqpyPqOOs4PQIo68OlHo9Ji6rgYil2zOBa89bjYPiz7iEnsCQYjpTLIUninhGC3m0UIxvFEU5lbEjiEc2RLYf0Fdp3MvpU8HUzOqunBE85XCEI4b-qm0uRhBNc7Fr8ZesKUFZj1wCyibDvRkYoC259oqlg3az2zi4CnZv-XSItMm0LlmxfKQiB-6I3WpDLUmdN6Lkbi0RW8go94cqWIt-5zF3gdKW5PO9j1XosYZ_ggUKhALLLO-v8Idcal6qjSQz-kFWaQkcLQgOaq-bp5sbPSC6RpThTviQcV8viX2N-AMFxGjG\",\"https%3A%2F%2Fgoizueta.emory.edu%2Fsites%2Fdefault%2Ffiles%2Fcss%2Fcss_MD7wWr1m2Om_Ejw88k6ZqY2UmGqcP_28UTXP_rrgjvI.css%3Fdelta%3D1%26language%3Den%26theme%3Dgoizueta_theme%26include%3DeJx1U-1uwyAMfKHQPFJlwCFeAUfYtM2efiRrtSk0f5B8d3z4fDiOXCw_R48T1KiD44KjL3WBeIEveA741Ej59sZe5RCYvisqXHXGhKOtqpyPqOOs4PQIo68OlHo9Ji6rgYil2zOBa89bjYPiz7iEnsCQYjpTLIUninhGC3m0UIxvFEU5lbEjiEc2RLYf0Fdp3MvpU8HUzOqunBE85XCEI4b-qm0uRhBNc7Fr8ZesKUFZj1wCyibDvRkYoC259oqlg3az2zi4CnZv-XSItMm0LlmxfKQiB-6I3WpDLUmdN6Lkbi0RW8go94cqWIt-5zF3gdKW5PO9j1XosYZ_ggUKhALLLO-v8Idcal6qjSQz-kFWaQkcLQgOaq-bp5sbPSC6RpThTviQcV8viX2N-AMFxGjG\"]}"
+        },
+        {
+          "name": "_vwo_964610_config",
+          "value": "{}"
+        },
+        {
+          "name": "_uetsid",
+          "value": "74bc13407ba911f08c87d3c29aefd0a9"
+        },
+        {
+          "name": "vwoSn",
+          "value": "{\"v\":\"0.1.0\",\"lt\":\"1755462818\",\"r\":\"\",\"cu\":\"https%3A%2F%2Fgoizueta.emory.edu%2Ffull-time-mba%2Ftwo-year-mba%2Flife%2Fatlanta\"}"
+        },
+        {
+          "name": "d7df29a0-ee5e-69ad-e2ef-9f85e44310d3_pp",
+          "value": "{}"
+        },
+        {
+          "name": "li_adsId",
+          "value": "e048a014-e9fe-4e54-9e4c-49ce5ed3fae5"
+        }
+      ]
+    }
+  ]
+}

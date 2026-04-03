@@ -1,0 +1,115 @@
+{
+  "cookies": [
+    {
+      "name": "__cf_bm",
+      "value": "WneCBVX17AncjkuYwTOo5pr1XjIAtR1s0U9eIGvvaaY-1755567852-1.0.1.1-Qb1uDiDPnlir14Q2KCtNqLh2jvRHcDgBfSfmWbA8lKMuIYPF3PMMZzo_33PZuf.kx8TXsCVYDMOmvPrlmNHS_mnfGCOqvnRx3ZPJuaX_zxY",
+      "domain": ".hs-scripts.com",
+      "path": "/",
+      "expires": 1755569652.526978,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "pahyCxdGJ2xEmcUa5nsCAAT1i34ijbsSbExX0DpzWMY-1755567853-1.0.1.1-4bJonugJzntDHOLyzljiRuKJISBra3NivoDFQ1tH_vcUt0kz71nGPQyRod38VJEq3eHop_2EasPePUGi6LcjfKgceEOyM8axgWd9hdlkFGM",
+      "domain": ".hs-banner.com",
+      "path": "/",
+      "expires": 1755569653.026176,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "e0bSpxGdki_N5CdlbVxSKNZq91ZhGiUTEL09nPHiBGg-1755567853-1.0.1.1-0JQqrHBnxse2SMJYm3McjCCRVOJmMNdE0dDCWDZiPscIcwm4VrOt011gZjCnlZBytYPN7spb5rrza0muPmRDGE7S7xZJ1vpnYi3ZVDEXpL0",
+      "domain": ".hscollectedforms.net",
+      "path": "/",
+      "expires": 1755569653.027485,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "aKDn2dpSm2e6LEf9UbNW5McIHQ693M_9HjQNq5hdg54-1755567853-1.0.1.1-wlrl3gvNTa3cdU.8dGKZbyBwSiKFOkVbuVsRQdSsrJg3FvHHx95zt5ixkygEYblLMzjINq1kL_nlW.TgX3.o_obI.Wt6QOXXc_DX6KTtCQ8",
+      "domain": ".hs-analytics.net",
+      "path": "/",
+      "expires": 1755569653.035919,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__hstc",
+      "value": "147049128.fbeeb49cc69c1f901434918b62aaa710.1755567853044.1755567853044.1755567853044.1",
+      "domain": ".howard.edu",
+      "path": "/",
+      "expires": 1771119867,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "hubspotutk",
+      "value": "fbeeb49cc69c1f901434918b62aaa710",
+      "domain": ".howard.edu",
+      "path": "/",
+      "expires": 1771119867,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__hssrc",
+      "value": "1",
+      "domain": ".howard.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_RJFESFN5NH",
+      "value": "GS2.1.s1755567867$o1$g0$t1755567867$j60$l0$h0",
+      "domain": ".howard.edu",
+      "path": "/",
+      "expires": 1790127867.435236,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.467277952.1755567867",
+      "domain": ".howard.edu",
+      "path": "/",
+      "expires": 1790127867.435421,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__hssc",
+      "value": "147049128.2.1755567853044",
+      "domain": ".howard.edu",
+      "path": "/",
+      "expires": 1755569667,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://business.howard.edu",
+      "localStorage": [
+        {
+          "name": "shoestringMethods",
+          "value": "{\"on\":true,\"each\":true,\"addClass\":true,\"trigger\":true,\"parent\":true,\"find\":true,\"filter\":true}"
+        }
+      ]
+    }
+  ]
+}

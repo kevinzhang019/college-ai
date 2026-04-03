@@ -1,0 +1,25 @@
+{
+  "cookies": [
+    {
+      "name": "_gcl_au",
+      "value": "1.1.1108066262.1755453617",
+      "domain": ".tulane.edu",
+      "path": "/",
+      "expires": 1763229617,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://news.tulane.edu",
+      "localStorage": [
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755453617197},\"expires\":1763229617197}}"
+        }
+      ]
+    }
+  ]
+}

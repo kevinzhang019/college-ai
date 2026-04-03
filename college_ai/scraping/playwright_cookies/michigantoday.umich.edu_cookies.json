@@ -1,0 +1,55 @@
+{
+  "cookies": [
+    {
+      "name": "__cf_bm",
+      "value": "1wU7Wn6jsm9Pba6PA0js7ZYGnc.rRKmvUNNpoPikR_Q-1775126300.3798876-1.0.1.1-qsN6tnG4cEywEpRQxuTHXLp1woobEq3da5WG4Y6wd.xqu340uzPrLf.QB2wUk5cyVw6A5tI_UYogBNTulqib7pYAtR8b5hPTdRmpgi5TV3rOP9ctI7o2kMB6naRQ0gB1",
+      "domain": ".umich.edu",
+      "path": "/",
+      "expires": 1775128100.379354,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "um_privacy_consent",
+      "value": "%7B%22categories%22%3A%5B%22necessary%22%2C%22analytics%22%5D%2C%22revision%22%3A1%2C%22data%22%3A%7B%22country%22%3A%7B%22code%22%3A%22US%22%2C%22timestamp%22%3A%222026-04-02T10%3A38%3A21.112Z%22%7D%7D%2C%22consentTimestamp%22%3A%222026-04-02T10%3A38%3A21.113Z%22%2C%22consentId%22%3A%223f7e311a-7159-4bf5-a091-ebc17eba64ad%22%2C%22services%22%3A%7B%22necessary%22%3A%5B%5D%2C%22analytics%22%3A%5B%5D%7D%2C%22languageCode%22%3A%22en%22%2C%22lastConsentTimestamp%22%3A%222026-04-02T10%3A38%3A21.113Z%22%2C%22expirationTime%22%3A1806662301113%7D",
+      "domain": ".umich.edu",
+      "path": "/",
+      "expires": 1806662301,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_29C4RBNCNZ",
+      "value": "GS2.1.s1775126301$o1$g0$t1775126302$j59$l0$h0",
+      "domain": ".umich.edu",
+      "path": "/",
+      "expires": 1809686302.020197,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_NEEWSE2B8X",
+      "value": "GS2.1.s1775126362$o1$g0$t1775126362$j60$l0$h0",
+      "domain": ".umich.edu",
+      "path": "/",
+      "expires": 1809686362.798406,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.109394642.1775126363",
+      "domain": ".umich.edu",
+      "path": "/",
+      "expires": 1809686362.798543,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

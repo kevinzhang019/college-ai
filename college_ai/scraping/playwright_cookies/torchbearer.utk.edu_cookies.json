@@ -1,0 +1,85 @@
+{
+  "cookies": [
+    {
+      "name": "_ga",
+      "value": "GA1.1.1921754165.1755441913",
+      "domain": ".utk.edu",
+      "path": "/",
+      "expires": 1809701379.444715,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_KHTJR3J4BS",
+      "value": "GS2.1.s1775139237$o4$g0$t1775139239$j58$l0$h0",
+      "domain": ".utk.edu",
+      "path": "/",
+      "expires": 1809699239,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cf_clearance",
+      "value": "q1xF96F9iFyFDxTDZaksBDSkfxeSy6ZrM7xAGACa_wI-1775140758-1.2.1.1-o1Io.aywRdoY_7RtatKNCnCMIdvw3FdCskJRZZmN.EdwJjwoNFE6THXdpX2X1V2nSPps.5g2Qm6VOkggCfcJRyzD2AE2RIuDMWaSBVYUzykAkdbKhy4c0UWzTZjzTrejQ3YvUZhhwn_8CcwB8IC9oIjED9YW_2rD4KOkD0erFjCLeRjufnTur9wggySUhg_igpIi_hJew22QQtmEdoznSFKLjlG1gsclXR3RgEj6x94",
+      "domain": ".utk.edu",
+      "path": "/",
+      "expires": 1806676758,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "YSC",
+      "value": "1d22v4r3gfM",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "0lu49rI9hy_4BGXqBh4nW4afbSelRWqoKshGg4r2OCU-1775141378-1.0.1.1-kSI.3cQUNmsAYwOeJjU_kMR8hAlItE5XorHT2kS6uLnQ64V_KWj3YmikpEmohiEkhMcoQtBQD4jMxuCEjp6.Bd.JP_umf2W9vAN9LkzoXdE",
+      "domain": ".torchbearer.utk.edu",
+      "path": "/",
+      "expires": 1775143178.084896,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_K0MD61451P",
+      "value": "GS2.1.s1775139265$o1$g1$t1775141379$j60$l0$h0",
+      "domain": ".utk.edu",
+      "path": "/",
+      "expires": 1809701379.412984,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_459EKBVHD1",
+      "value": "GS2.1.s1775139237$o4$g1$t1775141379$j60$l0$h0",
+      "domain": ".utk.edu",
+      "path": "/",
+      "expires": 1809701379.444408,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://www.google.com",
+      "localStorage": [
+        {
+          "name": "rc::a",
+          "value": "MXd2N2QybDE4anYwdXg="
+        }
+      ]
+    }
+  ]
+}

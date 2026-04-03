@@ -1,0 +1,109 @@
+{
+  "cookies": [
+    {
+      "name": "ig_did",
+      "value": "78805E26-C33D-4319-8BB7-BC172ACBD55A",
+      "domain": ".instagram.com",
+      "path": "/",
+      "expires": 1787047837.968332,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "csrftoken",
+      "value": "C09UbiCGL5Ow8y3NiNrWAd",
+      "domain": ".instagram.com",
+      "path": "/",
+      "expires": 1790071840.222374,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "datr",
+      "value": "HvyiaKS5AZjhrpGWrHD796VO",
+      "domain": ".instagram.com",
+      "path": "/",
+      "expires": 1790071838.294226,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "wd",
+      "value": "1366x768",
+      "domain": ".instagram.com",
+      "path": "/",
+      "expires": 1756116638,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "dpr",
+      "value": "1",
+      "domain": ".instagram.com",
+      "path": "/",
+      "expires": 1756116638,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ig_nrcb",
+      "value": "1",
+      "domain": ".instagram.com",
+      "path": "/",
+      "expires": 1787047839.504511,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "mid",
+      "value": "aKL8HgAEAAEinMbUeXYQ5eKIm_2A",
+      "domain": ".instagram.com",
+      "path": "/",
+      "expires": 1790071839.504477,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://www.instagram.com",
+      "localStorage": [
+        {
+          "name": "chatd-deviceid",
+          "value": "b3ee4013-dca5-448e-bcb3-9b6db7de316b"
+        },
+        {
+          "name": "hb_timestamp",
+          "value": "1755511839010"
+        },
+        {
+          "name": "IGSession",
+          "value": "173wt9:1755513638877"
+        },
+        {
+          "name": "ig_web_boost_interstitial_nux_viewed",
+          "value": "false"
+        },
+        {
+          "name": "signal_flush_timestamp",
+          "value": "1755511839016"
+        },
+        {
+          "name": "Session",
+          "value": "36t6su:1755511873877"
+        },
+        {
+          "name": "banzai:last_storage_flush",
+          "value": "1755511839870.3"
+        }
+      ]
+    }
+  ]
+}

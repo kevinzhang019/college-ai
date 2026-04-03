@@ -1,0 +1,491 @@
+{
+  "cookies": [
+    {
+      "name": "TDID",
+      "value": "a075266f-dc27-41e1-9e47-4248d5b6b3bb",
+      "domain": ".adsrvr.org",
+      "path": "/",
+      "expires": 1787004179,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TDCPM",
+      "value": "CAESEgoDYWFtEgsI4qXi5Lrmrj4QBRIXCghhcHBuZXh1cxILCLSd8Ou65q4-EAUSFQoGZ29vZ2xlEgsI4vni5Lrmrj4QBRIWCgdydWJpY29uEgsIgoi6xfv4rj4QBRIUCgV0YXBhZBILCNC3usX7-K4-EAUSFgoHbGh3Yms1ORILCMDfusX7-K4-EAUYBSACKAYyCwj-2rzykfmuPhAFOAFCBCICCAFaB2F1NHJvY2FgAQ..",
+      "domain": ".adsrvr.org",
+      "path": "/",
+      "expires": 1787004179,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "IMRID",
+      "value": "eff89c70-7bb5-11f0-baff-7b62d43b8c3f",
+      "domain": ".imrworldwide.com",
+      "path": "/",
+      "expires": 1789164179,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUlhkxEZULHMCgT2F0dO8f1-geX5Gv60tcG_xn2FXa3tcnYNB0KlMWFaSlYC",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1789996384,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&418a6fc7-a389-4f81-8dec-c5c27113ba51\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1787004178,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_JHN14MRV58",
+      "value": "GS2.1.s1755468178$o2$g0$t1755468178$j60$l0$h0",
+      "domain": ".ucf.edu",
+      "path": "/",
+      "expires": 1790028178,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_VN9G6TB9EH",
+      "value": "GS2.2.s1755468329$o1$g0$t1755468329$j60$l0$h0",
+      "domain": ".ucf.edu",
+      "path": "/",
+      "expires": 1790028329,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1385528870.1755436343",
+      "domain": ".ucf.edu",
+      "path": "/",
+      "expires": 1809694164.246131,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "audit_p",
+      "value": "1|jYCJJrvykwnhyGh/gpksh4Lp7MCRy9O8VvVmA0oH2rAlYgK+kvPZDDDY1LwNPgy6Wi6dSgsiljMwHTRO1/p4iHX0qfg68IpFQAPcN3ARK872mFeG2WxlLUqU+hbNYMrUWkGxEcTBpQ8bzDJC3osogUNNotgIHim9zuhMtBxBHmTREvsM2ra73MRmS8gGs6ylTlon0IrnE1p4+byUJuUHKNl4Am3SUH3rwETMVR8lnVPictVKI3nW/ZSmfFa9k+2RfCCm1vF3Tgn8ih/oL8+08tuVaVkDFDbShAUs62yL6R/QD5U7tEfUTQ==",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1787004179,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "khaos",
+      "value": "MEG8FG7B-23-D12U",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1787004179,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "khaos_p",
+      "value": "MEG8FG7B-23-D12U",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1787004179,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "audit",
+      "value": "1|jYCJJrvykwnhyGh/gpksh4Lp7MCRy9O8VvVmA0oH2rAlYgK+kvPZDDDY1LwNPgy6Wi6dSgsiljMwHTRO1/p4iHX0qfg68IpFQAPcN3ARK872mFeG2WxlLUqU+hbNYMrUWkGxEcTBpQ8bzDJC3osogUNNotgIHim9zuhMtBxBHmTREvsM2ra73MRmS8gGs6ylTlon0IrnE1p4+byUJuUHKNl4Am3SUH3rwETMVR8lnVPictVKI3nW/ZSmfFa9k+2RfCCm1vF3Tgn8ih/oL8+08tuVaVkDFDbShAUs62yL6R/QD5U7tEfUTQ==",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1787004179,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_EP7RJ7G257",
+      "value": "GS2.1.s1775133934$o1$g0$t1775133936$j58$l0$h0",
+      "domain": ".ucf.edu",
+      "path": "/",
+      "expires": 1809693936.664808,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.491127037.1775134147",
+      "domain": ".ucf.edu",
+      "path": "/",
+      "expires": 1782910147,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_7X9NJGNJES",
+      "value": "GS2.1.s1775134147$o2$g0$t1775134147$j60$l0$h0",
+      "domain": ".ucf.edu",
+      "path": "/",
+      "expires": 1809694147.586552,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_node",
+      "value": "62e1f5c1bd7f2c76c2bc875abb82831e90dce9bfe858b41415dc3519a9b4c965",
+      "domain": "applynow.graduate.ucf.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "b71eae12-2658-4273-a2fb-fba420461f23",
+      "domain": "applynow.graduate.ucf.edu",
+      "path": "/",
+      "expires": 1809694147.742197,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202604/1",
+      "domain": "applynow.graduate.ucf.edu",
+      "path": "/",
+      "expires": 1809694147.742293,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_cb",
+      "value": "BIYTnnCVJlCKCMY5kp",
+      "domain": ".ucf.edu",
+      "path": "/",
+      "expires": 1809262148,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_chartbeat2",
+      "value": ".1775134148044.1775134148044.1.BCGG9SDGSlgZBapnW9C17SGpBTP-oL.1",
+      "domain": ".ucf.edu",
+      "path": "/",
+      "expires": 1809262148,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_cb_svref",
+      "value": "external",
+      "domain": ".ucf.edu",
+      "path": "/",
+      "expires": 1775135948,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_YJ2LQ7CMQX",
+      "value": "GS2.1.s1775133905$o4$g1$t1775134164$j43$l0$h0",
+      "domain": ".ucf.edu",
+      "path": "/",
+      "expires": 1809694164.096797,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_EQ554M5DRZ",
+      "value": "GS2.1.s1775133905$o2$g1$t1775134164$j60$l0$h0",
+      "domain": ".ucf.edu",
+      "path": "/",
+      "expires": 1809694164.245974,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ClientId",
+      "value": "5BACB7FCFF254B61A9CE18C9D80E9869",
+      "domain": "outlook.com",
+      "path": "/",
+      "expires": 1806670253.624208,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "domainName",
+      "value": "ucf.edu",
+      "domain": "outlook.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "X-OWA-RedirectHistory",
+      "value": "AgQhpU4BPd7xebaQ3gg",
+      "domain": "outlook.com",
+      "path": "/",
+      "expires": 1775155973.624235,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ClientId",
+      "value": "8D5F7EE69B8C4397A593964509261324",
+      "domain": "outlook.office365.com",
+      "path": "/",
+      "expires": 1806670254.876456,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "msal.cache.encryption",
+      "value": "%7B%22id%22%3A%22019d4e3f-2548-7d1d-b701-89769cfbfe50%22%2C%22key%22%3A%22x61UQikQP1YEBabRaQg5oPIP1jrML1r3HAMI18uifh0%22%7D",
+      "domain": "outlook.office365.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "esctx-gWSLhIWeCY0",
+      "value": "AQABCQEAAACvnsHKEvvRQb3Bz3Qc7wnaRXZvU3RzQXJ0aWZhY3RzDQAAAAAApCOSR74DMB5bSwudw__A9O_t44FCsm-5w73sNLRvW6WkkmkLZGeaPBHqFNfPQrmpI_NUd4bis5xqCA82C-SclSFm78M45KywdN3DwWDb4GiWme6gDIxkrlqalKNeb9Sll6JgUJq2jKAe-aFaNsdIBiAA",
+      "domain": ".login.microsoftonline.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "fpc",
+      "value": "AmfucHS0wipLmlcjgWh6Jyg",
+      "domain": "login.microsoftonline.com",
+      "path": "/",
+      "expires": 1777726260.199849,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "esctx",
+      "value": "PAQABBwEAAACvnsHKEvvRQb3Bz3Qc7wnaRXZvU3RzQXJ0aWZhY3RzDQAAAAAA31Hf1XtmH5YK3L5nBbHYEYzk89tOj00pRd3BpWLvLHHODmbmvukolDQ-UgHdn7lSCCZLNPduT6iflKOM7M2IX5gHk1jD5I4gpI4MI79LUHvb3QrJIZ-xz0d2ZfEk_thf7Qwu4kD3BGUayDybl5X8alBhB2cDjUiW78pzMPDKWU0gAA",
+      "domain": ".login.microsoftonline.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "x-ms-gateway-slice",
+      "value": "estsfd",
+      "domain": "login.microsoftonline.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "stsservicecookie",
+      "value": "estsfd",
+      "domain": "login.microsoftonline.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "OIDC",
+      "value": "1",
+      "domain": "outlook.office365.com",
+      "path": "/",
+      "expires": 1790945456.07916,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MC1",
+      "value": "GUID=2e9ffbdab5c546bbbca6dea171332bfb&HASH=2e9f&LV=202604&V=4&LU=1775134256653",
+      "domain": ".microsoft.com",
+      "path": "/",
+      "expires": 1806670256.707145,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MS0",
+      "value": "86e9a0ed95e4466a8cc478115598130e",
+      "domain": ".microsoft.com",
+      "path": "/",
+      "expires": 1775136056.707198,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "esctx-8H22eSTP20",
+      "value": "AQABCQEAAACvnsHKEvvRQb3Bz3Qc7wnaRXZvU3RzQXJ0aWZhY3RzDQAAAAAAiMhB69yYHakYFXqekNnP83DcNVMJKE7HibwIDcxQx2IeufYAowRitgD-3J0QG3pfVqoz-zOxmn1CFiFKdjLBixHgQMiGypjIH78vj3JZ5lsoTQnZaT6cOrlrYJflzMV3GwdSSyvlSq0nyn1ln9AaXyAA",
+      "domain": ".login.microsoftonline.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "esctx-tvi1XAFiw4",
+      "value": "AQABCQEAAACvnsHKEvvRQb3Bz3Qc7wnaRXZvU3RzQXJ0aWZhY3RzDQAAAAAAoc28uHxmoFoDRrabWmrA6ZqFABC3Qgp0LLkvMJqC0BMZ-jCkfc13qOm6EYHMd8dcu2mLFEoi6BOnxpMiPDN4mpYpm3cscJCkid6LoO2G3seiYxIo_qQdCCWVhEuiEfMPimbRN2cotiXTNjhYGCjJsyAA",
+      "domain": ".login.microsoftonline.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MSFPC",
+      "value": "GUID=2e9ffbdab5c546bbbca6dea171332bfb&HASH=2e9f&LV=202604&V=4&LU=1775134256653",
+      "domain": "outlook.office365.com",
+      "path": "/",
+      "expires": 1806670263.397831,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://outlook.office365.com",
+      "localStorage": [
+        {
+          "name": "olk-EnvDiagnostics",
+          "value": "{\"bt\":\"NoCache\",\"fe\":\"Unknown\",\"be\":\"Scrubbed\",\"wsver\":\"Unknown\",\"fost\":\"Unknown\",\"dag\":\"Unknown\",\"te\":\"0\"}"
+        },
+        {
+          "name": "olk-OwaClientId",
+          "value": "8D5F7EE69B8C4397A593964509261324"
+        },
+        {
+          "name": "mats-telemetry-profile-id",
+          "value": "019d4e3f-2547-79af-b25f-87e300125720"
+        },
+        {
+          "name": "server-telemetry-9199bf20-a13f-4107-85dc-02114787ef48",
+          "value": "{\"failedRequests\":[863,\"9af98887-4e4e-75f5-3eee-503d4e614c3b\",863,\"00b7ca0a-d5a4-b8d4-8a48-cb1b1dee5d61\",863,\"2aa1e5e5-0332-df91-a006-c9367c681b96\"],\"errors\":[\"hash_empty_error\",\"hash_empty_error\",\"hash_empty_error\"],\"cacheHits\":0}"
+        },
+        {
+          "name": "msal.version",
+          "value": "4.28.2"
+        }
+      ]
+    },
+    {
+      "origin": "https://www.ucf.edu",
+      "localStorage": [
+        {
+          "name": "ce3b9e8d-4211-bf47-186a-18b9df35fc5f_pp",
+          "value": "{}"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755468178786"
+        },
+        {
+          "name": "NRBA_SESSION",
+          "value": "{\"value\":\"e90877ad28fa918a\",\"inactiveAt\":1775135706184,\"expiresAt\":1775148306184,\"updatedAt\":1775133906617,\"sessionReplayMode\":0,\"sessionReplaySentFirstChunk\":false,\"sessionTraceMode\":0,\"traceHarvestStarted\":false,\"loggingMode\":0,\"logApiMode\":0,\"serverTimeDiff\":-402,\"custom\":{},\"numOfResets\":0,\"consent\":false}"
+        },
+        {
+          "name": "_cb",
+          "value": "BIYTnnCVJlCKCMY5kp"
+        },
+        {
+          "name": "_cb_svref",
+          "value": "external"
+        },
+        {
+          "name": "_chartbeat2_expires",
+          "value": "1809262148044"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755468178799"
+        },
+        {
+          "name": "ce3b9e8d-4211-bf47-186a-18b9df35fc5f_st",
+          "value": "1775134147906"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_chartbeat2",
+          "value": ".1775134148044.1775134148044.1.BCGG9SDGSlgZBapnW9C17SGpBTP-oL.1"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"timeouts\":0,\"errors\":0,\"eopCount\":0,\"creationTimeMs\":1775134147386},\"expires\":1782910147386}}"
+        },
+        {
+          "name": "li_adsId",
+          "value": "04759d4b-6e3b-4f91-b62b-ed8eaba976a0"
+        },
+        {
+          "name": "_cb_svref_expires",
+          "value": "1775135948046"
+        },
+        {
+          "name": "_cb_expires",
+          "value": "1809262148044"
+        }
+      ]
+    },
+    {
+      "origin": "https://www.google.com",
+      "localStorage": [
+        {
+          "name": "rc::a",
+          "value": "MWJiNHh6M2ZrMTY4NA=="
+        }
+      ]
+    }
+  ]
+}

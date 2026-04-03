@@ -1,0 +1,65 @@
+{
+  "cookies": [
+    {
+      "name": "_ga_N5K9BLC76Q",
+      "value": "GS2.1.s1755484800$o1$g0$t1755484800$j60$l0$h0",
+      "domain": ".brown.edu",
+      "path": "/",
+      "expires": 1790044800.466456,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "test_cookie",
+      "value": "CheckForPermission",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1755485700.683056,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.1796329071.1755484800",
+      "domain": ".brown.edu",
+      "path": "/",
+      "expires": 1790044800.687861,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.1523322280.1755484801",
+      "domain": ".brown.edu",
+      "path": "/",
+      "expires": 1755571200,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_gtag_UA_17814229_27",
+      "value": "1",
+      "domain": ".brown.edu",
+      "path": "/",
+      "expires": 1755484860,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://experience.arcgis.com",
+      "localStorage": [
+        {
+          "name": "exb-build-number",
+          "value": "1.18.0-3183"
+        }
+      ]
+    }
+  ]
+}

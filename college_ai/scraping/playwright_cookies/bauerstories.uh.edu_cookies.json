@@ -1,0 +1,536 @@
+{
+  "cookies": [
+    {
+      "name": "X-AB",
+      "value": "73d5d2c9b3eb4512b5a7ceff2d9cd7aa",
+      "domain": "sc-static.net",
+      "path": "/scevent.min.js",
+      "expires": 1775224768,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MUID",
+      "value": "00F752881DD164350BB445A71C8F6579",
+      "domain": ".bing.com",
+      "path": "/",
+      "expires": 1808834376,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MR",
+      "value": "0",
+      "domain": ".bat.bing.com",
+      "path": "/",
+      "expires": 1775743170,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MR",
+      "value": "0",
+      "domain": ".c.bing.com",
+      "path": "/",
+      "expires": 1775743176,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "SRM_B",
+      "value": "00F752881DD164350BB445A71C8F6579",
+      "domain": ".c.bing.com",
+      "path": "/",
+      "expires": 1808834376,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_TS",
+      "value": "1775138370923",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1780322370,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_DID",
+      "value": "b75990e3-6c0e-4dc1-9508-860271567c88",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1780322370,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_3WAY_SYNCS",
+      "value": "",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1780322370,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sc_at",
+      "value": "v2|H4sIAAAAAAAA/03GwQ3AIAwDwIkixSKuDduASqdg+H651z2kqxOxvd+oacVKzlAvYH1AwgeVAxLR3IRzNX+IM+yrQAAAAA==",
+      "domain": ".snapchat.com",
+      "path": "/",
+      "expires": 1808834371,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&e200d36a-e390-4065-8249-e06b41f03698\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1806675291,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": "px.ads.linkedin.com",
+      "path": "/",
+      "expires": 1777769037,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=VGST09:s=V:r=V:a=V:p=V:g=3390:u=1:x=1:i=1775138369:t=1775224769:v=2:sig=AQH-ao3-SDY7aVGtGODhrKTT7VLcs0dz\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1775224769,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "li_sugr",
+      "value": "cb85ac9c-ddc7-4c2b-ab57-7d772729b3a8",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1782915291,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "UserMatchHistory",
+      "value": "AQL9rayqemGN5gAAAZ1OffEQ0mgFhcU7d_XDrPy1T71u0g4owRI9fQEp5HCINR_vCThAZsvN-bOmIw",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1777730369,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AnalyticsSyncHistory",
+      "value": "AQJ-T6zOoy9NsgAAAZ1OffEQUQLZfFbWsQQ9d2dYlZ0fbjNg3Mg70c-Re9s17TOY42k_QPHs-0eBpD3NDuRjgg",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1777730369,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bscookie",
+      "value": "\"v=1&2026040213593043c74bd5-c370-4b9a-8be3-73e026dc929dAQHPRxHc25YyOW9ntEb8ZF0VnzWzka3E\"",
+      "domain": ".www.linkedin.com",
+      "path": "/",
+      "expires": 1806674369,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "QOQqkxlPr6O6bsj18xnZF3nnClrKBFYxw4RlrR.qrJ0-1775138370-1.0.1.1-xVxnnKlA0cr8e4f_ujtNxmCTGoqwC.fnncU7NpfuMRX163QYQAL6VHI7woxJDdimplQeKyB3Y8Op7fvebjcRX7kwamVsmGNYH3U5BOtY8KU",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1775140169,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUkso4l0aCj4F3CbQ60i8joQvoPq0b2MHLxMSzcUfodzQQf8_AMVO7vf4-vC",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1809698369,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "CLID",
+      "value": "6b5e389eecbc44f892f34f7fe474005f.20260402.20270402",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1806674368,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "SM",
+      "value": "C",
+      "domain": ".c.clarity.ms",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MUID",
+      "value": "00F752881DD164350BB445A71C8F6579",
+      "domain": ".clarity.ms",
+      "path": "/",
+      "expires": 1808834376,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MR",
+      "value": "0",
+      "domain": ".c.clarity.ms",
+      "path": "/",
+      "expires": 1775743176,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "guid",
+      "value": "2b9cad35-2e9c-11f1-bda4-4fc270461db2",
+      "domain": ".mountain.com",
+      "path": "/",
+      "expires": 1806675292,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "tt",
+      "value": "H4sIAAAAAAAAAKtWKlOyMqoFAP609q8HAAAA",
+      "domain": ".px.mountain.com",
+      "path": "/",
+      "expires": 1806674371,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "barometric[cuid]",
+      "value": "cuid_69ce7640-370c-4341-87ae-a04cb3d255cf",
+      "domain": ".trkn.us",
+      "path": "/",
+      "expires": 1806675291,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "WMF-Uniq",
+      "value": "zdvVmVsaeRM1tN45fkKRUgM2AAEBAFvdegLGMzwq2FiS7v1LEqXfQyBBZllkyCQq",
+      "domain": ".upload.wikimedia.org",
+      "path": "/",
+      "expires": 1806702024,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.168760215.1755440579",
+      "domain": ".uh.edu",
+      "path": "/",
+      "expires": 1809699428.122444,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_scid",
+      "value": "JF-ArzsxWsp5dsN3Zg4QEWpkTC_w2C6s",
+      "domain": ".uh.edu",
+      "path": "/",
+      "expires": 1789627276,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_node",
+      "value": "79e8292408f61f87b01c2918105ca2c70ae2dd1bf9acb5e69f7af28265befa30",
+      "domain": "connect.uh.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "8da6ffe4-2c5b-4c11-97d2-7b2814442a2b",
+      "domain": "connect.uh.edu",
+      "path": "/",
+      "expires": 1809698368,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.1853443413.1775138368",
+      "domain": ".uh.edu",
+      "path": "/",
+      "expires": 1782914368,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_hashV",
+      "value": "202604/1",
+      "domain": "connect.uh.edu",
+      "path": "/",
+      "expires": 1809698368,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1775138369643.936206999313655261",
+      "domain": ".uh.edu",
+      "path": "/",
+      "expires": 1782915292,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_clck",
+      "value": "74ztqd%5E2%5Eg4v%5E0%5E2283",
+      "domain": ".uh.edu",
+      "path": "/",
+      "expires": 1806674369,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_sctr",
+      "value": "1%7C1775106000000",
+      "domain": ".uh.edu",
+      "path": "/",
+      "expires": 1809266371,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_scid_r",
+      "value": "Mt-ArzsxWsp5dsN3Zg4QEWpkTC_w2C6sIfYtVQ",
+      "domain": ".uh.edu",
+      "path": "/",
+      "expires": 1809267291,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_ZNRMYWK4SG",
+      "value": "GS2.1.s1775138368$o2$g1$t1775139291$j60$l0$h0",
+      "domain": ".uh.edu",
+      "path": "/",
+      "expires": 1809699291,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_uetsid",
+      "value": "2afd98a02e9c11f19e315df1d4d20a84",
+      "domain": ".uh.edu",
+      "path": "/",
+      "expires": 1775225691,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_uetvid",
+      "value": "acdf99807b7511f0ab4b81f883df7aea",
+      "domain": ".uh.edu",
+      "path": "/",
+      "expires": 1808835291,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "NSC_xg-xxx.vi.fev-wt-iuuqt",
+      "value": "ffffffffaf1d280c45525d5f4f58455e445a4a423660",
+      "domain": "uh.edu",
+      "path": "/",
+      "expires": 1775139465,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "NSC_xg-xxx.vi.fev-wt-iuuqt",
+      "value": "ffffffffaf1d280c45525d5f4f58455e445a4a423660",
+      "domain": "www.uh.edu",
+      "path": "/",
+      "expires": 1775139471,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_BSREFQG77C",
+      "value": "GS2.1.s1775139428$o1$g0$t1775139428$j60$l0$h0",
+      "domain": ".uh.edu",
+      "path": "/",
+      "expires": 1809699428.122212,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://www.uh.edu",
+      "localStorage": [
+        {
+          "name": "747d84b4-38f3-b6ae-6b44-77b2b8a05cbb_pp",
+          "value": "{}"
+        },
+        {
+          "name": "u_sclid_r",
+          "value": "lGXTC7mP4dCIj0bor-JkQlb5n4AEOhDEatpxhDLfgK87MVrKeXbDd2YOEBFqZEwv8NgurCH2LVU"
+        },
+        {
+          "name": "u_sclid",
+          "value": "iOXTC7mP4dCIj0bor-JkQlb5n4AEOhDEPt-ArzsxWsp5dsN3Zg4QEWpkTC_w2C6sIfYtUQ"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1775139291942"
+        },
+        {
+          "name": "747d84b4-38f3-b6ae-6b44-77b2b8a05cbb_st",
+          "value": "1775138370141"
+        },
+        {
+          "name": "_uetvid_exp",
+          "value": "Tue, 27 Apr 2027 14:14:51 GMT"
+        },
+        {
+          "name": "_uetsid_exp",
+          "value": "Fri, 03 Apr 2026 14:14:51 GMT"
+        },
+        {
+          "name": "_uetvid",
+          "value": "acdf99807b7511f0ab4b81f883df7aea"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"timeouts\":0,\"errors\":0,\"eopCount\":0,\"creationTimeMs\":1775138368022},\"expires\":1782914368022}}"
+        },
+        {
+          "name": "_uetsid",
+          "value": "2afd98a02e9c11f19e315df1d4d20a84"
+        },
+        {
+          "name": "li_adsId",
+          "value": "deaba7bd-c2cd-4703-8d33-f7297822b8d7"
+        }
+      ]
+    },
+    {
+      "origin": "https://uh.edu",
+      "localStorage": [
+        {
+          "name": "747d84b4-38f3-b6ae-6b44-77b2b8a05cbb_pp",
+          "value": "{}"
+        },
+        {
+          "name": "u_sclid_r",
+          "value": "X-e7_MnHHw8eF4tJzMKMRDx7d3yObuPhh7qZgz3fgK87MVrKeXbDd2YOEBFqZEwv8NgurCH2LVA"
+        },
+        {
+          "name": "u_sclid",
+          "value": "Rme7_MnHHw8eF4tJzMKMRDx7d3yObuPhJF-ArzsxWsp5dsN3Zg4QEWpkTC_w2C6s"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755440646348"
+        },
+        {
+          "name": "747d84b4-38f3-b6ae-6b44-77b2b8a05cbb_st",
+          "value": "1755440579198"
+        },
+        {
+          "name": "_uetvid_exp",
+          "value": "Fri, 11 Sep 2026 14:24:06 GMT"
+        },
+        {
+          "name": "_uetsid_exp",
+          "value": "Mon, 18 Aug 2025 14:24:06 GMT"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755440646354"
+        },
+        {
+          "name": "_uetvid",
+          "value": "acdf99807b7511f0ab4b81f883df7aea"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755440578681},\"expires\":1763216578681}}"
+        },
+        {
+          "name": "_uetsid",
+          "value": "acdfacb07b7511f0bd140b1f53339d3a"
+        },
+        {
+          "name": "li_adsId",
+          "value": "9f8ede54-d339-452c-9804-0e71cbea222c"
+        }
+      ]
+    }
+  ]
+}

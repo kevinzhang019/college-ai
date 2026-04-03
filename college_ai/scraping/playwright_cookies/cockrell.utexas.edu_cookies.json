@@ -1,0 +1,317 @@
+{
+  "cookies": [
+    {
+      "name": "pys_start_session",
+      "value": "true",
+      "domain": ".utexas.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "pys_first_visit",
+      "value": "true",
+      "domain": ".utexas.edu",
+      "path": "/",
+      "expires": 1775736440,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "pysTrafficSource",
+      "value": "direct",
+      "domain": ".utexas.edu",
+      "path": "/",
+      "expires": 1775736440,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "pys_landing_page",
+      "value": "https://cockrell.utexas.edu/research/areas-of-impact/future-of-ai/",
+      "domain": ".utexas.edu",
+      "path": "/",
+      "expires": 1775736440,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "last_pysTrafficSource",
+      "value": "direct",
+      "domain": ".utexas.edu",
+      "path": "/",
+      "expires": 1775741811,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1775131640958.1709562546",
+      "domain": ".utexas.edu",
+      "path": "/",
+      "expires": 1782913047,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CLID",
+      "value": "97818d96d2a3443b9d216931e902d3d6.20260402.20270402",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1806667641.278301,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "li_sugr",
+      "value": "74619cc5-3fb7-4538-a649-f272df4c32f7",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1782913048.224833,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.1478120230.1775131641",
+      "domain": ".utexas.edu",
+      "path": "/",
+      "expires": 1782907641,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "UserMatchHistory",
+      "value": "AQIIgTA8_jfnCAAAAZ1OF0b1Xd0_B8Z0OnUVR1CZXPi-Z5xdgUT37Q4xm3tGNc0j9gFMdAO4C97n3Q",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1777723641.413773,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AnalyticsSyncHistory",
+      "value": "AQKmTH4nk8IYWgAAAZ1OF0b14Do2TLlIg2ygtg8a47znJPHB4JLa2dNXgV_EzdmSdVhaRsNP9nUTLsF5SxAZiQ",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1777723641.413782,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": "px.ads.linkedin.com",
+      "path": "/",
+      "expires": 1777766793.932572,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&a16c04a7-8733-41c0-8842-00dab2df39e6\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1806673049.224866,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=VGST09:s=V:r=V:a=V:p=V:g=3390:u=1:x=1:i=1775131641:t=1775218041:v=2:sig=AQGM8WGKs-UHgJjTKS3JYYPfpUyMpS-A\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1775218041.413974,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_clck",
+      "value": "1ec6b79%5E2%5Eg4v%5E0%5E2283",
+      "domain": ".utexas.edu",
+      "path": "/",
+      "expires": 1806667641,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.1814571110.1775131642",
+      "domain": ".utexas.edu",
+      "path": "/",
+      "expires": 1775223448,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "bscookie",
+      "value": "\"v=1&202604021207215d987175-efeb-424c-8cbc-148559dbfbd2AQFGxKRUks6xEJtXhgE_khEh1KAzNxo-\"",
+      "domain": ".www.linkedin.com",
+      "path": "/",
+      "expires": 1806667641.647991,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MUID",
+      "value": "1D189ECC8C656942147589E38D13682D",
+      "domain": ".bing.com",
+      "path": "/",
+      "expires": 1808827643.498236,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MR",
+      "value": "0",
+      "domain": ".c.bing.com",
+      "path": "/",
+      "expires": 1775736443.49828,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "SRM_B",
+      "value": "1D189ECC8C656942147589E38D13682D",
+      "domain": ".c.bing.com",
+      "path": "/",
+      "expires": 1808827643.498293,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "SM",
+      "value": "C",
+      "domain": ".c.clarity.ms",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MUID",
+      "value": "1D189ECC8C656942147589E38D13682D",
+      "domain": ".clarity.ms",
+      "path": "/",
+      "expires": 1808827642.567874,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MR",
+      "value": "0",
+      "domain": ".c.clarity.ms",
+      "path": "/",
+      "expires": 1775736442.567906,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "pys_session_limit",
+      "value": "true",
+      "domain": ".utexas.edu",
+      "path": "/",
+      "expires": 1775140611,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "last_pys_landing_page",
+      "value": "https://cockrell.utexas.edu/about/facts-and-rankings/program-rankings/",
+      "domain": ".utexas.edu",
+      "path": "/",
+      "expires": 1775741811,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_UA-4224418-1",
+      "value": "1",
+      "domain": ".utexas.edu",
+      "path": "/",
+      "expires": 1775137072,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_HMS7VFZL4T",
+      "value": "GS2.1.s1775137012$o2$g1$t1775137048$j24$l0$h0",
+      "domain": ".utexas.edu",
+      "path": "/",
+      "expires": 1809697048.057642,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_NZKFEPNKDW",
+      "value": "GS2.1.s1775137012$o2$g1$t1775137048$j24$l0$h0",
+      "domain": ".utexas.edu",
+      "path": "/",
+      "expires": 1809697048.300064,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.2041336277.1775131641",
+      "domain": ".utexas.edu",
+      "path": "/",
+      "expires": 1809697048.401645,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://cockrell.utexas.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"timeouts\":0,\"errors\":0,\"eopCount\":0,\"creationTimeMs\":1775131641391},\"expires\":1782907641391}}"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1775137047983"
+        },
+        {
+          "name": "li_adsId",
+          "value": "acf6840e-1e18-4308-947e-dd8ff5c3e721"
+        }
+      ]
+    }
+  ]
+}

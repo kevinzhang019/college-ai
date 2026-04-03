@@ -1,0 +1,380 @@
+{
+  "cookies": [
+    {
+      "name": "_gcl_au",
+      "value": "1.1.272527814.1755440579",
+      "domain": ".uh.edu",
+      "path": "/",
+      "expires": 1763216579,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_scid",
+      "value": "JF-ArzsxWsp5dsN3Zg4QEWpkTC_w2C6s",
+      "domain": ".uh.edu",
+      "path": "/",
+      "expires": 1789627276,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_node",
+      "value": "79e8292408f61f87b01c2918105ca2c70ae2dd1bf9acb5e69f7af28265befa30",
+      "domain": "connect.uh.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "8da6ffe4-2c5b-4c11-97d2-7b2814442a2b",
+      "domain": "connect.uh.edu",
+      "path": "/",
+      "expires": 1790000579.046842,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "connect.uh.edu",
+      "path": "/",
+      "expires": 1790000579.046874,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755440579054.939704250340390055",
+      "domain": ".uh.edu",
+      "path": "/",
+      "expires": 1763316024,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "receive-cookie-deprecation",
+      "value": "1",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1771092024.849901,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://uh.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_ScCbts",
+      "value": "%5B%5D",
+      "domain": ".uh.edu",
+      "path": "/",
+      "expires": 1756045379,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&e200d36a-e390-4065-8249-e06b41f03698\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1787076023.839418,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sc_at",
+      "value": "v2|H4sIAAAAAAAAAE3GwQ2AMAwDwIki2ZJNXLZpRZmiw/PlXnfZ0TBrZz+lma4Fz+ohcr0kmEPhZtsSHJxf8QHBXIpfQAAAAA==",
+      "domain": ".snapchat.com",
+      "path": "/",
+      "expires": 1789136580.564334,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_TS",
+      "value": "1755440580490",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760624580.479468,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_DID",
+      "value": "dee94223-826f-4ffc-aad1-2fd91ba60482",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760624580.479568,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_3WAY_SYNCS",
+      "value": "",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760624580.479622,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_sctr",
+      "value": "1%7C1755414000000",
+      "domain": ".uh.edu",
+      "path": "/",
+      "expires": 1789627278,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_scid_r",
+      "value": "Pd-ArzsxWsp5dsN3Zg4QEWpkTC_w2C6sIfYtUA",
+      "domain": ".uh.edu",
+      "path": "/",
+      "expires": 1789627344,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_uetvid",
+      "value": "acdf99807b7511f0ab4b81f883df7aea",
+      "domain": ".uh.edu",
+      "path": "/",
+      "expires": 1789136646,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_ZNRMYWK4SG",
+      "value": "GS2.1.s1755540023$o2$g0$t1755540023$j60$l0$h0",
+      "domain": ".uh.edu",
+      "path": "/",
+      "expires": 1790100023.542422,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_RHY1RSXWFT",
+      "value": "GS2.1.s1755540023$o1$g0$t1755540023$j60$l0$h0",
+      "domain": ".uh.edu",
+      "path": "/",
+      "expires": 1790100023.602785,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.168760215.1755440579",
+      "domain": ".uh.edu",
+      "path": "/",
+      "expires": 1790100023.875182,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.1057292175.1755540024",
+      "domain": ".uh.edu",
+      "path": "/",
+      "expires": 1755626423,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=OGST09:s=O:r=O:a=O:p=O:g=3219:u=1:x=1:i=1755540023:t=1755626423:v=2:sig=AQEg1VDXZtoGDOYxZGctY900HltPjKn6\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755626423.839439,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": "px.ads.linkedin.com",
+      "path": "/",
+      "expires": 1758169769.839397,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gat",
+      "value": "1",
+      "domain": ".uh.edu",
+      "path": "/",
+      "expires": 1755540083,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_uhCentralTracker",
+      "value": "1",
+      "domain": ".uh.edu",
+      "path": "/",
+      "expires": 1755540083,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_hjSessionUser_63086",
+      "value": "eyJpZCI6IjllZjliYzJjLTQ2YTUtNTQxMS05ZDgzLWM5ODUxMWNiM2NkMyIsImNyZWF0ZWQiOjE3NTU1NDAwMjQwMTEsImV4aXN0aW5nIjpmYWxzZX0=",
+      "domain": ".uh.edu",
+      "path": "/",
+      "expires": 1787076024,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hjSession_63086",
+      "value": "eyJpZCI6IjNiOTBkNjIyLTM5YWEtNGI1ZC05NTU1LTQwMTU2MDYwZWE4ZSIsImMiOjE3NTU1NDAwMjQwMTIsInMiOjAsInIiOjAsInNiIjowLCJzciI6MCwic2UiOjAsImZzIjoxLCJzcCI6MH0=",
+      "domain": ".uh.edu",
+      "path": "/",
+      "expires": 1755541824,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUkoI8LdZI3H7c0-sKv5CXXXsi9WavHNRPemBYMUL4Xk8VJ_eyFtEJxnFRJ09bM",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1790100024.57701,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ssi",
+      "value": "00aa3589-b7ff-4f04-bd79-27f8cf23046d#1755540026685",
+      "domain": ".sitescout.com",
+      "path": "/",
+      "expires": 1787076026.725975,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ssuma",
+      "value": "eyIyIjoxNzU1NTQwMDI2NzQ1LCI0IjoxNzU1NTQwMDI2NzQ1LCIzOSI6MTc1NTU0MDAyNjc0NSwiNyI6MTc1NTU0MDAyNjc0NSwiOCI6MTc1NTU0MDAyNjc0NX0",
+      "domain": ".sitescout.com",
+      "path": "/",
+      "expires": 1758132026.726007,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://bauer.uh.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":1,\"creationTimeMs\":1755540023849},\"expires\":1763316023849}}"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755540023883"
+        },
+        {
+          "name": "li_adsId",
+          "value": "6a0a7515-d648-4d78-881d-86bc9ce9a778"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755540024043"
+        }
+      ]
+    },
+    {
+      "origin": "https://uh.edu",
+      "localStorage": [
+        {
+          "name": "747d84b4-38f3-b6ae-6b44-77b2b8a05cbb_pp",
+          "value": "{}"
+        },
+        {
+          "name": "u_sclid_r",
+          "value": "X-e7_MnHHw8eF4tJzMKMRDx7d3yObuPhh7qZgz3fgK87MVrKeXbDd2YOEBFqZEwv8NgurCH2LVA"
+        },
+        {
+          "name": "u_sclid",
+          "value": "Rme7_MnHHw8eF4tJzMKMRDx7d3yObuPhJF-ArzsxWsp5dsN3Zg4QEWpkTC_w2C6s"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755440646348"
+        },
+        {
+          "name": "747d84b4-38f3-b6ae-6b44-77b2b8a05cbb_st",
+          "value": "1755440579198"
+        },
+        {
+          "name": "_uetvid_exp",
+          "value": "Fri, 11 Sep 2026 14:24:06 GMT"
+        },
+        {
+          "name": "_uetsid_exp",
+          "value": "Mon, 18 Aug 2025 14:24:06 GMT"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755440646354"
+        },
+        {
+          "name": "_uetvid",
+          "value": "acdf99807b7511f0ab4b81f883df7aea"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755440578681},\"expires\":1763216578681}}"
+        },
+        {
+          "name": "_uetsid",
+          "value": "acdfacb07b7511f0bd140b1f53339d3a"
+        },
+        {
+          "name": "li_adsId",
+          "value": "9f8ede54-d339-452c-9804-0e71cbea222c"
+        }
+      ]
+    }
+  ]
+}

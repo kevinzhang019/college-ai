@@ -1,0 +1,115 @@
+{
+  "cookies": [
+    {
+      "name": "notice_preferences",
+      "value": "3:",
+      "domain": ".byu.edu",
+      "path": "/",
+      "expires": 1789575552,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "notice_gdpr_prefs",
+      "value": "0|1|2|3:",
+      "domain": ".byu.edu",
+      "path": "/",
+      "expires": 1789575552,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "cmapi_gtm_bl",
+      "value": "",
+      "domain": ".byu.edu",
+      "path": "/",
+      "expires": 1789575552,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "cmapi_cookie_privacy",
+      "value": "permit_1|2|3|4_",
+      "domain": ".byu.edu",
+      "path": "/",
+      "expires": 1789575552,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "dtCookie",
+      "value": "v_4_srv_4_sn_49478132B748040BC7540C71CD825F7B_perc_100000_ol_0_mul_1_app-3Ab3444c7c6be1490e_0_app-3A5c01f50ec8455dbe_1_rcs-3Acss_0",
+      "domain": ".byu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "None"
+    },
+    {
+      "name": "TAsessionID",
+      "value": "113ffba0-1088-41eb-93db-eff1738b6440|EXISTING",
+      "domain": ".byu.edu",
+      "path": "/",
+      "expires": 1775199670,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TAconsentID",
+      "value": "4b66b861-a6cd-40e9-a352-9916e5e80ad4",
+      "domain": ".byu.edu",
+      "path": "/",
+      "expires": 1789575552,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "notice_behavior",
+      "value": "implied|na",
+      "domain": ".byu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://academiccalendar.byu.edu",
+      "localStorage": [
+        {
+          "name": "bsp.analytics.uniqueVisit.00000182-d16e-d98a-a5f7-f16e29c30001",
+          "value": "true"
+        },
+        {
+          "name": "bsp.analytics.lastActivity.00000182-d16e-d98a-a5f7-f16e29c30001",
+          "value": "1755447551032"
+        },
+        {
+          "name": "truste.cookie.TAconsentID",
+          "value": "{\"name\":\"truste.cookie.TAconsentID\",\"value\":\"4b66b861-a6cd-40e9-a352-9916e5e80ad4\",\"path\":\"/\",\"expires\":1789575552477}"
+        },
+        {
+          "name": "truste.cookie.notice_preferences",
+          "value": "{\"name\":\"truste.cookie.notice_preferences\",\"value\":\"3:\",\"path\":\"/\",\"expires\":1789575552476}"
+        },
+        {
+          "name": "bsp.analytics.visitStarted.00000182-d16e-d98a-a5f7-f16e29c30001",
+          "value": "1755447551032"
+        },
+        {
+          "name": "truste.cookie.notice_gdpr_prefs",
+          "value": "{\"name\":\"truste.cookie.notice_gdpr_prefs\",\"value\":\"0|1|2|3:\",\"path\":\"/\",\"expires\":1789575552476}"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,240 @@
+{
+  "cookies": [
+    {
+      "name": "BrowserId",
+      "value": "vH7S6nt6EfCVtoNlV1-Ypg",
+      "domain": ".force.com",
+      "path": "/",
+      "expires": 1786978752,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ModCamApplicationGatewayAffinityCORS",
+      "value": "605aa4143e569a03b7bc5b740e7e392b",
+      "domain": "unt.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ModCamApplicationGatewayAffinity",
+      "value": "605aa4143e569a03b7bc5b740e7e392b",
+      "domain": "unt.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ModCamApplicationGatewayAffinityCORS",
+      "value": "12aa06ab919b3e68c9b553b4907792e8",
+      "domain": "www.unt.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ModCamApplicationGatewayAffinity",
+      "value": "12aa06ab919b3e68c9b553b4907792e8",
+      "domain": "www.unt.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ModCamApplicationGatewayAffinityCORS",
+      "value": "605aa4143e569a03b7bc5b740e7e392b",
+      "domain": "omni-templates.unt.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ModCamApplicationGatewayAffinity",
+      "value": "605aa4143e569a03b7bc5b740e7e392b",
+      "domain": "omni-templates.unt.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_33TTT716N7",
+      "value": "GS2.1.s1755442753$o1$g0$t1755442753$j60$l0$h0",
+      "domain": ".unt.edu",
+      "path": "/",
+      "expires": 1790002753,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1135033868.1755442753",
+      "domain": ".unt.edu",
+      "path": "/",
+      "expires": 1790002753,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "nmstat",
+      "value": "50bad904-26f2-eef5-3438-1657da72b194",
+      "domain": ".unt.edu",
+      "path": "/",
+      "expires": 1790002753,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_tq_id.TV-7209180909-1.b6f8",
+      "value": "1383f7d527bcbb5c.1755442754.0.1755442754..",
+      "domain": "www.unt.edu",
+      "path": "/",
+      "expires": 1790002753,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_clck",
+      "value": "ba9lxb%7C2%7Cfyj%7C0%7C2055",
+      "domain": ".unt.edu",
+      "path": "/",
+      "expires": 1786978753,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ModCamApplicationGatewayAffinityCORS",
+      "value": "605aa4143e569a03b7bc5b740e7e392b",
+      "domain": "strategicplan.unt.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ModCamApplicationGatewayAffinity",
+      "value": "605aa4143e569a03b7bc5b740e7e392b",
+      "domain": "strategicplan.unt.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.223545715.1775141306",
+      "domain": ".unt.edu",
+      "path": "/",
+      "expires": 1782917306,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "None"
+    },
+    {
+      "name": "ModCamApplicationGatewayAffinityCORS",
+      "value": "605aa4143e569a03b7bc5b740e7e392b",
+      "domain": "webassets.unt.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ModCamApplicationGatewayAffinity",
+      "value": "605aa4143e569a03b7bc5b740e7e392b",
+      "domain": "webassets.unt.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "None"
+    },
+    {
+      "name": "CLID",
+      "value": "d885311813d8425cae145adae64132c0.20250817.20260817",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1786978753,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "guid",
+      "value": "bd89da37-7b7a-11f0-be98-ad28c570777c",
+      "domain": ".mountain.com",
+      "path": "/",
+      "expires": 1786978756,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "tt",
+      "value": "H4sIAAAAAAAAAKtWKlOyMqoFAP609q8HAAAA",
+      "domain": ".px.mountain.com",
+      "path": "/",
+      "expires": 1786978756,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://strategicplan.unt.edu",
+      "localStorage": [
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"timeouts\":0,\"errors\":0,\"eopCount\":0,\"creationTimeMs\":1775141306484},\"expires\":1782917306484}}"
+        }
+      ]
+    },
+    {
+      "origin": "https://www.unt.edu",
+      "localStorage": [
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755442753051},\"expires\":1763218753051}}"
+        },
+        {
+          "name": "snapinsPageTime_0",
+          "value": "1755442761621"
+        },
+        {
+          "name": "snapinsStart",
+          "value": "1755442761621"
+        },
+        {
+          "name": "snapinsPage_0",
+          "value": "https://www.unt.edu/admissions/requestinfo.html"
+        },
+        {
+          "name": "snapinsPc",
+          "value": "1"
+        }
+      ]
+    }
+  ]
+}

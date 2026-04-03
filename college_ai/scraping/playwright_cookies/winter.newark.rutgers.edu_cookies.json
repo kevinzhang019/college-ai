@@ -1,0 +1,179 @@
+{
+  "cookies": [
+    {
+      "name": "__stid",
+      "value": "ZGKAAmih+9gAAAAIbxD2Aw==",
+      "domain": ".sharethis.com",
+      "path": "/",
+      "expires": 1786982232.041298,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__stidv",
+      "value": "2",
+      "domain": ".sharethis.com",
+      "path": "/",
+      "expires": 1786982232.041339,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "fpestid",
+      "value": "hW_e7hDCu8a_fwMau7UV4hHyqkg-jByLul4YJNC8-yKkTTTchmzpsSsY7sQT36zWHV6Jjg",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1786982232.083784,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.863935659.1755446233",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1790006246.045102,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_cc_id",
+      "value": "bab052ac32835908409f95784da752be",
+      "domain": ".crwdcntrl.net",
+      "path": "/",
+      "expires": 1778771100.271467,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_cc_id",
+      "value": "bab052ac32835908409f95784da752be",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1778774233,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "panoramaId_expiry",
+      "value": "1755532633305",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1755532634,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "YSC",
+      "value": "JkdJajw_1G8",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://rutgers.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "b7n7LiTn_g8",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1770998244.016943,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://rutgers.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgbQ%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1770998244.016958,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://rutgers.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CNnz6pT9wqK-KxCHoqzumpKPAxiHoqzumpKPAw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1770998244.01697,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://rutgers.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_ga_C0WYEZEE0G",
+      "value": "GS2.1.s1755446232$o1$g1$t1755446246$j46$l0$h0",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1790006246.044937,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "NID",
+      "value": "525=abpQOqF_tzttEeoIOTqzSmcl5BVXrzF8UhSzOAnVx8rSbS-GoQ2c6gWZWjlNNQLYsJsarMCnUooNwx2xQYHupuMJQfnsZFYbzZtNKWy5Ltq3zW4uOwlo3hdzL0pJSBcfVeheDHkOJXGhcchcq4J55278AhYG1T3OX8w6RqcFp5CIk8VOSB0xdo1z1T_omj1foIBGeQ",
+      "domain": ".google.com",
+      "path": "/",
+      "expires": 1771257448.165532,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "pxcelPage_default_c010_B",
+      "value": "1_0_1755446234742",
+      "domain": ".t.sharethis.com",
+      "path": "/",
+      "expires": 1758038234,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://winter.newark.rutgers.edu",
+      "localStorage": [
+        {
+          "name": "panoramaId_expiry",
+          "value": "1755532633305"
+        },
+        {
+          "name": "_cc_id_update_ts",
+          "value": "1755446233272"
+        },
+        {
+          "name": "_cc_id",
+          "value": "bab052ac32835908409f95784da752be"
+        },
+        {
+          "name": "panoramaId_expiry_exp",
+          "value": "1755532633305"
+        },
+        {
+          "name": "ally-supports-cache",
+          "value": "{\"userAgent\":\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36\",\"version\":\"1.4.1\",\"focusAreaImgTabindex\":false,\"focusAreaTabindex\":false,\"focusAreaWithoutHref\":false,\"focusAudioWithoutControls\":false,\"focusBrokenImageMap\":true,\"focusChildrenOfFocusableFlexbox\":false,\"focusFieldsetDisabled\":true,\"focusFieldset\":false,\"focusFlexboxContainer\":false,\"focusFormDisabled\":true,\"focusImgIsmap\":false,\"focusImgUsemapTabindex\":true,\"focusInHiddenIframe\":true,\"focusInvalidTabindex\":false,\"focusLabelTabindex\":true,\"focusObjectSvg\":true,\"focusObjectSvgHidden\":false,\"focusRedirectImgUsemap\":false,\"focusRedirectLegend\":\"\",\"focusScrollBody\":false,\"focusScrollContainerWithoutOverflow\":false,\"focusScrollContainer\":true,\"focusSummary\":true,\"focusSvgFocusableAttribute\":false,\"focusSvgTabindexAttribute\":true,\"focusSvgNegativeTabindexAttribute\":true,\"focusSvgUseTabindex\":true,\"focusSvgForeignobjectTabindex\":true,\"focusSvg\":false,\"focusTabindexTrailingCharacters\":true,\"focusTable\":false,\"focusVideoWithoutControls\":false,\"cssShadowPiercingDeepCombinator\":\"\",\"focusInZeroDimensionObject\":true,\"focusObjectSwf\":true,\"focusSvgInIframe\":false,\"tabsequenceAreaAtImgPosition\":false,\"time\":\"2025-08-17T15:57:13.213Z\"}"
+        }
+      ]
+    }
+  ]
+}

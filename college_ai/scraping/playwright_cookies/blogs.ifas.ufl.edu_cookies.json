@@ -1,0 +1,273 @@
+{
+  "cookies": [
+    {
+      "name": "YSC",
+      "value": "4hx9XLhUI0c",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://ufl.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "WaA4WkzwW8U",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790682618.156005,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://ufl.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgOg%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790682618.15602,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://ufl.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.1566813304.1775130618",
+      "domain": ".ufl.edu",
+      "path": "/",
+      "expires": 1775217184,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CPDa87zRus27JRDF37bvjM-TAxiR9_q-jc-TAw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790682784.925113,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://ufl.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_gat",
+      "value": "1",
+      "domain": ".ufl.edu",
+      "path": "/",
+      "expires": 1775130844,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_northeast",
+      "value": "1",
+      "domain": ".ufl.edu",
+      "path": "/",
+      "expires": 1775130844,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_central",
+      "value": "1",
+      "domain": ".ufl.edu",
+      "path": "/",
+      "expires": 1775130844,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_northwest",
+      "value": "1",
+      "domain": ".ufl.edu",
+      "path": "/",
+      "expires": 1775130844,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_southcentral",
+      "value": "1",
+      "domain": ".ufl.edu",
+      "path": "/",
+      "expires": 1775130844,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_south",
+      "value": "1",
+      "domain": ".ufl.edu",
+      "path": "/",
+      "expires": 1775130844,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_category",
+      "value": "1",
+      "domain": ".ufl.edu",
+      "path": "/",
+      "expires": 1775130844,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_agriculture1",
+      "value": "1",
+      "domain": ".ufl.edu",
+      "path": "/",
+      "expires": 1775130844,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_agriculture2",
+      "value": "1",
+      "domain": ".ufl.edu",
+      "path": "/",
+      "expires": 1775130844,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_naturalresources1",
+      "value": "1",
+      "domain": ".ufl.edu",
+      "path": "/",
+      "expires": 1775130844,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_naturalresources2",
+      "value": "1",
+      "domain": ".ufl.edu",
+      "path": "/",
+      "expires": 1775130844,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_homelscapes",
+      "value": "1",
+      "domain": ".ufl.edu",
+      "path": "/",
+      "expires": 1775130844,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_worklife1",
+      "value": "1",
+      "domain": ".ufl.edu",
+      "path": "/",
+      "expires": 1775130844,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_worklife2",
+      "value": "1",
+      "domain": ".ufl.edu",
+      "path": "/",
+      "expires": 1775130844,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_4hyouth",
+      "value": "1",
+      "domain": ".ufl.edu",
+      "path": "/",
+      "expires": 1775130844,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_rec",
+      "value": "1",
+      "domain": ".ufl.edu",
+      "path": "/",
+      "expires": 1775130844,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_dept",
+      "value": "1",
+      "domain": ".ufl.edu",
+      "path": "/",
+      "expires": 1775130844,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_others1",
+      "value": "1",
+      "domain": ".ufl.edu",
+      "path": "/",
+      "expires": 1775130844,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_programsandcenters",
+      "value": "1",
+      "domain": ".ufl.edu",
+      "path": "/",
+      "expires": 1775130844,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1475497841.1775130618",
+      "domain": ".ufl.edu",
+      "path": "/",
+      "expires": 1809690785.067916,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_MHKX6SFGPE",
+      "value": "GS2.1.s1775130618$o1$g1$t1775130785$j60$l0$h0",
+      "domain": ".ufl.edu",
+      "path": "/",
+      "expires": 1809690785.953296,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

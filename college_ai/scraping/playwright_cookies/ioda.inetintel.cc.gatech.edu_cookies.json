@@ -1,0 +1,35 @@
+{
+  "cookies": [
+    {
+      "name": "_ga_3J1FMTEGCV",
+      "value": "GS2.1.s1755583852$o1$g0$t1755583852$j60$l0$h0",
+      "domain": ".gatech.edu",
+      "path": "/",
+      "expires": 1790143852.310825,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.307286494.1755583852",
+      "domain": ".gatech.edu",
+      "path": "/",
+      "expires": 1790143852.471554,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_XD5MWMBCF9",
+      "value": "GS2.1.s1755583852$o1$g0$t1755583852$j60$l0$h0",
+      "domain": ".gatech.edu",
+      "path": "/",
+      "expires": 1790143852.471412,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

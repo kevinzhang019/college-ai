@@ -1,0 +1,376 @@
+{
+  "cookies": [
+    {
+      "name": "_GRECAPTCHA",
+      "value": "09AKhCRwjqUtKDZpiJ13p0VSKPcw88JBoQQVrFKUmiH-NhUKkz-BedrszSjZtf29uSQW9Ne9R7_zfeOPUiFXkhj68",
+      "domain": "www.google.com",
+      "path": "/recaptcha",
+      "expires": 1790684003.162083,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "php-session-cookie",
+      "value": "HZUly/aXloKxFXlXSINPEr0mjz7nAnbOcVXCC1OzJmi1DobXJRLuNiK7iXmcsbpcvckySn9OgE5UxzLeH1iRJI/ZCAMl48C1",
+      "domain": ".www.bu.edu",
+      "path": "/buniverse",
+      "expires": 1775161035.307212,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1249609299.1755436057",
+      "domain": ".bu.edu",
+      "path": "/",
+      "expires": 1809692285.942597,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "loid",
+      "value": "000000001vv1a7e0vk.2.1755436072112.Z0FBQUFBQm9vZFFvSlNxdGU3aEtVdXRFamFlN3VVNzZVSHNzR1ItYVNkWGxZWDBNT0dGSFZobms2TVBsODBIYTcyWXFtUlZKVWkxeS1sdUx5ODN2SnRiTjU3WThfV3V0REd1bVBRbGVqX2d3ZFVKM2g3RjF6bV9ubUdCTFV2MmV0YzhRTmRoUkVnNzY",
+      "domain": ".reddit.com",
+      "path": "/",
+      "expires": 1809692001.062895,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "csrf_token",
+      "value": "e89fee2e240458fd0547a985556e6cbd",
+      "domain": ".reddit.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "csv",
+      "value": "2",
+      "domain": ".reddit.com",
+      "path": "/",
+      "expires": 1789996072.091976,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "edgebucket",
+      "value": "gNEBY5PwOemxU0hR39",
+      "domain": ".reddit.com",
+      "path": "/",
+      "expires": 1789996072.091989,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__utma",
+      "value": "21468840.1249609299.1755436057.1755436132.1755436132.1",
+      "domain": ".bu.edu",
+      "path": "/",
+      "expires": 1789996132.312845,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__utmc",
+      "value": "21468840",
+      "domain": ".bu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_J8M8M8YDL8",
+      "value": "GS2.1.s1755436133$o1$g0$t1755436133$j60$l0$h0",
+      "domain": ".bu.edu",
+      "path": "/",
+      "expires": 1789996133.380618,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_8Q8ZDGGYM5",
+      "value": "GS2.1.s1755458163$o2$g0$t1755458163$j60$l0$h0",
+      "domain": ".bu.edu",
+      "path": "/",
+      "expires": 1790018163.06419,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "BIGipServerist-web-phpbin-aws-prod-443-pool",
+      "value": "1311390218.47873.0000",
+      "domain": "www.bu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "YSC",
+      "value": "BQc8hwrAV5Q",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://bu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "Na8wRzvM4DI",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790684235.232527,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://bu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgFw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790684235.232595,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://bu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "__Secure-YNID",
+      "value": "17.YT=q9sGMP7EsSAPTJLmKUphr6xxzNKTjijn5fqRGTQ2RVdzcToFX8WD0JHuf5S3JFxwjaSe91ZTqCSEpcZ0vThfIp3l1huKP0L1el7X5QYl6zdnQo5zB14CUmNMUUH3VNo1DUCXweoplgu14jKnX3CleiKPEV01LXrqz-ZfdMCtbQ2-La2ZCa2Xy_ttYjOD2tGA30glEJnwbZINfqeprbY70LKp1HmGMc_kJdT1szu71NR5IX0RNBQ_QnILmT1Ir74ySbI6YJFgjWdoe19eUE69Xvm-1pz8uQo2VeB0DIlI923pPqg4Tlfh_ffOM1wBIE9C7a814rR_ORiH7hMWFVQ3qQ",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790683897.391769,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://bu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CI7v9cfizLGwSRD92czRkc-TAxjzsvTRkc-TAw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790683898.391871,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://bu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "token_v2",
+      "value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IlNIQTI1NjpzS3dsMnlsV0VtMjVmcXhwTU40cWY4MXE2OWFFdWFyMnpLMUdhVGxjdWNZIiwidHlwIjoiSldUIn0.eyJzdWIiOiJsb2lkIiwiZXhwIjoxNzc1MjE4NDAxLjIyMjY3MiwiaWF0IjoxNzc1MTMyMDAxLjIyMjY3MiwianRpIjoiUTc0VFVYV25xRE1WQzdLT2RCWUROUzN2QnJSNDlRIiwiY2lkIjoiMFItV0FNaHVvby1NeVEiLCJsaWQiOiJ0Ml8xdnYxYTdlMHZrIiwibGNhIjoxNzU1NDM2MDcyMTEyLCJzY3AiOiJlSnhra2RHT3REQUloZC1GYTVfZ2Y1VV9tMDF0Y1lhc0xRYW9rM243RFZvY2s3MDdjRDRwSFA5REtvcUZEQ1pYZ3FuQUJGZ1RyVERCUnVUOW5MbTNnMmlOZTh0WXNabkNCRm13RkRya21MR3NpUVFtZUpJYXl4c21vSUxOeUZ5dXRHTk5MVDBRSnFoY01yZUZIcGMyb2JrYmk1NmRHRlc1ckR5b3NWZmwwdGpHRkxZbnhqY2JxdzJwdUM2bk1rbkxRdmtzWHZUak45VzM5dm16X1NhMEo4T0txdW1CM2hsSkNHNHNmcGltM2Q5VGs1NnRDeGExOTNxUTJ1ZDYzSzU5MWl3ME83ZWY2X2xySXhtWFkyaC1KdnQzMXktaEE0ODhMelBxQUVhczRVY1pkbVFkX2xVSFVMbWdKR01KNHRNSTVNcmwyMzhKdG12VHY4YnRFejk4TS1LbU5feldETlJ6Q2VMUXBfSDFHd0FBX184UTFlVFIiLCJmbG8iOjF9.GI-uG5DZF5-2ftSHcxQiacoKN3P65-AbBo-ptue79iWQ5N7qQ7qseWMersteXoQkit1MKPN0f_dk9nBbs4V5SREMxHPDOGTdU24BDpQohYqvY9Yj45V4kQ9qitesuZwHih2T4PX61Ag8eaVp1CpByRxH5RX7ZPefz5dB7z6B0MPxptf9RoBWiM5-Hm3-TpYjPJvXEuWai8vieMdvaQNMZqVXaJC8OPs4UYRMjrXl1qcG5PtVi8rCxZOaLgf7t4aXH-y53j0yHeeBvka2OQZAQatRBJtTBjZrHrmawOZHTDLnl_mQ7MeF1UgU6D8KLmzNuHjV8QVrV2ttC5tX3bV9bg",
+      "domain": ".reddit.com",
+      "path": "/",
+      "expires": 1775218401.062973,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "rlas3",
+      "value": "ioWNNCwfpVKuBCE2Lao90VH/EEPvFi6BM0uXt7rgtEs=",
+      "domain": ".rlcdn.com",
+      "path": "/",
+      "expires": 1806668001.59976,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "pxrc",
+      "value": "COG6uc4GEgUI6AcQABIGCNzdKhAA",
+      "domain": ".rlcdn.com",
+      "path": "/",
+      "expires": 1780316001.599805,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "session_tracker",
+      "value": "kdngddarkcneaggrar.0.1775132005530.Z0FBQUFBQnB6bDFsRUR6WWtqd2hyenRGamphakxkdWRtQ1pSVkxRbnFieF8wU0VnQk1kdnhyYlRqZG1VamhRZ1cwNnRkRFBJRDVSX0dLUG96V1FBekduUHhrQzkxOE5USm54ZTY1NW9pWGtYbE1ETk9sR3Nta0ZrMG1fOVVCcVZuQ0N6YTNUaE05cHk",
+      "domain": ".reddit.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_0Z1EBE5RV7",
+      "value": "GS2.1.s1775131895$o3$g1$t1775132285$j60$l0$h0",
+      "domain": ".bu.edu",
+      "path": "/",
+      "expires": 1809692285.734735,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_GBDN9CZLF7",
+      "value": "GS2.1.s1775131895$o1$g1$t1775132285$j60$l0$h0",
+      "domain": ".bu.edu",
+      "path": "/",
+      "expires": 1809692285.740017,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_cfuvid",
+      "value": "0mmGY9sr7zPoSQmq4_JFrr5aRMVkV885I5DxmbjkLAs-1775132285.7989936-1.0.1.1-zcc7RUpadkikVJrXrpe4ajeigG8CdD_A8x7yU4RBYbE",
+      "domain": ".vimeo.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_HVBYYX9KF6",
+      "value": "GS2.1.s1775131895$o1$g1$t1775132285$j60$l0$h0",
+      "domain": ".bu.edu",
+      "path": "/",
+      "expires": 1809692285.912713,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_ZLH6JNFYKK",
+      "value": "GS2.1.s1775131895$o1$g1$t1775132285$j60$l0$h0",
+      "domain": ".bu.edu",
+      "path": "/",
+      "expires": 1809692285.942391,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "vuid",
+      "value": "pl2008150967.555209547",
+      "domain": ".vimeo.com",
+      "path": "/",
+      "expires": 1809692286.466264,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AWSALB",
+      "value": "INkVvhRQ157ag8R9dfV9cQYd8laB2SqnoFyqZ1+f0skANBk2GSLm8f2tp5TJDy3yoGW+2V1IHtRCaYqWf5v01+rQmTKehlqaiy2XkFXFIDLx/UjMbIGkb8FbQw9k",
+      "domain": "www.bu.edu",
+      "path": "/",
+      "expires": 1775737088.941235,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AWSALBCORS",
+      "value": "INkVvhRQ157ag8R9dfV9cQYd8laB2SqnoFyqZ1+f0skANBk2GSLm8f2tp5TJDy3yoGW+2V1IHtRCaYqWf5v01+rQmTKehlqaiy2XkFXFIDLx/UjMbIGkb8FbQw9k",
+      "domain": "www.bu.edu",
+      "path": "/",
+      "expires": 1775737088.941642,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_opensaml_req_ss%3Amem%3A275e8ef84178e25353b218e6c14482acd91b11ead02a9443ec8caad1f637e269",
+      "value": "_b230d0f79ae9dc3b120359c107ea867f",
+      "domain": "dmca-prod.bu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__Host-JSESSIONID",
+      "value": "8A00CB825A55EA16C4A7C80CA9C686C2",
+      "domain": "shib.bu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AWSALB",
+      "value": "yITbES4x2OhC4qAYLKLj/BZQ5AB8GFxVMRvR8IvJUpXHlpcojPGsyZWwHwjIxvB1ULoYxls2yHTTLDP1USa/bXYeJUT+akVEgvu7xkBNuBARsAINnzNPuVUKKsB8",
+      "domain": "shib.bu.edu",
+      "path": "/",
+      "expires": 1775737108.707389,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AWSALBCORS",
+      "value": "yITbES4x2OhC4qAYLKLj/BZQ5AB8GFxVMRvR8IvJUpXHlpcojPGsyZWwHwjIxvB1ULoYxls2yHTTLDP1USa/bXYeJUT+akVEgvu7xkBNuBARsAINnzNPuVUKKsB8",
+      "domain": "shib.bu.edu",
+      "path": "/",
+      "expires": 1775737108.707504,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://www.bu.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755436132916"
+        },
+        {
+          "name": "NRBA_SESSION",
+          "value": "{\"value\":\"5f2231206cd7f3da\",\"inactiveAt\":1775134088580,\"expiresAt\":1775146298353,\"updatedAt\":1775132288580,\"sessionReplayMode\":0,\"sessionReplaySentFirstChunk\":false,\"sessionTraceMode\":0,\"traceHarvestStarted\":false,\"loggingMode\":0,\"logApiMode\":0,\"serverTimeDiff\":-341,\"custom\":{},\"numOfResets\":0,\"consent\":false}"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755436132928"
+        }
+      ]
+    },
+    {
+      "origin": "https://www.reddit.com",
+      "localStorage": [
+        {
+          "name": "_grecaptcha",
+          "value": "09AKhCRwiLwO5GA_O9dKXdZvdri6acb8NPenEIBIkHSawqhz0V6qaak7p-dwMcEwNnyBagY_J-HQH-6MgE7HFTapfX07ipudRwRZ6o0m-16yr9nONEiC_4ochBR2mPVeiT"
+        }
+      ]
+    }
+  ]
+}

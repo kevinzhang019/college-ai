@@ -1,0 +1,75 @@
+{
+  "cookies": [
+    {
+      "name": "cache_id",
+      "value": "1a1416bb4e6c663b48b091f1d0c36d27",
+      "domain": "law.utexas.edu",
+      "path": "/",
+      "expires": 1775140535.234082,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "balancer_id",
+      "value": "utweb-px-z1-p06_https|ac5wq|ac5wq",
+      "domain": "law.utexas.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.666083062.1775136935",
+      "domain": ".utexas.edu",
+      "path": "/",
+      "expires": 1809696935.524146,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_CB3FGVYF7L",
+      "value": "GS2.1.s1775136935$o1$g0$t1775136935$j60$l0$h0",
+      "domain": ".utexas.edu",
+      "path": "/",
+      "expires": 1809696935.493425,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_4TQNCNN6D7",
+      "value": "GS2.1.s1775136935$o1$g0$t1775136935$j60$l0$h0",
+      "domain": ".utexas.edu",
+      "path": "/",
+      "expires": 1809696935.523964,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_M5JQ3LHBX3",
+      "value": "GS2.1.s1775136935$o1$g0$t1775136937$j58$l0$h0",
+      "domain": ".utexas.edu",
+      "path": "/",
+      "expires": 1809696937.132925,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://www.google.com",
+      "localStorage": [
+        {
+          "name": "rc::a",
+          "value": "MXdsbGpiMXJnaDIyZg=="
+        }
+      ]
+    }
+  ]
+}

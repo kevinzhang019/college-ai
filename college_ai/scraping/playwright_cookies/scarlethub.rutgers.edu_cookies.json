@@ -1,0 +1,65 @@
+{
+  "cookies": [
+    {
+      "name": "_gid",
+      "value": "GA1.2.1892187179.1755505091",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1755591648,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_RX0G5XBWJW",
+      "value": "GS2.1.s1755505091$o1$g1$t1755505248$j60$l0$h0",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1790065248.094794,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_gtag_UA_171167470_1",
+      "value": "1",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1755505308,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_3K77D0NWXZ",
+      "value": "GS2.1.s1755505091$o1$g1$t1755505248$j60$l0$h0",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1790065248.200091,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.534810971.1755505091",
+      "domain": ".rutgers.edu",
+      "path": "/",
+      "expires": 1790065248.200264,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://scarlethub.rutgers.edu",
+      "localStorage": [
+        {
+          "name": "NRBA_SESSION",
+          "value": "{\"value\":\"244b3cb7602dcdc4\",\"inactiveAt\":1755506891639,\"expiresAt\":1755519491639,\"updatedAt\":1755505091981,\"sessionReplayMode\":0,\"sessionReplaySentFirstChunk\":false,\"sessionTraceMode\":0,\"traceHarvestStarted\":false,\"loggingMode\":0,\"serverTimeDiff\":-153,\"custom\":{},\"numOfResets\":0}"
+        }
+      ]
+    }
+  ]
+}

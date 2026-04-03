@@ -1,0 +1,79 @@
+{
+  "cookies": [
+    {
+      "name": "AGS_ROLES",
+      "value": "\"sym-gcm|1|slTb4tXyppxP6kpzVca21w==|rJXc4CfT6CT1JIlsxyYThvLYnpyvkvFr1QqDAtfT\"",
+      "domain": "ugisserver.uky.edu",
+      "path": "/arcgis/rest",
+      "expires": 1755481698.183774,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "BIGipServer~www.uky.edu~www9_ssl",
+      "value": "180134784.47873.0000",
+      "domain": "uky.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "BIGipServer~www.uky.edu~www9_ssl",
+      "value": "180134784.47873.0000",
+      "domain": "www.uky.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_RS8VY27RLL",
+      "value": "GS2.1.s1755447139$o1$g0$t1755447139$j60$l0$h0",
+      "domain": ".uky.edu",
+      "path": "/",
+      "expires": 1790007139.871461,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1689265692.1755447140",
+      "domain": ".uky.edu",
+      "path": "/",
+      "expires": 1790007139.871599,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "BIGipServer~www.uky.edu~www_https",
+      "value": "1487607980.47873.0000",
+      "domain": "uky.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://maps.uky.edu",
+      "localStorage": [
+        {
+          "name": "ADRUM_CLIENTINFO",
+          "value": "{\"agentId\":\"c1590ebe_ae3d_df69_70b5_20cfb3dc020e\",\"seqId\":4}"
+        },
+        {
+          "name": "ADRUM_AGENT_INFO",
+          "value": "{\"ver\":\"4.2.1.0\",\"id\":\"f34c919c_fbe1_75cb_d988_14e9f635ecac\"}"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "cookies": [],
+  "origins": [
+    {
+      "origin": "https://crir.culverhouse.ua.edu",
+      "localStorage": [
+        {
+          "name": "elementor",
+          "value": "{\"__expiration\":{},\"pageViews\":4,\"sessions\":3}"
+        }
+      ]
+    }
+  ]
+}

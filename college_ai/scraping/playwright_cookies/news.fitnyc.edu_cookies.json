@@ -1,0 +1,483 @@
+{
+  "cookies": [
+    {
+      "name": "X-AB",
+      "value": "73d5d2c9b3eb4512b5a7ceff2d9cd7aa",
+      "domain": "sc-static.net",
+      "path": "/scevent.min.js",
+      "expires": 1775218438,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sc_at",
+      "value": "v2|H4sIAAAAAAAA/03GyQ0AIAgAsIlIOEXchohM4fB+7atdWbnngG2nQIUYMkhhhrd59TjKlxQXuRsJo8T9ig8vbFvJQAAAAA==",
+      "domain": ".snapchat.com",
+      "path": "/",
+      "expires": 1808828039,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "YSC",
+      "value": "JtAFplcIKU0",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__Secure-YNID",
+      "value": "17.YT=eNyl0xHYsuosr3vqAzAgx6f0kI_tyCdTQYJFsNmXwrsvAU3R7G-MEy-gLQ232XrZTklkKcex07iKwFX-CxW4vSsFX7M3vnFca4nr-qqzGjcGiTRAk4Ey4zKtKPDsFnGewcJf118b6ZGnA4fDcr4F1DkqfVynHnkm6b0M7G7lnl17_ZuO7mL5U8q0tfIvl54XcZrfvBpYFfdvQJMyPQqNmakzgFyf9IATRu9-zHRpcBZwJwKSH_m8mnDCrCmdGCLCg32S6ixZeG1U7tRu4EKsN3FYr7iIrB9A7KkUyQTul57hPIq-qNSN51mGipNwgJ9amgEqtiojfdArmEWA6mVHyw",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790684039,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CP3I3vrJtcjw4wEQpPeIlZLPkwMYpPeIlZLPkwM%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790684039,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "Q_GVtsxZH44",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790684039,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgMQ%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790684039,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": ".pinterest.com",
+      "path": "/",
+      "expires": 1806668039,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUlLIikIEDNYem1nKd2vrAavP2zjzjJm8-CphftYhJMpn54vRsObOJVgzgGq",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1809692038,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "personalization_id",
+      "value": "\"v1_4pTSCV/qhBj616JVxFJ8OQ==\"",
+      "domain": ".twitter.com",
+      "path": "/",
+      "expires": 1809692038,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "muc_ads",
+      "value": "208e735b-ad48-4f6e-a27e-d5f8f760cfff",
+      "domain": ".t.co",
+      "path": "/",
+      "expires": 1809692038,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&4010127c-6424-4b49-8f7d-63d9335187e9\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1806668040,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "li_sugr",
+      "value": "e6725103-c01b-4312-8320-24bfe3ea065e",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1782908039,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=TGST09:s=T:r=T:a=T:p=T:g=3224:u=1:x=1:i=1775132038:t=1775218438:v=2:sig=AQG-GEsM28KIkRhWePuBPbiYfKCRw28O\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1775218438,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": "px.ads.linkedin.com",
+      "path": "/",
+      "expires": 1777761784,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "UserMatchHistory",
+      "value": "AQKIJnU9QfqwMAAAAZ1OHVZ0upJilCyeDSAyCeGcJHOXj8w0joR2iaiZkrYWEGvpAOZKxzmM44ldMw",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1777724038,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AnalyticsSyncHistory",
+      "value": "AQL8qjvhEPW70gAAAZ1OHVZ0dgZMPWY1DgVxavklHmskKNDeJwNmY_0n-jOJDBL7MgfTHEcfnmZzseeUCm-Npw",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1777724038,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bscookie",
+      "value": "\"v=1&20260402121358b764fd80-bed3-4c26-8328-561aea039be8AQGyyr3TIPJi9uhJm7Bo2T1n43o4WLFK\"",
+      "domain": ".www.linkedin.com",
+      "path": "/",
+      "expires": 1806668038,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "X-Mapping-fjhppofk",
+      "value": "F2B99BCADC82945887D55A7A6F93265C",
+      "domain": "fitnyc.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "X-Mapping-fjhppofk",
+      "value": "C884F95E83DFB0883624AF40EFCBE2C5",
+      "domain": "www.fitnyc.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1208854307.1755438261",
+      "domain": ".fitnyc.edu",
+      "path": "/",
+      "expires": 1809699865.295253,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_scid",
+      "value": "Jp51l7Xu6ei5vKxdqKzlbBajMRd6Yl6M",
+      "domain": ".fitnyc.edu",
+      "path": "/",
+      "expires": 1789624958,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cebs",
+      "value": "1",
+      "domain": ".fitnyc.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_pin_unauth",
+      "value": "dWlkPU5tSXhNRFprTWpNdE5EQmxNUzAwT0RBMUxXSm1abVF0WVdOak0ySXlOelV6WkRKbA",
+      "domain": ".fitnyc.edu",
+      "path": "/",
+      "expires": 1806668039,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cebsp_",
+      "value": "1",
+      "domain": ".fitnyc.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_ce.s",
+      "value": "v~4d9d0c0e34d7af28e8237c3fa8f834199458762c~lcw~1755438261344~vir~new~lva~1755438261121~vpv~0~v11.cs~239263~v11.s~476d89c0-7b70-11f0-9a8c-dfb10c166666~v11.vs~4d9d0c0e34d7af28e8237c3fa8f834199458762c~v11.fsvd~eyJ1cmwiOiJmaXRueWMuZWR1L2xpZmUtYXQtZml0L2NhbXB1cy9tYXAucGhwIiwicmVmIjoiIiwidXRtIjpbXX0%3D~v11.sla~1755438261341~v11.ss~1755438261344~v11ls~476d89c0-7b70-11f0-9a8c-dfb10c166666~lcw~1755438261350",
+      "domain": ".fitnyc.edu",
+      "path": "/",
+      "expires": 1786974261,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "nmstat",
+      "value": "66312053-21a8-0f12-88eb-547df0d394d7",
+      "domain": ".fitnyc.edu",
+      "path": "/",
+      "expires": 1789998263,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.1119878110.1775132038",
+      "domain": ".fitnyc.edu",
+      "path": "/",
+      "expires": 1782908038,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_rdt_uuid",
+      "value": "1775132038354.30f0e2db-4dfa-4a2a-b731-ff31b0744c53",
+      "domain": ".fitnyc.edu",
+      "path": "/",
+      "expires": 1782908038,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_twpid",
+      "value": "tw.1775132038365.41008796550886212",
+      "domain": ".fitnyc.edu",
+      "path": "/",
+      "expires": 1808828050,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_scid_r",
+      "value": "Mh51l7Xu6ei5vKxdqKzlbBajMRd6Yl6MY5Tyrg",
+      "domain": ".fitnyc.edu",
+      "path": "/",
+      "expires": 1809260038,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_sctr",
+      "value": "1%7C1775113200000",
+      "domain": ".fitnyc.edu",
+      "path": "/",
+      "expires": 1809260039,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_ZVWXER5YS0",
+      "value": "GS2.1.s1775132038$o3$g1$t1775132040$j58$l0$h0",
+      "domain": ".fitnyc.edu",
+      "path": "/",
+      "expires": 1809692040,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1775132043751.711343056950262021",
+      "domain": ".fitnyc.edu",
+      "path": "/",
+      "expires": 1782908050,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "OptanonAlertBoxClosed",
+      "value": "2026-04-02T12:14:10.016Z",
+      "domain": ".www.fitnyc.edu",
+      "path": "/",
+      "expires": 1775391250,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "OptanonConsent",
+      "value": "isIABGlobal=false&datestamp=Thu+Apr+02+2026+05%3A14%3A10+GMT-0700+(Pacific+Daylight+Time)&version=6.39.0&hosts=&landingPath=NotLandingPage&groups=C0002%3A1%2CC0001%3A1%2CC0004%3A1%2CC0003%3A1",
+      "domain": ".www.fitnyc.edu",
+      "path": "/",
+      "expires": 1775391250,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cf_clearance",
+      "value": "NnLb1xVO_7E3koTbKvoWM1raDtbEC5G7Y1Gdqa0J7II-1775132085-1.2.1.1-iGvwGXvn.li4KeiG0pUhLY6FROxcVcDnH8NZSgbXvP9f6GC6e4dlM9ePs.8lYWRIJaOll_YFa1PkCsGInpcVnqDSqtZGjDf9KxFqB0hlLrXREJlrbOszeH_6kUkEgfzNxPgMlU97c30SZ4150L8KknLuGBh0bQYToNMzXUZBiJMoxOtp5m6iQSEDIMxEK3MXeE0zQUzpp9JD8e5pZZkF2KEthO7roITZJBX46kmVq5s",
+      "domain": ".fitnyc.edu",
+      "path": "/",
+      "expires": 1806668085,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_TS",
+      "value": "1775132039596",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1780316039,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_DID",
+      "value": "6d63e010-bbbb-46cc-9679-1ce61f80df1c",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1780316039,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_3WAY_SYNCS",
+      "value": "",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1780316039,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "cf_clearance",
+      "value": "KzK_EzyGQfoAoJSbZMvFaNKRtgURaXcHbIaWG.lI.XY-1775139769-1.2.1.1-hKQY5WKTyf48Z.elr_Hy2g45Gx.RVlLIahsrZmK0Yc7fSp4ZyoGAda3xdu_VuNTeCAZfhdF4cuFnPUvmZi7mfExiIMw4dsAihw4aMdsuZPiPQj.ibmUaRiK0mBp.7BSjAkiT3zLvX4Pwsbd6Tl6jzkflNWUHsFwK5XJ1Do4LmJHLjyk2D6ZY9E9e077ku_nwJoHRyEOqu8vbmbDMONVrjSePwqRo.iNgDiC76Yyra50",
+      "domain": ".fitnyc.edu",
+      "path": "/",
+      "expires": 1806675769.63755,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://fitnyc.edu",
+      "_crHasCrossSiteAncestor": false
+    },
+    {
+      "name": "__cf_bm",
+      "value": "QO1oO26GlNj60st._rpc4y6_rM9fDL6J7vWpP3rAUnk-1775139859-1.0.1.1-UsklRZy8k5_GpFk4bSpwgayuV0IHNpxgiCoV51KMluITuT86NZYj_q5hb5eo1wF7bhnivJuBOaKYgxFFkLxnJtO3sIvjVgSJn4CuKMSbQos",
+      "domain": ".fitnyc.edu",
+      "path": "/",
+      "expires": 1775141658.955948,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_EM7SP42K4T",
+      "value": "GS2.1.s1775139768$o2$g1$t1775139866$j59$l0$h0",
+      "domain": ".fitnyc.edu",
+      "path": "/",
+      "expires": 1809699866.499241,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://www.fitnyc.edu",
+      "localStorage": [
+        {
+          "name": "u_sclid_r",
+          "value": "PVuvfSGg5ePR03A0WBETQ2Dva_3mJFqHEwkghTIedZe17unoubysXais5WwWozEXemJejGOU8q4"
+        },
+        {
+          "name": "u_sclid",
+          "value": "IduvfSGg5ePR03A0WBETQ2Dva_3mJFqHJp51l7Xu6ei5vKxdqKzlbBajMRd6Yl6M"
+        },
+        {
+          "name": "ce_bot_detector",
+          "value": "{\"visits\":0,\"clicks\":1,\"firstVisitTime\":1775132050000,\"detected\":false}"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1775132043746"
+        },
+        {
+          "name": "ce_fvd",
+          "value": "{\"landingUrl\":\"https://www.fitnyc.edu/life-at-fit/campus/map.php\",\"referrer\":\"\",\"time\":1755438261122,\"utm\":[],\"dailyVisitTime\":1755438261122,\"userData\":[]}"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755461825063"
+        },
+        {
+          "name": "ce_successful_csp_check",
+          "value": "1755524661297"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"timeouts\":0,\"errors\":0,\"eopCount\":0,\"creationTimeMs\":1775132038006},\"expires\":1782908038006}}"
+        },
+        {
+          "name": "li_adsId",
+          "value": "afe61ea7-1271-4773-af9f-c125007b1817"
+        }
+      ]
+    }
+  ]
+}

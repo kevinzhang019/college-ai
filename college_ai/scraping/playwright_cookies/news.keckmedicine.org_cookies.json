@@ -1,0 +1,45 @@
+{
+  "cookies": [
+    {
+      "name": "PPSESSION",
+      "value": "3kn4j1h7q1822h0kdgpa3kgug7",
+      "domain": "news.keckmedicine.org",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.1068109684.1755434364",
+      "domain": ".keckmedicine.org",
+      "path": "/",
+      "expires": 1763210363,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cookie_control",
+      "value": "accepted",
+      "domain": ".news.keckmedicine.org",
+      "path": "/",
+      "expires": 1786970363,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://news.keckmedicine.org",
+      "localStorage": [
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755434363532},\"expires\":1763210363532}}"
+        }
+      ]
+    }
+  ]
+}

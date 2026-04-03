@@ -1,0 +1,257 @@
+{
+  "cookies": [
+    {
+      "name": "_gd1755439809001",
+      "value": "_gd1755439809001",
+      "domain": ".purdue.edu",
+      "path": "/recwell",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gd1755439809002",
+      "value": "_gd1755439809002",
+      "domain": ".purdue.edu",
+      "path": "/recwell",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "BIGipServer~WEB~pool_lpXwebapa02.itap.purdue.edu_web",
+      "value": "!tKHw5Kri6cXlr1lpszLwGZhgEokv046HisFYH/OvsjybihKY1UpqZtuG0OzX/BAKhP7gub9G1w==",
+      "domain": "purdue.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_T85DGJNVF8",
+      "value": "GS2.1.s1755439805$o1$g0$t1755439805$j60$l0$h0",
+      "domain": ".purdue.edu",
+      "path": "/",
+      "expires": 1789999805.242357,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1005336302.1755439805",
+      "domain": ".purdue.edu",
+      "path": "/",
+      "expires": 1790063846.694679,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "nmstat",
+      "value": "29e0a1f4-092a-a988-4516-30f4980f09cc",
+      "domain": ".purdue.edu",
+      "path": "/",
+      "expires": 1789999805.770787,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755439805826.806259395304605776",
+      "domain": ".purdue.edu",
+      "path": "/",
+      "expires": 1763279846,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.95640254.1755439806",
+      "domain": ".purdue.edu",
+      "path": "/",
+      "expires": 1763215806,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&971062bb-7e50-4630-876f-f4b3de29cec0\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1787039848.0593,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=VGST01:s=V:r=V:a=V:p=V:g=3635:u=1:x=1:i=1755439805:t=1755526205:v=2:sig=AQG4oFM1pfVJfuEx1FlBwJu3xsLd4Mml\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755526205.884948,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "BIGipServer~WEB~pool_lpXwebapa02.itap.purdue.edu_web",
+      "value": "!hvPLk3OpwylT5zVpszLwGZhgEokv0/Jn2m9pSiVF/JGmfMH+lz0jjBOOHX1sGOvVjxkxGmjYWQ==",
+      "domain": "www.purdue.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUkAsUOncXXJ0vCg81mNNDW5RZC3JA0MoC6OdPTqAZGKr-tjpO2WgrR20MDn",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1789999807.291367,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "tint-anonymous-uid",
+      "value": "aa5eb63c-7aa5-4803-bb6e-1efe02c6e876",
+      "domain": ".purdue.edu",
+      "path": "/",
+      "expires": 1786975809,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "receive-cookie-deprecation",
+      "value": "1",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1771055847.151875,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://purdue.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": "px.ads.linkedin.com",
+      "path": "/",
+      "expires": 1758133593.059234,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "BIGipServer~WEB~pool_lpvwebwp03_web",
+      "value": "!ksrznEwKwx778qtpszLwGZhgEokv027J3tO8frRj8QGb2p1ZovFaHwzLB/bOr1BjqAXcHXzU",
+      "domain": "purdue.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "TS3bc111fe027",
+      "value": "08993c5290ab2000bcefbd01db80b777f1eb9e9660cc73f7a4a19378acbd7ae28e1dbd9b314100b0089d32eb3f113000dfdfd8c19a80f04f41ca180bf98adbda3633350c94a22aadcaa35ab397e8adeefc022286cc30d04443edf7439bdf3ab2",
+      "domain": "purdue.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "BIGipServer~WEB~pool_lpvwebwp03_web",
+      "value": "!Rk/ZzRCjUmR20SJpszLwGZhgEokv054eIX+gYgypUa3SJLYo6gWN/3wzyS3pwUw7R48y88bE",
+      "domain": "www.purdue.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "TS01acd742",
+      "value": "011b6a5bcb7e8cd87cea45e3e1d0e1da96a022e67eb01ed4dc10f810fa01dd2dae3038d12052b2bb49dfa72b7f7735e48ef1d7a1e134fbaf263e19bf86e195c370ee5d159c47ddf1ff703a4d6a5cfcf83d6e82b6bc",
+      "domain": ".www.purdue.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "TS3bc111fe027",
+      "value": "08993c5290ab2000b4dc183f0bcab4487eca987446a779d4ee9b4d9e97c4ff73562160513075daed08beecb214113000d63eb88f4273c223c644133386cc0c9b3f101cf863e78e69a1ae26a26c8cb4cb1b3da08b1043bef7d5a44094640ca5a5",
+      "domain": "www.purdue.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_B26WBBQ27X",
+      "value": "GS2.1.s1755503846$o3$g0$t1755503846$j60$l0$h0",
+      "domain": ".purdue.edu",
+      "path": "/",
+      "expires": 1790063846.694538,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_PF1CYQ27F6",
+      "value": "GS2.1.s1755503846$o3$g0$t1755503847$j59$l0$h0",
+      "domain": ".purdue.edu",
+      "path": "/",
+      "expires": 1790063847.630567,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://www.purdue.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755439805859},\"expires\":1763215805859}}"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755503846839"
+        },
+        {
+          "name": "tint_identify_traits",
+          "value": "{\"embed_url\":\"https://www.purdue.edu/recwell/\",\"personalization_id\":\"903428\",\"device_category\":\"desktop\",\"ip\":\"172.56.42.250\"}"
+        },
+        {
+          "name": "li_adsId",
+          "value": "7ff4c0cf-3e23-4406-8862-4d62518ab8e4"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755503846844"
+        }
+      ]
+    }
+  ]
+}

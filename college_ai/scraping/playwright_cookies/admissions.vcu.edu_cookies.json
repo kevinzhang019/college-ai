@@ -1,0 +1,543 @@
+{
+  "cookies": [
+    {
+      "name": "X-AB",
+      "value": "12f715ca71194ad9a1b12bba6d1da4c6",
+      "domain": "sc-static.net",
+      "path": "/scevent.min.js",
+      "expires": 1755531905.526213,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_rm",
+      "value": "0416d75d-0274-4c10-aea5-d5d94fee1632",
+      "domain": ".vcu.edu",
+      "path": "/",
+      "expires": 1790005504.660801,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.463149407.1755445505",
+      "domain": ".vcu.edu",
+      "path": "/",
+      "expires": 1763221505,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_node",
+      "value": "79e8292408f61f87b01c2918105ca2c70ae2dd1bf9acb5e69f7af28265befa30",
+      "domain": "ugradadmissions.vcu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "dde56dd2-51ea-435d-982f-fbddb98becb5",
+      "domain": "ugradadmissions.vcu.edu",
+      "path": "/",
+      "expires": 1790005505.137572,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "ugradadmissions.vcu.edu",
+      "path": "/",
+      "expires": 1790005505.137637,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_node",
+      "value": "79e8292408f61f87b01c2918105ca2c70ae2dd1bf9acb5e69f7af28265befa30",
+      "domain": "gradadmissions.vcu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "6fbbb6e6-6c55-4dd4-af84-7665db79d21b",
+      "domain": "gradadmissions.vcu.edu",
+      "path": "/",
+      "expires": 1790005505.175499,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "gradadmissions.vcu.edu",
+      "path": "/",
+      "expires": 1790005505.175572,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_8QSPQCH3KV",
+      "value": "GS2.1.s1755445505$o1$g0$t1755445505$j60$l0$h0",
+      "domain": ".vcu.edu",
+      "path": "/",
+      "expires": 1790005505.5523,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.1624355389.1755445506",
+      "domain": ".vcu.edu",
+      "path": "/",
+      "expires": 1755531905,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_scid",
+      "value": "Ga3Af58i-_DIz9WQ6yUQwfuyjP9UFOyX",
+      "domain": ".vcu.edu",
+      "path": "/",
+      "expires": 1789632203,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_scid_r",
+      "value": "Ga3Af58i-_DIz9WQ6yUQwfuyjP9UFOyX",
+      "domain": ".vcu.edu",
+      "path": "/",
+      "expires": 1789632203,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "lm_ct",
+      "value": "true",
+      "domain": "admissions.vcu.edu",
+      "path": "/",
+      "expires": 1755446705.742647,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "session_pages",
+      "value": "1",
+      "domain": "admissions.vcu.edu",
+      "path": "/",
+      "expires": 1755446712.012944,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "viewer_token",
+      "value": "198b8b4aecf",
+      "domain": "admissions.vcu.edu",
+      "path": "/",
+      "expires": 1790005505.744205,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "lm_ssid",
+      "value": "v5ahkejdhcffhaeggefbhffeeffafhec",
+      "domain": "admissions.vcu.edu",
+      "path": "/",
+      "expires": 1755446712.013363,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "test_cookie",
+      "value": "CheckForPermission",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1755446405.760876,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755445505824.24784167296837306",
+      "domain": ".vcu.edu",
+      "path": "/",
+      "expires": 1763221505,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_hjSessionUser_3073163",
+      "value": "eyJpZCI6IjQ5YWVlNzc5LTg0NTctNTE3Ny1hNjZjLTk0YTQ3MjllZThhZSIsImNyZWF0ZWQiOjE3NTU0NDU1MDU4NDIsImV4aXN0aW5nIjpmYWxzZX0=",
+      "domain": ".vcu.edu",
+      "path": "/",
+      "expires": 1786981505,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hjSession_3073163",
+      "value": "eyJpZCI6ImVjMjljODE5LTYyNzEtNDJjOS04NzU0LWRiNmNlODk2NGY2YSIsImMiOjE3NTU0NDU1MDU4NDMsInMiOjAsInIiOjAsInNiIjowLCJzciI6MCwic2UiOjAsImZzIjoxLCJzcCI6MH0=",
+      "domain": ".vcu.edu",
+      "path": "/",
+      "expires": 1755447305,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ScCbts",
+      "value": "%5B%5D",
+      "domain": ".vcu.edu",
+      "path": "/",
+      "expires": 1756050306,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_cap",
+      "value": "4350689411755445506",
+      "domain": ".vcu.edu",
+      "path": "/",
+      "expires": 1790005506.144513,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_caps",
+      "value": "329861755445506",
+      "domain": ".vcu.edu",
+      "path": "/",
+      "expires": 1755446406,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__adroll",
+      "value": "ca04e6a69df04b73a1da1382eeaf6404-a_1755445506",
+      "domain": ".d.adroll.com",
+      "path": "/",
+      "expires": 1789573506.471782,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "receive-cookie-deprecation",
+      "value": "1",
+      "domain": ".d.adroll.com",
+      "path": "/",
+      "expires": 1789573506.471796,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://vcu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "receive-cookie-deprecation",
+      "value": "1",
+      "domain": ".adroll.com",
+      "path": "/",
+      "expires": 1789573506.471808,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://vcu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "__adroll_shared",
+      "value": "ca04e6a69df04b73a1da1382eeaf6404-a_1755445506",
+      "domain": ".adroll.com",
+      "path": "/",
+      "expires": 1789573506.471819,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.3.1287970115.1755445506",
+      "domain": ".admissions.vcu.edu",
+      "path": "/",
+      "expires": 1790005508.462044,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.3.1624355389.1755445506",
+      "domain": ".admissions.vcu.edu",
+      "path": "/",
+      "expires": 1755531908,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__adroll_fpc",
+      "value": "84d91fdc98bd11082040b3be0482ea08-1755445506211",
+      "domain": ".vcu.edu",
+      "path": "/",
+      "expires": 1787003106,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__ar_v4",
+      "value": "%7CEGZ5WOLKLJC4VAJQKBQAXA%3A20250816%3A1%7CSKUZIZMY2FD6BJZZZU6A42%3A20250816%3A1",
+      "domain": ".admissions.vcu.edu",
+      "path": "/",
+      "expires": 1786981506,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_CEZXZMZPMQ",
+      "value": "GS2.1.s1755445506$o1$g0$t1755445506$j60$l0$h0",
+      "domain": ".vcu.edu",
+      "path": "/",
+      "expires": 1790005506.238217,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1287970115.1755445506",
+      "domain": ".vcu.edu",
+      "path": "/",
+      "expires": 1790005506.268124,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ad-id",
+      "value": "A3BMrXaY_0_chhGM5ITKRBs|t",
+      "domain": ".amazon-adsystem.com",
+      "path": "/",
+      "expires": 1775058306.242498,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_GYWMK1S0CW",
+      "value": "GS2.1.s1755445506$o1$g0$t1755445506$j60$l0$h0",
+      "domain": ".vcu.edu",
+      "path": "/",
+      "expires": 1790005506.267931,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sc_at",
+      "value": "v2|H4sIAAAAAAAAAE3GwQ3AMAgDwImQQNgxZJu0SqbI8P32XsenssdbJt9pGLWsWmXoFjd0AnkDPkMkQLrur/4BcazpgEAAAAA=",
+      "domain": ".snapchat.com",
+      "path": "/",
+      "expires": 1789141507.41747,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_TS",
+      "value": "1755445507269",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760629507.319398,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_DID",
+      "value": "efef455e-4beb-400f-8c79-23ea8913d151",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760629507.319457,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_3WAY_SYNCS",
+      "value": "",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760629507.319489,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_sctr",
+      "value": "1%7C1755403200000",
+      "domain": ".vcu.edu",
+      "path": "/",
+      "expires": 1789632205,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "TDID",
+      "value": "d317e526-1320-479c-9fa5-c7e8534392da",
+      "domain": ".adsrvr.org",
+      "path": "/",
+      "expires": 1786981509.693923,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "CAP.32ac29b4",
+      "value": "4350689411755445506",
+      "domain": ".cbe.capturehighered.net",
+      "path": "/",
+      "expires": 1790005508.901373,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "audit_p",
+      "value": "1|vVSCjbsFeIfNnq3bsidMnMkMclpz3oivLmxC6X5pwWWqcLSLiv9/T/xExsLlGnGHHVvc9L/njIqM1KxoLazIt9i2Wk5FrGos0XY24Ec+XLvrJzidEqY5Oabtb6lNK7g4Df/54deBT0SZoKjyX8fUjhPIIGBL05nfF64gtd3/XepbOz6AjJtUa8ZnH3r7x5VAdeodiyl5GGjkt77VmXBK7kiCfUmSYXqD+ohH/uuQN8oOr/S07bYDcYQkZmofZQkSVSwKu1RXSJT0/fhu8/pkBO4VeIulq+4M1TRwmTZWV3Xc6UO785F0Pw==",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1786981509.35961,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://vcu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "khaos",
+      "value": "MEFUXJX8-D-E1LX",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1786981509.359674,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "khaos_p",
+      "value": "MEFUXJX8-D-E1LX",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1786981509.359731,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://vcu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "audit",
+      "value": "1|vVSCjbsFeIfNnq3bsidMnMkMclpz3oivLmxC6X5pwWWqcLSLiv9/T/xExsLlGnGHHVvc9L/njIqM1KxoLazIt9i2Wk5FrGos0XY24Ec+XLvrJzidEqY5Oabtb6lNK7g4Df/54deBT0SZoKjyX8fUjhPIIGBL05nfF64gtd3/XepbOz6AjJtUa8ZnH3r7x5VAdeodiyl5GGjkt77VmXBK7kiCfUmSYXqD+ohH/uuQN8oOr/S07bYDcYQkZmofZQkSVSwKu1RXSJT0/fhu8/pkBO4VeIulq+4M1TRwmTZWV3Xc6UO785F0Pw==",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1786981509.359791,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "demdex",
+      "value": "41300467824009708563083812863903749529",
+      "domain": ".demdex.net",
+      "path": "/",
+      "expires": 1770997509.617281,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "dpm",
+      "value": "41300467824009708563083812863903749529",
+      "domain": ".dpm.demdex.net",
+      "path": "/",
+      "expires": 1770997509.617334,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TDCPM",
+      "value": "CAESEgoDYWFtEgsI-IjIvOLrrj4QBRIWCgdydWJpY29uEgsIzK3IvOLrrj4QBRIVCgZnb29nbGUSCwjW08i84uuuPhAFGAUgAigGMgsI4uLK6fjrrj4QBTgBQgQiAggBWgdnaTMycDY4YAE.",
+      "domain": ".adsrvr.org",
+      "path": "/",
+      "expires": 1786981509.693984,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://admissions.vcu.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "u_sclid",
+          "value": "S9hmfdZbn2hzflccNns6pDbsIv2bTYAPGa3Af58i-_DIz9WQ6yUQwfuyjP9UFOyX"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755445505097},\"expires\":1763221505097}}"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755445505821"
+        },
+        {
+          "name": "u_sclid_r",
+          "value": "S9hmfdZbn2hzflccNns6pDbsIv2bTYAPGa3Af58i-_DIz9WQ6yUQwfuyjP9UFOyX"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755445505826"
+        }
+      ]
+    }
+  ]
+}

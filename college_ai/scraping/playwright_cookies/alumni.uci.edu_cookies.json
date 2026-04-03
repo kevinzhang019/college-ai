@@ -1,0 +1,87 @@
+{
+  "cookies": [
+    {
+      "name": "nmstat",
+      "value": "6cca71e2-951c-df3d-4432-d4a3cf1334d9",
+      "domain": ".uci.edu",
+      "path": "/",
+      "expires": 1789996981.762745,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_DJ1MPP2362",
+      "value": "GS2.1.s1755436981$o1$g0$t1755436981$j60$l0$h0",
+      "domain": ".uci.edu",
+      "path": "/",
+      "expires": 1789996981.873814,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.947137261.1755436982",
+      "domain": ".uci.edu",
+      "path": "/",
+      "expires": 1789996981.873981,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "YSC",
+      "value": "ABXmD-IMGb0",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "t1POKj8Mnkw",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1770988983.035637,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgJQ%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1770988983.035681,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CLeL3r_Tjp2QJRDxh_Kt-JGPAxiz0a6u-JGPAw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1770988983.035709,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://uci.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "NID",
+      "value": "525=oYK_XG2nCstkpupefSyfvCl3etSUInYfmCd2WyV3EBWJtGzeZ_NdbaOFFkihITLOj0302R4mjH-b6A2CN4ic6-QQMzE6KZbK0i_RCgEbf49SN49rxaNm9HBEFj7P8zSC_Q23B97DByENTabpZiZYXCAXO04HVY1FO3nsuVDu7F8OgUQnuoIwqzA-2vJVTP-ulyrWmXE",
+      "domain": ".google.com",
+      "path": "/",
+      "expires": 1771248185.768084,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": []
+}

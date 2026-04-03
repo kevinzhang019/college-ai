@@ -1,0 +1,35 @@
+{
+  "cookies": [
+    {
+      "name": "_ga_T94ZQ4ENLH",
+      "value": "GS2.1.s1755437319$o1$g0$t1755437319$j60$l0$h0",
+      "domain": ".washu.edu",
+      "path": "/",
+      "expires": 1789997319.728478,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1557246766.1755437320",
+      "domain": ".washu.edu",
+      "path": "/",
+      "expires": 1789997395.554072,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_2HQCTJ9RMY",
+      "value": "GS2.1.s1755437331$o1$g1$t1755437395$j60$l0$h0",
+      "domain": ".washu.edu",
+      "path": "/",
+      "expires": 1789997395.553914,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

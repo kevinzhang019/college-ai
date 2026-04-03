@@ -1,0 +1,410 @@
+{
+  "cookies": [
+    {
+      "name": "_ga_8Y3285ZTEY",
+      "value": "GS2.1.s1755461129$o1$g0$t1755461129$j60$l0$h0",
+      "domain": ".umd.edu",
+      "path": "/",
+      "expires": 1790021129.731127,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.1471995442.1755461146",
+      "domain": ".umd.edu",
+      "path": "/",
+      "expires": 1763237146,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.2087874334.1755461146",
+      "domain": ".umd.edu",
+      "path": "/",
+      "expires": 1755617592,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "YSC",
+      "value": "Izcz9smSGXY",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://umd.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "TgpHh_EiGvY",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771082861.736229,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://umd.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgHw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771082861.736278,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://umd.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "suid",
+      "value": "35A514AF6F134C069BCFC0D8519239B6",
+      "domain": ".simpli.fi",
+      "path": "/",
+      "expires": 1787083546.312618,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_cq_duid",
+      "value": "1.1755461147.YBTDO0gcRDoUUiGU",
+      "domain": ".umd.edu",
+      "path": "/",
+      "expires": 1763415192,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_cq_suid",
+      "value": "1.1755461147.mgEyv3ImrflIJdZt",
+      "domain": ".umd.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "receive-cookie-deprecation",
+      "value": "1",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1771083192.700863,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://umd.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755461148160.164700656283170740",
+      "domain": ".umd.edu",
+      "path": "/",
+      "expires": 1763307192,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&1c1a2e66-f5c4-4c32-82ec-88801e998631\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1787067193.511551,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=VGST09:s=V:r=V:a=V:p=V:g=3278:u=1:x=1:i=1755461148:t=1755547548:v=2:sig=AQFJRZ7tBUP46NFMdMo0xukYL__6UDIL\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755547549.419443,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "cg_uuid",
+      "value": "1b34aa0171a45e71b5cefeb9b34b564b",
+      "domain": "obs.esnlocco.com",
+      "path": "/",
+      "expires": 1784491548.490726,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "uid_syncd_secure",
+      "value": "true",
+      "domain": ".simpli.fi",
+      "path": "/",
+      "expires": 1756065949.019283,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CJDE5MHNsf6DXhDuhqyw0pKPAxi9_OS30pKPAw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771013161.908892,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://umd.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "CLID",
+      "value": "449e32d54e0e4255be5c63ce6892901f.20250817.20260818",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1787066861.080683,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_clck",
+      "value": "vygshw%7C2%7Cfyk%7C0%7C2055",
+      "domain": ".umd.edu",
+      "path": "/",
+      "expires": 1787066861,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__utma",
+      "value": "26641534.1278833460.1755461130.1755530862.1755530862.1",
+      "domain": ".rhsmith.umd.edu",
+      "path": "/",
+      "expires": 1790090861.585469,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__utmb",
+      "value": "26641534.0.10.1755530862",
+      "domain": ".rhsmith.umd.edu",
+      "path": "/",
+      "expires": 1755532661,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__utmc",
+      "value": "26641534",
+      "domain": ".rhsmith.umd.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__utmz",
+      "value": "26641534.1755530862.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)",
+      "domain": ".rhsmith.umd.edu",
+      "path": "/",
+      "expires": 1771298861,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUlzM7SA2o9JQmJiNb058P1r9xqQ4VXwmssEDscNoEgUvJ_AdBIv0E0zotM5MUI",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1790090861.616232,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AWSALBTGCORS",
+      "value": "McNkyToMkB68EdJJ7/BOwQDM+etWkGyFqFJRLQB2DO6+ct+Abg2Wb3TcQJTPT2+NAp1dQ/+Jv4qa3PKyn2chTaq68JKCaPrQqxhE9r6H5v1ltMMf7MGuBijlTo95YXTc2snQXJHkefU+dI86jMYFKQ4vnmGRvgWnmhei+D2d8xDZ",
+      "domain": "www.tfaforms.com",
+      "path": "/",
+      "expires": 1756135661.658792,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AWSALBCORS",
+      "value": "SRGfU4h+XAuru027nJ6dwgxvX2Sf63SIGFs1/NeAG79TDeOYlqaEBdFANz6eHk6TX32bSNBmFFHVVkgbflqqW1OZn92f+FRw4aQZ4uNkuTNLAPOozIlrDjCUPEjO",
+      "domain": "www.tfaforms.com",
+      "path": "/",
+      "expires": 1756135661.658974,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": "px.ads.linkedin.com",
+      "path": "/",
+      "expires": 1758160938.511512,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "NID",
+      "value": "525=WrN_cWhWUtG-mAn3ibRlrVi_g04KiODDCRgSHZOql01JX6-7ococPs8lv2R90oRH0lR5R448LB_SOsmZ7FVRthZ0zZW7csWwAFOC30zMDS3AaRN17676PBjpY-05vh7a9GG8QvW2HWbWLydXWb0SWXUm9PjI22ooNU1HrBglAfMdEHlCZUeB5_hjUIMCTXnToyXdybg",
+      "domain": ".google.com",
+      "path": "/",
+      "expires": 1771342062.700218,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_3KLZVDGFWL",
+      "value": "GS2.1.s1755530860$o2$g1$t1755531191$j60$l0$h0",
+      "domain": ".umd.edu",
+      "path": "/",
+      "expires": 1790091191.972632,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_rdt_uuid",
+      "value": "1755461147098.1d332a08-975d-4a1c-a0db-41513be63187",
+      "domain": ".umd.edu",
+      "path": "/",
+      "expires": 1763307192,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.1278833460.1755461130",
+      "domain": ".umd.edu",
+      "path": "/",
+      "expires": 1790091192.067714,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_UA-7306198-1",
+      "value": "1",
+      "domain": ".umd.edu",
+      "path": "/",
+      "expires": 1755531252,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_uetsid",
+      "value": "91075f807ba511f09e011da54223e1cf",
+      "domain": ".umd.edu",
+      "path": "/",
+      "expires": 1755617592,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_uetvid",
+      "value": "910768e07ba511f0a299a14f56171ae8",
+      "domain": ".umd.edu",
+      "path": "/",
+      "expires": 1789227192,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_cq_pxg",
+      "value": "3|3102656|10855357973|event=conversion",
+      "domain": ".umd.edu",
+      "path": "/",
+      "expires": 1755617592,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://www.rhsmith.umd.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755531192453"
+        },
+        {
+          "name": "_uetvid_exp",
+          "value": "Sat, 12 Sep 2026 15:33:12 GMT"
+        },
+        {
+          "name": "_uetsid_exp",
+          "value": "Tue, 19 Aug 2025 15:33:12 GMT"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755531192781"
+        },
+        {
+          "name": "shoestringMethods",
+          "value": "{\"on\":true,\"each\":true,\"addClass\":true,\"trigger\":true,\"parent\":true,\"find\":true,\"filter\":true}"
+        },
+        {
+          "name": "_uetvid",
+          "value": "910768e07ba511f0a299a14f56171ae8"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":7,\"creationTimeMs\":1755531192801},\"expires\":1763307192801}}"
+        },
+        {
+          "name": "_uetsid",
+          "value": "91075f807ba511f09e011da54223e1cf"
+        },
+        {
+          "name": "li_adsId",
+          "value": "78565667-9de0-4e37-be9d-71eca3fd9324"
+        }
+      ]
+    },
+    {
+      "origin": "https://careers.rhsmith.umd.edu",
+      "localStorage": [
+        {
+          "name": "NRBA_SESSION",
+          "value": "{\"value\":\"933b03b87b1e0710\",\"inactiveAt\":1755462930428,\"expiresAt\":1755475530428,\"updatedAt\":1755461130978,\"sessionReplayMode\":0,\"sessionReplaySentFirstChunk\":false,\"sessionTraceMode\":0,\"traceHarvestStarted\":false,\"loggingMode\":0,\"serverTimeDiff\":-280,\"custom\":{},\"numOfResets\":0}"
+        }
+      ]
+    }
+  ]
+}

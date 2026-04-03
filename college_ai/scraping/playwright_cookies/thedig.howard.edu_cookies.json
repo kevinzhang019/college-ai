@@ -1,0 +1,81 @@
+{
+  "cookies": [
+    {
+      "name": "_gcl_au",
+      "value": "1.1.615219770.1755453505",
+      "domain": ".howard.edu",
+      "path": "/",
+      "expires": 1763229505,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_YTWX7980TD",
+      "value": "GS2.1.s1755453505$o1$g0$t1755453505$j60$l0$h0",
+      "domain": ".howard.edu",
+      "path": "/",
+      "expires": 1790013505.02064,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.53834204.1755453505",
+      "domain": ".howard.edu",
+      "path": "/",
+      "expires": 1790013505.020784,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755453505297.141696922335428043",
+      "domain": ".howard.edu",
+      "path": "/",
+      "expires": 1763297788,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUnqSMjwn321F0eUWpGAhRuTUbB3d0sBZiOOm9IMmOMDlxjFPEqktnuzREdj",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1790081788.193052,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://thedig.howard.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755453504996},\"expires\":1763229504996}}"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755521788672"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755521788685"
+        },
+        {
+          "name": "shoestringMethods",
+          "value": "{\"on\":true,\"each\":true,\"addClass\":true,\"trigger\":true,\"parent\":true,\"find\":true,\"filter\":true}"
+        }
+      ]
+    }
+  ]
+}

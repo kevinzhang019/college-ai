@@ -1,0 +1,177 @@
+{
+  "cookies": [
+    {
+      "name": "affinity",
+      "value": "\"8df25ff182539401\"",
+      "domain": "www.bc.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_node",
+      "value": "667e507a20de1427759793439ba1e70914180f289659d92247ca62f80bdc14c9",
+      "domain": "apply.bc.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "a1e5e69f-5c45-42c5-977c-7cd3e13404e6",
+      "domain": "apply.bc.edu",
+      "path": "/",
+      "expires": 1790012351.61158,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "apply.bc.edu",
+      "path": "/",
+      "expires": 1790012351.611904,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.1483174900.1755452352",
+      "domain": ".bc.edu",
+      "path": "/",
+      "expires": 1763228352,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755452351749.881731143449610611",
+      "domain": ".bc.edu",
+      "path": "/",
+      "expires": 1763341957,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "receive-cookie-deprecation",
+      "value": "1",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1771004414.585322,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://bc.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.1166641605.1755565914",
+      "domain": ".bc.edu",
+      "path": "/",
+      "expires": 1755652357,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_dc_gtm_UA-9893151-1",
+      "value": "1",
+      "domain": ".bc.edu",
+      "path": "/",
+      "expires": 1755565974,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_UA-9893151-1",
+      "value": "1",
+      "domain": ".bc.edu",
+      "path": "/",
+      "expires": 1755565974,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUkNe_F41vasdoe33FXsBe_Qtmj3bh9MTi8xtrDkjvZkzzznbeDE_hAjoXtiwzo",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1790125914.647966,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_QT7N5RMC2M",
+      "value": "GS2.1.s1755565914$o2$g1$t1755565956$j18$l0$h0",
+      "domain": ".bc.edu",
+      "path": "/",
+      "expires": 1790125956.93822,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_HMWF4T36MF",
+      "value": "GS2.1.s1755565914$o2$g1$t1755565956$j18$l0$h0",
+      "domain": ".bc.edu",
+      "path": "/",
+      "expires": 1790125956.939787,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.1531883556.1755452352",
+      "domain": ".bc.edu",
+      "path": "/",
+      "expires": 1790125957.034798,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://www.bc.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "7609286f-4635-936a-3acd-7bfb09c763af_st",
+          "value": "1755565914061"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755452351726},\"expires\":1763228351726}}"
+        },
+        {
+          "name": "7609286f-4635-936a-3acd-7bfb09c763af_pp",
+          "value": "{}"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755565956796"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755565957134"
+        }
+      ]
+    }
+  ]
+}

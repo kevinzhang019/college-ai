@@ -1,0 +1,345 @@
+{
+  "cookies": [
+    {
+      "name": ".AspNetCore.OpenIdConnect.Nonce.CfDJ8IfsjN2Uq71Nj6SZRffjAJYF8NtskxWRuGcLMbqYYBebGATiX2mkhDmDqOgMW42UpMYT81r4xcuVwu7bBok-uR2qT75gN0ZCZuycA6TgI5JpHX3PCEISlfrurijS3NKS-AoRaCfj-bSFtu0npIG2a1oC0Z1j7EBzvQS-fkAWYz5WwYDE3tSrerIMPk-vWZmi1kG0A16KE1KuzcWeNDZ5ItBNMYz_x9C5sBGe0UTvI32sKJck6GDeYba1L277M87t60gRYCSf0UIjjhh5gQjA92Q",
+      "value": "N",
+      "domain": "www6.law.northwestern.edu",
+      "path": "/apps/private/students/parking/signin-oidc",
+      "expires": 1775184545.809513,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": ".AspNetCore.Correlation.IvHiLvyZoQnjxB-mqeTE06l4w972aA7ZsiZ-5sRa120",
+      "value": "N",
+      "domain": "www6.law.northwestern.edu",
+      "path": "/apps/private/students/parking/signin-oidc",
+      "expires": 1775184545.809592,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "f5avraaaaaaaaaaaaaaaa_session_",
+      "value": "FCMHDGKJCLCHCKGJCEEDJNCMDKNCABPNJHJLHBFJJLHBNIICNLJJOJIIJCICEDCPHHADBFHDGBLKJDNFMCAABDNELNMIOLBPHFIPHNIAIPCFHKMNBFDPOLIIOAKDEMNF",
+      "domain": "northwestern.edu",
+      "path": "/provost/faculty-honors",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "f5avraaaaaaaaaaaaaaaa_session_",
+      "value": "MFPCFACIKDIPFLIEMDEJNKKDFNLAKNGLMJFJIKLJAKNFCDKIEKHHCLAMFONHFMBODBIDNGNHHBGHOMCEIBMAKEEALNLNMKNEIIGBDBKDLIINLCIKCOKFKLBPJPGOLILL",
+      "domain": "www.northwestern.edu",
+      "path": "/provost/faculty-honors",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "f5avraaaaaaaaaaaaaaaa_session_",
+      "value": "MCHMDEMHCKECJPOMHIJJLIGNDMOGBNCLEOKIDEMNNOOPMLIMLBMGADFAFGIGJNEAPCADKBLMECPNEPALKPKAKCKNCNJGPLGELLLOPIMMGKMDFENGIIIILOJBFCIPANBK",
+      "domain": "common.northwestern.edu",
+      "path": "/dept/4.0/css",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "f5avraaaaaaaaaaaaaaaa_session_",
+      "value": "CDFIBIPAAJLODIBPNBFONDAAOPBIHDBDGLGCCFCPKNKAJOBLAIKEMEENNALMMHKADFIDJBIJIBGGEKMKADPADOJBLNACMGCJEDEGIGGCDACMOEPNEDDAHHOFIKBEBLJB",
+      "domain": "common.northwestern.edu",
+      "path": "/dept/3.0/js",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "f5avraaaaaaaaaaaaaaaa_session_",
+      "value": "CANCFMLDFAOFAILLNACNJCLCJFLFMOBIIOIOCCCJHIDJCIEFAKAAMPEFLCBAKFIFDHGDHIFMECDBAOFMKJJAKPNDCNDGOHDOLMCNOEHFMKPOCDENFJJBINHEPIEJONNP",
+      "domain": "common.northwestern.edu",
+      "path": "/dept/4.0/js",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "f5avraaaaaaaaaaaaaaaa_session_",
+      "value": "OBPKCPBAFPDIIEEFIOGJNPNECFKMAPNLJPNLEBIKCEEBJDLPDMDEBPKHMGGFOADFKEKDHFOMIBEEKKAGHOHAKOOMLNDCKLKNJOKNPCIBGMCPPNPGDDAECLMPBCEPCHOJ",
+      "domain": "common.northwestern.edu",
+      "path": "/dept/3.0",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "f5avraaaaaaaaaaaaaaaa_session_",
+      "value": "OEGKMLFGBJPIMMAHDNFPLPEANDKJHMGACDPAKLHDECJOMBLIPLEKJFMNNCGBDCGOEGADNNHOECHLJEKNHNJAJPHGCNKNGLBIKKFFFMIKOCILDDJEBAILGEIDGPFKBMED",
+      "domain": "common.northwestern.edu",
+      "path": "/v9/css",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "f5avraaaaaaaaaaaaaaaa_session_",
+      "value": "NNFHNEEHHJANEMICICKAOJOJHDABJCLAEKBPOKBGNBJKPHFHNHPGAHIMLGNAKOMJCAIDINOPECNCBGNGGGFAAKEHCNDBOINCPNNNIODFANAPEFGNMGLNODKKKHLEGHBJ",
+      "domain": "common.northwestern.edu",
+      "path": "/v9/js",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "BIGipServer~trust-662~pool_evnuinfo_80",
+      "value": "!YdcqhnEfzHS2nBZhqWSXwNz1yBZ7/stWyjAicuMVaEr/yyBKuS+86xc6WoM/4OxZ9Y72jGVqUKHASg==",
+      "domain": "northwestern.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "BIGipServer~trust-662~pool_evnuinfo_80",
+      "value": "!vev4P4OeMKdqfl1hqWSXwNz1yBZ7/hu74rnMk7CzLQKWIL8s8MXNZ2xlEh31dJSfF8fWGBwsafxiOw==",
+      "domain": "www.northwestern.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "BIGipServer~trust-662~pool_evnuinfo_80",
+      "value": "!zW/kQWl3OnKZ42thqWSXwNz1yBZ7/uudzkZSAjHG+A8kTYhvGTvy3l4BB5LzqqgFrvz7jngkBDaQUw==",
+      "domain": "common.northwestern.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "f5avraaaaaaaaaaaaaaaa_session_",
+      "value": "FDAIMHMCFBHCKOKLCNCBDOBLEKIABJELGGMDKJKNALANECPDPPPIDLFMNFLBBNHCPLADGMOLDCMPOLCDDIBAGGGKCNAEACEOOPOJJIGJEGGIIFGCONACJGPGMKINHAAK",
+      "domain": "northwestern.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "f5avraaaaaaaaaaaaaaaa_session_",
+      "value": "BCDEALGNHMMGFDAFGBJPMMOJMBHKOEDNAFAKJDMLLIAOIBLIBPMFDKKEBOABIMNLGNIDEABLDCAJKCGIJHJAHGJDCNEAMMJAGHLPKHLGALEIMPLIAPLDJGILFINNEKCC",
+      "domain": "www.northwestern.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cookieyes-consent",
+      "value": "consentid:a0JRYU5TdGZabVBzYWxPWWlPRHZSU3hUdFFjRmtSTG0,consent:yes,action:yes,necessary:yes,functional:yes,analytics:yes,performance:yes,advertisement:yes,other:yes,lastRenewedDate:1746477722000",
+      "domain": ".northwestern.edu",
+      "path": "/",
+      "expires": 1786971634,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_ga_JF7CBCTDRN",
+      "value": "GS2.1.s1755435634$o1$g0$t1755435634$j60$l0$h0",
+      "domain": ".northwestern.edu",
+      "path": "/",
+      "expires": 1789995634.73521,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.508386821.1755435635",
+      "domain": ".northwestern.edu",
+      "path": "/",
+      "expires": 1809731422.845767,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.2041503993.1775171423",
+      "domain": ".northwestern.edu",
+      "path": "/",
+      "expires": 1775257822,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_31YGEK8CSK",
+      "value": "GS2.2.s1775171424$o1$g0$t1775171424$j60$l0$h0",
+      "domain": ".northwestern.edu",
+      "path": "/",
+      "expires": 1809731424.907086,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_98BM2HLHXL",
+      "value": "GS2.1.s1775171418$o1$g0$t1775171428$j50$l0$h0",
+      "domain": ".northwestern.edu",
+      "path": "/",
+      "expires": 1809731428.855623,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_7XLBH2NC54",
+      "value": "GS2.1.s1775171421$o2$g0$t1775171428$j53$l0$h0",
+      "domain": ".northwestern.edu",
+      "path": "/",
+      "expires": 1809731428.860389,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "esctx-qOaQFPreGPE",
+      "value": "AQABCQEAAACvnsHKEvvRQb3Bz3Qc7wnaRXZvU3RzQXJ0aWZhY3RzDQAAAAAA8GaydNY_ENwmLehlaYivoWv8J3U20V9Pp263p8Mc5MM9j4ArEFjnwJvKSApZBfNPWoHohW9FaL3SZ0TO2RNvuTSV6CooYAmJnEBOMjzybI3XcvKauABkiM4oSeYIJz6X8qzJeZSex-WUpsFYCpIF8SAA",
+      "domain": ".login.microsoftonline.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "x-ms-gateway-slice",
+      "value": "estsfd",
+      "domain": "login.microsoftonline.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "stsservicecookie",
+      "value": "estsfd",
+      "domain": "login.microsoftonline.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AADSSO",
+      "value": "NA|NoExtension",
+      "domain": ".login.microsoftonline.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "SSOCOOKIEPULLED",
+      "value": "1",
+      "domain": "login.microsoftonline.com",
+      "path": "/",
+      "expires": 1775183706,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "buid",
+      "value": "1.AXUAYdN2fXeCCEekd2ToNmzRvAL84MSOcn5PgAaSadn6eoYAAAB1AA.AQABGgEAAACvnsHKEvvRQb3Bz3Qc7wnaRXZvU3RzQXJ0aWZhY3RzAwAAAAAA9ykgVjRi5wazK61hqlKMPNGVe1_31s75SEZvvWfds5B0wfPjDeln_gYvVMbuzKy9_2TrrQu0Jn8zwcZD1uzF3NgnSDuZ0SvXRq73C4tui88gAA",
+      "domain": "login.microsoftonline.com",
+      "path": "/",
+      "expires": 1777775646.910223,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "esctx",
+      "value": "PAQABBwEAAACvnsHKEvvRQb3Bz3Qc7wnaRXZvU3RzQXJ0aWZhY3RzDQAAAAAA5Z_yHPVZgVg7OtXoZtLpVW2m7z6wJQD3Hv7mcPRb4alI8efiN9T1NFi-IT5AGpzOuOUCid7DG9rCa1opAcD_AcD2XeYL4HbRLzMhyxNq2JH5auv3fy7feEFhnfu3A-Ld8qiOwj1TkMzTNzKnm8IzavDqtkg03-DNTD1BRQs9TWYgAA",
+      "domain": ".login.microsoftonline.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "esctx-o05u4DcSwIY",
+      "value": "AQABCQEAAACvnsHKEvvRQb3Bz3Qc7wnaRXZvU3RzQXJ0aWZhY3RzDQAAAAAAJg1DitqJmBs5_OQ2bK0aJEMzszXLy45_tXDn8lMR2fAVp5hEce3ozvznCmTYOuxFlWzNBdnhgdGLsnbJshWppb10YNr-WfvNMpJ9LTXw8I2tBwJjVsLZgWsuHvbssi-r_h1xBy6e-DBgPJ_2v7HE3iAA",
+      "domain": ".login.microsoftonline.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "fpc",
+      "value": "Aqg7eU9iOPFBusP-HqXgXKrZrVzXAQAAAB4eYeEOAAAA",
+      "domain": "login.microsoftonline.com",
+      "path": "/",
+      "expires": 1777775646.910298,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "brcap",
+      "value": "0",
+      "domain": ".login.microsoftonline.com",
+      "path": "/",
+      "expires": 1808879647,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "uaid",
+      "value": "60d1009ff93247668f231dbd7087a7e3",
+      "domain": ".login.live.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MSPRequ",
+      "value": "id=N&lt=1775183647&co=1",
+      "domain": ".login.live.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": []
+}

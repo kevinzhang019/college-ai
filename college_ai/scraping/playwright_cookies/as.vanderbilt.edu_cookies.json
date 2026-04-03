@@ -1,0 +1,176 @@
+{
+  "cookies": [
+    {
+      "name": "_gcl_au",
+      "value": "1.1.965429629.1755451533",
+      "domain": ".vanderbilt.edu",
+      "path": "/",
+      "expires": 1763227533,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.468824584.1755451533",
+      "domain": ".vanderbilt.edu",
+      "path": "/",
+      "expires": 1790011675.949265,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_hjSession_6425798",
+      "value": "eyJpZCI6IjAwY2UzZjM4LWM0OGYtNDEwMi04YmEwLTJkYmYxOTQzM2MyMiIsImMiOjE3NTU0NTE1MzM1NDMsInMiOjAsInIiOjAsInNiIjowLCJzciI6MCwic2UiOjAsImZzIjoxLCJzcCI6MH0=",
+      "domain": ".vanderbilt.edu",
+      "path": "/",
+      "expires": 1755453333,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hjSessionUser_6425798",
+      "value": "eyJpZCI6ImNiOTBhZjJlLTYxMWMtNWE0ZC04MWQ1LWM1NzU4MzUyNWVmZSIsImNyZWF0ZWQiOjE3NTU0NTE1MzM1NDIsImV4aXN0aW5nIjp0cnVlfQ==",
+      "domain": ".vanderbilt.edu",
+      "path": "/",
+      "expires": 1786987542,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUl3SMTBjff8ItYKjlOL5b89RWOJEaxSdjQrPYE0eCq4B6is2aKC8VGINiaY",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1790011543.338723,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AWSALB",
+      "value": "/vHA6fDOjtxYCygG7p9sCZ+c9uYLnmtTwaKVux7+FbEM7hLhpMsVHUOg1JuMNxTFEYZMXO2tpo0UmbdM5LiO8EbRy3Pbxl7xC1W2tA4wyngHY5g6cIrWR+1f0TIl",
+      "domain": "as.vanderbilt.edu",
+      "path": "/",
+      "expires": 1756056473.973744,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AWSALBCORS",
+      "value": "/vHA6fDOjtxYCygG7p9sCZ+c9uYLnmtTwaKVux7+FbEM7hLhpMsVHUOg1JuMNxTFEYZMXO2tpo0UmbdM5LiO8EbRy3Pbxl7xC1W2tA4wyngHY5g6cIrWR+1f0TIl",
+      "domain": "as.vanderbilt.edu",
+      "path": "/",
+      "expires": 1756056473.973846,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "YSC",
+      "value": "DdqxZJBET1I",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "uACK4tItsFU",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771003675.989655,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgaw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771003675.989681,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CJ-w-bCEiYeWBhC6g56Mr5KPAxjPtcKMr5KPAw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771003675.989696,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://vanderbilt.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_hjSessionUser_3146100",
+      "value": "eyJpZCI6IjE5YWI5YWYyLTRlODQtNWVjNy1iYmI4LTljOTY4MzM0ZjNiYyIsImNyZWF0ZWQiOjE3NTU0NTE2NzY1NjgsImV4aXN0aW5nIjpmYWxzZX0=",
+      "domain": ".vanderbilt.edu",
+      "path": "/",
+      "expires": 1786987676,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hjSession_3146100",
+      "value": "eyJpZCI6ImQ1MzMwODU3LTFhNzEtNDE4NS1hNzg3LTRmMDhlNDk0YmM0ZiIsImMiOjE3NTU0NTE2NzY1NjksInMiOjAsInIiOjAsInNiIjowLCJzciI6MCwic2UiOjAsImZzIjoxLCJzcCI6MH0=",
+      "domain": ".vanderbilt.edu",
+      "path": "/",
+      "expires": 1755453476,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_Q8Z61J6QLT",
+      "value": "GS2.1.s1755451532$o1$g1$t1755451678$j7$l0$h0",
+      "domain": ".vanderbilt.edu",
+      "path": "/",
+      "expires": 1790011678.346564,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "NID",
+      "value": "525=aKReuDWRMpZm-Ftle6o0tVkc7wNz2-gumOM7cAvAwQLFQEIN-9qyBujgoAR-4yU6pPGu7A8pxc2FdgqXGb3LRS20w8ONB0GlNRlNbvmY9oIvAp_7SFAhEr_PAcOA75uuVAC0AR2jAwlT421PUxMIcch-i6HKHqFxqxhioSPzvGKh2TsGHoIT2AH3UqcrZQ6k8bNpJk8",
+      "domain": ".google.com",
+      "path": "/",
+      "expires": 1771262878.46462,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://as.vanderbilt.edu",
+      "localStorage": [
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755451675398},\"expires\":1763227675398}}"
+        }
+      ]
+    },
+    {
+      "origin": "https://www.vanderbilt.edu",
+      "localStorage": [
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755451532559},\"expires\":1763227532559}}"
+        }
+      ]
+    }
+  ]
+}

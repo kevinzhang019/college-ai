@@ -1,0 +1,151 @@
+{
+  "cookies": [
+    {
+      "name": "_gcl_au",
+      "value": "1.1.978873929.1755480364",
+      "domain": ".ucsd.edu",
+      "path": "/",
+      "expires": 1763256364,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.785613694.1755480365",
+      "domain": ".ucsd.edu",
+      "path": "/",
+      "expires": 1790040518.116859,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "YSC",
+      "value": "P3hFePIoosU",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "ICDh7QkEBf0",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771032364.790223,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgNQ%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771032364.790243,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": "px.ads.linkedin.com",
+      "path": "/",
+      "expires": 1758110264.783138,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&39608453-d8c8-4063-85e0-a529b3df5e7e\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1787016518.783207,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=VGST09:s=V:r=V:a=V:p=V:g=3278:u=1:x=1:i=1755480365:t=1755566765:v=2:sig=AQH5CHcn3GMsN8_G_RKu4G2xF7chwyGu\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755566766.313345,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hjSession_3662797",
+      "value": "eyJpZCI6ImY5MWI4MjFlLWRiZDctNGQ0NC05ZjQzLTUyYTk4ZDk2YTgzYiIsImMiOjE3NTU0ODAzNjUzMzIsInMiOjAsInIiOjAsInNiIjowLCJzciI6MCwic2UiOjAsImZzIjoxLCJzcCI6MH0=",
+      "domain": ".ucsd.edu",
+      "path": "/",
+      "expires": 1755482165,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "DR.vI0601Jz9rl87vyD67FPNd5DQPsDE5oQmkIES9bw-1755480504-1.0.1.1-RR_j0QbjV2.0OxmvZFZGlx1ICM9g6HXpfCOFXEh2Cdsyx8FxjfgsHNxMWLDgRZ6jFr8GCslJ199eTWy7NL7IETf09bSlexbpPIvp7lmffwc",
+      "domain": ".myfonts.net",
+      "path": "/",
+      "expires": 1755482304.66811,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CI3W95X81LO5rgEQ0q25_JmTjwMY9efMv5qTjwM%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771032505.61256,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://ucsd.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_hjSessionUser_3662797",
+      "value": "eyJpZCI6IjA0NmFkY2I4LTRhMmEtNTU2Zi04MDJmLWM2ZjRmZTNjNDM4MiIsImNyZWF0ZWQiOjE3NTU0ODAzNjUzMzIsImV4aXN0aW5nIjp0cnVlfQ==",
+      "domain": ".ucsd.edu",
+      "path": "/",
+      "expires": 1787016518,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_ZBPHLZYTS4",
+      "value": "GS2.1.s1755480364$o1$g1$t1755480518$j47$l0$h0",
+      "domain": ".ucsd.edu",
+      "path": "/",
+      "expires": 1790040518.119156,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://getinvolved.ucsd.edu",
+      "localStorage": [
+        {
+          "name": "li_adsId",
+          "value": "4917aaf4-3427-4dc6-a251-9f458ff64120"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755480364141},\"expires\":1763256364141}}"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "cookies": [
+    {
+      "name": "ssr-caching",
+      "value": "cache#desc=miss#varnish=miss_hit#dc#desc=fastly_g",
+      "domain": "our.umd.edu",
+      "path": "/",
+      "expires": 1755437835.937854,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "server-session-bind",
+      "value": "a8d7096c-959f-48a3-8412-ae5923582d72",
+      "domain": "our.umd.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "XSRF-TOKEN",
+      "value": "1755437816|cG5m1sLl5NH9",
+      "domain": ".our.umd.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "hs",
+      "value": "-301398070",
+      "domain": ".our.umd.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "svSession",
+      "value": "58f5acc28529f0d7294522fa5d7a5a022bb96e4de68ac79a334af5008ce54a333ab2368febca23e85559c454a158392c1e60994d53964e647acf431e4f798bcdc19e5a08c3467a60658d09fa777a91ea43c86fdb055d80dde474e520e15af4de99d3ee82578389b9aef304c08ba671b89fac493e62497b2c6ba260832f9918533938ed44e473eb277c4f4fedc8d9318b",
+      "domain": ".our.umd.edu",
+      "path": "/",
+      "expires": 1789997816.625416,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bSession",
+      "value": "fabd2dc7-f511-488b-907a-93397b0c01a4|1",
+      "domain": ".our.umd.edu",
+      "path": "/",
+      "expires": 1755439616,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://our.umd.edu",
+      "localStorage": [
+        {
+          "name": "fedops.logger.sessionId",
+          "value": "8ef0ef8a-3d08-4c2a-bd86-0ce918aed56f"
+        }
+      ]
+    }
+  ]
+}

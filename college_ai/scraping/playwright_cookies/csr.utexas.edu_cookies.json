@@ -1,0 +1,49 @@
+{
+  "cookies": [
+    {
+      "name": "uncodeAI.screen",
+      "value": "1366",
+      "domain": "csr.utexas.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "uncodeAI.images",
+      "value": "1440",
+      "domain": "csr.utexas.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "uncodeAI.css",
+      "value": "1366x768@16",
+      "domain": "csr.utexas.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://csr.utexas.edu",
+      "localStorage": [
+        {
+          "name": "webp_lossless_supported",
+          "value": "true"
+        },
+        {
+          "name": "webp_lossy_supported",
+          "value": "true"
+        }
+      ]
+    }
+  ]
+}

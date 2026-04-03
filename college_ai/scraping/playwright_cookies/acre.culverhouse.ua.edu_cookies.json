@@ -1,0 +1,14 @@
+{
+  "cookies": [],
+  "origins": [
+    {
+      "origin": "https://acre.culverhouse.ua.edu",
+      "localStorage": [
+        {
+          "name": "elementor",
+          "value": "{\"__expiration\":{},\"pageViews\":6,\"sessions\":6}"
+        }
+      ]
+    }
+  ]
+}

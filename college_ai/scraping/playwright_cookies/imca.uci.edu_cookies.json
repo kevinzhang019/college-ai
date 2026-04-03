@@ -1,0 +1,129 @@
+{
+  "cookies": [
+    {
+      "name": "__cf_bm",
+      "value": "OVgYwBZ_PnDHErhIONRdzpHbRGPMV1zt_8ia_.Lu2z4-1755436979-1.0.1.1-DIrvlrqHOwH6UUjEfBuQaFFUZcrnumh_ldX.e6j19Z.PKFdTS2u7mj4VsXCTUrCSo2UeinEoIt6F3qM0eLbezW7gOfz4hk.IexX21VHyc.0",
+      "domain": ".imca.uci.edu",
+      "path": "/",
+      "expires": 1755438779.162891,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "SGPBShowingLimitationDomain5156",
+      "value": "{\"openingCount\":1,\"openingPage\":\"\"}",
+      "domain": "imca.uci.edu",
+      "path": "/",
+      "expires": 1755523379,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_YSL0T1E6FG",
+      "value": "GS2.1.s1755436979$o1$g0$t1755436979$j60$l0$h0",
+      "domain": ".uci.edu",
+      "path": "/",
+      "expires": 1789996979.814719,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.931294151.1755436980",
+      "domain": ".uci.edu",
+      "path": "/",
+      "expires": 1789996980.184752,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.661982005.1755436980",
+      "domain": ".uci.edu",
+      "path": "/",
+      "expires": 1763212979,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "cf_clearance",
+      "value": "m4BL5lleM0VLZR3lbpkcM0Jy3gFCaFuBbtV_9x7b6so-1755436980-1.2.1.1-4t52k1t7ncQjwW9kvz6FgEnzQMWzSO7LxIoDF1xqkfUTC5ugVy2lsLGnPLwa2czfpr.uEAGzEpiUFJGVLyKEFpRpwrMTQxreYfDbqgfsLAIj2pRE1iaZYHcMVMi4dPlV4Nu7PBhzcLLF5_tLeT0mKja4IWZj7gF9.X6jCfIGtj0qLGsvGRMGxtjO9k74f2ejx_zDIeSM6LdB1kUhTIdyy2yzwm7FrjqOba4gq04PEqU",
+      "domain": ".uci.edu",
+      "path": "/",
+      "expires": 1786972980.069744,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://uci.edu",
+      "_crHasCrossSiteAncestor": false
+    },
+    {
+      "name": "_ga_TZYDYKYP34",
+      "value": "GS2.1.s1755436980$o1$g0$t1755436980$j60$l0$h0",
+      "domain": ".uci.edu",
+      "path": "/",
+      "expires": 1789996980.18462,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755436981175.40119089146223845",
+      "domain": ".uci.edu",
+      "path": "/",
+      "expires": 1763212981,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "test_cookie",
+      "value": "CheckForPermission",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1755437881.687793,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "PHPSESSID",
+      "value": "344bc7ff42e937b951af3f6b74e71d06",
+      "domain": "imca.uci.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://imca.uci.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755436979987},\"expires\":1763212979987}}"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755436981164"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755436981181"
+        }
+      ]
+    }
+  ]
+}

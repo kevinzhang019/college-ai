@@ -1,0 +1,43 @@
+{
+  "cookies": [
+    {
+      "name": "fs_lua",
+      "value": "1.1755454146376",
+      "domain": ".presence.io",
+      "path": "/",
+      "expires": 1755455946,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "fs_uid",
+      "value": "#EVPKD#49566644-5951-4f6d-91d6-fc206732817c:92618baa-19aa-4018-99e5-ea2fa6247659:1755454146376::1#71b4c5ec#/1786990149",
+      "domain": ".presence.io",
+      "path": "/",
+      "expires": 1786990149,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://unh.presence.io",
+      "localStorage": [
+        {
+          "name": "oidc.bb69594163b24cb0b46e37366964119f",
+          "value": "{\"id\":\"bb69594163b24cb0b46e37366964119f\",\"created\":1755454147,\"nonce\":\"e0c7ace065c846c7a5d4368516728bdd\",\"authority\":\"https://auth.presence.io\",\"client_id\":\"cihweb\"}"
+        },
+        {
+          "name": "_fs_lua",
+          "value": "1.1755454146376"
+        },
+        {
+          "name": "_fs_uid",
+          "value": "#EVPKD#49566644-5951-4f6d-91d6-fc206732817c:92618baa-19aa-4018-99e5-ea2fa6247659:1755454146376::1#71b4c5ec#/1786990149"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "cookies": [
+    {
+      "name": "JSESSIONID",
+      "value": "68349739552BE5BC10152FACFC8994B2",
+      "domain": "shib.idm.umd.edu",
+      "path": "/shibboleth-idp",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AWSALB",
+      "value": "UWrkBXssQ3rlPHwXfFoNF4GfVmt3GeoWozhuyD9RLF4rw6y+dFkBSbrQu0RSmzQx1gg5t0OSJVuu+uQzXDcPO9PAVV3rlVj9CpvnYsELVem0foev5xsm/7rDKQPI",
+      "domain": "login.umd.edu",
+      "path": "/",
+      "expires": 1756135650.666169,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AWSALBCORS",
+      "value": "UWrkBXssQ3rlPHwXfFoNF4GfVmt3GeoWozhuyD9RLF4rw6y+dFkBSbrQu0RSmzQx1gg5t0OSJVuu+uQzXDcPO9PAVV3rlVj9CpvnYsELVem0foev5xsm/7rDKQPI",
+      "domain": "login.umd.edu",
+      "path": "/",
+      "expires": 1756135650.667114,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "AWSALB",
+      "value": "0SX6TDlgFLXenMPdfn6N5bSzOYgAKorF4SraZXpR6dpTTJsMwODmsAp+vjh43Ua1sN3y410MTf9l4vRZ8UOlFh2FfxtYJD2WIQ8wSh0VSzAoxEaWQHf4hU/e9vWP",
+      "domain": "shib.idm.umd.edu",
+      "path": "/",
+      "expires": 1756135651.064546,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AWSALBCORS",
+      "value": "0SX6TDlgFLXenMPdfn6N5bSzOYgAKorF4SraZXpR6dpTTJsMwODmsAp+vjh43Ua1sN3y410MTf9l4vRZ8UOlFh2FfxtYJD2WIQ8wSh0VSzAoxEaWQHf4hU/e9vWP",
+      "domain": "shib.idm.umd.edu",
+      "path": "/",
+      "expires": 1756135651.064637,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": []
+}

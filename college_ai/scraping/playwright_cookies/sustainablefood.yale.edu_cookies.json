@@ -1,0 +1,35 @@
+{
+  "cookies": [
+    {
+      "name": "crumb",
+      "value": "Bd2QBpYO80D6YjgxY2Q4MTE4YmQ2ZDNmZTBmZDgzNWVhZWQ4NGEy",
+      "domain": "sustainablefood.yale.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "crumb",
+      "value": "BWkwc3ubzQ9mOTE3MDdkYjM4OWRkMjU5OGZmZDIyNzk5YTEzY2Nj",
+      "domain": "www.sustainablefood.yale.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://www.sustainablefood.yale.edu",
+      "localStorage": [
+        {
+          "name": "test",
+          "value": "1"
+        }
+      ]
+    }
+  ]
+}

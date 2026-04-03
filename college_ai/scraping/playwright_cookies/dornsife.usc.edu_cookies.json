@@ -1,0 +1,83 @@
+{
+  "cookies": [
+    {
+      "name": "_ga",
+      "value": "GA1.1.1355523321.1775124796",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1809684821.863088,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "YSC",
+      "value": "SZumspgeAas",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://usc.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "hbpZ8tZlIgg",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790676821.868885,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://usc.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgNA%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790676821.868904,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://usc.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_ga_7PFWHHQF6R",
+      "value": "GS2.1.s1775124795$o1$g1$t1775124821$j34$l0$h0",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1809684821.862928,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CNTsou_ms9j8tAEQ3Iy1o_fOkwMYwPm-o_fOkwM%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790676821.868835,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://usc.edu",
+      "_crHasCrossSiteAncestor": true
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://dornsife.usc.edu",
+      "localStorage": [
+        {
+          "name": "NRBA_SESSION",
+          "value": "{\"value\":\"760b40f24ba9f8a8\",\"inactiveAt\":1775126623784,\"expiresAt\":1775139195926,\"updatedAt\":1775124823784,\"sessionReplayMode\":0,\"sessionReplaySentFirstChunk\":false,\"sessionTraceMode\":0,\"traceHarvestStarted\":false,\"loggingMode\":0,\"logApiMode\":0,\"serverTimeDiff\":-95,\"custom\":{},\"numOfResets\":0,\"consent\":false}"
+        }
+      ]
+    }
+  ]
+}

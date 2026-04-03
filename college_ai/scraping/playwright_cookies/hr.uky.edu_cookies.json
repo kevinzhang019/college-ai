@@ -1,0 +1,105 @@
+{
+  "cookies": [
+    {
+      "name": "BIGipServer~www.uky.edu~www9_ssl",
+      "value": "180134784.47873.0000",
+      "domain": "uky.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "BIGipServer~www.uky.edu~www9_ssl",
+      "value": "180134784.47873.0000",
+      "domain": "www.uky.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1689265692.1755447140",
+      "domain": ".uky.edu",
+      "path": "/",
+      "expires": 1790073489.973323,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "BIGipServer~www.uky.edu~www_https",
+      "value": "1487607980.47873.0000",
+      "domain": "uky.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "BIGipServer~www.uky.edu~www_https",
+      "value": "1487607980.47873.0000",
+      "domain": "www.uky.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ARRAffinity",
+      "value": "85fb902b457ff1cd6bb828000481644cb9518a5580a39daa28b69f8f8ad58578",
+      "domain": ".directory.uky.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ARRAffinitySameSite",
+      "value": "85fb902b457ff1cd6bb828000481644cb9518a5580a39daa28b69f8f8ad58578",
+      "domain": ".directory.uky.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ai_user",
+      "value": "jvxuc|2025-08-18T01:47:02.970Z",
+      "domain": "directory.uky.edu",
+      "path": "/",
+      "expires": 1787017622,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_865B8NFSQD",
+      "value": "GS2.1.s1755513477$o2$g1$t1755513489$j48$l0$h0",
+      "domain": ".uky.edu",
+      "path": "/",
+      "expires": 1790073489.376597,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_RS8VY27RLL",
+      "value": "GS2.1.s1755513477$o3$g1$t1755513489$j48$l0$h0",
+      "domain": ".uky.edu",
+      "path": "/",
+      "expires": 1790073489.973181,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

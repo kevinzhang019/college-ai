@@ -1,0 +1,55 @@
+{
+  "cookies": [
+    {
+      "name": "_ga",
+      "value": "GA1.1.1269311300.1775131032",
+      "domain": ".uci.edu",
+      "path": "/",
+      "expires": 1809696489.098006,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "dvmd_accessibility_sidebar_settings",
+      "value": "{\"version\":\"1.0.0\",\"accordion_toggle\":\"dvmd_acsb_sidebar_settings\"}",
+      "domain": "housing.uci.edu",
+      "path": "/",
+      "expires": 1777728489,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_73ZMF4DFNJ",
+      "value": "GS2.1.s1775136462$o2$g1$t1775136488$j34$l0$h0",
+      "domain": ".uci.edu",
+      "path": "/",
+      "expires": 1809696488.952107,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_TJ4TMSCSES",
+      "value": "GS2.1.s1775136462$o2$g1$t1775136489$j33$l0$h0",
+      "domain": ".uci.edu",
+      "path": "/",
+      "expires": 1809696489.093645,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_HX51BC2BLN",
+      "value": "GS2.1.s1775136462$o2$g1$t1775136489$j33$l0$h0",
+      "domain": ".uci.edu",
+      "path": "/",
+      "expires": 1809696489.102542,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

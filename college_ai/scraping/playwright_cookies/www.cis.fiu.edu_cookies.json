@@ -1,0 +1,15 @@
+{
+  "cookies": [
+    {
+      "name": "lhc_per",
+      "value": "vid|94173f71f4b2997a78fa",
+      "domain": ".cis.fiu.edu",
+      "path": "/",
+      "expires": 1790749443,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

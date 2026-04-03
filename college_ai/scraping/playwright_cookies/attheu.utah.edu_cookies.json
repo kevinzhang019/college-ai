@@ -1,0 +1,173 @@
+{
+  "cookies": [
+    {
+      "name": "_ga_1VEQWNG3DZ",
+      "value": "GS2.1.s1755444307$o1$g0$t1755444307$j60$l0$h0",
+      "domain": ".utah.edu",
+      "path": "/",
+      "expires": 1790004307.212116,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.585045143.1755444308",
+      "domain": ".utah.edu",
+      "path": "/",
+      "expires": 1763220307,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.166780270.1755444308",
+      "domain": ".utah.edu",
+      "path": "/",
+      "expires": 1755530707,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_UA-48766522-1",
+      "value": "1",
+      "domain": ".utah.edu",
+      "path": "/",
+      "expires": 1755444367,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "YSC",
+      "value": "b86P0ogivE8",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "U1uZcWtM61s",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1770996307.767192,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgVQ%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1770996307.767206,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CI_s4Z7q2O2NBRDUgYrTk5KPAxjUgYrTk5KPAw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1770996307.767218,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://utah.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_ga_X3660NEGG9",
+      "value": "GS2.1.s1755444307$o1$g0$t1755444307$j60$l0$h0",
+      "domain": ".utah.edu",
+      "path": "/",
+      "expires": 1790004307.777331,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1961845047.1755444307",
+      "domain": ".utah.edu",
+      "path": "/",
+      "expires": 1790004307.777479,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755444308467.7208518729062395",
+      "domain": ".utah.edu",
+      "path": "/",
+      "expires": 1763220310,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&6ee6a1c8-36f8-4aed-803c-42fdf9aab273\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1786980308.591226,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=OGST09:s=O:r=O:a=O:p=O:g=3219:u=1:x=1:i=1755444308:t=1755530708:v=2:sig=AQFU39fASI23GTa4OuUjRrQik5IQvDd0\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755530708.591272,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "NID",
+      "value": "525=JJdYr5Z_zF_IvDbqI0J04OlROFxEGyR_TLYMr3ls-EcRRDBmCXNEmmDJpMR-Ad9ddhz5ro-0NUlYTwMByiZk5KDruIWF2hjV-HE6TLfuCtEQ3zdOFN75xIi130Gve3JWdwGfm4oR5ZH8HN34ytHj4T2-vD6LNm6H8CMvGi2xxfwHVVFLWulDaVmalalJrjw3u_IQ5w",
+      "domain": ".google.com",
+      "path": "/",
+      "expires": 1771255510.513753,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://attheu.utah.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755444307547},\"expires\":1763220307547}}"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755444308459"
+        },
+        {
+          "name": "li_adsId",
+          "value": "ce948210-4d65-4851-beb3-8291e3feb203"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755444310505"
+        }
+      ]
+    }
+  ]
+}

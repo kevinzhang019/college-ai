@@ -1,0 +1,237 @@
+{
+  "cookies": [
+    {
+      "name": "_ga",
+      "value": "GA1.1.1249157401.1755463247",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1790023431.999897,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.923733764.1755463248",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1763239248,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755463248501.572364688655594930",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1763239248,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_uetsid",
+      "value": "74f0a8c07baa11f0b72a351c1b92a4e7",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1755549648,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_uetvid",
+      "value": "74f0cb707baa11f0925ef913d3594f02",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1789159248,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "test_cookie",
+      "value": "CheckForPermission",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1755464148.637145,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": "px.ads.linkedin.com",
+      "path": "/",
+      "expires": 1758092995.236593,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "CLID",
+      "value": "770bbfadb8634274a779ca73a26f19f8.20250817.20260817",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1786999249.271448,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&18d89725-3773-4e8d-8b29-0c5e98252a45\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1786999250.290776,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=VGST09:s=V:r=V:a=V:p=V:g=3278:u=1:x=1:i=1755463249:t=1755549649:v=2:sig=AQFkppd8hjXmVB7rFatBnQAqligQGZPv\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755549650.290852,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_clck",
+      "value": "fq5dw0%7C2%7Cfyj%7C0%7C2055",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1786999250,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "visitor_id137301",
+      "value": "393539423",
+      "domain": ".pardot.com",
+      "path": "/",
+      "expires": 1790023252.899595,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "visitor_id137301-hash",
+      "value": "73e821e442838b711463b5e25bef738a1e615904728aa68eb56ca42bca39458b8e216052304f527f4d49d62a6744f53c7ad75a77",
+      "domain": ".pardot.com",
+      "path": "/",
+      "expires": 1790023252.899679,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lpv137301",
+      "value": "aHR0cHM6Ly9kd29yYWtwZWNrLnVzYy5lZHUvbmV3cy9tc3ctYWx1bS1lbGVjdGVkLXRvLXdlc3QtaG9sbHl3b29kLWNpdHktY291bmNpbA%3D%3D",
+      "domain": "pi.pardot.com",
+      "path": "/",
+      "expires": 1755465052.899723,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "visitor_id137301",
+      "value": "393539423",
+      "domain": "dworakpeck.usc.edu",
+      "path": "/",
+      "expires": 1790023252.902469,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "visitor_id137301-hash",
+      "value": "73e821e442838b711463b5e25bef738a1e615904728aa68eb56ca42bca39458b8e216052304f527f4d49d62a6744f53c7ad75a77",
+      "domain": "dworakpeck.usc.edu",
+      "path": "/",
+      "expires": 1790023252.902613,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "visitor_id137301",
+      "value": "393539423",
+      "domain": "apply.usc.edu",
+      "path": "/",
+      "expires": 1790023253.667872,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "visitor_id137301-hash",
+      "value": "73e821e442838b711463b5e25bef738a1e615904728aa68eb56ca42bca39458b8e216052304f527f4d49d62a6744f53c7ad75a77",
+      "domain": "apply.usc.edu",
+      "path": "/",
+      "expires": 1790023253.667908,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_6DTZBFJ3E8",
+      "value": "GS2.1.s1755463247$o1$g1$t1755463431$j48$l0$h0",
+      "domain": ".usc.edu",
+      "path": "/",
+      "expires": 1790023431.999721,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://dworakpeck.usc.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755463248491"
+        },
+        {
+          "name": "_uetvid_exp",
+          "value": "Fri, 11 Sep 2026 20:40:48 GMT"
+        },
+        {
+          "name": "_uetsid_exp",
+          "value": "Mon, 18 Aug 2025 20:40:48 GMT"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755463248506"
+        },
+        {
+          "name": "_uetvid",
+          "value": "74f0cb707baa11f0925ef913d3594f02"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755463247819},\"expires\":1763239247819}}"
+        },
+        {
+          "name": "_uetsid",
+          "value": "74f0a8c07baa11f0b72a351c1b92a4e7"
+        },
+        {
+          "name": "li_adsId",
+          "value": "7c21950f-d979-4ca7-ab72-bb0e6db984e6"
+        }
+      ]
+    }
+  ]
+}

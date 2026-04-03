@@ -1,0 +1,165 @@
+{
+  "cookies": [
+    {
+      "name": "YSC",
+      "value": "U9KbMjLOjgE",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://tamu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "iaIyt2GEhTI",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771016501.904429,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://tamu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgSg%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771016501.904533,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://tamu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1441076853.1755435247",
+      "domain": ".tamu.edu",
+      "path": "/",
+      "expires": 1790055929.013942,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CLID",
+      "value": "636fc006eff94400bcb1bfba2b6ce2f6.20250817.20260817",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1786971247.371156,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_clck",
+      "value": "13p6yjz%7C2%7Cfyj%7C0%7C2055",
+      "domain": ".tamu.edu",
+      "path": "/",
+      "expires": 1786971247,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CIOZ2tn-3Kbl1AEQlJbM8vGRjwMYhJGX8_GRjwM%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1770987248.192237,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://tamu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_ga_3LYM4WJM04",
+      "value": "GS2.1.s1755464500$o2$g0$t1755464500$j60$l0$h0",
+      "domain": ".tamu.edu",
+      "path": "/",
+      "expires": 1790024500.471109,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_YEYQJ0XWPL",
+      "value": "GS2.1.s1755464500$o2$g0$t1755464501$j59$l0$h633392819",
+      "domain": ".tamu.edu",
+      "path": "/",
+      "expires": 1790024501.147274,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_7SWSBYHBHJ",
+      "value": "GS2.1.s1755464500$o2$g0$t1755464501$j59$l0$h0",
+      "domain": ".tamu.edu",
+      "path": "/",
+      "expires": 1790024501.150566,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "NID",
+      "value": "525=c0eMGpz_yz7uok_cr1Fyt6NriBQBZLLdXuwhhfUSYNQMlztrbh39M9xaUJ8MJxbO_mVDPCwBdn4MQwavil24uuh-Z4Y18ZweBYsy0mNmm7GpdJ3giMrxw456sFoRj7G8oZ1LPKGFyXRtMiho7NJyUPBYDc_CrhEuc3N_5ixW5WBPPWoEcEMLevek0WIEbEij24VIViU",
+      "domain": ".google.com",
+      "path": "/",
+      "expires": 1771246448.331725,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_session_id",
+      "value": "ac0ed0c7f39e38871389bc9cdd2c26b4",
+      "domain": "avalon.library.tamu.edu",
+      "path": "/",
+      "expires": 1756705528.530618,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "GZ1d6CqpaAovpHG7l5AyJXNpzVMPNqvgCGjq74Q1t_Y-1755495927-1.0.1.1-57GcUhBEHFBk5ywDrZe3NHcqh8JqW3Cc48hXSeVwPz4XzNAQCAW8P0NURbOH1zlxCCypLPsgFRa2ecbuRlnSfhGdBr30f2pt.k12vJIDErI",
+      "domain": ".library.tamu.edu",
+      "path": "/",
+      "expires": 1755497727.707366,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "cf_clearance",
+      "value": "AhrqzPo9eB_52oQ3ywIgVT4OUqQOUSHteSgqDPpSDjg-1755495928-1.2.1.1-L71ONTyILqCr4dbyEO8jhPQYU0weashTa.Kc5akOXAPobo4W31.D5vM4NZJyDHz2CE4vXPGZg_y5X0NwjyHi_rVIzaGApL1ORr.Te3PR8AucBOpfdTrmC4Sw_UDylU7QdWXVDAjINU5iub_iWud8LUcY_pvXsgiB6FmZofK.W16As.zGlUjMwCOxMUHOokoCMf99Y10CfnNw_Pdpl1DajJgo9td5KSpMZMTBU4w6roE",
+      "domain": ".library.tamu.edu",
+      "path": "/",
+      "expires": 1787031928.875339,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://tamu.edu",
+      "_crHasCrossSiteAncestor": false
+    },
+    {
+      "name": "_ga_J2N3X4Y84S",
+      "value": "GS2.1.s1755495929$o2$g0$t1755495929$j60$l0$h0",
+      "domain": ".tamu.edu",
+      "path": "/",
+      "expires": 1790055929.01368,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

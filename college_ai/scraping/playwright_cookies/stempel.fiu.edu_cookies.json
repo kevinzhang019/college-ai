@@ -1,0 +1,93 @@
+{
+  "cookies": [
+    {
+      "name": "ARRAffinity",
+      "value": "d74269b73e2b4084a8800d28d4abe04cb25d4dac589e975f5bfb7ab3e673d98c",
+      "domain": ".digicdn.fiu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ARRAffinitySameSite",
+      "value": "d74269b73e2b4084a8800d28d4abe04cb25d4dac589e975f5bfb7ab3e673d98c",
+      "domain": ".digicdn.fiu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_G4ECT0S291",
+      "value": "GS2.1.s1755436610$o1$g0$t1755436610$j60$l0$h0",
+      "domain": ".fiu.edu",
+      "path": "/",
+      "expires": 1789996610.222087,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.1841263114.1755436610",
+      "domain": ".fiu.edu",
+      "path": "/",
+      "expires": 1789996610.240322,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.1707376721.1755436610",
+      "domain": ".fiu.edu",
+      "path": "/",
+      "expires": 1755523010,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_UA-153769452-34",
+      "value": "1",
+      "domain": ".fiu.edu",
+      "path": "/",
+      "expires": 1755436670,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755436610721.250935094844391582",
+      "domain": ".fiu.edu",
+      "path": "/",
+      "expires": 1763212610,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://stempel.fiu.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755436610710"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755436610725"
+        }
+      ]
+    }
+  ]
+}

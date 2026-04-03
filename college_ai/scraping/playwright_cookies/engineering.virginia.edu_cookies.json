@@ -1,0 +1,45 @@
+{
+  "cookies": [
+    {
+      "name": "cookieyes-consent",
+      "value": "consentid:a1ZwQzNBRWNlQXN6ZGVxeGJwRmJCZ3R2aFZLZWtwQm4,consent:yes,action:yes,necessary:yes,functional:yes,analytics:yes,performance:yes,advertisement:yes,other:yes",
+      "domain": ".engineering.virginia.edu",
+      "path": "/",
+      "expires": 1787115718,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1635184278.1755579699",
+      "domain": ".virginia.edu",
+      "path": "/",
+      "expires": 1790139711.108417,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "nmstat",
+      "value": "d871b0d2-3259-b1be-fb65-ac0b338ddb53",
+      "domain": ".virginia.edu",
+      "path": "/",
+      "expires": 1790139711.113573,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_EJ5CY9NB8S",
+      "value": "GS2.1.s1755579698$o1$g1$t1755579711$j47$l0$h0",
+      "domain": ".virginia.edu",
+      "path": "/",
+      "expires": 1790139711.334611,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

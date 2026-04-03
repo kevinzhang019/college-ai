@@ -1,0 +1,151 @@
+{
+  "cookies": [
+    {
+      "name": "cee",
+      "value": "G%2F9L7cTSQOx4w3ZY%2FwuKkxhiqlH2ynVaR6AUF%2Brz%2FJM%3D.%7B%7D",
+      "domain": ".mpc-prod-1-1053047382554.us-central1.run.app",
+      "path": "/events/d7b0b9caab7ec27b5f8100f4e9b6cea6fa64f9a4467aef6b1204e20da6234848",
+      "expires": 1763218359.581846,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.1463227125.1755442356",
+      "domain": ".uark.edu",
+      "path": "/",
+      "expires": 1755528756,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat",
+      "value": "1",
+      "domain": ".uark.edu",
+      "path": "/",
+      "expires": 1755442416,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_research",
+      "value": "1",
+      "domain": ".uark.edu",
+      "path": "/",
+      "expires": 1755442416,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.1452597169.1755442357",
+      "domain": ".uark.edu",
+      "path": "/",
+      "expires": 1763218357,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_B6HDML21CP",
+      "value": "GS2.1.s1755442356$o1$g0$t1755442356$j60$l0$h0",
+      "domain": ".uark.edu",
+      "path": "/",
+      "expires": 1790002356.657123,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1120661713.1755442356",
+      "domain": ".uark.edu",
+      "path": "/",
+      "expires": 1790002357.005979,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_QB9RS5X6BB",
+      "value": "GS2.1.s1755442357$o1$g0$t1755442357$j60$l0$h0",
+      "domain": ".uark.edu",
+      "path": "/",
+      "expires": 1790002357.005859,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755442357495.278251092706357126",
+      "domain": ".uark.edu",
+      "path": "/",
+      "expires": 1763218358,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&531fa593-a491-4965-88ee-b18329580f60\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1786978359.086335,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=OGST09:s=O:r=O:a=O:p=O:g=3219:u=1:x=1:i=1755442358:t=1755528758:v=2:sig=AQFoLBYUFK2Dhb0bzlS2oCfw7eUYDMbV\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755528759.08638,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUme0YClWQDU-5XK4czyR_22ILerL5fKiEPTKCLP8gH6w0Ft4-8WNdJ8mQNnRy4",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1790002360.178088,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://arkansasresearch.uark.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755442356633},\"expires\":1763218356633}}"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755442357488"
+        },
+        {
+          "name": "li_adsId",
+          "value": "5c6a8161-4ad9-49a3-9e9e-4b0f1591f81d"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755442358127"
+        }
+      ]
+    }
+  ]
+}

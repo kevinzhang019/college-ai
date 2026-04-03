@@ -1,0 +1,139 @@
+{
+  "cookies": [
+    {
+      "name": "YSC",
+      "value": "VYMFDSnvTH0",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://ucla.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "ucla-cookie-policy",
+      "value": "eyJpdiI6IllaU2xFRG9CVDJhRndFaVBPSHowQ3c9PSIsInZhbHVlIjoiK1VtV3phTXlQeWJBOFFKWXhkbDl1QT09IiwibWFjIjoiNDJjZTg5NDAxMjM4Y2M0ZmJhNzYwZDViY2JjNTgwMjA5MjNiYjczNGVmMjRlYTMxYTQ5ZTY5MzdjNTg1Zjk2MiJ9",
+      "domain": "www.ucla.edu",
+      "path": "/",
+      "expires": 1786974555.462488,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.707791355.1755470077",
+      "domain": ".ucla.edu",
+      "path": "/",
+      "expires": 1809746004.779566,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ttp",
+      "value": "31QxPq7WEXRsk668QWzbpZu7xDT",
+      "domain": ".tiktok.com",
+      "path": "/",
+      "expires": 1789198084.995136,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_tt_enable_cookie",
+      "value": "1",
+      "domain": ".ucla.edu",
+      "path": "/",
+      "expires": 1789198085,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ttp",
+      "value": "01K2X2Q7981WHKYCA1SNP4K3NN_.tt.1",
+      "domain": ".ucla.edu",
+      "path": "/",
+      "expires": 1789198085,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&cdb3ae37-3c65-4292-805c-6b8ea09e9309\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1787038086.288869,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_6BMZK7EYHE",
+      "value": "GS2.1.s1755502048$o2$g1$t1755502084$j24$l0$h0",
+      "domain": ".ucla.edu",
+      "path": "/",
+      "expires": 1790062084.870095,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ttcsid",
+      "value": "1755502049193::Uy4zFPpOv-5mvRkqdPq1.2.1755502085143",
+      "domain": ".ucla.edu",
+      "path": "/",
+      "expires": 1789198085,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ttcsid_CF41I13C77UEUGLDGGF0",
+      "value": "1755502049192::w1lyAasI7AXvwkHuxqoT.2.1755502085356",
+      "domain": ".ucla.edu",
+      "path": "/",
+      "expires": 1789198085,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_73L154JGPW",
+      "value": "GS2.1.s1775186004$o1$g0$t1775186004$j60$l0$h0",
+      "domain": ".ucla.edu",
+      "path": "/",
+      "expires": 1809746004.779344,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://www.ucla.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755502085043"
+        },
+        {
+          "name": "li_adsId",
+          "value": "8e27b8ed-dbb1-4390-a41c-920608313eb8"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755502085049"
+        }
+      ]
+    }
+  ]
+}

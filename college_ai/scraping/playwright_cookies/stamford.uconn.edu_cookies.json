@@ -1,0 +1,75 @@
+{
+  "cookies": [
+    {
+      "name": "PHPSESSID",
+      "value": "jekn4fkvhj3n8ihva29eldiral",
+      "domain": "stamford.uconn.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "spo_11_fa",
+      "value": "8ebb0ecef1317b3377ea20036abbcf60",
+      "domain": "stamford.uconn.edu",
+      "path": "/",
+      "expires": 1755454575.701172,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1561805613.1755452777",
+      "domain": ".uconn.edu",
+      "path": "/",
+      "expires": 1790012777.032673,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CLID",
+      "value": "a7fa200e1da94cedad11354fa51b0156.20250817.20260817",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1786988777.099949,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_clck",
+      "value": "19im7hc%7C2%7Cfyj%7C0%7C2055",
+      "domain": ".uconn.edu",
+      "path": "/",
+      "expires": 1786988777,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "uconn-cookie-consent",
+      "value": "true",
+      "domain": ".uconn.edu",
+      "path": "/",
+      "expires": 1786988777,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_CR6W1MJNJY",
+      "value": "GS2.1.s1755452777$o1$g0$t1755452777$j60$l0$h0",
+      "domain": ".uconn.edu",
+      "path": "/",
+      "expires": 1790012777.600422,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

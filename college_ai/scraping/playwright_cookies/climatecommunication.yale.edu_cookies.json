@@ -1,0 +1,139 @@
+{
+  "cookies": [
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": "px.ads.linkedin.com",
+      "path": "/",
+      "expires": 1758148080.00217,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&f95becb0-967c-4e2e-8d12-9ca092ed0997\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1787054334.036948,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=VGST09:s=V:r=V:a=V:p=V:g=3278:u=1:x=1:i=1755518334:t=1755604734:v=2:sig=AQEFjcAI_fCwen4mPfF_kf_AeYbBtKyH\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755604735.036986,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.996628192.1755518334",
+      "domain": ".yale.edu",
+      "path": "/",
+      "expires": 1790078334.466675,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.1051675397.1755518334",
+      "domain": ".yale.edu",
+      "path": "/",
+      "expires": 1763294334,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755518334336.616266103702211073",
+      "domain": ".yale.edu",
+      "path": "/",
+      "expires": 1763294334,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "nmstat",
+      "value": "64e9ff69-f4f0-4b07-3311-350a95f39a89",
+      "domain": ".yale.edu",
+      "path": "/",
+      "expires": 1790078334.410534,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "test_cookie",
+      "value": "CheckForPermission",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1755519234.627013,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_TEK7CYFMCZ",
+      "value": "GS2.1.s1755518334$o1$g0$t1755518343$j51$l0$h0",
+      "domain": ".yale.edu",
+      "path": "/",
+      "expires": 1790078343.832203,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_GKK3MP6FVQ",
+      "value": "GS2.1.s1755518334$o1$g0$t1755518343$j51$l0$h1281580381",
+      "domain": ".yale.edu",
+      "path": "/",
+      "expires": 1790078343.835015,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://climatecommunication.yale.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":2,\"creationTimeMs\":1755518334643},\"expires\":1763294334643}}"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755518334327"
+        },
+        {
+          "name": "mrkrui",
+          "value": "{\"hasSeenIntroductionTip\":false}"
+        },
+        {
+          "name": "NRBA_SESSION",
+          "value": "{\"value\":\"d5bb0a530d01de01\",\"inactiveAt\":1755520143799,\"expiresAt\":1755532733951,\"updatedAt\":1755518343835,\"sessionReplayMode\":0,\"sessionReplaySentFirstChunk\":false,\"sessionTraceMode\":0,\"traceHarvestStarted\":false,\"loggingMode\":0,\"serverTimeDiff\":-62,\"custom\":{},\"numOfResets\":0}"
+        },
+        {
+          "name": "li_adsId",
+          "value": "7c67f838-20c2-4542-af4d-e32aec8e35e5"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755518334340"
+        }
+      ]
+    }
+  ]
+}

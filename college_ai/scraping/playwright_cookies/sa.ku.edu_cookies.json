@@ -1,0 +1,15 @@
+{
+  "cookies": [
+    {
+      "name": "BOCMFPDZ",
+      "value": "0292a28678-ac26-40Fh2Hh0dwCYueSIowXwh7QfQiEVz4ebKToQNU4nHW5KRE2wyPmx84SGb0Svj7T8DkJTg",
+      "domain": "sa.ku.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": []
+}

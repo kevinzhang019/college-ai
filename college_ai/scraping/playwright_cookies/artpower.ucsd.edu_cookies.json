@@ -1,0 +1,97 @@
+{
+  "cookies": [
+    {
+      "name": "_ga",
+      "value": "GA1.2.1362591629.1755480332",
+      "domain": ".ucsd.edu",
+      "path": "/",
+      "expires": 1790040500.572967,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.157250478.1755480332",
+      "domain": ".ucsd.edu",
+      "path": "/",
+      "expires": 1755566900,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.1281608800.1755480332",
+      "domain": ".ucsd.edu",
+      "path": "/",
+      "expires": 1763256332,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755480333443.512434347732498469",
+      "domain": ".ucsd.edu",
+      "path": "/",
+      "expires": 1763256501,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat",
+      "value": "1",
+      "domain": ".ucsd.edu",
+      "path": "/",
+      "expires": 1755480560,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_E7WNNBWJ9D",
+      "value": "GS2.2.s1755480331$o1$g1$t1755480501$j60$l0$h0",
+      "domain": ".ucsd.edu",
+      "path": "/",
+      "expires": 1790040501.690561,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUnzB7N_m4Q8XqdFdsO8u961ZqBP9jplXI5NmhETMadtZOC0VSdCdAaBrUv9",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1790040501.736874,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://artpower.ucsd.edu",
+      "localStorage": [
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":4,\"creationTimeMs\":1755480501199},\"expires\":1763256501199}}"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755480501635"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755480501647"
+        }
+      ]
+    }
+  ]
+}

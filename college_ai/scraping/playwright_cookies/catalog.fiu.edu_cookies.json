@@ -1,0 +1,55 @@
+{
+  "cookies": [
+    {
+      "name": "ARRAffinity",
+      "value": "d74269b73e2b4084a8800d28d4abe04cb25d4dac589e975f5bfb7ab3e673d98c",
+      "domain": ".digicdn.fiu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ARRAffinitySameSite",
+      "value": "d74269b73e2b4084a8800d28d4abe04cb25d4dac589e975f5bfb7ab3e673d98c",
+      "domain": ".digicdn.fiu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_HL2HB8T7NZ",
+      "value": "GS2.1.s1755436601$o1$g0$t1755436601$j60$l0$h0",
+      "domain": ".fiu.edu",
+      "path": "/",
+      "expires": 1789996601.164631,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1355101225.1755436601",
+      "domain": ".fiu.edu",
+      "path": "/",
+      "expires": 1789996601.164812,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://catalog.fiu.edu",
+      "localStorage": [
+        {
+          "name": "bugsnag-anonymous-id",
+          "value": "cmefpmll600002c6rpo98xpgg"
+        }
+      ]
+    }
+  ]
+}

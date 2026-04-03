@@ -1,0 +1,1163 @@
+{
+  "cookies": [
+    {
+      "name": "X-AB",
+      "value": "12f715ca71194ad9a1b12bba6d1da4c6",
+      "domain": "sc-static.net",
+      "path": "/scevent.min.js",
+      "expires": 1755638909.356617,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "shell#lang",
+      "value": "en",
+      "domain": "www.smu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ASP.NET_SessionId",
+      "value": "sg2ne4xrbbgbketi3cqhsaam",
+      "domain": "www.smu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.149844038.1755445141",
+      "domain": ".smu.edu",
+      "path": "/",
+      "expires": 1763221141,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_vwo_uuid_v2",
+      "value": "DBBD88AE4281E05D229A043E194B7B463|ce36e9d0252d30e054621f159f978ae3",
+      "domain": ".smu.edu",
+      "path": "/",
+      "expires": 1787175330,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "YSC",
+      "value": "itPBYNuMvbw",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "LAXM8S6ZWiA",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1770997140.859954,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgXw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1770997140.85997,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_vwo_uuid",
+      "value": "DBBD88AE4281E05D229A043E194B7B463",
+      "domain": ".smu.edu",
+      "path": "/",
+      "expires": 1787002093,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_scid",
+      "value": "FXX5H0Ca6vJhZ9qWTK3HVvGKtZ8Fd0vA",
+      "domain": ".smu.edu",
+      "path": "/",
+      "expires": 1789631839,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_vis_opt_s",
+      "value": "1%7C",
+      "domain": ".smu.edu",
+      "path": "/",
+      "expires": 1764085141,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_vis_opt_test_cookie",
+      "value": "1",
+      "domain": ".smu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_node",
+      "value": "79e8292408f61f87b01c2918105ca2c70ae2dd1bf9acb5e69f7af28265befa30",
+      "domain": "gradadmission.smu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "234dd515-bb9e-4889-9fbe-158e466cab47",
+      "domain": "gradadmission.smu.edu",
+      "path": "/",
+      "expires": 1790005141.192005,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "gradadmission.smu.edu",
+      "path": "/",
+      "expires": 1790005141.192031,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_node",
+      "value": "24cb4d6272b3a99e2195e26e8d714f3ce21a96f7c97ec09ea6f7c181d27bb3be",
+      "domain": "admission.smu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "57527789-ac9b-4027-b5eb-60417d1f1f5d",
+      "domain": "admission.smu.edu",
+      "path": "/",
+      "expires": 1790005141.192282,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "admission.smu.edu",
+      "path": "/",
+      "expires": 1790005141.192304,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.944350377.1755445141",
+      "domain": ".smu.edu",
+      "path": "/",
+      "expires": 1790112930.321116,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ttp",
+      "value": "31Q8sNi9DMlgr7g3iO3AKbt9jCQ",
+      "domain": ".tiktok.com",
+      "path": "/",
+      "expires": 1789248930.262132,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ajs_anonymous_id",
+      "value": "fadfa6d7-1ef4-47a5-9a3e-7cbb5567195b",
+      "domain": ".smu.edu",
+      "path": "/",
+      "expires": 1786981141,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_attrb",
+      "value": "%22712db9e3-5bd9-4abd-ad17-0016bcafceeb%22",
+      "domain": ".smu.edu",
+      "path": "/",
+      "expires": 1787088930,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755445141434.482365492331729098",
+      "domain": ".smu.edu",
+      "path": "/",
+      "expires": 1763328931,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_node",
+      "value": "62e1f5c1bd7f2c76c2bc875abb82831e90dce9bfe858b41415dc3519a9b4c965",
+      "domain": "coxgradadmission.smu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "4e043748-f989-4f1a-9082-49e3a1a9d8e1",
+      "domain": "coxgradadmission.smu.edu",
+      "path": "/",
+      "expires": 1790005141.617596,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "coxgradadmission.smu.edu",
+      "path": "/",
+      "expires": 1790005141.617636,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ScCbts",
+      "value": "%5B%5D",
+      "domain": ".smu.edu",
+      "path": "/",
+      "expires": 1756049941,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-4325d935-f001-4f6c-5612-507ae2f7f162.oCfOPDkOAWET0EZh%2BSjtCqDFXkIumX5VrZZZE4%2BlPWo",
+      "domain": "qvdt3feo.com",
+      "path": "/",
+      "expires": 1786981141.720995,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-4325d935-f001-4f6c-5612-507ae2f7f162.oCfOPDkOAWET0EZh%2BSjtCqDFXkIumX5VrZZZE4%2BlPWo",
+      "domain": ".qvdt3feo.com",
+      "path": "/",
+      "expires": 1786981141.721044,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3AQyXZNfABT2xWElB64vfxYg.FqfBhOBSllB8OZIVoV3fruYH2T%2FmcmyUvGF3b20GvJw",
+      "domain": "qvdt3feo.com",
+      "path": "/",
+      "expires": 1786981141.72106,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3AQyXZNfABT2xWElB64vfxYg.FqfBhOBSllB8OZIVoV3fruYH2T%2FmcmyUvGF3b20GvJw",
+      "domain": ".qvdt3feo.com",
+      "path": "/",
+      "expires": 1786981141.721077,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEL8CGAIgle-HxQY6BGFKycJCBB6IMXg.2uqkRSpWMuV0iDIevg8yFF9%2BbrdsuxUD3PrwQCG41kA",
+      "domain": "qvdt3feo.com",
+      "path": "/",
+      "expires": 1786981141.721089,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEL8CGAIgle-HxQY6BGFKycJCBB6IMXg.2uqkRSpWMuV0iDIevg8yFF9%2BbrdsuxUD3PrwQCG41kA",
+      "domain": ".qvdt3feo.com",
+      "path": "/",
+      "expires": 1786981141.721106,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_tt_enable_cookie",
+      "value": "1",
+      "domain": ".smu.edu",
+      "path": "/",
+      "expires": 1789248930,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ttp",
+      "value": "01K2WAY8FZSPQQ7WMSM2J73MSZ_.tt.1",
+      "domain": ".smu.edu",
+      "path": "/",
+      "expires": 1789248930,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ssi",
+      "value": "b614c74c-79fa-4db5-b1c4-10899549e577#1755445142185",
+      "domain": ".sitescout.com",
+      "path": "/",
+      "expires": 1787088930.912685,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&64c49016-de30-482e-87f6-b8f39f58cbe0\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1787088930.633068,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "RCID2",
+      "value": "A032115054E01E528A22C53A993928B3",
+      "domain": ".reson8.com",
+      "path": "/",
+      "expires": 1787088930.680074,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_TS",
+      "value": "1755445143856",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760629143.899098,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_DID",
+      "value": "d6f6c299-23ff-49d3-a02a-572f823397b1",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760629143.899139,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_3WAY_SYNCS",
+      "value": "",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760629143.899154,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sc_at",
+      "value": "v2|H4sIAAAAAAAAAE3GyQ3AIAwEwIos+dglcrrBGKqg+Hwzr2ky6mzIGBqC8ik5m7LKc1UH0/c16GsPCdCA+6t+xS4yTEAAAAA=",
+      "domain": ".snapchat.com",
+      "path": "/",
+      "expires": 1789141143.999377,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_sctr",
+      "value": "1%7C1755414000000",
+      "domain": ".smu.edu",
+      "path": "/",
+      "expires": 1789631842,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "TDID",
+      "value": "e2867238-e8d9-4802-a04a-7427111ebdb8",
+      "domain": ".adsrvr.org",
+      "path": "/",
+      "expires": 1787088931.248817,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "uuid2",
+      "value": "8445905189896707740",
+      "domain": ".adnxs.com",
+      "path": "/",
+      "expires": 1763221146.3443,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "audit_p",
+      "value": "1|qZaiTHU/SIqUo9vNqHiH7g9tA5cFSzy0LmxC6X5pwWWqcLSLiv9/T/xExsLlGnGHsIWfhzC4WxyM1KxoLazIt9i2Wk5FrGos0XY24Ec+XLtf52BI0rinywmO8hAomCXaAdQJUzuyGlQfr20i0lucEs/+EbE5dHnt5jPYX1GOk3NbOz6AjJtUa8ZnH3r7x5VAdeodiyl5GGjkt77VmXBK7kiCfUmSYXqD+ohH/uuQN8oOr/S07bYDcYQkZmofZQkSVSwKu1RXSJT0/fhu8/pkBO4VeIulq+4M1TRwmTZWV3Xc6UO785F0Pw==",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1786981146.430143,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://smu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "khaos",
+      "value": "MEFUPRVZ-R-607M",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1786981146.430178,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "khaos_p",
+      "value": "MEFUPRVZ-R-607M",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1786981146.430189,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://smu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "audit",
+      "value": "1|qZaiTHU/SIqUo9vNqHiH7g9tA5cFSzy0LmxC6X5pwWWqcLSLiv9/T/xExsLlGnGHsIWfhzC4WxyM1KxoLazIt9i2Wk5FrGos0XY24Ec+XLtf52BI0rinywmO8hAomCXaAdQJUzuyGlQfr20i0lucEs/+EbE5dHnt5jPYX1GOk3NbOz6AjJtUa8ZnH3r7x5VAdeodiyl5GGjkt77VmXBK7kiCfUmSYXqD+ohH/uuQN8oOr/S07bYDcYQkZmofZQkSVSwKu1RXSJT0/fhu8/pkBO4VeIulq+4M1TRwmTZWV3Xc6UO785F0Pw==",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1786981146.430197,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "cu",
+      "value": "0acfaa91-4547-49c8-acf8-944c19156e15|1755445146615",
+      "domain": ".ipredictive.com",
+      "path": "/",
+      "expires": 1787088931.752346,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "CMID",
+      "value": "aKH3qsAoIpsAGe74A1k2FwAA",
+      "domain": ".casalemedia.com",
+      "path": "/",
+      "expires": 1786981162.095319,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "CMPS",
+      "value": "2582",
+      "domain": ".casalemedia.com",
+      "path": "/",
+      "expires": 1763221162.019342,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "CMPRO",
+      "value": "2582",
+      "domain": ".casalemedia.com",
+      "path": "/",
+      "expires": 1763221162.095352,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "tuuid",
+      "value": "0d5fcea1-1e1b-4430-a070-b7d99c823560",
+      "domain": ".bidswitch.net",
+      "path": "/",
+      "expires": 1786981162.325972,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "c",
+      "value": "1755445162",
+      "domain": ".bidswitch.net",
+      "path": "/",
+      "expires": 1786981162.195654,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "tuuid_lu",
+      "value": "1755445162",
+      "domain": ".bidswitch.net",
+      "path": "/",
+      "expires": 1786981162.326086,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-8edab154-4c29-4a3c-7493-422da095cd34.TfVLYGP%2BdH91QqfjrvdlPyc24Ba40LpT2SIA6LDid1Q",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1786981195.006048,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-8edab154-4c29-4a3c-7493-422da095cd34.TfVLYGP%2BdH91QqfjrvdlPyc24Ba40LpT2SIA6LDid1Q",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1786981195.006068,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3AjtqxVEwpSjx0k0ItoJXNNA.V3J0YJ8iwq%2BxYWjnFoIw7%2FWm4hrXeLHCZ3NNCmN96xQ",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1787088930.370906,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3AjtqxVEwpSjx0k0ItoJXNNA.V3J0YJ8iwq%2BxYWjnFoIw7%2FWm4hrXeLHCZ3NNCmN96xQ",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1787088930.37098,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GENQHGAIgy--HxQY6BE5BDgxCBLXcdxo.MV3Q%2Bi26oOzTWUzBFEw7rQ5aJaQZk2t4kK750kLNySk",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1786981195.006094,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GENQHGAIgy--HxQY6BE5BDgxCBLXcdxo.MV3Q%2Bi26oOzTWUzBFEw7rQ5aJaQZk2t4kK750kLNySk",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1786981195.006102,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%253A0-8edab154-4c29-4a3c-7493-422da095cd34.TfVLYGP%252BdH91QqfjrvdlPyc24Ba40LpT2SIA6LDid1Q",
+      "domain": "www.smu.edu",
+      "path": "/",
+      "expires": 1786981195,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%253AjtqxVEwpSjx0k0ItoJXNNA.V3J0YJ8iwq%252BxYWjnFoIw7%252FWm4hrXeLHCZ3NNCmN96xQ",
+      "domain": "www.smu.edu",
+      "path": "/",
+      "expires": 1786981195,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%253AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GENQHGAIgy--HxQY6BE5BDgxCBLXcdxo.MV3Q%252Bi26oOzTWUzBFEw7rQ5aJaQZk2t4kK750kLNySk",
+      "domain": "www.smu.edu",
+      "path": "/",
+      "expires": 1786981195,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "receive-cookie-deprecation",
+      "value": "1",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1771104931.662016,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://smu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "ktcid",
+      "value": "7cc5e16d-b9aa-05b6-35fb-69c52838e562",
+      "domain": ".kargo.com",
+      "path": "/",
+      "expires": 1787088930.800319,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__gsas",
+      "value": "ID=324075618ff23f8b:T=1755445198:RT=1755445198:S=ALNI_MYuwVvVIRyf4G4BmNAxC6Tmdoym-A",
+      "domain": ".smu.edu",
+      "path": "/",
+      "expires": 1789141198,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CNbZ4f-72tyb5QEQxeGs4JaSjwMYho3K3aaVjwM%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1771104509.167909,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://smu.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUktv5C2NWPP7d2J2qkgIWwGCNpECx3cJmcxuehp71uQGKtY647LyS-fjEOsJe4",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1790112509.598332,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "57942",
+      "value": "",
+      "domain": "www.smu.edu",
+      "path": "/",
+      "expires": 1755554730,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "58312",
+      "value": "",
+      "domain": "www.smu.edu",
+      "path": "/",
+      "expires": 1755554730,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "58313",
+      "value": "",
+      "domain": "www.smu.edu",
+      "path": "/",
+      "expires": 1755554730,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "59942",
+      "value": "",
+      "domain": "www.smu.edu",
+      "path": "/",
+      "expires": 1755554730,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "57928",
+      "value": "",
+      "domain": "www.smu.edu",
+      "path": "/",
+      "expires": 1755554730,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "58306",
+      "value": "",
+      "domain": "www.smu.edu",
+      "path": "/",
+      "expires": 1755554730,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "59941",
+      "value": "",
+      "domain": "www.smu.edu",
+      "path": "/",
+      "expires": 1755554730,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "57927",
+      "value": "",
+      "domain": "www.smu.edu",
+      "path": "/",
+      "expires": 1755554730,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "57941",
+      "value": "",
+      "domain": "www.smu.edu",
+      "path": "/",
+      "expires": 1755554730,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "58305",
+      "value": "",
+      "domain": "www.smu.edu",
+      "path": "/",
+      "expires": 1755554730,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": "px.ads.linkedin.com",
+      "path": "/",
+      "expires": 1758182676.633035,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=VGST09:s=V:r=V:a=V:p=V:g=3278:u=1:x=1:i=1755552510:t=1755638910:v=2:sig=AQH4LtiA5AYa9yXJNaP0w-WLikRJ3GIN\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755638910.194882,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "F9JrAa6aaCzI_AgrqMAX7Acerv97kPAAR2iwJD63E9k-1755552572-1.0.1.1-J_5nxbK8scQMYCNHizfkVzQVb7eZjN8FRdmsv7a2hvW5ly4hj0mxpKdg4vDqdB_zFPQcwI13dgXUHwKcuQW0xwaWutqj.O.4_XdY7Kcs5NI",
+      "domain": ".js.ubembed.com",
+      "path": "/",
+      "expires": 1755554372.765094,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_scid_r",
+      "value": "I_X5H0Ca6vJhZ9qWTK3HVvGKtZ8Fd0vAB5XUmg",
+      "domain": ".smu.edu",
+      "path": "/",
+      "expires": 1789739628,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_N7RGT2FX6R",
+      "value": "GS2.1.s1755552930$o2$g0$t1755552930$j60$l0$h0",
+      "domain": ".smu.edu",
+      "path": "/",
+      "expires": 1790112930.197033,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_13WBZGTF25",
+      "value": "GS2.1.s1755552509$o2$g1$t1755552930$j60$l0$h0",
+      "domain": ".smu.edu",
+      "path": "/",
+      "expires": 1790112930.2604,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_QECV1VM509",
+      "value": "GS2.1.s1755552509$o2$g1$t1755552930$j60$l0$h0",
+      "domain": ".smu.edu",
+      "path": "/",
+      "expires": 1790112930.26459,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_WQ80B7H35V",
+      "value": "GS2.1.s1755552509$o2$g1$t1755552930$j60$l0$h0",
+      "domain": ".smu.edu",
+      "path": "/",
+      "expires": 1790112930.320246,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_vwo_ds",
+      "value": "3%3Aa_1%2Ct_1%3A0%241755445140%3A12.66651801%3A67_1_0_2%3A%3A32_1%2C5_1%3A0",
+      "domain": ".smu.edu",
+      "path": "/",
+      "expires": 1760736931,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_tq_id.TV-6345724536-1.149b",
+      "value": "66c87ff48f45dd4c.1755445141.0.1755552931..",
+      "domain": "www.smu.edu",
+      "path": "/",
+      "expires": 1790112930.517497,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ssuma",
+      "value": "eyI0NCI6MTc1NTQ0NTIxMTIzNCwiNDUiOjE3NTU0NDUxNTc3MTUsIjY3IjoxNzU1NTUyNTEwMzc3LCI2OCI6MTc1NTQ0NTE1NzcxNSwiMjQiOjE3NTU0NDUxOTU5ODMsIjQ4IjoxNzU1NDQ1MTk1OTgzLCIyNiI6MTc1NTQ0NTE5NTk4MywiMjciOjE3NTU0NDUxOTU5ODMsIjcwIjoxNzU1NTUyNTc0MzgxLCI1MSI6MTc1NTQ0NTIxMTY1MCwiNzMiOjE3NTU1NTI1NzQzODEsIjc0IjoxNzU1NTUyNTc0MzgxLCI1MyI6MTc1NTQ0NTE1NzcxNSwiNzUiOjE3NTU1NTI1NzQzODEsIjEwIjoxNzU1NDQ1MTk1OTgzLCI3NyI6MTc1NTU1MjU3NDM4MSwiNTUiOjE3NTU1NTI5MzEwMDcsIjc4IjoxNzU1NDQ1MjExMjM0LCIzNCI6MTc1NTQ0NTIxMTY1MCwiNTciOjE3NTU1NTI5MzEwMDcsIjU4IjoxNzU1NDQ1MjExNjUwLCIxNSI6MTc1NTQ0NTIxMTY1MCwiNTkiOjE3NTU0NDUyMTE2NTAsIjM5IjoxNzU1NTUyNTEwMzc3LCIxNyI6MTc1NTQ0NTE1NzcxNSwiMiI6MTc1NTQ0NTE0MjI0NiwiNCI6MTc1NTQ0NTE0MjI0NiwiNyI6MTc1NTQ0NTE0MjI0NiwiOCI6MTc1NTQ0NTE0MjI0NiwiNjEiOjE3NTU1NTI5MzEwMDcsIjg0IjoxNzU1NDQ1MjExMjM0LCI2MiI6MTc1NTU1MjUxMDM3NywiNDAiOjE3NTU1NTI5MzEwMDcsIjQxIjoxNzU1NDQ1MjExMjM0LCI4NSI6MTc1NTQ0NTIxMTIzNCwiNDIiOjE3NTU0NDUxNTc3MTUsIjY0IjoxNzU1NTUyNTEwMzc3LCI2NSI6MTc1NTU1MjUxMDM3NywiODciOjE3NTU1NTI5MzEwMDd9",
+      "domain": ".sitescout.com",
+      "path": "/",
+      "expires": 1758144930.912719,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ttcsid_CE94GGJC77U8BHMERPSG",
+      "value": "1755552509906::3XTSOmdREoLiBhvK82uk.2.1755552931152",
+      "domain": ".smu.edu",
+      "path": "/",
+      "expires": 1789248931,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ttcsid_CQAOB5BC77U7A8U7MG3G",
+      "value": "1755552509907::gHIs5zo0IcNEauwJbYak.2.1755552931154",
+      "domain": ".smu.edu",
+      "path": "/",
+      "expires": 1789248931,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ttcsid",
+      "value": "1755552509906::tYNsVq17SoKzWRgGU2RL.2.1755552931154",
+      "domain": ".smu.edu",
+      "path": "/",
+      "expires": 1789248931,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_vwo_sn",
+      "value": "107369%3A5%3Ar1.visualwebsiteoptimizer.com%3A3%3A1%3Areferrer%3D",
+      "domain": ".smu.edu",
+      "path": "/",
+      "expires": 1755554731,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "TDCPM",
+      "value": "CAESFQoGZ29vZ2xlEgsImo-arcfrrj4QBRIXCghhcHBuZXh1cxILCLaQtLzH664-EAUSFgoHcnViaWNvbhILCJzOmq3H664-EAUSFQoGY2FzYWxlEgsI1ufewMjrrj4QBRIYCgliaWRzd2l0Y2gSCwismuDAyOuuPhAFEhcKCHB1Ym1hdGljEgsI3ofhwMjrrj4QBRgFKAYyCwiwpZa2vKqvPhAFQg8iDQgBEgkKBXRpZXIyEAFaBzcwNTludzFgAQ..",
+      "domain": ".adsrvr.org",
+      "path": "/",
+      "expires": 1787088931.248919,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://www.smu.edu",
+      "localStorage": [
+        {
+          "name": "u_sclid",
+          "value": "VXrT_EOcMimnpz3RPlCLh1mOn3wIeZP3FXX5H0Ca6vJhZ9qWTK3HVvGKtZ8Fd0vA"
+        },
+        {
+          "name": "Attribution.c6754e4a-24c3-4079-a885-f02da8bff7cc.queue",
+          "value": "[]"
+        },
+        {
+          "name": "58312",
+          "value": "{\"expires\":1755554730289,\"value\":\"\"}"
+        },
+        {
+          "name": "ajs_group_properties",
+          "value": "{}"
+        },
+        {
+          "name": "a665a2f5-fd67-49d1-4560-62419ac935da_pp",
+          "value": "{}"
+        },
+        {
+          "name": "27f60297-476a-5ae3-a051-b3faaf44a166_st",
+          "value": "1755552509974"
+        },
+        {
+          "name": "_attrb",
+          "value": "\"712db9e3-5bd9-4abd-ad17-0016bcafceeb\""
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":8,\"creationTimeMs\":1755552930650},\"expires\":1763328930650}}"
+        },
+        {
+          "name": "57941",
+          "value": "{\"expires\":1755554730291,\"value\":\"\"}"
+        },
+        {
+          "name": "sa-user-id-v3",
+          "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GENQHGAIgy--HxQY6BE5BDgxCBLXcdxo.MV3Q%2Bi26oOzTWUzBFEw7rQ5aJaQZk2t4kK750kLNySk"
+        },
+        {
+          "name": "58305",
+          "value": "{\"expires\":1755554730291,\"value\":\"\"}"
+        },
+        {
+          "name": "Attribution.c6754e4a-24c3-4079-a885-f02da8bff7cc.inProgress",
+          "value": "{}"
+        },
+        {
+          "name": "a665a2f5-fd67-49d1-4560-62419ac935da_st",
+          "value": "1755552509974"
+        },
+        {
+          "name": "59941",
+          "value": "{\"expires\":1755554730290,\"value\":\"\"}"
+        },
+        {
+          "name": "attr_group_properties",
+          "value": "{}"
+        },
+        {
+          "name": "cntr_attr",
+          "value": "[]"
+        },
+        {
+          "name": "_attrg",
+          "value": "null"
+        },
+        {
+          "name": "attr_user_traits",
+          "value": "{}"
+        },
+        {
+          "name": "b36ab37a-f760-c9f2-02ac-fccdf960fe86_st",
+          "value": "1755552509945"
+        },
+        {
+          "name": "_attru",
+          "value": "null"
+        },
+        {
+          "name": "27f60297-476a-5ae3-a051-b3faaf44a166_pp",
+          "value": "{}"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "Attribution.c6754e4a-24c3-4079-a885-f02da8bff7cc.ack",
+          "value": "1755552949425"
+        },
+        {
+          "name": "Attribution.c6754e4a-24c3-4079-a885-f02da8bff7cc.reclaimEnd",
+          "value": "null"
+        },
+        {
+          "name": "vwoSn",
+          "value": "{\"v\":\"0.1.0\",\"lt\":\"1755445140\",\"r\":\"\",\"cu\":\"https%3A%2F%2Fwww.smu.edu%2F\"}"
+        },
+        {
+          "name": "b36ab37a-f760-c9f2-02ac-fccdf960fe86_pp",
+          "value": "{}"
+        },
+        {
+          "name": "ajs_user_traits",
+          "value": "{}"
+        },
+        {
+          "name": "li_adsId",
+          "value": "de9739d3-5a3d-4142-9cae-b23d896dce2c"
+        },
+        {
+          "name": "Attribution.c6754e4a-24c3-4079-a885-f02da8bff7cc.reclaimStart",
+          "value": "null"
+        },
+        {
+          "name": "krg_px_data",
+          "value": "{\"krg_px_client_id\":{\"value\":\"19c494ef-26b7-4cd5-b857-033aaf295f79\"}}"
+        },
+        {
+          "name": "sa-user-id",
+          "value": "s%3A0-8edab154-4c29-4a3c-7493-422da095cd34.TfVLYGP%2BdH91QqfjrvdlPyc24Ba40LpT2SIA6LDid1Q"
+        },
+        {
+          "name": "58306",
+          "value": "{\"expires\":1755554730290,\"value\":\"\"}"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755552931121"
+        },
+        {
+          "name": "57928",
+          "value": "{\"expires\":1755554730290,\"value\":\"\"}"
+        },
+        {
+          "name": "ub-emb-id",
+          "value": "f61da4b93b4c43748e90810c99abcb84"
+        },
+        {
+          "name": "_vwo_nlsCache",
+          "value": "{\"hm_root_monitoring_sent\":\"true\",\"asts\":[\"https%3A%2F%2Fwww.smu.edu%2Fstyle%2FPeruna%2Fcomponents%2Ffont-awesome.min.v-kykq9xy79zvallanpsbrmw.css\",\"https%3A%2F%2Fwww.smu.edu%2Fstyle%2FCornerstone%2Fdefault.min.v-ieecwbxxoalvkklpxxw4ta.css\",\"https%3A%2F%2Fwww.smu.edu%2Fstyle%2FCornerstone%2Fsmu%2Fframework.min.v-ymr26arotejefpnfuo1dg.css\",\"https%3A%2F%2Fwww.smu.edu%2Fstyle%2FPeruna%2Fcomponents%2FBannerTitleImage.min.v-1tgb6il5qz4lu5uknarsqg.css\",\"https%3A%2F%2Fwww.smu.edu%2Fstyle%2FPeruna%2Fcomponents%2FPageTitle.min.v-1dsol8mb7daeju8nosznq.css\",\"https%3A%2F%2Fwww.smu.edu%2Fstyle%2FCornerstone%2Fcomponents%2FFooterContentBlock.min.v-vdcy17puo6hqqqf14witbg.css\",\"https%3A%2F%2Fwww.google.com%2Fcse%2Fstatic%2Felement%2F197b0e284b1b1f14%2Fdefault%2Ben.css\",\"https%3A%2F%2Fwww.google.com%2Fcse%2Fstatic%2Fstyle%2Flook%2Fv4%2Fdefault.css\",\"https%3A%2F%2Ftags.srv.stackadapt.com%2Fsa.css\",\"https%3A%2F%2Fwww.smu.edu%2Fstyle%2FPeruna%2Fcomponents%2Ffont-awesome.min.v-kykq9xy79zvallanpsbrmw.css\",\"https%3A%2F%2Fwww.smu.edu%2Fstyle%2FCornerstone%2Fdefault.min.v-ieecwbxxoalvkklpxxw4ta.css\",\"https%3A%2F%2Fwww.smu.edu%2Fstyle%2FCornerstone%2Fsmu%2Fframework.min.v-ymr26arotejefpnfuo1dg.css\",\"https%3A%2F%2Fwww.smu.edu%2Fstyle%2FPeruna%2Fcomponents%2FBannerTitleImage.min.v-1tgb6il5qz4lu5uknarsqg.css\",\"https%3A%2F%2Fwww.smu.edu%2Fstyle%2FPeruna%2Fcomponents%2FPageTitle.min.v-1dsol8mb7daeju8nosznq.css\",\"https%3A%2F%2Fwww.smu.edu%2Fstyle%2FCornerstone%2Fcomponents%2FFooterContentBlock.min.v-vdcy17puo6hqqqf14witbg.css\",\"https%3A%2F%2Fwww.google.com%2Fcse%2Fstatic%2Felement%2F197b0e284b1b1f14%2Fdefault%2Ben.css\",\"https%3A%2F%2Fwww.google.com%2Fcse%2Fstatic%2Fstyle%2Flook%2Fv4%2Fdefault.css\",\"https%3A%2F%2Ftags.srv.stackadapt.com%2Fsa.css\"]}"
+        },
+        {
+          "name": "sa-user-id-v2",
+          "value": "s%3AjtqxVEwpSjx0k0ItoJXNNA.V3J0YJ8iwq%2BxYWjnFoIw7%2FWm4hrXeLHCZ3NNCmN96xQ"
+        },
+        {
+          "name": "_vwo_851069_config",
+          "value": "{}"
+        },
+        {
+          "name": "58313",
+          "value": "{\"expires\":1755554730289,\"value\":\"\"}"
+        },
+        {
+          "name": "_vwo_nls_q_851069",
+          "value": "[]"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755552930434"
+        },
+        {
+          "name": "u_sclid_r",
+          "value": "U_rT_EOcMimnpz3RPlCLh1mOn3wIeZP3-UiYyyP1-R9AmuryYWfalkytx1bxirWfBXdLwAeV1Jo"
+        },
+        {
+          "name": "57942",
+          "value": "{\"expires\":1755554730289,\"value\":\"\"}"
+        },
+        {
+          "name": "59942",
+          "value": "{\"expires\":1755554730289,\"value\":\"\"}"
+        },
+        {
+          "name": "57927",
+          "value": "{\"expires\":1755554730291,\"value\":\"\"}"
+        },
+        {
+          "name": "debug",
+          "value": "undefined"
+        }
+      ]
+    }
+  ]
+}

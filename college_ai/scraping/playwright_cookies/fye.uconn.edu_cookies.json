@@ -1,0 +1,35 @@
+{
+  "cookies": [
+    {
+      "name": "_ga_EETPXDJ1BX",
+      "value": "GS2.1.s1755520700$o1$g0$t1755520700$j60$l0$h0",
+      "domain": ".uconn.edu",
+      "path": "/",
+      "expires": 1790080700.080446,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.854871680.1755520700",
+      "domain": ".uconn.edu",
+      "path": "/",
+      "expires": 1790080700.080675,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "uconn-cookie-consent",
+      "value": "true",
+      "domain": ".uconn.edu",
+      "path": "/",
+      "expires": 1787056701,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

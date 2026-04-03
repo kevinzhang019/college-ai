@@ -1,0 +1,542 @@
+{
+  "cookies": [
+    {
+      "name": "X-AB",
+      "value": "12f715ca71194ad9a1b12bba6d1da4c6",
+      "domain": "sc-static.net",
+      "path": "/scevent.min.js",
+      "expires": 1755601828.243651,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "utd1P",
+      "value": "!gN/3qDnLVN9wCMV2i4/UszE4GGo9M4SFiqxhLkD2rQnR1pHNyZF3pmL/vOo7IFvhBliPD27i5i75WHc=",
+      "domain": "services.utdallas.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "nmstat",
+      "value": "ae32b4f0-5b30-4853-7eb9-c27908a194d0",
+      "domain": ".utdallas.edu",
+      "path": "/",
+      "expires": 1790075426.896831,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_fbp",
+      "value": "fb.1.1755515427009.821857574464882973",
+      "domain": ".utdallas.edu",
+      "path": "/",
+      "expires": 1763291546,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.543552906.1755515427",
+      "domain": ".utdallas.edu",
+      "path": "/",
+      "expires": 1763291427,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ar_debug",
+      "value": "1",
+      "domain": "px.ads.linkedin.com",
+      "path": "/",
+      "expires": 1758145292.572563,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&4128531a-34a1-459b-8d74-c879e1edf1dc\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1787051546.572586,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=VGST09:s=V:r=V:a=V:p=V:g=3278:u=1:x=1:i=1755515427:t=1755601827:v=2:sig=AQGATjiP4GBCSgVAij5DZ9kHCS4vLWtd\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755601828.189936,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.678591992.1755515427",
+      "domain": ".utdallas.edu",
+      "path": "/",
+      "expires": 1790075541.874348,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "suid",
+      "value": "CD83ABD2F1184B5EB01322C8693AF928",
+      "domain": ".simpli.fi",
+      "path": "/",
+      "expires": 1787137827.271812,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.3.678591992.1755515427",
+      "domain": ".services.utdallas.edu",
+      "path": "/",
+      "expires": 1790075541.879083,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.3.128665127.1755515427",
+      "domain": ".services.utdallas.edu",
+      "path": "/",
+      "expires": 1755601941,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-cbf070b3-1ace-4594-5e68-e6af4ef90af6.20hrVKyii3UwUc4cLVggviT9YxrK6MU6ohmCN4nrIsQ",
+      "domain": "qvdt3feo.com",
+      "path": "/",
+      "expires": 1787051427.713592,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-cbf070b3-1ace-4594-5e68-e6af4ef90af6.20hrVKyii3UwUc4cLVggviT9YxrK6MU6ohmCN4nrIsQ",
+      "domain": ".qvdt3feo.com",
+      "path": "/",
+      "expires": 1787051427.713719,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3Ay_BwsxrORZReaOavTvkK9g.i3ValZze7%2FTc52yVyOQK1k1%2BlsECPKDQwZRlTsfmS38",
+      "domain": "qvdt3feo.com",
+      "path": "/",
+      "expires": 1787051427.713744,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3Ay_BwsxrORZReaOavTvkK9g.i3ValZze7%2FTc52yVyOQK1k1%2BlsECPKDQwZRlTsfmS38",
+      "domain": ".qvdt3feo.com",
+      "path": "/",
+      "expires": 1787051427.713766,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEL8CGAIgo5SMxQY6BGFKycJCBKju6yY.PWE6TmOLTx5DxMdwhEgAkSVQL3WD6q4gsYYsYwbQuEQ",
+      "domain": "qvdt3feo.com",
+      "path": "/",
+      "expires": 1787051427.713788,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEL8CGAIgo5SMxQY6BGFKycJCBKju6yY.PWE6TmOLTx5DxMdwhEgAkSVQL3WD6q4gsYYsYwbQuEQ",
+      "domain": ".qvdt3feo.com",
+      "path": "/",
+      "expires": 1787051427.713835,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "IDE",
+      "value": "AHWqTUlDDfL3sufhM-VM-ji-rv_JUO8-UKjZ44pjZl3hma5MvBy0AH7wut-K-xzO",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1790075427.977994,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_scid",
+      "value": "-mrVZeNQz33n7EsEaZN2H-F_keWsba-X",
+      "domain": ".utdallas.edu",
+      "path": "/",
+      "expires": 1789702126,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "uid_syncd_secure",
+      "value": "true",
+      "domain": ".simpli.fi",
+      "path": "/",
+      "expires": 1756120228.363811,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "Queue-it-token",
+      "value": "e_utdallas081125~ts_1755515608~ce_true~rt_safetynet~h_665f4fceab9caaddabcae13aa45c283101590e835d1199b09ee3d41401e9eceb",
+      "domain": "permitlobby.t2hosted.com",
+      "path": "/",
+      "expires": 1755515608.394072,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "QueueITAccepted-SDFrts345E-V3_utdallas081125",
+      "value": "EventId%3Dutdallas081125%26RedirectType%3Dsafetynet%26IssueTime%3D1755515428%26Hash%3Df26a066d95903e6588acde344188797ffeb905c05660ef2e8f724551e7a074aa",
+      "domain": "utdallas.t2hosted.com",
+      "path": "/",
+      "expires": 1755601829.225448,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ScCbts",
+      "value": "%5B%5D",
+      "domain": ".utdallas.edu",
+      "path": "/",
+      "expires": 1756120228,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ASP.NET_SessionId",
+      "value": "sbjnsj2icr3h54pqelmcfoij",
+      "domain": "utdallas.t2hosted.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "EBBasket_6D707A254837D03FCA643964BB93269F",
+      "value": "99bf7e5c-2368-4f4b-a076-1b97e79a9948",
+      "domain": "utdallas.t2hosted.com",
+      "path": "/",
+      "expires": 1755522629.22535,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_TS",
+      "value": "1755515428878",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760699428.941537,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_DID",
+      "value": "019f0793-b347-4193-9b4c-dce7b7250622",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760699428.941612,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TapAd_3WAY_SYNCS",
+      "value": "",
+      "domain": ".tapad.com",
+      "path": "/",
+      "expires": 1760699428.941656,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sc_at",
+      "value": "v2|H4sIAAAAAAAAAE3GwQ3AMAgDwImQcGrktNtQQqbI8P32Xte7CrqmJVvG5LJ3jTYQyrnkqjigP1BEIDju86t/+FuhikAAAAA=",
+      "domain": ".snapchat.com",
+      "path": "/",
+      "expires": 1789211429.038003,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_sctr",
+      "value": "1%7C1755489600000",
+      "domain": ".utdallas.edu",
+      "path": "/",
+      "expires": 1789702127,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "apiToken",
+      "value": "{%22secure%22:true%2C%22sameSite%22:%22none%22}",
+      "domain": "utdallas.t2hosted.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_dc_gtm_UA-40160313-2",
+      "value": "1",
+      "domain": ".services.utdallas.edu",
+      "path": "/",
+      "expires": 1755515579,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-70c88c21-386d-4647-6349-eee4b6db375f.if7DnD%2BMm7dan%2BxrRTOmU7tGi05IN%2BDHkRcEzWTlym0",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1787051519.729368,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%3A0-70c88c21-386d-4647-6349-eee4b6db375f.if7DnD%2BMm7dan%2BxrRTOmU7tGi05IN%2BDHkRcEzWTlym0",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1787051519.729394,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3AcMiMIThtRkdjSe7ktts3Xw.bWDk0zpkpqfTxHsH%2By%2FLm%2Bv5w3TnF%2FSNFe2UNsttojY",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1787051541.978152,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%3AcMiMIThtRkdjSe7ktts3Xw.bWDk0zpkpqfTxHsH%2By%2FLm%2Bv5w3TnF%2FSNFe2UNsttojY",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1787051541.978196,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEJIFGAIg_5SMxQY6BNZRaJVCBG51axg.VYD3H8Za9M5L8GSPl4HAKZuCWtOdTHIGh2jvU%2BFUo4I",
+      "domain": "tags.srv.stackadapt.com",
+      "path": "/",
+      "expires": 1787051519.729449,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEJIFGAIg_5SMxQY6BNZRaJVCBG51axg.VYD3H8Za9M5L8GSPl4HAKZuCWtOdTHIGh2jvU%2BFUo4I",
+      "domain": ".srv.stackadapt.com",
+      "path": "/",
+      "expires": 1787051519.729462,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sa-user-id",
+      "value": "s%253A0-70c88c21-386d-4647-6349-eee4b6db375f.if7DnD%252BMm7dan%252BxrRTOmU7tGi05IN%252BDHkRcEzWTlym0",
+      "domain": "services.utdallas.edu",
+      "path": "/",
+      "expires": 1787051519,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id-v2",
+      "value": "s%253AcMiMIThtRkdjSe7ktts3Xw.bWDk0zpkpqfTxHsH%252By%252FLm%252Bv5w3TnF%252FSNFe2UNsttojY",
+      "domain": "services.utdallas.edu",
+      "path": "/",
+      "expires": 1787051519,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sa-user-id-v3",
+      "value": "s%253AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEJIFGAIg_5SMxQY6BNZRaJVCBG51axg.VYD3H8Za9M5L8GSPl4HAKZuCWtOdTHIGh2jvU%252BFUo4I",
+      "domain": "services.utdallas.edu",
+      "path": "/",
+      "expires": 1787051519,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "receive-cookie-deprecation",
+      "value": "1",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1771067547.288834,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://utdallas.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "_ga_S5RECKWMRS",
+      "value": "GS2.1.s1755515427$o1$g1$t1755515541$j38$l0$h0",
+      "domain": ".utdallas.edu",
+      "path": "/",
+      "expires": 1790075541.874171,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "AWSALBCORS",
+      "value": "XnJBGda0NQkzmZaVjdA3OTkj6uUqz07goU6QF24vFjh/mnPByG7jNMGaHlq+rV3T59s8P0pdwN/YcPhGXlijBlwaFThTSJAIaHlVYoQv2LtDrXlIOHKjpTAlmuz/",
+      "domain": "utdallas.blueconic.net",
+      "path": "/",
+      "expires": 1756120342.543034,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_scid_r",
+      "value": "BOrVZeNQz33n7EsEaZN2H-F_keWsba-XJIuDXw",
+      "domain": ".utdallas.edu",
+      "path": "/",
+      "expires": 1789702244,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://services.utdallas.edu",
+      "localStorage": [
+        {
+          "name": "u_sclid_r",
+          "value": "c1insNWDtE-_u6U_cqBg11HsYzCekJRpPZh9FwTq1WXjUM995-xLBGmTdh_hf5HlrG2vlySLg18"
+        },
+        {
+          "name": "u_sclid",
+          "value": "adinsNWDtE-_u6U_cqBg11HsYzCekJRp-mrVZeNQz33n7EsEaZN2H-F_keWsba-X"
+        },
+        {
+          "name": "sa-user-id",
+          "value": "s%3A0-70c88c21-386d-4647-6349-eee4b6db375f.if7DnD%2BMm7dan%2BxrRTOmU7tGi05IN%2BDHkRcEzWTlym0"
+        },
+        {
+          "name": "lastExternalReferrerTime",
+          "value": "1755515541163"
+        },
+        {
+          "name": "topicsLastReferenceTime",
+          "value": "1755515546518"
+        },
+        {
+          "name": "BCRevision_1755515541854",
+          "value": "{\"method\":\"addProperties\",\"param\":{\"properties\":{\"resolution\":[\"1366x768\"]},\"sources\":{\"listenerinteractiontype\":[\"resolution\"]}},\"requestId\":\"rev_1755515541854\"}"
+        },
+        {
+          "name": "lastExternalReferrer",
+          "value": "empty"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"creationTimeMs\":1755515427056},\"expires\":1763291427056}}"
+        },
+        {
+          "name": "sa-user-id-v3",
+          "value": "s%3AAQAKIJTWOAh-X2chwPFDIxLSh5RwVoIds2BATugFdKBo5Z8GEJIFGAIg_5SMxQY6BNZRaJVCBG51axg.VYD3H8Za9M5L8GSPl4HAKZuCWtOdTHIGh2jvU%2BFUo4I"
+        },
+        {
+          "name": "li_adsId",
+          "value": "41f1e6cf-1982-47c1-8091-b7eb3005a403"
+        },
+        {
+          "name": "BCRevision_1755515541853",
+          "value": "{\"method\":\"setProperties\",\"param\":{\"properties\":{\"language\":[\"en\"],\"currentscreenwidth\":[1366],\"currentscreenheight\":[768],\"currentresolution\":[\"1366x768\"],\"entrypage\":[\"https://services.utdallas.edu/Account/Portal#gsc.tab=0\"]},\"sources\":{\"listenerinteractiontype\":[\"language\",\"currentscreenwidth\",\"currentscreenheight\",\"currentresolution\",\"entrypage\"]}},\"requestId\":\"rev_1755515541853\"}"
+        },
+        {
+          "name": "sa-user-id-v2",
+          "value": "s%3AcMiMIThtRkdjSe7ktts3Xw.bWDk0zpkpqfTxHsH%2By%2FLm%2Bv5w3TnF%2FSNFe2UNsttojY"
+        }
+      ]
+    },
+    {
+      "origin": "https://utdallas.t2hosted.com",
+      "localStorage": [
+        {
+          "name": "uw-icon-locales",
+          "value": "{\"version\":\"2025-07-28-13-18-07\",\"en-US\":{\"widget\":{\"html_lst_title\":\"Translations Menu\",\"html_title\":\"Accessibility Menu\",\"text_icon_small\":\"Accessibility\",\"text_icon_large\":\"Accessibility</br>Menu\",\"new_tab\":\"open in a new tab\",\"new_tab_substring\":\"new tab\",\"new_window_substring\":\"new window\",\"broken_links\":{\"target_site_not_available\":\"target website may not be available\"}},\"skip_links\":{\"open_accessibility_nav\":\"Open the Accessible Navigation Menu\",\"open_accessibility_menu\":\"Open the accessibility menu\",\"skip\":\"Skip to main content\",\"enable_visually_impaired\":\"Enable accessibility for low vision\",\"disable_visually_impaired\":\"Disable accessibility for low vision\",\"title\":\"Quick Accessibility Options\"}}}"
+        },
+        {
+          "name": "uw-uid",
+          "value": "16064367-ffb6-4073-ab33-e49f032eeffb"
+        },
+        {
+          "name": "uw-tunings-checksum",
+          "value": "63d74bb07bbb6137b6303bbb03d4a5ed32bbb991b4d41b27d3d6c1540a2d9941"
+        },
+        {
+          "name": "uw-tunings",
+          "value": "{\"tunings\":{\"widget_color_gradient\":\"off\",\"widget_icon_size\":\"small\",\"widget_position_mobile\":\"8\",\"widget_icon_type\":\"1\",\"widget_position\":\"5\",\"widget_language\":\"\",\"widget_color\":\"#00629B\",\"widget_position_nudge_mobile\":\"{\\\"moveX\\\":0,\\\"moveY\\\":9,\\\"xOrientation\\\":\\\"left\\\",\\\"yOrientation\\\":\\\"bottom\\\"}\",\"widget_position_nudge\":\"{\\\"moveX\\\":0,\\\"moveY\\\":0,\\\"xOrientation\\\":\\\"left\\\",\\\"yOrientation\\\":\\\"bottom\\\"}\",\"widget_live_language_enabled\":true,\"accessibility_url\":\"https://www.t2systems.com/accessibility/\",\"accessibility_link_text\":\"Accessibility Statement\",\"accessibility_link_enabled\":\"\",\"screenReaderVersion\":\"v2\",\"site_name\":\"utdallas.t2hosted.com\",\"widget_no_report\":true},\"services\":{\"siteId\":1285131,\"userId\":101227,\"noManage\":false,\"noLogo\":false,\"paidAi\":true},\"remediation\":{},\"remediationV2\":{\"strategy\":\"AUTO\",\"consolidated\":\"https://cdn.userway.org/remediations/consolidated/1285131/qmZLeKa05id1FW7E.json\",\"version\":1},\"imageAlt\":{\"version\":\"ALTS_V2\",\"resourceHash\":\"CKTbYyOVCDSQPid5\",\"tier\":\"PAID_QUOTA_TIER\",\"quota\":5000,\"usage\":3,\"state\":\"ALTS_ON\",\"missingAlts\":[]},\"widgetCustomLanguages\":[]}"
+        }
+      ]
+    }
+  ]
+}

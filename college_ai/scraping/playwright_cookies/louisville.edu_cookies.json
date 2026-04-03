@@ -1,0 +1,215 @@
+{
+  "cookies": [
+    {
+      "name": "suid",
+      "value": "B7D78323D2CF4E39B40AB01B051F591C",
+      "domain": ".simpli.fi",
+      "path": "/",
+      "expires": 1787076980.551978,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.1798505173.1755454581",
+      "domain": ".louisville.edu",
+      "path": "/",
+      "expires": 1763230580,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "test_cookie",
+      "value": "CheckForPermission",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1755455480.927548,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.1698264911.1755454581",
+      "domain": ".louisville.edu",
+      "path": "/",
+      "expires": 1755541028,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_gtag_UA_3129504_8",
+      "value": "1",
+      "domain": ".louisville.edu",
+      "path": "/",
+      "expires": 1755454640,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat_gtag_UA_2669423_1",
+      "value": "1",
+      "domain": ".louisville.edu",
+      "path": "/",
+      "expires": 1755454640,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_uetsid",
+      "value": "46bcb1107b9611f08ae4ef06d3aa09aa",
+      "domain": ".louisville.edu",
+      "path": "/",
+      "expires": 1755540981,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_uetvid",
+      "value": "46bcba207b9611f0aed901c8b4a8c76c",
+      "domain": ".louisville.edu",
+      "path": "/",
+      "expires": 1789150581,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_node",
+      "value": "62e1f5c1bd7f2c76c2bc875abb82831e90dce9bfe858b41415dc3519a9b4c965",
+      "domain": "apply.louisville.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hash",
+      "value": "25fdaffc-6238-4748-8966-c74a761f141e",
+      "domain": "apply.louisville.edu",
+      "path": "/",
+      "expires": 1790014581.126629,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_hashV",
+      "value": "202508/1",
+      "domain": "apply.louisville.edu",
+      "path": "/",
+      "expires": 1790014581.126656,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_CHHTXYE5MF",
+      "value": "GS2.1.s1755454580$o1$g0$t1755454583$j57$l0$h0",
+      "domain": ".louisville.edu",
+      "path": "/",
+      "expires": 1790014583.684691,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_GW18T9VHP9",
+      "value": "GS2.1.s1755454581$o1$g0$t1755454583$j58$l0$h0",
+      "domain": ".louisville.edu",
+      "path": "/",
+      "expires": 1790014583.687528,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "uid_syncd_secure",
+      "value": "true",
+      "domain": ".simpli.fi",
+      "path": "/",
+      "expires": 1756059383.826743,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "bcookie",
+      "value": "\"v=2&1475a9e4-713e-449d-8353-81594d0bffd9\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1786990583.892762,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "lidc",
+      "value": "\"b=TGST09:s=T:r=T:a=T:p=T:g=3101:u=1:x=1:i=1755454583:t=1755540983:v=2:sig=AQG52hTJtvojEU-bO6h85Yj4iXwwlPcy\"",
+      "domain": ".linkedin.com",
+      "path": "/",
+      "expires": 1755540983.892803,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.1014110914.1755454581",
+      "domain": ".louisville.edu",
+      "path": "/",
+      "expires": 1790014628.872499,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat",
+      "value": "1",
+      "domain": ".louisville.edu",
+      "path": "/",
+      "expires": 1755454677,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://louisville.edu",
+      "localStorage": [
+        {
+          "name": "_uetvid",
+          "value": "46bcba207b9611f0aed901c8b4a8c76c"
+        },
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":2,\"creationTimeMs\":1755454580761},\"expires\":1763230580761}}"
+        },
+        {
+          "name": "_uetvid_exp",
+          "value": "Fri, 11 Sep 2026 18:16:21 GMT"
+        },
+        {
+          "name": "_uetsid",
+          "value": "46bcb1107b9611f08ae4ef06d3aa09aa"
+        },
+        {
+          "name": "_uetsid_exp",
+          "value": "Mon, 18 Aug 2025 18:16:21 GMT"
+        },
+        {
+          "name": "li_adsId",
+          "value": "0350b454-7879-4c0b-8d8a-1f16a84dde8c"
+        }
+      ]
+    }
+  ]
+}

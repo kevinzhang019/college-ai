@@ -1,0 +1,25 @@
+{
+  "cookies": [
+    {
+      "name": "DT",
+      "value": "DI14VLWUweNTOqhFnxXK4LGHQ",
+      "domain": "signon.byuh.edu",
+      "path": "/",
+      "expires": 1790007623.687203,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "JSESSIONID",
+      "value": "06D8FB542D54298FB5DEC18F50F6C490",
+      "domain": "signon.byuh.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

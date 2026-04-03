@@ -1,0 +1,214 @@
+{
+  "cookies": [
+    {
+      "name": "_ga_785JTY2CKY",
+      "value": "GS2.1.s1755438873$o1$g0$t1755438873$j60$l0$h0",
+      "domain": ".auburn.edu",
+      "path": "/",
+      "expires": 1789998873,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_HJ00RYYDE7",
+      "value": "GS2.2.s1755470634$o1$g0$t1755470634$j60$l0$h0",
+      "domain": ".auburn.edu",
+      "path": "/",
+      "expires": 1790030634,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_lo_uid",
+      "value": "331439-1755470634236-004d54b1b0edf98c",
+      "domain": ".auburn.edu",
+      "path": "/",
+      "expires": 1790030634,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_lo_v",
+      "value": "1",
+      "domain": ".auburn.edu",
+      "path": "/",
+      "expires": 1787006634,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "aulb",
+      "value": "!WkxIC86kXQm0pyjzTl1iDTdPUIyZjr/XjDdtkqZSPtkhPXL4EcUboyTYpiDOqhhwFidaxBzTIrqNgZw=",
+      "domain": "cws.auburn.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_viewedMap",
+      "value": "true",
+      "domain": "map.auburn.edu",
+      "path": "/",
+      "expires": 1806669841,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1844188472.1755438873",
+      "domain": ".auburn.edu",
+      "path": "/",
+      "expires": 1809753140.054152,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "auburnGDPR",
+      "value": "acknowledged",
+      "domain": ".auburn.edu",
+      "path": "/",
+      "expires": 1806669879,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "YSC",
+      "value": "pBB3V2NakuQ",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "lhyLUZGBXDI",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790685876,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgVA%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790685876,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CMrGptnT5IygUhDAvZGBmc-TAxjh95Crmc-TAw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790685964,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_9K1EX202XT",
+      "value": "GS2.1.s1755502619$o1$g0$t1755502619$j60$l0$h0",
+      "domain": ".auburngiving.org",
+      "path": "/",
+      "expires": 1790062619,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_0JXRFJ5NDD",
+      "value": "GS2.1.s1755502619$o1$g0$t1755502619$j60$l0$h0",
+      "domain": ".auburngiving.org",
+      "path": "/",
+      "expires": 1790062619,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.521587091.1755502620",
+      "domain": ".auburngiving.org",
+      "path": "/",
+      "expires": 1790062619,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ASP.NET_SessionId",
+      "value": "22bwmxfbxkgw1rrfsqk5of4c",
+      "domain": "auburnpub.cfmnetwork.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.833006873.1755438805",
+      "domain": ".cfmnetwork.com",
+      "path": "/",
+      "expires": 1789998805,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_S96V7Q8DMB",
+      "value": "GS2.1.s1755438805$o1$g1$t1755438806$j59$l0$h0",
+      "domain": ".cfmnetwork.com",
+      "path": "/",
+      "expires": 1789998806,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_S96V7Q8DMB",
+      "value": "GS2.1.s1775193121$o4$g1$t1775193140$j41$l0$h0",
+      "domain": ".auburn.edu",
+      "path": "/",
+      "expires": 1809753140.057899,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://research.auburn.edu",
+      "localStorage": [
+        {
+          "name": "ce_bot_detector",
+          "value": "{\"visits\":0,\"clicks\":1,\"firstVisitTime\":1775133879742,\"detected\":false}"
+        }
+      ]
+    },
+    {
+      "origin": "https://auburn.edu",
+      "localStorage": [
+        {
+          "name": "lo_session",
+          "value": "{\"stats\":{\"totalPages\":1,\"totalActivity\":0,\"totalTime\":0}}"
+        }
+      ]
+    }
+  ]
+}

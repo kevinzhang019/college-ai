@@ -1,0 +1,55 @@
+{
+  "cookies": [
+    {
+      "name": "__cf_bm",
+      "value": "QRFY3m3CKOmDovuxZc.k4ybuyLCU.blVg8oiLKfV.So-1755434937-1.0.1.1-W_rQsZqfEBGOTlIB9bG8Ezg6E_FEGvHIce3LV3BHlVE2rbz09SB2nUPRmdxIr8LgB3jgGugM0BXMppjhG3596X6DCnyGz2AjUbC2SaTmsz8",
+      "domain": ".boosters.fsu.edu",
+      "path": "/",
+      "expires": 1755436737.527042,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "nitroCachedPage",
+      "value": "1",
+      "domain": "boosters.fsu.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "CID2a1RFe.NuK6k0LqBJMkJ8o5hwpd9VJH9OorhsIQI-1755434938-1.0.1.1-vH7duxsvlMhAUNkI4dFg7HsQPW3KJ2kYd5QzJ.Urv0feMSYD74e6y.cNQxcJxDU.VVW6JGGupk1Dc3CnmxO7Ywa_kDWjRRXJTyoZ4YwZIns",
+      "domain": ".nitroscripts.com",
+      "path": "/",
+      "expires": 1755436738.061919,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "gdGaJD1vgkuslrf8h8XU0R3RMlNIErVdIkANE.S2AQM-1755434939-1.0.1.1-5E4DiY1Hf..DEJcPZOsH49am5VEu7iG6d2iQD4YNU2XFXCienjbsAW.c8jQ73VB9cBK2ymL0Il1X7xE7ngijrsH12fYkdlkb6567rDBFRt0",
+      "domain": ".getnitropack.com",
+      "path": "/",
+      "expires": 1755436739.168429,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__cf_bm",
+      "value": "S7Ggu4RgMHKT4GzacTNXdiXDKIpoTd62xrVts4yY7LQ-1755434939-1.0.1.1-4ablBviniL06BQqjLivvfYf1zjIi7Ay01SVonCflohNMJLTjloba_FwvrkaH1iFBXgjHS2NIhSkCYUro7Ik.VNXsMFgYOV4s2NvmqTntj9I",
+      "domain": ".nitrocdn.com",
+      "path": "/",
+      "expires": 1755436739.347931,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": []
+}

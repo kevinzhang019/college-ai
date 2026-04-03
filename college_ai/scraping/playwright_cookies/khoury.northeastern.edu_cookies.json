@@ -1,0 +1,243 @@
+{
+  "cookies": [
+    {
+      "name": "TAsessionID",
+      "value": "4202128b-a5f2-4113-b6fb-f2c4d81fdeb4|NEW",
+      "domain": ".northeastern.edu",
+      "path": "/",
+      "expires": 1755575753,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "notice_behavior",
+      "value": "implied,us",
+      "domain": ".northeastern.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.971711619.1755573954",
+      "domain": ".northeastern.edu",
+      "path": "/",
+      "expires": 1755660408,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "TDID",
+      "value": "91f2c67b-2844-4f5a-b56c-ea1fe011c231",
+      "domain": ".adsrvr.org",
+      "path": "/",
+      "expires": 1787110008.837706,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "test_cookie",
+      "value": "CheckForPermission",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1755574854.626264,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "audit_p",
+      "value": "1|tKsuMLG54twcpQkDljP5Qke50DHfdP7oKPy7e+KroamqcLSLiv9/T7qIxlCp++Jz4IlBh1AaeuOM1KxoLazIt9i2Wk5FrGos0XY24Ec+XLvoztywiMuudPukTSOwsk32whM4Mch3KOp+7FwGrg/K9Qpa1J5hmiHnOpWvBGztqNVbOz6AjJtUa8ZnH3r7x5VAdeodiyl5GGjkt77VmXBK7kiCfUmSYXqD+ohH/uuQN8oOr/S07bYDcYQkZmofZQkSVSwKu1RXSJT0/fhu8/pkBO4VeIulq+4M1TRwmTZWV3Xc6UO785F0Pw==",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1787109954.656134,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://northeastern.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "khaos",
+      "value": "MEHZEKXK-V-32BG",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1787109954.656245,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "khaos_p",
+      "value": "MEHZEKXK-V-32BG",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1787109954.656282,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://northeastern.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "audit",
+      "value": "1|tKsuMLG54twcpQkDljP5Qke50DHfdP7oKPy7e+KroamqcLSLiv9/T7qIxlCp++Jz4IlBh1AaeuOM1KxoLazIt9i2Wk5FrGos0XY24Ec+XLvoztywiMuudPukTSOwsk32whM4Mch3KOp+7FwGrg/K9Qpa1J5hmiHnOpWvBGztqNVbOz6AjJtUa8ZnH3r7x5VAdeodiyl5GGjkt77VmXBK7kiCfUmSYXqD+ohH/uuQN8oOr/S07bYDcYQkZmofZQkSVSwKu1RXSJT0/fhu8/pkBO4VeIulq+4M1TRwmTZWV3Xc6UO785F0Pw==",
+      "domain": ".rubiconproject.com",
+      "path": "/",
+      "expires": 1787109954.656318,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "XANDR_PANID",
+      "value": "3k18ow2pPdFVI_GBcuMejHJqVysjmhshurJvlS4pJ8Ln1Y-BXasnDRAP9gJleXc565ziAnhHYzGQbT9UQjZ1E6nfQJOF4UexFSavkPPwywI.",
+      "domain": ".adnxs.com",
+      "path": "/",
+      "expires": 1763349954.728187,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None",
+      "partitionKey": "https://northeastern.edu",
+      "_crHasCrossSiteAncestor": true
+    },
+    {
+      "name": "uuid2",
+      "value": "6203797828734892207",
+      "domain": ".adnxs.com",
+      "path": "/",
+      "expires": 1763349954.728281,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "TDCPM",
+      "value": "CAESFgoHcnViaWNvbhILCPrV4rTEtq8-EAUSFQoGZ29vZ2xlEgsIzIDjtMS2rz4QBRIXCghhcHBuZXh1cxILCJLxvbjEtq8-EAUSFQoGY2FzYWxlEgsIyILtuci2rz4QBRIYCgliaWRzd2l0Y2gSCwiyrO25yLavPhAFEhcKCHB1Ym1hdGljEgsI1vbtuci2rz4QBRgFIAEoBjILCIjI7-betq8-EAVCFiIUCAESEAoMc3VwcGx5dmVuZG9yEAFaB2d4MnBtcDlgAQ..",
+      "domain": ".adsrvr.org",
+      "path": "/",
+      "expires": 1787110008.837745,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "CMPS",
+      "value": "1068",
+      "domain": ".casalemedia.com",
+      "path": "/",
+      "expires": 1763350008.843649,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "CMID",
+      "value": "aKPu.NHM4IwAH0e3AV7m4gAA",
+      "domain": ".casalemedia.com",
+      "path": "/",
+      "expires": 1787110008.956647,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "CMPRO",
+      "value": "438",
+      "domain": ".casalemedia.com",
+      "path": "/",
+      "expires": 1763350008.95668,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga_1F5MXB3M22",
+      "value": "GS2.1.s1755573953$o1$g1$t1755574008$j5$l0$h0",
+      "domain": ".northeastern.edu",
+      "path": "/",
+      "expires": 1790134008.960626,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_8PNE205Z6W",
+      "value": "GS2.1.s1755573953$o1$g1$t1755574008$j5$l0$h0",
+      "domain": ".northeastern.edu",
+      "path": "/",
+      "expires": 1790134008.965856,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_4GY2JHCZZ2",
+      "value": "GS2.1.s1755573953$o1$g1$t1755574008$j5$l0$h0",
+      "domain": ".northeastern.edu",
+      "path": "/",
+      "expires": 1790134008.971119,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.478239179.1755573954",
+      "domain": ".northeastern.edu",
+      "path": "/",
+      "expires": 1790134008.972869,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://www.khoury.northeastern.edu",
+      "localStorage": [
+        {
+          "name": "nu-global-header-cached-at",
+          "value": "1755573953637"
+        },
+        {
+          "name": "nu-global-footer-cached-at",
+          "value": "1755573953635"
+        },
+        {
+          "name": "wistia",
+          "value": "{\"__distillery\":\"1755573_4b8334d0-60e1-4315-be21-b2d3f7887241-81d308380-0b713c9e1d94-2fc6\"}"
+        },
+        {
+          "name": "nu-global-header-pinned-link",
+          "value": "{\"id\":\"2MMM722ux6piSvwIsDipPR\",\"text\":\"Make a Gift\",\"order\":100,\"url\":\"https://giving.northeastern.edu/\",\"pinToBottom\":true}"
+        },
+        {
+          "name": "nu-global-header-sections",
+          "value": "[{\"id\":\"VlfudcQdKglfG9VTTqxa7\",\"title\":\"About\",\"order\":0,\"links\":[{\"text\":\"About Northeastern\",\"url\":\"https://www.northeastern.edu/about/about-northeastern/\"},{\"text\":\"University Leadership\",\"url\":\"https://www.northeastern.edu/about/university-leadership/\"},{\"text\":\"Institutional Accomplishments\",\"url\":\"https://accomplishments.northeastern.edu\"},{\"text\":\"Student Life\",\"url\":\"https://studentlife.northeastern.edu\"},{\"text\":\"Sustainability\",\"url\":\"https://sustainability.northeastern.edu\"},{\"text\":\"Maps and Directions\",\"url\":\"https://campusmap.northeastern.edu/\"},{\"text\":\"Art at Northeastern\",\"url\":\"https://publicart.northeastern.edu/\"},{\"text\":\"Working at Northeastern\",\"url\":\"https://hr.northeastern.edu/\"},{\"text\":\"Belonging at Northeastern\",\"url\":\"https://belonging.northeastern.edu/\"}]},{\"id\":\"2XUPGY4WqJxQkECjKrELNO\",\"title\":\"Academics\",\"order\":1,\"links\":[{\"text\":\"Office of the Provost\",\"url\":\"https://provost.northeastern.edu/\"},{\"text\":\"Colleges and Schools\",\"url\":\"https://www.northeastern.edu/academics/colleges/\"},{\"text\":\"Undergraduate Education\",\"url\":\"https://undergraduate.northeastern.edu/\"},{\"text\":\"Summer Program for Rising Sophomores\",\"url\":\"https://undergraduate.northeastern.edu/nuterm/\"},{\"text\":\"Graduate Education\",\"url\":\"https://graduate.northeastern.edu/\"},{\"text\":\"PhD Education\",\"url\":\"https://phd.northeastern.edu/\"},{\"text\":\"Online Learning\",\"url\":\"https://online.northeastern.edu/\"},{\"text\":\"Registrar\",\"url\":\"https://registrar.northeastern.edu/\"},{\"text\":\"University Library\",\"url\":\"https://library.northeastern.edu/\"}]},{\"id\":\"4baP1xFrYKNCexzO2lT3yy\",\"title\":\"Admissions\",\"order\":2,\"links\":[{\"text\":\"Undergraduate\",\"url\":\"https://admissions.northeastern.edu/\"},{\"text\":\"Graduate\",\"url\":\"https://graduate.northeastern.edu/\"},{\"text\":\"Student Financial Services\",\"url\":\"https://studentfinance.northeastern.edu\"},{\"text\":\"Lifelong Learning\",\"url\":\"https://graduate.northeastern.edu/why-northeastern/about-our-academics/lifelong-learning-network/\"},{\"text\":\"School of Law\",\"url\":\"https://law.northeastern.edu/admissions/\"},{\"text\":\"College of Professional Studies\",\"url\":\"https://cps.northeastern.edu\"},{\"text\":\"Parents\",\"url\":\"https://www.northeastern.edu/orientation/\"}]},{\"id\":\"tqTxaV5BHfpEycDn5kdG6\",\"title\":\"Research\",\"order\":3,\"links\":[{\"text\":\"Research Home\",\"url\":\"https://research.northeastern.edu/\"},{\"text\":\"Centers and Institutes\",\"url\":\"https://research.northeastern.edu/institutes-and-centers/\"},{\"text\":\"Health\",\"url\":\"https://research.northeastern.edu/about/themes/health/\"},{\"text\":\"Sustainability\",\"url\":\"https://research.northeastern.edu/about/themes/sustainability/\"},{\"text\":\"Security\",\"url\":\"https://research.northeastern.edu/about/themes/security/\"}]},{\"id\":\"3fL7H2veH3BwaC9KVj6Zma\",\"title\":\"Global\",\"order\":4,\"links\":[{\"text\":\"Global Experience Office (GEO)\",\"url\":\"https://geo.northeastern.edu/\"},{\"text\":\"Study Abroad\",\"url\":\"https://geo.northeastern.edu/programs/study-abroad/\"},{\"text\":\"Dialogue of Civilizations\",\"url\":\"https://geo.northeastern.edu/programs/dialogue-of-civilizations/\"},{\"text\":\"Global Co-op\",\"url\":\"https://geo.northeastern.edu/programs/global-co-op/\"},{\"text\":\"Three Seas\",\"url\":\"https://cos.northeastern.edu/marine-environmental-sciences/three-seas/\"},{\"text\":\"Campus Network System\",\"url\":\"https://graduate.northeastern.edu/our-campus-network/\"},{\"text\":\"The N.U.in Program\",\"url\":\"https://nuin.northeastern.edu/\"},{\"text\":\"International Travel\",\"url\":\"https://globalsafety.northeastern.edu/\"},{\"text\":\"BS in International Business\",\"url\":\"https://damore-mckim.northeastern.edu/programs/bs-international-business/\"},{\"text\":\"Office of Global Services (OGS)\",\"url\":\"https://international.northeastern.edu/ogs/\"}]},{\"id\":\"3cAbv4ZEmJfv4cJul6V9EA\",\"title\":\"Experiential Learning\",\"order\":5,\"links\":[{\"text\":\"What is Experiential Learning?\",\"url\":\"https://experiential-learning.northeastern.edu/\"},{\"text\":\"Cooperative Education\",\"url\":\"https://careers.northeastern.edu/cooperative-education/\"},{\"text\":\"Student Research\",\"url\":\"https://experiential-learning.northeastern.edu/student-research/\"},{\"text\":\"Service Learning\",\"url\":\"https://experiential-learning.northeastern.edu/service-learning/\"},{\"text\":\"Global Experience\",\"url\":\"https://experiential-learning.northeastern.edu/global-experience/\"},{\"text\":\"Study Abroad\",\"url\":\"https://geo.northeastern.edu/programs/study-abroad/\"}]},{\"id\":\"4f060S0xFalGmmkqLhRFP2\",\"title\":\"Regional Campuses\",\"order\":6,\"links\":[{\"text\":\"Arlington\",\"url\":\"https://arlington.northeastern.edu/\"},{\"text\":\"Burlington\",\"url\":\"https://www.burlington.northeastern.edu/\"},{\"text\":\"Charlotte\",\"url\":\"https://charlotte.northeastern.edu/\"},{\"text\":\"London\",\"url\":\"https://www.nulondon.ac.uk/\"},{\"text\":\"Miami\",\"url\":\"https://miami.northeastern.edu/\"},{\"text\":\"Nahant\",\"url\":\"https://csi.northeastern.edu/\"},{\"text\":\"Oakland\",\"url\":\"https://oakland.northeastern.edu/\"},{\"text\":\"Portland\",\"url\":\"https://roux.northeastern.edu/\"},{\"text\":\"Seattle\",\"url\":\"https://seattle.northeastern.edu/\"},{\"text\":\"Silicon Valley\",\"url\":\"https://siliconvalley.northeastern.edu/\"},{\"text\":\"Toronto\",\"url\":\"https://toronto.northeastern.edu/\"},{\"text\":\"Vancouver\",\"url\":\"https://vancouver.northeastern.edu/\"}]},{\"id\":\"62SSRqe4cJOgC85WC7Vk0Q\",\"title\":\"Lifelong Learning\",\"order\":7,\"links\":[{\"text\":\"Graduate Professional Programs\",\"url\":\"https://graduate.northeastern.edu/\"},{\"text\":\"Bachelor\u2019s Degree Completion\",\"url\":\"https://bachelors-completion.northeastern.edu/\"},{\"text\":\"Lifelong Learning\",\"url\":\"https://graduate.northeastern.edu/why-northeastern/about-our-academics/lifelong-learning-network/\"},{\"text\":\"Lowell Institute School\",\"url\":\"https://cps.northeastern.edu/academics/schools-centers/lowell-institute-school/\"}]},{\"id\":\"5iwhrQ6Npc85DctQcpXuq4\",\"title\":\"Athletics\",\"order\":8,\"links\":[{\"text\":\"Northeastern Huskies\",\"url\":\"https://nuhuskies.com/\"},{\"text\":\"Intramural Sports\",\"url\":\"https://recreation.northeastern.edu/intramural-sports/\"},{\"text\":\"Campus Recreation\",\"url\":\"https://recreation.northeastern.edu/\"}]}]"
+        },
+        {
+          "name": "nu-global-footer-support-links",
+          "value": "[{\"id\":\"4qLqDyPaXPdhbXNHaMh7Mf\",\"text\":\"Emergency Information\",\"url\":\"https://www.northeastern.edu/emergency-information\",\"order\":1},{\"id\":\"3Od4xtOcM0HcLkBaknmb0r\",\"text\":\"Privacy Policy\",\"url\":\"https://www.northeastern.edu/privacy-information\",\"order\":2},{\"id\":\"1MGOz9t6zGKonpjahYaaMQ\",\"text\":\"Accessibility\",\"url\":\"https://digital-accessibility.northeastern.edu/\",\"order\":3}]"
+        },
+        {
+          "name": "nu-global-footer-campus-links",
+          "value": "[{\"id\":\"FRi1o7h1etKOz1adU0Crr\",\"text\":\"Arlington\",\"url\":\"https://arlington.northeastern.edu/\",\"order\":1,\"isFlagship\":false},{\"id\":\"3E8A9jVW4q7knPnYlZ4Zyv\",\"text\":\"Boston\",\"url\":\"https://www.northeastern.edu/campuses/boston/\",\"order\":2,\"isFlagship\":false},{\"id\":\"3kHfqrcaYCWusAQkzhkdUc\",\"text\":\"Burlington\",\"url\":\"https://www.burlington.northeastern.edu/\",\"order\":3,\"isFlagship\":false},{\"id\":\"7syUShSkcq3o50CHV7gb4K\",\"text\":\"Charlotte\",\"url\":\"https://charlotte.northeastern.edu/\",\"order\":4,\"isFlagship\":false},{\"id\":\"7zl7AoLMbdHrcPOwJL6P6S\",\"text\":\"London\",\"url\":\"https://www.nulondon.ac.uk/\",\"order\":5,\"isFlagship\":false},{\"id\":\"66AUwn65SXvOx8eP7N3nd2\",\"text\":\"Miami\",\"url\":\"https://miami.northeastern.edu/\",\"order\":6,\"isFlagship\":false},{\"id\":\"7CzxiLmNuVkrupQtb8eytb\",\"text\":\"Nahant\",\"url\":\"https://csi.northeastern.edu/\",\"order\":7,\"isFlagship\":false},{\"id\":\"7ew5o13dePR0uDi4BnfhBW\",\"text\":\"Oakland\",\"url\":\"https://oakland.northeastern.edu/\",\"order\":8,\"isFlagship\":false},{\"id\":\"7B0g2jAwMYmuuTO66HIkGB\",\"text\":\"Portland\",\"url\":\"https://roux.northeastern.edu/\",\"order\":9,\"isFlagship\":false},{\"id\":\"5ncQi8FQ3I5S3puhYQ7ApE\",\"text\":\"Seattle\",\"url\":\"https://seattle.northeastern.edu/\",\"order\":10,\"isFlagship\":false},{\"id\":\"5pQQ3LViL5wvJM8Ikk5tHO\",\"text\":\"Silicon Valley\",\"url\":\"https://siliconvalley.northeastern.edu/\",\"order\":11,\"isFlagship\":false},{\"id\":\"6ll3rwQV9bDF9xG5QmIkzT\",\"text\":\"Toronto\",\"url\":\"https://toronto.northeastern.edu/\",\"order\":12,\"isFlagship\":false},{\"id\":\"4YHrXvCLGCe2mzdFewfxoL\",\"text\":\"Vancouver\",\"url\":\"https://vancouver.northeastern.edu/\",\"order\":13,\"isFlagship\":false}]"
+        },
+        {
+          "name": "nu-global-footer-social-links",
+          "value": "[{\"id\":\"2eSLNpeqRBuM2qucVFHUw5\",\"text\":\"Facebook\",\"icon\":\"facebook\",\"url\":\"https://www.facebook.com/northeastern/\",\"order\":1},{\"id\":\"zgLLXv6j2R2OfF4kwr4pk\",\"text\":\"X (formerly Twitter)\",\"icon\":\"x\",\"url\":\"https://x.com/Northeastern\",\"order\":2},{\"id\":\"7olHPThrEsvJbca1pEcYbI\",\"text\":\"YouTube\",\"icon\":\"youtube\",\"url\":\"https://www.youtube.com/user/Northeastern\",\"order\":3},{\"id\":\"3SCL9myRD97JvWIj0wvmyX\",\"text\":\"Linkedin\",\"icon\":\"linkedin\",\"url\":\"https://www.linkedin.com/school/northeastern-university/\",\"order\":4},{\"id\":\"2qQ9MASRmPHtr3yW6Ngidm\",\"text\":\"Instagram\",\"icon\":\"instagram\",\"url\":\"https://www.instagram.com/northeastern/\",\"order\":5},{\"id\":\"3mMMzhpKyjM2sNC5l3cV87\",\"text\":\"Snapchat\",\"icon\":\"snapchat\",\"url\":\"https://www.snapchat.com/add/NortheasternU\",\"order\":6},{\"id\":\"1Se1SWqYVIxlQoVGLM44Uh\",\"text\":\"TikTok\",\"icon\":\"tiktok\",\"url\":\"https://www.tiktok.com/@northeasternu\",\"order\":7}]"
+        },
+        {
+          "name": "nu-global-header-featured-links",
+          "value": "[{\"id\":\"7fj7WsFh4Y6kOn78SafRpL\",\"text\":\"Jump to Northeastern Full Website\",\"order\":1,\"url\":\"https://www.northeastern.edu/\",\"pinToBottom\":false},{\"id\":\"2hyN9mPxh44cpvZdKEXcKF\",\"text\":\"Northeastern Events\",\"order\":2,\"url\":\"https://calendar.northeastern.edu/\",\"pinToBottom\":false},{\"id\":\"5eB4KqD6oYJskNQfqqL2is\",\"text\":\"Academic Plan\",\"order\":3,\"url\":\"https://academicplan.northeastern.edu/\",\"pinToBottom\":false},{\"id\":\"1gPeMBs9SnaW8nTmziGBqJ\",\"text\":\"President Aoun\",\"order\":4,\"url\":\"https://president.northeastern.edu/\",\"pinToBottom\":false},{\"id\":\"2TlkIuBIZB2m2EVOqbHoUs\",\"text\":\"News\",\"order\":5,\"url\":\"https://news.northeastern.edu/\",\"pinToBottom\":false},{\"id\":\"71RmcmiuzcadUWtInzzJJJ\",\"text\":\"Facts and Figures\",\"order\":6,\"url\":\"https://facts.northeastern.edu/\",\"pinToBottom\":false}]"
+        }
+      ]
+    }
+  ]
+}

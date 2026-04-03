@@ -1,0 +1,115 @@
+{
+  "cookies": [
+    {
+      "name": "_ga",
+      "value": "GA1.1.1163197299.1775123468",
+      "domain": ".georgetown.edu",
+      "path": "/",
+      "expires": 1809741475.196214,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "YSC",
+      "value": "Z1pdNLxbvoY",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "L2rQJkg3Q6k",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790675467,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJVUxIEGgAgVw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790675467,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__Secure-YNID",
+      "value": "17.YT=ivsa0aI-ltVcbTDA-QWVXUcO5PDg5Z0oZbzD4l4cck1LcCunor6ZofP2fDqPJsjwOBqqgMFXuE_HjgAXj7rSEShmhf4CFYzlPFLZ-muC-_Vp5OELoaMCxrnYTfQe6_4bPvGCfPtIcm5Q7J0-6Jh-kI05quviRgUORjbjkrsbBYkkuLJnCAICn9IVqpOMxSZNXlXZoNzTUW3M1uh28ZMC0DHjG6JJVcFBR0v3O9pjnId9FM7XlvgpgY1KdQrnubUmeH03vTkqFWtyg1AC96nvEEPzTVsxUxTO8n4nJ-MuhqsBDMrlxCBEyhskUShfuVcLrwNgytQudwGjvKvy5Ml9KQ",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790675467,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CMiq4sT1veyiHBDUydKd8s6TAxj3pZiu8s6TAw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1790675502,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_gcl_au",
+      "value": "1.1.726757941.1775181474",
+      "domain": ".georgetown.edu",
+      "path": "/",
+      "expires": 1782957474,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_BSC82Y20RS",
+      "value": "GS2.1.s1775181475$o2$g0$t1775181475$j60$l0$h0",
+      "domain": ".georgetown.edu",
+      "path": "/",
+      "expires": 1809741475.125327,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_QV80096HW3",
+      "value": "GS2.1.s1775181475$o2$g0$t1775181475$j60$l0$h0",
+      "domain": ".georgetown.edu",
+      "path": "/",
+      "expires": 1809741475.160115,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_PMZB7WHYPX",
+      "value": "GS2.1.s1775181475$o2$g0$t1775181475$j60$l0$h0",
+      "domain": ".georgetown.edu",
+      "path": "/",
+      "expires": 1809741475.196029,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://meded.georgetown.edu",
+      "localStorage": [
+        {
+          "name": "_gcl_ls",
+          "value": "{\"schema\":\"gcl\",\"version\":1,\"gcl_ctr\":{\"value\":{\"value\":0,\"timeouts\":0,\"errors\":0,\"eopCount\":0,\"creationTimeMs\":1775181474036},\"expires\":1782957474036}}"
+        }
+      ]
+    }
+  ]
+}

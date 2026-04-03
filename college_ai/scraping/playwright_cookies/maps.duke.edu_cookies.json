@@ -1,0 +1,25 @@
+{
+  "cookies": [
+    {
+      "name": "d8957a921d6f77f25f2a14eec6e4f5f8",
+      "value": "5e4ae399257cbec88d883f5245da7d8b",
+      "domain": "maps.duke.edu",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://maps.duke.edu",
+      "localStorage": [
+        {
+          "name": "mapkit.SpileTestResults",
+          "value": "{\"V2ViR0wgMS4wIChPcGVuR0wgRVMgMi4wIENocm9taXVtKQ==\":{\"pass\":true,\"version\":\"1.34.18\"}}"
+        }
+      ]
+    }
+  ]
+}
