@@ -209,3 +209,7 @@ __marimo__/
 # Private keys and certificates
 *.pem
 kate.pem
+
+# Runtime data - playwright cookies and crawl cache
+college_ai/scraping/playwright_cookies/
+data/crawl_cache.db
