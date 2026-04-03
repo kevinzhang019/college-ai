@@ -125,6 +125,15 @@ class ProxyPool:
             return None, None
         now_ts = time.time()
         with self._lock:
+            # Evict expired sticky entries to prevent unbounded dict growth
+            _sticky_ttl = self.cooldown_sec * 2
+            expired_keys = [
+                k for k, v in self._sticky.items()
+                if now_ts - v.get("created_at", 0.0) > _sticky_ttl
+            ]
+            for k in expired_keys:
+                del self._sticky[k]
+
             # Try sticky
             if sticky_key and sticky_key in self._sticky:
                 entry = self._sticky[sticky_key]
@@ -161,6 +170,7 @@ class ProxyPool:
                         self._sticky[sticky_key] = {
                             "proxy": proxy,
                             "remaining": self.sticky_requests - 1,
+                            "created_at": now_ts,
                         }
                     return proxy, {
                         "proxy": proxy,
@@ -286,7 +296,7 @@ class PlaywrightPool:
                         "--no-sandbox", "--disable-setuid-sandbox",
                         "--disable-dev-shm-usage", "--disable-gpu",
                         "--disable-blink-features=AutomationControlled",
-                        "--disable-web-security", "--disable-background-networking",
+                        "--disable-background-networking",
                         "--disable-extensions", "--disable-sync", "--mute-audio",
                         "--disable-features=ExternalProtocolDialog",
                     ],
@@ -363,6 +373,31 @@ class PlaywrightPool:
             self._all_locals.clear()
         self._started = False
         print("    🎭 Playwright pool shut down")
+
+    def prune_dead_slots(self) -> int:
+        """Close and remove browser slots whose browser process is no longer connected.
+
+        Returns the number of slots pruned. Does NOT release the semaphore for
+        pruned slots (intentional — avoids over-release).
+        """
+        pruned = 0
+        with self._all_locals_lock:
+            alive = []
+            for slot in self._all_locals:
+                browser = slot.get("browser")
+                try:
+                    still_connected = browser is not None and browser.is_connected()
+                except Exception:
+                    still_connected = False
+                if still_connected:
+                    alive.append(slot)
+                else:
+                    self._close_slot(slot)
+                    pruned += 1
+            self._all_locals[:] = alive
+        if pruned:
+            print(f"    🧹 PlaywrightPool: pruned {pruned} dead browser slot(s)")
+        return pruned
 
 
 # ==================== Delta Crawl Cache ====================
@@ -787,7 +822,6 @@ class MultithreadedCollegeCrawler:
             ),
             FieldSchema(name="embedding", dtype=DataType.FLOAT_VECTOR, dim=VECTOR_DIM),
             FieldSchema(name="crawled_at", dtype=DataType.VARCHAR, max_length=32),
-            FieldSchema(name="majors", dtype=DataType.JSON),
         ]
 
         schema = CollectionSchema(fields, description="College pages with embeddings")
@@ -895,14 +929,15 @@ class MultithreadedCollegeCrawler:
         except Exception as e:
             print(f"❌ Error ensuring collection readiness: {e}")
 
-    def read_csv_files(self) -> Dict[str, List[Dict[str, str]]]:
+    def read_csv_files(self) -> List[Dict[str, str]]:
         """
-        Read all CSV files in the colleges directory and organize by major.
+        Read all CSV files in the colleges directory.
 
         Returns:
-            Dictionary mapping major names to lists of college data
+            List of college dicts with 'name' and 'url' keys, deduplicated by URL.
         """
-        majors_data = {}
+        all_colleges = []
+        seen_urls = set()
 
         # Find all CSV files in colleges directory
         csv_pattern = os.path.join(self.colleges_dir, "*.csv")
@@ -910,37 +945,28 @@ class MultithreadedCollegeCrawler:
 
         if not csv_files:
             print(f"No CSV files found in {self.colleges_dir}")
-            # Create a sample CSV file for demonstration
             self.create_sample_csv_files()
             csv_files = glob.glob(csv_pattern)
 
         for csv_file in csv_files:
-            # Extract major name from filename (e.g., 'business.csv' -> 'business')
-            major_name = os.path.splitext(os.path.basename(csv_file))[0]
+            print(f"Reading colleges from {csv_file}")
 
-            print(f"Reading {major_name} colleges from {csv_file}")
-
-            colleges = []
             try:
                 with open(csv_file, "r", encoding="utf-8", newline="") as f:
-                    # Try to detect if file has headers
                     sample = f.read(1024)
                     f.seek(0)
 
-                    # Check if file is empty or only whitespace
                     if not sample.strip():
                         print(f"Warning: {csv_file} is empty")
                         continue
 
                     reader = csv.DictReader(f)
 
-                    # Handle different possible column names
                     fieldnames = reader.fieldnames
                     if not fieldnames:
                         print(f"Warning: {csv_file} has no headers")
                         continue
 
-                    # Map common column variations
                     name_col = None
                     url_col = None
 
@@ -974,52 +1000,37 @@ class MultithreadedCollegeCrawler:
                         url = row.get(url_col, "").strip()
 
                         if name and url:
-                            # Ensure URL has proper protocol
                             if not url.startswith(("http://", "https://")):
                                 url = "https://" + url
 
-                            colleges.append(
-                                {"name": name, "url": url, "major": major_name}
-                            )
+                            if url not in seen_urls:
+                                seen_urls.add(url)
+                                all_colleges.append({"name": name, "url": url})
 
-                if colleges:
-                    majors_data[major_name] = colleges
-                    print(f"✓ Loaded {len(colleges)} colleges for {major_name}")
-                else:
-                    print(f"Warning: No valid college data found in {csv_file}")
+                print(f"✓ Loaded colleges from {csv_file}")
 
             except Exception as e:
                 print(f"Error reading {csv_file}: {e}")
 
-        return majors_data
+        print(f"Total unique colleges loaded: {len(all_colleges)}")
+        return all_colleges
 
     def create_sample_csv_files(self):
-        """Create sample CSV files for demonstration purposes."""
-        print("Creating sample CSV files for demonstration...")
+        """Create a sample CSV file for demonstration purposes."""
+        print("Creating sample CSV file for demonstration...")
 
-        sample_data = {
-            "business.csv": [
-                {"name": "Harvard Business School", "url": "https://www.hbs.edu/"},
-                {
-                    "name": "Stanford Graduate School of Business",
-                    "url": "https://www.gsb.stanford.edu/",
-                },
-                {"name": "Wharton School", "url": "https://www.wharton.upenn.edu/"},
-            ],
-            "computer_science.csv": [
-                {"name": "MIT EECS", "url": "https://www.eecs.mit.edu/"},
-                {"name": "Stanford CS", "url": "https://cs.stanford.edu/"},
-                {"name": "Carnegie Mellon SCS", "url": "https://www.cs.cmu.edu/"},
-            ],
-        }
+        sample_colleges = [
+            {"name": "MIT", "url": "https://www.mit.edu/"},
+            {"name": "Stanford University", "url": "https://www.stanford.edu/"},
+            {"name": "Harvard University", "url": "https://www.harvard.edu/"},
+        ]
 
-        for filename, colleges in sample_data.items():
-            csv_path = os.path.join(self.colleges_dir, filename)
-            with open(csv_path, "w", newline="", encoding="utf-8") as f:
-                writer = csv.DictWriter(f, fieldnames=["name", "url"])
-                writer.writeheader()
-                writer.writerows(colleges)
-            print(f"Created sample file: {csv_path}")
+        csv_path = os.path.join(self.colleges_dir, "general.csv")
+        with open(csv_path, "w", newline="", encoding="utf-8") as f:
+            writer = csv.DictWriter(f, fieldnames=["name", "url"])
+            writer.writeheader()
+            writer.writerows(sample_colleges)
+        print(f"Created sample file: {csv_path}")
 
     def is_internal_link(self, url: str, base_url: str) -> bool:
         """Check if a URL is an internal link to the same domain."""
@@ -1096,6 +1107,36 @@ class MultithreadedCollegeCrawler:
 
         except Exception as e:
             print(f"    Warning: Error parsing URL {url}: {e}")
+            return False
+
+    # Educational TLDs recognized as valid university domains
+    _EDU_TLDS = (
+        ".edu", ".ac.uk", ".ac.nz", ".ac.jp", ".ac.za", ".ac.kr", ".ac.in",
+        ".edu.au", ".edu.uk", ".edu.sg", ".edu.cn", ".edu.tw", ".edu.my",
+        ".edu.hk", ".edu.jp", ".edu.br", ".edu.mx", ".edu.co", ".edu.ar",
+    )
+
+    def is_valid_university_url(self, url: str) -> bool:
+        """Check if a URL belongs to a recognized university domain.
+
+        Returns True if the URL's domain ends with an educational TLD
+        (e.g. .edu, .ac.uk). Non-educational domains are rejected to
+        prevent crawling social media, commercial sites, etc.
+        """
+        try:
+            parsed = urlparse(url)
+            domain = parsed.netloc.lower()
+            if not domain:
+                return False
+            # Strip www. for cleaner matching
+            if domain.startswith("www."):
+                domain = domain[4:]
+            # Check against known educational TLDs
+            for tld in self._EDU_TLDS:
+                if domain.endswith(tld):
+                    return True
+            return False
+        except Exception:
             return False
 
     def test_domain_validation(self):
@@ -1346,50 +1387,6 @@ class MultithreadedCollegeCrawler:
 
         return canonical_urls
 
-    def _check_url_has_major(self, url_canonical: str, major: str) -> bool:
-        """Check if a URL already exists with the specified major.
-
-        Args:
-            url_canonical: Canonical URL key to check
-            major: Major to check for
-
-        Returns:
-            True if URL exists with the major, False otherwise
-        """
-        try:
-            # Escape quotes for Milvus boolean expression
-            _canon_val = url_canonical.replace('"', '\\"')
-            with self.collection_query_sema:
-                existing_records = self.collection.query(
-                    expr=f'url_canonical == "{_canon_val}"',
-                    output_fields=["majors"],
-                    limit=16384,
-                )
-
-            if not existing_records:
-                return False
-
-            # Check if any record has the current major
-            for rec in existing_records:
-                rec_majors_field = rec.get("majors")
-                if isinstance(rec_majors_field, list):
-                    rec_majors = [str(m).strip() for m in rec_majors_field if m]
-                elif isinstance(rec_majors_field, dict) and "list" in rec_majors_field:
-                    rec_majors = [
-                        str(m).strip() for m in rec_majors_field.get("list", []) if m
-                    ]
-                else:
-                    rec_majors = []
-
-                if major in rec_majors:
-                    return True
-
-            return False
-
-        except Exception as e:
-            print(f"    ⚠️  Could not check major for URL '{url_canonical}': {e}")
-            return False
-
     def extract_internal_links(self, soup: BeautifulSoup, base_url: str) -> List[str]:
         """Extract all internal links from a BeautifulSoup object."""
         links = set()  # Use set for automatic deduplication
@@ -1417,8 +1414,8 @@ class MultithreadedCollegeCrawler:
                 # Normalize URL by removing fragments and trailing slashes
                 normalized_url = absolute_url
 
-                # Check if it's an internal link
-                if self.is_internal_link(normalized_url, base_url):
+                # Check if it's an internal link on a valid university domain
+                if self.is_internal_link(normalized_url, base_url) and self.is_valid_university_url(normalized_url):
                     links.add(normalized_url)
 
             except Exception as e:
@@ -1435,7 +1432,7 @@ class MultithreadedCollegeCrawler:
                     normalized_next = f"{parsed.scheme}://{parsed.netloc}{parsed.path}"
                     if parsed.query:
                         normalized_next += f"?{parsed.query}"
-                    if self.is_internal_link(normalized_next, base_url):
+                    if self.is_internal_link(normalized_next, base_url) and self.is_valid_university_url(normalized_next):
                         links.add(normalized_next)
                 except Exception:
                     pass
@@ -1493,6 +1490,28 @@ class MultithreadedCollegeCrawler:
         if "#/" in url or "/app/" in path or "/wp-json/" in path:
             return True
         return False
+
+    def _prune_host_state(self, max_age_seconds: float = 1800.0) -> None:
+        """Evict stale entries from per-host rate-limit dicts.
+
+        Entries are stale when their token bucket was last refilled more than
+        max_age_seconds ago AND their circuit-breaker has already expired.
+        """
+        now = time.time()
+        stale_netlocs: List[str] = []
+        with self._host_lock:
+            for netloc, bucket in list(self._host_tokens.items()):
+                last_seen = bucket.get("last", 0.0)
+                circuit_until = self._host_circuit_until.get(netloc, 0.0)
+                if (now - last_seen) > max_age_seconds and now >= circuit_until:
+                    stale_netlocs.append(netloc)
+            for netloc in stale_netlocs:
+                self._host_tokens.pop(netloc, None)
+                self._host_failures.pop(netloc, None)
+                self._host_concurrency.pop(netloc, None)
+                self._host_circuit_until.pop(netloc, None)
+        if stale_netlocs:
+            print(f"    🧹 Pruned {len(stale_netlocs)} stale host-state entries")
 
     def scrape_page(
         self, url: str, session: requests.Session = None
@@ -2167,6 +2186,9 @@ class MultithreadedCollegeCrawler:
                     "viewport": {"width": vw, "height": vh},
                     "permissions": ["geolocation"],
                     "geolocation": {"latitude": geo["lat"], "longitude": geo["lon"]},
+                    "service_workers": "block",  # Prevent SW from bypassing route()
+                    "bypass_csp": True,  # Allow JS extraction on strict-CSP sites
+                    "ignore_https_errors": True,  # Handle expired/self-signed certs
                     "extra_http_headers": {
                         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
                         "Accept-Language": "en-US,en;q=0.9",
@@ -2204,8 +2226,20 @@ class MultithreadedCollegeCrawler:
                         # Use thread-local browser cache for Chromium
                         if not hasattr(self._pw_local, "browsers"):
                             self._pw_local.browsers = {}
+                            self._pw_local.browser_uses = {}
                         browser_key = selected_proxy_url or "direct"
                         browser = self._pw_local.browsers.get(browser_key)
+                        # Rotate if this browser exceeded usage threshold
+                        if browser is not None:
+                            uses = self._pw_local.browser_uses.get(browser_key, 0)
+                            if uses >= PLAYWRIGHT_POOL_ROTATE_AFTER:
+                                try:
+                                    browser.close()
+                                except Exception:
+                                    pass
+                                del self._pw_local.browsers[browser_key]
+                                self._pw_local.browser_uses.pop(browser_key, None)
+                                browser = None
                         if browser is None:
                             launch_options = {
                                 "headless": True,
@@ -2229,7 +2263,6 @@ class MultithreadedCollegeCrawler:
                                     "--disable-logging",
                                     "--disable-permissions-api",
                                     "--disable-blink-features=AutomationControlled",
-                                    "--disable-web-security",
                                     "--allow-running-insecure-content",
                                     "--disable-client-side-phishing-detection",
                                     "--disable-component-update",
@@ -2245,10 +2278,19 @@ class MultithreadedCollegeCrawler:
                                 launch_options["proxy"] = pw_proxy_settings
                             browser = p.chromium.launch(**launch_options)
                             self._pw_local.browsers[browser_key] = browser
+                            self._pw_local.browser_uses[browser_key] = 0
+                        # Increment use counter
+                        self._pw_local.browser_uses[browser_key] = (
+                            self._pw_local.browser_uses.get(browser_key, 0) + 1
+                        )
 
                 try:
                     context = browser.new_context(**context_kwargs)
+                    # Kill popup windows to prevent resource leaks
+                    context.on("page", lambda p: p.close())
                     page = context.new_page()
+                    # Auto-dismiss dialog boxes (alert/confirm/prompt) to prevent hangs
+                    page.on("dialog", lambda d: d.dismiss())
 
                     # Apply playwright-stealth patches (15+ detection vectors)
                     # Camoufox handles fingerprinting at C++ level but stealth still helps with CDP leaks
@@ -2258,13 +2300,15 @@ class MultithreadedCollegeCrawler:
                         except Exception:
                             pass
 
-                    # Block heavy resources and non-HTTP navigations (mailto:, tel:, etc.)
+                    # Block heavy resources, analytics/tracking, and non-HTTP navigations
                     def route_filter(route):
                         req = route.request
                         req_url = req.url.lower()
                         if req_url.startswith(("mailto:", "tel:", "javascript:", "ftp:", "data:", "blob:")):
                             return route.abort()
-                        if req.resource_type == "media":
+                        if req.resource_type in PLAYWRIGHT_BLOCKED_RESOURCE_TYPES:
+                            return route.abort()
+                        if any(p in req_url for p in PLAYWRIGHT_BLOCKED_URL_PATTERNS):
                             return route.abort()
                         return route.continue_()
 
@@ -2277,74 +2321,43 @@ class MultithreadedCollegeCrawler:
                     redirect_detected = False
 
                     try:
-                        # Enhanced navigation with better error recovery and redirect handling
-                        navigation_strategies = [
-                            {
-                                "wait_until": "domcontentloaded",
-                                "timeout": self.playwright_nav_timeout_ms,
-                            },
-                            {
-                                "wait_until": "load",
-                                "timeout": self.playwright_nav_timeout_ms // 2,
-                            },
-                            {
-                                "wait_until": "networkidle",
-                                "timeout": self.playwright_nav_timeout_ms // 3,
-                            },
-                        ]
-
-                        nav_success = False
-                        for strategy in navigation_strategies:
-                            try:
-                                # Navigate and capture final URL
-                                response = page.goto(url, **strategy)
-                                final_url = page.url
-
-                                # Detect if a redirect occurred
-                                if final_url != url:
-                                    redirect_detected = True
-                                    print(
-                                        f"    🔄 Redirect detected: {url} -> {final_url}"
-                                    )
-
-                                    # Give extra time for redirected content to load
-                                    if (
-                                        redirect_detected
-                                        and PLAYWRIGHT_REDIRECT_DETECTION
-                                    ):
-                                        try:
-                                            page.wait_for_load_state(
-                                                "networkidle",
-                                                timeout=PLAYWRIGHT_REDIRECT_EXTRA_WAIT,
-                                            )
-                                        except Exception:
-                                            time.sleep(
-                                                PLAYWRIGHT_REDIRECT_EXTRA_WAIT // 1000
-                                            )  # Fallback wait for redirects
-
-                                nav_success = True
-                                break
-                            except Exception as nav_e:
-                                if "timeout" not in str(nav_e).lower():
-                                    raise  # Re-raise non-timeout errors
-                                continue
-
-                        if not nav_success:
-                            # Last resort: basic navigation without waiting
-                            page.goto(url, timeout=self.playwright_nav_timeout_ms)
+                        # Navigate with domcontentloaded (fast, reliable)
+                        try:
+                            response = page.goto(
+                                url,
+                                wait_until="domcontentloaded",
+                                timeout=self.playwright_nav_timeout_ms,
+                            )
                             final_url = page.url
-                            redirect_detected = final_url != url
-                            if redirect_detected and PLAYWRIGHT_REDIRECT_DETECTION:
-                                print(
-                                    f"    🔄 Redirect detected in fallback: {url} -> {final_url}"
-                                )
-                                time.sleep(
-                                    PLAYWRIGHT_REDIRECT_EXTRA_WAIT // 1000
-                                )  # Extra wait for redirects
-                            else:
-                                time.sleep(2)  # Standard wait
+                        except Exception as nav_e:
+                            if "timeout" not in str(nav_e).lower():
+                                raise
+                            # Fallback: just wait for commit (first bytes)
+                            response = page.goto(
+                                url,
+                                wait_until="commit",
+                                timeout=self.playwright_nav_timeout_ms,
+                            )
+                            final_url = page.url
 
-                        # Wait for initial DOM
+                        # Detect redirect
+                        if final_url != url:
+                            redirect_detected = True
+                            print(
+                                f"    🔄 Redirect detected: {url} -> {final_url}"
+                            )
+
+                        # Brief wait for JS to finish rendering (cheaper than networkidle)
+                        try:
+                            page.wait_for_load_state("load", timeout=5000)
+                        except Exception:
+                            pass
+
+                        # If redirected, give a short extra wait for content
+                        if redirect_detected and PLAYWRIGHT_REDIRECT_DETECTION:
+                            time.sleep(2)
+
+                        # Snapshot DOM after initial load
                         try:
                             html_dom = page.content()
                         except Exception:
@@ -2359,18 +2372,16 @@ class MultithreadedCollegeCrawler:
                         except Exception:
                             pass
 
-                        # Enhanced cookie handling - multiple attempts with different strategies
+                        # Cookie handling - try accept then force-accept
                         cookies_accepted = False
-                        for attempt in range(3):  # Try multiple times
+                        for attempt in range(3):
                             if self._try_accept_cookies(page):
                                 cookies_accepted = True
                                 break
-                            time.sleep(1)  # Wait between attempts
+                            time.sleep(0.3)
 
-                        # Additional aggressive cookie acceptance
                         if not cookies_accepted:
                             try:
-                                # Force accept common cookie frameworks
                                 page.evaluate(
                                     """
                                     // Force accept OneTrust
@@ -2393,9 +2404,7 @@ class MultithreadedCollegeCrawler:
                                 pass
 
                         if cookies_accepted and self.playwright_cookie_persistence:
-                            # Wait longer for cookies to be properly set
-                            time.sleep(2)
-                            # Save cookies for future use
+                            time.sleep(0.5)
                             try:
                                 storage_state = context.storage_state()
                                 self._save_cookies(netloc, storage_state)
@@ -2415,44 +2424,14 @@ class MultithreadedCollegeCrawler:
                             if profile:
                                 self._apply_playwright_profile(page, profile)
 
-                        # Enhanced waiting strategies for different page types
-                        page_loaded = False
-
-                        # Strategy 1: Wait for network idle (best for most pages)
+                        # Wait for content to be ready — single combined selector
                         try:
-                            page.wait_for_load_state("networkidle", timeout=8000)
-                            page_loaded = True
+                            page.wait_for_selector(
+                                "main, article, [role='main'], .content, #content, .page-content",
+                                timeout=3000,
+                            )
                         except Exception:
-                            pass
-
-                        # Strategy 2: Wait for specific content indicators
-                        if not page_loaded:
-                            try:
-                                content_selectors = [
-                                    "main",
-                                    "article",
-                                    ".content",
-                                    "#content",
-                                    ".container",
-                                    ".page-content",
-                                    ".post-content",
-                                    "[role='main']",
-                                    ".entry-content",
-                                    ".article-content",
-                                    ".main-content",
-                                ]
-                                for selector in content_selectors:
-                                    try:
-                                        page.wait_for_selector(selector, timeout=3000)
-                                        page_loaded = True
-                                        break
-                                    except Exception:
-                                        continue
-                            except Exception:
-                                pass
-
-                        # Strategy 3: Wait for text content to appear (for text-heavy pages)
-                        if not page_loaded:
+                            # Fallback: wait for any meaningful text
                             try:
                                 page.wait_for_function(
                                     """
@@ -2463,44 +2442,10 @@ class MultithreadedCollegeCrawler:
                                         return text.trim().length > 100;
                                     }
                                 """,
-                                    timeout=5000,
+                                    timeout=3000,
                                 )
-                                page_loaded = True
                             except Exception:
-                                pass
-
-                        # Strategy 4: Wait for images/media to load (for media-rich pages)
-                        if not page_loaded:
-                            try:
-                                page.wait_for_function(
-                                    """
-                                    () => {
-                                        const images = document.querySelectorAll('img');
-                                        if (images.length === 0) return true;
-                                        return Array.from(images).every(img => img.complete);
-                                    }
-                                """,
-                                    timeout=4000,
-                                )
-                                page_loaded = True
-                            except Exception:
-                                pass
-
-                        # Strategy 5: Adaptive waiting based on page activity
-                        try:
-                            # Scroll to trigger lazy loading
-                            page.evaluate(
-                                "window.scrollTo(0, document.body.scrollHeight / 4)"
-                            )
-                            time.sleep(1)
-                            page.evaluate("window.scrollTo(0, 0)")
-                            time.sleep(1)
-                        except Exception:
-                            pass
-
-                        # Final strategy: Minimum wait time
-                        if not page_loaded:
-                            time.sleep(3)
+                                time.sleep(1)
 
                         try:
                             html_idle = page.content()
@@ -2972,15 +2917,12 @@ class MultithreadedCollegeCrawler:
             pass
 
     def upload_to_milvus(
-        self, page_data: Dict[str, Any], college_name: str, major: str
+        self, page_data: Dict[str, Any], college_name: str
     ) -> bool:
         """Upload a single page to Milvus with per-chunk embeddings for RAG."""
         try:
-            # Fetch existing records for this URL
-            existing_records = []
+            # Check if URL already exists — skip if so
             try:
-                # Escape quotes for Milvus boolean expression
-                # Ensure the URL we query for is normalized and canonicalized (by canonical key)
                 normalized_page_url = (
                     self.normalize_url(page_data["url"]) or page_data["url"]
                 )
@@ -2989,130 +2931,15 @@ class MultithreadedCollegeCrawler:
                 with self.collection_query_sema:
                     existing_records = self.collection.query(
                         expr=f'url_canonical == "{_canon_val}"',
-                        output_fields=[
-                            "id",
-                            "college_name",
-                            "url",
-                            "url_canonical",
-                            "title",
-                            "content",
-                            "embedding",
-                            "crawled_at",
-                            "majors",
-                        ],
-                        limit=16384,
+                        output_fields=["id"],
+                        limit=1,
                     )
-            except Exception as e:
-                print(f"    ⚠️  Could not query existing URL '{page_data['url']}': {e}")
-
-            # Determine if current major already present; if not, update majors in-place via upsert
-            if existing_records:
-                # Aggregate majors per record and determine if ANY record is missing the major
-                all_have_major = True
-                updated_ids: List[str] = []
-                updated_colleges: List[str] = []
-                updated_urls: List[str] = []
-                updated_url_canonicals: List[str] = []
-                updated_titles: List[str] = []
-                updated_contents: List[str] = []
-                updated_embeddings: List[List[float]] = []
-                updated_crawled_ats: List[str] = []
-                updated_majors_col: List[List[str]] = []
-
-                for rec in existing_records:
-                    rec_majors_field = rec.get("majors")
-                    if isinstance(rec_majors_field, list):
-                        rec_majors = [str(m).strip() for m in rec_majors_field if m]
-                    elif (
-                        isinstance(rec_majors_field, dict)
-                        and "list" in rec_majors_field
-                    ):
-                        rec_majors = [
-                            str(m).strip()
-                            for m in rec_majors_field.get("list", [])
-                            if m
-                        ]
-                    else:
-                        rec_majors = []
-
-                    if major not in rec_majors:
-                        all_have_major = False
-                        rec_majors = list({*rec_majors, major})
-
-                    # Collect row for upsert (even if unchanged, harmless)
-                    updated_ids.append(rec.get("id"))
-                    updated_colleges.append(rec.get("college_name", college_name))
-                    updated_urls.append(rec.get("url", page_data["url"]))
-                    updated_titles.append(rec.get("title", page_data["title"]))
-                    updated_contents.append(rec.get("content", page_data["content"]))
-                    emb = rec.get("embedding")
-                    if isinstance(emb, list) and len(emb) == VECTOR_DIM:
-                        updated_embeddings.append(emb)
-                    else:
-                        # If embedding missing (shouldn't happen), skip update for safety
-                        updated_embeddings.append([0.0] * VECTOR_DIM)
-                    updated_crawled_ats.append(
-                        rec.get("crawled_at", page_data["crawled_at"])
-                    )
-                    updated_majors_col.append(rec_majors)
-                    # url_canonical from record if present; otherwise derive
-                    rec_canon = rec.get("url_canonical")
-                    if isinstance(rec_canon, str) and rec_canon.strip():
-                        updated_url_canonicals.append(rec_canon.strip())
-                    else:
-                        try:
-                            updated_url_canonicals.append(
-                                self._url_canonical_key(
-                                    rec.get("url", page_data["url"])
-                                )
-                            )
-                        except Exception:
-                            updated_url_canonicals.append("")
-
-                if all_have_major:
-                    print(
-                        f"    ⚠️  Skipping URL with existing matching major across all chunks: {page_data['url']} [{major}]"
-                    )
-                    # Count skip and allow worker to continue; do not block caller
+                if existing_records:
                     with self.lock:
                         self.stats["existing_urls_skipped"] += 1
                     return False
-
-                # Upsert updated majors for all rows of this URL
-                try:
-                    with self.collection_write_lock:
-                        # Build ordered columns according to current schema
-                        field_names = [f.name for f in self.collection.schema.fields]
-                        columns_by_name = {
-                            "id": updated_ids,
-                            "college_name": updated_colleges,
-                            "url": updated_urls,
-                            "url_canonical": updated_url_canonicals,
-                            "title": updated_titles,
-                            "content": updated_contents,
-                            "embedding": updated_embeddings,
-                            "crawled_at": updated_crawled_ats,
-                            "majors": updated_majors_col,
-                        }
-                        ordered_columns = [
-                            columns_by_name.get(name, []) for name in field_names
-                        ]
-                        if hasattr(self.collection, "upsert"):
-                            self.collection.upsert(ordered_columns)
-                        else:
-                            # Fallback: delete old ids and insert updated rows
-                            quoted = ",".join([f'"{_id}"' for _id in updated_ids])
-                            self.collection.delete(f"id in [{quoted}]")
-                            self.collection.insert(ordered_columns)
-                    print(
-                        f"    ✓ Updated majors for existing URL across all chunks (added '{major}'): {page_data['url']}"
-                    )
-                except Exception as e:
-                    print(f"    ✗ Failed to update majors for {page_data['url']}: {e}")
-                    return False
-
-                # Count as updated but no new vectors added
-                return True
+            except Exception as e:
+                print(f"    ⚠️  Could not query existing URL '{page_data['url']}': {e}")
 
             # Chunk content and embed per chunk for better RAG retrieval
             title_text = page_data["title"]
@@ -3169,7 +2996,6 @@ class MultithreadedCollegeCrawler:
             contents: List[str] = []
             embeddings: List[List[float]] = []
             crawled_ats: List[str] = []
-            majors: List[str] = []
 
             total_chunks = len(chunk_indices)
             for emb_idx, (emb, orig_idx) in enumerate(
@@ -3197,8 +3023,6 @@ class MultithreadedCollegeCrawler:
                 contents.append(chunk_text[: MAX_CONTENT_LENGTH - 1])
                 embeddings.append(emb)
                 crawled_ats.append(page_data["crawled_at"])
-                # Multi-major support
-                majors.append([major])
 
             # Buffer inserts instead of immediate write (flushed by background thread)
             if embeddings:
@@ -3211,7 +3035,6 @@ class MultithreadedCollegeCrawler:
                     "content": contents,
                     "embedding": embeddings,
                     "crawled_at": crawled_ats,
-                    "majors": majors,
                 }
                 self._insert_buffer.put(row_data)
 
@@ -3232,11 +3055,25 @@ class MultithreadedCollegeCrawler:
         """Crawl a single college website using efficient BFS with work-stealing."""
         college_name = college["name"]
         base_url = college["url"]
-        major = college["major"]
         max_pages = max_pages or MAX_PAGES_PER_COLLEGE
 
-        print(f"\n=== Crawling {college_name} ({major}) ===")
+        print(f"\n=== Crawling {college_name} ===")
         print(f"Base URL: {base_url}")
+
+        # Clear instance-level URL sets that are never read cross-college
+        # (prevents unbounded growth over 10+ hour runs).
+        with self.lock:
+            self.crawled_urls.clear()
+            self.discovered_urls.clear()
+            self.uploaded_urls.clear()
+            self.existing_urls.clear()
+
+        # Prune stale per-host rate-limit entries (prevents unbounded growth)
+        self._prune_host_state(max_age_seconds=1800.0)
+
+        # Prune dead Playwright pool slots (browser processes that died without cleanup)
+        if self.playwright_enabled and sync_playwright is not None:
+            self.pw_pool.prune_dead_slots()
 
         # Reset content dedup cache for this college
         with self._content_hash_lock:
@@ -3268,9 +3105,19 @@ class MultithreadedCollegeCrawler:
         except Exception:
             normalized_base = base_url
 
-        # Test the base URL first to check if the site is accessible
+        # Test the base URL first to check if the site is accessible.
+        # Use a short-lived session — self.session headers are mutated on 403
+        # retries, which is a data race with INTER_COLLEGE_PARALLELISM > 1.
         print(f"    Testing base URL: {normalized_base}")
-        test_page = self.scrape_page(normalized_base, self.session)
+        _test_session = requests.Session()
+        _test_session.headers.update(self.session.headers)
+        try:
+            test_page = self.scrape_page(normalized_base, _test_session)
+        finally:
+            try:
+                _test_session.close()
+            except Exception:
+                pass
         if not test_page:
             print(
                 f"    ✗ Cannot access {college_name} - site may be blocked or unavailable"
@@ -3278,7 +3125,6 @@ class MultithreadedCollegeCrawler:
             print(f"    ⏭️  Moving to next college...")
             return {
                 "college_name": college_name,
-                "major": major,
                 "base_url": base_url,
                 "pages_crawled": 0,
                 "pages_uploaded": 0,
@@ -3311,6 +3157,13 @@ class MultithreadedCollegeCrawler:
             # Track active Playwright futures separately for queue management
             active_pw_futures = set()
             pw_futures_lock = threading.Lock()
+
+            def _pw_task_with_cleanup(task_url: str) -> Optional[Dict[str, Any]]:
+                """Playwright fallback task with guaranteed thread-local cleanup."""
+                try:
+                    return self._scrape_with_playwright(task_url)
+                finally:
+                    self._cleanup_thread_local_playwright()
 
             def worker_task():
                 """Efficient worker for work-stealing BFS"""
@@ -3346,20 +3199,11 @@ class MultithreadedCollegeCrawler:
                             except Exception:
                                 canon_key = url
 
-                            # Check if URL exists with current major - only skip if it does
+                            # Skip URLs already in the collection
                             if canon_key in self.college_canonical_urls:
-                                # URL exists, check if it has the current major
-                                if self._check_url_has_major(canon_key, major):
-                                    # URL exists with current major - skip crawling
-                                    with self.lock:
-                                        self.stats["existing_urls_skipped"] += 1
-                                    continue
-                                else:
-                                    # URL exists but doesn't have current major - continue crawling
-                                    # The upload_to_milvus function will handle adding the major
-                                    print(
-                                        f"    🔄 URL exists but missing major '{major}', continuing crawl: {url}"
-                                    )
+                                with self.lock:
+                                    self.stats["existing_urls_skipped"] += 1
+                                continue
 
                             if canon_key in crawled_canon:
                                 with self.lock:
@@ -3382,7 +3226,7 @@ class MultithreadedCollegeCrawler:
                                     if pw_result:
                                         # Upload PW result directly
                                         if self.upload_to_milvus(
-                                            pw_result, college_name, major
+                                            pw_result, college_name
                                         ):
                                             local_uploaded += 1
                                         # Add discovered links to queue
@@ -3398,20 +3242,8 @@ class MultithreadedCollegeCrawler:
                                             with state_lock:
                                                 if stop_event.is_set():
                                                     break
-                                                # Check if link exists with current major
-                                                link_has_major = False
-                                                if (
-                                                    canon_link
-                                                    in self.college_canonical_urls
-                                                ):
-                                                    link_has_major = (
-                                                        self._check_url_has_major(
-                                                            canon_link, major
-                                                        )
-                                                    )
-
                                                 already_seen = (
-                                                    link_has_major
+                                                    canon_link in self.college_canonical_urls
                                                     or canon_link in crawled_canon
                                                     or canon_link in discovered_canon
                                                 )
@@ -3442,7 +3274,7 @@ class MultithreadedCollegeCrawler:
                         # Upload to Milvus unless we plan a PW fallback upload
                         # or delta crawling detected unchanged content
                         if not page_data.get("needs_pw") and not page_data.get("skip_embed"):
-                            if self.upload_to_milvus(page_data, college_name, major):
+                            if self.upload_to_milvus(page_data, college_name):
                                 local_uploaded += 1
 
                         # If this URL needs Playwright, offload the job and merge results asynchronously
@@ -3461,7 +3293,7 @@ class MultithreadedCollegeCrawler:
                                     return
                                 # Upload PW-rendered page
                                 try:
-                                    self.upload_to_milvus(result, college_name, major)
+                                    self.upload_to_milvus(result, college_name)
                                 except Exception:
                                     pass
                                 # Enqueue discovered links (canonical dedupe)
@@ -3475,15 +3307,8 @@ class MultithreadedCollegeCrawler:
                                     with state_lock:
                                         if stop_event.is_set():
                                             break
-                                        # Check if link exists with current major
-                                        link_has_major = False
-                                        if canon_link in self.college_canonical_urls:
-                                            link_has_major = self._check_url_has_major(
-                                                canon_link, major
-                                            )
-
                                         already_seen = (
-                                            link_has_major
+                                            canon_link in self.college_canonical_urls
                                             or canon_link in crawled_canon
                                             or canon_link in discovered_canon
                                         )
@@ -3498,7 +3323,7 @@ class MultithreadedCollegeCrawler:
 
                             try:
                                 fut = pw_executor.submit(
-                                    self._scrape_with_playwright, url
+                                    _pw_task_with_cleanup, url
                                 )
                                 # Track Playwright future for queue management
                                 with pw_futures_lock:
@@ -3529,15 +3354,8 @@ class MultithreadedCollegeCrawler:
                                 except Exception:
                                     canon_link = link
 
-                                # Check if link exists with current major
-                                link_has_major = False
-                                if canon_link in self.college_canonical_urls:
-                                    link_has_major = self._check_url_has_major(
-                                        canon_link, major
-                                    )
-
                                 already_seen = (
-                                    link_has_major
+                                    canon_link in self.college_canonical_urls
                                     or canon_link in crawled_canon
                                     or canon_link in discovered_canon
                                 )
@@ -3665,7 +3483,7 @@ class MultithreadedCollegeCrawler:
                 # Playwright threads now have bounded semaphore waits (30s) and
                 # page navigation timeouts, so shutdown should complete.
                 # Use wait=True to ensure clean browser process cleanup.
-                pw_executor.shutdown(wait=True)
+                pw_executor.shutdown(wait=True, cancel_futures=True)
 
                 # Final progress
                 if pages_crawled > 0:
@@ -3689,7 +3507,6 @@ class MultithreadedCollegeCrawler:
 
         return {
             "college_name": college_name,
-            "major": major,
             "base_url": base_url,
             "pages_crawled": pages_crawled,
             "pages_uploaded": pages_uploaded,
@@ -3699,16 +3516,16 @@ class MultithreadedCollegeCrawler:
 
     def crawl_all_colleges(
         self,
-        majors_data: Dict[str, List[Dict[str, str]]],
+        colleges: List[Dict[str, str]],
         max_pages_per_college: int = 50,
     ):
         """
-        Crawl all colleges from all majors and upload directly to Milvus.
+        Crawl all colleges and upload directly to Milvus.
         Uses inter-college parallelism: colleges on different domains are
         crawled simultaneously (each has its own per-host rate limit).
 
         Args:
-            majors_data: Dictionary mapping majors to college lists
+            colleges: List of college dicts with 'name' and 'url' keys
             max_pages_per_college: Maximum pages to crawl per college
         """
         inter_college_workers = INTER_COLLEGE_PARALLELISM
@@ -3721,30 +3538,21 @@ class MultithreadedCollegeCrawler:
         print(f"  - Batched embedding & insert buffer: ✓")
         print(f"  - Direct upload to Milvus: ✓")
 
-        # Flatten all (college, major) pairs and randomize order so repeated
-        # runs don't always hit the same schools first (spreads load / avoids
-        # deterministic rate-limit patterns).
-        all_jobs = []
-        for major, colleges in majors_data.items():
-            for college in colleges:
-                all_jobs.append(college)
+        # Randomize order so repeated runs don't always hit the same schools
+        # first (spreads load / avoids deterministic rate-limit patterns).
+        all_jobs = list(colleges)
         random.shuffle(all_jobs)
 
         total_colleges = len(all_jobs)
         college_counter = {"count": 0}
         counter_lock = threading.Lock()
 
-        # Per-major stats accumulator (thread-safe)
-        major_stats_map: Dict[str, Dict[str, int]] = {}
-        major_stats_lock = threading.Lock()
-
         def _process_college(college: Dict[str, str]):
-            major = college["major"]
             with counter_lock:
                 college_counter["count"] += 1
                 idx = college_counter["count"]
             print(
-                f"\n--- [{idx}/{total_colleges}] Processing {college['name']} ({major}) ---"
+                f"\n--- [{idx}/{total_colleges}] Processing {college['name']} ---"
             )
 
             try:
@@ -3752,22 +3560,7 @@ class MultithreadedCollegeCrawler:
                     college, max_pages_per_college
                 )
 
-                with major_stats_lock:
-                    if major not in major_stats_map:
-                        major_stats_map[major] = {
-                            "total_pages_crawled": 0,
-                            "total_pages_uploaded": 0,
-                            "total_errors": 0,
-                        }
-
                 if college_result.get("status") == "completed":
-                    with major_stats_lock:
-                        major_stats_map[major]["total_pages_crawled"] += college_result[
-                            "pages_crawled"
-                        ]
-                        major_stats_map[major]["total_pages_uploaded"] += college_result[
-                            "pages_uploaded"
-                        ]
                     with self.lock:
                         self.stats["total_pages_crawled"] += college_result[
                             "pages_crawled"
@@ -3802,13 +3595,6 @@ class MultithreadedCollegeCrawler:
         # Flush any remaining inserts
         self._flush_all_inserts()
 
-        # Print per-major summaries
-        for major, stats in major_stats_map.items():
-            print(f"\n{major.upper()} Summary:")
-            print(f"  Pages crawled: {stats['total_pages_crawled']}")
-            print(f"  Pages uploaded: {stats['total_pages_uploaded']}")
-            print(f"  Errors: {stats['total_errors']}")
-
         # Print overall summary
         print(f"\n=== FINAL CRAWLING SUMMARY ===")
         print(f"Total colleges processed: {self.stats['colleges_processed']}")
@@ -3836,15 +3622,15 @@ class MultithreadedCollegeCrawler:
 
         # Step 1: Read CSV files
         print("\n1. Reading CSV files...")
-        majors_data = self.read_csv_files()
+        colleges = self.read_csv_files()
 
-        if not majors_data:
+        if not colleges:
             print("No college data found. Please check your CSV files.")
             return
 
         # Step 2: Crawl all colleges and upload to Milvus
         print("\n2. Starting multithreaded crawling and uploading to Milvus...")
-        self.crawl_all_colleges(majors_data, max_pages_per_college)
+        self.crawl_all_colleges(colleges, max_pages_per_college)
 
         # Shutdown background threads and resources
         self._insert_flush_stop.set()
@@ -4000,6 +3786,8 @@ class MultithreadedCollegeCrawler:
                     except Exception:
                         pass
                 self._pw_local.browsers.clear()
+                if hasattr(self._pw_local, "browser_uses"):
+                    self._pw_local.browser_uses.clear()
 
             # Close thread-local Playwright instance for this thread
             if hasattr(self._pw_local, "pw") and self._pw_local.pw:

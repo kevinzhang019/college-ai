@@ -5,6 +5,7 @@
     "acceptance_rate",
     "sat_25",
     "sat_75",
+    "sat_avg",
     "act_25",
     "act_75",
     "enrollment",
@@ -37,6 +38,11 @@
     "gpa_excess",
     "sat_ratio",
     "is_yield_protector",
+    "overqualification_index",
+    "sat_above_75th",
+    "sat_below_25th",
+    "acceptance_rate_sq",
+    "has_test_score",
     "log_enrollment",
     "log_earnings",
     "niche_academics_ord",
@@ -58,11 +64,11 @@
     "major_tier"
   ],
   "categorical_indices": [
-    51,
-    52,
-    53,
-    54,
-    55
+    57,
+    58,
+    59,
+    60,
+    61
   ],
   "numeric_features": [
     "gpa",
@@ -70,6 +76,7 @@
     "acceptance_rate",
     "sat_25",
     "sat_75",
+    "sat_avg",
     "act_25",
     "act_75",
     "enrollment",
@@ -102,6 +109,11 @@
     "gpa_excess",
     "sat_ratio",
     "is_yield_protector",
+    "overqualification_index",
+    "sat_above_75th",
+    "sat_below_25th",
+    "acceptance_rate_sq",
+    "has_test_score",
     "log_enrollment",
     "log_earnings",
     "niche_academics_ord",
@@ -113,9 +125,7 @@
     "niche_rank",
     "avg_annual_cost",
     "cost_earnings_ratio",
-    "stem_competitive_x_acceptance",
-    "school_target_encoded",
-    "major_target_encoded"
+    "stem_competitive_x_acceptance"
   ],
   "categorical_features": [
     "ownership",
@@ -129,7 +139,7 @@
   "boosting_type": "gbdt",
   "uses_focal_loss": false,
   "uses_sample_weights": true,
-  "monotone_constrained_features": 12,
+  "monotone_constrained_features": 15,
   "n_train": 101105,
   "n_test": 33702,
   "positive_rate": 0.9606311829041773

@@ -155,43 +155,80 @@ def compute_duplicates_for_college_streaming(
     total_records = 0
 
     safe_college = college_name.replace('"', '\\"')
-    iterator = collection.query_iterator(
-        expr=f'college_name == "{safe_college}"',
-        output_fields=["id", "url", "title", "content", "majors", "crawled_at"],
-        batch_size=512,
+    base_expr = f'college_name == "{safe_college}"'
+
+    # Pass 1: Fetch lightweight metadata (no content) to group by URL.
+    # Zilliz Cloud has a 4MB server-side gRPC response limit that ignores
+    # limit/batch_size, so we must avoid fetching the large content field.
+    light_fields = ["id", "url", "title", "majors", "crawled_at"]
+    all_records = collection.query(
+        expr=base_expr,
+        output_fields=light_fields,
+        limit=16384,
     )
 
-    while True:
-        batch = iterator.next()
-        if not batch:
-            iterator.close()
-            break
+    # Group records by canonical URL
+    url_to_records: Dict[str, List[dict]] = defaultdict(list)
+    for record in all_records:
+        url = (record.get("url") or "").strip()
+        if not url:
+            continue
+        try:
+            parsed = urlparse(url)
+            netloc = parsed.netloc.lower()
+            if netloc.startswith("www."):
+                netloc = netloc[4:]
+            path = parsed.path or ""
+            if path.endswith("/") and len(path) > 1:
+                path = path.rstrip("/")
+            canonical_url = f"{netloc}{path}"
+            if parsed.query:
+                canonical_url += f"?{parsed.query}"
+        except Exception:
+            s = url.strip()
+            if s.startswith("http://"):
+                s = s[len("http://") :]
+            elif s.startswith("https://"):
+                s = s[len("https://") :]
+            canonical_url = s[4:] if s.lower().startswith("www.") else s
+        record["_canonical_url"] = canonical_url
+        url_to_records[canonical_url].append(record)
+        total_records += 1
 
-        for record in batch:
-            url = (record.get("url") or "").strip()
-            if not url:
-                continue
-            # Canonical key for grouping: ignore scheme, strip leading 'www.', drop trailing slash (non-root)
-            try:
-                parsed = urlparse(url)
-                netloc = parsed.netloc.lower()
-                if netloc.startswith("www."):
-                    netloc = netloc[4:]
-                path = parsed.path or ""
-                if path.endswith("/") and len(path) > 1:
-                    path = path.rstrip("/")
-                canonical_url = f"{netloc}{path}"
-                if parsed.query:
-                    canonical_url += f"?{parsed.query}"
-            except Exception:
-                s = url.strip()
-                if s.startswith("http://"):
-                    s = s[len("http://") :]
-                elif s.startswith("https://"):
-                    s = s[len("https://") :]
-                canonical_url = s[4:] if s.lower().startswith("www.") else s
+    # Pass 2: For URLs with multiple records (potential duplicates),
+    # batch-fetch content by ID in groups of 20 (~1MB) to stay under 4MB.
+    ids_needing_content: List[str] = []
+    id_to_record: Dict[str, dict] = {}
+    id_to_canonical_url: Dict[str, str] = {}
+    for canonical_url, records in url_to_records.items():
+        if len(records) < 2:
+            url_to_hash_counts[canonical_url]["single"] = 1
+            continue
+        for record in records:
+            rec_id = str(record.get("id") or "")
+            ids_needing_content.append(rec_id)
+            id_to_record[rec_id] = record
+            id_to_canonical_url[rec_id] = canonical_url
+
+    CONTENT_BATCH = 50
+    for i in range(0, len(ids_needing_content), CONTENT_BATCH):
+        batch_ids = ids_needing_content[i : i + CONTENT_BATCH]
+        quoted = ",".join([f'"{_id}"' for _id in batch_ids])
+        content_results = collection.query(
+            expr=f"id in [{quoted}]",
+            output_fields=["id", "content"],
+            limit=len(batch_ids),
+        )
+        content_map = {
+            str(r.get("id") or ""): (r.get("content") or "").strip()
+            for r in content_results
+        }
+        for rec_id in batch_ids:
+            record = id_to_record[rec_id]
+            canonical_url = id_to_canonical_url[rec_id]
+            content = content_map.get(rec_id, "")
+            record["content"] = content
             title = (record.get("title") or "").strip()
-            content = (record.get("content") or "").strip()
             dedupe_key = hashlib.sha256(
                 f"{title}|{content}".encode("utf-8")
             ).hexdigest()
@@ -212,7 +249,6 @@ def compute_duplicates_for_college_streaming(
                     if cur_id:
                         ids_to_delete.append(cur_id)
                         ids_to_delete_by_url[canonical_url].append(cur_id)
-            total_records += 1
 
     # Convert to counts using the actual ids we plan to delete per URL
     url_to_duplicate_count: Dict[str, int] = {}
@@ -313,11 +349,14 @@ def main() -> None:
     connect_to_milvus()
     collection = get_collection()
 
-    # Loading the collection is optional for scalar queries; try and continue if it fails
+    # Load the collection into memory so queries can proceed
     try:
         collection.load()
+        utility.wait_for_loading_complete(collection.name)
+        print("✓ Collection loaded")
     except Exception as exc:
-        print(f"⚠️  Proceeding without explicit load (reason: {exc})")
+        print(f"✗ Failed to load collection: {exc}")
+        raise
 
     parser = argparse.ArgumentParser(
         description="Count and optionally remove duplicate records by URL per college",

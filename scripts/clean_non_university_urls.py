@@ -9,6 +9,8 @@ It handles chunked pages (multiple records per URL) appropriately.
 
 import os
 import sys
+import time
+import random
 import argparse
 from urllib.parse import urlparse
 from typing import Dict, List, Set, Tuple, Any
@@ -319,19 +321,26 @@ def is_known_university_service(domain: str) -> bool:
     return False
 
 
-def get_non_university_urls(
-    collection: Collection, college_name: str, university_domain: str
-) -> Tuple[List[str], int]:
+def scan_and_delete_non_edu(
+    collection: Collection, college_name: str, dry_run: bool = True
+) -> Tuple[List[str], int, int]:
     """
-    Get URLs that don't belong to the university domain.
+    Single-pass scan and batch delete of non-.edu records for a college.
+
+    Iterates all records for the college once, identifies non-.edu URLs,
+    and deletes them in batches of 200 IDs.
 
     Returns:
-        Tuple of (list of non-university URLs, total count of records for this college)
+        Tuple of (non_university_urls, total_records, deleted_count)
     """
-    non_university_urls = set()
+    DELETE_BATCH_SIZE = 200
+    non_university_urls = []  # unique URLs found
+    seen_urls = set()
+    ids_to_delete = []
     total_records = 0
+    deleted_count = 0
 
-    print(f"Scanning records for {college_name}...")
+    print(f"  Scanning records for {college_name}...")
 
     safe_college = college_name.replace('"', '\\"')
     expr = f'college_name == "{safe_college}"'
@@ -340,6 +349,20 @@ def get_non_university_urls(
         output_fields=["id", "url"],
         batch_size=1000,
     )
+
+    def _flush_delete_batch(ids: List[str]) -> int:
+        """Delete a batch of IDs and return count deleted."""
+        if not ids:
+            return 0
+        quoted = ", ".join([f'"{_id}"' for _id in ids])
+        delete_expr = f"id in [{quoted}]"
+        try:
+            collection.delete(delete_expr)
+            print(f"    Deleted batch of {len(ids)} records")
+            return len(ids)
+        except Exception as e:
+            print(f"    Error deleting batch: {e}")
+            return 0
 
     while True:
         records = iterator.next()
@@ -351,167 +374,63 @@ def get_non_university_urls(
 
         for record in records:
             url = record.get("url", "")
-            url_domain = get_domain_from_url(url)
-
-            # Skip empty URLs
             if not url:
                 continue
 
-            # First check if it's a valid university domain
-            if is_valid_university_domain(url_domain, university_domain):
+            url_domain = get_domain_from_url(url)
+
+            # Keep .edu records — only target non-.edu
+            if url_domain and url_domain.endswith(".edu"):
                 continue
 
-            # Then check if it follows known university service patterns
-            if is_known_university_service(url_domain):
-                # This looks like a university service but doesn't match our domain pattern
-                # Let's double check if it contains the university name or abbreviation
+            # Track unique URLs for reporting
+            if url not in seen_urls:
+                seen_urls.add(url)
+                non_university_urls.append(url)
 
-                # Extract university name parts (use the domain as a fallback)
-                univ_parts = university_domain.split(".")
-                univ_name = univ_parts[-2] if len(univ_parts) >= 2 else ""
+            # Queue this record's ID for deletion
+            ids_to_delete.append(record["id"])
 
-                # If the URL domain contains the university name part, likely it's related
-                if univ_name and univ_name in url_domain:
-                    continue
+            # When batch is full, delete it
+            if not dry_run and len(ids_to_delete) >= DELETE_BATCH_SIZE:
+                deleted_count += _flush_delete_batch(ids_to_delete)
+                ids_to_delete = []
+                time.sleep(0.1)  # rate-limit guard
 
-            # If we get here, it's likely not a university domain
-            non_university_urls.add(url)
+    # Delete remaining IDs
+    if not dry_run and ids_to_delete:
+        deleted_count += _flush_delete_batch(ids_to_delete)
 
-    return list(non_university_urls), total_records
-
-
-def delete_records_with_urls(
-    collection: Collection, urls: List[str], college_name: str
-) -> int:
-    """
-    Delete all records that have any of the given URLs.
-
-    Args:
-        collection: Milvus collection
-        urls: List of URLs to remove
-        college_name: College name for logging
-
-    Returns:
-        Number of records deleted
-    """
-    if not urls:
-        return 0
-
-    deleted_count = 0
-
-    # Process in batches to avoid query size limits
-    batch_size = 20
-    for i in range(0, len(urls), batch_size):
-        batch = urls[i : i + batch_size]
-
-        # Construct query with URL OR conditions
-        safe_college = college_name.replace('"', '\\"')
-        conditions = [f'url == "{url.replace(chr(34), chr(92)+chr(34))}"' for url in batch]
-        expr = f'college_name == "{safe_college}" && ({" || ".join(conditions)})'
-
+    # Single flush at the end
+    if not dry_run and deleted_count > 0:
         try:
-            # Get IDs of records to delete with pagination
-            all_ids = []
-            query_limit = 10000  # Keep under the 16384 limit
-            offset = 0
-
-            while True:
-                # Query with pagination
-                records = collection.query(
-                    expr=expr,
-                    output_fields=["id"],
-                    limit=query_limit,
-                    offset=offset,
-                )
-
-                if not records:
-                    break
-
-                batch_ids = [rec["id"] for rec in records]
-                all_ids.extend(batch_ids)
-
-                # If we got fewer results than the limit, we've reached the end
-                if len(records) < query_limit:
-                    break
-
-                offset += query_limit
-
-                # Safety check to prevent too many results
-                if len(all_ids) > 1000000:
-                    print(
-                        f"  ⚠️ Warning: Excessive number of records ({len(all_ids)}), stopping query"
-                    )
-                    break
-
-                    # Delete records directly by URL to ensure they're removed
-            if all_ids:
-                try:
-                    # Direct deletion using expr based on URLs (more reliable than ID-based deletion)
-                    for url in batch:
-                        # Create a dedicated expression for each URL
-                        safe_col = college_name.replace('"', '\\"')
-                        safe_url = url.replace('"', '\\"')
-                        url_expr = f'college_name == "{safe_col}" && url == "{safe_url}"'
-
-                        # Try to delete with direct expression
-                        try:
-                            print(f"  Deleting records with URL: {url}")
-                            delete_result = collection.delete(url_expr)
-
-                            # Force immediate flush after each URL deletion
-                            try:
-                                collection.flush()
-                            except Exception as flush_err:
-                                print(f"  Warning: Flush operation failed: {flush_err}")
-
-                            # Verify the deletion immediately
-                            verify_query = collection.query(
-                                expr=url_expr, output_fields=["id"], limit=1
-                            )
-
-                            if verify_query:
-                                print(
-                                    f"  ⚠️ URL still exists after deletion attempt: {url}"
-                                )
-                            else:
-                                print(f"  ✓ Successfully deleted URL: {url}")
-                                deleted_count += 1
-
-                        except Exception as url_del_err:
-                            print(f"  Error deleting URL {url}: {url_del_err}")
-
-                    # Final flush to ensure all changes are persistent
-                    try:
-                        collection.flush()
-                        print(f"  Flushed all deletions to ensure persistence")
-                    except Exception as e:
-                        print(f"  Warning: Final flush operation failed: {e}")
-                except Exception as delete_err:
-                    print(f"  Error during batch deletion: {delete_err}")
+            collection.flush()
+            print(f"  Flushed all deletions for {college_name}")
         except Exception as e:
-            print(f"  Error deleting batch: {e}")
-            # Try deleting one by one if batch deletion fails
-            for url in batch:
-                try:
-                    safe_col = college_name.replace('"', '\\"')
-                    safe_url = url.replace('"', '\\"')
-                    expr = f'college_name == "{safe_col}" && url == "{safe_url}"'
-                    records = collection.query(
-                        expr=expr,
-                        output_fields=["id"],
-                        limit=10000,
-                    )
-                    if records:
-                        ids = [rec["id"] for rec in records]
-                        if ids:
-                            quoted = ",".join([f'"{_id}"' for _id in ids])
-                            collection.delete(f"id in [{quoted}]")
-                            deleted_count += len(ids)
-                            print(f"  Deleted {len(ids)} records for URL: {url}")
-                except Exception as e:
-                    print(f"  Failed to delete records for URL {url}: {e}")
+            print(f"  Warning: flush failed: {e}")
 
-    return deleted_count
+        # Sample-based verification (check up to 5 random URLs)
+        sample_urls = random.sample(
+            non_university_urls, min(5, len(non_university_urls))
+        )
+        still_exist = 0
+        for url in sample_urls:
+            safe_url = url.replace('"', '\\"')
+            check_expr = f'college_name == "{safe_college}" && url == "{safe_url}"'
+            remaining = collection.query(
+                expr=check_expr, output_fields=["id"], limit=1
+            )
+            if remaining:
+                still_exist += 1
+
+        if still_exist:
+            print(
+                f"  ⚠️ Verification: {still_exist}/{len(sample_urls)} sampled URLs still exist"
+            )
+        else:
+            print(f"  ✅ Verification passed ({len(sample_urls)} sampled URLs removed)")
+
+    return non_university_urls, total_records, deleted_count
 
 
 def analyze_domains(urls):
@@ -599,16 +518,6 @@ def main():
         action="store_true",
         help="Just analyze domains without deletion (implies --dry-run)",
     )
-    parser.add_argument(
-        "--force-recheck",
-        action="store_true",
-        help="Force re-checking of URLs even if they were deleted in a previous run",
-    )
-    parser.add_argument(
-        "--force-permissions",
-        action="store_true",
-        help="Try alternative deletion method that might work with restricted permissions",
-    )
     args = parser.parse_args()
 
     # analyze-only implies dry-run
@@ -633,27 +542,19 @@ def main():
         print(f"Processing college: {college_name}")
         print(f"{'='*40}")
 
-        university_domain = get_college_base_domain(college_name, collection)
-
-        if not university_domain:
-            print(f"  ⚠️ Could not determine base domain for {college_name}, skipping")
-            continue
-
-        print(f"  Base university domain: {university_domain}")
-
-        # Find non-university URLs
-        non_university_urls, total_records = get_non_university_urls(
-            collection, college_name, university_domain
+        # Single-pass scan + delete
+        non_university_urls, total_records, deleted = scan_and_delete_non_edu(
+            collection, college_name, dry_run=args.dry_run
         )
 
         print(
-            f"  Found {len(non_university_urls)} non-university URLs out of {total_records} total records"
+            f"  Found {len(non_university_urls)} non-.edu URLs out of {total_records} total records"
         )
 
         if non_university_urls:
             # Print some examples
             examples = non_university_urls[:5]
-            print(f"  Examples of non-university URLs:")
+            print(f"  Examples of non-.edu URLs:")
             for url in examples:
                 print(f"    - {url}")
 
@@ -662,10 +563,8 @@ def main():
                 print("\n  Domain Analysis:")
                 print(f"  {'-'*30}")
 
-                # Analyze the domains by category
                 domain_analysis = analyze_domains(non_university_urls)
 
-                # Show category breakdown
                 for category, urls in sorted(
                     domain_analysis.items(), key=lambda x: len(x[1]), reverse=True
                 ):
@@ -673,152 +572,23 @@ def main():
                         print(
                             f"  {category.replace('_', ' ').title()}: {len(urls)} URLs"
                         )
-                        for example_url in urls[:3]:  # Show up to 3 examples
+                        for example_url in urls[:3]:
                             print(f"    - {example_url}")
                         if len(urls) > 3:
                             print(f"    - ... {len(urls)-3} more")
                 print(f"  {'-'*30}")
 
-            # Delete records if not a dry run
             if not args.dry_run:
-                if args.force_permissions:
-                    print(
-                        "🔒 Using alternative deletion method for restricted permissions..."
-                    )
-                    try:
-                        # Try using the Milvus delete_entity API which might work differently
-                        # This approach uses Python's inspect module to access non-standard delete methods
-                        import inspect
-
-                        # First get all entity IDs for the URLs we want to delete
-                        all_ids_to_delete = []
-                        for url in non_university_urls[:5]:  # Start with a small batch
-                            safe_col = college_name.replace('"', '\\"')
-                            safe_url_val = url.replace('"', '\\"')
-                            url_expr = (
-                                f'college_name == "{safe_col}" && url == "{safe_url_val}"'
-                            )
-                            results = collection.query(
-                                expr=url_expr, output_fields=["id"], limit=100
-                            )
-                            if results:
-                                ids = [rec["id"] for rec in results]
-                                all_ids_to_delete.extend(ids)
-                                print(f"  Found {len(ids)} entity IDs for URL: {url}")
-
-                        # Try multiple deletion approaches
-                        if all_ids_to_delete:
-                            # Try method 1: Using direct entity deletion if available
-                            try:
-                                if hasattr(collection, "delete_entities"):
-                                    print("  Trying delete_entities method...")
-                                    result = collection.delete_entities(
-                                        all_ids_to_delete
-                                    )
-                                    print(f"  Result: {result}")
-                            except Exception as e1:
-                                print(f"  Method 1 failed: {e1}")
-
-                            # Try method 2: Using upsert to overwrite entities
-                            try:
-                                if hasattr(collection, "upsert"):
-                                    print(
-                                        "  Trying upsert method to mark records as deleted..."
-                                    )
-                                    # Create empty/null records with same IDs to effectively delete
-                                    empty_records = [
-                                        {
-                                            "id": id_val,
-                                            "url": "DELETED_URL",
-                                            "content": "",
-                                        }
-                                        for id_val in all_ids_to_delete[:10]
-                                    ]  # Try just a few
-                                    collection.upsert(empty_records)
-                            except Exception as e2:
-                                print(f"  Method 2 failed: {e2}")
-
-                            # Force flush
-                            try:
-                                collection.flush()
-                            except Exception:
-                                pass
-
-                            deleted = len(all_ids_to_delete)
-                        else:
-                            deleted = 0
-                    except Exception as e:
-                        print(f"  Alternative deletion failed: {e}")
-                        deleted = 0
-                else:
-                    # Use the standard deletion method
-                    deleted = delete_records_with_urls(
-                        collection, non_university_urls, college_name
-                    )
                 total_removed += deleted
-                print(f"  Removed {deleted} records with non-university URLs")
-
-                # Verify deletions - check a sample of URLs to confirm they're gone
-                if deleted > 0 and len(non_university_urls) > 0:
-                    print("  Performing thorough verification...")
-
-                    # Force flush again before verification
-                    try:
-                        collection.flush()
-                    except Exception:
-                        pass
-
-                    # Try to reload the collection to ensure we're seeing the latest data
-                    try:
-                        collection.release()
-                        collection.load()
-                        print("  Reloaded collection for verification")
-                    except Exception as e:
-                        print(f"  Note: Collection reload failed: {e}")
-
-                    # Check each URL individually for more detailed feedback
-                    still_exist = []
-                    for url in non_university_urls:
-                        safe_col = college_name.replace('"', '\\"')
-                        safe_url = url.replace('"', '\\"')
-                        url_expr = f'college_name == "{safe_col}" && url == "{safe_url}"'
-                        remaining = collection.query(
-                            expr=url_expr, output_fields=["id", "url"], limit=1
-                        )
-                        if remaining:
-                            still_exist.append(url)
-
-                    if still_exist:
-                        print(
-                            f"  ⚠️ Warning: {len(still_exist)}/{len(non_university_urls)} URLs still exist after deletion!"
-                        )
-                        for url in still_exist[:3]:
-                            print(f"    - {url}")
-
-                        # Add diagnostic information
-                        print("\n  🔍 DIAGNOSTIC INFORMATION:")
-                        print("  This could be due to:")
-                        print(
-                            "  1. Collection permissions issues (read-only collection)"
-                        )
-                        print("  2. Zilliz Cloud consistency delays")
-                        print("  3. Delete operations being queued but not executed")
-                        print(
-                            "  Try running with --force-recheck and check Zilliz Cloud settings"
-                        )
-                    else:
-                        print(
-                            "  ✅ Deletion verified: All URLs successfully removed from collection"
-                        )
+                print(f"  Removed {deleted} records with non-.edu URLs")
             else:
                 print("  [DRY RUN] No records deleted")
 
         # Collect data for summary
         college_entry = {
             "college_name": college_name,
-            "university_domain": university_domain,
             "total_records": total_records,
-            "non_university_urls": len(non_university_urls),
+            "non_edu_urls": len(non_university_urls),
             "percentage": (
                 round(len(non_university_urls) / total_records * 100, 2)
                 if total_records > 0
@@ -848,7 +618,7 @@ def main():
         # Sort by percentage of non-university URLs
         df = df.sort_values(by="percentage", ascending=False)
 
-        print("\nDetailed results by college (sorted by % non-university URLs):")
+        print("\nDetailed results by college (sorted by % non-.edu URLs):")
         print(df.to_string(index=False))
 
     # Create a CSV report

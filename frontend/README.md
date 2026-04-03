@@ -5,7 +5,7 @@ A modern, responsive web interface for the College AI RAG (Retrieval-Augmented G
 ## Features
 
 - **Intuitive Chat Interface**: Clean, modern design with real-time status indicators
-- **Smart Filtering**: Searchable dropdowns for majors and colleges with real-time filtering
+- **Smart Filtering**: Searchable dropdown for colleges with real-time filtering
 - **Responsive Design**: Works seamlessly on desktop, tablet, and mobile devices
 - **Example Questions**: Built-in help with common question patterns
 - **Real-time Status**: Connection monitoring and collection information display
@@ -68,7 +68,6 @@ The interface will automatically check connection to the API backend at `http://
 
 1. **Ask Questions**: Type your college-related question in the main text area
 2. **Add Filters** (optional):
-   - **Major**: Use searchable dropdown to select or search for majors (e.g., "Computer Science", "Business")
    - **College**: Use searchable dropdown to select or search for colleges (e.g., "MIT", "Stanford University")
    - **Results**: Choose how many sources to retrieve (5-20)
 3. **Submit**: Click the send button or press Enter in any field
@@ -85,9 +84,8 @@ Click the help button (?) in the bottom-right corner to see example questions in
 ### Tips for Better Results
 
 1. **Be Specific**: Instead of "Tell me about MIT", ask "What are the admission requirements for Computer Science at MIT?"
-2. **Use Filters**: Combine major and college filters for more targeted results
-   - **College Filter**: When specified, results MUST match the college (primary filter)
-   - **Major Filter**: When used alone, results must match. When combined with college filter, it's optional but boosts ranking
+2. **Use Filters**: Use the college filter for more targeted results
+   - **College Filter**: When specified, results MUST match the college
    - **Enhanced Fuzzy Matching**: Filters handle typos, misspellings, and abbreviations
      - Typos: "Computr" → "Computer Science", "Rutgrs" → "Rutgers"
      - Abbreviations: "MIT" → "Massachusetts Institute of Technology"

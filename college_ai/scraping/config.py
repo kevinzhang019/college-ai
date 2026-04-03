@@ -235,87 +235,6 @@ PRIORITY_URL_PATTERNS = [
     r".*/about/.*",
     r".*/overview/.*",
 ]
-
-# ==================== MAJOR CATEGORIES ====================
-
-# Major categories for classification
-MAJOR_CATEGORIES = {
-    "business": [
-        "business",
-        "management",
-        "finance",
-        "accounting",
-        "marketing",
-        "economics",
-        "entrepreneurship",
-        "mba",
-        "commerce",
-    ],
-    "engineering": [
-        "engineering",
-        "computer science",
-        "software",
-        "electrical",
-        "mechanical",
-        "civil",
-        "chemical",
-        "aerospace",
-        "biomedical",
-    ],
-    "healthcare": [
-        "medicine",
-        "nursing",
-        "pharmacy",
-        "dentistry",
-        "veterinary",
-        "health",
-        "medical",
-        "therapy",
-        "rehabilitation",
-    ],
-    "liberal_arts": [
-        "liberal arts",
-        "humanities",
-        "english",
-        "literature",
-        "history",
-        "philosophy",
-        "art",
-        "music",
-        "theater",
-        "languages",
-    ],
-    "science": [
-        "biology",
-        "chemistry",
-        "physics",
-        "mathematics",
-        "statistics",
-        "environmental",
-        "geology",
-        "astronomy",
-        "research",
-    ],
-    "social_sciences": [
-        "psychology",
-        "sociology",
-        "political science",
-        "anthropology",
-        "social work",
-        "criminal justice",
-        "international relations",
-    ],
-    "education": [
-        "education",
-        "teaching",
-        "elementary",
-        "secondary",
-        "special education",
-        "curriculum",
-        "instruction",
-    ],
-}
-
 # ==================== VALIDATION SETTINGS ====================
 
 # Content validation settings
@@ -351,6 +270,21 @@ PLAYWRIGHT_REDIRECT_EXTRA_WAIT = int(
 PLAYWRIGHT_REDIRECT_DETECTION = (
     os.getenv("PLAYWRIGHT_REDIRECT_DETECTION", "1") == "1"
 )  # Enable redirect detection and handling
+
+# Playwright resource blocking: abort these resource types to speed up page loads.
+# Does NOT block document, script, xhr, fetch — those are needed for SPA content.
+PLAYWRIGHT_BLOCKED_RESOURCE_TYPES = {
+    "image", "imageset", "stylesheet", "font", "media",
+    "texttrack", "object", "beacon", "csp_report", "manifest",
+}
+
+# Playwright URL-pattern blocking: abort requests to these analytics/tracking domains.
+PLAYWRIGHT_BLOCKED_URL_PATTERNS = [
+    "google-analytics.com", "googletagmanager.com", "doubleclick.net",
+    "facebook.net", "hotjar.com", "cdn.segment.com", "sentry.io",
+    "amplitude.com", "newrelic.com", "optimizely.com", "adservice.google.com",
+    "pagead2.googlesyndication.com", "connect.facebook.net",
+]
 
 # ==================== EXPORT SETTINGS ====================
 

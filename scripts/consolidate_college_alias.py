@@ -304,16 +304,14 @@ def main() -> None:
         description="Consolidate records from one college name into another"
     )
     parser.add_argument(
-        "--source",
+        "source",
         type=str,
-        default="University of California-Irvine",
-        help="Source college name to consolidate from",
+        help="Source college name to consolidate from (will be merged away)",
     )
     parser.add_argument(
-        "--target",
+        "target",
         type=str,
-        default="University of California—Irvine",
-        help="Target college name to consolidate into",
+        help="Target college name to consolidate into (canonical name)",
     )
     parser.add_argument(
         "--dry-run",

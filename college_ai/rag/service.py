@@ -9,7 +9,6 @@ Key features:
 - Connects to Zilliz/Milvus using settings from `college_ai.scraping.config`
 - Embeds queries with OpenAI (reuses utilities in `utils/openai_embed.py`)
 - Vector search over the `embedding` field with optional filters
-- Optional major-aware reranking using the `majors` JSON field
 - Answer generation via OpenAI Chat with citations
 
 Usage (CLI):
@@ -18,7 +17,7 @@ Usage (CLI):
 Programmatic usage:
     from college_ai.rag.service import CollegeRAG
     rag = CollegeRAG()
-    result = rag.answer_question("Best scholarships for business majors?", major="business")
+    result = rag.answer_question("Best scholarships for business majors?")
     print(result["answer"])  # formatted text with citations
     print(result["sources"])  # list of sources
 """
@@ -28,7 +27,7 @@ from __future__ import annotations
 import os
 import re
 import sys
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional
 
 from dotenv import load_dotenv
 from pymilvus import Collection, connections, utility
@@ -79,6 +78,36 @@ def _get_openai_chat_client():
     if not api_key:
         raise RuntimeError("OPENAI_API_KEY not found in environment.")
     return OpenAI(api_key=api_key)
+
+
+# Common academic major/field keywords used for content-based boosting.
+# When a user query mentions one of these, chunks containing the term are ranked higher.
+_MAJOR_KEYWORDS = [
+    "computer science", "software engineering", "computer engineering",
+    "information technology", "data science", "cybersecurity",
+    "business", "finance", "accounting", "marketing", "economics",
+    "management", "entrepreneurship",
+    "engineering", "mechanical engineering", "electrical engineering",
+    "civil engineering", "chemical engineering", "biomedical engineering",
+    "aerospace engineering",
+    "biology", "chemistry", "physics", "mathematics", "statistics",
+    "environmental science",
+    "nursing", "medicine", "pharmacy", "public health",
+    "psychology", "sociology", "political science", "anthropology",
+    "criminal justice", "social work", "international relations",
+    "english", "literature", "history", "philosophy",
+    "art", "music", "theater", "communications",
+    "education",
+]
+
+
+def _extract_major_keywords(question: str) -> List[str]:
+    """Return major keywords found in the user's question (longest-match first)."""
+    q_lower = question.lower()
+    found = [kw for kw in _MAJOR_KEYWORDS if kw in q_lower]
+    # Sort longest first so multi-word majors take priority
+    found.sort(key=len, reverse=True)
+    return found
 
 
 def _extract_hit_fields(hit: Any, field_names: List[str]) -> Dict[str, Any]:
@@ -201,7 +230,6 @@ class CollegeRAG:
         top_k: int = 8,
         *,
         college_name: Optional[str] = None,
-        major: Optional[str] = None,
         output_fields: Optional[List[str]] = None,
     ) -> List[Dict[str, Any]]:
         """Search Milvus for relevant chunks.
@@ -210,11 +238,10 @@ class CollegeRAG:
             question: user query text
             top_k: number of hits to return
             college_name: optional college name filter (HARD FILTER - only returns results from this college)
-            major: optional major hint; used for ranking/boosting, general content always included
             output_fields: fields to return; defaults sensible
 
         Returns:
-            List of hit dicts with keys: url, title, content, college_name, majors, crawled_at, distance
+            List of hit dicts with keys: url, title, content, college_name, crawled_at, distance
         """
         if not question or not question.strip():
             return []
@@ -237,12 +264,11 @@ class CollegeRAG:
             "url",
             "title",
             "content",
-            "majors",
             "crawled_at",
         ]
 
         # Milvus search - get more results if we need to filter
-        search_limit = top_k * 3 if (major or college_name) else top_k
+        search_limit = top_k * 3 if college_name else top_k
         try:
             results = self.collection.search(
                 data=[embedding],
@@ -266,71 +292,29 @@ class CollegeRAG:
             record["distance"] = float(distance) if distance is not None else None
             normalized.append(record)
 
-        # Apply flexible filtering and reranking for college and major
-        if college_name or major:
-            college_lc = college_name.strip().lower() if college_name else None
-            major_lc = major.strip().lower() if major else None
+        # Apply college filtering and keyword-based reranking
+        if college_name:
+            college_lc = college_name.strip().lower()
+            normalized = [
+                rec for rec in normalized
+                if str(rec.get("college_name", "")).lower().strip() == college_lc
+            ]
 
-            def matches_college(rec: Dict[str, Any]) -> bool:
-                if not college_lc:
-                    return True
-                college = str(rec.get("college_name", "")).lower().strip()
-                # Simple exact match since users select from dropdown
-                return college_lc == college
-
-            def matches_major(rec: Dict[str, Any]) -> bool:
-                if not major_lc:
-                    return True
-                val = rec.get("majors")
-
-                # Always include "general" content regardless of major filter
-                if isinstance(val, list):
-                    has_general = any(str(m).strip().lower() == "general" for m in val)
-                    has_specific_major = any(
-                        str(m).strip().lower() == major_lc for m in val
-                    )
-                    return has_general or has_specific_major
-                if isinstance(val, dict) and "list" in val:
-                    major_list = val.get("list", [])
-                    has_general = any(
-                        str(m).strip().lower() == "general" for m in major_list
-                    )
-                    has_specific_major = any(
-                        str(m).strip().lower() == major_lc for m in major_list
-                    )
-                    return has_general or has_specific_major
-                return False
-
-            # Filter results and boost scores for matches
-            filtered_and_ranked: List[Tuple[float, Dict[str, Any]]] = []
+        # Boost chunks whose content mentions major keywords from the query
+        major_keywords = _extract_major_keywords(question)
+        if major_keywords:
+            ranked = []
             for rec in normalized:
-                college_match = matches_college(rec)
-                major_match = matches_major(rec)
-
-                # College is a hard filter when specified, major is NEVER used for filtering
-                should_include = True
-                if college_name:
-                    # College filter: must match college (hard requirement)
-                    should_include = college_match
-                # Major is NEVER used for filtering, only for boosting/ranking
-                # If no college filter specified, include all records
-
-                if should_include:
-                    dist = rec.get("distance", 0.0) or 0.0
-                    # Boost score for matches
-                    score_boost = 0.0
-                    if major and major_match:
-                        score_boost += 0.1  # Stronger boost for major match (since it's only used for ranking)
-                    # No college boost needed since college is a hard filter when specified
-
-                    adj = dist - score_boost
-                    filtered_and_ranked.append((adj, rec))
-
-            # Sort by adjusted score and take top_k
-            filtered_and_ranked.sort(key=lambda x: x[0])
-            normalized = [rec for _, rec in filtered_and_ranked][:top_k]
+                content_lc = str(rec.get("content", "")).lower()
+                title_lc = str(rec.get("title", "")).lower()
+                text = content_lc + " " + title_lc
+                hits_count = sum(1 for kw in major_keywords if kw in text)
+                dist = rec.get("distance", 0.0) or 0.0
+                boost = 0.05 * hits_count
+                ranked.append((dist - boost, rec))
+            ranked.sort(key=lambda x: x[0])
+            normalized = [rec for _, rec in ranked][:top_k]
         else:
-            # Just take top_k by original order
             normalized = normalized[:top_k]
 
         # Drop hits beyond the relevance distance threshold
@@ -470,7 +454,6 @@ class CollegeRAG:
         question: str,
         contexts: List[Dict[str, Any]],
         *,
-        major: Optional[str] = None,
         college_name: Optional[str] = None,
     ) -> str:
         """Call OpenAI chat to compose an answer using the retrieved contexts."""
@@ -495,8 +478,6 @@ class CollegeRAG:
             "\n\nFocus exclusively on undergraduate (bachelor's degree) programs, requirements, and admissions."
             " If sources mention graduate programs (Master's/PhD), adapt the information for undergraduate context or note it's not applicable."
         )
-        if major:
-            system_preamble += f"\nFocus on the '{major}' major when relevant."
         if college_name:
             system_preamble += f"\nPrioritize information for {college_name} if present."
 
@@ -551,7 +532,6 @@ class CollegeRAG:
         question: str,
         *,
         top_k: int = 8,
-        major: Optional[str] = None,
         college_name: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Run end-to-end RAG: retrieve then generate an answer.
@@ -562,13 +542,12 @@ class CollegeRAG:
             question,
             top_k=top_k,
             college_name=college_name,
-            major=major,
         )
         if not hits:
             return {"answer": NO_ANSWER_RESPONSE, "sources": []}
         hits = self._rerank(question, hits, top_k=top_k)
         answer = self._generate_answer(
-            question, hits, major=major, college_name=college_name
+            question, hits, college_name=college_name
         )
         answer = self._verify_citations(answer, len(hits))
 
@@ -607,7 +586,6 @@ def _main_cli(argv: Optional[List[str]] = None) -> int:
     parser = argparse.ArgumentParser(description="College RAG CLI")
     parser.add_argument("--question", required=True, help="User question")
     parser.add_argument("--top_k", type=int, default=8, help="Top-k hits")
-    parser.add_argument("--major", type=str, default=None, help="Optional major filter")
     parser.add_argument(
         "--college", type=str, default=None, help="Optional exact college name filter"
     )
@@ -615,7 +593,7 @@ def _main_cli(argv: Optional[List[str]] = None) -> int:
 
     rag = CollegeRAG()
     result = rag.answer_question(
-        args.question, top_k=args.top_k, major=args.major, college_name=args.college
+        args.question, top_k=args.top_k, college_name=args.college
     )
     print("\n==== Answer ====")
     print(result.get("answer", ""))

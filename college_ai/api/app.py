@@ -56,7 +56,6 @@ rag_engine = CollegeRAG()
 class AskRequest(BaseModel):
     question: str = Field(..., description="User question")
     top_k: int = Field(8, ge=1, le=20)
-    major: Optional[str] = Field(None, description="Optional major focus")
     college: Optional[str] = Field(
         None, description="Optional exact college name filter"
     )
@@ -76,7 +75,6 @@ def config() -> Dict[str, Any]:
 def get_filter_options() -> Dict[str, Any]:
     """Get available filter options for dropdowns by reading from CSV files."""
     import csv
-    import os
     from pathlib import Path
 
     try:
@@ -84,42 +82,25 @@ def get_filter_options() -> Dict[str, Any]:
         base_path = Path(__file__).parent.parent / "scraping" / "colleges"
 
         colleges = set()
-        majors = set()
 
-        # Define the CSV files and their corresponding major names
-        csv_files = {
-            "general.csv": "General",
-            "business.csv": "Business",
-            "computer science.csv": "Computer Science",
-        }
+        # Read all CSV files to extract college names
+        for csv_path in base_path.glob("*.csv"):
+            try:
+                with open(csv_path, "r", encoding="utf-8") as file:
+                    reader = csv.DictReader(file)
+                    for row in reader:
+                        college_name = row.get("name", "").strip()
+                        if college_name:
+                            colleges.add(college_name)
+            except Exception as csv_error:
+                print(f"Error reading {csv_path.name}: {csv_error}")
+                continue
 
-        # Read each CSV file to extract college names
-        for csv_file, major_name in csv_files.items():
-            csv_path = base_path / csv_file
-            if csv_path.exists():
-                # Add major to list only if it's not "General" (General is default, not a selectable major)
-                if major_name != "General":
-                    majors.add(major_name)
-                try:
-                    with open(csv_path, "r", encoding="utf-8") as file:
-                        reader = csv.DictReader(file)
-                        for row in reader:
-                            college_name = row.get("name", "").strip()
-                            if college_name:
-                                colleges.add(college_name)
-                except Exception as csv_error:
-                    print(f"Error reading {csv_file}: {csv_error}")
-                    continue
-
-        # Convert to sorted lists
         colleges_list = sorted(list(colleges))
-        majors_list = sorted(list(majors))
 
-        print(
-            f"✅ Loaded {len(colleges_list)} colleges and {len(majors_list)} majors from CSV files"
-        )
+        print(f"✅ Loaded {len(colleges_list)} colleges from CSV files")
 
-        return {"colleges": colleges_list, "majors": majors_list}
+        return {"colleges": colleges_list}
 
     except Exception as e:
         print(f"❌ Error reading CSV files: {e}")
@@ -131,7 +112,6 @@ def get_filter_options() -> Dict[str, Any]:
                 "MIT",
                 "Harvard University",
             ],
-            "majors": ["Computer Science", "Business", "Engineering"],
         }
 
 
@@ -140,7 +120,6 @@ def ask(payload: AskRequest) -> Dict[str, Any]:
     result = rag_engine.answer_question(
         payload.question,
         top_k=payload.top_k,
-        major=payload.major,
         college_name=payload.college,
     )
     return result

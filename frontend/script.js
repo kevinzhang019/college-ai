@@ -14,14 +14,11 @@ class CollegeAI {
         // Main elements
         this.questionInput = document.getElementById('questionInput');
         this.askButton = document.getElementById('askButton');
-        this.majorFilter = document.getElementById('majorFilter');
         this.collegeFilter = document.getElementById('collegeFilter');
         this.topKFilter = document.getElementById('topKFilter');
         
         // Searchable dropdown elements
-        this.majorDropdown = document.getElementById('majorDropdown');
         this.collegeDropdown = document.getElementById('collegeDropdown');
-        this.majorOptions = document.getElementById('majorOptions');
         this.collegeOptions = document.getElementById('collegeOptions');
         
         // Result elements
@@ -62,7 +59,6 @@ class CollegeAI {
         });
 
         // Initialize searchable dropdowns
-        this.initSearchableDropdown(this.majorFilter, this.majorDropdown, this.majorOptions, 'majors');
         this.initSearchableDropdown(this.collegeFilter, this.collegeDropdown, this.collegeOptions, 'colleges');
 
         // Modal events
@@ -133,44 +129,12 @@ class CollegeAI {
             this.filterOptions = options;
             
             // Populate dropdowns
-            this.populateDropdown(this.majorOptions, options.majors || []);
             this.populateDropdown(this.collegeOptions, options.colleges || []);
             
         } catch (error) {
             console.error('Failed to load filter options:', error);
             // Set comprehensive fallback options with more choices
             this.filterOptions = {
-                majors: [
-                    'Computer Science',
-                    'Computer Engineering', 
-                    'Software Engineering',
-                    'Information Technology',
-                    'Business Administration',
-                    'Business',
-                    'Marketing',
-                    'Finance',
-                    'Accounting',
-                    'Engineering',
-                    'Mechanical Engineering',
-                    'Electrical Engineering',
-                    'Civil Engineering',
-                    'Chemical Engineering',
-                    'Biomedical Engineering',
-                    'Mathematics',
-                    'Physics',
-                    'Chemistry',
-                    'Biology',
-                    'Psychology',
-                    'Political Science',
-                    'Economics',
-                    'English',
-                    'History',
-                    'Art',
-                    'Music',
-                    'Nursing',
-                    'Medicine',
-                    'General'
-                ],
                 colleges: [
                     'Stanford University',
                     'Harvard University',
@@ -208,7 +172,6 @@ class CollegeAI {
                     'Rutgers University'
                 ]
             };
-            this.populateDropdown(this.majorOptions, this.filterOptions.majors);
             this.populateDropdown(this.collegeOptions, this.filterOptions.colleges);
         }
     }
@@ -374,10 +337,7 @@ class CollegeAI {
             };
 
             // Add optional filters
-            const major = this.majorFilter.value.trim();
             const college = this.collegeFilter.value.trim();
-            
-            if (major) payload.major = major;
             if (college) payload.college = college;
 
             const response = await this.makeRequest('/ask', {
@@ -610,7 +570,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('💡 Tips:');
     console.log('  - Press Enter ANYWHERE to submit your question instantly!');
     console.log('  - Press Shift + Enter for new lines (in question field only)');
-    console.log('  - Use searchable dropdowns for colleges and majors');
+    console.log('  - Use the searchable dropdown for colleges');
     console.log('  - Click the help button (?) for example questions');
     
     // Check if API server might be running on a different port

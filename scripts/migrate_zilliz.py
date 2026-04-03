@@ -63,7 +63,6 @@ OUTPUT_FIELDS = [
     "content",
     "embedding",
     "crawled_at",
-    "majors",
 ]
 
 
@@ -86,7 +85,6 @@ def get_schema() -> CollectionSchema:
         FieldSchema(name="content", dtype=DataType.VARCHAR, max_length=MAX_CONTENT_LENGTH),
         FieldSchema(name="embedding", dtype=DataType.FLOAT_VECTOR, dim=VECTOR_DIM),
         FieldSchema(name="crawled_at", dtype=DataType.VARCHAR, max_length=32),
-        FieldSchema(name="majors", dtype=DataType.JSON),
     ]
     return CollectionSchema(fields, description="College pages with embeddings")
 

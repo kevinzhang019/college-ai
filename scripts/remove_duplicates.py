@@ -105,38 +105,22 @@ class CollegeDuplicateRemover:
                 try:
                     print(f"📊 Checking {college_name}...")
 
-                    # Get all records for this college using query_iterator
-                    college_records = []
+                    # Pass 1: Fetch lightweight metadata (no content) to group by URL.
+                    # Zilliz Cloud has a 4MB server-side gRPC limit that ignores
+                    # limit/batch_size, so we must exclude the large content field.
                     safe_college = college_name.replace('"', '\\"')
-                    iterator = self.collection.query_iterator(
+                    college_records = self.collection.query(
                         expr=f'college_name == "{safe_college}"',
-                        output_fields=[
-                            "id",
-                            "url",
-                            "college_name",
-                            "crawled_at",
-                            "title",
-                            "content",
-                        ],
-                        batch_size=1000,
+                        output_fields=["id", "url", "college_name", "crawled_at", "title"],
+                        limit=16384,
                     )
-                    while True:
-                        batch = iterator.next()
-                        if not batch:
-                            iterator.close()
-                            break
-                        college_records.extend(batch)
 
-                    # Group by URL + content hash to find true duplicates (same chunk)
-                    # Using SHA256 of title + '|' + content to identify identical chunks
-                    url_to_hash_to_records: Dict[str, Dict[str, List[dict]]] = (
-                        defaultdict(lambda: defaultdict(list))
-                    )
+                    # Group records by canonical URL
+                    url_to_records: Dict[str, List[dict]] = defaultdict(list)
                     for record in college_records:
                         url = (record.get("url") or "").strip()
                         if not url:
                             continue
-                        # Canonical URL key: ignore scheme, strip leading 'www.', drop trailing slash (non-root)
                         try:
                             parsed = urlparse(url)
                             netloc = parsed.netloc.lower()
@@ -155,12 +139,50 @@ class CollegeDuplicateRemover:
                             elif s.startswith("https://"):
                                 s = s[len("https://") :]
                             canonical_url = s[4:] if s.lower().startswith("www.") else s
-                        title = (record.get("title") or "").strip()
-                        content = (record.get("content") or "").strip()
-                        dedupe_key = hashlib.sha256(
-                            f"{title}|{content}".encode("utf-8")
-                        ).hexdigest()
-                        url_to_hash_to_records[canonical_url][dedupe_key].append(record)
+                        url_to_records[canonical_url].append(record)
+
+                    # Pass 2: For URLs with multiple records, fetch content in batches
+                    # of 20 IDs (~1MB) to stay under the 4MB gRPC limit.
+                    url_to_hash_to_records: Dict[str, Dict[str, List[dict]]] = (
+                        defaultdict(lambda: defaultdict(list))
+                    )
+                    # Collect all IDs that need content fetched
+                    ids_needing_content: List[str] = []
+                    id_to_record: Dict[str, dict] = {}
+                    id_to_canonical_url: Dict[str, str] = {}
+                    for canonical_url, records in url_to_records.items():
+                        if len(records) < 2:
+                            continue
+                        for record in records:
+                            rec_id = str(record.get("id") or "")
+                            ids_needing_content.append(rec_id)
+                            id_to_record[rec_id] = record
+                            id_to_canonical_url[rec_id] = canonical_url
+
+                    # Batch-fetch content in groups of 20
+                    CONTENT_BATCH = 50
+                    for i in range(0, len(ids_needing_content), CONTENT_BATCH):
+                        batch_ids = ids_needing_content[i : i + CONTENT_BATCH]
+                        quoted = ",".join([f'"{_id}"' for _id in batch_ids])
+                        content_results = self.collection.query(
+                            expr=f"id in [{quoted}]",
+                            output_fields=["id", "content"],
+                            limit=len(batch_ids),
+                        )
+                        content_map = {
+                            str(r.get("id") or ""): (r.get("content") or "").strip()
+                            for r in content_results
+                        }
+                        for rec_id in batch_ids:
+                            record = id_to_record[rec_id]
+                            canonical_url = id_to_canonical_url[rec_id]
+                            content = content_map.get(rec_id, "")
+                            record["content"] = content
+                            title = (record.get("title") or "").strip()
+                            dedupe_key = hashlib.sha256(
+                                f"{title}|{content}".encode("utf-8")
+                            ).hexdigest()
+                            url_to_hash_to_records[canonical_url][dedupe_key].append(record)
 
                     # Build duplicate groups per URL (only groups with >1 identical chunks)
                     duplicates: Dict[str, List[List[dict]]] = {}
@@ -277,31 +299,18 @@ class CollegeDuplicateRemover:
             Dictionary with verification statistics
         """
         try:
-            # Get all records for this college using query_iterator
-            college_records = []
+            # Fetch metadata without content to avoid 4MB gRPC limit
             safe_college = college_name.replace('"', '\\"')
-            iterator = self.collection.query_iterator(
+            college_records = self.collection.query(
                 expr=f'college_name == "{safe_college}"',
-                output_fields=["url", "title", "content"],
-                batch_size=1000,
+                output_fields=["id", "url", "title"],
+                limit=16384,
             )
-            while True:
-                batch = iterator.next()
-                if not batch:
-                    iterator.close()
-                    break
-                college_records.extend(batch)
 
-            # Check for any remaining duplicates: group by (url, content hash)
-            url_hash_counts = defaultdict(int)
+            # Group by canonical URL
+            url_to_records: Dict[str, List[dict]] = defaultdict(list)
             for record in college_records:
                 url = (record.get("url") or "").strip()
-                title = (record.get("title") or "").strip()
-                content = (record.get("content") or "").strip()
-                dedupe_key = hashlib.sha256(
-                    f"{title}|{content}".encode("utf-8")
-                ).hexdigest()
-                # Canonical URL key (ignore scheme, strip leading 'www.', drop trailing slash)
                 try:
                     parsed = urlparse(url)
                     netloc = parsed.netloc.lower()
@@ -320,18 +329,56 @@ class CollegeDuplicateRemover:
                     elif s.startswith("https://"):
                         s = s[len("https://") :]
                     canonical_url = s[4:] if s.lower().startswith("www.") else s
-                url_hash_counts[(canonical_url, dedupe_key)] += 1
+                url_to_records[canonical_url].append(record)
+
+            # Only fetch content for URLs with multiple records
+            url_hash_counts = defaultdict(int)
+            ids_needing_content: List[str] = []
+            id_to_record: Dict[str, dict] = {}
+            id_to_canonical_url: Dict[str, str] = {}
+            for canonical_url, records in url_to_records.items():
+                if len(records) < 2:
+                    url_hash_counts[(canonical_url, "single")] = 1
+                    continue
+                for record in records:
+                    rec_id = str(record.get("id") or "")
+                    ids_needing_content.append(rec_id)
+                    id_to_record[rec_id] = record
+                    id_to_canonical_url[rec_id] = canonical_url
+
+            # Batch-fetch content in groups of 20
+            CONTENT_BATCH = 50
+            for i in range(0, len(ids_needing_content), CONTENT_BATCH):
+                batch_ids = ids_needing_content[i : i + CONTENT_BATCH]
+                quoted = ",".join([f'"{_id}"' for _id in batch_ids])
+                content_results = self.collection.query(
+                    expr=f"id in [{quoted}]",
+                    output_fields=["id", "content"],
+                    limit=len(batch_ids),
+                )
+                content_map = {
+                    str(r.get("id") or ""): (r.get("content") or "").strip()
+                    for r in content_results
+                }
+                for rec_id in batch_ids:
+                    record = id_to_record[rec_id]
+                    canonical_url = id_to_canonical_url[rec_id]
+                    content = content_map.get(rec_id, "")
+                    title = (record.get("title") or "").strip()
+                    dedupe_key = hashlib.sha256(
+                        f"{title}|{content}".encode("utf-8")
+                    ).hexdigest()
+                    url_hash_counts[(canonical_url, dedupe_key)] += 1
 
             remaining_duplicates = 0
             for (_url, _hash), count in url_hash_counts.items():
                 if count > 1:
                     remaining_duplicates += count - 1
 
-            # Unique URL variants are the number of (url, hash) pairs
             return {
                 "final_count": len(college_records),
                 "remaining_duplicates": remaining_duplicates,
-                "unique_urls": len(url_hash_counts),
+                "unique_urls": len(url_to_records),
             }
 
         except Exception as e:
