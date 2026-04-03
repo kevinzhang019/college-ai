@@ -22,17 +22,20 @@ import os
 import re
 import json
 import time
+import queue
 import random
 import logging
 import argparse
+import threading
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
 from typing import Optional
 
 from playwright.sync_api import sync_playwright, BrowserContext, Page
 
-from preference_scraper.admissions.db import get_session, init_db
+from preference_scraper.admissions.db import get_session, init_db, reset_engine, is_hrana_error
 from preference_scraper.admissions.models import (
-    School, ApplicantDatapoint, NicheGrade, ScrapeJob,
+    School, ApplicantDatapoint, NicheGrade,
 )
 
 logger = logging.getLogger(__name__)
@@ -92,6 +95,286 @@ STATS_LABEL_MAP = {
     "greek life": "pct_greek_life",
 }
 
+MAX_WORKERS = 5  # hard cap on parallel browser workers
+
+
+class GlobalRateLimiter:
+    """Thread-safe rate limiter shared across all workers.
+
+    Scales delays by worker count so aggregate request rate stays constant
+    regardless of how many workers are active.
+
+    Work-time crediting: call ``record_request()`` right after a page
+    navigation fires so that scraping/parsing time counts toward the
+    inter-request delay.  The next ``wait()`` only sleeps the remainder.
+    """
+
+    def __init__(self, min_delay: float, max_delay: float, num_workers: int):
+        self._lock = threading.Lock()
+        self._min_delay = min_delay * num_workers
+        self._max_delay = max_delay * num_workers
+        self._last_request_time = 0.0
+
+    def wait(self):
+        """Sleep until the next request slot is available.
+
+        Reserves the slot by advancing ``_last_request_time`` under the lock
+        so that concurrent workers don't double-book the same slot.  Call
+        ``record_request()`` after the actual page.goto to credit the work
+        time and let the next slot start its countdown from the real request.
+        """
+        with self._lock:
+            now = time.time()
+            delay = random.uniform(self._min_delay, self._max_delay)
+            elapsed = now - self._last_request_time
+            if elapsed < delay:
+                time.sleep(delay - elapsed)
+            # Reserve this slot so the next worker waits from *now*,
+            # not from the same stale timestamp.
+            self._last_request_time = time.time()
+
+    def record_request(self):
+        """Update the request timestamp to when the page actually loaded.
+
+        Called after page.goto returns so that the *actual* request time
+        (not the end-of-sleep time) is used for the next delay calculation.
+        This credits scraping/parsing work toward the inter-request gap.
+
+        Thread-safe: acquires the lock before updating the shared timestamp.
+        """
+        with self._lock:
+            self._last_request_time = time.time()
+
+
+class JobClaimer:
+    """Thread-safe dynamic work queue for distributing schools to workers.
+
+    Uses an index-based approach for natural load balancing — faster workers
+    automatically pick up more schools. The queue is pre-filtered (resume
+    filtering happens in scrape_all before workers start).
+    """
+
+    def __init__(self, slugs_with_ids: list[tuple[str, int]]):
+        self._lock = threading.Lock()
+        self._queue = list(slugs_with_ids)
+        self._index = 0
+        self._total = len(slugs_with_ids)
+
+    @property
+    def total(self) -> int:
+        return self._total
+
+    def next(self) -> Optional[tuple[str, int, int, int]]:
+        """Claim next school. Returns (slug, school_id, index, total) or None."""
+        with self._lock:
+            if self._index < self._total:
+                idx = self._index
+                self._index += 1
+                slug, school_id = self._queue[idx]
+                return (slug, school_id, idx, self._total)
+        return None
+
+
+# ---------------------------------------------------------------------------
+# Centralised DB writer — single thread owns the Turso WebSocket connection
+# ---------------------------------------------------------------------------
+
+_SENTINEL = None  # Workers send this to signal they are done
+
+
+class DBWriterThread(threading.Thread):
+    """Dedicated thread that drains a queue of scrape results and writes to Turso.
+
+    Only this thread touches the database, eliminating all cross-thread
+    WebSocket contention.  A periodic keepalive SELECT prevents Hrana stream
+    expiry during long scraping gaps.
+
+    Workers call ``submit()`` (fire-and-forget) to enqueue results.
+    The writer commits each school atomically — datapoints and NicheGrade
+    row succeed or fail together.
+
+    Thread safety: ``queue.Queue`` handles all synchronization between
+    producer (worker) and consumer (writer) threads.
+    """
+
+    KEEPALIVE_INTERVAL = 60.0  # seconds between idle pings
+    MAX_RETRIES = 3
+
+    def __init__(self, write_queue: queue.Queue, num_workers: int,
+                 stats: dict, stats_lock: threading.Lock):
+        super().__init__(daemon=True, name="db-writer")
+        self._q = write_queue
+        self._num_workers = num_workers
+        self._sentinels_seen = 0
+        self._stats = stats
+        self._stats_lock = stats_lock
+
+    # -- public interface (called by workers) --------------------------------
+
+    def submit(self, slug: str, school_id: int, points: list,
+               grades: dict, timestamp: str, tag: str):
+        """Enqueue a scrape result for writing (fire-and-forget)."""
+        self._q.put((slug, school_id, points, grades, timestamp, tag))
+
+    def worker_done(self):
+        """Signal that a worker has finished."""
+        self._q.put(_SENTINEL)
+
+    # -- thread body ---------------------------------------------------------
+
+    def run(self):
+        try:
+            self._loop()
+        except Exception as e:
+            logger.error("[DB] Writer thread crashed: %s", e, exc_info=True)
+
+    def _loop(self):
+        logger.info("[DB] Writer thread started")
+        while True:
+            try:
+                item = self._q.get(timeout=self.KEEPALIVE_INTERVAL)
+            except queue.Empty:
+                self._keepalive()
+                continue
+
+            if item is _SENTINEL:
+                self._sentinels_seen += 1
+                if self._sentinels_seen >= self._num_workers and self._q.empty():
+                    break
+                continue
+
+            self._write_one_with_retry(*item)
+
+        logger.info("[DB] Writer thread finished — all items flushed")
+
+    def _write_one_with_retry(self, slug, school_id, points, grades, now, tag):
+        """Write a single school atomically (datapoints + grade) with retry.
+
+        The NicheGrade row (which marks the school as "done" for resume) is
+        only committed together with the datapoints — preventing partial
+        writes that would cause the school to be permanently skipped.
+        """
+        n_points = len(points) if points else 0
+        logger.debug("[DB] Writing %s (%d points) ...", slug, n_points)
+        for attempt in range(self.MAX_RETRIES):
+            session = get_session()
+            try:
+                self._write_one(session, slug, school_id, points, grades, now, tag)
+                session.commit()
+                logger.debug("[DB] Committed %s", slug)
+                return
+            except Exception as e:
+                try:
+                    session.rollback()
+                except Exception:
+                    pass
+                if is_hrana_error(e) and attempt < self.MAX_RETRIES - 1:
+                    delay = 0.5 * (2 ** attempt)
+                    logger.warning(
+                        "[DB] Hrana error writing %s (attempt %d/%d), retry in %.1fs: %s",
+                        slug, attempt + 1, self.MAX_RETRIES, delay, e,
+                    )
+                    reset_engine()
+                    time.sleep(delay)
+                    continue
+                logger.error("[DB] Failed to write %s: %s", slug, e)
+                return
+            finally:
+                session.close()
+
+    # Max rows per INSERT statement — SQLite has a limit of 999 bind params,
+    # and each row has 10 columns, so ~99 rows per statement is safe.
+    _INSERT_BATCH = 90
+
+    def _write_one(self, session, slug, school_id, points, grades, now, tag):
+        """Write a single school's results within an existing session.
+
+        Datapoints and the NicheGrade row are written in the same session so
+        they commit (or roll back) atomically.  Datapoints are inserted in
+        bulk (one INSERT per ~90 rows) to avoid thousands of round-trips
+        over the Turso WebSocket.
+        """
+        from sqlalchemy import insert
+
+        if points and school_id:
+            session.query(ApplicantDatapoint).filter_by(
+                school_id=school_id, source="niche"
+            ).delete()
+
+            rows = [
+                dict(
+                    school_id=school_id,
+                    source="niche",
+                    gpa=p["gpa"],
+                    sat_score=p.get("sat_score"),
+                    act_score=p.get("act_score"),
+                    outcome=p["outcome"],
+                    major=p.get("major"),
+                    residency=p.get("residency"),
+                    applicant_type=p.get("applicant_type"),
+                    decision_type=p.get("decision_type"),
+                    scraped_at=now,
+                )
+                for p in points
+            ]
+            # Multi-VALUES INSERT: one SQL statement per batch instead of
+            # one per row.  Batched at 90 rows × 11 cols = 990 bind params
+            # to stay under SQLite's 999-param limit.
+            for i in range(0, len(rows), self._INSERT_BATCH):
+                session.execute(
+                    insert(ApplicantDatapoint).values(rows[i : i + self._INSERT_BATCH])
+                )
+
+        if school_id:
+            existing = session.get(NicheGrade, school_id)
+            if grades:
+                if existing:
+                    for k, v in grades.items():
+                        setattr(existing, k, v)
+                    existing.no_data = 0
+                    existing.updated_at = now
+                else:
+                    session.add(NicheGrade(
+                        school_id=school_id,
+                        no_data=0,
+                        updated_at=now,
+                        **grades,
+                    ))
+                with self._stats_lock:
+                    self._stats["total_grades"] += 1
+                grade_count = sum(1 for k in grades if k in GRADE_LABEL_MAP.values())
+                stat_count = len(grades) - grade_count
+                logger.info(f"{tag}   -> {grade_count} grades, {stat_count} stats")
+            else:
+                if not existing:
+                    session.add(NicheGrade(
+                        school_id=school_id,
+                        no_data=1,
+                        updated_at=now,
+                    ))
+                else:
+                    existing.no_data = 1
+                    existing.updated_at = now
+                logger.info(f"{tag}   -> No grades for {slug} — marked no_data")
+
+    def _keepalive(self):
+        """Send a lightweight SELECT to keep the Turso WebSocket alive."""
+        session = get_session()
+        try:
+            from sqlalchemy import text
+            session.execute(text("SELECT 1"))
+            session.commit()
+        except Exception as e:
+            try:
+                session.rollback()
+            except Exception:
+                pass
+            if is_hrana_error(e):
+                logger.info("[DB] Keepalive hit stale stream — resetting engine")
+                reset_engine()
+        finally:
+            session.close()
+
 
 class NicheScraper:
     """Chrome-based Niche.com scraper.
@@ -117,6 +400,8 @@ class NicheScraper:
         )
         self._intercepted_data: list[dict] = []
         self._px_blocked: bool = False  # set True when PerimeterX blocks a page
+        self._cached_grades: Optional[dict] = None  # grades found on admissions page
+        self._cached_grades_slug: Optional[str] = None  # slug the cached grades belong to
 
     def _launch_chrome(self, headless: bool = False):
         """Launch system Chrome browser (same engine for capture + scraping)."""
@@ -374,13 +659,33 @@ class NicheScraper:
             elif "sat" in ul or "act" in ul or "score" in ul:
                 score_idx = i
 
-        # Find which attribute index contains "Decision"
+        # Find attribute indices for Decision, Major, In-State Status, etc.
         # attributes: ["In-State Status", "Decision", "Major"] or ["Decision", "Major"]
         decision_attr_idx = 0  # default: first attribute
+        major_attr_idx = None
+        residency_attr_idx = None
+        app_type_attr_idx = None
+        decision_type_attr_idx = None
         for i, attr_name in enumerate(attributes):
-            if "decision" in str(attr_name).lower():
+            name_lower = str(attr_name).lower()
+            if "decision" in name_lower and "type" not in name_lower and "plan" not in name_lower and "round" not in name_lower:
                 decision_attr_idx = i
-                break
+            elif "major" in name_lower or "field" in name_lower:
+                major_attr_idx = i
+            elif "state" in name_lower or "residency" in name_lower:
+                residency_attr_idx = i
+            elif "athlete" in name_lower or "legacy" in name_lower or "recruit" in name_lower or "applicant" in name_lower:
+                app_type_attr_idx = i
+            elif "round" in name_lower or "plan" in name_lower or "decision type" in name_lower or "early" in name_lower:
+                decision_type_attr_idx = i
+
+        # --- Helper to build a labeled map from attributeValues ---
+        def _build_attr_map(attr_idx):
+            m = {}
+            if attr_idx is not None and attr_idx < len(attr_values) and isinstance(attr_values[attr_idx], list):
+                for idx, label in enumerate(attr_values[attr_idx]):
+                    m[idx] = str(label).strip()
+            return m
 
         # Build decision outcome mapping from the corresponding attributeValues
         decision_map = {}
@@ -394,10 +699,50 @@ class NicheScraper:
                 elif "wait" in ll or "defer" in ll:
                     decision_map[idx] = "waitlisted"
 
+        major_map = _build_attr_map(major_attr_idx)
+
+        # Residency: normalize to "inState" / "outOfState" / "international"
+        residency_raw_map = _build_attr_map(residency_attr_idx)
+        residency_map = {}
+        for idx, label in residency_raw_map.items():
+            ll = label.lower()
+            if "in" in ll and "state" in ll:
+                residency_map[idx] = "inState"
+            elif "international" in ll or "foreign" in ll:
+                residency_map[idx] = "international"
+            else:
+                residency_map[idx] = "outOfState"
+
+        # Applicant type: normalize to "legacy" / "athlete" / "standard"
+        app_type_raw_map = _build_attr_map(app_type_attr_idx)
+        app_type_map = {}
+        for idx, label in app_type_raw_map.items():
+            ll = label.lower()
+            if "legacy" in ll:
+                app_type_map[idx] = "legacy"
+            elif "athlete" in ll or "recruit" in ll:
+                app_type_map[idx] = "athlete"
+            else:
+                app_type_map[idx] = label  # keep raw label
+
+        # Decision type: normalize to "early" / "regular"
+        dec_type_raw_map = _build_attr_map(decision_type_attr_idx)
+        dec_type_map = {}
+        for idx, label in dec_type_raw_map.items():
+            ll = label.lower()
+            if "early" in ll or "ed" == ll or "ea" == ll:
+                dec_type_map[idx] = "early"
+            elif "regular" in ll or "rd" == ll:
+                dec_type_map[idx] = "regular"
+            else:
+                dec_type_map[idx] = label  # keep raw label
+
         logger.debug(
             f"  BlockScatterplot: {len(raw_points)} raw points, "
             f"units={units}, attrs={attributes}, decision_attr_idx={decision_attr_idx}, "
-            f"decisions={decision_map}"
+            f"decisions={decision_map}, majors={len(major_map)}, "
+            f"residency={len(residency_map)}, app_type={len(app_type_map)}, "
+            f"dec_type={len(dec_type_map)}"
         )
 
         for pt in raw_points:
@@ -420,12 +765,27 @@ class NicheScraper:
             if decision_attr_idx < len(attrs) and attrs[decision_attr_idx] is not None:
                 outcome = decision_map.get(int(attrs[decision_attr_idx]))
 
+            # Extract optional per-point attributes
+            def _lookup(attr_idx, mapping):
+                if attr_idx is not None and attr_idx < len(attrs) and attrs[attr_idx] is not None:
+                    return mapping.get(int(attrs[attr_idx]))
+                return None
+
+            major = _lookup(major_attr_idx, major_map)
+            residency = _lookup(residency_attr_idx, residency_map)
+            applicant_type = _lookup(app_type_attr_idx, app_type_map)
+            decision_type = _lookup(decision_type_attr_idx, dec_type_map)
+
             if outcome and 0 < gpa <= 4.0 and sat > 0:
                 points.append({
                     "gpa": gpa,
                     "sat_score": float(sat),
                     "act_score": None,
                     "outcome": outcome,
+                    "major": major,
+                    "residency": residency,
+                    "applicant_type": applicant_type,
+                    "decision_type": decision_type,
                 })
 
         if points:
@@ -545,6 +905,62 @@ class NicheScraper:
             elif ci.get("accepted") is False:
                 outcome = "rejected"
 
+        # Determine major
+        major = None
+        for key in ["major", "fieldofstudy", "intendedmajor", "field_of_study",
+                     "intended_major", "program"]:
+            val = ci.get(key)
+            if val and str(val).strip():
+                major = str(val).strip()
+                break
+
+        # Determine residency
+        residency = None
+        for key in ["residency", "instate", "in_state", "instatus", "in_state_status"]:
+            val = ci.get(key)
+            if val:
+                vl = str(val).lower()
+                if "in" in vl and "state" in vl:
+                    residency = "inState"
+                elif "international" in vl or "foreign" in vl:
+                    residency = "international"
+                elif val:
+                    residency = "outOfState"
+                break
+
+        # Determine applicant type
+        applicant_type = None
+        for key in ["applicanttype", "applicant_type", "legacy", "athlete", "recruited"]:
+            val = ci.get(key)
+            if val:
+                vl = str(val).lower()
+                if "legacy" in vl:
+                    applicant_type = "legacy"
+                elif "athlete" in vl or "recruit" in vl:
+                    applicant_type = "athlete"
+                elif val is not True:
+                    applicant_type = str(val).strip()
+                break
+            elif val is True:
+                # Boolean flag like {"legacy": true}
+                applicant_type = key
+                break
+
+        # Determine decision type
+        decision_type = None
+        for key in ["decisiontype", "decision_type", "round", "plan",
+                     "applicationround", "application_round"]:
+            val = ci.get(key)
+            if val:
+                vl = str(val).lower()
+                if "early" in vl or vl in ("ed", "ea", "ed1", "ed2", "ea1", "ea2"):
+                    decision_type = "early"
+                elif "regular" in vl or vl == "rd":
+                    decision_type = "regular"
+                else:
+                    decision_type = str(val).strip()
+                break
+
         if gpa is not None and (sat is not None or act is not None) and outcome:
             try:
                 return {
@@ -552,27 +968,50 @@ class NicheScraper:
                     "sat_score": float(sat) if sat else None,
                     "act_score": float(act) if act else None,
                     "outcome": outcome,
+                    "major": major,
+                    "residency": residency,
+                    "applicant_type": applicant_type,
+                    "decision_type": decision_type,
                 }
             except (ValueError, TypeError):
                 return None
         return None
 
+    def _is_blocks_api_response(self, response) -> bool:
+        """Check if a Playwright response is the blocks/profile API we need."""
+        url = response.url
+        ct = response.headers.get("content-type", "")
+        return (
+            response.status == 200
+            and "application/json" in ct
+            and ("/api/profile/" in url or "/blocks/" in url)
+        )
+
     def scrape_scattergram(self, slug: str) -> list[dict]:
         """Scrape scattergram data points for a single school.
 
         Returns list of dicts with keys: gpa, sat_score, act_score, outcome.
+
+        Also opportunistically extracts grades from the admissions page's
+        ``__NEXT_DATA__`` and caches them in ``self._cached_grades`` so that
+        ``scrape_grades`` can skip an entire page load when possible.
         """
         self._setup_network_intercept()
+        self._cached_grades = None
+        self._cached_grades_slug = None
 
         url = f"{COLLEGE_URL}/{slug}/admissions/"
         logger.info(f"  Loading scattergram: {url}")
 
+        # Navigate with domcontentloaded — embedded JSON (__PRELOADED_STATE__,
+        # __NEXT_DATA__) is in the SSR HTML and available immediately, so we
+        # don't need to wait for images/CSS ("load").
         try:
-            self.page.goto(url, wait_until="load", timeout=NAV_TIMEOUT)
-            time.sleep(3)  # Extra wait for async chart data
+            self.page.goto(url, wait_until="domcontentloaded", timeout=NAV_TIMEOUT)
         except Exception as e:
-            logger.warning(f"  Failed to load {slug} scattergram: {e}")
-            return []
+            if not self.page or not self.page.url or self.page.url == "about:blank":
+                logger.warning(f"  Failed to load {slug} scattergram: {e}")
+                return []
 
         # Check for PerimeterX block
         try:
@@ -584,8 +1023,11 @@ class NicheScraper:
         except Exception:
             pass
 
-        # --- Primary: __PRELOADED_STATE__ (embedded in page HTML) ---
+        # --- Immediate: embedded data (available at domcontentloaded) ---
+        # Try __PRELOADED_STATE__ first — contains BlockScatterplot data and
+        # is available in SSR HTML without waiting for any XHR.
         datapoints = []
+        next_data = None
         try:
             preloaded = self.page.evaluate("""() => {
                 return typeof window.__PRELOADED_STATE__ !== 'undefined'
@@ -598,37 +1040,90 @@ class NicheScraper:
         except Exception as e:
             logger.debug(f"  __PRELOADED_STATE__ extraction failed for {slug}: {e}")
 
-        # --- Secondary: blocks API (intercepted /api/profile/{uuid}/blocks/) ---
+        # Try __NEXT_DATA__ — may contain both scatter data and grades
         if not datapoints:
-            for intercepted in self._intercepted_data:
-                if "/blocks/" in intercepted["url"] or "/api/profile/" in intercepted["url"]:
-                    parsed = self._parse_blocks_scatter(intercepted["data"])
-                    datapoints.extend(parsed)
+            try:
+                next_data = self.page.evaluate("""() => {
+                    const el = document.getElementById('__NEXT_DATA__');
+                    return el ? JSON.parse(el.textContent) : null;
+                }""")
+            except Exception as e:
+                logger.debug(f"  __NEXT_DATA__ extraction failed for {slug}: {e}")
 
-        # --- Tertiary: generic intercepted JSON responses ---
+        # Opportunistically extract grades from the admissions page's
+        # __NEXT_DATA__ so we can potentially skip the grades page entirely.
+        if next_data:
+            try:
+                cached = self._extract_grades_from_next_data(next_data)
+                cached_stats = self._extract_stats_from_next_data(next_data)
+                if cached:
+                    combined = {**cached, **cached_stats} if cached_stats else dict(cached)
+                    self._cached_grades = combined
+                    self._cached_grades_slug = slug
+                    logger.debug(f"  Opportunistically cached {len(combined)} grade/stat fields from admissions __NEXT_DATA__")
+            except Exception as e:
+                logger.debug(f"  Opportunistic grade extraction failed for {slug}: {e}")
+
+        if datapoints:
+            return datapoints
+
+        # --- Deferred: wait for blocks API response (up to 15s) ---
+        # Only reached when embedded data didn't have scatter points.
+        try:
+            resp = self.page.wait_for_response(
+                self._is_blocks_api_response, timeout=15_000,
+            )
+            api_data = resp.json()
+            datapoints = self._parse_blocks_scatter(api_data)
+            if datapoints:
+                logger.debug(f"  Extracted {len(datapoints)} scatter points from blocks API (deferred)")
+                return datapoints
+        except Exception:
+            pass
+
+        # --- Tertiary: intercepted responses (captured by network listener) ---
+        for intercepted in self._intercepted_data:
+            if "/blocks/" in intercepted["url"] or "/api/profile/" in intercepted["url"]:
+                parsed = self._parse_blocks_scatter(intercepted["data"])
+                datapoints.extend(parsed)
         if not datapoints:
             for intercepted in self._intercepted_data:
                 parsed = self._parse_scatter_response(intercepted["data"])
                 datapoints.extend(parsed)
+        if datapoints:
+            return datapoints
 
-        # --- Try scrolling to chart to trigger lazy load ---
-        if not datapoints:
-            chart_selectors = [
-                '[data-testid*="scatter"]',
-                '.scatterplot',
-                '.scatterplot-chart__canvas',
-                'canvas',
-            ]
-            for sel in chart_selectors:
-                try:
-                    el = self.page.query_selector(sel)
-                    if el:
-                        el.scroll_into_view_if_needed()
-                        time.sleep(3)
-                        break
-                except Exception:
-                    continue
+        # --- Scroll to chart to trigger lazy load, then wait for API ---
+        chart_selectors = [
+            '[data-testid*="scatter"]',
+            '.scatterplot',
+            '.scatterplot-chart__canvas',
+            'canvas',
+        ]
+        scrolled = False
+        for sel in chart_selectors:
+            try:
+                el = self.page.query_selector(sel)
+                if el:
+                    # Set up response waiter before scrolling so we catch
+                    # the XHR that the scroll triggers
+                    try:
+                        with self.page.expect_response(
+                            self._is_blocks_api_response, timeout=10_000,
+                        ) as resp_info:
+                            el.scroll_into_view_if_needed()
+                        scroll_api_data = resp_info.value.json()
+                        datapoints = self._parse_blocks_scatter(scroll_api_data)
+                        if datapoints:
+                            return datapoints
+                    except Exception:
+                        pass
+                    scrolled = True
+                    break
+            except Exception:
+                continue
 
+        if scrolled:
             # Re-check intercepted data after scroll
             for intercepted in self._intercepted_data:
                 if "/blocks/" in intercepted["url"] or "/api/profile/" in intercepted["url"]:
@@ -637,10 +1132,11 @@ class NicheScraper:
                 else:
                     parsed = self._parse_scatter_response(intercepted["data"])
                     datapoints.extend(parsed)
+            if datapoints:
+                return datapoints
 
         # --- Fallback: DOM parsing ---
-        if not datapoints:
-            datapoints = self._parse_scatter_from_dom()
+        datapoints = self._parse_scatter_from_dom()
 
         if not datapoints:
             logger.debug(f"  No scatter data found for {slug} via any method")
@@ -1052,11 +1548,21 @@ class NicheScraper:
 
         Returns combined dict with grade fields (e.g. {"academics": "A+", ...})
         and stat fields (e.g. {"overall_grade": "A+", "acceptance_rate_niche": 0.04, ...}).
+
+        If ``scrape_scattergram`` already cached grades from the admissions
+        page's ``__NEXT_DATA__``, returns them immediately without a page load.
         """
+        # --- Fast path: grades already cached from admissions page ---
+        if self._cached_grades and self._cached_grades_slug == slug:
+            logger.info(f"  Using cached grades from admissions page for {slug} ({len(self._cached_grades)} fields)")
+            cached = self._cached_grades
+            self._cached_grades = None
+            self._cached_grades_slug = None
+            return cached
+
         url = f"{COLLEGE_URL}/{slug}/"
         try:
             self.page.goto(url, wait_until="domcontentloaded", timeout=NAV_TIMEOUT)
-            time.sleep(3)  # Allow JS to hydrate
         except Exception as e:
             logger.warning(f"  Failed to load {slug} grades page: {e}")
             return {}
@@ -1066,6 +1572,7 @@ class NicheScraper:
         html = None
 
         # --- Primary: __NEXT_DATA__ (most reliable for Next.js sites) ---
+        # Available in SSR HTML at domcontentloaded — no JS hydration needed.
         try:
             next_data = self.page.evaluate("""() => {
                 const el = document.getElementById('__NEXT_DATA__');
@@ -1076,8 +1583,24 @@ class NicheScraper:
                 stats = self._extract_stats_from_next_data(next_data)
                 if grades:
                     logger.debug(f"  Extracted grades+stats from __NEXT_DATA__ for {slug}")
+                    # __NEXT_DATA__ succeeded — skip hydration wait entirely
+                    combined = {**grades, **stats}
+                    return combined
         except Exception as e:
             logger.debug(f"  __NEXT_DATA__ extraction failed for {slug}: {e}")
+
+        # --- Wait for JS hydration only if __NEXT_DATA__ didn't yield grades ---
+        # Use a targeted selector wait instead of a fixed sleep(3).
+        try:
+            self.page.wait_for_selector(
+                '[class*="RankingItem"], [class*="ranking-item"], '
+                '[class*="ReportCard"] li, [class*="report-card"] li, '
+                '.report-card__item, .ordered__list__bucket__item, '
+                '[data-testid*="report-card"] li, [data-testid*="grade-item"]',
+                timeout=5_000,
+            )
+        except Exception:
+            pass  # Timeout — proceed with whatever is in the DOM
 
         # --- Secondary: CSS selectors (grades) ---
         if not grades:
@@ -1138,6 +1661,18 @@ class NicheScraper:
             )
         return combined
 
+    def reload_cookies_from_disk(self):
+        """Re-read saved cookies from disk into the current browser context."""
+        if not self.context:
+            return
+        try:
+            with open(self._cookies_path, "r") as f:
+                cookies = json.load(f)
+            self.context.add_cookies(cookies)
+            logger.info(f"Reloaded {len(cookies)} cookies from disk.")
+        except Exception as e:
+            logger.warning(f"Failed to reload cookies from disk: {e}")
+
     def restart(self, headless: bool = False, grades_only: bool = False):
         """Reload saved cookies into a fresh Chrome context."""
         logger.info("Restarting Chrome with saved cookies...")
@@ -1165,8 +1700,17 @@ class NicheScraper:
             self._playwright = None
 
 
+_CAMPUS_SUFFIX_RE = re.compile(
+    r"\s*[-\u2013\u2014]\s*"
+    r"(main\s+campus|central\s+campus|flagship|"
+    r"all\s+campuses|global\s+campus|online)\s*$",
+    re.IGNORECASE,
+)
+
+
 def _get_slug_from_name(name: str) -> str:
     """Convert school name to Niche URL slug."""
+    name = _CAMPUS_SUFFIX_RE.sub("", name)
     slug = name.lower().strip()
     for char in ["'", ",", ".", "(", ")", "&", "/"]:
         slug = slug.replace(char, "")
@@ -1174,18 +1718,129 @@ def _get_slug_from_name(name: str) -> str:
     return slug
 
 
+def _worker_loop(
+    worker_id: int,
+    job_claimer: JobClaimer,
+    rate_limiter: GlobalRateLimiter,
+    db_writer: DBWriterThread,
+    grades_only: bool,
+    headless: bool,
+    cookie_lock: threading.Lock,
+    cookie_generation: list,
+    stats: dict,
+    stats_lock: threading.Lock,
+):
+    """Single worker thread: owns its own browser, sends results to DB writer."""
+    tag = f"[W{worker_id}]"
+    scraper = NicheScraper()
+    consecutive_px_blocks = 0
+    my_cookie_gen = 0
+
+    try:
+        scraper.start(headless=headless, grades_only=grades_only)
+        logger.info(f"{tag} Browser started")
+
+        while True:
+            claim = job_claimer.next()
+            if claim is None:
+                break
+            slug, school_id, idx, total = claim
+
+            logger.info(f"{tag} [{idx+1}/{total}] Scraping {slug} ...")
+
+            try:
+                now = datetime.now(timezone.utc).isoformat()
+                scraper._px_blocked = False
+
+                # Reload cookies if another worker refreshed them
+                if cookie_generation[0] > my_cookie_gen:
+                    logger.info(f"{tag} Cookie generation {cookie_generation[0]} > {my_cookie_gen} — reloading from disk")
+                    scraper.reload_cookies_from_disk()
+                    my_cookie_gen = cookie_generation[0]
+
+                # Scrape scattergram data (no DB connection held during network I/O)
+                points = []
+                if not grades_only:
+                    rate_limiter.wait()
+                    points = [p for p in scraper.scrape_scattergram(slug)
+                             if p.get("outcome") != "waitlisted"]
+                    rate_limiter.record_request()  # credit scraping time toward next delay
+                    with stats_lock:
+                        stats["total_points"] += len(points)
+                    logger.info(f"{tag}   -> {len(points)} scattergram points")
+
+                # Scrape grades — skip page load if admissions page already
+                # yielded grades (cached by scrape_scattergram).
+                if scraper._cached_grades and scraper._cached_grades_slug == slug:
+                    grades = scraper.scrape_grades(slug)  # returns cache, no navigation
+                else:
+                    rate_limiter.wait()
+                    grades = scraper.scrape_grades(slug)
+                    rate_limiter.record_request()  # credit scraping time
+
+                # Handle PerimeterX block — recover and retry BOTH pages
+                if scraper._px_blocked:
+                    consecutive_px_blocks += 1
+                    if consecutive_px_blocks >= PX_RESTART_AFTER:
+                        with cookie_lock:
+                            if cookie_generation[0] > my_cookie_gen:
+                                logger.info(f"{tag} Cookies already refreshed by another worker — reloading")
+                            else:
+                                logger.warning(f"{tag} PerimeterX blocked — capturing cookies...")
+                                scraper.capture_cookies()
+                                cookie_generation[0] += 1
+                            my_cookie_gen = cookie_generation[0]
+                        scraper.restart(headless=headless, grades_only=grades_only)
+                        consecutive_px_blocks = 0
+                        scraper._px_blocked = False
+
+                        # Retry scattergram if it was blocked
+                        if not grades_only and not points:
+                            rate_limiter.wait()
+                            points = [p for p in scraper.scrape_scattergram(slug)
+                                     if p.get("outcome") != "waitlisted"]
+                            rate_limiter.record_request()
+                            with stats_lock:
+                                stats["total_points"] += len(points)
+                            logger.info(f"{tag}   -> {len(points)} scattergram points (retry)")
+
+                        # Retry grades if they were blocked
+                        if not grades:
+                            rate_limiter.wait()
+                            grades = scraper.scrape_grades(slug)
+                            rate_limiter.record_request()
+                else:
+                    consecutive_px_blocks = 0
+
+                # Enqueue results for the DB writer — worker moves on immediately
+                db_writer.submit(slug, school_id, points, grades, now, tag)
+
+            except Exception as e:
+                logger.error(f"{tag}   -> FAILED {slug}: {e}")
+
+    except Exception as e:
+        logger.error(f"{tag} Worker crashed: {e}")
+    finally:
+        db_writer.worker_done()
+        scraper.close()
+        logger.info(f"{tag} Worker finished")
+
+
 def scrape_all(
     slugs: Optional[list[str]] = None,
     grades_only: bool = False,
     resume: bool = True,
-    headless: bool = False,  # headless is blocked by PerimeterX; default to headful
+    headless: bool = False,
+    num_workers: int = 3,
 ):
-    """Scrape Niche data for all schools.
+    """Scrape Niche data for all schools using parallel browser workers.
 
     Args:
         slugs: Optional specific school slugs. If None, uses all schools in DB.
         grades_only: If True, only scrape letter grades (no scattergrams).
         resume: If True, skip schools already marked 'done' in scrape_jobs.
+        headless: If True, run browsers in headless mode (blocked by PerimeterX).
+        num_workers: Number of parallel browser workers (default 3, max 5).
     """
     init_db()
     session = get_session()
@@ -1208,173 +1863,87 @@ def scrape_all(
     else:
         slug_map = {_get_slug_from_name(name): sid for sid, name, _enr in schools}
 
-    total = len(slug_map)
-    total_points = 0
-    total_grades = 0
-    consecutive_px_blocks = 0
+    # Skip schools that already have a NicheGrade row (either real data or no_data)
+    if resume:
+        existing_ids = {
+            row.school_id
+            for row in session.query(NicheGrade.school_id).all()
+        }
+        pending_slugs = [(s, sid) for s, sid in slug_map.items() if sid not in existing_ids]
+        skipped_slugs = [s for s, sid in slug_map.items() if sid in existing_ids]
+        if skipped_slugs:
+            logger.info(f"Resuming: skipping {len(skipped_slugs)} schools already in niche_grades:")
+            for sk in skipped_slugs:
+                logger.info(f"  skip: {sk}")
+        slugs_with_ids = pending_slugs
+    else:
+        slugs_with_ids = list(slug_map.items())
 
-    scraper = NicheScraper()
-    try:
-        scraper.start(headless=headless, grades_only=grades_only)
-        logger.info(f"Starting Niche scrape for {total} schools...")
+    session.close()
 
-        for i, (slug, school_id) in enumerate(slug_map.items()):
-            source_tag = "niche_grades" if grades_only else "niche"
+    # For single school, no need for parallelism
+    num_workers = min(num_workers, MAX_WORKERS)
+    if len(slugs_with_ids) <= 1:
+        num_workers = 1
 
-            # Check resume — skip only confirmed-good scrapes
-            if resume:
-                job = session.query(ScrapeJob).filter_by(
-                    source=source_tag, school_slug=slug
-                ).first()
-                if job and job.status == "done":
-                    continue
+    job_claimer = JobClaimer(slugs_with_ids)
+    rate_limiter = GlobalRateLimiter(REQUEST_DELAY_MIN, REQUEST_DELAY_MAX, num_workers)
+    cookie_lock = threading.Lock()
+    cookie_generation = [0]  # bumped after each capture; workers compare to detect stale cookies
+    stats = {"total_points": 0, "total_grades": 0}
+    stats_lock = threading.Lock()
 
-            logger.info(f"[{i+1}/{total}] Scraping {slug} ...")
-
-            job = session.query(ScrapeJob).filter_by(
-                source=source_tag, school_slug=slug
-            ).first()
-            if not job:
-                job = ScrapeJob(source=source_tag, school_slug=slug, status="pending")
-                session.add(job)
-                session.commit()
-
-            try:
-                now = datetime.now(timezone.utc).isoformat()
-                scraper._px_blocked = False  # reset flag before each page
-
-                # Scrape scattergram data
-                if not grades_only:
-                    points = scraper.scrape_scattergram(slug)
-                    if points:
-                        # Replace existing datapoints for this school to avoid duplicates
-                        session.query(ApplicantDatapoint).filter_by(
-                            school_id=school_id, source="niche"
-                        ).delete()
-                        for p in points:
-                            session.add(ApplicantDatapoint(
-                                school_id=school_id,
-                                source="niche",
-                                gpa=p["gpa"],
-                                sat_score=p.get("sat_score"),
-                                act_score=p.get("act_score"),
-                                outcome=p["outcome"],
-                                scraped_at=now,
-                            ))
-                    total_points += len(points)
-                    logger.info(f"  -> {len(points)} scattergram points")
-
-                # Scrape grades
-                grades = scraper.scrape_grades(slug)
-
-                # Handle PerimeterX block: refresh cookies + restart browser
-                if scraper._px_blocked:
-                    consecutive_px_blocks += 1
-                    if consecutive_px_blocks >= PX_RESTART_AFTER:
-                        logger.warning(
-                            f"\nPerimeterX blocked. Refreshing cookies and restarting browser..."
-                        )
-                        # capture_cookies saves new cookies AND reloads into context
-                        scraper.capture_cookies()
-                        # Fully restart browser so PX gets a clean session
-                        scraper.restart(headless=headless, grades_only=grades_only)
-                        # Reconnect DB — the Turso connection may have timed out
-                        try:
-                            session.rollback()
-                        except Exception:
-                            pass
-                        session.close()
-                        session = get_session()
-                        consecutive_px_blocks = 0
-                        scraper._px_blocked = False
-                        grades = scraper.scrape_grades(slug)
-                else:
-                    consecutive_px_blocks = 0
-
-                if grades and school_id:
-                    existing = session.get(NicheGrade, school_id)
-                    if existing:
-                        for k, v in grades.items():
-                            setattr(existing, k, v)
-                        existing.updated_at = now
-                    else:
-                        session.add(NicheGrade(
-                            school_id=school_id,
-                            updated_at=now,
-                            **grades,
-                        ))
-                    total_grades += 1
-                    grade_count = sum(1 for k in grades if k in GRADE_LABEL_MAP.values())
-                    stat_count = len(grades) - grade_count
-                    logger.info(f"  -> {grade_count} grades, {stat_count} stats")
-                elif school_id:
-                    logger.warning(f"  -> No grades extracted for {slug} — marking as no_data")
-
-                if grades:
-                    job.status = "done"
-                else:
-                    job.status = "no_data"
-                job.last_attempt = now
-                job.error = None
-                session.commit()
-
-            except Exception as e:
-                logger.error(f"  -> FAILED: {e}")
-                try:
-                    session.rollback()
-                except Exception:
-                    # DB connection is dead — reconnect
-                    session.close()
-                    session = get_session()
-                try:
-                    job = session.query(ScrapeJob).filter_by(
-                        source=source_tag, school_slug=slug
-                    ).first()
-                    if job:
-                        job.status = "failed"
-                        job.last_attempt = datetime.now(timezone.utc).isoformat()
-                        job.error = str(e)[:500]
-                        session.commit()
-                except Exception:
-                    pass  # best-effort status update
-
-            time.sleep(random.uniform(REQUEST_DELAY_MIN, REQUEST_DELAY_MAX))
-
-    except KeyboardInterrupt:
-        logger.info("Interrupted. Progress saved — rerun to resume.")
-    finally:
-        scraper.close()
-        session.close()
+    # Single DB writer thread — only this thread touches Turso
+    write_queue = queue.Queue()
+    db_writer = DBWriterThread(write_queue, num_workers, stats, stats_lock)
+    db_writer.start()
 
     logger.info(
-        f"Done. {total_points} scattergram points, {total_grades} schools with grades."
+        f"Starting Niche scrape: {len(slugs_with_ids)} schools pending, {num_workers} worker(s)"
+    )
+
+    try:
+        with ThreadPoolExecutor(max_workers=num_workers) as executor:
+            futures = []
+            for wid in range(num_workers):
+                f = executor.submit(
+                    _worker_loop, wid, job_claimer, rate_limiter,
+                    db_writer, grades_only, headless, cookie_lock,
+                    cookie_generation, stats, stats_lock,
+                )
+                futures.append(f)
+                if wid < num_workers - 1:
+                    time.sleep(2)  # stagger browser launches
+
+            for f in futures:
+                try:
+                    f.result()
+                except Exception as e:
+                    logger.error(f"Worker failed: {e}")
+    except KeyboardInterrupt:
+        logger.info("Interrupted — waiting for DB writer to flush pending writes...")
+        # Signal all workers as done so the writer can drain and exit
+        for _ in range(num_workers):
+            db_writer.worker_done()
+
+    # Wait for writer to flush remaining items
+    db_writer.join(timeout=60)
+    if db_writer.is_alive():
+        logger.warning("DB writer did not finish in time — some writes may be lost")
+
+    logger.info(
+        f"Done. {stats['total_points']} scattergram points, "
+        f"{stats['total_grades']} schools with grades."
     )
 
 
-def reset_no_data_jobs():
-    """Reset all 'done' jobs that have 0 niche_grades back to 'pending'.
-
-    Run this once after a broken scrape so those schools get retried.
-    """
-    from sqlalchemy import text
+def reset_no_data_schools():
+    """Delete NicheGrade rows marked no_data so those schools get retried."""
     init_db()
     session = get_session()
-    for source_tag in ("niche", "niche_grades"):
-        result = session.execute(text(f"""
-            UPDATE scrape_jobs
-            SET status = 'pending'
-            WHERE source = '{source_tag}'
-              AND status IN ('done', 'no_data')
-              AND school_slug NOT IN (
-                  SELECT ng.school_id
-                  FROM niche_grades ng
-                  WHERE ng.academics IS NOT NULL
-              )
-        """))
-        logger.info(
-            f"Reset {result.rowcount} '{source_tag}' jobs with 0 grade data."
-        )
+    count = session.query(NicheGrade).filter_by(no_data=1).delete()
     session.commit()
+    logger.info(f"Deleted {count} no_data NicheGrade rows — those schools will be retried.")
     session.close()
 
 
@@ -1394,7 +1963,7 @@ def main():
     )
     parser.add_argument(
         "--reset-empty", action="store_true",
-        help="Reset previously 'done'/'no_data' jobs with 0 grades back to pending, then exit"
+        help="Delete no_data NicheGrade rows so those schools get retried, then exit"
     )
     parser.add_argument(
         "--debug", action="store_true",
@@ -1413,13 +1982,17 @@ def main():
         help="Open a visible browser for manual login/challenge solving, then save cookies. "
              "Run this once before headless scrapes to bypass PerimeterX."
     )
+    parser.add_argument(
+        "--workers", type=int, default=3,
+        help="Number of parallel browser workers (default: 3, max: 5)"
+    )
     args = parser.parse_args()
 
     if args.debug:
         logging.getLogger().setLevel(logging.DEBUG)
 
     if args.reset_empty:
-        reset_no_data_jobs()
+        reset_no_data_schools()
         return
 
     if args.capture_cookies:
@@ -1429,10 +2002,11 @@ def main():
 
     # headless is blocked by PerimeterX; only use if explicitly requested
     headless = args.headless  # Default False; only True when --headless is passed
+    workers = min(args.workers, MAX_WORKERS)
     if args.school:
-        scrape_all(slugs=[args.school], grades_only=args.grades_only, resume=not args.no_resume, headless=headless)
+        scrape_all(slugs=[args.school], grades_only=args.grades_only, resume=not args.no_resume, headless=headless, num_workers=workers)
     else:
-        scrape_all(grades_only=args.grades_only, resume=not args.no_resume, headless=headless)
+        scrape_all(grades_only=args.grades_only, resume=not args.no_resume, headless=headless, num_workers=workers)
 
 
 if __name__ == "__main__":
