@@ -1,4 +1,4 @@
-# college-ai-v2
+# college-ai
 
 A college application assistant combining RAG (retrieval-augmented generation) over crawled college websites with ML-based admissions probability prediction.
 

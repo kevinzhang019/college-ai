@@ -3,8 +3,8 @@
 # Run as ec2-user: bash crawler-setup.sh
 set -euo pipefail
 
-REPO_URL="https://github.com/kevinzhang019/college-ai-v2.git"
-APP_DIR="/home/ec2-user/college-ai-v2"
+REPO_URL="https://github.com/kevinzhang019/college-ai.git"
+APP_DIR="/home/ec2-user/college-ai"
 
 echo "=== College AI Crawler Setup ==="
 
