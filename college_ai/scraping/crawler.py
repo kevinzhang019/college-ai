@@ -3180,6 +3180,11 @@ class MultithreadedCollegeCrawler:
                 worker_session.headers.update(self.session.headers)
 
                 while not stop_event.is_set() and not global_shutdown_event.is_set():
+                    # Propagate global shutdown into per-college stop so
+                    # all existing stop_event checks also trigger.
+                    if global_shutdown_event.is_set():
+                        stop_event.set()
+                        break
                     # Check global stop condition early
                     with state_lock:
                         if pages_crawled_shared >= max_pages:
@@ -3383,7 +3388,8 @@ class MultithreadedCollegeCrawler:
                         consecutive_empty_checks += 1
 
                         # Fast exit if another worker already signalled stop
-                        if stop_event.is_set():
+                        if stop_event.is_set() or global_shutdown_event.is_set():
+                            stop_event.set()
                             break
 
                         # Check if we hit the page limit
