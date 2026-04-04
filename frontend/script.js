@@ -1,6 +1,6 @@
 // API base URL — change this to your EC2 public IP for production
 // e.g. 'http://12.34.56.78:8000'
-const API_BASE_URL = window.COLLEGE_AI_API_URL || 'http://3.134.91.40:8000';
+const API_BASE_URL = window.COLLEGE_AI_API_URL || 'http://3.22.173.83:8000';
 
 // College AI Assistant Frontend
 class CollegeAI {
