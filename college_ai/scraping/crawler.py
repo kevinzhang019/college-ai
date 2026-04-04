@@ -23,6 +23,8 @@ from urllib.parse import urljoin, urlparse, parse_qsl, urlencode
 import hashlib
 import requests
 import re
+
+from college_ai.scraping.shutdown import shutdown_event as global_shutdown_event, install as install_shutdown
 import yaml
 
 try:
@@ -3177,7 +3179,7 @@ class MultithreadedCollegeCrawler:
                 worker_session = requests.Session()
                 worker_session.headers.update(self.session.headers)
 
-                while not stop_event.is_set():
+                while not stop_event.is_set() and not global_shutdown_event.is_set():
                     # Check global stop condition early
                     with state_lock:
                         if pages_crawled_shared >= max_pages:
@@ -3518,6 +3520,7 @@ class MultithreadedCollegeCrawler:
         self,
         colleges: List[Dict[str, str]],
         max_pages_per_college: int = 50,
+        inter_college_parallelism: int = None,
     ):
         """
         Crawl all colleges and upload directly to Milvus.
@@ -3527,8 +3530,9 @@ class MultithreadedCollegeCrawler:
         Args:
             colleges: List of college dicts with 'name' and 'url' keys
             max_pages_per_college: Maximum pages to crawl per college
+            inter_college_parallelism: Number of colleges in parallel (uses config if None)
         """
-        inter_college_workers = INTER_COLLEGE_PARALLELISM
+        inter_college_workers = inter_college_parallelism or INTER_COLLEGE_PARALLELISM
         print("=== MULTITHREADED COLLEGE CRAWLING PIPELINE ===")
         print(f"Configuration:")
         print(f"  - Max workers per college: {self.max_workers}")
@@ -3582,10 +3586,11 @@ class MultithreadedCollegeCrawler:
 
         # Process colleges in parallel across different domains
         with ThreadPoolExecutor(max_workers=inter_college_workers) as college_executor:
-            futures = [
-                college_executor.submit(_process_college, college)
-                for college in all_jobs
-            ]
+            futures = []
+            for college in all_jobs:
+                if global_shutdown_event.is_set():
+                    break
+                futures.append(college_executor.submit(_process_college, college))
             for fut in concurrent.futures.as_completed(futures):
                 try:
                     fut.result()
@@ -3611,14 +3616,17 @@ class MultithreadedCollegeCrawler:
         print(f"Total errors: {self.stats['total_errors']}")
         print(f"All data is now available in Milvus for vector search!")
 
-    def run_full_crawling_pipeline(self, max_pages_per_college: int = None):
+    def run_full_crawling_pipeline(self, max_pages_per_college: int = None,
+                                    inter_college_parallelism: int = None):
         """
         Run the complete multithreaded crawling pipeline.
 
         Args:
             max_pages_per_college: Maximum pages to crawl per college (uses config if None)
+            inter_college_parallelism: Number of colleges to crawl in parallel (uses config if None)
         """
         max_pages_per_college = max_pages_per_college or MAX_PAGES_PER_COLLEGE
+        install_shutdown()
 
         # Step 1: Read CSV files
         print("\n1. Reading CSV files...")
@@ -3630,7 +3638,8 @@ class MultithreadedCollegeCrawler:
 
         # Step 2: Crawl all colleges and upload to Milvus
         print("\n2. Starting multithreaded crawling and uploading to Milvus...")
-        self.crawl_all_colleges(colleges, max_pages_per_college)
+        self.crawl_all_colleges(colleges, max_pages_per_college,
+                                inter_college_parallelism=inter_college_parallelism)
 
         # Shutdown background threads and resources
         self._insert_flush_stop.set()
@@ -3640,7 +3649,10 @@ class MultithreadedCollegeCrawler:
         if self._delta_cache:
             self._delta_cache.close()
 
-        print(f"\n🎉 Multithreaded crawling completed successfully!")
+        if global_shutdown_event.is_set():
+            print("\n✅ Graceful shutdown complete — all in-progress data saved.")
+        else:
+            print(f"\n🎉 Multithreaded crawling completed successfully!")
         print(f"📊 All pages have been uploaded to Zilliz Cloud for vector search!")
 
     def get_existing_urls_for_college(self, college_name: str) -> Set[str]:
@@ -3809,11 +3821,27 @@ class MultithreadedCollegeCrawler:
 
 def main():
     """Main function to run the multithreaded crawler."""
-    # Initialize crawler with config settings
-    crawler = MultithreadedCollegeCrawler()
+    import argparse
+    parser = argparse.ArgumentParser(description="Multithreaded college website crawler")
+    parser.add_argument(
+        "--workers", type=int, default=None,
+        help=f"Worker threads per college (default: {CRAWLER_MAX_WORKERS})"
+    )
+    parser.add_argument(
+        "--colleges", type=int, default=None,
+        help=f"Number of colleges to crawl in parallel (default: {INTER_COLLEGE_PARALLELISM})"
+    )
+    parser.add_argument(
+        "--max-pages", type=int, default=None,
+        help=f"Max pages to crawl per college (default: {MAX_PAGES_PER_COLLEGE})"
+    )
+    args = parser.parse_args()
 
-    # Run the full pipeline
-    crawler.run_full_crawling_pipeline()
+    crawler = MultithreadedCollegeCrawler(max_workers=args.workers)
+    crawler.run_full_crawling_pipeline(
+        max_pages_per_college=args.max_pages,
+        inter_college_parallelism=args.colleges,
+    )
 
 
 if __name__ == "__main__":

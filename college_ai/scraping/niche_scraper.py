@@ -33,6 +33,8 @@ from typing import Optional
 
 from playwright.sync_api import sync_playwright, BrowserContext, Page
 
+from college_ai.scraping.shutdown import shutdown_event, install as install_shutdown
+
 from college_ai.db.connection import get_session, init_db, reset_engine, is_hrana_error
 from college_ai.db.models import (
     School, ApplicantDatapoint, NicheGrade,
@@ -166,6 +168,8 @@ class JobClaimer:
 
     def next(self) -> Optional[tuple[str, int, int, int]]:
         """Claim next school. Returns (slug, school_id, index, total) or None."""
+        if shutdown_event.is_set():
+            return None
         with self._lock:
             if self._index < self._total:
                 idx = self._index
@@ -1668,7 +1672,7 @@ def _worker_loop(
         scraper.start(headless=headless, grades_only=grades_only)
         logger.info(f"{tag} Browser started")
 
-        while True:
+        while not shutdown_event.is_set():
             claim = job_claimer.next()
             if claim is None:
                 break
@@ -1830,6 +1834,8 @@ def scrape_all(
         f"Starting Niche scrape: {len(slugs_with_ids)} schools pending, {num_workers} worker(s)"
     )
 
+    install_shutdown()
+
     try:
         with ThreadPoolExecutor(max_workers=num_workers) as executor:
             futures = []
@@ -1858,6 +1864,9 @@ def scrape_all(
     db_writer.join(timeout=60)
     if db_writer.is_alive():
         logger.warning("DB writer did not finish in time — some writes may be lost")
+
+    if shutdown_event.is_set():
+        logger.info("Graceful shutdown complete — all pending writes flushed.")
 
     logger.info(
         f"Done. {stats['total_points']} scattergram points, "
