@@ -17,7 +17,7 @@ from typing import Optional
 import pandas as pd
 from sqlalchemy import text
 
-from college_ai.db.connection import get_session, init_db, ENGINE
+from college_ai.db.connection import get_session, init_db, get_engine
 from college_ai.db.models import School, ApplicantDatapoint
 from college_ai.ml.concordance import act_to_sat, sat_to_act
 from college_ai.ml.feature_utils import compute_features_df
@@ -78,7 +78,7 @@ def load_raw_data() -> pd.DataFrame:
     JOIN schools s ON a.school_id = s.id
     LEFT JOIN niche_grades ng ON a.school_id = ng.school_id AND COALESCE(ng.no_data, 0) = 0
     """
-    df = pd.read_sql(query, ENGINE)
+    df = pd.read_sql(query, get_engine())
     logger.info(f"Loaded {len(df)} raw datapoints from {df['school_id'].nunique()} schools")
     niche_coverage = df["overall_grade"].notna().mean()
     logger.info(f"Niche grade coverage: {niche_coverage:.1%} of rows")

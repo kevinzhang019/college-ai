@@ -20,10 +20,12 @@ Usage:
 
 import os
 import re
+import sys
 import json
 import time
 import queue
 import random
+import select
 import logging
 import argparse
 import threading
@@ -120,20 +122,29 @@ class GlobalRateLimiter:
     def wait(self):
         """Sleep until the next request slot is available.
 
-        Reserves the slot by advancing ``_last_request_time`` under the lock
-        so that concurrent workers don't double-book the same slot.  Call
-        ``record_request()`` after the actual page.goto to credit the work
-        time and let the next slot start its countdown from the real request.
+        Reserves the slot under the lock, then sleeps *outside* the lock so
+        that ``record_request()`` and other workers are not blocked during
+        the sleep.  Each worker gets a unique slot: the first waiter gets the
+        earliest slot, the second gets the next one after a fresh delay, etc.
+
+        Sleeps in 0.5 s increments so that ``shutdown_event`` is noticed
+        promptly (within ~0.5 s) rather than after the full delay.
         """
         with self._lock:
             now = time.time()
             delay = random.uniform(self._min_delay, self._max_delay)
-            elapsed = now - self._last_request_time
-            if elapsed < delay:
-                time.sleep(delay - elapsed)
-            # Reserve this slot so the next worker waits from *now*,
-            # not from the same stale timestamp.
-            self._last_request_time = time.time()
+            # Earliest this request can fire: last reserved slot + delay
+            earliest = self._last_request_time + delay
+            sleep_for = max(0.0, earliest - now)
+            # Reserve this slot so the next worker computes its delay
+            # relative to our projected request time, not the stale one.
+            self._last_request_time = max(now, earliest)
+
+        # Sleep outside the lock — record_request() and other workers
+        # can proceed concurrently.
+        while sleep_for > 0 and not shutdown_event.is_set():
+            time.sleep(min(sleep_for, 0.5))
+            sleep_for -= 0.5
 
     def record_request(self):
         """Update the request timestamp to when the page actually loaded.
@@ -142,10 +153,12 @@ class GlobalRateLimiter:
         (not the end-of-sleep time) is used for the next delay calculation.
         This credits scraping/parsing work toward the inter-request gap.
 
-        Thread-safe: acquires the lock before updating the shared timestamp.
+        Only advances the timestamp — never regresses past a slot that
+        another worker has already reserved in ``wait()``.
         """
         with self._lock:
-            self._last_request_time = time.time()
+            now = time.time()
+            self._last_request_time = max(self._last_request_time, now)
 
 
 class JobClaimer:
@@ -183,7 +196,7 @@ class JobClaimer:
 # Centralised DB writer — single thread owns the Turso WebSocket connection
 # ---------------------------------------------------------------------------
 
-_SENTINEL = None  # Workers send this to signal they are done
+_SENTINEL = object()  # Unique sentinel — workers send this to signal they are done
 
 
 class DBWriterThread(threading.Thread):
@@ -210,6 +223,7 @@ class DBWriterThread(threading.Thread):
         self._q = write_queue
         self._num_workers = num_workers
         self._sentinels_seen = 0
+        self._crashed = False
         self._stats = stats
         self._stats_lock = stats_lock
 
@@ -231,19 +245,34 @@ class DBWriterThread(threading.Thread):
             self._loop()
         except Exception as e:
             logger.error("[DB] Writer thread crashed: %s", e, exc_info=True)
+            self._crashed = True
+            # Signal workers to stop — their scraping results would go to a
+            # dead queue and be silently lost.
+            shutdown_event.set()
 
     def _loop(self):
         logger.info("[DB] Writer thread started")
+        last_keepalive = time.time()
         while True:
+            # Use a short timeout so we notice shutdown_event promptly,
+            # but still send keepalives every KEEPALIVE_INTERVAL seconds.
             try:
-                item = self._q.get(timeout=self.KEEPALIVE_INTERVAL)
+                item = self._q.get(timeout=2.0)
             except queue.Empty:
-                self._keepalive()
+                if time.time() - last_keepalive >= self.KEEPALIVE_INTERVAL:
+                    self._keepalive()
+                    last_keepalive = time.time()
                 continue
 
             if item is _SENTINEL:
                 self._sentinels_seen += 1
-                if self._sentinels_seen >= self._num_workers and self._q.empty():
+                if self._sentinels_seen >= self._num_workers:
+                    # All workers done — drain any remaining items that
+                    # were enqueued before the final sentinel.
+                    while not self._q.empty():
+                        leftover = self._q.get_nowait()
+                        if leftover is not _SENTINEL:
+                            self._write_one_with_retry(*leftover)
                     break
                 continue
 
@@ -377,6 +406,91 @@ class DBWriterThread(threading.Thread):
         finally:
             session.close()
 
+    @staticmethod
+    def drain_queue_best_effort(write_queue):
+        """Drain remaining items after a writer crash (single attempt per item).
+
+        Called from the main thread after the writer has exited. Uses a fresh
+        session per item — no retries, to avoid masking the root crash cause.
+        Returns (drained, failed) counts.
+        """
+        drained = 0
+        failed = 0
+        while not write_queue.empty():
+            try:
+                item = write_queue.get_nowait()
+            except queue.Empty:
+                break
+            if item is _SENTINEL:
+                continue
+            try:
+                slug, school_id, points, grades, timestamp, tag = item
+                session = get_session()
+                try:
+                    from sqlalchemy import insert
+                    from college_ai.db.models import ApplicantDatapoint, NicheGrade
+
+                    if points and school_id:
+                        session.query(ApplicantDatapoint).filter_by(
+                            school_id=school_id, source="niche"
+                        ).delete()
+                        rows = [
+                            dict(
+                                school_id=school_id, source="niche",
+                                gpa=p["gpa"], sat_score=p.get("sat_score"),
+                                act_score=p.get("act_score"), outcome=p["outcome"],
+                                major=p.get("major"), residency=p.get("residency"),
+                                scraped_at=timestamp,
+                            )
+                            for p in points
+                        ]
+                        for i in range(0, len(rows), 90):
+                            session.execute(
+                                insert(ApplicantDatapoint).values(rows[i:i + 90])
+                            )
+
+                    if school_id:
+                        existing = session.get(NicheGrade, school_id)
+                        if grades:
+                            if existing:
+                                for k, v in grades.items():
+                                    setattr(existing, k, v)
+                                existing.no_data = 0
+                                existing.updated_at = timestamp
+                            else:
+                                session.add(NicheGrade(
+                                    school_id=school_id, no_data=0,
+                                    updated_at=timestamp, **grades,
+                                ))
+                        else:
+                            if not existing:
+                                session.add(NicheGrade(
+                                    school_id=school_id, no_data=1,
+                                    updated_at=timestamp,
+                                ))
+                            else:
+                                existing.no_data = 1
+                                existing.updated_at = timestamp
+
+                    session.commit()
+                    drained += 1
+                except Exception as e:
+                    try:
+                        session.rollback()
+                    except Exception:
+                        pass
+                    logger.error("[DB] Best-effort drain failed for %s: %s", slug, e)
+                    failed += 1
+                finally:
+                    session.close()
+            except Exception as e:
+                logger.error("[DB] Best-effort drain — malformed item: %s", e)
+                failed += 1
+
+        if drained or failed:
+            logger.info("[DB] Best-effort drain: %d written, %d failed", drained, failed)
+        return drained, failed
+
 
 class NicheScraper:
     """Chrome-based Niche.com scraper.
@@ -472,10 +586,28 @@ class NicheScraper:
         )
         pg.goto(LOGIN_URL, timeout=NAV_TIMEOUT)
         try:
-            input("\n  >>> Press ENTER after you've logged in and a college page loaded... ")
+            # Use a polling loop so Ctrl+C (shutdown_event) can interrupt the wait
+            print("\n  >>> Press ENTER after you've logged in and a college page loaded... ", end="", flush=True)
+            while not shutdown_event.is_set():
+                if sys.stdin in select.select([sys.stdin], [], [], 0.5)[0]:
+                    sys.stdin.readline()
+                    break
+            else:
+                logger.info("Shutdown requested — cancelling cookie capture.")
+                browser.close()
+                if owns_pl:
+                    pl.stop()
+                return
         except EOFError:
             logger.info("Non-interactive mode — waiting 60s for manual interaction...")
-            time.sleep(60)
+            for _ in range(120):  # 60s in 0.5s increments
+                if shutdown_event.is_set():
+                    logger.info("Shutdown requested — cancelling cookie capture.")
+                    browser.close()
+                    if owns_pl:
+                        pl.stop()
+                    return
+                time.sleep(0.5)
         cookies = ctx.cookies()
         browser.close()
 
@@ -1658,17 +1790,23 @@ def _worker_loop(
     grades_only: bool,
     headless: bool,
     cookie_lock: threading.Lock,
+    cookie_capture_lock: threading.Lock,
     cookie_generation: list,
     stats: dict,
     stats_lock: threading.Lock,
 ):
-    """Single worker thread: owns its own browser, sends results to DB writer."""
-    tag = f"[W{worker_id}]"
-    scraper = NicheScraper()
-    consecutive_px_blocks = 0
-    my_cookie_gen = 0
+    """Single worker thread: owns its own browser, sends results to DB writer.
 
+    INVARIANT: db_writer.worker_done() is called exactly once per invocation,
+    regardless of where a failure occurs (including the NicheScraper constructor).
+    """
+    tag = f"[W{worker_id}]"
+    scraper = None
     try:
+        scraper = NicheScraper()
+        consecutive_px_blocks = 0
+        my_cookie_gen = 0
+
         scraper.start(headless=headless, grades_only=grades_only)
         logger.info(f"{tag} Browser started")
 
@@ -1685,15 +1823,19 @@ def _worker_loop(
                 scraper._px_blocked = False
 
                 # Reload cookies if another worker refreshed them
-                if cookie_generation[0] > my_cookie_gen:
-                    logger.info(f"{tag} Cookie generation {cookie_generation[0]} > {my_cookie_gen} — reloading from disk")
+                with cookie_lock:
+                    current_gen = cookie_generation[0]
+                if current_gen > my_cookie_gen:
+                    logger.info(f"{tag} Cookie generation {current_gen} > {my_cookie_gen} — reloading from disk")
                     scraper.reload_cookies_from_disk()
-                    my_cookie_gen = cookie_generation[0]
+                    my_cookie_gen = current_gen
 
                 # Scrape scattergram data (no DB connection held during network I/O)
                 points = []
                 if not grades_only:
                     rate_limiter.wait()
+                    if shutdown_event.is_set():
+                        break
                     points = [p for p in scraper.scrape_scattergram(slug)
                              if p.get("outcome") != "waitlisted"]
                     rate_limiter.record_request()  # credit scraping time toward next delay
@@ -1707,6 +1849,8 @@ def _worker_loop(
                     grades = scraper.scrape_grades(slug)  # returns cache, no navigation
                 else:
                     rate_limiter.wait()
+                    if shutdown_event.is_set():
+                        break
                     grades = scraper.scrape_grades(slug)
                     rate_limiter.record_request()  # credit scraping time
 
@@ -1714,35 +1858,61 @@ def _worker_loop(
                 if scraper._px_blocked:
                     consecutive_px_blocks += 1
                     if consecutive_px_blocks >= PX_RESTART_AFTER:
+                        # Check if another worker already refreshed cookies
                         with cookie_lock:
-                            if cookie_generation[0] > my_cookie_gen:
-                                logger.info(f"{tag} Cookies already refreshed by another worker — reloading")
-                            else:
-                                logger.warning(f"{tag} PerimeterX blocked — capturing cookies...")
-                                scraper.capture_cookies()
-                                cookie_generation[0] += 1
+                            already_refreshed = cookie_generation[0] > my_cookie_gen
                             my_cookie_gen = cookie_generation[0]
+
+                        if not already_refreshed:
+                            # Serialize captures — only one worker captures at a time.
+                            # cookie_capture_lock is held for the duration of interactive
+                            # capture; cookie_lock is only held briefly for generation
+                            # reads/writes so other workers' per-school checks don't block.
+                            with cookie_capture_lock:
+                                # Double-check: another worker may have captured
+                                # while we waited for cookie_capture_lock
+                                with cookie_lock:
+                                    already_refreshed = cookie_generation[0] > my_cookie_gen
+                                    my_cookie_gen = cookie_generation[0]
+                                if not already_refreshed:
+                                    logger.warning(f"{tag} PerimeterX blocked — capturing cookies...")
+                                    scraper.capture_cookies()
+                                    with cookie_lock:
+                                        cookie_generation[0] += 1
+                                        my_cookie_gen = cookie_generation[0]
+                        else:
+                            logger.info(f"{tag} Cookies already refreshed by another worker — reloading")
+
                         scraper.restart(headless=headless, grades_only=grades_only)
                         consecutive_px_blocks = 0
                         scraper._px_blocked = False
 
                         # Retry scattergram if it was blocked
-                        if not grades_only and not points:
+                        if not grades_only and not points and not shutdown_event.is_set():
                             rate_limiter.wait()
-                            points = [p for p in scraper.scrape_scattergram(slug)
-                                     if p.get("outcome") != "waitlisted"]
-                            rate_limiter.record_request()
-                            with stats_lock:
-                                stats["total_points"] += len(points)
-                            logger.info(f"{tag}   -> {len(points)} scattergram points (retry)")
+                            if not shutdown_event.is_set():
+                                points = [p for p in scraper.scrape_scattergram(slug)
+                                         if p.get("outcome") != "waitlisted"]
+                                rate_limiter.record_request()
+                                with stats_lock:
+                                    stats["total_points"] += len(points)
+                                logger.info(f"{tag}   -> {len(points)} scattergram points (retry)")
 
                         # Retry grades if they were blocked
-                        if not grades:
+                        if not grades and not shutdown_event.is_set():
                             rate_limiter.wait()
-                            grades = scraper.scrape_grades(slug)
-                            rate_limiter.record_request()
+                            if not shutdown_event.is_set():
+                                grades = scraper.scrape_grades(slug)
+                                rate_limiter.record_request()
                 else:
                     consecutive_px_blocks = 0
+
+                # During shutdown, don't submit empty PX-blocked results — the
+                # school would be marked no_data and permanently skipped on
+                # resume.  Leaving it pending lets the next run retry cleanly.
+                if shutdown_event.is_set() and not points and not grades:
+                    logger.info(f"{tag}   -> Skipping submit for {slug} (shutdown + empty)")
+                    break
 
                 # Enqueue results for the DB writer — worker moves on immediately
                 db_writer.submit(slug, school_id, points, grades, now, tag)
@@ -1754,7 +1924,8 @@ def _worker_loop(
         logger.error(f"{tag} Worker crashed: {e}")
     finally:
         db_writer.worker_done()
-        scraper.close()
+        if scraper is not None:
+            scraper.close()
         logger.info(f"{tag} Worker finished")
 
 
@@ -1820,7 +1991,8 @@ def scrape_all(
 
     job_claimer = JobClaimer(slugs_with_ids)
     rate_limiter = GlobalRateLimiter(REQUEST_DELAY_MIN, REQUEST_DELAY_MAX, num_workers)
-    cookie_lock = threading.Lock()
+    cookie_lock = threading.Lock()          # protects cookie_generation reads/writes (held briefly)
+    cookie_capture_lock = threading.Lock()  # serializes interactive cookie captures (held for long periods)
     cookie_generation = [0]  # bumped after each capture; workers compare to detect stale cookies
     stats = {"total_points": 0, "total_grades": 0}
     stats_lock = threading.Lock()
@@ -1845,11 +2017,16 @@ def scrape_all(
                 f = executor.submit(
                     _worker_loop, wid, job_claimer, rate_limiter,
                     db_writer, grades_only, headless, cookie_lock,
-                    cookie_generation, stats, stats_lock,
+                    cookie_capture_lock, cookie_generation, stats,
+                    stats_lock,
                 )
                 futures.append(f)
                 if wid < num_workers - 1:
-                    time.sleep(2)  # stagger browser launches
+                    # Stagger browser launches; check shutdown every 0.5s
+                    for _ in range(4):
+                        if shutdown_event.is_set():
+                            break
+                        time.sleep(0.5)
 
             for f in futures:
                 try:
@@ -1858,19 +2035,26 @@ def scrape_all(
                     logger.error(f"Worker failed: {e}")
     except KeyboardInterrupt:
         logger.info("Interrupted — waiting for DB writer to flush pending writes...")
+    finally:
+        # Workers that actually ran have each sent one sentinel via their
+        # finally block.  If shutdown interrupted the launch loop, fewer
+        # workers ran than num_workers, so the DB writer is still waiting
+        # for the missing sentinels.  Send exactly the shortfall.
+        launched = len(futures)
+        for _ in range(num_workers - launched):
+            db_writer.worker_done()
 
-    # Workers that actually ran have each sent one sentinel via their
-    # finally block.  If shutdown interrupted the launch loop, fewer
-    # workers ran than num_workers, so the DB writer is still waiting
-    # for the missing sentinels.  Send exactly the shortfall.
-    launched = len(futures)
-    for _ in range(num_workers - launched):
-        db_writer.worker_done()
+        # Wait for writer to flush remaining items.
+        # If the writer already crashed (is_alive() False before join), its
+        # run() set shutdown_event so workers stopped promptly.
+        db_writer.join(timeout=60)
+        if db_writer.is_alive():
+            logger.warning("DB writer did not finish in time — some writes may be lost")
 
-    # Wait for writer to flush remaining items
-    db_writer.join(timeout=60)
-    if db_writer.is_alive():
-        logger.warning("DB writer did not finish in time — some writes may be lost")
+        # Best-effort drain if the writer died with items still queued
+        if not db_writer.is_alive() and db_writer._crashed and not write_queue.empty():
+            logger.warning("[DB] Writer crashed — attempting best-effort queue drain")
+            DBWriterThread.drain_queue_best_effort(write_queue)
 
     if shutdown_event.is_set():
         logger.info("Graceful shutdown complete — all pending writes flushed.")

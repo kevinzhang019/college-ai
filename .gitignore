@@ -217,3 +217,4 @@ logs/
 *.db
 *.parquet
 CLAUDE.md
+.vercel

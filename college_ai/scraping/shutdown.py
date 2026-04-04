@@ -10,6 +10,8 @@ _ctrl_c_count = 0
 
 
 def _handler(signum, frame):
+    # Safe without a lock: Python delivers signals only to the main thread
+    # and serializes handler invocations, so _ctrl_c_count += 1 is atomic.
     global _ctrl_c_count
     _ctrl_c_count += 1
     if _ctrl_c_count == 1:
@@ -21,6 +23,15 @@ def _handler(signum, frame):
         sys.exit(1)
 
 
+def reset():
+    """Reset shutdown state for a fresh run. Safe to call before threads start."""
+    global _ctrl_c_count
+    _ctrl_c_count = 0
+    shutdown_event.clear()
+
+
 def install():
-    """Install SIGINT handler. Must be called from main thread."""
+    """Install SIGINT and SIGTERM handlers. Must be called from main thread."""
+    reset()
     signal.signal(signal.SIGINT, _handler)
+    signal.signal(signal.SIGTERM, _handler)

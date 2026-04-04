@@ -65,16 +65,25 @@ def _init_engine():
 
 
 def reset_engine():
-    """Drop the current engine and create a fresh one (new WebSocket)."""
+    """Drop the current engine and create a fresh one (new WebSocket).
+
+    Builds both the new engine and session factory into locals before
+    swapping globals, so a partial failure can't leave _engine and
+    _session_factory pointing to different engines.
+    """
     global _engine, _session_factory, ENGINE
     with _engine_lock:
         old = _engine
+        # Build both into locals first — if either fails, globals stay consistent
         if TURSO_DATABASE_URL and TURSO_AUTH_TOKEN:
-            _engine = _make_turso_engine()
+            new_engine = _make_turso_engine()
         else:
-            _engine = _make_local_engine()
-        _session_factory = sessionmaker(bind=_engine)
-        ENGINE = _engine
+            new_engine = _make_local_engine()
+        new_factory = sessionmaker(bind=new_engine)
+        # Atomic swap: both globals update together
+        _engine = new_engine
+        _session_factory = new_factory
+        ENGINE = new_engine
         logger.info("Engine reset: created fresh Turso connection")
         if old is not None:
             try:
@@ -99,7 +108,20 @@ def is_hrana_error(exc: Exception) -> bool:
 
 
 def get_session() -> Session:
-    return _session_factory()
+    with _engine_lock:
+        factory = _session_factory
+        return factory()
+
+
+def get_engine():
+    """Return the current engine under ``_engine_lock``.
+
+    Matches the lock discipline of ``get_session()``.  Prefer this over
+    importing ``ENGINE`` directly so that concurrent ``reset_engine()``
+    calls cannot invalidate the reference mid-use.
+    """
+    with _engine_lock:
+        return _engine
 
 
 def with_retry(work_fn, max_retries=3):
@@ -141,15 +163,16 @@ def with_retry(work_fn, max_retries=3):
 def init_db():
     """Create all tables and run lightweight migrations for new columns."""
     from college_ai.db.models import Base
-    Base.metadata.create_all(ENGINE)
-    _migrate_add_columns()
-    _migrate_drop_columns()
+    engine = get_engine()
+    Base.metadata.create_all(engine)
+    _migrate_add_columns(engine)
+    _migrate_drop_columns(engine)
 
 
-def _migrate_add_columns():
+def _migrate_add_columns(engine):
     """Add columns that create_all() won't add to existing tables."""
     from sqlalchemy import inspect
-    insp = inspect(ENGINE)
+    insp = inspect(engine)
 
     migrations = {
         "schools": [("yield_rate", "FLOAT")],
@@ -157,7 +180,7 @@ def _migrate_add_columns():
         "niche_grades": [("no_data", "INTEGER DEFAULT 0")],
     }
 
-    with ENGINE.connect() as conn:
+    with engine.connect() as conn:
         for table, columns in migrations.items():
             if not insp.has_table(table):
                 continue
@@ -168,16 +191,16 @@ def _migrate_add_columns():
                     conn.commit()
 
 
-def _migrate_drop_columns():
+def _migrate_drop_columns(engine):
     """Drop columns removed from models (requires SQLite >= 3.35.0)."""
     from sqlalchemy import inspect
-    insp = inspect(ENGINE)
+    insp = inspect(engine)
 
     drops = {
         "applicant_datapoints": ["gender", "hs_state", "hs_type", "decision_type", "applicant_type"],
     }
 
-    with ENGINE.connect() as conn:
+    with engine.connect() as conn:
         for table, columns in drops.items():
             if not insp.has_table(table):
                 continue

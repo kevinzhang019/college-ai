@@ -146,7 +146,7 @@ def test_backward_compatibility():
                 "collection": hasattr(crawler, "collection"),
                 "session": hasattr(crawler, "session"),
                 "lock": hasattr(crawler, "lock"),
-                "insert_lock": hasattr(crawler, "insert_lock"),
+                "collection_write_lock": hasattr(crawler, "collection_write_lock"),
             }
 
             config_preserved = all(config_checks.values())

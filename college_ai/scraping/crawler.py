@@ -414,6 +414,8 @@ class DeltaCrawlCache:
     def __init__(self, db_path: str):
         self._db_path = db_path
         self._local = threading.local()
+        self._all_conns_lock = threading.Lock()
+        self._all_conns: list = []  # track all thread-local connections for shutdown
         # Create table on first use
         conn = self._get_conn()
         conn.execute("""
@@ -432,6 +434,8 @@ class DeltaCrawlCache:
         if not hasattr(self._local, "conn") or self._local.conn is None:
             self._local.conn = sqlite3.connect(self._db_path, timeout=10)
             self._local.conn.execute("PRAGMA journal_mode=WAL")
+            with self._all_conns_lock:
+                self._all_conns.append(self._local.conn)
         return self._local.conn
 
     def get(self, canonical_url: str) -> dict:
@@ -465,13 +469,14 @@ class DeltaCrawlCache:
         conn.commit()
 
     def close(self):
-        """Close all thread-local connections."""
-        if hasattr(self._local, "conn") and self._local.conn:
-            try:
-                self._local.conn.close()
-            except Exception:
-                pass
-            self._local.conn = None
+        """Close all tracked SQLite connections across all threads."""
+        with self._all_conns_lock:
+            for conn in self._all_conns:
+                try:
+                    conn.close()
+                except Exception:
+                    pass
+            self._all_conns.clear()
 
 
 class MultithreadedCollegeCrawler:
@@ -534,16 +539,7 @@ class MultithreadedCollegeCrawler:
         self.max_delay = self.delay * 2.0  # Maximum delay for randomization
         self.max_retries = MAX_RETRIES
 
-        # Thread-safe sets for preventing duplicates
-        self.crawled_urls = set()
-        self.discovered_urls = set()
-        self.uploaded_urls = set()  # Track URLs already uploaded to Milvus
-        self.existing_urls = (
-            set()
-        )  # URLs that already exist in Milvus from previous runs
         self.lock = threading.Lock()
-        # Serialize Milvus inserts to avoid driver-side races; keep stats lock separate
-        self.insert_lock = threading.Lock()
         # Concurrency controls for Milvus operations
         # - Queries: allow bounded parallelism
         # - Writes: exclusive
@@ -632,12 +628,6 @@ class MultithreadedCollegeCrawler:
         if not self.has_url_canonical:
             raise RuntimeError("Collection missing required field: url_canonical")
 
-        # Initialize per-college canonical URLs as empty - will be populated when needed
-        self.college_canonical_urls: Set[str] = set()
-
-        # Initialize existing URLs as empty - will be populated per college
-        self.existing_urls = set()
-
         # Crawling statistics
         self.stats = {
             "total_pages_crawled": 0,
@@ -646,6 +636,7 @@ class MultithreadedCollegeCrawler:
             "colleges_processed": 0,
             "duplicate_urls_skipped": 0,
             "existing_urls_skipped": 0,
+            "rows_dropped_alignment": 0,
         }
 
         # === Performance: Batched insert buffer ===
@@ -656,7 +647,7 @@ class MultithreadedCollegeCrawler:
         self._insert_flush_interval = MILVUS_INSERT_FLUSH_INTERVAL
         self._insert_flush_stop = threading.Event()
         self._insert_flush_thread = threading.Thread(
-            target=self._insert_flush_loop, daemon=True, name="MilvusFlushThread"
+            target=self._insert_flush_loop, daemon=False, name="MilvusFlushThread"
         )
         self._insert_flush_thread.start()
 
@@ -701,6 +692,18 @@ class MultithreadedCollegeCrawler:
                 self._flush_insert_buffer(block_timeout=self._insert_flush_interval)
             except Exception as e:
                 print(f"    ✗ Insert flush error: {e}")
+        # Final drain after stop signal — retry on transient errors to avoid data loss
+        _drain_errors = 0
+        while not self._insert_buffer.empty():
+            try:
+                self._flush_insert_buffer(block_timeout=0.1)
+                _drain_errors = 0
+            except Exception as e:
+                _drain_errors += 1
+                print(f"    ✗ Final drain error ({_drain_errors}): {e}")
+                if _drain_errors >= 3:
+                    print(f"    ⚠️  Abandoning final drain after {_drain_errors} consecutive errors")
+                    break
 
     def _flush_insert_buffer(self, block_timeout: float = 2.0):
         """Drain all pending rows from the buffer and do one batched insert."""
@@ -730,6 +733,32 @@ class MultithreadedCollegeCrawler:
         if not merged.get("id"):
             return
 
+        # Validate column alignment to prevent corrupted inserts
+        col_lengths = {name: len(merged.get(name, [])) for name in field_names}
+        unique_lengths = set(col_lengths.values())
+        if len(unique_lengths) > 1:
+            expected = len(merged.get("id", []))
+            bad_cols = {k: v for k, v in col_lengths.items() if v != expected}
+            print(f"    ✗ Column alignment mismatch (expected {expected} rows): {bad_cols}")
+            # Attempt per-row recovery: re-insert each original row individually
+            recovered = 0
+            for row in rows:
+                row_lengths = {name: len(row.get(name, [])) for name in field_names}
+                if len(set(row_lengths.values())) == 1 and row.get("id"):
+                    try:
+                        with self.collection_write_lock:
+                            ordered_columns = [row.get(name, []) for name in field_names]
+                            self.collection.insert(ordered_columns)
+                        recovered += len(row.get("id", []))
+                    except Exception as e:
+                        print(f"    ✗ Single-row recovery failed: {e}")
+            dropped = max(0, expected - recovered)
+            if dropped > 0:
+                with self.lock:
+                    self.stats["rows_dropped_alignment"] += dropped
+            print(f"    ✓ Recovered {recovered}/{expected} rows from misaligned batch")
+            return
+
         try:
             with self.collection_write_lock:
                 ordered_columns = [merged.get(name, []) for name in field_names]
@@ -742,13 +771,17 @@ class MultithreadedCollegeCrawler:
 
     def _flush_all_inserts(self):
         """Flush any remaining buffered rows (call at end of crawl)."""
-        for _ in range(10):  # drain up to 10 batches
+        _drain_errors = 0
+        while not self._insert_buffer.empty():
             try:
                 self._flush_insert_buffer(block_timeout=0.1)
-            except Exception:
-                break
-            if self._insert_buffer.empty():
-                break
+                _drain_errors = 0
+            except Exception as e:
+                _drain_errors += 1
+                print(f"    ✗ Final flush error ({_drain_errors}): {e}")
+                if _drain_errors >= 3:
+                    print(f"    ⚠️  Abandoning flush after {_drain_errors} consecutive errors")
+                    break
 
     def _content_hash(self, text: str) -> str:
         """Return a hash for content deduplication. Uses normalized text."""
@@ -1342,45 +1375,25 @@ class MultithreadedCollegeCrawler:
             except Exception:
                 pass
 
-            # Get records only for this specific college
-            expr = f'college_name == "{college_name}"'
-            offset = 0
-            batch_size = 2048  # Smaller batch size to avoid memory issues
-            total_loaded = 0
-
-            while True:
-                try:
-                    fields = ["url_canonical"]
-                    batch = self.collection.query(
-                        expr=expr,  # Filter by college name
-                        output_fields=fields,
-                        limit=batch_size,
-                        offset=offset,
-                    )
-                except Exception as exc:
-                    msg = str(exc)
-                    if (
-                        "received message larger than max" in msg
-                        or "RESOURCE_EXHAUSTED" in msg
-                    ):
-                        new_batch_size = max(128, batch_size // 2)
-                        if new_batch_size == batch_size:
-                            raise
-                        batch_size = new_batch_size
-                        continue
-                    else:
-                        raise
-
-                if not batch:
-                    break
-                for rec in batch:
-                    key = (rec.get("url_canonical") or "").strip()
-                    if key:
-                        canonical_urls.add(key)
-                total_loaded += len(batch)
-                if len(batch) < batch_size:
-                    break
-                offset += batch_size
+            # Get records only for this specific college using query_iterator
+            # (avoids the offset+limit <= 16,384 Milvus restriction)
+            safe_college = college_name.replace('"', '\\"')
+            expr = f'college_name == "{safe_college}"'
+            with self.collection_query_sema:
+                iterator = self.collection.query_iterator(
+                    expr=expr,
+                    output_fields=["url_canonical"],
+                    batch_size=2048,
+                )
+                while True:
+                    batch = iterator.next()
+                    if not batch:
+                        iterator.close()
+                        break
+                    for rec in batch:
+                        key = (rec.get("url_canonical") or "").strip()
+                        if key:
+                            canonical_urls.add(key)
             print(
                 f"    ✓ Loaded {len(canonical_urls):,} canonical URLs for {college_name}"
             )
@@ -1536,7 +1549,9 @@ class MultithreadedCollegeCrawler:
                 netloc = urlparse(url).netloc
             except Exception:
                 netloc = ""
-            # Circuit breaker check
+            # Circuit breaker check + token bucket rate limiting
+            # Compute delay inside lock, sleep outside to avoid blocking all hosts
+            _rate_delay = 0.0
             with self._host_lock:
                 cb_until = self._host_circuit_until.get(netloc, 0.0)
                 now = time.time()
@@ -1562,10 +1577,12 @@ class MultithreadedCollegeCrawler:
                     )
                     bucket["last"] = now
                 if bucket["tokens"] < 1.0:
-                    # Not enough tokens; delay slightly
                     need = 1.0 - bucket["tokens"]
-                    delay_s = need / max(0.1, self.token_refill_per_sec)
-                    time.sleep(min(1.0, delay_s))
+                    _rate_delay = min(1.0, need / max(0.1, self.token_refill_per_sec))
+                # Consume token optimistically so concurrent threads see updated state
+                bucket["tokens"] = max(0.0, bucket["tokens"] - 1.0)
+            if _rate_delay > 0:
+                time.sleep(_rate_delay)
             # Use provided session or fall back to shared session
             request_session = session or self.session
 
@@ -1795,11 +1812,13 @@ class MultithreadedCollegeCrawler:
                     time.sleep(self.delay * (attempt + 1) * random.uniform(0.8, 1.3))
                     continue
                 finally:
-                    # ensure capacity released on early continues
+                    # Ensure proxy semaphore is released on early continues (e.g. 403 retries).
+                    # Use success=False so 403 retries don't inflate proxy success metrics.
+                    # On the success path, release() was already called — the double-release
+                    # guard (token["released"]) makes this a no-op.
                     if self.proxy_pool and proxy_token is not None:
-                        # ensure semaphore released if not yet
                         try:
-                            self.proxy_pool.release(proxy_token, success=True)
+                            self.proxy_pool.release(proxy_token, success=False)
                         except Exception:
                             pass
 
@@ -2919,9 +2938,17 @@ class MultithreadedCollegeCrawler:
             pass
 
     def upload_to_milvus(
-        self, page_data: Dict[str, Any], college_name: str
+        self, page_data: Dict[str, Any], college_name: str,
+        content_hash_cache: Optional[set] = None,
+        content_hash_lock: Optional[threading.Lock] = None,
     ) -> bool:
-        """Upload a single page to Milvus with per-chunk embeddings for RAG."""
+        """Upload a single page to Milvus with per-chunk embeddings for RAG.
+
+        Args:
+            content_hash_cache: Per-college dedup cache. Falls back to self._content_hash_cache
+                if not provided (unsafe with inter-college parallelism > 1).
+            content_hash_lock: Lock for the per-college dedup cache.
+        """
         try:
             # Check if URL already exists — skip if so
             try:
@@ -2954,14 +2981,23 @@ class MultithreadedCollegeCrawler:
             )
 
             # Content dedup: skip chunks we've already embedded for this college
+            if content_hash_cache is None or content_hash_lock is None:
+                import warnings
+                warnings.warn(
+                    "upload_to_milvus called without per-college hash cache; "
+                    "unsafe with INTER_COLLEGE_PARALLELISM > 1",
+                    stacklevel=2,
+                )
+            _hash_cache = content_hash_cache if content_hash_cache is not None else self._content_hash_cache
+            _hash_lock = content_hash_lock if content_hash_lock is not None else self._content_hash_lock
             chunk_inputs = []
             chunk_indices = []  # maps back to original chunk index
             for i, c in enumerate(chunks):
                 h = self._content_hash(c)
-                with self._content_hash_lock:
-                    if h in self._content_hash_cache:
+                with _hash_lock:
+                    if h in _hash_cache:
                         continue
-                    self._content_hash_cache.add(h)
+                    _hash_cache.add(h)
                 chunk_inputs.append(f"{title_text}\n\n{c}" if title_text else c)
                 chunk_indices.append(i)
 
@@ -3059,16 +3095,19 @@ class MultithreadedCollegeCrawler:
         base_url = college["url"]
         max_pages = max_pages or MAX_PAGES_PER_COLLEGE
 
+        # Early exit if shutdown was already requested
+        if global_shutdown_event.is_set():
+            return {
+                "college_name": college_name,
+                "base_url": base_url,
+                "pages_crawled": 0,
+                "pages_uploaded": 0,
+                "urls_discovered": 0,
+                "status": "shutdown",
+            }
+
         print(f"\n=== Crawling {college_name} ===")
         print(f"Base URL: {base_url}")
-
-        # Clear instance-level URL sets that are never read cross-college
-        # (prevents unbounded growth over 10+ hour runs).
-        with self.lock:
-            self.crawled_urls.clear()
-            self.discovered_urls.clear()
-            self.uploaded_urls.clear()
-            self.existing_urls.clear()
 
         # Prune stale per-host rate-limit entries (prevents unbounded growth)
         self._prune_host_state(max_age_seconds=1800.0)
@@ -3077,14 +3116,15 @@ class MultithreadedCollegeCrawler:
         if self.playwright_enabled and sync_playwright is not None:
             self.pw_pool.prune_dead_slots()
 
-        # Reset content dedup cache for this college
-        with self._content_hash_lock:
-            self._content_hash_cache.clear()
+        # Per-college content dedup cache (local, not shared across parallel colleges)
+        college_hash_cache = set()  # type: set
+        college_hash_lock = threading.Lock()
 
         # Load canonical URLs for this college to prevent crawling duplicates
-        self.college_canonical_urls = self._load_college_canonicals(college_name)
+        # Local set — safe with inter-college parallelism (no shared mutation).
+        college_canonical_urls = self._load_college_canonicals(college_name)
         print(
-            f"    Found {len(self.college_canonical_urls):,} existing canonical URLs for {college_name}"
+            f"    Found {len(college_canonical_urls):,} existing canonical URLs for {college_name}"
         )
 
         # Reset state for this college (shared across workers)
@@ -3207,7 +3247,7 @@ class MultithreadedCollegeCrawler:
                                 canon_key = url
 
                             # Skip URLs already in the collection
-                            if canon_key in self.college_canonical_urls:
+                            if canon_key in college_canonical_urls:
                                 with self.lock:
                                     self.stats["existing_urls_skipped"] += 1
                                 continue
@@ -3233,7 +3273,9 @@ class MultithreadedCollegeCrawler:
                                     if pw_result:
                                         # Upload PW result directly
                                         if self.upload_to_milvus(
-                                            pw_result, college_name
+                                            pw_result, college_name,
+                                            content_hash_cache=college_hash_cache,
+                                            content_hash_lock=college_hash_lock,
                                         ):
                                             local_uploaded += 1
                                         # Add discovered links to queue
@@ -3250,7 +3292,7 @@ class MultithreadedCollegeCrawler:
                                                 if stop_event.is_set():
                                                     break
                                                 already_seen = (
-                                                    canon_link in self.college_canonical_urls
+                                                    canon_link in college_canonical_urls
                                                     or canon_link in crawled_canon
                                                     or canon_link in discovered_canon
                                                 )
@@ -3281,7 +3323,9 @@ class MultithreadedCollegeCrawler:
                         # Upload to Milvus unless we plan a PW fallback upload
                         # or delta crawling detected unchanged content
                         if not page_data.get("needs_pw") and not page_data.get("skip_embed"):
-                            if self.upload_to_milvus(page_data, college_name):
+                            if self.upload_to_milvus(page_data, college_name,
+                                                       content_hash_cache=college_hash_cache,
+                                                       content_hash_lock=college_hash_lock):
                                 local_uploaded += 1
 
                         # If this URL needs Playwright, offload the job and merge results asynchronously
@@ -3300,7 +3344,9 @@ class MultithreadedCollegeCrawler:
                                     return
                                 # Upload PW-rendered page
                                 try:
-                                    self.upload_to_milvus(result, college_name)
+                                    self.upload_to_milvus(result, college_name,
+                                                         content_hash_cache=college_hash_cache,
+                                                         content_hash_lock=college_hash_lock)
                                 except Exception:
                                     pass
                                 # Enqueue discovered links (canonical dedupe)
@@ -3315,7 +3361,7 @@ class MultithreadedCollegeCrawler:
                                         if stop_event.is_set():
                                             break
                                         already_seen = (
-                                            canon_link in self.college_canonical_urls
+                                            canon_link in college_canonical_urls
                                             or canon_link in crawled_canon
                                             or canon_link in discovered_canon
                                         )
@@ -3362,7 +3408,7 @@ class MultithreadedCollegeCrawler:
                                     canon_link = link
 
                                 already_seen = (
-                                    canon_link in self.college_canonical_urls
+                                    canon_link in college_canonical_urls
                                     or canon_link in crawled_canon
                                     or canon_link in discovered_canon
                                 )
@@ -3655,10 +3701,16 @@ class MultithreadedCollegeCrawler:
         self.crawl_all_colleges(colleges, max_pages_per_college,
                                 inter_college_parallelism=inter_college_parallelism)
 
-        # Shutdown background threads and resources
-        self._insert_flush_stop.set()
-        self._insert_flush_thread.join(timeout=10)
+        # Shutdown background threads and resources.
+        # Order matters: batcher must drain first (pending embeddings may queue
+        # final inserts), then the flush thread drains the insert buffer.
         self.embedding_batcher.shutdown()
+        self._insert_flush_stop.set()
+        self._insert_flush_thread.join(timeout=30)
+        if self._insert_flush_thread.is_alive():
+            pending = self._insert_buffer.qsize()
+            print(f"    ⚠ Flush thread did not stop within 30s (~{pending} batches pending); "
+                  f"thread will finish in background before process exits (daemon=False).")
         self.pw_pool.shutdown()
         if self._delta_cache:
             self._delta_cache.close()
@@ -3668,96 +3720,6 @@ class MultithreadedCollegeCrawler:
         else:
             print(f"\n🎉 Multithreaded crawling completed successfully!")
         print(f"📊 All pages have been uploaded to Zilliz Cloud for vector search!")
-
-    def get_existing_urls_for_college(self, college_name: str) -> Set[str]:
-        """
-        Get existing URLs for a specific college from Zilliz Cloud.
-
-        Args:
-            college_name: Name of the college to check
-
-        Returns:
-            Set of URLs that already exist for this college
-        """
-        existing_urls = set()
-
-        try:
-            # Load collection
-            self.collection.load()
-
-            # Query URLs for this specific college
-            college_records = self.collection.query(
-                expr=f'college_name == "{college_name}"',
-                output_fields=["url"],
-                limit=16384,
-            )
-
-            # Add URLs to set
-            for record in college_records:
-                url = record.get("url", "")
-                if url:
-                    existing_urls.add(url)
-
-            print(f"📊 Found {len(existing_urls):,} existing URLs for {college_name}")
-            return existing_urls
-
-        except Exception as e:
-            print(f"❌ Error getting existing URLs for {college_name}: {e}")
-            return existing_urls
-
-    def check_urls_batch_for_college(
-        self, urls: List[str], college_name: str, batch_size: int = 100
-    ) -> Set[str]:
-        """
-        Check a batch of URLs against existing URLs for a specific college in Zilliz Cloud.
-
-        Args:
-            urls: List of URLs to check
-            college_name: Name of the college
-            batch_size: Size of batches to query at once
-
-        Returns:
-            Set of URLs that already exist for this college
-        """
-        existing_urls = set()
-
-        # Split URLs into batches
-        for i in range(0, len(urls), batch_size):
-            batch_urls = urls[i : i + batch_size]
-
-            # Build query expression for this batch (college-specific)
-            url_conditions = []
-            for url in batch_urls:
-                # Escape quotes in URL for Milvus query
-                escaped_url = url.replace('"', '\\"')
-                url_conditions.append(f'url == "{escaped_url}"')
-
-            if not url_conditions:
-                continue
-
-            # Combine conditions with OR and add college filter
-            url_expr = " || ".join(url_conditions)
-            query_expr = f'college_name == "{college_name}" && ({url_expr})'
-
-            try:
-                # Query Milvus for existing URLs in this batch for this college
-                existing_records = self.collection.query(
-                    expr=query_expr,
-                    output_fields=["url"],
-                    limit=len(batch_urls),
-                )
-
-                # Add found URLs to set
-                for record in existing_records:
-                    url = record.get("url", "")
-                    if url:
-                        existing_urls.add(url)
-
-            except Exception as e:
-                print(f"❌ Error checking URL batch for {college_name}: {e}")
-                continue
-
-        return existing_urls
 
     def close(self):
         """Clean up resources including Milvus connections and Playwright instances."""

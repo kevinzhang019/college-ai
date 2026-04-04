@@ -23,8 +23,9 @@ load_dotenv(env_path)
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# OpenAI client cache
+# OpenAI client cache (thread-safe singleton)
 _client: Optional[OpenAI] = None
+_client_lock = threading.Lock()
 
 # === Tokenization utilities for RAG chunking ===
 try:
@@ -112,10 +113,13 @@ def _create_openai_client() -> Optional[OpenAI]:
 
 
 def get_openai_client() -> Optional[OpenAI]:
-    """Return a cached OpenAI client, creating it if necessary."""
+    """Return a cached OpenAI client, creating it if necessary (thread-safe)."""
     global _client
-    if _client is None:
-        _client = _create_openai_client()
+    if _client is not None:
+        return _client
+    with _client_lock:
+        if _client is None:
+            _client = _create_openai_client()
     return _client
 
 
@@ -310,7 +314,12 @@ class EmbeddingBatcher:
 
     def submit(self, texts: List[str]) -> concurrent.futures.Future:
         """Submit a list of texts for embedding. Returns a Future resolving to
-        List[Optional[List[float]]] aligned with the input texts."""
+        List[Optional[List[float]]] aligned with the input texts.
+
+        Raises RuntimeError if called after shutdown().
+        """
+        if self._shutdown.is_set():
+            raise RuntimeError("EmbeddingBatcher is shut down")
         future: concurrent.futures.Future = concurrent.futures.Future()
         self._queue.put((texts, future))
         return future
@@ -318,41 +327,71 @@ class EmbeddingBatcher:
     def _run(self):
         """Background loop: collect submissions, fire batches."""
         while not self._shutdown.is_set():
-            pending = []  # list of (texts, future, start_idx, count)
-            all_texts = []
+            self._process_batch(block_timeout=0.5)
+        # Drain any remaining submissions so futures don't hang on shutdown
+        while not self._queue.empty():
+            self._process_batch(block_timeout=0.1)
+        # Final sweep: cancel any futures that slipped in during the drain
+        # (TOCTOU: a submit() could sneak between the empty() check and here)
+        self._cancel_remaining()
 
-            # Block until at least one submission arrives
+    def _process_batch(self, block_timeout: float = 0.5):
+        """Collect pending submissions and fire a single batched API call."""
+        pending = []  # list of (future, start_idx, count)
+        all_texts = []
+
+        # Block until at least one submission arrives
+        try:
+            texts, future = self._queue.get(timeout=block_timeout)
+            start_idx = len(all_texts)
+            all_texts.extend(texts)
+            pending.append((future, start_idx, len(texts)))
+        except queue.Empty:
+            return
+
+        # Drain more items up to max_batch or max_wait
+        deadline = time.monotonic() + self.max_wait_sec
+        while len(all_texts) < self.max_batch and time.monotonic() < deadline:
             try:
-                texts, future = self._queue.get(timeout=0.5)
+                remaining = max(0.01, deadline - time.monotonic())
+                texts, future = self._queue.get(timeout=remaining)
                 start_idx = len(all_texts)
                 all_texts.extend(texts)
                 pending.append((future, start_idx, len(texts)))
             except queue.Empty:
-                continue
+                break
 
-            # Drain more items up to max_batch or max_wait
-            deadline = time.monotonic() + self.max_wait_sec
-            while len(all_texts) < self.max_batch and time.monotonic() < deadline:
-                try:
-                    remaining = max(0.01, deadline - time.monotonic())
-                    texts, future = self._queue.get(timeout=remaining)
-                    start_idx = len(all_texts)
-                    all_texts.extend(texts)
-                    pending.append((future, start_idx, len(texts)))
-                except queue.Empty:
-                    break
+        # Fire the batch
+        try:
+            embeddings = get_embeddings_batch(all_texts, model=self.model)
+            for future, start_idx, count in pending:
+                future.set_result(embeddings[start_idx:start_idx + count])
+        except Exception as e:
+            for future, _, _ in pending:
+                if not future.done():
+                    future.set_exception(e)
 
-            # Fire the batch
+    def _cancel_remaining(self):
+        """Cancel any futures left in the queue so callers don't hang."""
+        cancelled = 0
+        while True:
             try:
-                embeddings = get_embeddings_batch(all_texts, model=self.model)
-                for future, start_idx, count in pending:
-                    future.set_result(embeddings[start_idx:start_idx + count])
-            except Exception as e:
-                for future, _, _ in pending:
-                    if not future.done():
-                        future.set_exception(e)
+                _texts, future = self._queue.get_nowait()
+                if not future.done():
+                    future.set_exception(
+                        RuntimeError("EmbeddingBatcher shut down before processing")
+                    )
+                cancelled += 1
+            except queue.Empty:
+                break
+        if cancelled:
+            print(f"    ⚠️  EmbeddingBatcher cancelled {cancelled} pending request(s) on shutdown")
 
     def shutdown(self):
-        """Signal the background thread to stop and wait for it."""
+        """Signal the background thread to stop and wait for it to drain."""
         self._shutdown.set()
-        self._thread.join(timeout=5)
+        self._thread.join(timeout=15)
+        if self._thread.is_alive():
+            print("    ⚠️  EmbeddingBatcher did not stop within 15s")
+        # Cancel anything the background thread didn't get to
+        self._cancel_remaining()
