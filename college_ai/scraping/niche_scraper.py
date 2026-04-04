@@ -1840,6 +1840,8 @@ def scrape_all(
         with ThreadPoolExecutor(max_workers=num_workers) as executor:
             futures = []
             for wid in range(num_workers):
+                if shutdown_event.is_set():
+                    break
                 f = executor.submit(
                     _worker_loop, wid, job_claimer, rate_limiter,
                     db_writer, grades_only, headless, cookie_lock,

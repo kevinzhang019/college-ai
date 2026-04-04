@@ -3422,6 +3422,11 @@ class MultithreadedCollegeCrawler:
                         print(f"    ✗ Worker error for {college_name}: {e}")
                         continue
 
+                # Propagate global shutdown to per-college stop so the
+                # monitor loop and Playwright callbacks also exit promptly.
+                if global_shutdown_event.is_set():
+                    stop_event.set()
+
                 # Close thread-local session before exiting
                 try:
                     worker_session.close()
@@ -3448,7 +3453,10 @@ class MultithreadedCollegeCrawler:
                 max_crawl_time = MAX_CRAWL_TIME_PER_COLLEGE
 
                 while active_futures and not stop_event.is_set():
-                    # Check for timeout
+                    # Check for timeout or global shutdown
+                    if global_shutdown_event.is_set():
+                        stop_event.set()
+                        break
                     if time.time() - start_time > max_crawl_time:
                         print(
                             f"    ⏰ Timeout reached for {college_name} ({max_crawl_time}s)"
