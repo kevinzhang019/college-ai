@@ -1836,9 +1836,9 @@ def scrape_all(
 
     install_shutdown()
 
+    futures = []
     try:
         with ThreadPoolExecutor(max_workers=num_workers) as executor:
-            futures = []
             for wid in range(num_workers):
                 if shutdown_event.is_set():
                     break
@@ -1858,9 +1858,14 @@ def scrape_all(
                     logger.error(f"Worker failed: {e}")
     except KeyboardInterrupt:
         logger.info("Interrupted — waiting for DB writer to flush pending writes...")
-        # Signal all workers as done so the writer can drain and exit
-        for _ in range(num_workers):
-            db_writer.worker_done()
+
+    # Workers that actually ran have each sent one sentinel via their
+    # finally block.  If shutdown interrupted the launch loop, fewer
+    # workers ran than num_workers, so the DB writer is still waiting
+    # for the missing sentinels.  Send exactly the shortfall.
+    launched = len(futures)
+    for _ in range(num_workers - launched):
+        db_writer.worker_done()
 
     # Wait for writer to flush remaining items
     db_writer.join(timeout=60)
