@@ -25,9 +25,18 @@ Multithreaded BFS crawler that embeds college website pages into Zilliz Cloud.
 - Resource blocking: images, stylesheets, fonts, analytics blocked
 - Cookie persistence + per-domain YAML profiles
 
-**Delta crawling:** `DeltaCrawlCache` (SQLite, WAL mode) stores ETag, Last-Modified, content hash per URL. Skips unchanged pages on re-crawl.
+**Delta crawling:** `DeltaCrawlCache` (SQLite, WAL mode) stores ETag, Last-Modified, content hash per URL. Skips unchanged pages on re-crawl. Disabled when `--no-resume` is used.
 
-See [thread-safety.md](thread-safety.md) for concurrency details — this is critical.
+**CLI flags:**
+
+| Flag | Default | Purpose |
+|---|---|---|
+| `--workers N` | `CRAWLER_MAX_WORKERS` | Worker threads per college |
+| `--colleges N` | `INTER_COLLEGE_PARALLELISM` | Colleges to crawl in parallel |
+| `--max-pages N` | `MAX_PAGES_PER_COLLEGE` | Max pages per college |
+| `--no-resume` | off | Force full re-crawl: disables delta cache and replaces existing Milvus vectors (delete + re-insert) instead of skipping them |
+
+See [thread-safety-crawler.md](thread-safety-crawler.md) for concurrency details — this is critical.
 
 ## Niche Scraper (`niche_scraper.py`)
 
@@ -35,7 +44,7 @@ Playwright-based scraper for Niche.com scattergram data (GPA/SAT/outcome) and le
 
 **Technology:** Camoufox (Firefox stealth) to bypass Cloudflare/PerimeterX. Requires a free Niche account.
 
-**Threading:** `ThreadPoolExecutor` with `MAX_WORKERS=5`. `DBWriterThread` handles all DB writes via a single queue. See [thread-safety.md](thread-safety.md).
+**Threading:** `ThreadPoolExecutor` with `MAX_WORKERS=5`. `DBWriterThread` handles all DB writes via a single queue. See [thread-safety-niche.md](thread-safety-niche.md).
 
 ## Scorecard Client (`scorecard_client.py`)
 

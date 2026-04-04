@@ -99,7 +99,14 @@ Scrapes scattergram datapoints (GPA/SAT/outcome) and letter grades for each scho
 python -m college_ai.scraping.crawler
 ```
 
-No flags. Reads college URLs from CSVs in `college_ai/scraping/colleges/`, BFS-crawls each site, chunks + embeds text, and inserts into Zilliz. Configuration via env vars and `college_ai/scraping/config.py`.
+Reads college URLs from CSVs in `college_ai/scraping/colleges/`, BFS-crawls each site, chunks + embeds text, and inserts into Zilliz. Configuration via env vars and `college_ai/scraping/config.py`.
+
+| Flag | Default | Description |
+|---|---|---|
+| `--workers N` | `CRAWLER_MAX_WORKERS` (6) | Worker threads per college |
+| `--colleges N` | `INTER_COLLEGE_PARALLELISM` (4) | Colleges to crawl in parallel |
+| `--max-pages N` | `MAX_PAGES_PER_COLLEGE` (500) | Max pages per college |
+| `--no-resume` | off | Force full re-crawl: disables delta cache and replaces existing Milvus vectors (delete + re-insert) |
 
 ### 4. Export training data
 
@@ -207,7 +214,8 @@ Detailed architecture docs are in `docs/`:
 | Document | Description |
 |---|---|
 | [ML Pipelines](docs/ml-pipelines.md) | Single global model + per-selectivity-bucket models (LightGBM, focal loss, Venn-ABERS) |
-| [Thread Safety](docs/thread-safety.md) | All concurrency primitives in crawler + scraper (locks, semaphores, thread-local storage) |
+| [Thread Safety — Crawler](docs/thread-safety-crawler.md) | Concurrency primitives in the BFS crawler (locks, semaphores, thread-local storage, shutdown ordering) |
+| [Thread Safety — Niche](docs/thread-safety-niche.md) | Concurrency primitives in the Niche scraper (DBWriterThread, rate limiter, sentinel guarantee) |
 | [Scraping](docs/scraping.md) | BFS crawler, Niche scraper, Scorecard client — anti-bot measures, delta crawling |
 | [RAG Pipeline](docs/rag-pipeline.md) | Query rewriting → embedding → search → reranking → generation → citation verification |
 | [Database](docs/database.md) | Three tables, Turso/libSQL connection resilience, inline migrations |
