@@ -12,7 +12,7 @@ Environment variables in `.env` at the project root:
 | `ZILLIZ_API_KEY` | Yes | — | RAG, crawler |
 | `ZILLIZ_COLLECTION_NAME` | No | `college_pages` | RAG, crawler |
 | `OPENAI_API_KEY` | Yes | — | RAG, crawler (embeddings) |
-| `OPENAI_CHAT_MODEL` | No | `gpt-4o-mini` | RAG answer generation |
+| `OPENAI_CHAT_MODEL` | No | `gpt-4.1-nano` | RAG answer generation |
 | `TURSO_DATABASE_URL` | No | local SQLite | Admissions DB (Turso cloud) |
 | `TURSO_AUTH_TOKEN` | No | — | Admissions DB (Turso cloud) |
 | `SCORECARD_API_KEY` | Yes (for scraping) | — | College Scorecard API |
@@ -57,7 +57,7 @@ tests/                   All tests
 model/                   Trained model artifacts (tracked in git)
 data/                    Runtime data — training parquet, SQLite DBs (gitignored)
 frontend/                Static HTML/JS/CSS frontend
-docs/                    Feature documentation
+docs/                    Architecture documentation (ML, RAG, threading, DB, API)
 ```
 
 ## Data Pipeline
@@ -159,6 +159,7 @@ Trains 4 separate models by selectivity bucket (reach/competitive/match/safety).
 | `POST` | `/ask` | RAG question answering |
 | `POST` | `/predict` | Admission probability for one school |
 | `POST` | `/compare` | Admission probability across multiple schools |
+| `GET` | `/scattergram/{school_name}` | Scattergram datapoints for visualization |
 
 ### Example: Ask a question
 
@@ -198,3 +199,16 @@ One-off tools in `scripts/` for Zilliz DB maintenance:
 | `run_monitor.py` | CLI wrapper for the monitor |
 
 Run with: `python scripts/<script>.py`
+
+## Architecture Documentation
+
+Detailed architecture docs are in `docs/`:
+
+| Document | Description |
+|---|---|
+| [ML Pipelines](docs/ml-pipelines.md) | Single global model + per-selectivity-bucket models (LightGBM, focal loss, Venn-ABERS) |
+| [Thread Safety](docs/thread-safety.md) | All concurrency primitives in crawler + scraper (locks, semaphores, thread-local storage) |
+| [Scraping](docs/scraping.md) | BFS crawler, Niche scraper, Scorecard client — anti-bot measures, delta crawling |
+| [RAG Pipeline](docs/rag-pipeline.md) | Query rewriting → embedding → search → reranking → generation → citation verification |
+| [Database](docs/database.md) | Three tables, Turso/libSQL connection resilience, inline migrations |
+| [API & Frontend](docs/api.md) | Endpoint details, request/response shapes, frontend setup |

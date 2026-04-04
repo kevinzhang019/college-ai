@@ -216,3 +216,4 @@ data/
 logs/
 *.db
 *.parquet
+CLAUDE.md

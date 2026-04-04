@@ -11,7 +11,8 @@ Or programmatically:
 from __future__ import annotations
 
 import argparse
-from typing import Any, Dict, Optional
+import os
+from typing import Any, Dict, List, Optional
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -36,15 +37,20 @@ def _get_predictor():
             return None
     return _admissions_predictor
 
-# Add CORS middleware to allow frontend access
+# CORS: allow env override via comma-separated CORS_ORIGINS, plus localhost defaults
+_default_origins = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://localhost:8080",
+    "http://127.0.0.1:8080",
+]
+_env_origins = os.getenv("CORS_ORIGINS", "")
+_origins = [o.strip() for o in _env_origins.split(",") if o.strip()] if _env_origins else []
+_all_origins = list(dict.fromkeys(_origins + _default_origins))  # dedupe, env first
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-        "http://localhost:8080",  # Alternative common dev port
-        "http://127.0.0.1:8080",
-    ],
+    allow_origins=_all_origins,
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
