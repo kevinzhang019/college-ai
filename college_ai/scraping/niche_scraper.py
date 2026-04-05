@@ -54,6 +54,8 @@ REQUEST_DELAY_MIN = 3.0   # seconds between page loads (min)
 REQUEST_DELAY_MAX = 7.0   # seconds between page loads (max)
 NAV_TIMEOUT = 60_000      # ms
 PX_RESTART_AFTER = 1      # restart browser after this many consecutive PX blocks
+MAX_CAPTURE_FAILURES = 2  # after this many consecutive failed captures (per-worker), skip capture and just restart
+CAPTURE_CLEANUP_TIMEOUT = 15  # seconds to wait for capture browser cleanup before abandoning
 
 # Niche grade CSS selectors (public pages, no auth needed)
 GRADE_CATEGORIES = [
@@ -294,7 +296,7 @@ class DBWriterThread(threading.Thread):
 
     def __init__(self, write_queue: queue.Queue, num_workers: int,
                  stats: dict, stats_lock: threading.Lock):
-        super().__init__(daemon=False, name="db-writer")
+        super().__init__(daemon=True, name="db-writer")
         self._q = write_queue
         self._num_workers = num_workers
         self._sentinels_seen = 0
@@ -428,6 +430,7 @@ class DBWriterThread(threading.Thread):
         """
         n_points = len(points) if points else 0
         logger.debug("[DB] Writing %s (%d points) ...", slug, n_points)
+        session = None
         for attempt in range(self.MAX_RETRIES):
             session = get_session()
             try:
@@ -457,7 +460,9 @@ class DBWriterThread(threading.Thread):
                 logger.error("[DB] Failed to write %s: %s", slug, e)
                 return False
             finally:
-                session.close()
+                if session is not None:
+                    session.close()
+                session = None
 
     @staticmethod
     def _write_one(session, slug, school_id, points, grades, now, tag):
@@ -466,6 +471,7 @@ class DBWriterThread(threading.Thread):
 
     def _keepalive(self):
         """Send a lightweight SELECT to keep the Turso WebSocket alive."""
+        session = None
         session = get_session()
         try:
             from sqlalchemy import text
@@ -482,7 +488,8 @@ class DBWriterThread(threading.Thread):
             else:
                 logger.warning("[DB] Keepalive failed (non-Hrana): %s", e)
         finally:
-            session.close()
+            if session is not None:
+                session.close()
 
     @staticmethod
     def drain_queue_best_effort(write_queue, stats=None, stats_lock=None):
@@ -510,6 +517,7 @@ class DBWriterThread(threading.Thread):
                 continue
             try:
                 slug, school_id, points, grades, timestamp, tag = item
+                session = None
                 session = get_session()
                 try:
                     _write_school_data(session, slug, school_id, points, grades, timestamp, tag)
@@ -526,7 +534,8 @@ class DBWriterThread(threading.Thread):
                     logger.error("[DB] Best-effort drain failed for %s: %s", slug, e)
                     failed += 1
                 finally:
-                    session.close()
+                    if session is not None:
+                        session.close()
             except Exception as e:
                 logger.error("[DB] Best-effort drain — malformed item: %s", e)
                 failed += 1
@@ -700,17 +709,31 @@ class NicheScraper:
                     time.sleep(0.5)
             cookies = ctx.cookies()
         finally:
-            # Close each resource independently so a failure in one
-            # does not prevent cleanup of the others.
-            for resource, label in [(pg, "page"), (ctx, "context"), (browser, "browser")]:
-                try:
-                    resource.close()
-                except Exception as exc:
-                    logger.debug("Cookie capture cleanup — %s.close() failed: %s", label, exc)
-            try:
-                pl.stop()
-            except Exception as exc:
-                logger.debug("Cookie capture cleanup — pl.stop() failed: %s", exc)
+            # Close capture browser with a timeout — browser.close() can
+            # hang indefinitely on a crashed/zombie process.  This runs
+            # while cookie_capture_lock is held, so a hang here would
+            # deadlock all workers waiting for the lock.
+            def _cleanup_capture_browser():
+                for resource, label in [(pg, "page"), (ctx, "context"), (browser, "browser")]:
+                    if resource is not None:
+                        try:
+                            resource.close()
+                        except Exception as exc:
+                            logger.debug("Cookie capture cleanup — %s.close() failed: %s", label, exc)
+                if pl is not None:
+                    try:
+                        pl.stop()
+                    except Exception as exc:
+                        logger.debug("Cookie capture cleanup — pl.stop() failed: %s", exc)
+
+            cleanup = threading.Thread(target=_cleanup_capture_browser, daemon=True)
+            cleanup.start()
+            cleanup.join(timeout=CAPTURE_CLEANUP_TIMEOUT)
+            if cleanup.is_alive():
+                logger.warning(
+                    "Cookie capture browser cleanup hung — abandoning "
+                    "(daemon thread will be reaped at process exit)"
+                )
 
         if cookies is None:
             return False
@@ -1913,6 +1936,14 @@ class NicheScraper:
         self._intercepted_data = []
         self._cached_grades = None
         self._cached_grades_slug = None
+        # Remove response listener before closing page to break the
+        # self -> _response_handler closure -> self reference cycle.
+        if self._response_handler is not None and self.page is not None:
+            try:
+                self.page.remove_listener("response", self._response_handler)
+            except Exception:
+                pass
+        self._response_handler = None
         for resource, method, label in [
             (self.page, "close", "page"),
             (self.context, "close", "context"),
@@ -1972,6 +2003,7 @@ def _worker_loop(
         scraper = NicheScraper()
         consecutive_px_blocks = 0
         my_cookie_gen = 0
+        consecutive_capture_failures = 0
 
         scraper.start(headless=headless, grades_only=grades_only)
         logger.info(f"{tag} Browser started")
@@ -2024,42 +2056,69 @@ def _worker_loop(
                 if scraper._px_blocked:
                     consecutive_px_blocks += 1
                     if consecutive_px_blocks >= PX_RESTART_AFTER:
-                        # Check if another worker already refreshed cookies.
-                        # my_cookie_gen is updated here (outer read) AND inside
-                        # cookie_capture_lock (inner read).  Both updates are
-                        # load-bearing:
-                        #   - Outer update (L1973): if the generation was already
-                        #     bumped, we skip the capture lock entirely.
-                        #   - Inner update (L1984): if another worker bumped it
-                        #     while we waited for cookie_capture_lock, the inner
-                        #     check detects it (generation[0] > stale my_cookie_gen)
-                        #     and skips the redundant capture.
-                        with cookie_lock:
-                            already_refreshed = cookie_generation[0] > my_cookie_gen
-                            my_cookie_gen = cookie_generation[0]
-
-                        if not already_refreshed:
-                            # Serialize captures — only one worker captures at a time.
-                            # cookie_capture_lock is held for the duration of interactive
-                            # capture; cookie_lock is only held briefly for generation
-                            # reads/writes so other workers' per-school checks don't block.
-                            with cookie_capture_lock:
-                                # Double-check: another worker may have captured
-                                # while we waited for cookie_capture_lock
-                                with cookie_lock:
-                                    already_refreshed = cookie_generation[0] > my_cookie_gen
-                                    my_cookie_gen = cookie_generation[0]
-                                if not already_refreshed:
-                                    logger.warning(f"{tag} PerimeterX blocked — capturing cookies...")
-                                    captured = scraper.capture_cookies()
-                                    if captured:
-                                        with cookie_lock:
-                                            cookie_generation[0] += 1
-                                            my_cookie_gen = cookie_generation[0]
-                                    else:
-                                        logger.info(f"{tag} Cookie capture cancelled — generation not bumped")
+                        # After MAX_CAPTURE_FAILURES consecutive failed captures,
+                        # skip the interactive capture and just restart the browser.
+                        # This prevents an infinite cycle of 300s timeouts when no
+                        # user is at the terminal to complete the capture.
+                        if consecutive_capture_failures >= MAX_CAPTURE_FAILURES:
+                            logger.warning(
+                                f"{tag} Skipping cookie capture after "
+                                f"{consecutive_capture_failures} consecutive failures "
+                                "— restarting browser with existing cookies"
+                            )
                         else:
-                            logger.info(f"{tag} Cookies already refreshed by another worker — reloading")
+                            # Check if another worker already refreshed cookies.
+                            # my_cookie_gen is updated here (outer read) AND inside
+                            # cookie_capture_lock (inner read).  Both updates are
+                            # load-bearing:
+                            #   - Outer update: if the generation was already
+                            #     bumped, we skip the capture lock entirely.
+                            #   - Inner update: if another worker bumped it
+                            #     while we waited for cookie_capture_lock, the inner
+                            #     check detects it (generation[0] > stale my_cookie_gen)
+                            #     and skips the redundant capture.
+                            with cookie_lock:
+                                already_refreshed = cookie_generation[0] > my_cookie_gen
+                                my_cookie_gen = cookie_generation[0]
+
+                            if not already_refreshed:
+                                # Serialize captures — only one worker captures at a time.
+                                # cookie_capture_lock is held for the duration of interactive
+                                # capture; cookie_lock is only held briefly for generation
+                                # reads/writes so other workers' per-school checks don't block.
+                                # Use timeout-based acquire so workers can check shutdown_event
+                                # instead of blocking indefinitely (capture can take up to 300s).
+                                acquired = False
+                                while not acquired and not shutdown_event.is_set():
+                                    acquired = cookie_capture_lock.acquire(timeout=2.0)
+                                if not acquired:
+                                    # shutdown_event fired while waiting
+                                    break
+                                try:
+                                    # Double-check: another worker may have captured
+                                    # while we waited for cookie_capture_lock
+                                    with cookie_lock:
+                                        already_refreshed = cookie_generation[0] > my_cookie_gen
+                                        my_cookie_gen = cookie_generation[0]
+                                    if not already_refreshed:
+                                        logger.warning(f"{tag} PerimeterX blocked — capturing cookies...")
+                                        captured = scraper.capture_cookies()
+                                        if captured:
+                                            consecutive_capture_failures = 0
+                                            with cookie_lock:
+                                                cookie_generation[0] += 1
+                                                my_cookie_gen = cookie_generation[0]
+                                        else:
+                                            consecutive_capture_failures += 1
+                                            logger.info(f"{tag} Cookie capture cancelled — generation not bumped")
+                                    else:
+                                        # Another worker succeeded while we waited
+                                        consecutive_capture_failures = 0
+                                finally:
+                                    cookie_capture_lock.release()
+                            else:
+                                logger.info(f"{tag} Cookies already refreshed by another worker — reloading")
+                                consecutive_capture_failures = 0
 
                         if shutdown_event.is_set():
                             break
@@ -2144,6 +2203,7 @@ def scrape_all(
         num_workers: Number of parallel browser workers (default 3, max 5).
     """
     init_db()
+    session = None
     session = get_session()
     try:
         # Build slug -> school_id mapping, ordered by enrollment (largest first)
@@ -2180,7 +2240,8 @@ def scrape_all(
         else:
             slugs_with_ids = list(slug_map.items())
     finally:
-        session.close()
+        if session is not None:
+            session.close()
 
     # For single school, no need for parallelism
     num_workers = min(num_workers, MAX_WORKERS)
@@ -2249,7 +2310,10 @@ def scrape_all(
         if db_writer.is_alive():
             logger.warning("DB writer did not finish in time — some writes may be lost")
 
-        # Best-effort drain if the writer died with items still queued
+        # Best-effort drain if the writer died with items still queued.
+        # write_queue.empty() is safe here: all workers have exited
+        # (ThreadPoolExecutor joined them) and db_writer has been joined
+        # above, so no concurrent producers/consumers remain.
         if not db_writer.is_alive() and db_writer._crashed and not write_queue.empty():
             logger.warning("[DB] Writer crashed — attempting best-effort queue drain")
             DBWriterThread.drain_queue_best_effort(write_queue, stats, stats_lock)
@@ -2266,13 +2330,15 @@ def scrape_all(
 def reset_no_data_schools():
     """Delete NicheGrade rows marked no_data so those schools get retried."""
     init_db()
+    session = None
     session = get_session()
     try:
         count = session.query(NicheGrade).filter_by(no_data=1).delete()
         session.commit()
         logger.info(f"Deleted {count} no_data NicheGrade rows — those schools will be retried.")
     finally:
-        session.close()
+        if session is not None:
+            session.close()
 
 
 def main():
@@ -2325,7 +2391,10 @@ def main():
 
     if args.capture_cookies:
         scraper = NicheScraper()
-        scraper.capture_cookies()
+        try:
+            scraper.capture_cookies()
+        finally:
+            scraper.close()
         return
 
     # headless is blocked by PerimeterX; only use if explicitly requested

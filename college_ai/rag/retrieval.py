@@ -43,14 +43,20 @@ class HybridRetriever:
 
     # ---- Connection ----
 
-    def _get_client(self):
-        """Lazily initialize the MilvusClient."""
+    def _get_collection(self):
+        """Lazily initialize the ORM Collection handle.
+
+        Uses the ORM API instead of MilvusClient to avoid connection hangs
+        on Zilliz Serverless.
+        """
         if self._client is not None:
             return self._client
 
-        from pymilvus import MilvusClient
+        from pymilvus import connections, Collection
 
-        self._client = MilvusClient(uri=ZILLIZ_URI, token=ZILLIZ_API_KEY)
+        connections.connect(alias="default", uri=ZILLIZ_URI, token=ZILLIZ_API_KEY)
+        self._client = Collection(self.collection_name)
+        self._client.load()
         logger.info(
             "Connected to Milvus (collection=%s)", self.collection_name
         )
@@ -163,7 +169,7 @@ class HybridRetriever:
         """Execute hybrid dense + BM25 search on Milvus."""
         from pymilvus import AnnSearchRequest, RRFRanker
 
-        client = self._get_client()
+        col = self._get_collection()
 
         # Build filter expression
         conditions = []
@@ -194,10 +200,9 @@ class HybridRetriever:
         )
 
         try:
-            results = client.hybrid_search(
-                collection_name=self.collection_name,
+            results = col.hybrid_search(
                 reqs=[dense_req, sparse_req],
-                ranker=RRFRanker(k=60),
+                rerank=RRFRanker(k=60),
                 limit=top_k,
                 output_fields=output_fields,
             )
@@ -218,15 +223,14 @@ class HybridRetriever:
         expr: Optional[str] = None,
     ) -> List[Dict[str, Any]]:
         """Fallback: dense-only search if hybrid fails."""
-        client = self._get_client()
+        col = self._get_collection()
         try:
-            results = client.search(
-                collection_name=self.collection_name,
+            results = col.search(
                 data=[query_embedding],
                 anns_field="embedding",
-                search_params={"metric_type": "COSINE", "params": {"nprobe": 32}},
+                param={"metric_type": "COSINE", "params": {"nprobe": 32}},
                 limit=top_k,
-                filter=expr,
+                expr=expr,
                 output_fields=output_fields,
             )
             return self._normalize_results(results)
@@ -241,7 +245,7 @@ class HybridRetriever:
             return []
 
         hits = []
-        # MilvusClient returns List[List[dict]]
+        # Handle both dict format and ORM-style hit objects
         result_list = results if isinstance(results, list) else [results]
         for group in result_list:
             if not group:

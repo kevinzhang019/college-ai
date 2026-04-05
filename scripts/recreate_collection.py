@@ -33,6 +33,9 @@ def main() -> None:
     else:
         print(f"Collection '{ZILLIZ_COLLECTION_NAME}' not found; will create new one.")
 
+    # Disconnect so crawler's connect_milvus() can reconnect cleanly
+    connections.disconnect("default")
+
     # Recreate using crawler's hybrid schema setup
     print("Creating collection with hybrid search schema...")
     from college_ai.scraping.crawler import MultithreadedCollegeCrawler
@@ -46,6 +49,8 @@ def main() -> None:
         print("  Collection loaded")
     except Exception as e:
         print(f"  Could not load collection immediately: {e}")
+    finally:
+        crawler.close()
 
 
 if __name__ == "__main__":

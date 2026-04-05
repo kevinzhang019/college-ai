@@ -60,12 +60,11 @@ from bs4 import BeautifulSoup
 from pymilvus import (
     connections,
     Collection,
-    FieldSchema,
     CollectionSchema,
+    FieldSchema,
     DataType,
     Function,
     FunctionType,
-    MilvusClient,
     utility,
 )
 
@@ -1054,15 +1053,13 @@ class MultithreadedCollegeCrawler:
     def get_or_create_collection(self):
         """Get or create the Zilliz Cloud collection with hybrid search schema.
 
-        Uses MilvusClient API for creation (supports BM25 functions), then
-        returns an ORM Collection handle for the rest of the crawler.
+        Uses ORM API throughout (supports BM25 functions in pymilvus ≥2.5).
         """
         collection_name = ZILLIZ_COLLECTION_NAME
 
         if utility.has_collection(collection_name):
             existing = Collection(collection_name)
             actual_fields = {f.name for f in existing.schema.fields}
-            # Check if it has the hybrid schema (content_sparse + page_type)
             if "content_sparse" in actual_fields and "page_type" in actual_fields:
                 print(f"✅ Collection '{collection_name}' exists with hybrid schema.")
                 return existing
@@ -1072,25 +1069,24 @@ class MultithreadedCollegeCrawler:
             )
             utility.drop_collection(collection_name)
 
-        # Create with MilvusClient (supports BM25 Function)
         print(f"🔧 Creating collection '{collection_name}' with hybrid search schema...")
-        client = MilvusClient(uri=ZILLIZ_URI, token=ZILLIZ_API_KEY)
 
-        schema = client.create_schema(auto_id=False, enable_dynamic_field=False)
-        schema.add_field("id", DataType.VARCHAR, is_primary=True, max_length=100)
-        schema.add_field("college_name", DataType.VARCHAR, max_length=256)
-        schema.add_field("url", DataType.VARCHAR, max_length=2048)
-        schema.add_field("url_canonical", DataType.VARCHAR, max_length=512)
-        schema.add_field("title", DataType.VARCHAR, max_length=MAX_TITLE_LENGTH)
-        schema.add_field(
-            "content", DataType.VARCHAR, max_length=MAX_CONTENT_LENGTH,
-            enable_analyzer=True, enable_match=True,
-            analyzer_params={"type": "english"},
-        )
-        schema.add_field("content_sparse", DataType.SPARSE_FLOAT_VECTOR)
-        schema.add_field("embedding", DataType.FLOAT_VECTOR, dim=VECTOR_DIM)
-        schema.add_field("page_type", DataType.VARCHAR, max_length=64)
-        schema.add_field("crawled_at", DataType.VARCHAR, max_length=32)
+        schema = CollectionSchema(fields=[
+            FieldSchema("id", DataType.VARCHAR, is_primary=True, max_length=100),
+            FieldSchema("college_name", DataType.VARCHAR, max_length=256),
+            FieldSchema("url", DataType.VARCHAR, max_length=2048),
+            FieldSchema("url_canonical", DataType.VARCHAR, max_length=512),
+            FieldSchema("title", DataType.VARCHAR, max_length=MAX_TITLE_LENGTH),
+            FieldSchema(
+                "content", DataType.VARCHAR, max_length=MAX_CONTENT_LENGTH,
+                enable_analyzer=True, enable_match=True,
+                analyzer_params={"type": "english"},
+            ),
+            FieldSchema("content_sparse", DataType.SPARSE_FLOAT_VECTOR),
+            FieldSchema("embedding", DataType.FLOAT_VECTOR, dim=VECTOR_DIM),
+            FieldSchema("page_type", DataType.VARCHAR, max_length=64),
+            FieldSchema("crawled_at", DataType.VARCHAR, max_length=32),
+        ])
 
         # BM25 function: auto-generates content_sparse from content at insert time
         schema.add_function(Function(
@@ -1100,37 +1096,17 @@ class MultithreadedCollegeCrawler:
             function_type=FunctionType.BM25,
         ))
 
+        col = Collection(collection_name, schema=schema)
+
         # Indexes
-        index_params = client.prepare_index_params()
-        index_params.add_index(
-            field_name="embedding", index_type="AUTOINDEX", metric_type="COSINE",
-        )
-        index_params.add_index(
-            field_name="content_sparse",
-            index_type="SPARSE_INVERTED_INDEX", metric_type="BM25",
-        )
-        index_params.add_index(
-            field_name="college_name", index_type="INVERTED",
-            index_name="college_name_idx",
-        )
-        index_params.add_index(
-            field_name="url_canonical", index_type="INVERTED",
-            index_name="url_canonical_idx",
-        )
-        index_params.add_index(
-            field_name="page_type", index_type="INVERTED",
-            index_name="page_type_idx",
-        )
+        col.create_index("embedding", {"index_type": "AUTOINDEX", "metric_type": "COSINE"})
+        col.create_index("content_sparse", {"index_type": "SPARSE_INVERTED_INDEX", "metric_type": "BM25"})
+        col.create_index("college_name", {"index_type": "INVERTED"}, index_name="college_name_idx")
+        col.create_index("url_canonical", {"index_type": "INVERTED"}, index_name="url_canonical_idx")
+        col.create_index("page_type", {"index_type": "INVERTED"}, index_name="page_type_idx")
 
-        client.create_collection(
-            collection_name=collection_name,
-            schema=schema,
-            index_params=index_params,
-        )
         print(f"✅ Created collection '{collection_name}' with hybrid schema.")
-
-        # Return an ORM Collection handle for the rest of the crawler
-        return Collection(collection_name)
+        return col
 
     def ensure_collection_ready(self):
         """Load collection to make it queryable. Indexes are created at schema time."""

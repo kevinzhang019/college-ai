@@ -72,7 +72,7 @@ Always rewrites (no 60-char threshold). Uses gpt-4.1-nano with a prompt optimize
 
 ## Step 3: Hybrid Retrieval (`retrieval.py`)
 
-Uses `MilvusClient.hybrid_search()` with two arms:
+Uses ORM `Collection.hybrid_search()` with two arms:
 
 | Arm | Field | Metric | Notes |
 |---|---|---|---|
