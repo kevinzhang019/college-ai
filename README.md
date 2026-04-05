@@ -10,9 +10,11 @@ Environment variables in `.env` at the project root:
 |---|---|---|---|
 | `ZILLIZ_URI` | Yes | — | RAG, crawler |
 | `ZILLIZ_API_KEY` | Yes | — | RAG, crawler |
-| `ZILLIZ_COLLECTION_NAME` | No | `college_pages` | RAG, crawler |
+| `ZILLIZ_COLLECTION_NAME` | No | `colleges` | Crawler (v1 collection) |
+| `ZILLIZ_COLLECTION_NAME_V2` | No | `colleges_v2` | RAG v2 (hybrid search collection) |
 | `OPENAI_API_KEY` | Yes | — | RAG, crawler (embeddings) |
-| `OPENAI_CHAT_MODEL` | No | `gpt-4.1-nano` | RAG answer generation |
+| `OPENAI_CHAT_MODEL` | No | `gpt-4.1-mini` | RAG answer generation |
+| `COHERE_API_KEY` | No | — | Cross-encoder reranking (optional, degrades gracefully) |
 | `TURSO_DATABASE_URL` | No | local SQLite | Admissions DB (Turso cloud) |
 | `TURSO_AUTH_TOKEN` | No | — | Admissions DB (Turso cloud) |
 | `SCORECARD_API_KEY` | Yes (for scraping) | — | College Scorecard API |
@@ -50,7 +52,7 @@ college_ai/              Main Python package
   db/connection.py       SQLAlchemy engine (Turso or local SQLite)
   db/models.py           ORM models (School, ApplicantDatapoint, NicheGrade)
   ml/                    ML training + inference
-  rag/                   RAG pipeline (vector search + LLM)
+  rag/                   RAG v2 (hybrid search, query routing, essay helper)
   scraping/              Web crawler, Niche scraper, Scorecard client
 scripts/                 One-off DB maintenance tools
 tests/                   All tests
@@ -108,7 +110,20 @@ Reads college URLs from CSVs in `college_ai/scraping/colleges/`, BFS-crawls each
 | `--max-pages N` | `MAX_PAGES_PER_COLLEGE` (500) | Max pages per college |
 | `--no-resume` | off | Force full re-crawl: disables delta cache and replaces existing Milvus vectors (delete + re-insert) |
 
-### 4. Export training data
+### 4. Migrate to hybrid search collection
+
+```bash
+python scripts/migrate_to_hybrid.py --drop-existing
+```
+
+Copies all data from the v1 `colleges` collection to `colleges_v2` with BM25 sparse vectors auto-generated at insert time. The v1 collection is left untouched. Only needed once (or after re-crawling).
+
+| Flag | Default | Description |
+|---|---|---|
+| `--drop-existing` | off | Drop v2 collection if it already exists and recreate |
+| `--batch-size N` | 500 | Rows per migration batch |
+
+### 5. Export training data
 
 ```bash
 python -m college_ai.ml.data_pipeline export
@@ -122,7 +137,7 @@ Pulls raw data from the DB, normalizes scores, engineers features, and writes `d
 | `export` (positional) | — | Run pipeline and export training data |
 | `--format parquet\|csv` | parquet | Output format |
 
-### 5a. Train single global model
+### 6a. Train single global model
 
 ```bash
 python -m college_ai.ml.train
@@ -140,7 +155,7 @@ Trains one LightGBM model on all data. Outputs to `model/`.
 | `--prune-features` | off | Drop near-zero importance features and retrain |
 | `--model-type lightgbm\|catboost` | lightgbm | Boosting framework |
 
-### 5b. Train bucketed models (recommended)
+### 6b. Train bucketed models (recommended)
 
 ```bash
 python -m college_ai.ml.train_bucketed
@@ -163,7 +178,7 @@ Trains 4 separate models by selectivity bucket (reach/competitive/match/safety).
 | `GET` | `/health` | Liveness check |
 | `GET` | `/config` | Current collection name |
 | `GET` | `/options` | Available college/major filter lists |
-| `POST` | `/ask` | RAG question answering |
+| `POST` | `/ask` | RAG Q&A or Essay Helper |
 | `POST` | `/predict` | Admission probability for one school |
 | `POST` | `/compare` | Admission probability across multiple schools |
 | `GET` | `/scattergram/{school_name}` | Scattergram datapoints for visualization |
@@ -173,7 +188,23 @@ Trains 4 separate models by selectivity bucket (reach/competitive/match/safety).
 ```bash
 curl -X POST http://localhost:8000/ask \
   -H 'Content-Type: application/json' \
-  -d '{"question": "Scholarships for business majors at UCLA?", "major": "business", "top_k": 8}'
+  -d '{"question": "Scholarships for business majors at UCLA?", "top_k": 8}'
+```
+
+### Example: Essay brainstorming
+
+```bash
+curl -X POST http://localhost:8000/ask \
+  -H 'Content-Type: application/json' \
+  -d '{"question": "Help me brainstorm ideas for my Why Stanford essay", "college": "Stanford University"}'
+```
+
+### Example: Essay draft review
+
+```bash
+curl -X POST http://localhost:8000/ask \
+  -H 'Content-Type: application/json' \
+  -d '{"question": "Review my Why UPenn essay", "college": "University of Pennsylvania", "essay_text": "Ever since I visited campus..."}'
 ```
 
 ### Example: Predict admission chances
@@ -187,7 +218,9 @@ curl -X POST http://localhost:8000/predict \
 ## RAG CLI
 
 ```bash
-python -m college_ai.rag.service --question "How do I apply for CS at MIT?" --major "computer science" --top_k 8
+python -m college_ai.rag.service --question "How do I apply for CS at MIT?" --top_k 8
+python -m college_ai.rag.service --question "Help me brainstorm my Why Stanford essay" --college "Stanford University"
+python -m college_ai.rag.service --question "Review my essay" --college "MIT" --essay_text "Ever since..."
 ```
 
 ## Maintenance Scripts
@@ -200,7 +233,8 @@ One-off tools in `scripts/` for Zilliz DB maintenance:
 | `count_duplicates.py` | Count duplicates without deleting (read-only) |
 | `clean_non_university_urls.py` | Remove off-domain URLs from the collection |
 | `consolidate_college_alias.py` | Merge records for college name aliases |
-| `recreate_collection.py` | Drop and recreate the Zilliz collection |
+| `recreate_collection.py` | Drop and recreate the v1 Zilliz collection |
+| `migrate_to_hybrid.py` | Migrate data from v1 to v2 hybrid collection (dense + BM25) |
 | `migrate_zilliz.py` | Copy data between Zilliz instances |
 | `milvus_monitor.py` | Live terminal dashboard of collection stats |
 | `run_monitor.py` | CLI wrapper for the monitor |
@@ -217,6 +251,6 @@ Detailed architecture docs are in `docs/`:
 | [Thread Safety — Crawler](docs/thread-safety-crawler.md) | Concurrency primitives in the BFS crawler (locks, semaphores, thread-local storage, shutdown ordering) |
 | [Thread Safety — Niche](docs/thread-safety-niche.md) | Concurrency primitives in the Niche scraper (DBWriterThread, rate limiter, sentinel guarantee) |
 | [Scraping](docs/scraping.md) | BFS crawler, Niche scraper, Scorecard client — anti-bot measures, delta crawling |
-| [RAG Pipeline](docs/rag-pipeline.md) | Query rewriting → embedding → search → reranking → generation → citation verification |
+| [RAG Pipeline](docs/rag-pipeline.md) | v2: hybrid search (dense + BM25), query routing, Cohere reranking, specialized generators (Q&A + Essay Helper) |
 | [Database](docs/database.md) | Three tables, Turso/libSQL connection resilience, inline migrations |
 | [API & Frontend](docs/api.md) | Endpoint details, request/response shapes, frontend setup |
