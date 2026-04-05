@@ -788,8 +788,23 @@ class NicheScraper:
                 # --- Cleanup capture browser resources ---
                 # Runs every attempt.  Uses daemon threads with timeout so
                 # zombie Chromium processes cannot block the worker or hold
-                # cookie_capture_lock indefinitely.
+                # cookie_capture_lock indefinitely.  If a thread hangs, we
+                # kill the Playwright server subprocess to unblock it and
+                # join again — preventing orphaned threads from accumulating
+                # across retry iterations.
                 _pg, _ctx, _browser, _pl = pg, ctx, browser, pl
+
+                def _kill_playwright_server():
+                    """Kill the Playwright server subprocess to unblock hung threads."""
+                    if _pl is None:
+                        return
+                    try:
+                        proc = _pl._impl_obj._connection._transport._proc
+                        if proc.poll() is None:
+                            proc.kill()
+                            proc.wait(timeout=5)
+                    except Exception:
+                        pass
 
                 def _cleanup_capture_browser_resources():
                     for resource, label in [
@@ -811,9 +826,11 @@ class NicheScraper:
                 cleanup.join(timeout=CAPTURE_CLEANUP_TIMEOUT)
                 if cleanup.is_alive():
                     logger.warning(
-                        "Cookie capture browser cleanup hung — abandoning "
-                        "(daemon thread will be reaped at process exit)"
+                        "Cookie capture browser cleanup hung — killing "
+                        "Playwright server to unblock"
                     )
+                    _kill_playwright_server()
+                    cleanup.join(timeout=5)
 
                 if _pl is not None:
                     def _cleanup_pl_stop():
@@ -831,9 +848,11 @@ class NicheScraper:
                     pl_cleanup.join(timeout=CAPTURE_CLEANUP_TIMEOUT)
                     if pl_cleanup.is_alive():
                         logger.warning(
-                            "Cookie capture pl.stop() hung — abandoning "
-                            "(daemon thread will be reaped at process exit)"
+                            "Cookie capture pl.stop() hung — killing "
+                            "Playwright server to unblock"
                         )
+                        _kill_playwright_server()
+                        pl_cleanup.join(timeout=5)
 
             # --- Handle browser closed by user ---
             if browser_closed:
@@ -2069,6 +2088,7 @@ class NicheScraper:
             (self.browser, "close", "browser"),
             (self._playwright, "stop", "playwright"),
         ]
+        pw_ref = self._playwright  # keep for server kill fallback
         self.page = None
         self.context = None
         self.browser = None
@@ -2088,9 +2108,20 @@ class NicheScraper:
             cleanup.join(timeout=timeout)
             if cleanup.is_alive():
                 logger.warning(
-                    "Browser close() hung after %.0fs — abandoning "
-                    "(daemon thread will be reaped at process exit)", timeout
+                    "Browser close() hung after %.0fs — killing "
+                    "Playwright server to unblock", timeout
                 )
+                # Kill the Playwright server subprocess so the daemon
+                # thread's blocking close()/stop() calls unblock.
+                if pw_ref is not None:
+                    try:
+                        proc = pw_ref._impl_obj._connection._transport._proc
+                        if proc.poll() is None:
+                            proc.kill()
+                            proc.wait(timeout=5)
+                    except Exception:
+                        pass
+                cleanup.join(timeout=5)
         else:
             _close_resources()
 
