@@ -699,8 +699,8 @@ class NicheScraper:
                     return False
 
                 # --- Wait for user interaction ---
-                # Polls stdin for ENTER *and* browser.is_connected() each
-                # 0.5s so a closed window is detected immediately.
+                # Polls stdin for ENTER, pg.is_closed() (user closed window),
+                # and browser.is_connected() (browser crashed) each 0.5s.
                 try:
                     MAX_COOKIE_WAIT_SECS = 300
                     max_iters = int(MAX_COOKIE_WAIT_SECS / 0.5)
@@ -713,7 +713,7 @@ class NicheScraper:
                         if shutdown_event.is_set():
                             logger.info("Shutdown requested — cancelling cookie capture.")
                             return False
-                        if not browser.is_connected():
+                        if pg.is_closed() or not browser.is_connected():
                             browser_closed = True
                             break
                         if sys.stdin in select.select(
@@ -736,7 +736,7 @@ class NicheScraper:
                         if shutdown_event.is_set():
                             logger.info("Shutdown requested — cancelling cookie capture.")
                             return False
-                        if not browser.is_connected():
+                        if pg.is_closed() or not browser.is_connected():
                             browser_closed = True
                             break
                         time.sleep(0.5)
@@ -748,7 +748,7 @@ class NicheScraper:
                         if shutdown_event.is_set():
                             logger.info("Shutdown requested — cancelling cookie capture.")
                             return False
-                        if not browser.is_connected():
+                        if pg.is_closed() or not browser.is_connected():
                             browser_closed = True
                             break
                         time.sleep(0.5)
