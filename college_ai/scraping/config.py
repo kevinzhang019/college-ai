@@ -143,18 +143,8 @@ ZILLIZ_URI = os.getenv("ZILLIZ_URI")  # e.g., "https://your-cluster.zillizcloud.
 ZILLIZ_API_KEY = os.getenv("ZILLIZ_API_KEY")  # Your Zilliz API key
 ZILLIZ_COLLECTION_NAME = os.getenv("ZILLIZ_COLLECTION_NAME", "colleges")
 
-# If MILVUS_HOST looks like a Zilliz URI, use it as Zilliz URI
-if (
-    os.getenv("MILVUS_HOST")
-    and os.getenv("MILVUS_HOST").startswith("https://")
-    and "zilliz" in os.getenv("MILVUS_HOST")
-):
-    ZILLIZ_URI = os.getenv("MILVUS_HOST")
-
 # Vector settings
 VECTOR_DIM = 1536  # Matches OpenAI embedding dimension
-INDEX_TYPE = "AUTOINDEX"
-METRIC_TYPE = "COSINE"
 
 # Chunking settings
 CHUNK_MAX_TOKENS = int(os.getenv("CHUNK_MAX_TOKENS", "512"))
@@ -202,9 +192,6 @@ PAGE_TYPE_PATTERNS = {
 
 # OpenAI API settings
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-OPENAI_EMBEDDING_MODEL = "text-embedding-3-small"
-OPENAI_MAX_RETRIES = 3
-OPENAI_RATE_LIMIT_DELAY = 1.0  # Delay between API calls
 
 # ==================== FILE PATHS ====================
 
@@ -281,7 +268,6 @@ PRIORITY_URL_PATTERNS = [
 
 # Content validation settings
 MIN_WORDS_PER_PAGE = 50  # Minimum words to consider page valid
-MAX_DUPLICATE_THRESHOLD = 0.8  # Similarity threshold for duplicate detection
 VALID_CONTENT_TYPES = ["text/html", "application/xhtml+xml"]
 
 # Playwright fallback settings
@@ -327,13 +313,6 @@ PLAYWRIGHT_BLOCKED_URL_PATTERNS = [
     "amplitude.com", "newrelic.com", "optimizely.com", "adservice.google.com",
     "pagead2.googlesyndication.com", "connect.facebook.net",
 ]
-
-# ==================== EXPORT SETTINGS ====================
-
-# Export and backup settings
-EXPORT_BATCH_SIZE = 1000  # Number of records to export at once
-BACKUP_ENABLED = True
-BACKUP_INTERVAL_HOURS = 24  # Backup interval in hours
 
 # ==================== HELPER FUNCTIONS ====================
 
