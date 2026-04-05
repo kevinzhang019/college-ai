@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-cream text-warm-800 font-sans antialiased;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5
+           bg-amber-500 hover:bg-amber-600 active:bg-amber-700
+           text-white font-medium rounded-full
+           transition-all duration-200 ease-out
+           shadow-warm hover:shadow-warm-md
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2
+           bg-white hover:bg-amber-50 active:bg-amber-100
+           text-warm-700 font-medium rounded-full
+           border border-amber-200 hover:border-amber-300
+           transition-all duration-200 ease-out
+           shadow-warm-sm hover:shadow-warm;
+  }
+
+  .card {
+    @apply bg-white rounded-2xl shadow-warm-sm border border-amber-100/60
+           transition-shadow duration-200;
+  }
+
+  .card-hover {
+    @apply card hover:shadow-warm-md;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 rounded-xl
+           bg-white border border-amber-200
+           text-warm-800 placeholder:text-warm-400
+           focus:outline-none focus:ring-2 focus:ring-amber-400/40 focus:border-amber-400
+           transition-all duration-200;
+  }
+}
+
+/* Bouncing dots loading animation */
+.dot-bounce {
+  animation: bounce-dot 1.4s infinite ease-in-out both;
+}
+.dot-bounce:nth-child(1) { animation-delay: -0.32s; }
+.dot-bounce:nth-child(2) { animation-delay: -0.16s; }
+.dot-bounce:nth-child(3) { animation-delay: 0s; }
+
+/* Markdown answer styling */
+.markdown-answer h1 { @apply text-xl font-bold mt-4 mb-2 text-warm-800; }
+.markdown-answer h2 { @apply text-lg font-semibold mt-3 mb-2 text-warm-800; }
+.markdown-answer h3 { @apply text-base font-semibold mt-2 mb-1 text-warm-700; }
+.markdown-answer p { @apply mb-3 leading-relaxed; }
+.markdown-answer ul { @apply mb-3 pl-5 list-disc space-y-1; }
+.markdown-answer ol { @apply mb-3 pl-5 list-decimal space-y-1; }
+.markdown-answer li { @apply leading-relaxed; }
+.markdown-answer strong { @apply font-semibold text-warm-800; }
+.markdown-answer a { @apply text-amber-600 hover:text-amber-700 underline; }
+.markdown-answer blockquote {
+  @apply border-l-4 border-amber-300 pl-4 my-3 text-warm-600 italic;
+}
+
+/* Citation badges */
+.citation-badge {
+  @apply inline-flex items-center justify-center
+         w-5 h-5 text-xs font-semibold
+         bg-amber-100 text-amber-700
+         rounded-full cursor-pointer
+         hover:bg-amber-200 transition-colors;
+}
+
+/* Scrollbar styling */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-amber-200 rounded-full;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  @apply bg-amber-300;
+}

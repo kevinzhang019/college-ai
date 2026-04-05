@@ -33,7 +33,7 @@ def main() -> None:
     else:
         print(f"Collection '{ZILLIZ_COLLECTION_NAME}' not found; will create new one.")
 
-    # Disconnect so crawler's connect_milvus() can reconnect cleanly
+    # Disconnect the utility connection; crawler uses its own alias ("crawler")
     connections.disconnect("default")
 
     # Recreate using crawler's hybrid schema setup

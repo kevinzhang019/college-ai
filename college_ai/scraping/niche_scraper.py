@@ -644,23 +644,12 @@ class NicheScraper:
         # Close the existing browser and Playwright instance before
         # starting a new one for interactive capture.
         #
-        # Key constraint: _playwright.stop() MUST run on THIS thread.
-        # The sync API's greenlet-based asyncio event loop is bound to
-        # the thread that called sync_playwright().start().  If stop()
-        # runs in close()'s daemon thread, the greenlet stays frozen and
-        # the next sync_playwright().start() raises "using Playwright
-        # Sync API inside the asyncio loop".
-        #
-        # Strategy: null out self._playwright so close()'s daemon skips
-        # it, then call stop() synchronously here.
-        _pw_ref = self._playwright
-        self._playwright = None
-        self.close()
-        if _pw_ref is not None:
-            try:
-                _pw_ref.stop()
-            except Exception:
-                pass
+        # Uses _close_for_capture() which runs all cleanup synchronously
+        # on THIS thread (the Playwright owner thread).  The regular
+        # close() delegates to a daemon thread, which causes greenlet
+        # errors because Playwright's sync API is bound to the creating
+        # thread's greenlet.
+        self._close_for_capture()
 
         pl = None
         browser = None
@@ -1953,6 +1942,50 @@ class NicheScraper:
             return
         self.start(headless=headless, grades_only=grades_only)
 
+    def _close_for_capture(self):
+        """Close browser resources synchronously on the current (owner) thread.
+
+        Unlike ``close()`` which delegates to a daemon thread (safe for
+        general use but causes greenlet errors when the daemon tries
+        Playwright sync API calls from a non-owner thread),
+        ``_close_for_capture()`` runs all cleanup on THIS thread — the
+        one that owns the Playwright greenlet/asyncio event loop.
+
+        Used exclusively by ``capture_cookies()`` which needs to tear
+        down the existing browser before starting the capture browser,
+        and must do so on the worker thread to avoid cross-thread
+        greenlet switches.
+        """
+        # Release memory-heavy data first
+        self._intercepted_data = []
+        self._cached_grades = None
+        self._cached_grades_slug = None
+        if self._response_handler is not None and self.page is not None:
+            try:
+                self.page.remove_listener("response", self._response_handler)
+            except Exception:
+                pass
+        self._response_handler = None
+
+        # Close resources synchronously — each in try/except so one
+        # failure doesn't prevent cleanup of the rest.
+        for resource, method, label in [
+            (self.page, "close", "page"),
+            (self.context, "close", "context"),
+            (self.browser, "close", "browser"),
+            (self._playwright, "stop", "playwright"),
+        ]:
+            if resource is not None:
+                try:
+                    getattr(resource, method)()
+                except Exception as e:
+                    logger.debug("_close_for_capture — %s.%s() failed: %s", label, method, e)
+
+        self.page = None
+        self.context = None
+        self.browser = None
+        self._playwright = None
+
     def close(self, timeout=CLOSE_TIMEOUT):
         """Clean up browser resources.
 
@@ -2070,6 +2103,22 @@ def _worker_loop(
             logger.info(f"{tag} [{idx+1}/{total}] Scraping {slug} ...")
 
             try:
+                # Gate: if another worker is capturing cookies, close our
+                # browser and wait.  Making page loads while capture is
+                # active wastes time (PX will block them) and produces
+                # noisy errors from competing browser windows.
+                if capture_in_progress.is_set():
+                    logger.info(f"{tag} Cookie capture in progress — closing browser and waiting...")
+                    scraper._close_for_capture()
+                    while capture_in_progress.is_set() and not shutdown_event.is_set():
+                        time.sleep(1.0)
+                    if shutdown_event.is_set():
+                        break
+                    with cookie_lock:
+                        my_cookie_gen = cookie_generation[0]
+                    scraper.start(headless=headless, grades_only=grades_only)
+                    logger.info(f"{tag} Browser restarted after cookie capture")
+
                 now = datetime.now(timezone.utc).isoformat()
                 scraper._px_blocked = False
 
@@ -2093,6 +2142,20 @@ def _worker_loop(
                     with stats_lock:
                         stats["total_points"] += len(points)
                     logger.info(f"{tag}   -> {len(points)} scattergram points")
+
+                # Gate: if capture started during the scattergram scrape,
+                # close browser and wait before making another page load.
+                if capture_in_progress.is_set():
+                    logger.info(f"{tag} Cookie capture started mid-scrape — closing browser and waiting...")
+                    scraper._close_for_capture()
+                    while capture_in_progress.is_set() and not shutdown_event.is_set():
+                        time.sleep(1.0)
+                    if shutdown_event.is_set():
+                        break
+                    with cookie_lock:
+                        my_cookie_gen = cookie_generation[0]
+                    scraper.start(headless=headless, grades_only=grades_only)
+                    logger.info(f"{tag} Browser restarted after cookie capture")
 
                 # Scrape grades — skip page load if admissions page already
                 # yielded grades (cached by scrape_scattergram).
@@ -2312,12 +2375,13 @@ def scrape_all(
             skipped_slugs = sorted(
                 [s for s, sid in slug_map.items() if sid in existing_ids],
                 key=lambda s: slug_enrollment.get(s, 0),
-                reverse=True,
+                reverse=False,
             )
             if skipped_slugs:
                 logger.info(f"Resuming: skipping {len(skipped_slugs)} schools already in niche_grades:")
                 for sk in skipped_slugs:
                     logger.info(f"  skip: {sk}")
+                logger.info(f"  ({len(skipped_slugs)} schools skipped)")
             slugs_with_ids = pending_slugs
         else:
             slugs_with_ids = list(slug_map.items())
@@ -2404,13 +2468,6 @@ def scrape_all(
     if shutdown_event.is_set():
         logger.info("Graceful shutdown complete — all pending writes flushed.")
 
-    # Final skip summary (descending enrollment order) — printed before
-    # the "Done" line so the stats are always the very last output.
-    if resume:
-        if skipped_slugs:
-            for sk in skipped_slugs:
-                logger.info(f"  {sk}")
-        logger.info(f"Skipped {len(skipped_slugs)} schools (already in niche_grades)")
 
     logger.info(
         f"Done. {stats['total_points']} scattergram points, "

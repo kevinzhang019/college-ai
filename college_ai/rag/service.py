@@ -369,7 +369,7 @@ class CollegeRAG:
             queries.append(f"{school} unique programs culture community")
             candidates = self.retriever.search_multi_query(
                 queries, college_name=school,
-                page_types=["about", "academics", "campus_life"],
+                page_types=["about", "academics", "campus_life", "diversity", "outcomes"],
                 top_k=30,
             )
         else:
@@ -378,6 +378,10 @@ class CollegeRAG:
             )
 
         if not candidates:
+            logger.warning(
+                "RAG retrieval returned 0 candidates for query=%r school=%r",
+                search_query[:80], school,
+            )
             return {
                 "answer": NO_ANSWER_RESPONSE,
                 "sources": [],
@@ -385,6 +389,17 @@ class CollegeRAG:
                 "source_count": 0,
                 "query_type": query_type,
             }
+
+        # Log retrieval health
+        content_lens = [len(c.get("content") or "") for c in candidates]
+        empty_names = sum(1 for c in candidates if not c.get("college_name"))
+        logger.info(
+            "RAG candidates=%d, avg_content_len=%d, empty_college_names=%d, query=%r",
+            len(candidates),
+            sum(content_lens) // max(len(content_lens), 1),
+            empty_names,
+            search_query[:80],
+        )
 
         # 4. Rerank
         hits = self.reranker.rerank(question, candidates, top_k=top_k)

@@ -218,3 +218,4 @@ logs/
 *.parquet
 CLAUDE.md
 .vercel
+node_modules/

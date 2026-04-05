@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import logging
 import os
+import threading
 from typing import Any, Dict, List, Optional
 
 from college_ai.rag.embeddings import get_embedding
@@ -40,26 +41,33 @@ class HybridRetriever:
     ):
         self.collection_name = collection_name or ZILLIZ_COLLECTION_NAME
         self._client = None
+        self._client_lock = threading.Lock()
 
     # ---- Connection ----
 
     def _get_collection(self):
-        """Lazily initialize the ORM Collection handle.
+        """Lazily initialize the ORM Collection handle (thread-safe).
 
-        Uses the ORM API instead of MilvusClient to avoid connection hangs
-        on Zilliz Serverless.
+        Uses double-checked locking so concurrent FastAPI requests don't
+        race on connection setup. Uses the ORM API instead of MilvusClient
+        to avoid connection hangs on Zilliz Serverless.
         """
         if self._client is not None:
             return self._client
 
-        from pymilvus import connections, Collection
+        with self._client_lock:
+            if self._client is not None:  # double-check after acquiring lock
+                return self._client
 
-        connections.connect(alias="default", uri=ZILLIZ_URI, token=ZILLIZ_API_KEY)
-        self._client = Collection(self.collection_name)
-        self._client.load()
-        logger.info(
-            "Connected to Milvus (collection=%s)", self.collection_name
-        )
+            from pymilvus import connections, Collection
+
+            connections.connect(alias="default", uri=ZILLIZ_URI, token=ZILLIZ_API_KEY)
+            client = Collection(self.collection_name)
+            client.load()
+            self._client = client
+            logger.info(
+                "Connected to Milvus (collection=%s)", self.collection_name
+            )
         return self._client
 
     # ---- Core search ----
@@ -102,7 +110,12 @@ class HybridRetriever:
                 page_types=page_types,
             )
             if len(hits) >= SCHOOL_FILTER_MIN_RESULTS:
-                return self._dedupe_by_url(hits, top_k)
+                result = self._dedupe_by_url(hits, top_k)
+                logger.info(
+                    "Search(school=%s): %d raw → %d deduped",
+                    college_name, len(hits), len(result),
+                )
+                return result
 
             # Sparse coverage — fall back to global + soft boost
             logger.info(
@@ -116,7 +129,12 @@ class HybridRetriever:
                 page_types=page_types,
             )
             boosted = self._apply_school_boost(global_hits, college_name)
-            return self._dedupe_by_url(boosted, top_k)
+            result = self._dedupe_by_url(boosted, top_k)
+            logger.info(
+                "Search(global+boost for %s): %d raw → %d deduped",
+                college_name, len(global_hits), len(result),
+            )
+            return result
 
         # No school filter — global search
         hits = self._hybrid_search(
@@ -124,7 +142,12 @@ class HybridRetriever:
             output_fields=output_fields,
             page_types=page_types,
         )
-        return self._dedupe_by_url(hits, top_k)
+        result = self._dedupe_by_url(hits, top_k)
+        logger.info(
+            "Search(global): %d raw → %d deduped",
+            len(hits), len(result),
+        )
+        return result
 
     def search_multi_query(
         self,
@@ -238,47 +261,95 @@ class HybridRetriever:
             logger.error("Dense-only search also failed: %s", exc)
             return []
 
-    @staticmethod
-    def _normalize_results(results) -> List[Dict[str, Any]]:
-        """Convert Milvus search results to flat dicts."""
+    _OUTPUT_FIELDS = [
+        "college_name", "url", "url_canonical",
+        "title", "content", "page_type", "crawled_at",
+    ]
+
+    @classmethod
+    def _normalize_results(cls, results) -> List[Dict[str, Any]]:
+        """Convert Milvus search results to flat dicts.
+
+        Handles all pymilvus result variants (dict, Hit, SearchResult) and
+        always flattens the ``entity`` sub-object so output fields live at
+        the top level.
+        """
         if not results:
             return []
 
         hits = []
-        # Handle both dict format and ORM-style hit objects
         result_list = results if isinstance(results, list) else [results]
         for group in result_list:
             if not group:
                 continue
-            # Each group may be a list of hits or a single result set
             items = group if isinstance(group, list) else [group]
             for item in items:
-                if isinstance(item, dict):
-                    record = dict(item)
-                    # Normalize the distance/score field
-                    if "distance" not in record:
-                        record["distance"] = record.get("score", 0.0)
-                    hits.append(record)
-                else:
-                    # ORM-style hit objects
-                    try:
-                        entity = getattr(item, "entity", item)
-                        record = {}
-                        for key in [
-                            "college_name", "url", "url_canonical",
-                            "title", "content", "page_type", "crawled_at",
-                        ]:
-                            record[key] = (
-                                entity.get(key) if hasattr(entity, "get")
-                                else getattr(entity, key, None)
-                            )
-                        record["distance"] = getattr(
-                            item, "distance", getattr(item, "score", 0.0)
-                        )
+                try:
+                    record = cls._flatten_hit(item)
+                    if record:
                         hits.append(record)
-                    except Exception:
-                        continue
+                except Exception:
+                    continue
+
+        if hits:
+            sample = hits[0]
+            logger.debug(
+                "Normalized %d results. Sample: college=%s url=%s title=%s content_len=%d",
+                len(hits),
+                sample.get("college_name"),
+                (sample.get("url") or "")[:80],
+                (sample.get("title") or "")[:50],
+                len(sample.get("content") or ""),
+            )
         return hits
+
+    @classmethod
+    def _flatten_hit(cls, item) -> Optional[Dict[str, Any]]:
+        """Extract a flat dict from any pymilvus Hit variant.
+
+        Pymilvus Hit objects vary across versions: some inherit from dict,
+        some use an ``entity`` attribute, some use ``.get()``. This method
+        tries all access patterns and always returns a flat dict with the
+        output fields at the top level.
+        """
+        # --- 1. Try to get the entity (where output fields usually live) ---
+        entity = None  # type: Any
+        if hasattr(item, "entity"):
+            entity = item.entity
+        elif isinstance(item, dict) and "entity" in item:
+            entity = item["entity"]
+
+        # --- 2. Build a helper that reads a key from entity-then-item ---
+        def _get(key: str):
+            # Try entity first (preferred), then the item itself
+            for src in (entity, item):
+                if src is None:
+                    continue
+                if hasattr(src, "get"):
+                    val = src.get(key)
+                    if val is not None:
+                        return val
+                val = getattr(src, key, None)
+                if val is not None:
+                    return val
+            return None
+
+        record = {}  # type: Dict[str, Any]
+        for key in cls._OUTPUT_FIELDS:
+            record[key] = _get(key)
+
+        # Distance / score
+        dist = _get("distance")
+        if dist is None:
+            dist = _get("score")
+        record["distance"] = float(dist) if dist is not None else 0.0
+
+        # Preserve id if present (for debugging)
+        hit_id = _get("id")
+        if hit_id is not None:
+            record["id"] = hit_id
+
+        return record
 
     @staticmethod
     def _apply_school_boost(
@@ -302,15 +373,21 @@ class HybridRetriever:
     def _dedupe_by_url(
         hits: List[Dict[str, Any]], top_k: int
     ) -> List[Dict[str, Any]]:
-        """Limit chunks per URL for source diversity, then truncate."""
+        """Limit chunks per URL for source diversity, then truncate.
+
+        Records with no URL are always kept (never deduped against each other).
+        """
         url_counts: Dict[str, int] = {}
         deduped: List[Dict[str, Any]] = []
         for rec in hits:
             url = rec.get("url") or ""
-            count = url_counts.get(url, 0)
-            if count < MAX_CHUNKS_PER_URL:
-                url_counts[url] = count + 1
+            if not url:
                 deduped.append(rec)
+            else:
+                count = url_counts.get(url, 0)
+                if count < MAX_CHUNKS_PER_URL:
+                    url_counts[url] = count + 1
+                    deduped.append(rec)
             if len(deduped) >= top_k:
                 break
         return deduped

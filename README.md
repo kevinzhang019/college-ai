@@ -41,7 +41,13 @@ Or manually:
 
 ```bash
 uvicorn college_ai.api.app:app --host 0.0.0.0 --port 8000  # backend
-cd frontend && python3 -m http.server 3000                   # frontend
+cd frontend && npm run dev                                    # frontend (Vite dev server)
+```
+
+To build the frontend for production:
+
+```bash
+cd frontend && npm install && npm run build  # outputs to frontend/dist/
 ```
 
 ## Project Structure
@@ -58,7 +64,7 @@ scripts/                 One-off DB maintenance tools
 tests/                   All tests
 model/                   Trained model artifacts (tracked in git)
 data/                    Runtime data — training parquet, SQLite DBs (gitignored)
-frontend/                Static HTML/JS/CSS frontend
+frontend/                React + Vite + TypeScript SPA (builds to dist/)
 docs/                    Architecture documentation (ML, RAG, threading, DB, API)
 ```
 
@@ -241,4 +247,4 @@ Detailed architecture docs are in `docs/`:
 | [Scraping](docs/scraping.md) | BFS crawler, Niche scraper, Scorecard client — anti-bot measures, delta crawling |
 | [RAG Pipeline](docs/rag-pipeline.md) | v2: hybrid search (dense + BM25), query routing, Cohere reranking, specialized generators (Q&A + Essay Helper) |
 | [Database](docs/database.md) | Three tables, Turso/libSQL connection resilience, inline migrations |
-| [API & Frontend](docs/api.md) | Endpoint details, request/response shapes, frontend setup |
+| [API & Frontend](docs/api.md) | Endpoint details, request/response shapes, React frontend (Q&A + Essay Helper modes) |

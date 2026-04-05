@@ -255,7 +255,8 @@ import sqlite3
 def classify_page_type(url: str) -> str:
     """Classify a URL into a page type using regex patterns from config.
 
-    Returns one of: admissions, academics, financial_aid, about,
+    Returns one of: transfer, international, admissions, academics,
+    financial_aid, outcomes, safety_health, diversity, about,
     campus_life, research, or 'other'.
     """
     for page_type, patterns in PAGE_TYPE_PATTERNS.items():
@@ -366,11 +367,14 @@ class PlaywrightPool:
                 if not self._started:
                     self._semaphore.release()
                     return None, -1
-                self._close_slot(slot)
                 try:
                     self._all_locals.remove(slot)
                 except ValueError:
                     pass
+            # Close outside lock — _close_slot does blocking browser I/O
+            # that could hang on zombie Chromium, and holding the lock
+            # would block all acquire()/shutdown()/prune calls.
+            self._close_slot(slot)
             slot = None
 
         # Create lazily on this thread
@@ -393,6 +397,11 @@ class PlaywrightPool:
                 self._semaphore.release()
                 return None, -1
 
+        # Guard against a narrow race where shutdown() closed this thread's
+        # slot between semaphore acquire and the _started re-check above.
+        if not slot.get("_healthy", True):
+            self._semaphore.release()
+            return None, -1
         slot["uses"] += 1
         return slot["browser"], 1  # token=1 means "pool-managed"
 
@@ -438,16 +447,26 @@ class PlaywrightPool:
         violate Playwright's thread-safety contract and risk corrupting the
         owning thread's internal greenlet/asyncio state.
         """
-        pruned = 0
+        to_close = []
         with self._all_locals_lock:
             alive = []
             for slot in self._all_locals:
                 if slot.get("_healthy", True):
                     alive.append(slot)
                 else:
-                    self._close_slot(slot)
-                    pruned += 1
+                    to_close.append(slot)
             self._all_locals[:] = alive
+        # Close dead slots outside the lock in daemon threads with timeout —
+        # browser.close() / pw.stop() can hang indefinitely on zombie Chromium
+        # processes, and the caller (BFS orchestration thread) must not stall.
+        for slot in to_close:
+            t = threading.Thread(target=self._close_slot, args=(slot,), daemon=True)
+            t.start()
+            t.join(timeout=10)
+            if t.is_alive():
+                print("    ⚠️  Dead slot close hung — abandoning "
+                      "(daemon thread will be reaped at process exit)")
+        pruned = len(to_close)
         if pruned:
             print(f"    🧹 PlaywrightPool: pruned {pruned} dead browser slot(s)")
         return pruned
@@ -642,6 +661,7 @@ class MultithreadedCollegeCrawler:
         self.max_retries = MAX_RETRIES
 
         self.lock = threading.Lock()
+        self._close_lock = threading.Lock()
         # Concurrency controls for Milvus operations
         # - Queries: allow bounded parallelism
         # - Writes: exclusive
@@ -813,7 +833,8 @@ class MultithreadedCollegeCrawler:
                     global_shutdown_event.set()  # stop all workers — buffer is dead
                     break
                 time.sleep(min(2 ** (_consec_errors - 1), 30))
-        # Final drain after stop signal — bounded loop avoids empty() TOCTOU
+        # Final drain after stop signal — bounded loop caps iterations
+        # in case late callbacks keep adding rows.
         _drain_errors = 0
         for _ in range(200):
             if self._insert_buffer.qsize() == 0:
@@ -1061,10 +1082,16 @@ class MultithreadedCollegeCrawler:
         headers = self._generate_headers()
         return headers.get("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36")
 
+    # Use a dedicated alias so the crawler's disconnect() does not kill
+    # the retriever's connection when both share the same process.
+    _MILVUS_ALIAS = "crawler"
+
     def connect_milvus(self):
         """Connect to Zilliz Cloud database."""
         try:
-            connections.connect(alias="default", uri=ZILLIZ_URI, token=ZILLIZ_API_KEY)
+            connections.connect(
+                alias=self._MILVUS_ALIAS, uri=ZILLIZ_URI, token=ZILLIZ_API_KEY
+            )
             print("✓ Connected to Zilliz Cloud")
         except Exception as e:
             print(f"✗ Failed to connect to Zilliz Cloud: {e}")
@@ -1077,8 +1104,9 @@ class MultithreadedCollegeCrawler:
         """
         collection_name = ZILLIZ_COLLECTION_NAME
 
-        if utility.has_collection(collection_name):
-            existing = Collection(collection_name)
+        _alias = self._MILVUS_ALIAS
+        if utility.has_collection(collection_name, using=_alias):
+            existing = Collection(collection_name, using=_alias)
             actual_fields = {f.name for f in existing.schema.fields}
             if "content_sparse" in actual_fields and "page_type" in actual_fields:
                 print(f"✅ Collection '{collection_name}' exists with hybrid schema.")
@@ -1087,7 +1115,7 @@ class MultithreadedCollegeCrawler:
                 f"♻️ Collection '{collection_name}' has old schema (missing hybrid fields). "
                 "Recreating (this drops existing data)."
             )
-            utility.drop_collection(collection_name)
+            utility.drop_collection(collection_name, using=_alias)
 
         print(f"🔧 Creating collection '{collection_name}' with hybrid search schema...")
 
@@ -1116,7 +1144,7 @@ class MultithreadedCollegeCrawler:
             function_type=FunctionType.BM25,
         ))
 
-        col = Collection(collection_name, schema=schema)
+        col = Collection(collection_name, schema=schema, using=_alias)
 
         # Indexes
         col.create_index("embedding", {"index_type": "AUTOINDEX", "metric_type": "COSINE"})
@@ -2203,8 +2231,12 @@ class MultithreadedCollegeCrawler:
             if len(internal_links) > 0:
                 print(f"    🔗 Found {len(internal_links)} internal links for {url}")
 
-            # Delta crawling: update cache with response headers and content hash
+            # Delta crawling: compare content hash to detect unchanged pages.
+            # The cache WRITE is deferred to the caller (worker_task) so it
+            # happens AFTER the insert buffer accepts the row.  This prevents
+            # a crash-consistency gap where a stale hash blocks re-insertion.
             skip_embed = False
+            _delta_meta = None  # will be set if delta cache should be updated
             if self._delta_cache and not needs_pw:
                 try:
                     canon = _delta_canon or self._url_canonical_key(url)
@@ -2224,8 +2256,14 @@ class MultithreadedCollegeCrawler:
                             print(f"    Delta: content unchanged (hash match), skipping embed: {url}")
                             skip_embed = True
 
-                    self._delta_cache.put(canon, etag=etag, last_modified=last_mod,
-                                          content_hash=c_hash, links=internal_links)
+                    # Package metadata for deferred write by caller
+                    _delta_meta = {
+                        "canon": canon,
+                        "etag": etag,
+                        "last_modified": last_mod,
+                        "content_hash": c_hash,
+                        "links": internal_links,
+                    }
                 except Exception:
                     pass
 
@@ -2239,6 +2277,7 @@ class MultithreadedCollegeCrawler:
                 "crawled_at": datetime.now().isoformat(),
                 "needs_pw": needs_pw,
                 "skip_embed": skip_embed,  # delta crawl: content unchanged, skip embedding
+                "_delta_meta": _delta_meta,  # deferred delta cache write metadata
             }
 
         except Exception as e:
@@ -3432,6 +3471,7 @@ class MultithreadedCollegeCrawler:
         state_lock = threading.Lock()
         stop_event = threading.Event()
         pages_crawled_shared = 0  # successful pages scraped
+        pw_uploaded_shared = 0   # pages uploaded via Playwright callbacks
 
         # Use the base URL as-is (preserve www. prefix).
         # Stripping www. can cause redirects to a different subdomain
@@ -3570,14 +3610,17 @@ class MultithreadedCollegeCrawler:
                                 try:
                                     pw_result = self._scrape_with_playwright(url)
                                     if pw_result:
-                                        self._write_pw_delta_cache(pw_result, url)
-                                        # Upload PW result directly
+                                        # Upload PW result directly.
+                                        # Delta cache write is AFTER upload_to_milvus
+                                        # so a crash before buffer acceptance doesn't
+                                        # leave a stale hash that prevents re-insertion.
                                         if self.upload_to_milvus(
                                             pw_result, college_name,
                                             content_hash_cache=college_hash_cache,
                                             content_hash_lock=college_hash_lock,
                                         ):
                                             local_uploaded += 1
+                                        self._write_pw_delta_cache(pw_result, url)
                                         # Add discovered links to queue
                                         links = pw_result.get("internal_links", [])
                                         for link in links:
@@ -3628,10 +3671,27 @@ class MultithreadedCollegeCrawler:
                                                        content_hash_lock=college_hash_lock):
                                 local_uploaded += 1
 
+                        # Write delta cache AFTER insert buffer acceptance (or
+                        # skip_embed confirmation) to prevent crash-consistency
+                        # gap where a stale hash blocks re-insertion on next run.
+                        _dm = page_data.get("_delta_meta")
+                        if _dm and self._delta_cache:
+                            try:
+                                self._delta_cache.put(
+                                    _dm["canon"],
+                                    etag=_dm.get("etag"),
+                                    last_modified=_dm.get("last_modified"),
+                                    content_hash=_dm.get("content_hash"),
+                                    links=_dm.get("links"),
+                                )
+                            except Exception:
+                                pass
+
                         # If this URL needs Playwright, offload the job and merge results asynchronously
                         if page_data.get("needs_pw"):
 
                             def _merge_pw_result(fut, src_url=url, _depth=depth):
+                                nonlocal pw_uploaded_shared
                                 new_depth = _depth + 1
                                 try:
                                     result = fut.result()
@@ -3641,17 +3701,21 @@ class MultithreadedCollegeCrawler:
                                     return
                                 if stop_event.is_set():
                                     return
-                                # Cache PW result for delta crawling
-                                self._write_pw_delta_cache(result, src_url)
-                                # Upload PW-rendered page
+                                # Upload PW-rendered page.
+                                # Delta cache write is AFTER upload_to_milvus so a
+                                # crash before buffer acceptance doesn't leave a stale
+                                # hash that prevents re-insertion on next run.
                                 try:
-                                    self.upload_to_milvus(result, college_name,
-                                                         content_hash_cache=college_hash_cache,
-                                                         content_hash_lock=college_hash_lock)
+                                    if self.upload_to_milvus(result, college_name,
+                                                            content_hash_cache=college_hash_cache,
+                                                            content_hash_lock=college_hash_lock):
+                                        with state_lock:
+                                            pw_uploaded_shared += 1
                                 except Exception as _pw_upload_err:
                                     print(f"    ✗ PW callback upload failed for {src_url}: {_pw_upload_err}")
                                     with self.lock:
                                         self.stats["total_errors"] += 1
+                                self._write_pw_delta_cache(result, src_url)
                                 # Enqueue discovered links (canonical dedupe)
                                 links = result.get("internal_links", [])
                                 for link in links:
@@ -3686,9 +3750,11 @@ class MultithreadedCollegeCrawler:
                                     active_pw_futures.add(fut)
 
                                 def pw_done_callback(future, _cb=_merge_pw_result):
-                                    with pw_futures_lock:
-                                        active_pw_futures.discard(future)
-                                    _cb(future)
+                                    try:
+                                        _cb(future)
+                                    finally:
+                                        with pw_futures_lock:
+                                            active_pw_futures.discard(future)
 
                                 fut.add_done_callback(pw_done_callback)
                             except Exception as e:
@@ -3776,16 +3842,18 @@ class MultithreadedCollegeCrawler:
                 if global_shutdown_event.is_set():
                     stop_event.set()
 
-                # Close thread-local session before exiting
+                # Clean up thread-local resources.  Wrapped in try/finally so
+                # cleanup runs even if a BaseException (MemoryError) escaped
+                # the while-loop.  We can't wrap the whole while-loop in try
+                # without re-indenting hundreds of lines, so we catch it here.
                 try:
-                    worker_session.close()
-                except Exception:
-                    pass
-
-                # Clean up thread-local Playwright resources
-                self._cleanup_thread_local_playwright()
-
-                return local_crawled, local_uploaded
+                    return local_crawled, local_uploaded
+                finally:
+                    try:
+                        worker_session.close()
+                    except Exception:
+                        pass
+                    self._cleanup_thread_local_playwright()
 
             # Submit initial workers
             num_workers = min(
@@ -3890,6 +3958,9 @@ class MultithreadedCollegeCrawler:
 
         # Flush any remaining buffered inserts for this college
         self._flush_all_inserts()
+
+        # Include PW callback uploads in the total
+        pages_uploaded += pw_uploaded_shared
 
         print(f"\n✓ Completed crawling {college_name}")
         print(f"  Pages crawled: {pages_crawled}")
@@ -4049,9 +4120,10 @@ class MultithreadedCollegeCrawler:
 
     def close(self):
         """Clean up resources including Milvus connections and Playwright instances."""
-        if getattr(self, '_closed', False):
-            return
-        self._closed = True
+        with self._close_lock:
+            if getattr(self, '_closed', False):
+                return
+            self._closed = True
         # Stop background threads first (same order as run_full_crawling_pipeline)
         try:
             self.embedding_batcher.shutdown()
@@ -4064,7 +4136,7 @@ class MultithreadedCollegeCrawler:
             pass
 
         try:
-            connections.disconnect("default")
+            connections.disconnect(self._MILVUS_ALIAS)
             print("Disconnected from Milvus")
         except Exception as e:
             print(f"Error disconnecting from Milvus: {e}")

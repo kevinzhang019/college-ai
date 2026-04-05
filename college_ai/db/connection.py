@@ -108,7 +108,13 @@ def is_hrana_error(exc: Exception) -> bool:
 def get_session() -> Session:
     with _engine_lock:
         factory = _session_factory
-        return factory()
+    # Call factory() OUTSIDE the lock — factory() opens a Turso WebSocket
+    # connection (network I/O) which can be slow.  Holding _engine_lock
+    # during that I/O would stall concurrent reset_engine() calls.
+    # The local `factory` reference stays valid even if reset_engine()
+    # swaps _session_factory immediately after: with NullPool, sessions
+    # from the old engine use their own independent connections.
+    return factory()
 
 
 def get_engine():

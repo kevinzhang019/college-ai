@@ -10,7 +10,23 @@ Multithreaded BFS crawler that embeds college website pages into Zilliz Cloud wi
 
 **Collection schema:** Created automatically on first run with hybrid search support:
 - Dense vectors (COSINE, AUTOINDEX) + BM25 sparse vectors (auto-generated from content)
-- `page_type` field with INVERTED index (classified from URL patterns)
+- `page_type` field with INVERTED index — 12 types classified from URL patterns and subdomains:
+
+| page_type | Matches | Example URLs |
+|---|---|---|
+| `transfer` | Transfer admissions, credit transfer, articulation | `/transfer/`, `transfer.school.edu` |
+| `international` | International students, study abroad, visa, TOEFL/IELTS | `/international/`, `/study-abroad/` |
+| `admissions` | Applications, enrollment, ED/EA, prospective students | `/admissions/`, `admissions.school.edu` |
+| `academics` | Majors, degrees, courses, departments, catalog, registrar | `/academics/`, `/majors/`, `/catalog/` |
+| `financial_aid` | Tuition, scholarships, FAFSA, net price, bursar | `/financial-aid/`, `/scholarships/` |
+| `outcomes` | Career services, employment, internships, placement | `/career-services/`, `/internships/` |
+| `safety_health` | Campus safety, police, health services, counseling, disability | `/campus-safety/`, `/counseling/` |
+| `diversity` | DEI, multicultural, inclusion, equity, belonging | `/diversity/`, `/inclusion/` |
+| `about` | Mission, history, facts, rankings, leadership | `/about/`, `/fast-facts/`, `/rankings/` |
+| `campus_life` | Housing, dining, athletics, clubs, Greek, recreation | `/housing/`, `/student-life/`, `/sports/` |
+| `research` | Research, faculty, labs, institutes, publications | `/research/`, `/faculty/` |
+| `other` | Fallback for URLs not matching any pattern | Homepage, misc pages |
+
 - INVERTED scalar indexes on `college_name` and `url_canonical`
 
 **Flow:**

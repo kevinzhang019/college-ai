@@ -65,22 +65,16 @@ echo "   ✓ Backend running on http://localhost:8000"
 echo "🌐 Starting frontend server..."
 cd frontend
 
-# Try to use different server options
-if command -v python3 &> /dev/null; then
-    echo "   Using Python HTTP server..."
-    python3 -m http.server 3000 &
-    FRONTEND_PID=$!
-elif command -v npx &> /dev/null && npx http-server --version &> /dev/null; then
-    echo "   Using npx http-server..."
-    npx http-server -p 3000 &
-    FRONTEND_PID=$!
-else
-    echo "❌ Error: No suitable HTTP server found"
-    echo "   Please install one of:"
-    echo "   - Python 3 (python3 -m http.server)"
-    echo "   - Node.js with http-server (npm install -g http-server)"
-    exit 1
+# Install dependencies if needed
+if [ ! -d "node_modules" ]; then
+    echo "   Installing frontend dependencies..."
+    npm install --silent
 fi
+
+# Use Vite dev server
+echo "   Using Vite dev server..."
+npx vite --port 3000 &
+FRONTEND_PID=$!
 
 cd ..
 

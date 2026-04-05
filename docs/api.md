@@ -43,17 +43,51 @@ The backend auto-classifies the query type. If `essay_text` is provided, it's al
 
 ## Frontend (`frontend/`)
 
-Static HTML/JS/CSS SPA served by Python `http.server` on port 3000.
+React + Vite + TypeScript SPA. Dev server on port 3000, production builds to `frontend/dist/`.
 
-**Features:**
-- **Mode tabs:** "Ask a Question" (Q&A) and "Essay Helper" toggle
-- **Essay sub-modes:** "Get Ideas" or "Review My Draft" radio toggle
-- **Essay draft textarea:** Shown when "Review My Draft" selected
-- **Searchable college dropdown:** Fuzzy-filtered list loaded from `/options`
-- **Query type badge:** Shows detected mode (Q&A, Essay Ideas, Essay Review, Prediction) in response
-- **Confidence banner:** Color-coded indicator with source count
-- **Markdown rendering:** Headers, bold, italic, bullet lists, `[N]` citation highlighting
+**Tech stack:** React 18, TypeScript, Tailwind CSS, Zustand (state), Framer Motion (animations), Headless UI (combobox), react-markdown + remark-gfm.
+
+**Two main modes:**
+
+### Q&A Mode
+- Single question/answer interface (not conversational chat)
+- Auto-resize textarea with Enter-to-submit
+- Welcome state with suggested question chips
+- Answer rendered as markdown with `[N]` citation badges
+- Expandable source cards with college name, page type, and content preview
+- Confidence badge (high/medium/low) with color coding
+
+### Essay Helper Mode (two sub-tabs)
+
+**Brainstorm (Chat tab):**
+- Conversational message bubbles for back-and-forth essay brainstorming
+- User messages (right, amber) and assistant responses (left, white) with markdown
+- Suggestion chips for empty state
+- Calls `POST /ask` with `{question, college}` — no `essay_text`
+
+**Review Draft (Editor tab):**
+- Side-by-side split panel: essay textarea (left) + AI feedback (right)
+- "Get Ideas" button: calls `/ask` with brainstorming prompt
+- "Get Feedback" button: calls `/ask` with `{question, essay_text, college}`
+- Word count display, responsive stacking on mobile
+
+**Shared features:**
+- Searchable college combobox (Headless UI) loaded from `/options` with 31-school fallback list
+- Results count selector (5, 8, 12, 20)
+- Animated pill mode toggle (Q&A / Essay Helper) with Framer Motion
+- Help modal with example questions across 3 categories
+- Floating help button (bottom-right)
+- Warm color palette: amber/coral/cream, soft shadows, rounded corners
+- Mobile responsive with tablet/mobile breakpoints
+
+**Design tokens:** Primary amber-500/600, accent coral, background cream (#fffbeb), surface white with warm shadows, Inter font, rounded-2xl cards, rounded-full buttons.
 
 ## Startup
 
 `./start.sh` launches both backend (:8000) and frontend (:3000) with PID tracking and cleanup on Ctrl+C.
+
+For frontend development:
+```bash
+cd frontend && npm run dev    # Vite dev server on :3000
+cd frontend && npm run build  # Production build to dist/
+```
