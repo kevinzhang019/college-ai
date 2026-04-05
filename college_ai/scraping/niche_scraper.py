@@ -699,8 +699,19 @@ class NicheScraper:
                     return False
 
                 # --- Wait for user interaction ---
-                # Polls stdin for ENTER, pg.is_closed() (user closed window),
-                # and browser.is_connected() (browser crashed) each 0.5s.
+                # Polls stdin for ENTER and probes the page each 0.5s.
+                # pg.is_closed() / browser.is_connected() are cached flags
+                # that only update when a Playwright call pumps the event
+                # loop — useless while we're blocked in select/sleep.
+                # Instead, pg.evaluate("1") forces a CDP round-trip: if the
+                # page or browser is gone it raises immediately.
+                def _page_alive() -> bool:
+                    try:
+                        pg.evaluate("1", timeout=2000)
+                        return True
+                    except Exception:
+                        return False
+
                 try:
                     MAX_COOKIE_WAIT_SECS = 300
                     max_iters = int(MAX_COOKIE_WAIT_SECS / 0.5)
@@ -713,7 +724,7 @@ class NicheScraper:
                         if shutdown_event.is_set():
                             logger.info("Shutdown requested — cancelling cookie capture.")
                             return False
-                        if pg.is_closed() or not browser.is_connected():
+                        if not _page_alive():
                             browser_closed = True
                             break
                         if sys.stdin in select.select(
@@ -736,7 +747,7 @@ class NicheScraper:
                         if shutdown_event.is_set():
                             logger.info("Shutdown requested — cancelling cookie capture.")
                             return False
-                        if pg.is_closed() or not browser.is_connected():
+                        if not _page_alive():
                             browser_closed = True
                             break
                         time.sleep(0.5)
@@ -748,7 +759,7 @@ class NicheScraper:
                         if shutdown_event.is_set():
                             logger.info("Shutdown requested — cancelling cookie capture.")
                             return False
-                        if pg.is_closed() or not browser.is_connected():
+                        if not _page_alive():
                             browser_closed = True
                             break
                         time.sleep(0.5)
