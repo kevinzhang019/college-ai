@@ -1951,10 +1951,20 @@ class NicheScraper:
         ``_close_for_capture()`` runs all cleanup on THIS thread — the
         one that owns the Playwright greenlet/asyncio event loop.
 
-        Used exclusively by ``capture_cookies()`` which needs to tear
-        down the existing browser before starting the capture browser,
-        and must do so on the worker thread to avoid cross-thread
-        greenlet switches.
+        Called by ``capture_cookies()`` (to tear down the scraping browser
+        before opening the capture browser) and by the worker-loop gate
+        checkpoints (to release the browser while waiting for capture to
+        finish).  Both call sites run on the worker thread that owns the
+        Playwright instance.
+
+        ``playwright.stop()`` is called first because it kills the server
+        subprocess and browser process, making page/context/browser handles
+        dead.  This avoids the hang risk documented in Playwright issue
+        #1847 where ``browser.close()`` blocks indefinitely on a crashed
+        browser — after ``stop()`` the process is gone and there is
+        nothing to hang on.  Individual resource closes are skipped
+        because they are redundant (process is dead) and are the calls
+        most likely to hang.
         """
         # Release memory-heavy data first
         self._intercepted_data = []
@@ -1967,20 +1977,18 @@ class NicheScraper:
                 pass
         self._response_handler = None
 
-        # Close resources synchronously — each in try/except so one
-        # failure doesn't prevent cleanup of the rest.
-        for resource, method, label in [
-            (self.page, "close", "page"),
-            (self.context, "close", "context"),
-            (self.browser, "close", "browser"),
-            (self._playwright, "stop", "playwright"),
-        ]:
-            if resource is not None:
-                try:
-                    getattr(resource, method)()
-                except Exception as e:
-                    logger.debug("_close_for_capture — %s.%s() failed: %s", label, method, e)
+        # Stop Playwright FIRST — kills the server subprocess and browser
+        # process.  This is the reliable teardown path: it terminates the
+        # process tree, so page/context/browser handles become dead and
+        # don't need individual close() calls (which could hang on a
+        # crashed browser).
+        if self._playwright is not None:
+            try:
+                self._playwright.stop()
+            except Exception as e:
+                logger.debug("_close_for_capture — playwright.stop() failed: %s", e)
 
+        # Null out all references — resources are dead after stop().
         self.page = None
         self.context = None
         self.browser = None
@@ -2155,6 +2163,12 @@ def _worker_loop(
                     with cookie_lock:
                         my_cookie_gen = cookie_generation[0]
                     scraper.start(headless=headless, grades_only=grades_only)
+                    # Clear stale PX flag — it was set by the scattergram
+                    # scrape before the restart.  With fresh cookies the
+                    # grades scrape below will re-set it if PX blocks again.
+                    # Without this reset, the PX recovery path fires on the
+                    # stale flag and may trigger a redundant cookie capture.
+                    scraper._px_blocked = False
                     logger.info(f"{tag} Browser restarted after cookie capture")
 
                 # Scrape grades — skip page load if admissions page already

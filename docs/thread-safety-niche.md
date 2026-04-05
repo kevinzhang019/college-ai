@@ -26,7 +26,7 @@ Each worker creates its own `sync_playwright()` instance, browser, context, and 
 
 Two cleanup methods exist because of the greenlet constraint:
 - **`close(timeout)`** — general-purpose cleanup that delegates to a daemon thread with a timeout. Safe for the worker `finally` block and `restart()` where the calling thread may not be the Playwright owner (e.g., the outer daemon wrapper in the worker's finally block). The daemon thread may produce harmless greenlet errors if the browser process is already dead.
-- **`_close_for_capture()`** — synchronous cleanup that runs all Playwright close/stop calls on the current thread. Used exclusively by `capture_cookies()` where the calling thread IS the Playwright owner. Avoids greenlet errors entirely since all sync API calls happen on the correct thread.
+- **`_close_for_capture()`** — synchronous cleanup that calls `playwright.stop()` on the current thread, then nulls all references. Called by `capture_cookies()` and by the worker-loop gate checkpoints — both run on the worker thread that owns the Playwright instance. `stop()` is called first (not last) because it kills the server subprocess and browser process, making individual `page.close()`/`browser.close()` calls unnecessary. This avoids the hang risk from Playwright issue #1847 where `browser.close()` blocks indefinitely on crashed browsers — after `stop()` the process is gone. No daemon thread is created, so no orphaned threads and no greenlet errors.
 
 ## Sentinel Guarantee
 
@@ -53,7 +53,7 @@ Both `capture_cookies()` and `_login()` write cookies using the atomic temp-file
 Playwright's `browser.close()` and `pl.stop()` can hang indefinitely if the browser process OOMed or crashed (confirmed in Playwright issue #1847). Cleanup sites use appropriate strategies:
 
 1. **`close()` method** — accepts a `timeout` parameter (default `CLOSE_TIMEOUT` = 15s). Snapshots resource references, nulls out instance fields immediately (so the instance is reusable even if cleanup hangs), then runs the actual close/stop calls in a daemon thread. If the daemon hangs past the timeout, it is abandoned and reaped at process exit.
-2. **`_close_for_capture()` method** — synchronous cleanup that runs all Playwright close/stop calls on the current (owner) thread. Used by `capture_cookies()` to tear down the existing browser before starting the capture browser. No daemon thread, no greenlet errors.
+2. **`_close_for_capture()` method** — synchronous cleanup that calls `playwright.stop()` first (kills the process tree), then nulls references. Used by `capture_cookies()` and the worker-loop gate checkpoints. No daemon thread, no greenlet errors, no hang risk from individual resource closes.
 3. **Worker `finally` block** — runs `scraper.close()` in an additional outer daemon thread with a 15-second timeout (defense-in-depth).
 4. **`capture_cookies()` `finally` block** — closes the capture browser resources (page, context, browser) and calls `pl.stop()` **synchronously on the same thread**. All Playwright sync API calls are bound to the creating thread's greenlet; closing from a daemon thread causes `greenlet.error: cannot switch to a different thread`. Synchronous `pl.stop()` also ensures the greenlet-based asyncio event loop is properly torn down.
 
@@ -62,7 +62,7 @@ Playwright's `browser.close()` and `pl.stop()` can hang indefinitely if the brow
 ## Memory Management
 
 - `_intercepted_data` (list of captured XHR response payloads) is released in a `try/finally` block at the end of `scrape_scattergram()`. This prevents large JSON bodies from persisting in memory between schools. Per-page-load growth is capped at `_MAX_INTERCEPTED` (200) entries to bound peak memory on chatty pages.
-- `_response_handler` (Playwright response listener closure) is explicitly removed from the page and nil'd in `close()`. The closure captures `self`, creating a reference cycle (`NicheScraper → _response_handler → closure → NicheScraper`) — clearing it eagerly in `close()` breaks the cycle so the scraper and its browser handles can be GC'd promptly instead of waiting for Python's cycle collector.
+- `_response_handler` (Playwright response listener closure) is explicitly removed from the page and nil'd in both `close()` and `_close_for_capture()`. The closure captures `self`, creating a reference cycle (`NicheScraper → _response_handler → closure → NicheScraper`) — clearing it eagerly breaks the cycle so the scraper and its browser handles can be GC'd promptly instead of waiting for Python's cycle collector.
 - The write queue is bounded at `maxsize=50`. If the writer crashes and stops consuming, workers block on `put()` until the 2-second timeout fires and they detect `shutdown_event`. Maximum in-queue memory is bounded to 50 items.
 
 ## Session Safety Pattern
