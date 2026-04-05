@@ -101,7 +101,7 @@ Scrapes scattergram datapoints (GPA/SAT/outcome) and letter grades for each scho
 python -m college_ai.scraping.crawler
 ```
 
-Reads college URLs from CSVs in `college_ai/scraping/colleges/`, BFS-crawls each site, chunks + embeds text, and inserts into Zilliz. Configuration via env vars and `college_ai/scraping/config.py`.
+Reads college URLs from CSVs in `college_ai/scraping/colleges/`, BFS-crawls each site, chunks text (512 tokens, 50-token overlap), classifies page type from URL, embeds with OpenAI, and inserts into Zilliz with hybrid search support (dense + BM25). The collection is auto-created with the correct schema on first run.
 
 | Flag | Default | Description |
 |---|---|---|
@@ -109,6 +109,8 @@ Reads college URLs from CSVs in `college_ai/scraping/colleges/`, BFS-crawls each
 | `--colleges N` | `INTER_COLLEGE_PARALLELISM` (4) | Colleges to crawl in parallel |
 | `--max-pages N` | `MAX_PAGES_PER_COLLEGE` (500) | Max pages per college |
 | `--no-resume` | off | Force full re-crawl: disables delta cache and replaces existing Milvus vectors (delete + re-insert) |
+
+To recreate the collection from scratch (drops all data): `python scripts/recreate_collection.py`
 
 ### 4. Export training data
 
