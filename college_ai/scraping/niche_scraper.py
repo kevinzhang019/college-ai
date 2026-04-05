@@ -856,12 +856,13 @@ class NicheScraper:
                 with os.fdopen(fd, "w") as f:
                     json.dump(cookies, f)
                 os.replace(tmp_path, self._cookies_path)
-            except Exception:
+            except Exception as e:
+                logger.error("Failed to save cookies: %s", e)
                 try:
                     os.unlink(tmp_path)
                 except OSError:
                     pass
-                raise
+                return False
             logger.info(f"Saved {len(cookies)} cookies.")
             return True
 
