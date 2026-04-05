@@ -700,27 +700,18 @@ class NicheScraper:
 
                 # --- Wait for user interaction ---
                 # pg.is_closed() / browser.is_connected() are cached flags
-                # that only update when a Playwright call pumps the event
-                # loop — useless while we're blocked in select/sleep.
-                # pg.evaluate("1") forces a CDP round-trip that pumps events,
-                # but it can also fail during normal page navigation (user
-                # clicking links, redirects).  Only treat "target closed" /
-                # "browser has been closed" errors as a genuine window close;
-                # navigation errors just mean the page is busy.
-                _CLOSED_PATTERNS = ("target closed", "browser has been closed",
-                                    "target page, context or browser")
-
+                # that only update when a Playwright API call pumps the
+                # internal event loop.  During select/sleep no calls happen,
+                # so these flags go stale.  We use pg.evaluate("1") purely
+                # as an event-loop pump — success or failure doesn't matter.
+                # After the call returns (or raises), the cached flags are
+                # up-to-date and we check those instead of parsing errors.
                 def _page_alive() -> bool:
                     try:
                         pg.evaluate("1", timeout=2000)
-                        return True
-                    except Exception as exc:
-                        msg = str(exc).lower()
-                        if any(p in msg for p in _CLOSED_PATTERNS):
-                            return False
-                        # Navigation, timeout, or other transient error —
-                        # page is alive, just busy.
-                        return True
+                    except Exception:
+                        pass  # pump completed — check flags below
+                    return not pg.is_closed() and browser.is_connected()
 
                 try:
                     MAX_COOKIE_WAIT_SECS = 300
