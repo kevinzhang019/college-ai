@@ -202,6 +202,7 @@ _SENTINEL = object()  # Unique sentinel — workers send this to signal they are
 # Max rows per INSERT statement — SQLite has a limit of 999 bind params,
 # and each row has 10 columns, so ~99 rows per statement is safe.
 _INSERT_BATCH = 90
+_MAX_INTERCEPTED = 200  # cap per-page-load intercepted responses to bound memory
 
 
 def _write_school_data(session, slug, school_id, points, grades, timestamp, tag):
@@ -478,6 +479,8 @@ class DBWriterThread(threading.Thread):
             if is_hrana_error(e):
                 logger.info("[DB] Keepalive hit stale stream — resetting engine")
                 reset_engine()
+            else:
+                logger.warning("[DB] Keepalive failed (non-Hrana): %s", e)
         finally:
             session.close()
 
@@ -595,7 +598,8 @@ class NicheScraper:
         Called automatically mid-scrape when PX starts blocking.
 
         Returns True if cookies were successfully saved, False if cancelled
-        (e.g. shutdown) or if the capture failed.
+        (e.g. shutdown) or if the capture failed.  Never raises — all errors
+        are caught and logged so the caller's flow to restart() is not skipped.
         """
         if shutdown_event.is_set():
             return False
@@ -607,32 +611,56 @@ class NicheScraper:
         logger.info("  3. Press ENTER in this terminal when done")
         logger.info("="*60)
 
-        # Always create a separate playwright instance for cookie capture.
-        # Reusing self._playwright would let the scraping browser's response
-        # handler (page.on("response")) intercept capture-browser responses,
-        # polluting _intercepted_data.  A fresh instance also prevents cleanup
-        # failures from corrupting the scraping browser's playwright state.
-        pl = sync_playwright().start()
+        # Close the existing playwright instance before starting a new one.
+        # Playwright's sync API creates an asyncio event loop per instance;
+        # starting a second sync_playwright() in the same thread while the
+        # first is still running raises "using Playwright Sync API inside
+        # the asyncio loop".  Closing first frees the event loop.
+        # The caller (restart()) will re-create the scraping browser after
+        # capture finishes.
+        self.close()
 
-        launch_args = ["--disable-blink-features=AutomationControlled"]
+        pl = None
+        browser = None
+        ctx = None
+        pg = None
         try:
-            browser = pl.chromium.launch(channel="chrome", headless=False, args=launch_args)
-        except Exception:
-            browser = pl.chromium.launch(headless=False, args=launch_args)
+            pl = sync_playwright().start()
 
-        ctx = browser.new_context(
-            viewport={"width": 1440, "height": 900},
-            user_agent=(
-                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
-                "AppleWebKit/537.36 (KHTML, like Gecko) "
-                "Chrome/130.0.0.0 Safari/537.36"
-            ),
-        )
-        pg = ctx.new_page()
-        pg.add_init_script(
-            "Object.defineProperty(navigator, 'webdriver', {get: () => undefined})"
-        )
-        pg.goto(LOGIN_URL, timeout=NAV_TIMEOUT)
+            launch_args = ["--disable-blink-features=AutomationControlled"]
+            try:
+                browser = pl.chromium.launch(channel="chrome", headless=False, args=launch_args)
+            except Exception:
+                browser = pl.chromium.launch(headless=False, args=launch_args)
+
+            ctx = browser.new_context(
+                viewport={"width": 1440, "height": 900},
+                user_agent=(
+                    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+                    "AppleWebKit/537.36 (KHTML, like Gecko) "
+                    "Chrome/130.0.0.0 Safari/537.36"
+                ),
+            )
+            pg = ctx.new_page()
+            pg.add_init_script(
+                "Object.defineProperty(navigator, 'webdriver', {get: () => undefined})"
+            )
+            pg.goto(LOGIN_URL, timeout=NAV_TIMEOUT)
+        except Exception as e:
+            logger.error("Failed to launch capture browser: %s", e)
+            # Clean up whatever was created before the failure
+            for resource, label in [(pg, "page"), (ctx, "context"), (browser, "browser")]:
+                if resource is not None:
+                    try:
+                        resource.close()
+                    except Exception:
+                        pass
+            if pl is not None:
+                try:
+                    pl.stop()
+                except Exception:
+                    pass
+            return False
 
         # Collect cookies; stays None on early return (shutdown) so
         # the save logic below is skipped.
@@ -658,6 +686,13 @@ class NicheScraper:
                     return False
             except EOFError:
                 logger.info("Non-interactive mode — waiting 60s for manual interaction...")
+                for _ in range(120):  # 60s in 0.5s increments
+                    if shutdown_event.is_set():
+                        logger.info("Shutdown requested — cancelling cookie capture.")
+                        return False
+                    time.sleep(0.5)
+            except (ValueError, OSError) as e:
+                logger.warning("stdin polling error (%s) — falling back to 60s timed wait", e)
                 for _ in range(120):  # 60s in 0.5s increments
                     if shutdown_event.is_set():
                         logger.info("Shutdown requested — cancelling cookie capture.")
@@ -696,13 +731,8 @@ class NicheScraper:
                 pass
             raise
         logger.info(f"Saved {len(cookies)} cookies.")
-
-        if self.context:
-            try:
-                self.context.add_cookies(cookies)
-            except Exception:
-                pass
-
+        # Cookies are saved to disk; restart() will load them into the new
+        # browser context.  self.context is None after self.close() above.
         return True
 
     def start(self, headless: bool = False, grades_only: bool = False):
@@ -795,7 +825,8 @@ class NicheScraper:
                     # fiber (greenlet), not a separate thread.  The worker
                     # reads _intercepted_data only after page.goto() returns,
                     # by which point the dispatcher has yielded back.
-                    self._intercepted_data.append({"url": url, "data": body})
+                    if len(self._intercepted_data) < _MAX_INTERCEPTED:
+                        self._intercepted_data.append({"url": url, "data": body})
             except Exception:
                 pass
 
@@ -1851,12 +1882,23 @@ class NicheScraper:
             logger.warning(f"Failed to reload cookies from disk: {e}")
 
     def restart(self, headless: bool = False, grades_only: bool = False):
-        """Reload saved cookies into a fresh Chrome context."""
+        """Reload saved cookies into a fresh Chrome context.
+
+        Checks shutdown_event both before AND after the sleep so that a
+        shutdown signal during the 2-4s pause doesn't cause a wasteful
+        browser launch.  Sleep is interruptible in 0.5s increments,
+        matching the pattern used by GlobalRateLimiter.wait().
+        """
         logger.info("Restarting Chrome with saved cookies...")
         self.close()
         if shutdown_event.is_set():
             return
-        time.sleep(random.uniform(2, 4))
+        sleep_for = random.uniform(2, 4)
+        while sleep_for > 0 and not shutdown_event.is_set():
+            time.sleep(min(sleep_for, 0.5))
+            sleep_for -= 0.5
+        if shutdown_event.is_set():
+            return
         self.start(headless=headless, grades_only=grades_only)
 
     def close(self):

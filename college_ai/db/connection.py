@@ -55,13 +55,12 @@ def _make_local_engine():
 
 
 def _init_engine():
-    global _engine, _session_factory, ENGINE
+    global _engine, _session_factory
     if TURSO_DATABASE_URL and TURSO_AUTH_TOKEN:
         _engine = _make_turso_engine()
     else:
         _engine = _make_local_engine()
     _session_factory = sessionmaker(bind=_engine)
-    ENGINE = _engine
 
 
 def reset_engine():
@@ -71,7 +70,7 @@ def reset_engine():
     swapping globals, so a partial failure can't leave _engine and
     _session_factory pointing to different engines.
     """
-    global _engine, _session_factory, ENGINE
+    global _engine, _session_factory
     with _engine_lock:
         old = _engine
         # Build both into locals first — if either fails, globals stay consistent
@@ -83,7 +82,6 @@ def reset_engine():
         # Atomic swap: both globals update together
         _engine = new_engine
         _session_factory = new_factory
-        ENGINE = new_engine
         logger.info("Engine reset: created fresh Turso connection")
         if old is not None:
             try:
@@ -116,9 +114,8 @@ def get_session() -> Session:
 def get_engine():
     """Return the current engine under ``_engine_lock``.
 
-    Matches the lock discipline of ``get_session()``.  Prefer this over
-    importing ``ENGINE`` directly so that concurrent ``reset_engine()``
-    calls cannot invalidate the reference mid-use.
+    Matches the lock discipline of ``get_session()`` so that concurrent
+    ``reset_engine()`` calls cannot invalidate the reference mid-use.
     """
     with _engine_lock:
         return _engine

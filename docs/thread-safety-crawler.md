@@ -46,9 +46,8 @@ The `close()` method also stops background threads (embedding batcher + flush th
 
 ## Database Connection (`connection.py`)
 
-- **`_engine_lock`** — protects `_engine`, `_session_factory`, and `ENGINE` during `reset_engine()`. `get_session()` captures *and invokes* `_session_factory` under this lock so that a concurrent `reset_engine()` cannot dispose the engine before the session is created. (The factory must be invoked inside the lock, not just captured — otherwise `engine.dispose()` in `reset_engine()` could invalidate the pool before `factory()` opens a connection.)
-- **`get_engine()`** — returns the current `_engine` reference under `_engine_lock`. Used by `init_db()` and migration functions. Matches the lock discipline of `get_session()`. External code should call `get_engine()` rather than importing `ENGINE` directly.
-- **`ENGINE`** *(deprecated)* — module-level alias retained for backward compatibility. Prefer `get_engine()`.
+- **`_engine_lock`** — protects `_engine` and `_session_factory` during `reset_engine()`. `get_session()` captures *and invokes* `_session_factory` under this lock so that a concurrent `reset_engine()` cannot dispose the engine before the session is created. (The factory must be invoked inside the lock, not just captured — otherwise `engine.dispose()` in `reset_engine()` could invalidate the pool before `factory()` opens a connection.)
+- **`get_engine()`** — returns the current `_engine` reference under `_engine_lock`. Used by `init_db()` and migration functions. Matches the lock discipline of `get_session()`.
 
 ## General Rules
 

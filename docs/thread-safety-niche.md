@@ -17,6 +17,7 @@ Each worker creates its own `sync_playwright()` instance, browser, context, and 
 - No cross-thread data race between the handler appending to `_intercepted_data` and the worker reading it — they are sequentially interleaved within one thread
 - A greenlet from thread A cannot be resumed from thread B (raises `greenlet.error`), enforcing per-thread isolation
 - Re-entrant Playwright API calls from inside event handlers will deadlock (the dispatcher fiber is already running)
+- Only one `sync_playwright()` instance can be active per thread — starting a second one while the first is running raises "using Playwright Sync API inside the asyncio loop". `capture_cookies()` calls `self.close()` first to stop the existing instance before starting a fresh one for interactive capture. The caller (`restart()`) re-creates the scraping browser afterward.
 
 ## Sentinel Guarantee
 
@@ -28,7 +29,9 @@ Every `_worker_loop` invocation calls `db_writer.worker_done()` exactly once, re
 
 During shutdown, the worker skips `db_writer.submit()` whenever `grades` is empty — even if `points` is non-empty. This prevents a school from being permanently marked `no_data` (and skipped on resume) when grades are missing only because a PX retry was interrupted by shutdown. Complete data (has grades) is still submitted during shutdown to preserve progress. Schools with incomplete data remain pending for the next run.
 
-`capture_cookies()` returns a boolean indicating whether cookies were actually saved. If capture is cancelled by shutdown (returns `False`), the cookie generation counter is **not** bumped — preventing other workers from needlessly reloading stale cookies. The worker also skips `scraper.restart()` during shutdown to avoid launching a browser that will be immediately torn down.
+`capture_cookies()` returns a boolean indicating whether cookies were actually saved. If capture is cancelled by shutdown (returns `False`), the cookie generation counter is **not** bumped — preventing other workers from needlessly reloading stale cookies. The stdin polling loop catches `EOFError` (non-interactive mode), `ValueError`, and `OSError` (bad file descriptor) — all fall back to a 60s interruptible timed wait instead of propagating to the worker loop.
+
+`restart()` uses an interruptible 0.5s-increment sleep (matching `GlobalRateLimiter.wait()`) and checks `shutdown_event` both before and after the sleep to prevent launching a browser during shutdown.
 
 ## Cookie File Atomicity
 
@@ -40,14 +43,13 @@ Playwright's `browser.close()` can hang indefinitely if the browser process OOMe
 
 ## Memory Management
 
-- `_intercepted_data` (list of captured XHR response payloads) is released in a `try/finally` block at the end of `scrape_scattergram()`. This prevents large JSON bodies from persisting in memory between schools.
+- `_intercepted_data` (list of captured XHR response payloads) is released in a `try/finally` block at the end of `scrape_scattergram()`. This prevents large JSON bodies from persisting in memory between schools. Per-page-load growth is capped at `_MAX_INTERCEPTED` (200) entries to bound peak memory on chatty pages.
 - The write queue is bounded at `maxsize=50`. If the writer crashes and stops consuming, workers block on `put()` until the 2-second timeout fires and they detect `shutdown_event`. Maximum in-queue memory is bounded to 50 items.
 
 ## Database Connection (`connection.py`)
 
-- **`_engine_lock`** — protects `_engine`, `_session_factory`, and `ENGINE` during `reset_engine()`. `get_session()` captures *and invokes* `_session_factory` under this lock so that a concurrent `reset_engine()` cannot dispose the engine before the session is created. (The factory must be invoked inside the lock, not just captured — otherwise `engine.dispose()` in `reset_engine()` could invalidate the pool before `factory()` opens a connection.)
-- **`get_engine()`** — returns the current `_engine` reference under `_engine_lock`. Used by `init_db()` and migration functions. Matches the lock discipline of `get_session()`. External code should call `get_engine()` rather than importing `ENGINE` directly.
-- **`ENGINE`** *(deprecated)* — module-level alias retained for backward compatibility. Prefer `get_engine()`.
+- **`_engine_lock`** — protects `_engine` and `_session_factory` during `reset_engine()`. `get_session()` captures *and invokes* `_session_factory` under this lock so that a concurrent `reset_engine()` cannot dispose the engine before the session is created. (The factory must be invoked inside the lock, not just captured — otherwise `engine.dispose()` in `reset_engine()` could invalidate the pool before `factory()` opens a connection.)
+- **`get_engine()`** — returns the current `_engine` reference under `_engine_lock`. Used by `init_db()` and migration functions. Matches the lock discipline of `get_session()`.
 - **NullPool** — `dispose()` on the old engine is safe even with active sessions: NullPool has no idle connection cache, so dispose is effectively a no-op on live connections. Sessions created from the old factory continue working until closed.
 
 ## General Rules
