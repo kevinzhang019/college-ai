@@ -63,6 +63,9 @@ from pymilvus import (
     FieldSchema,
     CollectionSchema,
     DataType,
+    Function,
+    FunctionType,
+    MilvusClient,
     utility,
 )
 
@@ -247,6 +250,21 @@ from college_ai.scraping.config import *
 import sqlite3
 
 
+# ==================== Page Type Classification ====================
+
+
+def classify_page_type(url: str) -> str:
+    """Classify a URL into a page type using regex patterns from config.
+
+    Returns one of: admissions, academics, financial_aid, about,
+    campus_life, research, or 'other'.
+    """
+    for page_type, patterns in PAGE_TYPE_PATTERNS.items():
+        if any(re.search(p, url, re.IGNORECASE) for p in patterns):
+            return page_type
+    return "other"
+
+
 # ==================== Playwright Pool ====================
 class PlaywrightPool:
     """Thread-local pool of reusable Playwright browsers with rotation.
@@ -290,7 +308,7 @@ class PlaywrightPool:
             if self.use_camoufox:
                 camoufox_cm = Camoufox(headless=self.headless)
                 browser = camoufox_cm.__enter__()
-                slot = {"pw": None, "browser": browser, "camoufox_cm": camoufox_cm, "uses": 0}
+                slot = {"pw": None, "browser": browser, "camoufox_cm": camoufox_cm, "uses": 0, "_healthy": True}
             else:
                 pw = sync_playwright().start()
                 browser = pw.chromium.launch(
@@ -304,7 +322,7 @@ class PlaywrightPool:
                         "--disable-features=ExternalProtocolDialog",
                     ],
                 )
-                slot = {"pw": pw, "browser": browser, "camoufox_cm": None, "uses": 0}
+                slot = {"pw": pw, "browser": browser, "camoufox_cm": None, "uses": 0, "_healthy": True}
             with self._all_locals_lock:
                 self._all_locals.append(slot)
             return slot
@@ -313,6 +331,7 @@ class PlaywrightPool:
             return None
 
     def _close_slot(self, slot: dict):
+        slot["_healthy"] = False
         try:
             if slot.get("browser"):
                 slot["browser"].close()
@@ -381,6 +400,15 @@ class PlaywrightPool:
     def release(self, token: int):
         """Release the semaphore slot. Browser stays alive for reuse on this thread."""
         if token >= 0:
+            # Health-check on the owning thread (safe — no cross-thread call).
+            # If disconnected, mark unhealthy so prune_dead_slots can clean up.
+            slot = getattr(self._local, "slot", None)
+            if slot:
+                try:
+                    if slot.get("browser") and not slot["browser"].is_connected():
+                        slot["_healthy"] = False
+                except Exception:
+                    slot["_healthy"] = False
             self._semaphore.release()
 
     def shutdown(self):
@@ -393,27 +421,21 @@ class PlaywrightPool:
         print("    🎭 Playwright pool shut down")
 
     def prune_dead_slots(self) -> int:
-        """Close and remove browser slots whose browser process is no longer connected.
+        """Close and remove browser slots marked unhealthy by their owning thread.
 
         Returns the number of slots pruned. Does NOT release the semaphore for
         pruned slots (intentional — avoids over-release).
 
-        NOTE: ``browser.is_connected()`` is called under ``_all_locals_lock``,
-        but the owning thread may be using the browser concurrently (Playwright
-        sync API is not thread-safe for cross-thread calls). The try/except
-        below treats any exception as "not connected", so the worst case is a
-        false prune — the browser is recreated lazily on next ``acquire()``.
+        Uses the ``_healthy`` flag (set by the owning thread in ``release()``)
+        instead of calling ``browser.is_connected()`` cross-thread, which would
+        violate Playwright's thread-safety contract and risk corrupting the
+        owning thread's internal greenlet/asyncio state.
         """
         pruned = 0
         with self._all_locals_lock:
             alive = []
             for slot in self._all_locals:
-                browser = slot.get("browser")
-                try:
-                    still_connected = browser is not None and browser.is_connected()
-                except Exception:
-                    still_connected = False
-                if still_connected:
+                if slot.get("_healthy", True):
                     alive.append(slot)
                 else:
                     self._close_slot(slot)
@@ -438,7 +460,7 @@ class DeltaCrawlCache:
         self._local = threading.local()
         self._all_conns_lock = threading.Lock()
         self._all_conns: list = []  # track all thread-local connections for shutdown
-        self._closed = False
+        self._closed = threading.Event()  # thread-safe (no bare-bool GIL dependency)
         # Create table on first use
         conn = self._get_conn()
         conn.execute("""
@@ -460,13 +482,13 @@ class DeltaCrawlCache:
 
     def _get_conn(self) -> sqlite3.Connection:
         """Get a thread-local SQLite connection."""
-        if self._closed:  # fast path — no lock needed for already-True reads
+        if self._closed.is_set():  # fast path — Event.is_set() is thread-safe
             raise RuntimeError("DeltaCrawlCache is closed")
         if not hasattr(self._local, "conn") or self._local.conn is None:
             # Hold lock across creation + registration so close() cannot
             # clear _all_conns between our connect() and append() (TOCTOU).
             with self._all_conns_lock:
-                if self._closed:  # re-check inside lock
+                if self._closed.is_set():  # re-check inside lock
                     raise RuntimeError("DeltaCrawlCache is closed")
                 self._local.conn = sqlite3.connect(self._db_path, timeout=10)
                 self._local.conn.execute("PRAGMA journal_mode=WAL")
@@ -475,7 +497,7 @@ class DeltaCrawlCache:
 
     def get(self, canonical_url: str) -> dict:
         """Get cached metadata for a URL. Returns empty dict if not cached."""
-        if self._closed:
+        if self._closed.is_set():
             return {}
         try:
             conn = self._get_conn()
@@ -506,7 +528,7 @@ class DeltaCrawlCache:
     def put(self, canonical_url: str, etag: str = None, last_modified: str = None,
             content_hash: str = None, links: list = None):
         """Store or update cache entry for a URL."""
-        if self._closed:
+        if self._closed.is_set():
             return
         try:
             conn = self._get_conn()
@@ -534,7 +556,7 @@ class DeltaCrawlCache:
     def close(self):
         """Close all tracked SQLite connections across all threads."""
         with self._all_conns_lock:
-            self._closed = True  # set inside lock so _get_conn() re-check is reliable
+            self._closed.set()  # set inside lock so _get_conn() re-check is reliable
             for conn in self._all_conns:
                 try:
                     conn.close()
@@ -834,19 +856,38 @@ class MultithreadedCollegeCrawler:
         if not rows:
             return
 
+        # Extract canonical URL claims from raw rows BEFORE merging so they
+        # can always be released in a finally block, even if merging fails.
+        inserted_canonicals = []
+        for row in rows:
+            inserted_canonicals.extend(row.get("url_canonical", []))
+
+        try:
+            self._flush_insert_buffer_inner(rows, inserted_canonicals)
+        except Exception:
+            # Release claims so URLs are not permanently blocked
+            if inserted_canonicals:
+                with self._pending_canonical_lock:
+                    for uc in inserted_canonicals:
+                        self._pending_canonical_urls.discard(uc)
+            raise
+
+    def _flush_insert_buffer_inner(self, rows, inserted_canonicals):
+        """Inner flush logic — caller guarantees claim release on failure."""
         # Merge all rows into column-based format for a single insert
         field_names = [f.name for f in self.collection.schema.fields]
-        merged: dict = {name: [] for name in field_names}
+        merged = {name: [] for name in field_names}
         for row in rows:
             for name in field_names:
                 merged[name].extend(row.get(name, []))
 
         if not merged.get("id"):
+            # No data to insert — release claims
+            if inserted_canonicals:
+                with self._pending_canonical_lock:
+                    for uc in inserted_canonicals:
+                        self._pending_canonical_urls.discard(uc)
             return
-
-        # Extract canonical URLs early so both the normal and recovery paths
-        # can release _pending_canonical_urls claims.
-        inserted_canonicals = merged.get("url_canonical", [])
 
         # Validate column alignment to prevent corrupted inserts
         col_lengths = {name: len(merged.get(name, [])) for name in field_names}
@@ -938,6 +979,32 @@ class MultithreadedCollegeCrawler:
         normalized = " ".join(text.lower().split())
         return hashlib.sha256(normalized.encode("utf-8", errors="replace")).hexdigest()[:16]
 
+    def _write_pw_delta_cache(self, pw_result, original_url):
+        # type: (dict, str) -> None
+        """Write delta cache entry for a Playwright-rendered page.
+
+        Playwright does not provide HTTP headers (ETag/Last-Modified), so the
+        cache entry uses content hash only as the change detector.
+        """
+        if not self._delta_cache or not pw_result:
+            return
+        try:
+            canon = self._url_canonical_key(
+                pw_result.get("url") or original_url
+            )
+            c_hash = (
+                self._content_hash(pw_result["content"])
+                if pw_result.get("content")
+                else None
+            )
+            self._delta_cache.put(
+                canon,
+                content_hash=c_hash,
+                links=pw_result.get("internal_links", []),
+            )
+        except Exception:
+            pass
+
     def _generate_headers(self) -> dict:
         """Generate a complete, realistic header set via browserforge or static fallback."""
         if self._header_gen is not None:
@@ -985,134 +1052,93 @@ class MultithreadedCollegeCrawler:
             raise
 
     def get_or_create_collection(self):
-        """Get or create the Zilliz Cloud collection."""
+        """Get or create the Zilliz Cloud collection with hybrid search schema.
+
+        Uses MilvusClient API for creation (supports BM25 functions), then
+        returns an ORM Collection handle for the rest of the crawler.
+        """
         collection_name = ZILLIZ_COLLECTION_NAME
-
-        fields = [
-            FieldSchema(
-                name="id",
-                dtype=DataType.VARCHAR,
-                is_primary=True,
-                auto_id=False,
-                max_length=36,
-            ),
-            FieldSchema(name="college_name", dtype=DataType.VARCHAR, max_length=128),
-            FieldSchema(name="url", dtype=DataType.VARCHAR, max_length=512),
-            FieldSchema(name="url_canonical", dtype=DataType.VARCHAR, max_length=512),
-            FieldSchema(
-                name="title", dtype=DataType.VARCHAR, max_length=MAX_TITLE_LENGTH
-            ),
-            FieldSchema(
-                name="content", dtype=DataType.VARCHAR, max_length=MAX_CONTENT_LENGTH
-            ),
-            FieldSchema(name="embedding", dtype=DataType.FLOAT_VECTOR, dim=VECTOR_DIM),
-            FieldSchema(name="crawled_at", dtype=DataType.VARCHAR, max_length=32),
-        ]
-
-        schema = CollectionSchema(fields, description="College pages with embeddings")
 
         if utility.has_collection(collection_name):
             existing = Collection(collection_name)
-            try:
-                # Build expected field map
-                expected = {f.name: f for f in schema.fields}
-                actual = {f.name: f for f in existing.schema.fields}
-
-                def varchar_len(f):
-                    try:
-                        return int(f.params.get("max_length"))
-                    except Exception:
-                        return None
-
-                # Validate presence and compatibility for each expected field
-                recreate = False
-                for name, exp in expected.items():
-                    if name not in actual:
-                        print(f"⚠️ Missing field in existing collection: {name}")
-                        recreate = True
-                        continue
-                    act = actual[name]
-                    if act.dtype != exp.dtype:
-                        print(
-                            f"⚠️ Field dtype mismatch for '{name}': {act.dtype} != {exp.dtype}"
-                        )
-                        recreate = True
-                        continue
-                    if name == "embedding":
-                        exp_dim = VECTOR_DIM
-                        act_dim = act.params.get("dim")
-                        if act_dim != exp_dim:
-                            print(f"⚠️ Embedding dim mismatch: {act_dim} != {exp_dim}")
-                            recreate = True
-                    elif act.dtype == DataType.VARCHAR:
-                        exp_len = varchar_len(exp)
-                        act_len = varchar_len(act)
-                        if (
-                            act_len is not None
-                            and exp_len is not None
-                            and act_len < exp_len
-                        ):
-                            print(
-                                f"⚠️ VARCHAR max_length for '{name}' too small: {act_len} < {exp_len}"
-                            )
-                            recreate = True
-
-                # Also ensure primary key settings
-                try:
-                    id_field = actual.get("id")
-                    if not id_field or not id_field.is_primary or id_field.auto_id:
-                        print("⚠️ Primary key field 'id' is misconfigured")
-                        recreate = True
-                except Exception:
-                    pass
-
-                if recreate:
-                    print(
-                        "♻️ Recreating collection to match expected schema (this drops existing data)."
-                    )
-                    utility.drop_collection(collection_name)
-                    return Collection(collection_name, schema)
-
+            actual_fields = {f.name for f in existing.schema.fields}
+            # Check if it has the hybrid schema (content_sparse + page_type)
+            if "content_sparse" in actual_fields and "page_type" in actual_fields:
+                print(f"✅ Collection '{collection_name}' exists with hybrid schema.")
                 return existing
-            except Exception as e:
-                print(
-                    f"⚠️ Could not verify existing collection schema: {e}. Proceeding with existing collection."
-                )
-                return existing
-        return Collection(collection_name, schema)
+            print(
+                f"♻️ Collection '{collection_name}' has old schema (missing hybrid fields). "
+                "Recreating (this drops existing data)."
+            )
+            utility.drop_collection(collection_name)
+
+        # Create with MilvusClient (supports BM25 Function)
+        print(f"🔧 Creating collection '{collection_name}' with hybrid search schema...")
+        client = MilvusClient(uri=ZILLIZ_URI, token=ZILLIZ_API_KEY)
+
+        schema = client.create_schema(auto_id=False, enable_dynamic_field=False)
+        schema.add_field("id", DataType.VARCHAR, is_primary=True, max_length=100)
+        schema.add_field("college_name", DataType.VARCHAR, max_length=256)
+        schema.add_field("url", DataType.VARCHAR, max_length=2048)
+        schema.add_field("url_canonical", DataType.VARCHAR, max_length=512)
+        schema.add_field("title", DataType.VARCHAR, max_length=MAX_TITLE_LENGTH)
+        schema.add_field(
+            "content", DataType.VARCHAR, max_length=MAX_CONTENT_LENGTH,
+            enable_analyzer=True, enable_match=True,
+            analyzer_params={"type": "english"},
+        )
+        schema.add_field("content_sparse", DataType.SPARSE_FLOAT_VECTOR)
+        schema.add_field("embedding", DataType.FLOAT_VECTOR, dim=VECTOR_DIM)
+        schema.add_field("page_type", DataType.VARCHAR, max_length=64)
+        schema.add_field("crawled_at", DataType.VARCHAR, max_length=32)
+
+        # BM25 function: auto-generates content_sparse from content at insert time
+        schema.add_function(Function(
+            name="bm25",
+            input_field_names=["content"],
+            output_field_names=["content_sparse"],
+            function_type=FunctionType.BM25,
+        ))
+
+        # Indexes
+        index_params = client.prepare_index_params()
+        index_params.add_index(
+            field_name="embedding", index_type="AUTOINDEX", metric_type="COSINE",
+        )
+        index_params.add_index(
+            field_name="content_sparse",
+            index_type="SPARSE_INVERTED_INDEX", metric_type="BM25",
+        )
+        index_params.add_index(
+            field_name="college_name", index_type="INVERTED",
+            index_name="college_name_idx",
+        )
+        index_params.add_index(
+            field_name="url_canonical", index_type="INVERTED",
+            index_name="url_canonical_idx",
+        )
+        index_params.add_index(
+            field_name="page_type", index_type="INVERTED",
+            index_name="page_type_idx",
+        )
+
+        client.create_collection(
+            collection_name=collection_name,
+            schema=schema,
+            index_params=index_params,
+        )
+        print(f"✅ Created collection '{collection_name}' with hybrid schema.")
+
+        # Return an ORM Collection handle for the rest of the crawler
+        return Collection(collection_name)
 
     def ensure_collection_ready(self):
-        """Create vector index if missing and load collection for querying/search."""
+        """Load collection to make it queryable. Indexes are created at schema time."""
         try:
-            # Create vector index if not present
-            has_index = False
-            try:
-                idx = getattr(self.collection, "indexes", None)
-                has_index = bool(idx)
-            except Exception:
-                has_index = False
-
-            if not has_index:
-                print("🔧 Creating vector index on 'embedding' field...")
-                self.collection.create_index(
-                    field_name="embedding",
-                    index_params={
-                        "index_type": INDEX_TYPE,
-                        "metric_type": METRIC_TYPE,
-                        "params": {"nlist": 1024},
-                    },
-                    timeout=600,
-                )
-                print("✅ Index creation requested")
-
-            # Load collection to make it queryable
-            try:
-                self.collection.load(timeout=120)
-                print("✅ Collection loaded")
-            except Exception as e:
-                print(f"⚠️  Could not load collection yet: {e}")
+            self.collection.load(timeout=120)
+            print("✅ Collection loaded")
         except Exception as e:
-            print(f"❌ Error ensuring collection readiness: {e}")
+            print(f"⚠️  Could not load collection yet: {e}")
 
     def read_csv_files(self) -> List[Dict[str, str]]:
         """
@@ -1744,6 +1770,11 @@ class MultithreadedCollegeCrawler:
             # Use provided session or fall back to shared session.
             # Callers in multithreaded contexts MUST provide an explicit session;
             # self.session is only safe as a single-threaded fallback.
+            if session is None and threading.current_thread() is not threading.main_thread():
+                raise RuntimeError(
+                    "scrape_page() called with session=None from a non-main thread; "
+                    "callers must provide an explicit thread-local session"
+                )
             request_session = session or self.session
 
             # Delta crawling: check cache for conditional headers
@@ -3182,8 +3213,8 @@ class MultithreadedCollegeCrawler:
             content_text = page_data["content"]
             chunks = chunk_text_by_tokens(
                 content_text,
-                max_tokens=800,
-                overlap_tokens=80,
+                max_tokens=CHUNK_MAX_TOKENS,
+                overlap_tokens=CHUNK_OVERLAP_TOKENS,
                 model="text-embedding-3-small",
             )
 
@@ -3205,7 +3236,16 @@ class MultithreadedCollegeCrawler:
                     if h in _hash_cache:
                         continue
                     _hash_cache.add(h)
-                chunk_inputs.append(f"{title_text}\n\n{c}" if title_text else c)
+                # Build embedding input: contextual prefix or title prefix
+                if CONTEXTUAL_PREFIXES:
+                    from college_ai.rag.embeddings import generate_contextual_prefix
+                    prefix = generate_contextual_prefix(c, content_text, college_name)
+                    chunk_input = f"{prefix}\n\n{c}" if prefix else (
+                        f"{title_text}\n\n{c}" if title_text else c
+                    )
+                else:
+                    chunk_input = f"{title_text}\n\n{c}" if title_text else c
+                chunk_inputs.append(chunk_input)
                 chunk_indices.append(i)
 
             if not chunk_inputs:
@@ -3244,6 +3284,9 @@ class MultithreadedCollegeCrawler:
                 chunk_indices = [0]
                 chunks = [content_text]
 
+            # Classify page type from URL
+            page_type = classify_page_type(page_data["url"])
+
             # Prepare column-based insert payload
             ids: List[str] = []
             colleges: List[str] = []
@@ -3252,6 +3295,7 @@ class MultithreadedCollegeCrawler:
             titles: List[str] = []
             contents: List[str] = []
             embeddings: List[List[float]] = []
+            page_types: List[str] = []
             crawled_ats: List[str] = []
 
             total_chunks = len(chunk_indices)
@@ -3269,19 +3313,26 @@ class MultithreadedCollegeCrawler:
                 chunked_title = page_data["title"]
                 if total_chunks > 1:
                     chunked_title = f"{page_data['title']} (chunk {emb_idx + 1}/{total_chunks})"
+                try:
+                    _chunk_canonical = self._url_canonical_key(page_data["url"])
+                except Exception:
+                    # Skip chunk rather than insert url_canonical="" which would
+                    # collide with all other failed-canonicalization entries in
+                    # Milvus dedup queries, silently shadowing future pages.
+                    print(f"    ✗ Cannot canonicalize URL, skipping chunk: {page_data.get('url')}")
+                    continue
                 ids.append(str(uuid.uuid4()))
                 colleges.append(college_name)
                 urls.append(page_data["url"])
-                try:
-                    url_canonicals.append(self._url_canonical_key(page_data["url"]))
-                except Exception:
-                    url_canonicals.append("")
+                url_canonicals.append(_chunk_canonical)
                 titles.append(chunked_title[: MAX_TITLE_LENGTH - 1])
                 contents.append(chunk_text[: MAX_CONTENT_LENGTH - 1])
                 embeddings.append(emb)
+                page_types.append(page_type)
                 crawled_ats.append(page_data["crawled_at"])
 
             # Buffer inserts instead of immediate write (flushed by background thread)
+            # Note: content_sparse is auto-generated by Milvus BM25 function — do NOT include
             if embeddings:
                 row_data = {
                     "id": ids,
@@ -3291,6 +3342,7 @@ class MultithreadedCollegeCrawler:
                     "title": titles,
                     "content": contents,
                     "embedding": embeddings,
+                    "page_type": page_types,
                     "crawled_at": crawled_ats,
                 }
                 # Retry with timeout to avoid deadlock if flush thread is dead.
@@ -3522,6 +3574,7 @@ class MultithreadedCollegeCrawler:
                                 try:
                                     pw_result = self._scrape_with_playwright(url)
                                     if pw_result:
+                                        self._write_pw_delta_cache(pw_result, url)
                                         # Upload PW result directly
                                         if self.upload_to_milvus(
                                             pw_result, college_name,
@@ -3592,6 +3645,8 @@ class MultithreadedCollegeCrawler:
                                     return
                                 if stop_event.is_set():
                                     return
+                                # Cache PW result for delta crawling
+                                self._write_pw_delta_cache(result, src_url)
                                 # Upload PW-rendered page
                                 try:
                                     self.upload_to_milvus(result, college_name,
@@ -4029,19 +4084,23 @@ class MultithreadedCollegeCrawler:
             pass
 
         # Clean up ALL non-pool Playwright instances (fallback path).
-        # Registry entries are dicts with direct object references (not
-        # threading.local wrappers), so they are accessible from any thread.
+        # Registry entries share the same dict object as the owning thread's
+        # self._pw_local.browsers.  To avoid a data race where a worker is
+        # still modifying the dict, we atomically swap it to an empty dict
+        # under the lock, then close browsers from the private snapshot.
         try:
             with self._pw_local_registry_lock:
                 pw_entries = list(self._pw_local_registry)
             for entry in pw_entries:
                 try:
-                    for browser in list(entry.get("browsers", {}).values()):
+                    with self._pw_local_registry_lock:
+                        old_browsers = entry.get("browsers", {})
+                        entry["browsers"] = {}
+                    for browser in list(old_browsers.values()):
                         try:
                             browser.close()
                         except Exception:
                             pass
-                    entry.get("browsers", {}).clear()
                 except Exception:
                     pass
                 try:

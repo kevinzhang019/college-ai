@@ -18,7 +18,7 @@ from college_ai.rag.embeddings import get_embedding
 from college_ai.scraping.config import (
     ZILLIZ_URI,
     ZILLIZ_API_KEY,
-    ZILLIZ_COLLECTION_NAME_V2,
+    ZILLIZ_COLLECTION_NAME,
     VECTOR_DIM,
 )
 
@@ -38,7 +38,7 @@ class HybridRetriever:
         self,
         collection_name: Optional[str] = None,
     ):
-        self.collection_name = collection_name or ZILLIZ_COLLECTION_NAME_V2
+        self.collection_name = collection_name or ZILLIZ_COLLECTION_NAME
         self._client = None
 
     # ---- Connection ----
@@ -63,6 +63,7 @@ class HybridRetriever:
         query: str,
         query_embedding: List[float],
         college_name: Optional[str] = None,
+        page_types: Optional[List[str]] = None,
         top_k: int = 30,
     ) -> List[Dict[str, Any]]:
         """Run hybrid search (dense + BM25) with optional school pre-filter.
@@ -71,18 +72,19 @@ class HybridRetriever:
             query: The search query text (used for BM25 arm).
             query_embedding: Pre-computed dense embedding vector.
             college_name: If set, pre-filter results to this school.
+            page_types: If set, pre-filter to these page types (e.g. ["about", "academics"]).
             top_k: Number of candidates to retrieve (before reranking).
 
         Returns:
             List of hit dicts with: college_name, url, title, content,
-            crawled_at, distance, url_canonical.
+            page_type, crawled_at, distance, url_canonical.
         """
         if not query.strip():
             return []
 
         output_fields = [
             "college_name", "url", "url_canonical", "title",
-            "content", "crawled_at",
+            "content", "page_type", "crawled_at",
         ]
 
         # Try school-specific search first
@@ -91,6 +93,7 @@ class HybridRetriever:
                 query, query_embedding, top_k,
                 output_fields=output_fields,
                 college_filter=college_name,
+                page_types=page_types,
             )
             if len(hits) >= SCHOOL_FILTER_MIN_RESULTS:
                 return self._dedupe_by_url(hits, top_k)
@@ -104,6 +107,7 @@ class HybridRetriever:
             global_hits = self._hybrid_search(
                 query, query_embedding, top_k,
                 output_fields=output_fields,
+                page_types=page_types,
             )
             boosted = self._apply_school_boost(global_hits, college_name)
             return self._dedupe_by_url(boosted, top_k)
@@ -112,6 +116,7 @@ class HybridRetriever:
         hits = self._hybrid_search(
             query, query_embedding, top_k,
             output_fields=output_fields,
+            page_types=page_types,
         )
         return self._dedupe_by_url(hits, top_k)
 
@@ -119,6 +124,7 @@ class HybridRetriever:
         self,
         queries: List[str],
         college_name: Optional[str] = None,
+        page_types: Optional[List[str]] = None,
         top_k: int = 30,
     ) -> List[Dict[str, Any]]:
         """Run multiple queries and merge results (for essay mode).
@@ -134,7 +140,7 @@ class HybridRetriever:
             embedding = get_embedding(q)
             if embedding is None or len(embedding) != VECTOR_DIM:
                 continue
-            hits = self.search(q, embedding, college_name, top_k=top_k)
+            hits = self.search(q, embedding, college_name, page_types=page_types, top_k=top_k)
             for hit in hits:
                 url = hit.get("url", "")
                 if url and url not in seen_urls:
@@ -152,6 +158,7 @@ class HybridRetriever:
         top_k: int,
         output_fields: List[str],
         college_filter: Optional[str] = None,
+        page_types: Optional[List[str]] = None,
     ) -> List[Dict[str, Any]]:
         """Execute hybrid dense + BM25 search on Milvus."""
         from pymilvus import AnnSearchRequest, RRFRanker
@@ -159,11 +166,14 @@ class HybridRetriever:
         client = self._get_client()
 
         # Build filter expression
-        expr = None
+        conditions = []
         if college_filter:
-            # Escape single quotes in college names
             safe_name = college_filter.replace("'", "\\'")
-            expr = f"college_name == '{safe_name}'"
+            conditions.append(f"college_name == '{safe_name}'")
+        if page_types:
+            types_str = ", ".join(f"'{t}'" for t in page_types)
+            conditions.append(f"page_type in [{types_str}]")
+        expr = " and ".join(conditions) if conditions else None
 
         # Dense retrieval arm (COSINE similarity)
         dense_req = AnnSearchRequest(
@@ -252,7 +262,7 @@ class HybridRetriever:
                         record = {}
                         for key in [
                             "college_name", "url", "url_canonical",
-                            "title", "content", "crawled_at",
+                            "title", "content", "page_type", "crawled_at",
                         ]:
                             record[key] = (
                                 entity.get(key) if hasattr(entity, "get")

@@ -362,13 +362,15 @@ class CollegeRAG:
                 "query_type": query_type,
             }
 
-        # For essay modes, run supplemental queries for richer context
+        # For essay modes, run supplemental queries with page_type targeting
         if query_type in (ESSAY_IDEAS, ESSAY_REVIEW) and school:
             queries = [search_query]
             queries.append(f"{school} mission values what we look for in students")
             queries.append(f"{school} unique programs culture community")
             candidates = self.retriever.search_multi_query(
-                queries, college_name=school, top_k=30,
+                queries, college_name=school,
+                page_types=["about", "academics", "campus_life"],
+                top_k=30,
             )
         else:
             candidates = self.retriever.search(

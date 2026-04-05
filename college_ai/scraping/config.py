@@ -153,12 +153,50 @@ if (
 
 # Vector settings
 VECTOR_DIM = 1536  # Matches OpenAI embedding dimension
-INDEX_TYPE = "IVF_FLAT"
-METRIC_TYPE = "L2"
+INDEX_TYPE = "AUTOINDEX"
+METRIC_TYPE = "COSINE"
 
-# V2 collection for hybrid search (dense + BM25)
-ZILLIZ_COLLECTION_NAME_V2 = os.getenv("ZILLIZ_COLLECTION_NAME_V2", "colleges_v2")
-METRIC_TYPE_V2 = "COSINE"
+# Chunking settings
+CHUNK_MAX_TOKENS = int(os.getenv("CHUNK_MAX_TOKENS", "512"))
+CHUNK_OVERLAP_TOKENS = int(os.getenv("CHUNK_OVERLAP_TOKENS", "50"))
+
+# Contextual prefixes: prepend LLM-generated context to each chunk before embedding.
+# Improves retrieval accuracy ~35% (Anthropic) but adds an LLM call per chunk during crawl.
+# Off by default — set CONTEXTUAL_PREFIXES=1 to enable.
+CONTEXTUAL_PREFIXES = os.getenv("CONTEXTUAL_PREFIXES", "0") == "1"
+
+# ==================== PAGE TYPE CLASSIFICATION ====================
+
+# URL pattern → page type mapping for the page_type Milvus field.
+# Used by the crawler to classify pages at insert time.
+PAGE_TYPE_PATTERNS = {
+    "admissions": [
+        r".*/admissions?/.*", r".*/apply/.*", r".*/requirements/.*",
+        r".*/enrollment/.*", r".*/admitted/.*",
+    ],
+    "academics": [
+        r".*/academics?/.*", r".*/programs?/.*", r".*/majors?/.*",
+        r".*/degrees?/.*", r".*/courses?/.*", r".*/curriculum/.*",
+        r".*/departments?/.*",
+    ],
+    "financial_aid": [
+        r".*/financial-aid/.*", r".*/financialaid/.*", r".*/tuition/.*",
+        r".*/scholarships?/.*", r".*/cost/.*", r".*/afford/.*",
+    ],
+    "about": [
+        r".*/about/.*", r".*/overview/.*", r".*/mission/.*",
+        r".*/history/.*", r".*/facts/.*", r".*/profile/.*",
+    ],
+    "campus_life": [
+        r".*/campus/.*", r".*/housing/.*", r".*/dining/.*",
+        r".*/student-life/.*", r".*/residence/.*", r".*/dorm/.*",
+        r".*/athletics/.*", r".*/clubs/.*", r".*/greek/.*",
+    ],
+    "research": [
+        r".*/research/.*", r".*/faculty/.*", r".*/labs?/.*",
+        r".*/centers?/.*", r".*/institute/.*",
+    ],
+}
 
 # ==================== OPENAI SETTINGS ====================
 

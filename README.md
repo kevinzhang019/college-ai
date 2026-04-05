@@ -10,11 +10,11 @@ Environment variables in `.env` at the project root:
 |---|---|---|---|
 | `ZILLIZ_URI` | Yes | — | RAG, crawler |
 | `ZILLIZ_API_KEY` | Yes | — | RAG, crawler |
-| `ZILLIZ_COLLECTION_NAME` | No | `colleges` | Crawler (v1 collection) |
-| `ZILLIZ_COLLECTION_NAME_V2` | No | `colleges_v2` | RAG v2 (hybrid search collection) |
+| `ZILLIZ_COLLECTION_NAME` | No | `colleges` | RAG, crawler (hybrid search collection) |
 | `OPENAI_API_KEY` | Yes | — | RAG, crawler (embeddings) |
 | `OPENAI_CHAT_MODEL` | No | `gpt-4.1-mini` | RAG answer generation |
 | `COHERE_API_KEY` | No | — | Cross-encoder reranking (optional, degrades gracefully) |
+| `CONTEXTUAL_PREFIXES` | No | `0` | Set to `1` to enable LLM contextual chunk prefixes during crawl |
 | `TURSO_DATABASE_URL` | No | local SQLite | Admissions DB (Turso cloud) |
 | `TURSO_AUTH_TOKEN` | No | — | Admissions DB (Turso cloud) |
 | `SCORECARD_API_KEY` | Yes (for scraping) | — | College Scorecard API |
@@ -110,20 +110,7 @@ Reads college URLs from CSVs in `college_ai/scraping/colleges/`, BFS-crawls each
 | `--max-pages N` | `MAX_PAGES_PER_COLLEGE` (500) | Max pages per college |
 | `--no-resume` | off | Force full re-crawl: disables delta cache and replaces existing Milvus vectors (delete + re-insert) |
 
-### 4. Migrate to hybrid search collection
-
-```bash
-python scripts/migrate_to_hybrid.py --drop-existing
-```
-
-Copies all data from the v1 `colleges` collection to `colleges_v2` with BM25 sparse vectors auto-generated at insert time. The v1 collection is left untouched. Only needed once (or after re-crawling).
-
-| Flag | Default | Description |
-|---|---|---|
-| `--drop-existing` | off | Drop v2 collection if it already exists and recreate |
-| `--batch-size N` | 500 | Rows per migration batch |
-
-### 5. Export training data
+### 4. Export training data
 
 ```bash
 python -m college_ai.ml.data_pipeline export
@@ -137,7 +124,7 @@ Pulls raw data from the DB, normalizes scores, engineers features, and writes `d
 | `export` (positional) | — | Run pipeline and export training data |
 | `--format parquet\|csv` | parquet | Output format |
 
-### 6a. Train single global model
+### 5a. Train single global model
 
 ```bash
 python -m college_ai.ml.train
@@ -155,7 +142,7 @@ Trains one LightGBM model on all data. Outputs to `model/`.
 | `--prune-features` | off | Drop near-zero importance features and retrain |
 | `--model-type lightgbm\|catboost` | lightgbm | Boosting framework |
 
-### 6b. Train bucketed models (recommended)
+### 5b. Train bucketed models (recommended)
 
 ```bash
 python -m college_ai.ml.train_bucketed
@@ -233,8 +220,7 @@ One-off tools in `scripts/` for Zilliz DB maintenance:
 | `count_duplicates.py` | Count duplicates without deleting (read-only) |
 | `clean_non_university_urls.py` | Remove off-domain URLs from the collection |
 | `consolidate_college_alias.py` | Merge records for college name aliases |
-| `recreate_collection.py` | Drop and recreate the v1 Zilliz collection |
-| `migrate_to_hybrid.py` | Migrate data from v1 to v2 hybrid collection (dense + BM25) |
+| `recreate_collection.py` | Drop and recreate the Zilliz collection with hybrid schema |
 | `migrate_zilliz.py` | Copy data between Zilliz instances |
 | `milvus_monitor.py` | Live terminal dashboard of collection stats |
 | `run_monitor.py` | CLI wrapper for the monitor |

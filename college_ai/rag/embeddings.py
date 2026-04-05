@@ -47,8 +47,8 @@ def _ensure_tokenizer(model: str):
 
 def chunk_text_by_tokens(
     text: str,
-    max_tokens: int = 800,
-    overlap_tokens: int = 80,
+    max_tokens: int = 512,
+    overlap_tokens: int = 50,
     model: str = "text-embedding-3-small",
 ) -> List[str]:
     """
@@ -83,6 +83,76 @@ def chunk_text_by_tokens(
         # move with overlap
         start = max(0, end - overlap_tokens)
     return chunks
+
+
+# ---------------------------------------------------------------------------
+# Contextual chunk prefixes (Anthropic-style)
+# ---------------------------------------------------------------------------
+
+_CONTEXTUAL_PREFIX_SYSTEM = (
+    "You are indexing content from a college website.\n"
+    "Given the full page content and a specific chunk, write a brief (2-3 sentence) "
+    "description of what this chunk covers within the context of the full page.\n"
+    "Include the college name and page topic. This will be prepended to the chunk "
+    "before embedding to improve retrieval accuracy.\n"
+    "Output ONLY the context description, nothing else."
+)
+
+_CONTEXTUAL_PREFIX_USER = (
+    "College: {college_name}\n\n"
+    "Full page content:\n{full_page}\n\n"
+    "Chunk:\n{chunk}\n\n"
+    "Context description:"
+)
+
+
+def generate_contextual_prefix(
+    chunk: str,
+    full_page: str,
+    college_name: str,
+    openai_client: Optional[OpenAI] = None,
+) -> str:
+    """Generate a 2-3 sentence contextual description to prepend to a chunk.
+
+    Anthropic's contextual retrieval approach: gives the embedding model
+    context about what this chunk covers within the full page, improving
+    retrieval accuracy by ~35%.
+
+    Args:
+        chunk: The text chunk to contextualize.
+        full_page: The full page content (truncated to ~3000 chars internally).
+        college_name: Name of the college.
+        openai_client: Optional pre-created OpenAI client.
+
+    Returns:
+        Context description string, or empty string on failure.
+    """
+    client = openai_client or _create_openai_client()
+    if client is None:
+        return ""
+
+    try:
+        response = client.chat.completions.create(
+            model="gpt-4.1-nano",
+            messages=[
+                {"role": "system", "content": _CONTEXTUAL_PREFIX_SYSTEM},
+                {
+                    "role": "user",
+                    "content": _CONTEXTUAL_PREFIX_USER.format(
+                        college_name=college_name,
+                        full_page=full_page[:3000],
+                        chunk=chunk[:1000],
+                    ),
+                },
+            ],
+            temperature=0,
+            max_tokens=100,
+        )
+        if response and response.choices:
+            return response.choices[0].message.content.strip() or ""
+    except Exception as exc:
+        logger.debug("Contextual prefix generation failed: %s", exc)
+    return ""
 
 
 def _truncate_text(text: str, max_tokens: int = 8191, model: str = "text-embedding-3-small") -> str:
