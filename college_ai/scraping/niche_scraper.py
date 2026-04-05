@@ -620,264 +620,189 @@ class NicheScraper:
             "Object.defineProperty(navigator, 'webdriver', {get: () => undefined})"
         )
 
-    def capture_cookies(self, standalone: bool = False) -> bool:
+    def capture_cookies(self) -> bool:
         """Open Chrome so the user can log in to Niche and solve PerimeterX.
 
         PerimeterX fingerprints are tied to the browser engine — capture and
         scrape must use the same engine (Chrome) for cookies to work.
         Called automatically mid-scrape when PX starts blocking.
 
-        Args:
-            standalone: True when invoked via --capture-cookies (exit on
-                window close). False during mid-scrape recovery (reopen
-                the window so the user can try again).
-
         Returns True if cookies were successfully saved, False if cancelled
-        (e.g. shutdown, standalone window close) or if the capture failed.
-        Never raises — all errors are caught and logged so the caller's
-        flow to restart() is not skipped.
+        (e.g. shutdown) or if the capture failed.  Never raises — all errors
+        are caught and logged so the caller's flow to restart() is not skipped.
         """
         if shutdown_event.is_set():
             return False
 
-        logger.info("\n" + "=" * 60)
+        logger.info("\n" + "="*60)
         logger.info("ACTION REQUIRED: Chrome is opening for cookie capture")
         logger.info("  1. Log in to Niche if prompted")
         logger.info("  2. Browse to a few college pages until they load normally")
         logger.info("  3. Press ENTER in this terminal when done")
-        logger.info("=" * 60)
+        logger.info("="*60)
 
-        # Close the existing playwright instance before starting a new one.
-        # Playwright's sync API creates an asyncio event loop per instance;
-        # starting a second sync_playwright() in the same thread while the
-        # first is still running raises "using Playwright Sync API inside
-        # the asyncio loop".  Closing first frees the event loop.
-        # The caller (restart()) will re-create the scraping browser after
-        # capture finishes.
+        # Close the existing browser and Playwright instance before
+        # starting a new one for interactive capture.
+        #
+        # Key constraint: _playwright.stop() MUST run on THIS thread.
+        # The sync API's greenlet-based asyncio event loop is bound to
+        # the thread that called sync_playwright().start().  If stop()
+        # runs in close()'s daemon thread, the greenlet stays frozen and
+        # the next sync_playwright().start() raises "using Playwright
+        # Sync API inside the asyncio loop".
+        #
+        # Strategy: null out self._playwright so close()'s daemon skips
+        # it, then call stop() synchronously here.
+        _pw_ref = self._playwright
+        self._playwright = None
         self.close()
-
-        # Retry loop: if the user closes the browser window mid-scrape,
-        # clean up and reopen immediately.  Standalone mode (--capture-cookies)
-        # exits on window close instead.
-        while not shutdown_event.is_set():
-            pl = None
-            browser = None
-            ctx = None
-            pg = None
-            browser_closed = False
-            cookies = None
-
+        if _pw_ref is not None:
             try:
-                # --- Launch capture browser ---
-                try:
-                    pl = sync_playwright().start()
+                _pw_ref.stop()
+            except Exception:
+                pass
 
-                    launch_args = ["--disable-blink-features=AutomationControlled"]
+        pl = None
+        browser = None
+        ctx = None
+        pg = None
+        try:
+            pl = sync_playwright().start()
+
+            launch_args = ["--disable-blink-features=AutomationControlled"]
+            try:
+                browser = pl.chromium.launch(channel="chrome", headless=False, args=launch_args)
+            except Exception:
+                browser = pl.chromium.launch(headless=False, args=launch_args)
+
+            ctx = browser.new_context(
+                viewport={"width": 1440, "height": 900},
+                user_agent=(
+                    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+                    "AppleWebKit/537.36 (KHTML, like Gecko) "
+                    "Chrome/130.0.0.0 Safari/537.36"
+                ),
+            )
+            pg = ctx.new_page()
+            pg.add_init_script(
+                "Object.defineProperty(navigator, 'webdriver', {get: () => undefined})"
+            )
+            pg.goto(LOGIN_URL, timeout=NAV_TIMEOUT)
+        except Exception as e:
+            logger.error("Failed to launch capture browser: %s", e)
+            # Clean up whatever was created before the failure
+            for resource, label in [(pg, "page"), (ctx, "context"), (browser, "browser")]:
+                if resource is not None:
                     try:
-                        browser = pl.chromium.launch(
-                            channel="chrome", headless=False, args=launch_args
-                        )
-                    except Exception:
-                        browser = pl.chromium.launch(headless=False, args=launch_args)
-
-                    ctx = browser.new_context(
-                        viewport={"width": 1440, "height": 900},
-                        user_agent=(
-                            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
-                            "AppleWebKit/537.36 (KHTML, like Gecko) "
-                            "Chrome/130.0.0.0 Safari/537.36"
-                        ),
-                    )
-                    pg = ctx.new_page()
-                    pg.add_init_script(
-                        "Object.defineProperty(navigator, 'webdriver', "
-                        "{get: () => undefined})"
-                    )
-                    pg.goto(LOGIN_URL, timeout=NAV_TIMEOUT)
-                except Exception as e:
-                    logger.error("Failed to launch capture browser: %s", e)
-                    return False
-
-                # --- Wait for user interaction ---
-                # pg.is_closed() / browser.is_connected() are cached flags
-                # that only update when a Playwright API call pumps the
-                # internal event loop.  During select/sleep no calls happen,
-                # so these flags go stale.  We use pg.evaluate("1") purely
-                # as an event-loop pump — success or failure doesn't matter.
-                # After the call returns (or raises), the cached flags are
-                # up-to-date and we check those instead of parsing errors.
-                def _page_alive() -> bool:
-                    try:
-                        pg.evaluate("1", timeout=2000)
-                    except Exception:
-                        pass  # pump completed — check flags below
-                    return not pg.is_closed() and browser.is_connected()
-
-                try:
-                    MAX_COOKIE_WAIT_SECS = 300
-                    max_iters = int(MAX_COOKIE_WAIT_SECS / 0.5)
-                    print(
-                        "\n  >>> Press ENTER after you've logged in "
-                        "and a college page loaded... ",
-                        end="", flush=True,
-                    )
-                    for _ in range(max_iters):
-                        if shutdown_event.is_set():
-                            logger.info("Shutdown requested — cancelling cookie capture.")
-                            return False
-                        if not _page_alive():
-                            browser_closed = True
-                            break
-                        if sys.stdin in select.select(
-                            [sys.stdin], [], [], 0.5
-                        )[0]:
-                            sys.stdin.readline()
-                            break
-                    else:
-                        logger.warning(
-                            "Cookie capture timed out after %ds "
-                            "— returning without new cookies",
-                            MAX_COOKIE_WAIT_SECS,
-                        )
-                        return False
-                except EOFError:
-                    logger.info(
-                        "Non-interactive mode — waiting 60s for manual interaction..."
-                    )
-                    for _ in range(120):  # 60s in 0.5s increments
-                        if shutdown_event.is_set():
-                            logger.info("Shutdown requested — cancelling cookie capture.")
-                            return False
-                        if not _page_alive():
-                            browser_closed = True
-                            break
-                        time.sleep(0.5)
-                except (ValueError, OSError) as e:
-                    logger.warning(
-                        "stdin polling error (%s) — falling back to 60s timed wait", e
-                    )
-                    for _ in range(120):  # 60s in 0.5s increments
-                        if shutdown_event.is_set():
-                            logger.info("Shutdown requested — cancelling cookie capture.")
-                            return False
-                        if not _page_alive():
-                            browser_closed = True
-                            break
-                        time.sleep(0.5)
-
-                # --- Collect cookies (skip if browser died) ---
-                if not browser_closed:
-                    try:
-                        cookies = ctx.cookies()
-                    except Exception as e:
-                        logger.warning(
-                            "Failed to read cookies (browser may have crashed): %s", e
-                        )
-                        browser_closed = True
-
-            finally:
-                # --- Cleanup capture browser resources ---
-                # Runs every attempt.  Uses daemon threads with timeout so
-                # zombie Chromium processes cannot block the worker or hold
-                # cookie_capture_lock indefinitely.  If a thread hangs, we
-                # kill the Playwright server subprocess to unblock it and
-                # join again — preventing orphaned threads from accumulating
-                # across retry iterations.
-                _pg, _ctx, _browser, _pl = pg, ctx, browser, pl
-
-                def _kill_playwright_server():
-                    """Kill the Playwright server subprocess to unblock hung threads."""
-                    if _pl is None:
-                        return
-                    try:
-                        proc = _pl._impl_obj._connection._transport._proc
-                        if proc.poll() is None:
-                            proc.kill()
-                            proc.wait(timeout=5)
+                        resource.close()
                     except Exception:
                         pass
-
-                def _cleanup_capture_browser_resources():
-                    for resource, label in [
-                        (_pg, "page"), (_ctx, "context"), (_browser, "browser"),
-                    ]:
-                        if resource is not None:
-                            try:
-                                resource.close()
-                            except Exception as exc:
-                                logger.debug(
-                                    "Cookie capture cleanup — %s.close() failed: %s",
-                                    label, exc,
-                                )
-
-                cleanup = threading.Thread(
-                    target=_cleanup_capture_browser_resources, daemon=True
-                )
-                cleanup.start()
-                cleanup.join(timeout=CAPTURE_CLEANUP_TIMEOUT)
-                if cleanup.is_alive():
-                    logger.warning(
-                        "Cookie capture browser cleanup hung — killing "
-                        "Playwright server to unblock"
-                    )
-                    _kill_playwright_server()
-                    cleanup.join(timeout=5)
-
-                if _pl is not None:
-                    def _cleanup_pl_stop():
-                        try:
-                            _pl.stop()
-                        except Exception as exc:
-                            logger.debug(
-                                "Cookie capture cleanup — pl.stop() failed: %s", exc
-                            )
-
-                    pl_cleanup = threading.Thread(
-                        target=_cleanup_pl_stop, daemon=True
-                    )
-                    pl_cleanup.start()
-                    pl_cleanup.join(timeout=CAPTURE_CLEANUP_TIMEOUT)
-                    if pl_cleanup.is_alive():
-                        logger.warning(
-                            "Cookie capture pl.stop() hung — killing "
-                            "Playwright server to unblock"
-                        )
-                        _kill_playwright_server()
-                        pl_cleanup.join(timeout=5)
-
-            # --- Handle browser closed by user ---
-            if browser_closed:
-                if standalone:
-                    logger.info("Capture browser closed — exiting.")
-                    return False
-                logger.info(
-                    "Capture browser closed — reopening for cookie capture..."
-                )
-                continue  # retry: reopen window
-
-            if cookies is None:
-                return False
-
-            # --- Save cookies atomically ---
-            os.makedirs(os.path.dirname(self._cookies_path), exist_ok=True)
-            cookie_dir = os.path.dirname(self._cookies_path)
-            fd, tmp_path = tempfile.mkstemp(dir=cookie_dir, suffix=".tmp")
-            try:
-                with os.fdopen(fd, "w") as f:
-                    json.dump(cookies, f)
-                os.replace(tmp_path, self._cookies_path)
-            except Exception as e:
-                logger.error("Failed to save cookies: %s", e)
+            if pl is not None:
                 try:
-                    os.unlink(tmp_path)
-                except OSError:
+                    pl.stop()
+                except Exception:
                     pass
-                return False
-            logger.info(f"Saved {len(cookies)} cookies.")
-            return True
+            return False
 
-        # shutdown_event was set before/during retry
-        return False
+        # Collect cookies; stays None on early return (shutdown) so
+        # the save logic below is skipped.
+        cookies = None
+        try:
+            try:
+                # Use a polling loop so Ctrl+C (shutdown_event) can interrupt
+                # the wait.  Cap at 5 minutes so a hung terminal or absent
+                # operator doesn't hold cookie_capture_lock indefinitely,
+                # which would stall all workers.
+                MAX_COOKIE_WAIT_SECS = 300
+                max_iters = int(MAX_COOKIE_WAIT_SECS / 0.5)
+                print("\n  >>> Press ENTER after you've logged in and a college page loaded... ", end="", flush=True)
+                for _ in range(max_iters):
+                    if shutdown_event.is_set():
+                        logger.info("Shutdown requested — cancelling cookie capture.")
+                        return False
+                    if sys.stdin in select.select([sys.stdin], [], [], 0.5)[0]:
+                        sys.stdin.readline()
+                        break
+                else:
+                    logger.warning("Cookie capture timed out after %ds — returning without new cookies", MAX_COOKIE_WAIT_SECS)
+                    return False
+            except EOFError:
+                logger.info("Non-interactive mode — waiting 60s for manual interaction...")
+                for _ in range(120):  # 60s in 0.5s increments
+                    if shutdown_event.is_set():
+                        logger.info("Shutdown requested — cancelling cookie capture.")
+                        return False
+                    time.sleep(0.5)
+            except (ValueError, OSError) as e:
+                logger.warning("stdin polling error (%s) — falling back to 60s timed wait", e)
+                for _ in range(120):  # 60s in 0.5s increments
+                    if shutdown_event.is_set():
+                        logger.info("Shutdown requested — cancelling cookie capture.")
+                        return False
+                    time.sleep(0.5)
+            cookies = ctx.cookies()
+        finally:
+            # Close capture browser with a timeout — browser.close() can
+            # hang indefinitely on a crashed/zombie process.  This runs
+            # while cookie_capture_lock is held, so a hang here would
+            # deadlock all workers waiting for the lock.
+            #
+            # IMPORTANT: pl.stop() MUST run in the current thread, not the
+            # daemon thread.  sync_playwright().start() installs an asyncio
+            # event loop on the calling thread; pl.stop() tears it down.
+            # If stop() runs in a different thread, the loop lingers and the
+            # next sync_playwright().start() in this thread raises
+            # "using Playwright Sync API inside the asyncio loop".
+            def _cleanup_capture_browser_resources():
+                for resource, label in [(pg, "page"), (ctx, "context"), (browser, "browser")]:
+                    if resource is not None:
+                        try:
+                            resource.close()
+                        except Exception as exc:
+                            logger.debug("Cookie capture cleanup — %s.close() failed: %s", label, exc)
+
+            cleanup = threading.Thread(target=_cleanup_capture_browser_resources, daemon=True)
+            cleanup.start()
+            cleanup.join(timeout=CAPTURE_CLEANUP_TIMEOUT)
+            if cleanup.is_alive():
+                logger.warning(
+                    "Cookie capture browser cleanup hung — abandoning "
+                    "(daemon thread will be reaped at process exit)"
+                )
+
+            # Stop Playwright synchronously on THIS thread so the
+            # greenlet-based asyncio event loop is properly torn down.
+            # Browser resources are already closed (or abandoned) by the
+            # daemon above, so pl.stop() just shuts down the driver
+            # subprocess — fast unless the Chromium process is zombie.
+            if pl is not None:
+                try:
+                    pl.stop()
+                except Exception as exc:
+                    logger.debug("Cookie capture cleanup — pl.stop() failed: %s", exc)
+
+        if cookies is None:
+            return False
+
+        os.makedirs(os.path.dirname(self._cookies_path), exist_ok=True)
+        # Atomic write: temp file + rename prevents other workers from
+        # reading a truncated cookie file if the process crashes mid-write.
+        cookie_dir = os.path.dirname(self._cookies_path)
+        fd, tmp_path = tempfile.mkstemp(dir=cookie_dir, suffix=".tmp")
+        try:
+            with os.fdopen(fd, "w") as f:
+                json.dump(cookies, f)
+            os.replace(tmp_path, self._cookies_path)
+        except Exception:
+            try:
+                os.unlink(tmp_path)
+            except OSError:
+                pass
+            raise
+        logger.info(f"Saved {len(cookies)} cookies.")
+        # Cookies are saved to disk; restart() will load them into the new
+        # browser context.  self.context is None after self.close() above.
+        return True
 
     def start(self, headless: bool = False, grades_only: bool = False):
         """Launch Chrome and load saved cookies.
@@ -1344,14 +1269,18 @@ class NicheScraper:
 
         try:
             return self._scrape_scattergram_inner(slug, url)
-        finally:
-            # Release intercepted response payloads so large JSON bodies
-            # don't persist in memory between schools.  Also clear cached
-            # grades so a failed scrape can't leak stale grades to a
-            # subsequent scrape_grades() call.
-            self._intercepted_data = []
+        except Exception:
+            # On failure, clear cached grades so a failed scrape can't
+            # leak stale grades to a subsequent scrape_grades() call.
+            # On success, _cached_grades is intentionally preserved so
+            # _worker_loop can skip the grades page load.
             self._cached_grades = None
             self._cached_grades_slug = None
+            raise
+        finally:
+            # Release intercepted response payloads so large JSON bodies
+            # don't persist in memory between schools.
+            self._intercepted_data = []
 
     def _scrape_scattergram_inner(self, slug: str, url: str) -> list[dict]:
         """Inner implementation of scrape_scattergram (split for try/finally cleanup)."""
@@ -2079,7 +2008,6 @@ class NicheScraper:
             (self.browser, "close", "browser"),
             (self._playwright, "stop", "playwright"),
         ]
-        pw_ref = self._playwright  # keep for server kill fallback
         self.page = None
         self.context = None
         self.browser = None
@@ -2099,20 +2027,9 @@ class NicheScraper:
             cleanup.join(timeout=timeout)
             if cleanup.is_alive():
                 logger.warning(
-                    "Browser close() hung after %.0fs — killing "
-                    "Playwright server to unblock", timeout
+                    "Browser close() hung after %.0fs — abandoning "
+                    "(daemon thread will be reaped at process exit)", timeout
                 )
-                # Kill the Playwright server subprocess so the daemon
-                # thread's blocking close()/stop() calls unblock.
-                if pw_ref is not None:
-                    try:
-                        proc = pw_ref._impl_obj._connection._transport._proc
-                        if proc.poll() is None:
-                            proc.kill()
-                            proc.wait(timeout=5)
-                    except Exception:
-                        pass
-                cleanup.join(timeout=5)
         else:
             _close_resources()
 
@@ -2587,7 +2504,7 @@ def main():
     if args.capture_cookies:
         scraper = NicheScraper()
         try:
-            scraper.capture_cookies(standalone=True)
+            scraper.capture_cookies()
         finally:
             scraper.close()
         return
