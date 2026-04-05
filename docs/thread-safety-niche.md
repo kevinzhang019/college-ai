@@ -17,7 +17,7 @@ Each worker creates its own `sync_playwright()` instance, browser, context, and 
 - No cross-thread data race between the handler appending to `_intercepted_data` and the worker reading it — they are sequentially interleaved within one thread
 - A greenlet from thread A cannot be resumed from thread B (raises `greenlet.error`), enforcing per-thread isolation
 - Re-entrant Playwright API calls from inside event handlers will deadlock (the dispatcher fiber is already running)
-- Only one `sync_playwright()` instance can be active per thread — starting a second one while the first is running raises "using Playwright Sync API inside the asyncio loop". `capture_cookies()` calls `self.close()` first to stop the existing instance before starting a fresh one for interactive capture. The caller (`restart()`) re-creates the scraping browser afterward.
+- Only one `sync_playwright()` instance can be active per thread — starting a second one while the first is running raises "using Playwright Sync API inside the asyncio loop". `capture_cookies()` calls `self.close()` first to stop the existing instance before starting a fresh one for interactive capture. Its `finally` block closes browser resources in a daemon thread but runs `pl.stop()` synchronously in the worker thread to tear down the asyncio loop. `_launch_chrome()` has a fallback that resets the asyncio loop on failure. The worker loop wraps `restart()` in a try/except with a retry to prevent a single browser failure from killing the entire worker.
 
 ## Sentinel Guarantee
 
@@ -44,9 +44,11 @@ Both `capture_cookies()` and `_login()` write cookies using the atomic temp-file
 Playwright's `browser.close()` can hang indefinitely if the browser process OOMed or crashed (confirmed in Playwright issue #1847). Two sites use daemon-thread-with-timeout cleanup:
 
 1. **Worker `finally` block** — runs `scraper.close()` in a daemon thread with a 15-second timeout. Ensures the worker always completes so `scrape_all()` can proceed to shutdown logic.
-2. **`capture_cookies()` `finally` block** — closes the capture browser (page, context, browser, playwright) in a daemon thread with `CAPTURE_CLEANUP_TIMEOUT` (15s). This is critical because `capture_cookies()` runs while `cookie_capture_lock` is held — a hang here would deadlock all workers waiting for the lock.
+2. **`capture_cookies()` `finally` block** — closes the capture browser resources (page, context, browser) in a daemon thread with `CAPTURE_CLEANUP_TIMEOUT` (15s). **`pl.stop()` runs synchronously in the current (worker) thread** after the daemon thread finishes — this is critical because `sync_playwright().start()` installs an asyncio event loop on the calling thread, and only `pl.stop()` from the same thread properly tears it down. Running `pl.stop()` in the daemon thread would leave a stale event loop, causing the next `sync_playwright().start()` to raise "using Playwright Sync API inside the asyncio loop".
 
-If cleanup hangs in either case, the daemon thread is abandoned and reaped at process exit.
+If browser resource cleanup hangs, the daemon thread is abandoned and reaped at process exit. `pl.stop()` still runs synchronously to clean up the asyncio loop.
+
+`_launch_chrome()` has a fallback: if `sync_playwright().start()` fails (stale asyncio loop), it closes the old loop, installs a fresh one, and retries. The worker loop also wraps `restart()` in a try/except — if it fails, the worker calls `close()` + `start()` once more before giving up.
 
 ## Memory Management
 

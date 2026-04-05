@@ -575,7 +575,23 @@ class NicheScraper:
 
     def _launch_chrome(self, headless: bool = False):
         """Launch system Chrome browser (same engine for capture + scraping)."""
-        self._playwright = sync_playwright().start()
+        try:
+            self._playwright = sync_playwright().start()
+        except Exception:
+            # A stale asyncio event loop from a previous playwright instance
+            # (e.g. capture_cookies cleanup running in a daemon thread) can
+            # prevent sync_playwright().start().  Nuke it and retry.
+            import asyncio
+            try:
+                loop = asyncio.get_event_loop()
+                if loop.is_running():
+                    loop.stop()
+                if not loop.is_closed():
+                    loop.close()
+            except RuntimeError:
+                pass
+            asyncio.set_event_loop(asyncio.new_event_loop())
+            self._playwright = sync_playwright().start()
         launch_args = ["--disable-blink-features=AutomationControlled"]
         try:
             self.browser = self._playwright.chromium.launch(
@@ -713,20 +729,22 @@ class NicheScraper:
             # hang indefinitely on a crashed/zombie process.  This runs
             # while cookie_capture_lock is held, so a hang here would
             # deadlock all workers waiting for the lock.
-            def _cleanup_capture_browser():
+            #
+            # IMPORTANT: pl.stop() MUST run in the current thread, not the
+            # daemon thread.  sync_playwright().start() installs an asyncio
+            # event loop on the calling thread; pl.stop() tears it down.
+            # If stop() runs in a different thread, the loop lingers and the
+            # next sync_playwright().start() in this thread raises
+            # "using Playwright Sync API inside the asyncio loop".
+            def _cleanup_capture_browser_resources():
                 for resource, label in [(pg, "page"), (ctx, "context"), (browser, "browser")]:
                     if resource is not None:
                         try:
                             resource.close()
                         except Exception as exc:
                             logger.debug("Cookie capture cleanup — %s.close() failed: %s", label, exc)
-                if pl is not None:
-                    try:
-                        pl.stop()
-                    except Exception as exc:
-                        logger.debug("Cookie capture cleanup — pl.stop() failed: %s", exc)
 
-            cleanup = threading.Thread(target=_cleanup_capture_browser, daemon=True)
+            cleanup = threading.Thread(target=_cleanup_capture_browser_resources, daemon=True)
             cleanup.start()
             cleanup.join(timeout=CAPTURE_CLEANUP_TIMEOUT)
             if cleanup.is_alive():
@@ -734,6 +752,14 @@ class NicheScraper:
                     "Cookie capture browser cleanup hung — abandoning "
                     "(daemon thread will be reaped at process exit)"
                 )
+
+            # Stop playwright synchronously in the current (worker) thread
+            # so the asyncio event loop it created is properly torn down.
+            if pl is not None:
+                try:
+                    pl.stop()
+                except Exception as exc:
+                    logger.debug("Cookie capture cleanup — pl.stop() failed: %s", exc)
 
         if cookies is None:
             return False
@@ -2123,7 +2149,17 @@ def _worker_loop(
                         if shutdown_event.is_set():
                             break
 
-                        scraper.restart(headless=headless, grades_only=grades_only)
+                        try:
+                            scraper.restart(headless=headless, grades_only=grades_only)
+                        except Exception as restart_err:
+                            logger.warning(f"{tag} restart() failed ({restart_err}) — retrying once")
+                            scraper.close()
+                            time.sleep(1)
+                            try:
+                                scraper.start(headless=headless, grades_only=grades_only)
+                            except Exception as retry_err:
+                                logger.error(f"{tag} Browser re-launch failed ({retry_err}) — worker exiting")
+                                break
                         consecutive_px_blocks = 0
                         scraper._px_blocked = False
 
@@ -2225,13 +2261,20 @@ def scrape_all(
             slug_map = {_get_slug_from_name(name): sid for sid, name, _enr in schools}
 
         # Skip schools that already have a NicheGrade row (either real data or no_data)
+        # Build slug -> enrollment lookup for sorting skipped schools
+        slug_enrollment = {_get_slug_from_name(name): (enr or 0) for _sid, name, enr in schools}
+        skipped_slugs = []
         if resume:
             existing_ids = {
                 row.school_id
                 for row in session.query(NicheGrade.school_id).all()
             }
             pending_slugs = [(s, sid) for s, sid in slug_map.items() if sid not in existing_ids]
-            skipped_slugs = [s for s, sid in slug_map.items() if sid in existing_ids]
+            skipped_slugs = sorted(
+                [s for s, sid in slug_map.items() if sid in existing_ids],
+                key=lambda s: slug_enrollment.get(s, 0),
+                reverse=True,
+            )
             if skipped_slugs:
                 logger.info(f"Resuming: skipping {len(skipped_slugs)} schools already in niche_grades:")
                 for sk in skipped_slugs:
@@ -2320,6 +2363,14 @@ def scrape_all(
 
     if shutdown_event.is_set():
         logger.info("Graceful shutdown complete — all pending writes flushed.")
+
+    # Final skip summary (descending enrollment order) — printed before
+    # the "Done" line so the stats are always the very last output.
+    if resume:
+        if skipped_slugs:
+            for sk in skipped_slugs:
+                logger.info(f"  {sk}")
+        logger.info(f"Skipped {len(skipped_slugs)} schools (already in niche_grades)")
 
     logger.info(
         f"Done. {stats['total_points']} scattergram points, "

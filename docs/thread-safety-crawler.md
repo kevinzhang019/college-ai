@@ -17,9 +17,9 @@ The crawler (`crawler.py`) is heavily multithreaded. Read this before modifying 
 
 ## Key Patterns
 
-- **`PlaywrightPool`** — thread-local browser instances (`threading.local()`) because Playwright sync API is not thread-safe. Browsers rotate after `PLAYWRIGHT_POOL_ROTATE_AFTER=50` uses for fresh fingerprints. Supports both Chromium and Camoufox. `shutdown()` sets `_started = False` inside `_all_locals_lock` to create a happens-before with any thread in `acquire()` — this prevents new browser creation after shutdown begins. All three branches in `acquire()` (rotation, creation, **and reuse**) check `_started` under `_all_locals_lock` before returning a browser.
+- **`PlaywrightPool`** — thread-local browser instances (`threading.local()`) because Playwright sync API is not thread-safe. Browsers rotate after `PLAYWRIGHT_POOL_ROTATE_AFTER=50` uses for fresh fingerprints. Supports both Chromium and Camoufox. `shutdown()` sets `_started = False` inside `_all_locals_lock` to create a happens-before with any thread in `acquire()` — this prevents new browser creation after shutdown begins. All three branches in `acquire()` (rotation, creation, **and reuse**) check `_started` under `_all_locals_lock` before returning a browser. Each slot is closed in a **daemon thread with a 10s timeout** — `browser.close()` can hang on zombie Chromium processes, and the daemon thread ensures the main thread is never blocked indefinitely. The same timeout pattern is used for non-pool (fallback) Playwright cleanup in `close()`.
 - **`DeltaCrawlCache`** — thread-local SQLite connections (SQLite connections cannot be shared across threads). WAL journal mode. Stores ETag, Last-Modified, content hash per URL. All connections are tracked in `_all_conns` (protected by `_all_conns_lock`) for proper cleanup on shutdown. `put()` wraps `execute()`+`commit()` in try/except with `conn.rollback()` on failure to prevent dirty thread-local connection state.
-- **`MilvusFlushThread`** — dedicated non-daemon thread drains a bounded insert `queue.Queue(maxsize=500)` in batches (`MILVUS_INSERT_BUFFER_SIZE=50` every 2s), reducing `collection_write_lock` contention ~50x. The bounded queue provides backpressure — worker threads block on `put()` when the queue is full, preventing unbounded memory growth under Milvus backpressure. Validates column alignment before each insert to prevent corrupted data. On alignment mismatch, attempts per-row recovery before dropping the batch. Both the main insert and per-row recovery retry up to 3 times with exponential backoff (1s, 2s) before dropping rows. Dropped rows are tracked in `stats["rows_dropped_insert_fail"]`. The main flush loop tracks consecutive errors with exponential backoff (1s→30s cap) and aborts after 10 consecutive failures to prevent tight CPU spin on a dead Milvus connection. Final drain uses a bounded loop (max 200 iterations) to avoid TOCTOU on `queue.empty()`. After successful insert, releases pending canonical URL claims so subsequent queries see the committed data.
+- **`MilvusFlushThread`** — dedicated **daemon** thread drains a bounded insert `queue.Queue(maxsize=500)` in batches (`MILVUS_INSERT_BUFFER_SIZE=50` every 2s), reducing `collection_write_lock` contention ~50x. Daemon so a hung Milvus connection cannot prevent process exit after the 30s join timeout. The bounded queue provides backpressure — worker threads block on `put()` when the queue is full, preventing unbounded memory growth under Milvus backpressure. Validates column alignment before each insert to prevent corrupted data; BM25 function output fields (`content_sparse`) are excluded from the field list since Milvus auto-generates them. On alignment mismatch, attempts per-row recovery before dropping the batch. Both the main insert and per-row recovery retry up to 3 times with exponential backoff (1s, 2s) before dropping rows. Dropped rows are tracked in `stats["rows_dropped_insert_fail"]`. The main flush loop tracks consecutive errors with exponential backoff (1s→30s cap) and aborts after 10 consecutive failures to prevent tight CPU spin on a dead Milvus connection. Final drain uses a bounded loop (max 200 iterations) to avoid TOCTOU on `queue.empty()`. After successful insert, releases pending canonical URL claims so subsequent queries see the committed data.
 - **`EmbeddingBatcher`** — consolidates embedding requests from multiple threads into fewer API calls (up to 100 texts per call, max wait 200ms). On shutdown, drains remaining queue items so pending futures resolve instead of hanging. Shutdown join timeout is 15s. `_cancel_remaining()` is guarded by `_cancel_lock` so it runs exactly once even when called from both the background thread and the main thread. `get_openai_client()` uses double-checked locking for thread-safe singleton initialization.
 - **`ProxyPool`** — lock-protected state with per-proxy semaphores, EMA latency tracking, cooldown on failures, sticky session assignment
 
@@ -33,16 +33,21 @@ When `INTER_COLLEGE_PARALLELISM > 1`, multiple `crawl_college_site()` calls run 
 
 ## Shutdown Ordering
 
-The `run_full_crawling_pipeline` shutdown sequence is order-dependent:
+All shutdown flows through the idempotent `close()` method (guarded by `self._closed`). `run_full_crawling_pipeline` calls `close()` in a `finally` block, and `main()` adds a second `finally` as a safety net — double-calls are harmless.
+
+The `close()` shutdown sequence is order-dependent:
 1. Workers stop (via `stop_event` / `global_shutdown_event`)
 2. `EmbeddingBatcher.shutdown()` — drains pending embedding futures (which may queue final inserts)
-3. `_insert_flush_stop` + join — flush thread drains remaining insert buffer
-4. `PlaywrightPool.shutdown()` — closes all browser instances
-5. `DeltaCrawlCache.close()` — closes SQLite connections
+3. `_insert_flush_stop` + join(30s) — flush thread drains remaining insert buffer (daemon thread reaped at exit if hung)
+4. Milvus `connections.disconnect()` — closes the Zilliz connection
+5. `PlaywrightPool.shutdown()` — closes all browser instances (timeout-protected per slot)
+6. Non-pool Playwright cleanup — closes fallback thread-local browsers (timeout-protected per entry)
+7. `DeltaCrawlCache.close()` — closes SQLite connections
+8. `self.session.close()` — releases HTTP session socket file descriptors
 
 Changing this order can cause data loss (e.g., stopping the flush thread before the batcher means late-resolved embeddings never get inserted).
 
-The `close()` method also stops background threads (embedding batcher + flush thread) before disconnecting Milvus, following the same ordering. This ensures `close()` can be called independently of `run_full_crawling_pipeline` without hanging the process.
+**KeyboardInterrupt:** `crawl_college_site` catches `KeyboardInterrupt` and explicitly shuts down `pw_executor` (Playwright worker pool) before exiting, preventing orphaned browser processes. The `global_shutdown_event` propagates to all worker threads.
 
 ## Database Connection (`connection.py`)
 
