@@ -742,39 +742,18 @@ class NicheScraper:
                     time.sleep(0.5)
             cookies = ctx.cookies()
         finally:
-            # Close capture browser with a timeout — browser.close() can
-            # hang indefinitely on a crashed/zombie process.  This runs
-            # while cookie_capture_lock is held, so a hang here would
-            # deadlock all workers waiting for the lock.
-            #
-            # IMPORTANT: pl.stop() MUST run in the current thread, not the
-            # daemon thread.  sync_playwright().start() installs an asyncio
-            # event loop on the calling thread; pl.stop() tears it down.
-            # If stop() runs in a different thread, the loop lingers and the
-            # next sync_playwright().start() in this thread raises
-            # "using Playwright Sync API inside the asyncio loop".
-            def _cleanup_capture_browser_resources():
-                for resource, label in [(pg, "page"), (ctx, "context"), (browser, "browser")]:
-                    if resource is not None:
-                        try:
-                            resource.close()
-                        except Exception as exc:
-                            logger.debug("Cookie capture cleanup — %s.close() failed: %s", label, exc)
-
-            cleanup = threading.Thread(target=_cleanup_capture_browser_resources, daemon=True)
-            cleanup.start()
-            cleanup.join(timeout=CAPTURE_CLEANUP_TIMEOUT)
-            if cleanup.is_alive():
-                logger.warning(
-                    "Cookie capture browser cleanup hung — abandoning "
-                    "(daemon thread will be reaped at process exit)"
-                )
-
-            # Stop Playwright synchronously on THIS thread so the
-            # greenlet-based asyncio event loop is properly torn down.
-            # Browser resources are already closed (or abandoned) by the
-            # daemon above, so pl.stop() just shuts down the driver
-            # subprocess — fast unless the Chromium process is zombie.
+            # Close capture browser resources and Playwright synchronously
+            # on THIS thread.  All Playwright sync API calls are bound to
+            # the thread's greenlet — closing from a daemon thread causes
+            # "cannot switch to a different thread" errors.  pl.stop()
+            # must also run here to tear down the greenlet-based asyncio
+            # event loop (see comment at the top of capture_cookies).
+            for resource, label in [(pg, "page"), (ctx, "context"), (browser, "browser")]:
+                if resource is not None:
+                    try:
+                        resource.close()
+                    except Exception as exc:
+                        logger.debug("Cookie capture cleanup — %s.close() failed: %s", label, exc)
             if pl is not None:
                 try:
                     pl.stop()
