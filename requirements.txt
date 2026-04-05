@@ -6,12 +6,13 @@ lxml>=4.9.4  # fast HTML parser for BeautifulSoup (recommended)
 pyyaml>=6.0.1  # for per-domain Playwright profiles
 
 # Database and vector operations
-pymilvus>=2.4.3  # for Zilliz Cloud and Milvus database operations
+pymilvus>=2.5.0  # for Zilliz Cloud / Milvus with hybrid search (dense + BM25)
 sqlalchemy-libsql>=0.1.0  # Turso/libSQL dialect for SQLAlchemy
 
 # AI and embeddings
 openai>=1.14.2  # for OpenAI embeddings and API access
 tiktoken>=0.7.0  # token-based chunking for RAG
+cohere>=5.0.0  # cross-encoder reranking (Cohere rerank-v3.5)
 
 # Browser automation (JS rendering and bot detection bypass)
 playwright>=1.45.0

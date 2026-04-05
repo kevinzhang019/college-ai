@@ -156,6 +156,10 @@ VECTOR_DIM = 1536  # Matches OpenAI embedding dimension
 INDEX_TYPE = "IVF_FLAT"
 METRIC_TYPE = "L2"
 
+# V2 collection for hybrid search (dense + BM25)
+ZILLIZ_COLLECTION_NAME_V2 = os.getenv("ZILLIZ_COLLECTION_NAME_V2", "colleges_v2")
+METRIC_TYPE_V2 = "COSINE"
+
 # ==================== OPENAI SETTINGS ====================
 
 # OpenAI API settings

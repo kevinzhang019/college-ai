@@ -20,7 +20,7 @@ from pydantic import BaseModel, Field
 
 from college_ai.rag.service import CollegeRAG
 
-app = FastAPI(title="College RAG API", version="0.1.0")
+app = FastAPI(title="College RAG API", version="2.0.0")
 
 # ---- Admissions ML model (lazy-loaded) ----
 _admissions_predictor = None
@@ -60,10 +60,13 @@ rag_engine = CollegeRAG()
 
 
 class AskRequest(BaseModel):
-    question: str = Field(..., description="User question")
+    question: str = Field(..., description="User question or essay request")
     top_k: int = Field(8, ge=1, le=20)
     college: Optional[str] = Field(
-        None, description="Optional exact college name filter"
+        None, description="Optional college name filter (from dropdown)"
+    )
+    essay_text: Optional[str] = Field(
+        None, description="Pasted essay draft for review mode"
     )
 
 
@@ -84,12 +87,9 @@ def get_filter_options() -> Dict[str, Any]:
     from pathlib import Path
 
     try:
-        # Get the path to the colleges directory
         base_path = Path(__file__).parent.parent / "scraping" / "colleges"
-
         colleges = set()
 
-        # Read all CSV files to extract college names
         for csv_path in base_path.glob("*.csv"):
             try:
                 with open(csv_path, "r", encoding="utf-8") as file:
@@ -98,19 +98,12 @@ def get_filter_options() -> Dict[str, Any]:
                         college_name = row.get("name", "").strip()
                         if college_name:
                             colleges.add(college_name)
-            except Exception as csv_error:
-                print(f"Error reading {csv_path.name}: {csv_error}")
+            except Exception:
                 continue
 
-        colleges_list = sorted(list(colleges))
+        return {"colleges": sorted(colleges)}
 
-        print(f"✅ Loaded {len(colleges_list)} colleges from CSV files")
-
-        return {"colleges": colleges_list}
-
-    except Exception as e:
-        print(f"❌ Error reading CSV files: {e}")
-        # Fallback with common options
+    except Exception:
         return {
             "colleges": [
                 "University of California",
@@ -127,6 +120,7 @@ def ask(payload: AskRequest) -> Dict[str, Any]:
         payload.question,
         top_k=payload.top_k,
         college_name=payload.college,
+        essay_text=payload.essay_text,
     )
     return result
 

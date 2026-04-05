@@ -20,11 +20,20 @@ class CollegeAI {
         this.askButton = document.getElementById('askButton');
         this.collegeFilter = document.getElementById('collegeFilter');
         this.topKFilter = document.getElementById('topKFilter');
-        
+
+        // Mode elements
+        this.modeQA = document.getElementById('modeQA');
+        this.modeEssay = document.getElementById('modeEssay');
+        this.essaySubMode = document.getElementById('essaySubMode');
+        this.essayTextContainer = document.getElementById('essayTextContainer');
+        this.essayTextInput = document.getElementById('essayTextInput');
+        this.queryTypeBadge = document.getElementById('queryTypeBadge');
+        this.currentMode = 'qa';
+
         // Searchable dropdown elements
         this.collegeDropdown = document.getElementById('collegeDropdown');
         this.collegeOptions = document.getElementById('collegeOptions');
-        
+
         // Result elements
         this.loadingIndicator = document.getElementById('loadingIndicator');
         this.errorMessage = document.getElementById('errorMessage');
@@ -32,12 +41,12 @@ class CollegeAI {
         this.results = document.getElementById('results');
         this.answerContent = document.getElementById('answerContent');
         this.sourcesContent = document.getElementById('sourcesContent');
-        
+
         // Status elements
         this.statusIndicator = document.getElementById('statusIndicator');
         this.statusText = document.getElementById('statusText');
         this.collectionInfo = document.getElementById('collectionInfo');
-        
+
         // Modal elements
         this.helpButton = document.getElementById('helpButton');
         this.examplesModal = document.getElementById('examplesModal');
@@ -47,19 +56,36 @@ class CollegeAI {
     bindEvents() {
         // Main interaction events
         this.askButton.addEventListener('click', () => this.handleAsk());
-        
+
         // Global Enter key handler - submit from anywhere
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
-                // Special case: in question textarea, allow Shift+Enter for new lines
-                if (e.target === this.questionInput && e.shiftKey) {
-                    return; // Allow default behavior (new line)
+                // Allow Shift+Enter for new lines in textareas
+                if ((e.target === this.questionInput || e.target === this.essayTextInput) && e.shiftKey) {
+                    return;
                 }
-                
-                // For all other cases, submit the prompt
+                // Don't submit from the essay textarea (user may be editing)
+                if (e.target === this.essayTextInput) {
+                    return;
+                }
                 e.preventDefault();
                 this.handleAsk();
             }
+        });
+
+        // Mode tab switching
+        this.modeQA.addEventListener('click', () => this.switchMode('qa'));
+        this.modeEssay.addEventListener('click', () => this.switchMode('essay'));
+
+        // Essay sub-mode radio buttons
+        document.querySelectorAll('input[name="essayMode"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                if (e.target.value === 'review') {
+                    this.essayTextContainer.classList.remove('hidden');
+                } else {
+                    this.essayTextContainer.classList.add('hidden');
+                }
+            });
         });
 
         // Initialize searchable dropdowns
@@ -84,7 +110,7 @@ class CollegeAI {
             });
         });
 
-        // Auto-resize textarea
+        // Auto-resize textareas
         this.questionInput.addEventListener('input', () => {
             this.questionInput.style.height = 'auto';
             this.questionInput.style.height = Math.min(this.questionInput.scrollHeight, 200) + 'px';
@@ -96,6 +122,29 @@ class CollegeAI {
                 this.hideExamples();
             }
         });
+    }
+
+    switchMode(mode) {
+        this.currentMode = mode;
+
+        // Update tab active state
+        this.modeQA.classList.toggle('active', mode === 'qa');
+        this.modeEssay.classList.toggle('active', mode === 'essay');
+
+        // Show/hide essay controls
+        if (mode === 'essay') {
+            this.essaySubMode.classList.remove('hidden');
+            this.questionInput.placeholder = 'Describe what you need help with (e.g., "Help me brainstorm ideas for my Why Stanford essay")...';
+            // Show essay textarea if review mode is selected
+            const reviewRadio = document.querySelector('input[name="essayMode"][value="review"]');
+            if (reviewRadio && reviewRadio.checked) {
+                this.essayTextContainer.classList.remove('hidden');
+            }
+        } else {
+            this.essaySubMode.classList.add('hidden');
+            this.essayTextContainer.classList.add('hidden');
+            this.questionInput.placeholder = 'Ask about undergraduate admissions, requirements, deadlines, scholarships...';
+        }
     }
 
     async checkConnection() {
@@ -319,7 +368,7 @@ class CollegeAI {
 
     async handleAsk() {
         const question = this.questionInput.value.trim();
-        
+
         if (!question) {
             this.showError('Please enter a question');
             return;
@@ -344,13 +393,24 @@ class CollegeAI {
             const college = this.collegeFilter.value.trim();
             if (college) payload.college = college;
 
+            // Add essay text if in essay review mode
+            if (this.currentMode === 'essay') {
+                const reviewRadio = document.querySelector('input[name="essayMode"][value="review"]');
+                if (reviewRadio && reviewRadio.checked) {
+                    const essayText = this.essayTextInput.value.trim();
+                    if (essayText) {
+                        payload.essay_text = essayText;
+                    }
+                }
+            }
+
             const response = await this.makeRequest('/ask', {
                 method: 'POST',
                 body: JSON.stringify(payload),
             });
 
             this.displayResults(response);
-            
+
         } catch (error) {
             console.error('Ask request failed:', error);
             this.showError(`Failed to get response: ${error.message}`);
@@ -436,7 +496,21 @@ class CollegeAI {
     }
 
     displayResults(response) {
-        const { answer, sources, confidence, source_count } = response;
+        const { answer, sources, confidence, source_count, query_type } = response;
+
+        // Show query type badge
+        if (query_type && this.queryTypeBadge) {
+            const badges = {
+                qa: { label: 'Q&A', cls: 'badge-qa' },
+                essay_ideas: { label: 'Essay Ideas', cls: 'badge-essay' },
+                essay_review: { label: 'Essay Review', cls: 'badge-essay' },
+                admission_prediction: { label: 'Prediction', cls: 'badge-prediction' },
+            };
+            const badge = badges[query_type] || badges.qa;
+            this.queryTypeBadge.textContent = badge.label;
+            this.queryTypeBadge.className = `query-type-badge ${badge.cls}`;
+            this.queryTypeBadge.classList.remove('hidden');
+        }
 
         // Display confidence indicator
         const confidenceBanner = this.buildConfidenceBanner(confidence, source_count);

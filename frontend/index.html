@@ -29,6 +29,16 @@
       <main class="main-content">
         <div class="chat-container">
           <div class="query-section">
+            <!-- Mode tabs -->
+            <div class="mode-tabs">
+              <button class="mode-tab active" data-mode="qa" id="modeQA">
+                <i class="fas fa-question-circle"></i> Ask a Question
+              </button>
+              <button class="mode-tab" data-mode="essay" id="modeEssay">
+                <i class="fas fa-pen-fancy"></i> Essay Helper
+              </button>
+            </div>
+
             <div class="input-group">
               <div class="question-input-container">
                 <textarea
@@ -39,6 +49,30 @@
                 <button id="askButton" class="ask-button">
                   <i class="fas fa-paper-plane"></i>
                 </button>
+              </div>
+
+              <!-- Essay sub-mode toggle (hidden in QA mode) -->
+              <div id="essaySubMode" class="essay-sub-mode hidden">
+                <label class="sub-mode-toggle">
+                  <input type="radio" name="essayMode" value="ideas" checked />
+                  <span>Get Ideas</span>
+                </label>
+                <label class="sub-mode-toggle">
+                  <input type="radio" name="essayMode" value="review" />
+                  <span>Review My Draft</span>
+                </label>
+              </div>
+
+              <!-- Essay text area (hidden until review mode) -->
+              <div id="essayTextContainer" class="essay-text-container hidden">
+                <label for="essayTextInput">
+                  <i class="fas fa-file-alt"></i> Paste your essay draft
+                </label>
+                <textarea
+                  id="essayTextInput"
+                  placeholder="Paste your essay draft here for feedback..."
+                  rows="8"
+                ></textarea>
               </div>
 
               <div class="filters-container">
@@ -90,7 +124,10 @@
 
             <div id="results" class="results-container hidden">
               <div class="answer-section">
-                <h3><i class="fas fa-robot"></i> Answer</h3>
+                <div class="answer-header">
+                  <h3><i class="fas fa-robot"></i> Answer</h3>
+                  <span id="queryTypeBadge" class="query-type-badge hidden"></span>
+                </div>
                 <div id="answerContent" class="answer-content"></div>
               </div>
 
@@ -173,6 +210,6 @@
       <i class="fas fa-question"></i>
     </div>
 
-    <script src="script.js?v=2.1"></script>
+    <script src="script.js?v=3.0"></script>
   </body>
 </html>
