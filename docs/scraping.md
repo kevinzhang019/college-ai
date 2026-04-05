@@ -4,16 +4,23 @@ Three data sources, each with its own scraper module.
 
 ## Web Crawler (`crawler.py`)
 
-Multithreaded BFS crawler that embeds college website pages into Zilliz Cloud.
+Multithreaded BFS crawler that embeds college website pages into Zilliz Cloud with hybrid search support (dense + BM25).
 
 **Architecture:** `ThreadPoolExecutor` with `CRAWLER_MAX_WORKERS=6` threads per college. Multiple colleges crawled in parallel via `INTER_COLLEGE_PARALLELISM=4`.
+
+**Collection schema:** Created automatically on first run with hybrid search support:
+- Dense vectors (COSINE, AUTOINDEX) + BM25 sparse vectors (auto-generated from content)
+- `page_type` field with INVERTED index (classified from URL patterns)
+- INVERTED scalar indexes on `college_name` and `url_canonical`
 
 **Flow:**
 1. Seeds loaded from CSV files in `college_ai/scraping/colleges/`
 2. Per college: BFS queue seeded with root URL
 3. Workers dequeue URLs, fetch pages, extract links, enqueue new URLs
-4. Content embedded (OpenAI `text-embedding-3-small`) and batched into Zilliz
-5. Stops at `MAX_PAGES_PER_COLLEGE=500`, `MAX_DEPTH=3`, or `MAX_CRAWL_TIME_PER_COLLEGE=300s`
+4. Content chunked (512 tokens, 50-token overlap), page_type classified from URL
+5. Optional: contextual prefix generated per chunk via LLM (`CONTEXTUAL_PREFIXES=1`)
+6. Chunks embedded (OpenAI `text-embedding-3-small`) and batched into Zilliz
+7. Stops at `MAX_PAGES_PER_COLLEGE=500`, `MAX_DEPTH=3`, or `MAX_CRAWL_TIME_PER_COLLEGE=300s`
 
 **Anti-bot measures:**
 - `curl_cffi` for TLS/JA3 fingerprint impersonation (Chrome/Safari/Edge/Firefox)
@@ -56,7 +63,7 @@ US DOE College Scorecard REST API. Fetches ~6,500 schools' admissions, demograph
 |---|---|---|
 | `ZILLIZ_URI` | required | Zilliz Cloud endpoint |
 | `ZILLIZ_API_KEY` | required | Zilliz API key |
-| `ZILLIZ_COLLECTION_NAME` | `college_pages` | Milvus collection name |
+| `ZILLIZ_COLLECTION_NAME` | `colleges` | Milvus collection name |
 | `CRAWLER_DELAY` | `1.0` | Inter-request delay (s) |
 | `CRAWLER_MAX_WORKERS` | `6` | Threads per college |
 | `MAX_PAGES_PER_COLLEGE` | `500` | BFS page cap |
@@ -70,5 +77,8 @@ US DOE College Scorecard REST API. Fetches ~6,500 schools' admissions, demograph
 | `ENABLE_DELTA_CRAWLING` | `1` | Skip unchanged pages |
 | `MILVUS_INSERT_BUFFER_SIZE` | `50` | Batch insert size |
 | `EMBED_MAX_CONCURRENCY` | `3` | Concurrent embed calls |
+| `CHUNK_MAX_TOKENS` | `512` | Tokens per chunk |
+| `CHUNK_OVERLAP_TOKENS` | `50` | Token overlap between chunks |
+| `CONTEXTUAL_PREFIXES` | `0` | Set to `1` for LLM contextual chunk prefixes |
 | `SCORECARD_API_KEY` | required | College Scorecard API key |
 | `SCORECARD_WORKERS` | `3` | Scorecard fetch threads |
