@@ -699,18 +699,28 @@ class NicheScraper:
                     return False
 
                 # --- Wait for user interaction ---
-                # Polls stdin for ENTER and probes the page each 0.5s.
                 # pg.is_closed() / browser.is_connected() are cached flags
                 # that only update when a Playwright call pumps the event
                 # loop — useless while we're blocked in select/sleep.
-                # Instead, pg.evaluate("1") forces a CDP round-trip: if the
-                # page or browser is gone it raises immediately.
+                # pg.evaluate("1") forces a CDP round-trip that pumps events,
+                # but it can also fail during normal page navigation (user
+                # clicking links, redirects).  Only treat "target closed" /
+                # "browser has been closed" errors as a genuine window close;
+                # navigation errors just mean the page is busy.
+                _CLOSED_PATTERNS = ("target closed", "browser has been closed",
+                                    "target page, context or browser")
+
                 def _page_alive() -> bool:
                     try:
                         pg.evaluate("1", timeout=2000)
                         return True
-                    except Exception:
-                        return False
+                    except Exception as exc:
+                        msg = str(exc).lower()
+                        if any(p in msg for p in _CLOSED_PATTERNS):
+                            return False
+                        # Navigation, timeout, or other transient error —
+                        # page is alive, just busy.
+                        return True
 
                 try:
                     MAX_COOKIE_WAIT_SECS = 300
