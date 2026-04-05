@@ -397,6 +397,12 @@ class PlaywrightPool:
 
         Returns the number of slots pruned. Does NOT release the semaphore for
         pruned slots (intentional — avoids over-release).
+
+        NOTE: ``browser.is_connected()`` is called under ``_all_locals_lock``,
+        but the owning thread may be using the browser concurrently (Playwright
+        sync API is not thread-safe for cross-thread calls). The try/except
+        below treats any exception as "not connected", so the worst case is a
+        false prune — the browser is recreated lazily on next ``acquire()``.
         """
         pruned = 0
         with self._all_locals_lock:
@@ -432,6 +438,7 @@ class DeltaCrawlCache:
         self._local = threading.local()
         self._all_conns_lock = threading.Lock()
         self._all_conns: list = []  # track all thread-local connections for shutdown
+        self._closed = False
         # Create table on first use
         conn = self._get_conn()
         conn.execute("""
@@ -453,21 +460,33 @@ class DeltaCrawlCache:
 
     def _get_conn(self) -> sqlite3.Connection:
         """Get a thread-local SQLite connection."""
+        if self._closed:  # fast path — no lock needed for already-True reads
+            raise RuntimeError("DeltaCrawlCache is closed")
         if not hasattr(self._local, "conn") or self._local.conn is None:
-            self._local.conn = sqlite3.connect(self._db_path, timeout=10)
-            self._local.conn.execute("PRAGMA journal_mode=WAL")
+            # Hold lock across creation + registration so close() cannot
+            # clear _all_conns between our connect() and append() (TOCTOU).
             with self._all_conns_lock:
+                if self._closed:  # re-check inside lock
+                    raise RuntimeError("DeltaCrawlCache is closed")
+                self._local.conn = sqlite3.connect(self._db_path, timeout=10)
+                self._local.conn.execute("PRAGMA journal_mode=WAL")
                 self._all_conns.append(self._local.conn)
         return self._local.conn
 
     def get(self, canonical_url: str) -> dict:
         """Get cached metadata for a URL. Returns empty dict if not cached."""
-        conn = self._get_conn()
-        row = conn.execute(
-            "SELECT etag, last_modified, content_hash, crawled_at, links "
-            "FROM crawl_cache WHERE canonical_url = ?",
-            (canonical_url,),
-        ).fetchone()
+        if self._closed:
+            return {}
+        try:
+            conn = self._get_conn()
+            row = conn.execute(
+                "SELECT etag, last_modified, content_hash, crawled_at, links "
+                "FROM crawl_cache WHERE canonical_url = ?",
+                (canonical_url,),
+            ).fetchone()
+        except (RuntimeError, sqlite3.ProgrammingError):
+            # Connection was closed by another thread during shutdown
+            return {}
         if row:
             links = []
             if row[4]:
@@ -487,7 +506,12 @@ class DeltaCrawlCache:
     def put(self, canonical_url: str, etag: str = None, last_modified: str = None,
             content_hash: str = None, links: list = None):
         """Store or update cache entry for a URL."""
-        conn = self._get_conn()
+        if self._closed:
+            return
+        try:
+            conn = self._get_conn()
+        except (RuntimeError, sqlite3.ProgrammingError):
+            return  # connection closed during shutdown
         links_json = json.dumps(links) if links else None
         try:
             conn.execute(
@@ -498,13 +522,19 @@ class DeltaCrawlCache:
                  datetime.now().isoformat(), links_json),
             )
             conn.commit()
+        except sqlite3.ProgrammingError:
+            return  # connection closed during shutdown
         except Exception:
-            conn.rollback()
+            try:
+                conn.rollback()
+            except sqlite3.ProgrammingError:
+                pass
             raise
 
     def close(self):
         """Close all tracked SQLite connections across all threads."""
         with self._all_conns_lock:
+            self._closed = True  # set inside lock so _get_conn() re-check is reliable
             for conn in self._all_conns:
                 try:
                     conn.close()
@@ -633,6 +663,10 @@ class MultithreadedCollegeCrawler:
         self._pw_profile_cache: Dict[str, Dict[str, Any]] = {}
         # Playwright runtime and browser cache (thread-local)
         self._pw_local = threading.local()  # Thread-local Playwright instances
+        # Registry of all thread-local objects that hold Playwright resources,
+        # so close() can clean up browsers from ALL threads, not just the caller's.
+        self._pw_local_registry = []  # type: list
+        self._pw_local_registry_lock = threading.Lock()
 
         # Proxy pool initialization (optional)
         try:
@@ -698,6 +732,7 @@ class MultithreadedCollegeCrawler:
             target=self._insert_flush_loop, daemon=False, name="MilvusFlushThread"
         )
         self._insert_flush_thread.start()
+        self._flush_thread_crashed = threading.Event()
 
         # === Performance: Cross-thread embedding batcher ===
         # Consolidates embedding requests from multiple worker threads into
@@ -706,11 +741,9 @@ class MultithreadedCollegeCrawler:
             model="text-embedding-3-small", max_batch=100, max_wait_ms=200,
         )
 
-        # === Performance: Content dedup hash cache ===
-        # Prevents embedding near-identical chunks (boilerplate nav/footer text).
-        # Reset per college in crawl_college_site().
-        self._content_hash_cache: set = set()
-        self._content_hash_lock = threading.Lock()
+        # Content dedup: per-college hash caches are created in
+        # crawl_college_site() and passed to upload_to_milvus() — no
+        # instance-level cache (unsafe with INTER_COLLEGE_PARALLELISM > 1).
 
         # === Performance: Persistent Playwright browser pool ===
         # Pre-launches browser instances to avoid ~2-3s startup per request.
@@ -747,6 +780,8 @@ class MultithreadedCollegeCrawler:
                 print(f"    ✗ Insert flush error ({_consec_errors}): {e}")
                 if _consec_errors >= 10:
                     print("    ⚠️  Flush loop aborting after 10 consecutive errors")
+                    self._flush_thread_crashed.set()
+                    global_shutdown_event.set()  # stop all workers — buffer is dead
                     break
                 time.sleep(min(2 ** (_consec_errors - 1), 30))
         # Final drain after stop signal — bounded loop avoids empty() TOCTOU
@@ -763,6 +798,23 @@ class MultithreadedCollegeCrawler:
                 if _drain_errors >= 3:
                     print(f"    ⚠️  Abandoning final drain after {_drain_errors} consecutive errors")
                     break
+        # Release canonical URL claims for any rows still stuck in the buffer
+        # so those URLs are not permanently blocked from future crawl attempts.
+        # Bounded to buffer maxsize to avoid spinning if late callbacks keep adding.
+        _abandoned = 0
+        for _ in range(500):
+            try:
+                row = self._insert_buffer.get_nowait()
+                with self._pending_canonical_lock:
+                    for uc in row.get("url_canonical", []):
+                        self._pending_canonical_urls.discard(uc)
+                _abandoned += 1
+            except queue.Empty:
+                break
+        if _abandoned:
+            with self.lock:
+                self.stats["rows_dropped_insert_fail"] += _abandoned
+            print(f"    ⚠️  Released claims for {_abandoned} abandoned buffer row(s)")
 
     def _flush_insert_buffer(self, block_timeout: float = 2.0):
         """Drain all pending rows from the buffer and do one batched insert."""
@@ -791,6 +843,10 @@ class MultithreadedCollegeCrawler:
 
         if not merged.get("id"):
             return
+
+        # Extract canonical URLs early so both the normal and recovery paths
+        # can release _pending_canonical_urls claims.
+        inserted_canonicals = merged.get("url_canonical", [])
 
         # Validate column alignment to prevent corrupted inserts
         col_lengths = {name: len(merged.get(name, [])) for name in field_names}
@@ -821,12 +877,17 @@ class MultithreadedCollegeCrawler:
             if dropped > 0:
                 with self.lock:
                     self.stats["rows_dropped_alignment"] += dropped
+            # Release pending URL claims so these URLs are not permanently
+            # blocked from future insertion attempts.
+            if inserted_canonicals:
+                with self._pending_canonical_lock:
+                    for uc in inserted_canonicals:
+                        self._pending_canonical_urls.discard(uc)
             print(f"    ✓ Recovered {recovered}/{expected} rows from misaligned batch")
             return
 
         insert_data = [merged.get(name, []) for name in field_names]
         count = len(merged["id"])
-        inserted_canonicals = merged.get("url_canonical", [])
         max_retries = 3
         for attempt in range(max_retries):
             try:
@@ -2168,6 +2229,9 @@ class MultithreadedCollegeCrawler:
         # Retry logic for Playwright failures
         max_retries = 2
         for attempt in range(max_retries + 1):
+            # Abort retries if shutdown is in progress
+            if global_shutdown_event.is_set():
+                return None
             try:
                 return self._scrape_with_playwright_single_attempt(url, attempt)
             except Exception as e:
@@ -2235,6 +2299,18 @@ class MultithreadedCollegeCrawler:
                 if not _using_pool:
                     if not hasattr(self._pw_local, "pw") or self._pw_local.pw is None:
                         self._pw_local.pw = sync_playwright().start()
+                        # Init browsers dict alongside PW so the registry
+                        # entry captures a direct reference to the real dict.
+                        if not hasattr(self._pw_local, "browsers"):
+                            self._pw_local.browsers = {}
+                            self._pw_local.browser_uses = {}
+                        # Store direct object references (not the threading.local
+                        # wrapper) so close() can reach them from any thread.
+                        with self._pw_local_registry_lock:
+                            self._pw_local_registry.append({
+                                "pw": self._pw_local.pw,
+                                "browsers": self._pw_local.browsers,
+                            })
                 p = self._pw_local.pw if not _using_pool else None
                 # Acquire proxy for Playwright (optional)
                 pw_proxy_token = None
@@ -3050,9 +3126,8 @@ class MultithreadedCollegeCrawler:
         """Upload a single page to Milvus with per-chunk embeddings for RAG.
 
         Args:
-            content_hash_cache: Per-college dedup cache. Falls back to self._content_hash_cache
-                if not provided (unsafe with inter-college parallelism > 1).
-            content_hash_lock: Lock for the per-college dedup cache.
+            content_hash_cache: Per-college dedup cache (required).
+            content_hash_lock: Lock for the per-college dedup cache (required).
         """
         _pending_claimed = False  # track whether we claimed a pending URL slot
         try:
@@ -3112,16 +3187,16 @@ class MultithreadedCollegeCrawler:
                 model="text-embedding-3-small",
             )
 
-            # Content dedup: skip chunks we've already embedded for this college
+            # Content dedup: skip chunks we've already embedded for this college.
+            # Falling back to the instance-level hash cache is unsafe with
+            # INTER_COLLEGE_PARALLELISM > 1 (cross-college contamination).
             if content_hash_cache is None or content_hash_lock is None:
-                import warnings
-                warnings.warn(
+                raise RuntimeError(
                     "upload_to_milvus called without per-college hash cache; "
-                    "unsafe with INTER_COLLEGE_PARALLELISM > 1",
-                    stacklevel=2,
+                    "caller must provide content_hash_cache and content_hash_lock"
                 )
-            _hash_cache = content_hash_cache if content_hash_cache is not None else self._content_hash_cache
-            _hash_lock = content_hash_lock if content_hash_lock is not None else self._content_hash_lock
+            _hash_cache = content_hash_cache
+            _hash_lock = content_hash_lock
             chunk_inputs = []
             chunk_indices = []  # maps back to original chunk index
             for i, c in enumerate(chunks):
@@ -3218,7 +3293,20 @@ class MultithreadedCollegeCrawler:
                     "embedding": embeddings,
                     "crawled_at": crawled_ats,
                 }
-                self._insert_buffer.put(row_data)
+                # Retry with timeout to avoid deadlock if flush thread is dead.
+                while True:
+                    try:
+                        self._insert_buffer.put(row_data, timeout=2.0)
+                        break
+                    except queue.Full:
+                        if self._flush_thread_crashed.is_set() or global_shutdown_event.is_set():
+                            if _pending_claimed:
+                                with self._pending_canonical_lock:
+                                    self._pending_canonical_urls.discard(page_canon)
+                                _pending_claimed = False
+                            raise RuntimeError(
+                                "Insert buffer full and flush thread is not draining"
+                            )
 
             print(
                 f"    ✓ Queued {len(embeddings)} vector(s) for Milvus: {page_data['url']}"
@@ -3424,7 +3512,10 @@ class MultithreadedCollegeCrawler:
                         page_data = self.scrape_page(url, worker_session)
                         if not page_data:
                             # Initial scraping failed - try Playwright fallback if enabled
-                            if self.playwright_enabled and sync_playwright is not None:
+                            # Skip if shutdown is in progress (Playwright retries are slow)
+                            if (self.playwright_enabled and sync_playwright is not None
+                                    and not stop_event.is_set()
+                                    and not global_shutdown_event.is_set()):
                                 print(
                                     f"    🔄 Initial scraping failed for {url}, trying Playwright fallback"
                                 )
@@ -3691,9 +3782,17 @@ class MultithreadedCollegeCrawler:
                             print(f"    ✗ Worker failed for {college_name}: {e}")
 
                 # If we exited due to stop_event, wait for remaining workers to finish
-                # and aggregate their results so counts are accurate
+                # and aggregate their results so counts are accurate.
+                # Use a bounded timeout to prevent hanging on stuck workers.
                 if active_futures:
-                    done, _ = wait(active_futures)
+                    done, not_done = wait(active_futures, timeout=30)
+                    if not_done:
+                        print(
+                            f"    ⚠️  {len(not_done)} worker(s) for {college_name} did not finish within 30s, "
+                            f"cancelling"
+                        )
+                        for future in not_done:
+                            future.cancel()
                     for future in done:
                         try:
                             worker_crawled, worker_uploaded = future.result()
@@ -3703,10 +3802,27 @@ class MultithreadedCollegeCrawler:
                             print(
                                 f"    ✗ Worker failed during shutdown for {college_name}: {e}"
                             )
-                # Playwright threads now have bounded semaphore waits (30s) and
-                # page navigation timeouts, so shutdown should complete.
-                # Use wait=True to ensure clean browser process cleanup.
-                pw_executor.shutdown(wait=True, cancel_futures=True)
+                # Playwright threads have bounded semaphore waits (30s) and
+                # page navigation timeouts.  Use cancel_futures to drop queued
+                # jobs, but don't wait indefinitely for running tasks — a stuck
+                # browser process could hang forever.
+                pw_executor.shutdown(wait=False, cancel_futures=True)
+                # Wait for in-flight PW callbacks to finish uploading so their
+                # inserts land in the buffer before we drain it.  30s matches
+                # the PW page navigation timeout; 5s during shutdown.
+                _pw_wait_limit = 5 if global_shutdown_event.is_set() else 30
+                _pw_wait_start = time.time()
+                while time.time() - _pw_wait_start < _pw_wait_limit:
+                    with pw_futures_lock:
+                        if not active_pw_futures:
+                            break
+                    time.sleep(0.5)
+                else:
+                    with pw_futures_lock:
+                        _leftover = len(active_pw_futures)
+                    if _leftover:
+                        print(f"    ⚠️  {_leftover} Playwright future(s) still active after "
+                              f"{_pw_wait_limit}s wait; data will be flushed by background thread")
 
                 # Final progress
                 if pages_crawled > 0:
@@ -3912,23 +4028,28 @@ class MultithreadedCollegeCrawler:
         except Exception:
             pass
 
-        # Clean up thread-local Playwright instances (fallback path)
+        # Clean up ALL non-pool Playwright instances (fallback path).
+        # Registry entries are dicts with direct object references (not
+        # threading.local wrappers), so they are accessible from any thread.
         try:
-            if hasattr(self._pw_local, "browsers"):
-                for browser in self._pw_local.browsers.values():
-                    try:
-                        browser.close()
-                    except Exception:
-                        pass
-                self._pw_local.browsers.clear()
-
-            if hasattr(self._pw_local, "pw") and self._pw_local.pw:
+            with self._pw_local_registry_lock:
+                pw_entries = list(self._pw_local_registry)
+            for entry in pw_entries:
                 try:
-                    self._pw_local.pw.stop()
+                    for browser in list(entry.get("browsers", {}).values()):
+                        try:
+                            browser.close()
+                        except Exception:
+                            pass
+                    entry.get("browsers", {}).clear()
                 except Exception:
                     pass
-                self._pw_local.pw = None
-
+                try:
+                    pw_handle = entry.get("pw")
+                    if pw_handle:
+                        pw_handle.stop()
+                except Exception:
+                    pass
             print("Cleaned up Playwright resources")
         except Exception as e:
             print(f"Error cleaning up Playwright resources: {e}")

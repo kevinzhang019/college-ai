@@ -307,8 +307,11 @@ class EmbeddingBatcher:
         self.model = model
         self.max_batch = max_batch
         self.max_wait_sec = max_wait_ms / 1000.0
-        self._queue: queue.Queue = queue.Queue()
+        self._queue: queue.Queue = queue.Queue(maxsize=200)
         self._shutdown = threading.Event()
+        self._submit_lock = threading.Lock()  # atomic check+put in submit()
+        self._cancel_lock = threading.Lock()
+        self._cancel_done = False
         self._thread = threading.Thread(target=self._run, daemon=True, name="EmbeddingBatcher")
         self._thread.start()
 
@@ -318,11 +321,17 @@ class EmbeddingBatcher:
 
         Raises RuntimeError if called after shutdown().
         """
-        if self._shutdown.is_set():
-            raise RuntimeError("EmbeddingBatcher is shut down")
         future: concurrent.futures.Future = concurrent.futures.Future()
-        self._queue.put((texts, future))
-        return future
+        while True:
+            with self._submit_lock:
+                if self._shutdown.is_set():
+                    raise RuntimeError("EmbeddingBatcher is shut down")
+                try:
+                    self._queue.put((texts, future), block=False)
+                    return future
+                except queue.Full:
+                    pass  # release lock, let background thread drain
+            time.sleep(0.05)
 
     def _run(self):
         """Background loop: collect submissions, fire batches."""
@@ -372,7 +381,17 @@ class EmbeddingBatcher:
                     future.set_exception(e)
 
     def _cancel_remaining(self):
-        """Cancel any futures left in the queue so callers don't hang."""
+        """Cancel any futures left in the queue so callers don't hang.
+
+        Guarded by ``_cancel_lock`` so this runs exactly once even when called
+        from both the background thread (end of ``_run``) and the main thread
+        (``shutdown``).
+        """
+        with self._cancel_lock:
+            if self._cancel_done:
+                return
+            self._cancel_done = True
+        # Safe to drain — only one thread reaches here
         cancelled = 0
         while True:
             try:
@@ -390,6 +409,11 @@ class EmbeddingBatcher:
     def shutdown(self):
         """Signal the background thread to stop and wait for it to drain."""
         self._shutdown.set()
+        # Fence: any in-flight submit() either completes its put() before we
+        # proceed (so _run()'s drain will see it), or sees _shutdown=True and
+        # raises (so no orphaned future).
+        with self._submit_lock:
+            pass
         self._thread.join(timeout=15)
         if self._thread.is_alive():
             print("    ⚠️  EmbeddingBatcher did not stop within 15s")

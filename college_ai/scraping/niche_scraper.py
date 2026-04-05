@@ -28,6 +28,7 @@ import random
 import select
 import logging
 import argparse
+import tempfile
 import threading
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
@@ -131,7 +132,7 @@ class GlobalRateLimiter:
         promptly (within ~0.5 s) rather than after the full delay.
         """
         with self._lock:
-            now = time.time()
+            now = time.monotonic()
             delay = random.uniform(self._min_delay, self._max_delay)
             # Earliest this request can fire: last reserved slot + delay
             earliest = self._last_request_time + delay
@@ -157,7 +158,7 @@ class GlobalRateLimiter:
         another worker has already reserved in ``wait()``.
         """
         with self._lock:
-            now = time.time()
+            now = time.monotonic()
             self._last_request_time = max(self._last_request_time, now)
 
 
@@ -198,6 +199,78 @@ class JobClaimer:
 
 _SENTINEL = object()  # Unique sentinel — workers send this to signal they are done
 
+# Max rows per INSERT statement — SQLite has a limit of 999 bind params,
+# and each row has 10 columns, so ~99 rows per statement is safe.
+_INSERT_BATCH = 90
+
+
+def _write_school_data(session, slug, school_id, points, grades, timestamp, tag):
+    """Write a single school's datapoints + NicheGrade row within an existing session.
+
+    Shared by both the DBWriterThread hot path and the best-effort drain
+    fallback.  Callers are responsible for commit/rollback/close.
+
+    Datapoints and the NicheGrade row are written in the same session so
+    they commit (or roll back) atomically.  Datapoints are inserted in
+    bulk (one INSERT per ~90 rows) to avoid thousands of round-trips
+    over the Turso WebSocket.
+    """
+    from sqlalchemy import insert
+
+    if points and school_id:
+        session.query(ApplicantDatapoint).filter_by(
+            school_id=school_id, source="niche"
+        ).delete()
+
+        rows = [
+            dict(
+                school_id=school_id,
+                source="niche",
+                gpa=p["gpa"],
+                sat_score=p.get("sat_score"),
+                act_score=p.get("act_score"),
+                outcome=p["outcome"],
+                major=p.get("major"),
+                residency=p.get("residency"),
+                scraped_at=timestamp,
+            )
+            for p in points
+        ]
+        for i in range(0, len(rows), _INSERT_BATCH):
+            session.execute(
+                insert(ApplicantDatapoint).values(rows[i : i + _INSERT_BATCH])
+            )
+
+    if school_id:
+        existing = session.get(NicheGrade, school_id)
+        if grades:
+            if existing:
+                for k, v in grades.items():
+                    setattr(existing, k, v)
+                existing.no_data = 0
+                existing.updated_at = timestamp
+            else:
+                session.add(NicheGrade(
+                    school_id=school_id,
+                    no_data=0,
+                    updated_at=timestamp,
+                    **grades,
+                ))
+            grade_count = sum(1 for k in grades if k in GRADE_LABEL_MAP.values())
+            stat_count = len(grades) - grade_count
+            logger.info(f"{tag}   -> {grade_count} grades, {stat_count} stats")
+        else:
+            if not existing:
+                session.add(NicheGrade(
+                    school_id=school_id,
+                    no_data=1,
+                    updated_at=timestamp,
+                ))
+            else:
+                existing.no_data = 1
+                existing.updated_at = timestamp
+            logger.info(f"{tag}   -> No grades for {slug} — marked no_data")
+
 
 class DBWriterThread(threading.Thread):
     """Dedicated thread that drains a queue of scrape results and writes to Turso.
@@ -216,10 +289,11 @@ class DBWriterThread(threading.Thread):
 
     KEEPALIVE_INTERVAL = 60.0  # seconds between idle pings
     MAX_RETRIES = 3
+    MAX_CONSEC_ERRORS = 10  # abort writer after this many consecutive failures
 
     def __init__(self, write_queue: queue.Queue, num_workers: int,
                  stats: dict, stats_lock: threading.Lock):
-        super().__init__(daemon=True, name="db-writer")
+        super().__init__(daemon=False, name="db-writer")
         self._q = write_queue
         self._num_workers = num_workers
         self._sentinels_seen = 0
@@ -231,12 +305,53 @@ class DBWriterThread(threading.Thread):
 
     def submit(self, slug: str, school_id: int, points: list,
                grades: dict, timestamp: str, tag: str):
-        """Enqueue a scrape result for writing (fire-and-forget)."""
-        self._q.put((slug, school_id, points, grades, timestamp, tag))
+        """Enqueue a scrape result for writing.
+
+        Uses put-with-timeout so that if the queue is full (writer stalled)
+        and shutdown_event fires, workers are not deadlocked waiting for
+        queue space that will never free up.  Dropping during shutdown is
+        safe: no NicheGrade row is written, so the school stays pending
+        for the next run.
+        """
+        item = (slug, school_id, points, grades, timestamp, tag)
+        for _ in range(30):  # 30 × 2s = 60s max wait
+            try:
+                self._q.put(item, timeout=2.0)
+                return
+            except queue.Full:
+                if shutdown_event.is_set():
+                    logger.warning(
+                        "[DB] Queue full during shutdown — dropping result for %s", slug
+                    )
+                    return
+        logger.error(
+            "[DB] Queue full for 60s — dropping result for %s (will retry next run)", slug
+        )
 
     def worker_done(self):
-        """Signal that a worker has finished."""
-        self._q.put(_SENTINEL)
+        """Signal that a worker has finished.
+
+        Uses put-with-timeout so that if the writer thread has crashed
+        (and stopped consuming), workers are not deadlocked in their
+        finally blocks waiting for queue space that will never free up.
+        If the writer is dead, the sentinel is meaningless (nobody is
+        counting them), so we drop it and return to unblock the worker.
+        """
+        for _ in range(15):  # 15 × 2s = 30s max wait
+            try:
+                self._q.put(_SENTINEL, timeout=2.0)
+                return
+            except queue.Full:
+                if shutdown_event.is_set() and not self.is_alive():
+                    # Writer is dead — sentinel is meaningless, just let
+                    # the worker's finally block complete so scrape_all()
+                    # can proceed to drain logic.
+                    logger.warning(
+                        "[DB] Queue full and writer dead — dropping sentinel"
+                    )
+                    return
+        # Exhausted retries — drop sentinel to avoid permanent hang
+        logger.error("[DB] Could not enqueue sentinel after 30s — dropping to unblock worker")
 
     # -- thread body ---------------------------------------------------------
 
@@ -253,6 +368,7 @@ class DBWriterThread(threading.Thread):
     def _loop(self):
         logger.info("[DB] Writer thread started")
         last_keepalive = time.time()
+        consec_errors = 0
         while True:
             # Use a short timeout so we notice shutdown_event promptly,
             # but still send keepalives every KEEPALIVE_INTERVAL seconds.
@@ -269,14 +385,36 @@ class DBWriterThread(threading.Thread):
                 if self._sentinels_seen >= self._num_workers:
                     # All workers done — drain any remaining items that
                     # were enqueued before the final sentinel.
-                    while not self._q.empty():
-                        leftover = self._q.get_nowait()
+                    #
+                    # Ordering invariant: each worker calls submit() BEFORE
+                    # worker_done() (see _worker_loop's finally block), so
+                    # by the time the N-th sentinel arrives, every result
+                    # from every worker is already in the queue.
+                    while True:
+                        try:
+                            leftover = self._q.get_nowait()
+                        except queue.Empty:
+                            break
                         if leftover is not _SENTINEL:
-                            self._write_one_with_retry(*leftover)
+                            if self._write_one_with_retry(*leftover):
+                                consec_errors = 0
+                            else:
+                                consec_errors += 1
+                                if consec_errors >= self.MAX_CONSEC_ERRORS:
+                                    raise RuntimeError(
+                                        f"Aborting after {self.MAX_CONSEC_ERRORS} consecutive write failures"
+                                    )
                     break
                 continue
 
-            self._write_one_with_retry(*item)
+            if self._write_one_with_retry(*item):
+                consec_errors = 0
+            else:
+                consec_errors += 1
+                if consec_errors >= self.MAX_CONSEC_ERRORS:
+                    raise RuntimeError(
+                        f"Aborting after {self.MAX_CONSEC_ERRORS} consecutive write failures"
+                    )
 
         logger.info("[DB] Writer thread finished — all items flushed")
 
@@ -295,7 +433,12 @@ class DBWriterThread(threading.Thread):
                 self._write_one(session, slug, school_id, points, grades, now, tag)
                 session.commit()
                 logger.debug("[DB] Committed %s", slug)
-                return
+                # Increment grade counter only after successful commit so
+                # retries on Hrana errors don't double-count.
+                if grades:
+                    with self._stats_lock:
+                        self._stats["total_grades"] += 1
+                return True
             except Exception as e:
                 try:
                     session.rollback()
@@ -311,82 +454,14 @@ class DBWriterThread(threading.Thread):
                     time.sleep(delay)
                     continue
                 logger.error("[DB] Failed to write %s: %s", slug, e)
-                return
+                return False
             finally:
                 session.close()
 
-    # Max rows per INSERT statement — SQLite has a limit of 999 bind params,
-    # and each row has 10 columns, so ~99 rows per statement is safe.
-    _INSERT_BATCH = 90
-
-    def _write_one(self, session, slug, school_id, points, grades, now, tag):
-        """Write a single school's results within an existing session.
-
-        Datapoints and the NicheGrade row are written in the same session so
-        they commit (or roll back) atomically.  Datapoints are inserted in
-        bulk (one INSERT per ~90 rows) to avoid thousands of round-trips
-        over the Turso WebSocket.
-        """
-        from sqlalchemy import insert
-
-        if points and school_id:
-            session.query(ApplicantDatapoint).filter_by(
-                school_id=school_id, source="niche"
-            ).delete()
-
-            rows = [
-                dict(
-                    school_id=school_id,
-                    source="niche",
-                    gpa=p["gpa"],
-                    sat_score=p.get("sat_score"),
-                    act_score=p.get("act_score"),
-                    outcome=p["outcome"],
-                    major=p.get("major"),
-                    residency=p.get("residency"),
-                    scraped_at=now,
-                )
-                for p in points
-            ]
-            # Multi-VALUES INSERT: one SQL statement per batch instead of
-            # one per row.  Batched at 110 rows × 9 cols = 990 bind params
-            # to stay under SQLite's 999-param limit.
-            for i in range(0, len(rows), self._INSERT_BATCH):
-                session.execute(
-                    insert(ApplicantDatapoint).values(rows[i : i + self._INSERT_BATCH])
-                )
-
-        if school_id:
-            existing = session.get(NicheGrade, school_id)
-            if grades:
-                if existing:
-                    for k, v in grades.items():
-                        setattr(existing, k, v)
-                    existing.no_data = 0
-                    existing.updated_at = now
-                else:
-                    session.add(NicheGrade(
-                        school_id=school_id,
-                        no_data=0,
-                        updated_at=now,
-                        **grades,
-                    ))
-                with self._stats_lock:
-                    self._stats["total_grades"] += 1
-                grade_count = sum(1 for k in grades if k in GRADE_LABEL_MAP.values())
-                stat_count = len(grades) - grade_count
-                logger.info(f"{tag}   -> {grade_count} grades, {stat_count} stats")
-            else:
-                if not existing:
-                    session.add(NicheGrade(
-                        school_id=school_id,
-                        no_data=1,
-                        updated_at=now,
-                    ))
-                else:
-                    existing.no_data = 1
-                    existing.updated_at = now
-                logger.info(f"{tag}   -> No grades for {slug} — marked no_data")
+    @staticmethod
+    def _write_one(session, slug, school_id, points, grades, now, tag):
+        """Delegate to the module-level shared write function."""
+        _write_school_data(session, slug, school_id, points, grades, now, tag)
 
     def _keepalive(self):
         """Send a lightweight SELECT to keep the Turso WebSocket alive."""
@@ -407,16 +482,23 @@ class DBWriterThread(threading.Thread):
             session.close()
 
     @staticmethod
-    def drain_queue_best_effort(write_queue):
+    def drain_queue_best_effort(write_queue, stats=None, stats_lock=None):
         """Drain remaining items after a writer crash (single attempt per item).
 
         Called from the main thread after the writer has exited. Uses a fresh
         session per item — no retries, to avoid masking the root crash cause.
         Returns (drained, failed) counts.
         """
+        # Reset engine in case the writer crashed due to stale Hrana connection
+        try:
+            reset_engine()
+        except Exception as e:
+            logger.warning("[DB] Engine reset before drain failed: %s", e)
+
         drained = 0
         failed = 0
-        while not write_queue.empty():
+        max_drain = write_queue.maxsize + 10
+        for _ in range(max_drain):
             try:
                 item = write_queue.get_nowait()
             except queue.Empty:
@@ -427,53 +509,12 @@ class DBWriterThread(threading.Thread):
                 slug, school_id, points, grades, timestamp, tag = item
                 session = get_session()
                 try:
-                    from sqlalchemy import insert
-                    from college_ai.db.models import ApplicantDatapoint, NicheGrade
-
-                    if points and school_id:
-                        session.query(ApplicantDatapoint).filter_by(
-                            school_id=school_id, source="niche"
-                        ).delete()
-                        rows = [
-                            dict(
-                                school_id=school_id, source="niche",
-                                gpa=p["gpa"], sat_score=p.get("sat_score"),
-                                act_score=p.get("act_score"), outcome=p["outcome"],
-                                major=p.get("major"), residency=p.get("residency"),
-                                scraped_at=timestamp,
-                            )
-                            for p in points
-                        ]
-                        for i in range(0, len(rows), 90):
-                            session.execute(
-                                insert(ApplicantDatapoint).values(rows[i:i + 90])
-                            )
-
-                    if school_id:
-                        existing = session.get(NicheGrade, school_id)
-                        if grades:
-                            if existing:
-                                for k, v in grades.items():
-                                    setattr(existing, k, v)
-                                existing.no_data = 0
-                                existing.updated_at = timestamp
-                            else:
-                                session.add(NicheGrade(
-                                    school_id=school_id, no_data=0,
-                                    updated_at=timestamp, **grades,
-                                ))
-                        else:
-                            if not existing:
-                                session.add(NicheGrade(
-                                    school_id=school_id, no_data=1,
-                                    updated_at=timestamp,
-                                ))
-                            else:
-                                existing.no_data = 1
-                                existing.updated_at = timestamp
-
+                    _write_school_data(session, slug, school_id, points, grades, timestamp, tag)
                     session.commit()
                     drained += 1
+                    if grades and stats is not None and stats_lock is not None:
+                        with stats_lock:
+                            stats["total_grades"] += 1
                 except Exception as e:
                     try:
                         session.rollback()
@@ -518,6 +559,7 @@ class NicheScraper:
         self._px_blocked: bool = False  # set True when PerimeterX blocks a page
         self._cached_grades: Optional[dict] = None  # grades found on admissions page
         self._cached_grades_slug: Optional[str] = None  # slug the cached grades belong to
+        self._response_handler = None  # Playwright response listener (set by _setup_network_intercept)
 
     def _launch_chrome(self, headless: bool = False):
         """Launch system Chrome browser (same engine for capture + scraping)."""
@@ -545,13 +587,19 @@ class NicheScraper:
             "Object.defineProperty(navigator, 'webdriver', {get: () => undefined})"
         )
 
-    def capture_cookies(self):
+    def capture_cookies(self) -> bool:
         """Open Chrome so the user can log in to Niche and solve PerimeterX.
 
         PerimeterX fingerprints are tied to the browser engine — capture and
         scrape must use the same engine (Chrome) for cookies to work.
         Called automatically mid-scrape when PX starts blocking.
+
+        Returns True if cookies were successfully saved, False if cancelled
+        (e.g. shutdown) or if the capture failed.
         """
+        if shutdown_event.is_set():
+            return False
+
         logger.info("\n" + "="*60)
         logger.info("ACTION REQUIRED: Chrome is opening for cookie capture")
         logger.info("  1. Log in to Niche if prompted")
@@ -559,12 +607,12 @@ class NicheScraper:
         logger.info("  3. Press ENTER in this terminal when done")
         logger.info("="*60)
 
-        # Use the existing playwright instance if one is running (avoid double-init)
-        pl = self._playwright
-        owns_pl = False
-        if pl is None:
-            pl = sync_playwright().start()
-            owns_pl = True
+        # Always create a separate playwright instance for cookie capture.
+        # Reusing self._playwright would let the scraping browser's response
+        # handler (page.on("response")) intercept capture-browser responses,
+        # polluting _intercepted_data.  A fresh instance also prevents cleanup
+        # failures from corrupting the scraping browser's playwright state.
+        pl = sync_playwright().start()
 
         launch_args = ["--disable-blink-features=AutomationControlled"]
         try:
@@ -585,38 +633,68 @@ class NicheScraper:
             "Object.defineProperty(navigator, 'webdriver', {get: () => undefined})"
         )
         pg.goto(LOGIN_URL, timeout=NAV_TIMEOUT)
-        try:
-            # Use a polling loop so Ctrl+C (shutdown_event) can interrupt the wait
-            print("\n  >>> Press ENTER after you've logged in and a college page loaded... ", end="", flush=True)
-            while not shutdown_event.is_set():
-                if sys.stdin in select.select([sys.stdin], [], [], 0.5)[0]:
-                    sys.stdin.readline()
-                    break
-            else:
-                logger.info("Shutdown requested — cancelling cookie capture.")
-                browser.close()
-                if owns_pl:
-                    pl.stop()
-                return
-        except EOFError:
-            logger.info("Non-interactive mode — waiting 60s for manual interaction...")
-            for _ in range(120):  # 60s in 0.5s increments
-                if shutdown_event.is_set():
-                    logger.info("Shutdown requested — cancelling cookie capture.")
-                    browser.close()
-                    if owns_pl:
-                        pl.stop()
-                    return
-                time.sleep(0.5)
-        cookies = ctx.cookies()
-        browser.close()
 
-        if owns_pl:
-            pl.stop()
+        # Collect cookies; stays None on early return (shutdown) so
+        # the save logic below is skipped.
+        cookies = None
+        try:
+            try:
+                # Use a polling loop so Ctrl+C (shutdown_event) can interrupt
+                # the wait.  Cap at 5 minutes so a hung terminal or absent
+                # operator doesn't hold cookie_capture_lock indefinitely,
+                # which would stall all workers.
+                MAX_COOKIE_WAIT_SECS = 300
+                max_iters = int(MAX_COOKIE_WAIT_SECS / 0.5)
+                print("\n  >>> Press ENTER after you've logged in and a college page loaded... ", end="", flush=True)
+                for _ in range(max_iters):
+                    if shutdown_event.is_set():
+                        logger.info("Shutdown requested — cancelling cookie capture.")
+                        return False
+                    if sys.stdin in select.select([sys.stdin], [], [], 0.5)[0]:
+                        sys.stdin.readline()
+                        break
+                else:
+                    logger.warning("Cookie capture timed out after %ds — returning without new cookies", MAX_COOKIE_WAIT_SECS)
+                    return False
+            except EOFError:
+                logger.info("Non-interactive mode — waiting 60s for manual interaction...")
+                for _ in range(120):  # 60s in 0.5s increments
+                    if shutdown_event.is_set():
+                        logger.info("Shutdown requested — cancelling cookie capture.")
+                        return False
+                    time.sleep(0.5)
+            cookies = ctx.cookies()
+        finally:
+            # Close each resource independently so a failure in one
+            # does not prevent cleanup of the others.
+            for resource, label in [(pg, "page"), (ctx, "context"), (browser, "browser")]:
+                try:
+                    resource.close()
+                except Exception as exc:
+                    logger.debug("Cookie capture cleanup — %s.close() failed: %s", label, exc)
+            try:
+                pl.stop()
+            except Exception as exc:
+                logger.debug("Cookie capture cleanup — pl.stop() failed: %s", exc)
+
+        if cookies is None:
+            return False
 
         os.makedirs(os.path.dirname(self._cookies_path), exist_ok=True)
-        with open(self._cookies_path, "w") as f:
-            json.dump(cookies, f)
+        # Atomic write: temp file + rename prevents other workers from
+        # reading a truncated cookie file if the process crashes mid-write.
+        cookie_dir = os.path.dirname(self._cookies_path)
+        fd, tmp_path = tempfile.mkstemp(dir=cookie_dir, suffix=".tmp")
+        try:
+            with os.fdopen(fd, "w") as f:
+                json.dump(cookies, f)
+            os.replace(tmp_path, self._cookies_path)
+        except Exception:
+            try:
+                os.unlink(tmp_path)
+            except OSError:
+                pass
+            raise
         logger.info(f"Saved {len(cookies)} cookies.")
 
         if self.context:
@@ -624,6 +702,8 @@ class NicheScraper:
                 self.context.add_cookies(cookies)
             except Exception:
                 pass
+
+        return True
 
     def start(self, headless: bool = False, grades_only: bool = False):
         """Launch Chrome and load saved cookies.
@@ -667,8 +747,20 @@ class NicheScraper:
             raise RuntimeError("Niche login failed. Check credentials.")
         cookies = self.context.cookies()
         os.makedirs(os.path.dirname(self._cookies_path), exist_ok=True)
-        with open(self._cookies_path, "w") as f:
-            json.dump(cookies, f)
+        # Atomic write: temp file + rename prevents other workers from
+        # reading a truncated cookie file if the process crashes mid-write.
+        cookie_dir = os.path.dirname(self._cookies_path)
+        fd, tmp_path = tempfile.mkstemp(dir=cookie_dir, suffix=".tmp")
+        try:
+            with os.fdopen(fd, "w") as f:
+                json.dump(cookies, f)
+            os.replace(tmp_path, self._cookies_path)
+        except Exception:
+            try:
+                os.unlink(tmp_path)
+            except OSError:
+                pass
+            raise
         logger.info("Niche login successful. Cookies saved.")
 
     def _setup_network_intercept(self):
@@ -676,7 +768,7 @@ class NicheScraper:
         self._intercepted_data = []
 
         # Remove previous listener to avoid duplicates across multiple calls
-        if hasattr(self, "_response_handler"):
+        if self._response_handler is not None:
             try:
                 self.page.remove_listener("response", self._response_handler)
             except Exception:
@@ -698,6 +790,11 @@ class NicheScraper:
                     ])
                 ):
                     body = response.json()
+                    # Safe without a lock: Playwright sync API runs the
+                    # response handler in the same OS thread's dispatcher
+                    # fiber (greenlet), not a separate thread.  The worker
+                    # reads _intercepted_data only after page.goto() returns,
+                    # by which point the dispatcher has yielded back.
                     self._intercepted_data.append({"url": url, "data": body})
             except Exception:
                 pass
@@ -1059,6 +1156,9 @@ class NicheScraper:
         Also opportunistically extracts grades from the admissions page's
         ``__NEXT_DATA__`` and caches them in ``self._cached_grades`` so that
         ``scrape_grades`` can skip an entire page load when possible.
+
+        Intercepted response payloads are released at exit to prevent
+        large JSON bodies from persisting in memory between schools.
         """
         self._setup_network_intercept()
         self._cached_grades = None
@@ -1067,6 +1167,19 @@ class NicheScraper:
         url = f"{COLLEGE_URL}/{slug}/admissions/"
         logger.info(f"  Loading scattergram: {url}")
 
+        try:
+            return self._scrape_scattergram_inner(slug, url)
+        finally:
+            # Release intercepted response payloads so large JSON bodies
+            # don't persist in memory between schools.  Also clear cached
+            # grades so a failed scrape can't leak stale grades to a
+            # subsequent scrape_grades() call.
+            self._intercepted_data = []
+            self._cached_grades = None
+            self._cached_grades_slug = None
+
+    def _scrape_scattergram_inner(self, slug: str, url: str) -> list[dict]:
+        """Inner implementation of scrape_scattergram (split for try/finally cleanup)."""
         # Navigate with domcontentloaded — embedded JSON (__PRELOADED_STATE__,
         # __NEXT_DATA__) is in the SSR HTML and available immediately, so we
         # don't need to wait for images/CSS ("load").
@@ -1741,27 +1854,38 @@ class NicheScraper:
         """Reload saved cookies into a fresh Chrome context."""
         logger.info("Restarting Chrome with saved cookies...")
         self.close()
+        if shutdown_event.is_set():
+            return
         time.sleep(random.uniform(2, 4))
         self.start(headless=headless, grades_only=grades_only)
 
     def close(self):
-        """Clean up browser resources."""
-        try:
-            if self.page:
-                self.page.close()
-            if self.context:
-                self.context.close()
-            if self.browser:
-                self.browser.close()
-            if self._playwright:
-                self._playwright.stop()
-        except Exception as e:
-            logger.debug(f"Browser cleanup error (safe to ignore): {e}")
-        finally:
-            self.page = None
-            self.context = None
-            self.browser = None
-            self._playwright = None
+        """Clean up browser resources.
+
+        Each resource is closed independently so a failure in one (e.g.
+        page.close() raising on an already-crashed browser) does not
+        prevent cleanup of the remaining resources and Playwright process.
+
+        Memory-heavy data is released first since browser cleanup can hang.
+        """
+        self._intercepted_data = []
+        self._cached_grades = None
+        self._cached_grades_slug = None
+        for resource, method, label in [
+            (self.page, "close", "page"),
+            (self.context, "close", "context"),
+            (self.browser, "close", "browser"),
+            (self._playwright, "stop", "playwright"),
+        ]:
+            if resource is not None:
+                try:
+                    getattr(resource, method)()
+                except Exception as e:
+                    logger.debug("Browser cleanup — %s.%s() failed: %s", label, method, e)
+        self.page = None
+        self.context = None
+        self.browser = None
+        self._playwright = None
 
 
 _CAMPUS_SUFFIX_RE = re.compile(
@@ -1858,7 +1982,16 @@ def _worker_loop(
                 if scraper._px_blocked:
                     consecutive_px_blocks += 1
                     if consecutive_px_blocks >= PX_RESTART_AFTER:
-                        # Check if another worker already refreshed cookies
+                        # Check if another worker already refreshed cookies.
+                        # my_cookie_gen is updated here (outer read) AND inside
+                        # cookie_capture_lock (inner read).  Both updates are
+                        # load-bearing:
+                        #   - Outer update (L1973): if the generation was already
+                        #     bumped, we skip the capture lock entirely.
+                        #   - Inner update (L1984): if another worker bumped it
+                        #     while we waited for cookie_capture_lock, the inner
+                        #     check detects it (generation[0] > stale my_cookie_gen)
+                        #     and skips the redundant capture.
                         with cookie_lock:
                             already_refreshed = cookie_generation[0] > my_cookie_gen
                             my_cookie_gen = cookie_generation[0]
@@ -1876,12 +2009,18 @@ def _worker_loop(
                                     my_cookie_gen = cookie_generation[0]
                                 if not already_refreshed:
                                     logger.warning(f"{tag} PerimeterX blocked — capturing cookies...")
-                                    scraper.capture_cookies()
-                                    with cookie_lock:
-                                        cookie_generation[0] += 1
-                                        my_cookie_gen = cookie_generation[0]
+                                    captured = scraper.capture_cookies()
+                                    if captured:
+                                        with cookie_lock:
+                                            cookie_generation[0] += 1
+                                            my_cookie_gen = cookie_generation[0]
+                                    else:
+                                        logger.info(f"{tag} Cookie capture cancelled — generation not bumped")
                         else:
                             logger.info(f"{tag} Cookies already refreshed by another worker — reloading")
+
+                        if shutdown_event.is_set():
+                            break
 
                         scraper.restart(headless=headless, grades_only=grades_only)
                         consecutive_px_blocks = 0
@@ -1907,11 +2046,15 @@ def _worker_loop(
                 else:
                     consecutive_px_blocks = 0
 
-                # During shutdown, don't submit empty PX-blocked results — the
-                # school would be marked no_data and permanently skipped on
-                # resume.  Leaving it pending lets the next run retry cleanly.
-                if shutdown_event.is_set() and not points and not grades:
-                    logger.info(f"{tag}   -> Skipping submit for {slug} (shutdown + empty)")
+                # During shutdown, don't submit results with empty grades —
+                # the school would be marked no_data and permanently skipped
+                # on resume.  Grades may be empty because a PX retry was
+                # skipped due to shutdown, not because the school truly has
+                # no data.  Leaving it pending lets the next run retry cleanly.
+                # Complete data (has grades) is safe to submit even during
+                # shutdown so progress is preserved.
+                if shutdown_event.is_set() and not grades:
+                    logger.info(f"{tag}   -> Skipping submit for {slug} (shutdown + no grades — will retry next run)")
                     break
 
                 # Enqueue results for the DB writer — worker moves on immediately
@@ -1925,7 +2068,20 @@ def _worker_loop(
     finally:
         db_writer.worker_done()
         if scraper is not None:
-            scraper.close()
+            # Playwright's browser.close() can hang indefinitely if the
+            # browser process OOMed or crashed.  Run cleanup in a daemon
+            # thread with a timeout so the worker always exits promptly.
+            cleanup = threading.Thread(target=scraper.close, daemon=True)
+            cleanup.start()
+            cleanup.join(timeout=15)
+            if cleanup.is_alive():
+                logger.warning(
+                    "%s Browser cleanup hung — abandoning (daemon thread "
+                    "will be reaped at process exit)", tag
+                )
+                # Drop reference so GC can reclaim the NicheScraper (and its
+                # browser handles) once the daemon thread finishes or exits.
+                scraper = None
         logger.info(f"{tag} Worker finished")
 
 
@@ -1947,42 +2103,42 @@ def scrape_all(
     """
     init_db()
     session = get_session()
+    try:
+        # Build slug -> school_id mapping, ordered by enrollment (largest first)
+        schools = (
+            session.query(School.id, School.name, School.enrollment)
+            .order_by(School.enrollment.desc().nullslast())
+            .all()
+        )
+        if slugs:
+            slug_map = {}
+            for slug in slugs:
+                for sid, name, _enr in schools:
+                    if _get_slug_from_name(name) == slug:
+                        slug_map[slug] = sid
+                        break
+                else:
+                    slug_map[slug] = 0
+        else:
+            slug_map = {_get_slug_from_name(name): sid for sid, name, _enr in schools}
 
-    # Build slug -> school_id mapping, ordered by enrollment (largest first)
-    schools = (
-        session.query(School.id, School.name, School.enrollment)
-        .order_by(School.enrollment.desc().nullslast())
-        .all()
-    )
-    if slugs:
-        slug_map = {}
-        for slug in slugs:
-            for sid, name, _enr in schools:
-                if _get_slug_from_name(name) == slug:
-                    slug_map[slug] = sid
-                    break
-            else:
-                slug_map[slug] = 0
-    else:
-        slug_map = {_get_slug_from_name(name): sid for sid, name, _enr in schools}
-
-    # Skip schools that already have a NicheGrade row (either real data or no_data)
-    if resume:
-        existing_ids = {
-            row.school_id
-            for row in session.query(NicheGrade.school_id).all()
-        }
-        pending_slugs = [(s, sid) for s, sid in slug_map.items() if sid not in existing_ids]
-        skipped_slugs = [s for s, sid in slug_map.items() if sid in existing_ids]
-        if skipped_slugs:
-            logger.info(f"Resuming: skipping {len(skipped_slugs)} schools already in niche_grades:")
-            for sk in skipped_slugs:
-                logger.info(f"  skip: {sk}")
-        slugs_with_ids = pending_slugs
-    else:
-        slugs_with_ids = list(slug_map.items())
-
-    session.close()
+        # Skip schools that already have a NicheGrade row (either real data or no_data)
+        if resume:
+            existing_ids = {
+                row.school_id
+                for row in session.query(NicheGrade.school_id).all()
+            }
+            pending_slugs = [(s, sid) for s, sid in slug_map.items() if sid not in existing_ids]
+            skipped_slugs = [s for s, sid in slug_map.items() if sid in existing_ids]
+            if skipped_slugs:
+                logger.info(f"Resuming: skipping {len(skipped_slugs)} schools already in niche_grades:")
+                for sk in skipped_slugs:
+                    logger.info(f"  skip: {sk}")
+            slugs_with_ids = pending_slugs
+        else:
+            slugs_with_ids = list(slug_map.items())
+    finally:
+        session.close()
 
     # For single school, no need for parallelism
     num_workers = min(num_workers, MAX_WORKERS)
@@ -1998,7 +2154,7 @@ def scrape_all(
     stats_lock = threading.Lock()
 
     # Single DB writer thread — only this thread touches Turso
-    write_queue = queue.Queue()
+    write_queue = queue.Queue(maxsize=50)
     db_writer = DBWriterThread(write_queue, num_workers, stats, stats_lock)
     db_writer.start()
 
@@ -2054,7 +2210,7 @@ def scrape_all(
         # Best-effort drain if the writer died with items still queued
         if not db_writer.is_alive() and db_writer._crashed and not write_queue.empty():
             logger.warning("[DB] Writer crashed — attempting best-effort queue drain")
-            DBWriterThread.drain_queue_best_effort(write_queue)
+            DBWriterThread.drain_queue_best_effort(write_queue, stats, stats_lock)
 
     if shutdown_event.is_set():
         logger.info("Graceful shutdown complete — all pending writes flushed.")
@@ -2069,10 +2225,12 @@ def reset_no_data_schools():
     """Delete NicheGrade rows marked no_data so those schools get retried."""
     init_db()
     session = get_session()
-    count = session.query(NicheGrade).filter_by(no_data=1).delete()
-    session.commit()
-    logger.info(f"Deleted {count} no_data NicheGrade rows — those schools will be retried.")
-    session.close()
+    try:
+        count = session.query(NicheGrade).filter_by(no_data=1).delete()
+        session.commit()
+        logger.info(f"Deleted {count} no_data NicheGrade rows — those schools will be retried.")
+    finally:
+        session.close()
 
 
 def main():
