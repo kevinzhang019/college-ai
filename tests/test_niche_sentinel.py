@@ -30,6 +30,7 @@ def _make_fixtures(num_workers=1):
 
     cookie_lock = threading.Lock()
     cookie_capture_lock = threading.Lock()
+    capture_in_progress = threading.Event()
     cookie_generation = [0]
     stats = {"total_points": 0, "total_grades": 0}
     stats_lock = threading.Lock()
@@ -40,6 +41,7 @@ def _make_fixtures(num_workers=1):
         "db_writer": db_writer,
         "cookie_lock": cookie_lock,
         "cookie_capture_lock": cookie_capture_lock,
+        "capture_in_progress": capture_in_progress,
         "cookie_generation": cookie_generation,
         "stats": stats,
         "stats_lock": stats_lock,
@@ -60,6 +62,7 @@ def _call_worker(fixtures, worker_id=0, grades_only=False, headless=True):
         fixtures["cookie_generation"],
         fixtures["stats"],
         fixtures["stats_lock"],
+        fixtures["capture_in_progress"],
     )
 
 
