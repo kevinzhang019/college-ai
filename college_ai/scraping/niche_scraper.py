@@ -698,22 +698,19 @@ class NicheScraper:
         cookies = None
         try:
             try:
-                # Use a polling loop so Ctrl+C (shutdown_event) can interrupt
-                # the wait.  Cap at 5 minutes so a hung terminal or absent
-                # operator doesn't hold cookie_capture_lock indefinitely,
-                # which would stall all workers.
-                MAX_COOKIE_WAIT_SECS = 300
-                max_iters = int(MAX_COOKIE_WAIT_SECS / 0.5)
+                # Poll stdin in 0.5s increments so Ctrl+C (shutdown_event)
+                # can interrupt the wait.  No timeout — the capture window
+                # stays open until the user presses ENTER or shuts down.
+                # Other workers remain responsive: they poll
+                # cookie_capture_lock with timeout=2.0 and check
+                # shutdown_event, so no deadlock risk.
                 print("\n  >>> Press ENTER after you've logged in and a college page loaded... ", end="", flush=True)
-                for _ in range(max_iters):
-                    if shutdown_event.is_set():
-                        logger.info("Shutdown requested — cancelling cookie capture.")
-                        return False
+                while not shutdown_event.is_set():
                     if sys.stdin in select.select([sys.stdin], [], [], 0.5)[0]:
                         sys.stdin.readline()
                         break
                 else:
-                    logger.warning("Cookie capture timed out after %ds — returning without new cookies", MAX_COOKIE_WAIT_SECS)
+                    logger.info("Shutdown requested — cancelling cookie capture.")
                     return False
             except EOFError:
                 logger.info("Non-interactive mode — waiting 60s for manual interaction...")
@@ -2186,6 +2183,12 @@ def _worker_loop(
                 if scraper._px_blocked:
                     consecutive_px_blocks += 1
                     if consecutive_px_blocks >= PX_RESTART_AFTER:
+                        # Close PX-blocked browser immediately — it can't make
+                        # useful requests, and synchronous close on the owner
+                        # thread avoids the greenlet errors caused by daemon-
+                        # thread close() in restart().
+                        scraper._close_for_capture()
+
                         # After MAX_CAPTURE_FAILURES consecutive failed captures,
                         # skip the interactive capture and just restart the browser.
                         # This prevents an infinite cycle of 300s timeouts when no
@@ -2257,25 +2260,34 @@ def _worker_loop(
                         if shutdown_event.is_set():
                             break
 
-                        # Wait for any active cookie capture to finish before
-                        # restarting, so Chrome windows don't pop open/closed
-                        # while the user interacts with the capture window.
+                        # Wait for any active cookie capture to finish.
+                        # Browser is already closed (above), so no wasted
+                        # requests.  Defense-in-depth: close again if somehow
+                        # still open (e.g. code path reached without Change 1).
+                        if scraper._playwright is not None:
+                            scraper._close_for_capture()
                         while capture_in_progress.is_set() and not shutdown_event.is_set():
                             time.sleep(1.0)
                         if shutdown_event.is_set():
                             break
 
+                        # Restart with fresh cookies.  Browser was already
+                        # closed synchronously via _close_for_capture() above,
+                        # so we just sleep (jittered) and start() — no daemon-
+                        # threaded close() that would violate Playwright's
+                        # thread-affinity constraint.
+                        logger.info(f"{tag} Restarting Chrome with saved cookies...")
+                        sleep_for = random.uniform(2, 4)
+                        while sleep_for > 0 and not shutdown_event.is_set():
+                            time.sleep(min(sleep_for, 0.5))
+                            sleep_for -= 0.5
+                        if shutdown_event.is_set():
+                            break
                         try:
-                            scraper.restart(headless=headless, grades_only=grades_only)
-                        except Exception as restart_err:
-                            logger.warning(f"{tag} restart() failed ({restart_err}) — retrying once")
-                            scraper.close()
-                            time.sleep(1)
-                            try:
-                                scraper.start(headless=headless, grades_only=grades_only)
-                            except Exception as retry_err:
-                                logger.error(f"{tag} Browser re-launch failed ({retry_err}) — worker exiting")
-                                break
+                            scraper.start(headless=headless, grades_only=grades_only)
+                        except Exception as start_err:
+                            logger.error(f"{tag} Browser re-launch failed ({start_err}) — worker exiting")
+                            break
                         consecutive_px_blocks = 0
                         scraper._px_blocked = False
 
