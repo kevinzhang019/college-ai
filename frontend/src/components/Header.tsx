@@ -1,8 +1,4 @@
-import { useStore } from '../store'
-
 export default function Header() {
-  const isConnected = useStore((s) => s.isConnected)
-
   return (
     <header className="text-center py-8 px-4">
       <div className="inline-flex items-center gap-3 mb-3">
@@ -14,14 +10,6 @@ export default function Header() {
       <p className="text-slate-400 text-lg max-w-md mx-auto">
         Your friendly guide to college admissions
       </p>
-      <div className="flex items-center justify-center gap-2 mt-3 text-sm text-slate-500">
-        <span
-          className={`w-2 h-2 rounded-full ${
-            isConnected ? 'bg-emerald-400 animate-pulse-soft' : 'bg-slate-600'
-          }`}
-        />
-        <span>{isConnected ? 'Connected' : 'Connecting...'}</span>
-      </div>
     </header>
   )
 }

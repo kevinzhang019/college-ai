@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useStore } from '../store'
 import { ask } from '../api'
 import type { ChatMessage } from '../types'
@@ -15,6 +16,7 @@ export default function EssayChatTab() {
   const setChatLoading = useStore((s) => s.setChatLoading)
   const college = useStore((s) => s.college)
   const topK = useStore((s) => s.topK)
+  const isConnected = useStore((s) => s.isConnected)
 
   // Scroll to bottom on new messages
   useEffect(() => {
@@ -120,37 +122,67 @@ export default function EssayChatTab() {
 
       {/* Input area */}
       <div className="border-t border-navy-700 p-3">
-        <div className="flex gap-2 items-end">
-          <textarea
-            ref={textareaRef}
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder="Describe what you need help with..."
-            className="flex-1 resize-none bg-transparent text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none leading-relaxed py-1"
-            rows={1}
-            disabled={chatLoading}
-          />
-          <button
-            onClick={handleSend}
-            disabled={!input.trim() || chatLoading}
-            className="btn-primary shrink-0 px-3 py-1.5 text-sm"
-          >
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+        <AnimatePresence mode="wait">
+          {!isConnected ? (
+            <motion.div
+              key="skeleton"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0, scale: 0.98 }}
+              transition={{ duration: 0.3 }}
+              className="flex gap-2 items-end"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M14 5l7 7m0 0l-7 7m7-7H3"
+              <div className="flex-1 py-1">
+                <div className="h-5 bg-navy-800 rounded-lg animate-pulse w-2/3" />
+              </div>
+              <div className="shrink-0 w-[40px] h-[32px] bg-navy-800 rounded-full animate-pulse flex items-center justify-center">
+                <span className="flex gap-1">
+                  <span className="w-1 h-1 bg-slate-600 rounded-full dot-bounce" />
+                  <span className="w-1 h-1 bg-slate-600 rounded-full dot-bounce" />
+                  <span className="w-1 h-1 bg-slate-600 rounded-full dot-bounce" />
+                </span>
+              </div>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="input"
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+              className="flex gap-2 items-end"
+            >
+              <textarea
+                ref={textareaRef}
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder="Describe what you need help with..."
+                className="flex-1 resize-none bg-transparent text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none leading-relaxed py-1"
+                rows={1}
+                disabled={chatLoading}
               />
-            </svg>
-          </button>
-        </div>
+              <button
+                onClick={handleSend}
+                disabled={!input.trim() || chatLoading}
+                className="btn-primary shrink-0 px-3 py-1.5 text-sm"
+              >
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M14 5l7 7m0 0l-7 7m7-7H3"
+                  />
+                </svg>
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   )

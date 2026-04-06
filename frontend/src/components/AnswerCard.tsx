@@ -1,3 +1,4 @@
+import { useCallback } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
@@ -15,8 +16,23 @@ export default function AnswerCard({ result }: { result: AskResponse }) {
   // Pre-process the answer to turn [N] citations into HTML before markdown
   const processed = answer.replace(
     /\[(\d+)\]/g,
-    '<span class="citation-badge">$1</span>'
+    '<span class="citation-badge" data-source="$1">$1</span>'
   )
+
+  const handleCitationClick = useCallback((e: React.MouseEvent) => {
+    const target = e.target as HTMLElement
+    if (!target.classList.contains('citation-badge')) return
+    const sourceNum = target.getAttribute('data-source')
+    if (!sourceNum) return
+    const el = document.getElementById(`source-${parseInt(sourceNum, 10) - 1}`)
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      // Brief highlight flash
+      el.style.transition = 'box-shadow 0.3s ease'
+      el.style.boxShadow = '0 0 0 2px rgba(59,130,246,0.5)'
+      setTimeout(() => { el.style.boxShadow = '' }, 1500)
+    }
+  }, [])
 
   return (
     <div className="space-y-4">
@@ -27,7 +43,8 @@ export default function AnswerCard({ result }: { result: AskResponse }) {
           <div className="flex-1" />
           <ConfidenceBadge confidence={confidence} />
         </div>
-        <div className="markdown-answer text-slate-300 leading-relaxed">
+        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
+        <div className="markdown-answer text-slate-300 leading-relaxed" onClick={handleCitationClick}>
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             rehypePlugins={[rehypeRaw]}
