@@ -10,8 +10,8 @@ const TYPE_LABELS: Record<string, string> = {
 }
 
 const TYPE_COLORS: Record<string, string> = {
-  extracurricular: 'bg-blue-500/15 text-blue-400',
-  project: 'bg-emerald-500/15 text-emerald-400',
+  extracurricular: 'bg-teal-500/15 text-teal-400',
+  project: 'bg-sky-500/15 text-sky-400',
   work: 'bg-amber-500/15 text-amber-400',
   volunteer: 'bg-purple-500/15 text-purple-400',
 }

@@ -86,7 +86,7 @@ export default function InputArea() {
   // Full loading skeleton for connecting state
   if (!isConnected) {
     return (
-      <div className="border-t border-navy-700 bg-navy-950/80 backdrop-blur-sm">
+      <div className="border-t border-dark-700 bg-dark-950/80 backdrop-blur-sm">
         <div className="max-w-3xl mx-auto px-4 py-3 space-y-2">
           <AnimatePresence mode="wait">
             <motion.div
@@ -99,27 +99,27 @@ export default function InputArea() {
               {/* Skeleton for mode-specific fields */}
               <div className="flex gap-2">
                 <div className={mode === 'essay' ? 'w-1/2' : 'w-full'}>
-                  <div className="h-9 bg-navy-800 rounded-lg animate-pulse" />
+                  <div className="h-9 bg-dark-800 rounded-lg animate-pulse" />
                 </div>
                 {mode === 'essay' && (
                   <div className="w-1/2">
-                    <div className="h-9 bg-navy-800 rounded-lg animate-pulse" />
+                    <div className="h-9 bg-dark-800 rounded-lg animate-pulse" />
                   </div>
                 )}
               </div>
               {/* Skeleton for chat input */}
               <div className="flex gap-2 items-end">
                 <div className="flex-1">
-                  <div className="h-10 bg-navy-800 rounded-xl animate-pulse" />
+                  <div className="h-10 bg-dark-800 rounded-xl animate-pulse" />
                 </div>
-                <div className="shrink-0 w-9 h-9 bg-navy-800 rounded-full animate-pulse" />
+                <div className="shrink-0 w-9 h-9 bg-dark-800 rounded-full animate-pulse" />
               </div>
               {/* Connecting label */}
               <div className="flex items-center justify-center gap-2 py-1">
                 <span className="flex gap-1">
-                  <span className="w-1.5 h-1.5 bg-indigo-400 rounded-full dot-bounce" />
-                  <span className="w-1.5 h-1.5 bg-indigo-400 rounded-full dot-bounce" />
-                  <span className="w-1.5 h-1.5 bg-indigo-400 rounded-full dot-bounce" />
+                  <span className="w-1.5 h-1.5 bg-forest-400 rounded-full dot-bounce" />
+                  <span className="w-1.5 h-1.5 bg-forest-400 rounded-full dot-bounce" />
+                  <span className="w-1.5 h-1.5 bg-forest-400 rounded-full dot-bounce" />
                 </span>
                 <span className="text-xs text-slate-500">Connecting to Cole...</span>
               </div>
@@ -131,7 +131,7 @@ export default function InputArea() {
   }
 
   return (
-    <div className="border-t border-navy-700 bg-navy-950/80 backdrop-blur-sm">
+    <div className="border-t border-dark-700 bg-dark-950/80 backdrop-blur-sm">
       {/* Essay review panel — slides up above input */}
       {mode === 'essay' && (
         <div className="max-w-3xl mx-auto px-4 pt-2">
@@ -182,7 +182,7 @@ export default function InputArea() {
                 ? 'Tell Cole what to focus on (e.g., "highlight my research experience")...'
                 : 'Ask Cole about colleges...'
             }
-            className="flex-1 resize-none bg-navy-800 border border-navy-700 rounded-xl px-4 py-2.5 text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all leading-relaxed"
+            className="flex-1 resize-none bg-dark-800 border border-dark-700 rounded-xl px-4 py-2.5 text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-forest-500/40 focus:border-forest-500 transition-all leading-relaxed"
             rows={1}
             disabled={streamingLoading}
           />
@@ -200,7 +200,7 @@ export default function InputArea() {
             <button
               onClick={handleSend}
               disabled={!canSend}
-              className="shrink-0 w-9 h-9 flex items-center justify-center rounded-full bg-indigo-600 text-white hover:bg-indigo-500 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+              className="shrink-0 w-9 h-9 flex items-center justify-center rounded-full bg-forest-600 text-white hover:bg-forest-500 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />

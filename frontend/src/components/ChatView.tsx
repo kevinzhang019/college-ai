@@ -10,7 +10,7 @@ import { QA_SUGGESTIONS, ESSAY_SUGGESTIONS, pickRandom } from '../suggestions'
 function ColeAvatar({ size = 'sm' }: { size?: 'sm' | 'lg' }) {
   const cls = size === 'lg' ? 'w-12 h-12 text-lg' : 'w-6 h-6 text-xs'
   return (
-    <div className={`${cls} rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold shadow-dark-sm shrink-0`}>
+    <div className={`${cls} rounded-full bg-forest-600 flex items-center justify-center text-white font-bold shadow-dark-sm shrink-0`}>
       C
     </div>
   )
@@ -21,16 +21,15 @@ function StreamingMessage({ content }: { content: string }) {
     <motion.div
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      className="flex gap-3 justify-start"
+      className="flex justify-start"
     >
-      <ColeAvatar />
-      <div className="max-w-[85%] bg-navy-900 border border-navy-700 rounded-2xl rounded-tl-md px-4 py-3 shadow-dark-sm">
+      <div className="w-full py-1">
         <div className="flex items-center gap-2 mb-1.5">
-          <span className="text-xs font-medium text-indigo-400">Cole</span>
+          <span className="text-xs font-medium text-forest-400">Cole</span>
           <span className="flex gap-1">
-            <span className="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-pulse" />
-            <span className="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-pulse [animation-delay:0.2s]" />
-            <span className="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-pulse [animation-delay:0.4s]" />
+            <span className="w-1.5 h-1.5 bg-forest-400 rounded-full animate-pulse" />
+            <span className="w-1.5 h-1.5 bg-forest-400 rounded-full animate-pulse [animation-delay:0.2s]" />
+            <span className="w-1.5 h-1.5 bg-forest-400 rounded-full animate-pulse [animation-delay:0.4s]" />
           </span>
         </div>
         <div className="markdown-answer text-sm text-slate-300">
@@ -66,7 +65,7 @@ function WelcomeState() {
         {suggestions.map((s) => (
           <button
             key={s}
-            className="text-xs bg-navy-800/60 text-slate-400 px-3.5 py-2 rounded-full border border-navy-700 hover:border-indigo-500/40 hover:text-slate-200 transition-all"
+            className="text-xs bg-dark-800/60 text-slate-400 px-3.5 py-2 rounded-full border border-dark-700 hover:border-forest-500/40 hover:text-slate-200 transition-all"
           >
             {s}
           </button>
@@ -117,17 +116,16 @@ export default function ChatView() {
           <motion.div
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex gap-3 justify-start"
+            className="flex justify-start"
           >
-            <ColeAvatar />
-            <div className="bg-navy-900 border border-navy-700 rounded-2xl rounded-tl-md px-4 py-3 shadow-dark-sm">
+            <div className="py-1">
               <div className="flex items-center gap-2">
-                <span className="text-xs font-medium text-indigo-400">Cole</span>
+                <span className="text-xs font-medium text-forest-400">Cole</span>
                 <span className="text-sm text-slate-500">is thinking...</span>
                 <span className="flex gap-1">
-                  <span className="w-1.5 h-1.5 bg-indigo-400 rounded-full dot-bounce" />
-                  <span className="w-1.5 h-1.5 bg-indigo-400 rounded-full dot-bounce" />
-                  <span className="w-1.5 h-1.5 bg-indigo-400 rounded-full dot-bounce" />
+                  <span className="w-1.5 h-1.5 bg-forest-400 rounded-full dot-bounce" />
+                  <span className="w-1.5 h-1.5 bg-forest-400 rounded-full dot-bounce" />
+                  <span className="w-1.5 h-1.5 bg-forest-400 rounded-full dot-bounce" />
                 </span>
               </div>
             </div>

@@ -65,7 +65,7 @@ export default function ExperienceForm({ experience, onClose }: Props) {
         transition={{ type: 'spring', damping: 25, stiffness: 300 }}
         onClick={(e) => e.stopPropagation()}
         onSubmit={handleSubmit}
-        className="w-full max-w-lg bg-navy-900 rounded-2xl border border-navy-700 shadow-dark-lg p-6 space-y-4"
+        className="w-full max-w-lg bg-dark-900 rounded-2xl border border-dark-700 shadow-dark-lg p-6 space-y-4"
       >
         <h3 className="text-lg font-semibold text-slate-100">
           {experience ? 'Edit Experience' : 'Add Experience'}
@@ -148,7 +148,7 @@ export default function ExperienceForm({ experience, onClose }: Props) {
               type="checkbox"
               checked={isPresent}
               onChange={(e) => setIsPresent(e.target.checked)}
-              className="rounded border-navy-700 bg-navy-800 text-indigo-500 focus:ring-indigo-500/40"
+              className="rounded border-dark-700 bg-dark-800 text-forest-500 focus:ring-forest-500/40"
             />
             <span className="text-xs text-slate-400">Present</span>
           </label>

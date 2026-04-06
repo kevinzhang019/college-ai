@@ -15,31 +15,18 @@ export default function MessageBubble({ message }: { message: ChatMessage }) {
       animate={{ opacity: 1, y: 0 }}
       className={`flex gap-3 ${isUser ? 'justify-end' : 'justify-start'}`}
     >
-      {/* Cole avatar for assistant */}
-      {!isUser && (
-        <div className="w-6 h-6 rounded-full bg-indigo-600 flex items-center justify-center text-white text-xs font-bold shadow-dark-sm shrink-0 mt-0.5">
-          C
+      {isUser ? (
+        <div className="max-w-[85%] bg-forest-600 text-white rounded-2xl rounded-br-md px-4 py-3">
+          <p className="text-sm leading-relaxed">{message.content}</p>
         </div>
-      )}
-
-      <div
-        className={`max-w-[85%] ${
-          isUser
-            ? 'bg-indigo-600 text-white rounded-2xl rounded-br-md px-4 py-3'
-            : 'bg-navy-900 border border-navy-700 rounded-2xl rounded-tl-md px-4 py-3 shadow-dark-sm'
-        }`}
-      >
-        {!isUser && (
+      ) : (
+        <div className="w-full py-1">
           <div className="flex items-center gap-2 mb-1.5">
-            <span className="text-xs font-medium text-indigo-400">Cole</span>
+            <span className="text-xs font-medium text-forest-400">Cole</span>
             {message.confidence && (
               <ConfidenceBadge confidence={message.confidence} />
             )}
           </div>
-        )}
-        {isUser ? (
-          <p className="text-sm leading-relaxed">{message.content}</p>
-        ) : (
           <div className="markdown-answer text-sm text-slate-300">
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
@@ -48,16 +35,16 @@ export default function MessageBubble({ message }: { message: ChatMessage }) {
               {message.content}
             </ReactMarkdown>
           </div>
-        )}
-        {!isUser && message.sources && message.sources.length > 0 && (
-          <div className="mt-3 space-y-1.5">
-            <p className="text-xs text-slate-500 font-medium">Sources</p>
-            {message.sources.slice(0, 3).map((source, i) => (
-              <SourceCard key={source.url + i} source={source} index={i} />
-            ))}
-          </div>
-        )}
-      </div>
+          {message.sources && message.sources.length > 0 && (
+            <div className="mt-3 space-y-1.5">
+              <p className="text-xs text-slate-500 font-medium">Sources</p>
+              {message.sources.slice(0, 3).map((source, i) => (
+                <SourceCard key={source.url + i} source={source} index={i} />
+              ))}
+            </div>
+          )}
+        </div>
+      )}
     </motion.div>
   )
 }

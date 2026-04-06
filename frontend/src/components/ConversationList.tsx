@@ -43,8 +43,8 @@ export default function ConversationList() {
           onClick={() => setActiveConversation(conv.id)}
           className={`w-full group flex items-center gap-2 px-3 py-2.5 rounded-lg text-left transition-colors ${
             activeConversationId === conv.id
-              ? 'bg-indigo-600/20 text-slate-100'
-              : 'text-slate-400 hover:bg-navy-800 hover:text-slate-200'
+              ? 'bg-forest-600/20 text-slate-100'
+              : 'text-slate-400 hover:bg-dark-800 hover:text-slate-200'
           }`}
         >
           <div className="flex-1 min-w-0">

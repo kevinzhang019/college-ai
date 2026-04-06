@@ -18,7 +18,7 @@ export default function ReviewPanel({ essayText, onEssayTextChange }: Props) {
       {/* Toggle button */}
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-navy-800 border border-navy-700 text-slate-400 hover:text-slate-200 hover:border-indigo-500/40 transition-all"
+        className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-dark-800 border border-dark-700 text-slate-400 hover:text-slate-200 hover:border-forest-500/40 transition-all"
       >
         <motion.svg
           animate={{ rotate: open ? 180 : 0 }}
@@ -41,10 +41,10 @@ export default function ReviewPanel({ essayText, onEssayTextChange }: Props) {
             animate={{ height: 220, opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="overflow-hidden border-t border-navy-700"
+            className="overflow-hidden border-t border-dark-700"
           >
             <div className="h-full flex flex-col">
-              <div className="flex items-center justify-between px-4 py-1.5 bg-navy-900/50">
+              <div className="flex items-center justify-between px-4 py-1.5 bg-dark-900/50">
                 <span className="text-xs font-medium text-slate-400">
                   Your Essay Draft
                 </span>

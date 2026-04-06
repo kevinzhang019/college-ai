@@ -24,7 +24,7 @@ export default function CollegeCombobox({ value, onChange, compact }: Props) {
         <div className="relative">
           <ComboboxInput
             className={compact ? 'input-field-compact pr-8 text-sm' : 'input-field pr-8 text-sm'}
-            placeholder="Select a school (optional)"
+            placeholder="Select a school (Optional, Cole will also understand if you just mention the school's name in your question)"
             displayValue={(val: string | null) => val || ''}
             onChange={(e) => setQuery(e.target.value)}
           />
@@ -34,10 +34,10 @@ export default function CollegeCombobox({ value, onChange, compact }: Props) {
             </svg>
           </ComboboxButton>
         </div>
-        <ComboboxOptions className="absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-xl bg-navy-900 shadow-dark-lg border border-navy-700 py-1">
+        <ComboboxOptions className="absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-xl bg-dark-900 shadow-dark-lg border border-dark-700 py-1">
           <ComboboxOption
             value={null}
-            className="px-4 py-2 text-sm text-slate-500 cursor-pointer data-[focus]:bg-navy-800 data-[selected]:text-blue-400"
+            className="px-4 py-2 text-sm text-slate-500 cursor-pointer data-[focus]:bg-dark-800 data-[selected]:text-forest-400"
           >
             All colleges
           </ComboboxOption>
@@ -45,7 +45,7 @@ export default function CollegeCombobox({ value, onChange, compact }: Props) {
             <ComboboxOption
               key={c}
               value={c}
-              className="px-4 py-2 text-sm text-slate-300 cursor-pointer data-[focus]:bg-navy-800 data-[selected]:text-blue-400 data-[selected]:font-medium"
+              className="px-4 py-2 text-sm text-slate-300 cursor-pointer data-[focus]:bg-dark-800 data-[selected]:text-forest-400 data-[selected]:font-medium"
             >
               {c}
             </ComboboxOption>

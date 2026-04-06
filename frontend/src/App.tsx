@@ -13,14 +13,14 @@ export default function App() {
   const setSidebarOpen = useStore((s) => s.setSidebarOpen)
 
   return (
-    <div className="flex h-screen bg-navy-950 overflow-hidden">
+    <div className="flex h-screen bg-dark-950 overflow-hidden">
       <ErrorBoundary>
         <Sidebar />
 
         {/* Main content */}
         <main className="flex-1 flex flex-col min-w-0">
           {/* Mobile header with hamburger */}
-          <div className="lg:hidden flex items-center gap-3 px-4 py-3 border-b border-navy-700">
+          <div className="lg:hidden flex items-center gap-3 px-4 py-3 border-b border-dark-700">
             {!sidebarOpen && (
               <button
                 onClick={() => setSidebarOpen(true)}

@@ -41,13 +41,13 @@ export default function Sidebar() {
         initial={false}
         animate={{ x: sidebarOpen ? 0 : -280 }}
         transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-        className="fixed lg:relative z-50 lg:z-auto w-[280px] h-screen flex flex-col bg-navy-900 border-r border-navy-700 shrink-0"
+        className="fixed lg:relative z-50 lg:z-auto w-[280px] h-screen flex flex-col bg-dark-900 border-r border-dark-700 shrink-0"
       >
         {/* Header */}
-        <div className="p-4 border-b border-navy-700">
+        <div className="p-4 border-b border-dark-700">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white text-sm font-bold shadow-dark-sm">
+              <div className="w-8 h-8 rounded-full bg-forest-600 flex items-center justify-center text-white text-sm font-bold shadow-dark-sm">
                 C
               </div>
               <div>
@@ -71,7 +71,7 @@ export default function Sidebar() {
           {mode !== 'experiences' && (
             <button
               onClick={handleNewChat}
-              className="w-full flex items-center gap-2 px-3 py-2 rounded-lg border border-navy-700 text-sm text-slate-300 hover:bg-navy-800 hover:border-slate-600 transition-all mb-3"
+              className="w-full flex items-center gap-2 px-3 py-2 rounded-lg border border-dark-700 text-sm text-slate-300 hover:bg-dark-800 hover:border-slate-600 transition-all mb-3"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -88,8 +88,8 @@ export default function Sidebar() {
                 onClick={() => setMode(m.key)}
                 className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
                   mode === m.key
-                    ? 'bg-indigo-600/15 text-indigo-300 border border-indigo-500/20'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-navy-800 border border-transparent'
+                    ? 'bg-forest-600/15 text-forest-300 border border-forest-500/20'
+                    : 'text-slate-400 hover:text-slate-200 hover:bg-dark-800 border border-transparent'
                 }`}
               >
                 <span className="text-base">{m.icon}</span>
