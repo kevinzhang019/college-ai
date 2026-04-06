@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useStore } from '../store'
 import ExperienceForm from './ExperienceForm'
+import type { TestScoreType } from '../types'
+
 const TYPE_LABELS: Record<string, string> = {
   extracurricular: 'Extracurricular',
   project: 'Project',
@@ -19,8 +21,28 @@ const TYPE_COLORS: Record<string, string> = {
 export default function ExperiencesView() {
   const experiences = useStore((s) => s.experiences)
   const deleteExperience = useStore((s) => s.deleteExperience)
+  const profile = useStore((s) => s.profile)
+  const setProfileGpa = useStore((s) => s.setProfileGpa)
+  const setProfileTestScore = useStore((s) => s.setProfileTestScore)
   const [showForm, setShowForm] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
+  const [gpaError, setGpaError] = useState('')
+  const [scoreError, setScoreError] = useState('')
+
+  const validateGpa = (val: string) => {
+    if (!val) { setGpaError(''); return }
+    const n = parseFloat(val)
+    if (isNaN(n) || n < 0 || n > 5.0) setGpaError('0 – 5.0')
+    else setGpaError('')
+  }
+
+  const validateScore = (val: string, type: TestScoreType) => {
+    if (!val) { setScoreError(''); return }
+    const n = parseFloat(val)
+    if (type === 'sat' && (isNaN(n) || n < 400 || n > 1600)) setScoreError('400 – 1600')
+    else if (type === 'act' && (isNaN(n) || n < 1 || n > 36)) setScoreError('1 – 36')
+    else setScoreError('')
+  }
 
   const editingExp = editingId
     ? experiences.find((e) => e.id === editingId) || null
@@ -50,6 +72,82 @@ export default function ExperiencesView() {
             </svg>
             Add
           </button>
+        </div>
+
+        {/* Academic Info card */}
+        <div className="card p-4 mb-6">
+          <h3 className="text-sm font-medium text-slate-100 mb-1">Academic Info</h3>
+          <p className="text-xs text-slate-500 mb-3">Auto-populates your admissions estimates.</p>
+
+          <div className="flex gap-3 items-start">
+            {/* GPA */}
+            <div className="w-28">
+              <label className="block text-xs font-medium text-slate-400 mb-1">GPA</label>
+              <input
+                type="number"
+                step="0.01"
+                min="0"
+                max="5"
+                value={profile.gpa}
+                onChange={(e) => setProfileGpa(e.target.value)}
+                onBlur={(e) => validateGpa(e.target.value)}
+                placeholder="e.g. 3.8"
+                className={`input-field-compact text-sm ${gpaError ? 'border-red-500/60 focus:ring-red-500/40 focus:border-red-500' : ''}`}
+              />
+              {gpaError && <p className="text-[10px] text-red-400 mt-0.5">{gpaError}</p>}
+            </div>
+
+            {/* Test type toggle */}
+            <div>
+              <label className="block text-xs font-medium text-slate-400 mb-1">Test</label>
+              <div className="flex rounded-lg overflow-hidden border border-dark-700">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setProfileTestScore('sat', '')
+                    setScoreError('')
+                  }}
+                  className={`px-3 py-2 text-xs font-medium transition-colors ${
+                    profile.testScoreType === 'sat'
+                      ? 'bg-forest-600/20 text-forest-300'
+                      : 'bg-dark-800 text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  SAT
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setProfileTestScore('act', '')
+                    setScoreError('')
+                  }}
+                  className={`px-3 py-2 text-xs font-medium transition-colors ${
+                    profile.testScoreType === 'act'
+                      ? 'bg-forest-600/20 text-forest-300'
+                      : 'bg-dark-800 text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  ACT
+                </button>
+              </div>
+            </div>
+
+            {/* Test score */}
+            <div className="flex-1">
+              <label className="block text-xs font-medium text-slate-400 mb-1">
+                {profile.testScoreType === 'sat' ? 'SAT Score' : 'ACT Score'}
+              </label>
+              <input
+                type="number"
+                value={profile.testScore}
+                onChange={(e) => setProfileTestScore(profile.testScoreType, e.target.value)}
+                onBlur={(e) => validateScore(e.target.value, profile.testScoreType)}
+                placeholder={profile.testScoreType === 'sat' ? '400 – 1600' : '1 – 36'}
+                className={`input-field-compact text-sm ${scoreError ? 'border-red-500/60 focus:ring-red-500/40 focus:border-red-500' : ''}`}
+              />
+              {scoreError && <p className="text-[10px] text-red-400 mt-0.5">{scoreError}</p>}
+            </div>
+          </div>
         </div>
 
         {experiences.length === 0 && !showForm && (

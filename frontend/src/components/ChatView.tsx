@@ -25,7 +25,8 @@ function StreamingMessage({ content }: { content: string }) {
     >
       <div className="w-full py-1">
         <div className="flex items-center gap-2 mb-1.5">
-          <span className="text-xs font-medium text-forest-400">Cole</span>
+          <div className="w-5 h-5 rounded-full bg-forest-600 flex items-center justify-center text-white text-[10px] font-bold shadow-dark-sm shrink-0">C</div>
+          <span className="text-sm font-semibold text-forest-400">Cole</span>
           <span className="flex gap-1">
             <span className="w-1.5 h-1.5 bg-forest-400 rounded-full animate-pulse" />
             <span className="w-1.5 h-1.5 bg-forest-400 rounded-full animate-pulse [animation-delay:0.2s]" />
@@ -120,7 +121,8 @@ export default function ChatView() {
           >
             <div className="py-1">
               <div className="flex items-center gap-2">
-                <span className="text-xs font-medium text-forest-400">Cole</span>
+                <div className="w-5 h-5 rounded-full bg-forest-600 flex items-center justify-center text-white text-[10px] font-bold shadow-dark-sm shrink-0">C</div>
+                <span className="text-sm font-semibold text-forest-400">Cole</span>
                 <span className="text-sm text-slate-500">is thinking...</span>
                 <span className="flex gap-1">
                   <span className="w-1.5 h-1.5 bg-forest-400 rounded-full dot-bounce" />

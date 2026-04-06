@@ -22,7 +22,8 @@ export default function MessageBubble({ message }: { message: ChatMessage }) {
       ) : (
         <div className="w-full py-1">
           <div className="flex items-center gap-2 mb-1.5">
-            <span className="text-xs font-medium text-forest-400">Cole</span>
+            <div className="w-5 h-5 rounded-full bg-forest-600 flex items-center justify-center text-white text-[10px] font-bold shadow-dark-sm shrink-0">C</div>
+            <span className="text-sm font-semibold text-forest-400">Cole</span>
             {message.confidence && (
               <ConfidenceBadge confidence={message.confidence} />
             )}

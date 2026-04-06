@@ -2,6 +2,7 @@ import { useCallback, useRef } from 'react'
 import { useStore } from '../store'
 import { askStream } from '../api'
 import type { ChatMessage, Source } from '../types'
+import { CONTEXT_SIZE_MAP } from '../types'
 
 export function useStreaming() {
   const abortRef = useRef<AbortController | null>(null)
@@ -43,7 +44,7 @@ export function useStreaming() {
     // Build request
     const request = {
       question,
-      top_k: 8,
+      top_k: CONTEXT_SIZE_MAP[state.contextSize],
       ...(conv.college ? { college: conv.college } : {}),
       ...(chatMode === 'essay' && conv.essayPrompt ? { essay_prompt: conv.essayPrompt } : {}),
       ...(chatMode === 'essay' && essayText ? { essay_text: essayText } : {}),

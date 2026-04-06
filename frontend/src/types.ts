@@ -36,7 +36,61 @@ export interface ChatMessage {
 
 // ---- New types for v2 revamp ----
 
-export type AppMode = 'qa' | 'essay' | 'experiences'
+export type AppMode = 'qa' | 'essay' | 'admissions' | 'experiences'
+
+export type ContextSize = 'XS' | 'S' | 'M' | 'L' | 'XL'
+
+export const CONTEXT_SIZE_MAP: Record<ContextSize, number> = {
+  XS: 3,
+  S: 5,
+  M: 8,
+  L: 12,
+  XL: 16,
+}
+
+export type TestScoreType = 'sat' | 'act'
+
+export interface ProfileData {
+  gpa: string
+  testScoreType: TestScoreType
+  testScore: string
+}
+
+export type Residency = 'inState' | 'outOfState'
+
+export interface PredictionFactor {
+  factor: string
+  impact: 'positive' | 'negative'
+  detail: string
+}
+
+export type AdmissionClassification = 'safety' | 'match' | 'reach'
+
+export interface PredictionResult {
+  probability: number
+  confidence_interval: [number, number]
+  classification: AdmissionClassification
+  school_name: string
+  school_acceptance_rate: number
+  factors: PredictionFactor[]
+  error?: string
+}
+
+export const ALLOWED_MAJORS: string[] = [
+  'Computer Science', 'Engineering', 'Nursing', 'Data Science',
+  'Biology', 'Chemistry', 'Physics', 'Mathematics',
+  'Environmental Science', 'Neuroscience', 'Biochemistry', 'Statistics', 'Astronomy',
+  'Health Professions', 'Public Health', 'Kinesiology and Physical Therapy', 'Pharmacy',
+  'Business and Management', 'Finance and Accounting', 'Economics', 'Marketing',
+  'Hospitality', 'Real Estate',
+  'English', 'History', 'Philosophy', 'Art', 'Music', 'Theater',
+  'Film and Photography', 'Foreign Languages', 'Religious Studies', 'Liberal Arts',
+  'Performing Arts', 'Communications', 'Journalism', 'Architecture',
+  'Psychology', 'Political Science', 'Sociology', 'Anthropology',
+  'Social Work', 'International Relations', 'Gender Studies', 'Public Policy',
+  'Education',
+  'Criminal Justice', 'Agriculture', 'Culinary Arts', 'Information Technology', 'Aviation',
+]
 
 export interface Conversation {
   id: string

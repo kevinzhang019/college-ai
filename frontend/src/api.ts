@@ -1,4 +1,4 @@
-import type { AskRequest, AskResponse, AskStreamRequest, Source, SSEEvent } from './types'
+import type { AskRequest, AskResponse, AskStreamRequest, PredictionResult, Source, SSEEvent } from './types'
 
 declare global {
   interface Window {
@@ -132,6 +132,40 @@ export async function askStream(
       }
     }
   }
+}
+
+// ---- Prediction endpoints ----
+
+export interface PredictParams {
+  gpa: number
+  school_name: string
+  sat?: number
+  act?: number
+  residency?: string
+  major?: string
+}
+
+export interface CompareParams {
+  gpa: number
+  sat?: number
+  act?: number
+  schools: string[]
+  residency?: string
+  major?: string
+}
+
+export async function predict(params: PredictParams): Promise<PredictionResult> {
+  return request<PredictionResult>('/predict', {
+    method: 'POST',
+    body: JSON.stringify(params),
+  })
+}
+
+export async function compare(params: CompareParams): Promise<{ results: PredictionResult[] }> {
+  return request<{ results: PredictionResult[] }>('/compare', {
+    method: 'POST',
+    body: JSON.stringify(params),
+  })
 }
 
 const FALLBACK_COLLEGES = [

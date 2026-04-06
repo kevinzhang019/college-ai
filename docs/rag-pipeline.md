@@ -5,7 +5,7 @@
 ## Architecture
 
 ```
-User Query + (optional school from dropdown)
+User Query + (optional school) + (optional history) + (optional experiences)
     │
     ▼
 [Router]  ─── classify: qa | essay_ideas | essay_review | admission_prediction
@@ -22,10 +22,14 @@ User Query + (optional school from dropdown)
     │              graceful fallback if COHERE_API_KEY not set
     ▼
 [Generator]  ─── route to specialized prompt:
-    │              • QA: grounded answer with citations
-    │              • Essay Ideas: 3-4 brainstorming angles
-    │              • Essay Review: coaching feedback on draft
-    │              • Admission Prediction: QA + ML bridge injection
+    │              • QA: grounded answer with citations         (temp 0.2)
+    │              • Essay Ideas: 3-4 brainstorming angles      (temp 0.4)
+    │              • Essay Review: coaching feedback on draft    (temp 0.3)
+    │              • Admission Prediction: QA + ML bridge       (temp 0.2)
+    │
+    ├── /ask (sync):     full response returned
+    └── /ask/stream:     tokens yielded via SSE, then sources/metadata
+    │
     ▼
 [Post-processing]  ─── citation verification + confidence scoring
     │
@@ -40,7 +44,7 @@ User Query + (optional school from dropdown)
 | `rag/router.py` | Two-layer query classifier (rule-based + LLM fallback) + school name extraction via rapidfuzz |
 | `rag/retrieval.py` | `HybridRetriever` — dense + BM25 hybrid search, school pre-filtering, URL dedup |
 | `rag/reranker.py` | Cohere rerank-v3.5 wrapper with graceful degradation |
-| `rag/prompts.py` | All system/user prompts: QA, essay ideas, essay review, query rewriting, classification |
+| `rag/prompts.py` | All system/user prompts: QA, essay ideas, essay review, query rewriting, classification. Also `format_experiences()` and `QA_SYSTEM_MULTITURN` |
 | `rag/service.py` | Thin orchestrator wiring router → retrieval → reranker → generator |
 | `rag/bridge.py` | ML prediction injection for admission-probability questions |
 | `rag/embeddings.py` | OpenAI embedding utilities, batch processing, cross-thread batcher |
@@ -97,11 +101,14 @@ Results are merged and deduped by URL.
 
 ## Step 4: Reranking (`reranker.py`)
 
-Cohere `rerank-v3.5` cross-encoder. Takes 30 candidates from retrieval, returns top 8.
+Cohere `rerank-v3.5` cross-encoder. Takes 30 candidates from retrieval, returns top `top_k` (default 8, configurable 1–20 via API).
+
+The frontend exposes this as a **context size selector** (XS=3, S=5, M=8, L=12, XL=16) in the input area, allowing users to trade speed for thoroughness.
 
 - Documents sent as `"{title}\n{content[:800]}"`
 - Falls back to retrieval order if `COHERE_API_KEY` not set or API fails
 - ~200ms latency for 30 documents
+- `top_k` parameter controls final count: XS(3), S(5), M(8, default), L(12), XL(16)
 
 ## Step 5: Generation (`prompts.py` + `service.py`)
 
@@ -115,6 +122,18 @@ Four specialized prompt sets, all enforcing citation grounding:
 
 **Admission Prediction:** Uses QA prompt with ML prediction context injected via `bridge.py` (probability, CI, classification, key factors).
 
+### Multi-turn Conversation Support
+
+When `history` is provided (via `/ask/stream`), `QA_SYSTEM_MULTITURN` is appended to the QA system prompt. This instructs the model to use conversation context for follow-up questions and answer independently for new topics. The last 6 messages from the conversation are prepended to the messages list before the current user prompt. Multi-turn is used only in the streaming path (Q&A and admission prediction modes).
+
+### Experience Context Injection
+
+For `essay_ideas` and `essay_review` modes, `format_experiences(experiences)` converts the user's extracurricular list into a markdown block inserted into the user prompt as `{experience_context}`. Each experience renders as `- **Title** at Organization (type) [dates]` with an indented description. This enables personalized brainstorming grounded in both school sources and the student's actual activities.
+
+### `essay_prompt` Parameter
+
+The `essay_prompt` field from `/ask/stream` provides the essay assignment prompt. It gives the model context about what the student is writing. Required by the frontend in essay mode before sending any message.
+
 ## Step 6: Post-processing
 
 **Citation verification:** Strips `[N]` where N > source count. Appends warning if no valid citations remain despite sources available.
@@ -123,6 +142,18 @@ Four specialized prompt sets, all enforcing citation grounding:
 - High: ≥4 hits, avg rerank score > 0.5 (or COSINE > 0.6)
 - Medium: ≥2 hits, avg rerank score > 0.2 (or COSINE > 0.4)
 - Low: otherwise
+
+## Streaming (`answer_question_stream`)
+
+`answer_question_stream()` is a generator method on `CollegeRAG` that yields dicts. It runs the identical pipeline as `answer_question()` (route → rewrite → retrieve → rerank) but streams generation via `openai.ChatCompletion.create(stream=True)`.
+
+**Yield sequence:**
+1. Token events: `{"type": "token", "content": "..."}` for each chunk from OpenAI streaming
+2. After all tokens: post-processes the assembled answer (citation verification), computes confidence, then yields `{"type": "sources", "sources": [...], "confidence": "...", "query_type": "..."}`
+3. Final: `{"type": "done"}`
+4. On exception: `{"type": "error", "message": "..."}`
+
+The `_build_messages()` helper constructs the full message list for all query types, handling history injection, experience context, and prompt selection in one place. This is used only by the streaming path; the sync path uses separate `_generate_qa`, `_generate_essay_ideas`, and `_generate_essay_review` methods.
 
 ## Milvus Schema (collection `colleges`)
 
@@ -136,7 +167,7 @@ Four specialized prompt sets, all enforcing citation grounding:
 | `content` | VARCHAR(65535) | `enable_analyzer=True`, english analyzer |
 | `content_sparse` | SPARSE_FLOAT_VECTOR | Auto-generated by BM25 function |
 | `embedding` | FLOAT_VECTOR(1536) | AUTOINDEX, COSINE metric |
-| `page_type` | VARCHAR(64) | INVERTED index. Values: admissions, academics, financial_aid, about, campus_life, research, other |
+| `page_type` | VARCHAR(64) | INVERTED index. Values: transfer, international, diversity, admissions, academics, financial_aid, outcomes, safety_health, about, campus_life, research, other |
 | `crawled_at` | VARCHAR(32) | |
 
 ## Chunking
@@ -148,9 +179,11 @@ Four specialized prompt sets, all enforcing citation grounding:
 
 ## Page Type Classification
 
-Pages are classified by URL pattern at crawl time into: `admissions`, `academics`, `financial_aid`, `about`, `campus_life`, `research`, or `other`. Patterns are defined in `config.py:PAGE_TYPE_PATTERNS`.
+Pages are classified by URL pattern at crawl time into 12 categories. Patterns are defined in `config.py:PAGE_TYPE_PATTERNS` with order-sensitive matching — more specific types (`transfer`, `international`) are matched first to avoid being subsumed by broader categories (`admissions`, `academics`).
 
-Used by essay mode to target `about`/`academics`/`campus_life` pages for school personality content.
+Categories: `transfer`, `international`, `diversity`, `admissions`, `academics`, `financial_aid`, `outcomes`, `safety_health`, `about`, `campus_life`, `research`, `other`.
+
+Used by essay mode to target `about`/`academics`/`campus_life`/`diversity`/`outcomes` pages for school personality content.
 
 ## Environment Variables
 

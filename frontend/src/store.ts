@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import type { AppMode, ChatMessage, Conversation, Experience } from './types'
+import type { AppMode, ChatMessage, ContextSize, Conversation, Experience, ProfileData, TestScoreType } from './types'
 
 const MAX_CONVERSATIONS = 50
 
@@ -9,7 +9,9 @@ interface Store {
   conversations: Record<string, Conversation>
   conversationOrder: string[] // sorted by recency (newest first)
   experiences: Experience[]
+  profile: ProfileData
   activeConversationId: string | null
+  contextSize: ContextSize
 
   // ---- Ephemeral ----
   mode: AppMode
@@ -21,6 +23,7 @@ interface Store {
 
   // ---- Actions: mode ----
   setMode: (mode: AppMode) => void
+  setContextSize: (size: ContextSize) => void
 
   // ---- Actions: conversations ----
   createConversation: (mode: 'qa' | 'essay') => string
@@ -34,6 +37,10 @@ interface Store {
   appendStreamingContent: (token: string) => void
   clearStreaming: () => void
   setStreamingLoading: (loading: boolean) => void
+
+  // ---- Actions: profile ----
+  setProfileGpa: (gpa: string) => void
+  setProfileTestScore: (type: TestScoreType, score: string) => void
 
   // ---- Actions: experiences ----
   addExperience: (exp: Experience) => void
@@ -53,7 +60,9 @@ export const useStore = create<Store>()(
       conversations: {},
       conversationOrder: [],
       experiences: [],
+      profile: { gpa: '', testScoreType: 'sat', testScore: '' },
       activeConversationId: null,
+      contextSize: 'M',
 
       // ---- Ephemeral defaults ----
       mode: 'qa',
@@ -65,6 +74,7 @@ export const useStore = create<Store>()(
 
       // ---- Mode ----
       setMode: (mode) => set({ mode, activeConversationId: null }),
+      setContextSize: (contextSize) => set({ contextSize }),
 
       // ---- Conversations ----
       createConversation: (mode) => {
@@ -177,6 +187,13 @@ export const useStore = create<Store>()(
       clearStreaming: () => set({ streamingContent: '', streamingLoading: false }),
       setStreamingLoading: (loading) => set({ streamingLoading: loading }),
 
+      // ---- Profile ----
+      setProfileGpa: (gpa) =>
+        set((state) => ({ profile: { ...state.profile, gpa } })),
+
+      setProfileTestScore: (type, score) =>
+        set((state) => ({ profile: { ...state.profile, testScoreType: type, testScore: score } })),
+
       // ---- Experiences ----
       addExperience: (exp) =>
         set((state) => ({ experiences: [...state.experiences, exp] })),
@@ -204,7 +221,9 @@ export const useStore = create<Store>()(
         conversations: state.conversations,
         conversationOrder: state.conversationOrder,
         experiences: state.experiences,
+        profile: state.profile,
         activeConversationId: state.activeConversationId,
+        contextSize: state.contextSize,
       }),
     },
   ),

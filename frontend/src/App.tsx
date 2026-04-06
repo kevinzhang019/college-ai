@@ -4,6 +4,7 @@ import Sidebar from './components/Sidebar'
 import ChatView from './components/ChatView'
 import InputArea from './components/InputArea'
 import ExperiencesView from './components/ExperiencesView'
+import AdmissionsView from './components/AdmissionsView'
 import ErrorBoundary from './components/ErrorBoundary'
 
 export default function App() {
@@ -39,6 +40,8 @@ export default function App() {
           {/* Content area */}
           {mode === 'experiences' ? (
             <ExperiencesView />
+          ) : mode === 'admissions' ? (
+            <AdmissionsView />
           ) : (
             <>
               <ChatView />
