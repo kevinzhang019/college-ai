@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -46,12 +46,20 @@ function StreamingMessage({ content }: { content: string }) {
 
 function WelcomeState() {
   const mode = useStore((s) => s.mode)
+  const setActiveConversation = useStore((s) => s.setActiveConversation)
   const { send } = useStreaming()
 
   const suggestions = useMemo(
     () => pickRandom(mode === 'essay' ? ESSAY_SUGGESTIONS : QA_SUGGESTIONS, 4),
     [mode],
   )
+
+  const handleSuggestionClick = useCallback((question: string) => {
+    // Clear active conversation so send() creates a fresh one
+    // with no college or essay prompt attached
+    setActiveConversation(null)
+    send(question)
+  }, [setActiveConversation, send])
 
   return (
     <div className="flex-1 flex flex-col items-center justify-center text-center px-6">
@@ -68,7 +76,7 @@ function WelcomeState() {
         {suggestions.map((s) => (
           <button
             key={s}
-            onClick={() => send(s)}
+            onClick={() => handleSuggestionClick(s)}
             className="text-xs bg-dark-800/60 text-slate-400 px-3.5 py-2 rounded-full border border-dark-700 hover:border-forest-500/40 hover:text-slate-200 transition-all"
           >
             {s}

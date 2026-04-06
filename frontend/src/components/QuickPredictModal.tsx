@@ -80,54 +80,25 @@ export default function QuickPredictModal({ college }: Props) {
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.95, opacity: 0, y: 10 }}
         transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-        className="w-full max-w-md bg-dark-900 rounded-2xl border border-dark-700 shadow-2xl p-6 space-y-4 max-h-[70vh] overflow-y-auto"
+        className="w-full max-w-lg bg-dark-900 rounded-2xl border border-dark-700 shadow-2xl p-6 space-y-4 max-h-[70vh] overflow-y-auto"
       >
-        <p className="text-base font-medium text-slate-100">Quickly estimate admissions probability</p>
+        <p className="text-sm font-medium text-slate-100">Quickly estimate admissions probability</p>
 
-        {/* GPA + Major + Residency */}
-        <div className="flex gap-3 items-start">
-          <div className="flex-1">
-            <label className="block text-xs font-medium text-slate-400 mb-1">GPA *</label>
-            <input
-              type="number"
-              step="0.01"
-              min="0"
-              max="5"
-              value={profile.gpa}
-              onChange={(e) => { setProfileGpa(e.target.value); setGpaError('') }}
-              onBlur={(e) => validateGpa(e.target.value)}
-              placeholder="3.8"
-              className={`input-field-compact text-sm ${gpaError ? 'border-red-500/60 focus:ring-red-500/40 focus:border-red-500' : ''}`}
-            />
-            {gpaError && <p className="text-[10px] text-red-400 mt-0.5">{gpaError}</p>}
-          </div>
-
-          <div className="flex-1">
-            <label className="block text-xs font-medium text-slate-400 mb-1">Major</label>
-            <select
-              value={major || ''}
-              onChange={(e) => setMajor(e.target.value || null)}
-              className="input-field-compact text-sm"
-            >
-              <option value="">Not specified</option>
-              {ALLOWED_MAJORS.map((m) => (
-                <option key={m} value={m}>{m}</option>
-              ))}
-            </select>
-          </div>
-
-          <div className="flex-1">
-            <label className="block text-xs font-medium text-slate-400 mb-1">Residency</label>
-            <select
-              value={residency || ''}
-              onChange={(e) => setResidency((e.target.value || null) as Residency | null)}
-              className="input-field-compact text-sm"
-            >
-              <option value="">Not specified</option>
-              <option value="inState">In-State</option>
-              <option value="outOfState">Out-of-State</option>
-            </select>
-          </div>
+        {/* GPA */}
+        <div>
+          <label className="block text-xs font-medium text-slate-400 mb-1">GPA *</label>
+          <input
+            type="number"
+            step="0.01"
+            min="0"
+            max="5"
+            value={profile.gpa}
+            onChange={(e) => { setProfileGpa(e.target.value); setGpaError('') }}
+            onBlur={(e) => validateGpa(e.target.value)}
+            placeholder="3.8"
+            className={`input-field-compact text-sm w-24 ${gpaError ? 'border-red-500/60 focus:ring-red-500/40 focus:border-red-500' : ''}`}
+          />
+          {gpaError && <p className="text-[10px] text-red-400 mt-0.5">{gpaError}</p>}
         </div>
 
         {/* Test + Score */}
@@ -173,6 +144,35 @@ export default function QuickPredictModal({ college }: Props) {
               className={`input-field-compact text-sm ${scoreError ? 'border-red-500/60 focus:ring-red-500/40 focus:border-red-500' : ''}`}
             />
             {scoreError && <p className="text-[10px] text-red-400 mt-0.5">{scoreError}</p>}
+          </div>
+        </div>
+
+        {/* Major + Residency */}
+        <div className="flex gap-3">
+          <div className="flex-1">
+            <label className="block text-xs font-medium text-slate-400 mb-1">Major</label>
+            <select
+              value={major || ''}
+              onChange={(e) => setMajor(e.target.value || null)}
+              className="input-field-compact text-sm"
+            >
+              <option value="">Not specified</option>
+              {ALLOWED_MAJORS.map((m) => (
+                <option key={m} value={m}>{m}</option>
+              ))}
+            </select>
+          </div>
+          <div className="flex-1">
+            <label className="block text-xs font-medium text-slate-400 mb-1">Residency</label>
+            <select
+              value={residency || ''}
+              onChange={(e) => setResidency((e.target.value || null) as Residency | null)}
+              className="input-field-compact text-sm"
+            >
+              <option value="">Not specified</option>
+              <option value="inState">In-State</option>
+              <option value="outOfState">Out-of-State</option>
+            </select>
           </div>
         </div>
 

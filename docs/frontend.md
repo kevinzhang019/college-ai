@@ -79,7 +79,7 @@ Renders the conversation for Q&A and Essay modes.
 - Large Cole avatar (48px)
 - "Hey, I'm Cole" heading
 - Mode-specific subtitle
-- 4 randomized suggestion chips from `suggestions.ts` (~100 QA, ~50 Essay). `pickRandom()` shuffles Fisher-Yates style, memoized per mode.
+- 4 randomized suggestion chips from `suggestions.ts` (~100 QA, ~50 Essay). `pickRandom()` shuffles Fisher-Yates style, memoized per mode. Clicking a chip resets the active conversation (clearing any stale college/essay prompt fields) and immediately submits the question via `useStreaming.send()` — one-click from welcome screen to streaming response.
 
 **Message list:**
 - Scrollable area with `max-w-3xl` centered content
@@ -115,7 +115,7 @@ Pinned to bottom of chat, `border-t border-dark-700` with backdrop blur.
 2. **Mode-specific fields row:**
    - Essay prompt input (Essay mode only, required before sending)
    - College combobox (always shown, 2/5 width in essay, full width in Q&A)
-   - "See my chances" button — inline to the right of school dropdown (appears when college selected → opens QuickPredictModal)
+   - "See my chances" button — inline to the right of school dropdown (appears when college selected → opens QuickPredictModal). When no college selected, a `w-9` spacer aligns the dropdown right edge with the chat textarea below
 3. **Chat input row:**
    - Auto-resizing textarea (max 150px height), Enter to submit, Shift+Enter for newline
    - Settings popover (bottom-right of textarea): Headless UI `Popover` with settings gear icon + chevron. Opens upward with two sections — **Context Size** (XS/S/M/L/XL controlling `top_k`) and **Response Length** (XS/S/M/L/XL controlling LLM length budget). Both use pill-button selectors with forest-green active state. Persisted across sessions.
@@ -136,10 +136,11 @@ Collapsible essay draft editor in Essay mode:
 
 ### QuickPredictModal (`QuickPredictModal.tsx`)
 
-Modal overlay for quick admission prediction within a chat:
-- Header: "Quickly estimate admissions probability" (white text, `text-base`)
-- Row 1: GPA input (0–5.0), Major dropdown, Residency selector — all equal width (`flex-1`)
+Modal overlay (`max-w-lg`) for quick admission prediction within a chat:
+- Header: "Quickly estimate admissions probability" (white text, `text-sm`)
+- Row 1: GPA input (0–5.0, fixed `w-24`)
 - Row 2: SAT/ACT toggle + score input
+- Row 3: Major dropdown + Residency selector — equal width (`flex-1`)
 - Number input spinners hidden via CSS
 - Auto-populates from profile data if available
 - Calls `POST /predict` and displays a `PredictionCard` inline

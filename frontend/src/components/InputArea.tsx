@@ -185,8 +185,8 @@ export default function InputArea() {
             />
           </div>
 
-          {/* Chances button — inline with school dropdown */}
-          {college && (
+          {/* Chances button — inline with school dropdown, or spacer to align with send button */}
+          {college ? (
             <div className="relative shrink-0" ref={chancesContainerRef}>
               <AnimatePresence>
                 {quickPredictOpen && (
@@ -206,6 +206,8 @@ export default function InputArea() {
                 <span className="text-[11px] font-medium leading-tight text-center">See my<br />chances</span>
               </button>
             </div>
+          ) : (
+            <div className="shrink-0 w-9" />
           )}
 
         </div>
