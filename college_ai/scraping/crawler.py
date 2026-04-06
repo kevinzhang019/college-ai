@@ -400,6 +400,7 @@ class PlaywrightPool:
         # Guard against a narrow race where shutdown() closed this thread's
         # slot between semaphore acquire and the _started re-check above.
         if not slot.get("_healthy", True):
+            self._local.slot = None  # clear stale ref so next acquire() creates a fresh browser
             self._semaphore.release()
             return None, -1
         slot["uses"] += 1
@@ -3471,7 +3472,7 @@ class MultithreadedCollegeCrawler:
         state_lock = threading.Lock()
         stop_event = threading.Event()
         pages_crawled_shared = 0  # successful pages scraped
-        pw_uploaded_shared = 0   # pages uploaded via Playwright callbacks
+        pw_uploaded = {"count": 0}  # pages uploaded via Playwright callbacks (dict pattern — no nonlocal needed)
 
         # Use the base URL as-is (preserve www. prefix).
         # Stripping www. can cause redirects to a different subdomain
@@ -3691,7 +3692,6 @@ class MultithreadedCollegeCrawler:
                         if page_data.get("needs_pw"):
 
                             def _merge_pw_result(fut, src_url=url, _depth=depth):
-                                nonlocal pw_uploaded_shared
                                 new_depth = _depth + 1
                                 try:
                                     result = fut.result()
@@ -3710,7 +3710,7 @@ class MultithreadedCollegeCrawler:
                                                             content_hash_cache=college_hash_cache,
                                                             content_hash_lock=college_hash_lock):
                                         with state_lock:
-                                            pw_uploaded_shared += 1
+                                            pw_uploaded["count"] += 1
                                 except Exception as _pw_upload_err:
                                     print(f"    ✗ PW callback upload failed for {src_url}: {_pw_upload_err}")
                                     with self.lock:
@@ -3960,7 +3960,7 @@ class MultithreadedCollegeCrawler:
         self._flush_all_inserts()
 
         # Include PW callback uploads in the total
-        pages_uploaded += pw_uploaded_shared
+        pages_uploaded += pw_uploaded["count"]
 
         print(f"\n✓ Completed crawling {college_name}")
         print(f"  Pages crawled: {pages_crawled}")

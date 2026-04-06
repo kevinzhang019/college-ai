@@ -1,6 +1,6 @@
 # Thread Safety — Crawler (CRITICAL)
 
-The crawler (`crawler.py`) is heavily multithreaded. Read this before modifying `crawler.py`.
+The crawler (`crawler.py`) is heavily multithreaded. Read this before modifying `crawler.py`. See also the [full concurrency audit](thread-safety-crawler-audit.md) for verified invariants and fixed bugs.
 
 ## Concurrency Primitives
 

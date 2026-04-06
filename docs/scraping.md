@@ -67,7 +67,7 @@ Playwright-based scraper for Niche.com scattergram data (GPA/SAT/outcome) and le
 
 **Technology:** Camoufox (Firefox stealth) to bypass Cloudflare/PerimeterX. Requires a free Niche account.
 
-**Threading:** `ThreadPoolExecutor` with `MAX_WORKERS=5`. `DBWriterThread` handles all DB writes via a single queue. See [thread-safety-niche.md](thread-safety-niche.md).
+**Threading:** `ThreadPoolExecutor` with `MAX_WORKERS=5`. `DBWriterThread` handles all DB writes via a single queue. See [thread-safety-niche.md](thread-safety-niche.md) and [thread-safety-niche-audit.md](thread-safety-niche-audit.md).
 
 ## Scorecard Client (`scorecard_client.py`)
 

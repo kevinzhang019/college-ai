@@ -2,7 +2,7 @@
 
 Full concurrency audit of `crawler.py` and supporting modules (`embeddings.py`, `shutdown.py`, `connection.py`, `config.py`). Cross-referenced with pymilvus ORM documentation and Python `threading` semantics.
 
-**Verdict: Architecture is sound.** Five bugs fixed (2 in round 1, 3 in round 2), no data races, no deadlocks, no memory leaks, Milvus writes are validated before insert.
+**Verdict: Architecture is sound.** Six bugs fixed (2 in round 1, 3 in round 2, 1 in re-audit), no data races, no deadlocks, no memory leaks, Milvus writes are validated before insert.
 
 ## Bugs Fixed
 
@@ -41,7 +41,7 @@ The Playwright done callback removed itself from `active_pw_futures` **before** 
 | `self._cookie_storage_lock` | Serializes cookie file reads/writes | Prevents torn JSON from concurrent access. File I/O is brief |
 | `self._pw_profile_cache_lock` | Protects Playwright profile cache | Check-outside, load-outside, write-inside pattern. Duplicate loads are harmless (same file content) |
 | `self._pw_local_registry_lock` | Protects non-pool Playwright registry | `close()` swaps browser dicts to `{}` under lock, then closes old browsers outside lock |
-| `state_lock` (per-college) | Protects BFS state: `crawled_canon`, `discovered_canon`, `pages_crawled_shared`, `pw_uploaded_shared` | Local to `crawl_college_site`. All mutations under lock. Consistent ordering: `state_lock` -> `self.lock` |
+| `state_lock` (per-college) | Protects BFS state: `crawled_canon`, `discovered_canon`, `pages_crawled_shared`, `pw_uploaded["count"]` | Local to `crawl_college_site`. All mutations under lock. Consistent ordering: `state_lock` -> `self.lock` |
 | `college_hash_lock` (per-college) | Protects per-college content dedup cache | Local to `crawl_college_site`. Must be per-college (not instance-level) for `INTER_COLLEGE_PARALLELISM > 1` |
 | `pw_futures_lock` (per-college) | Protects `active_pw_futures` set | Consistent ordering: `pw_futures_lock` -> `state_lock` -> `self.lock` |
 | `ProxyPool._lock` | Protects all proxy state, sticky assignments, EMA latency | `_is_available()` semaphore test-release-reacquire is atomic under the lock. TTL-based sticky eviction prevents unbounded growth |
@@ -167,3 +167,36 @@ The Playwright path was most vulnerable — no ETag/Last-Modified fallback, pure
 **File:** `crawler.py`, `worker_task()`
 
 `worker_session.close()` and `_cleanup_thread_local_playwright()` were placed after the while-loop with no `try/finally`. A `BaseException` escaping the loop would skip cleanup. Now wrapped in `try: return ... finally: cleanup` so cleanup runs on all normal exit paths. (A `BaseException` from within the while-loop itself is effectively impossible on worker threads — only `MemoryError` could trigger it, and the session FD would be GC'd regardless.)
+
+## Re-audit (2026-04-05) — Bugs 1–5 Verified, Bug 6 Fixed
+
+Full re-audit of `crawler.py` (4271 lines), cross-referenced with pymilvus ORM documentation via Context7 and Python `threading` semantics. All 5 previously fixed bugs verified correct. No deadlocks, no memory leaks, no corrupted insert paths. pymilvus write thread-safety confirmed as non-issue due to single-writer `MilvusFlushThread` design.
+
+### 6. `PlaywrightPool.acquire()` Dead-Slot Lockout (Medium — permanent capability loss)
+
+**File:** `crawler.py`, `PlaywrightPool.acquire()` health check branch
+
+When a browser dies mid-use, `release()` correctly marks `slot["_healthy"] = False` and releases the semaphore. `prune_dead_slots()` correctly removes the slot from `_all_locals` and closes it in a daemon thread. However, `self._local.slot` (thread-local storage) still held the stale dead reference. The next `acquire()` call from the same thread found the unhealthy slot, released the semaphore, and returned `(None, -1)` — permanently. The `slot is None` branch that creates new browsers via `_create_browser()` was never reached because `slot` was the stale dead reference, not `None`.
+
+**When it can happen:** Any crawl where a Playwright browser dies mid-use (Chromium segfault, OOM kill, network disconnect). The owning thread permanently loses Playwright fallback for the rest of the crawl. Under `PLAYWRIGHT_MAX_CONCURRENCY=3`, if 2 browsers die, only 1 worker thread can use Playwright.
+
+**Fix:** Clear the thread-local slot reference when the health check fails, so the next `acquire()` enters the `slot is None` creation branch and gets a fresh browser:
+
+```python
+if not slot.get("_healthy", True):
+    self._local.slot = None  # clear stale ref so next acquire() creates a fresh browser
+    self._semaphore.release()
+    return None, -1
+```
+
+**Thread safety of the fix:**
+- `self._local` is `threading.local()` — writes only affect the current thread, no cross-thread races possible
+- Dead slot is already removed from `_all_locals` by `prune_dead_slots()`, so no double-close risk
+- If `prune_dead_slots()` hasn't run yet, the dead slot persists in `_all_locals` with `_healthy=False`; prune will clean it up later, and the new slot created by the next `acquire()` is registered separately
+- Next `acquire()` creates a fresh browser via `_create_browser()`, which registers the new slot in `_all_locals` under `_all_locals_lock` — standard creation path
+
+### Structural improvement: `pw_uploaded_shared` dict pattern
+
+**File:** `crawler.py`, `crawl_college_site()`
+
+`pw_uploaded_shared` used the `nonlocal int` pattern — all writes were correctly under `state_lock`, but a future edit adding a write without the lock would silently introduce a data race. Refactored to `pw_uploaded = {"count": 0}` dict pattern, matching the existing `college_counter` pattern (line 4011). No behavioral change — all mutations remain under `state_lock`, but `nonlocal` is no longer needed and the lock requirement is visually obvious.
