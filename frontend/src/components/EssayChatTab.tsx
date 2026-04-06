@@ -81,16 +81,16 @@ export default function EssayChatTab() {
   }
 
   return (
-    <div className="card flex flex-col h-[500px] max-w-2xl mx-auto">
+    <div className="card flex flex-col h-[500px] max-w-4xl mx-auto">
       {/* Messages area */}
       <div className="flex-1 overflow-y-auto custom-scrollbar p-4 space-y-3">
         {chatMessages.length === 0 && (
           <div className="flex flex-col items-center justify-center h-full text-center px-4">
             <span className="text-4xl mb-3">✍️</span>
-            <h3 className="text-lg font-medium text-warm-700 mb-1">
+            <h3 className="text-lg font-medium text-slate-200 mb-1">
               Essay Brainstorm
             </h3>
-            <p className="text-sm text-warm-400 max-w-sm">
+            <p className="text-sm text-slate-500 max-w-sm">
               Tell me about the essay you're working on. I'll help you brainstorm
               ideas using real college data.
             </p>
@@ -103,7 +103,7 @@ export default function EssayChatTab() {
                 <button
                   key={suggestion}
                   onClick={() => setInput(suggestion)}
-                  className="text-xs bg-amber-50 text-amber-700 px-3 py-1.5 rounded-full border border-amber-100 hover:bg-amber-100 transition-colors"
+                  className="text-xs bg-navy-800 text-blue-400 px-3 py-1.5 rounded-full border border-navy-700 hover:bg-navy-700 transition-colors"
                 >
                   {suggestion}
                 </button>
@@ -119,7 +119,7 @@ export default function EssayChatTab() {
       </div>
 
       {/* Input area */}
-      <div className="border-t border-amber-100 p-3">
+      <div className="border-t border-navy-700 p-3">
         <div className="flex gap-2 items-end">
           <textarea
             ref={textareaRef}
@@ -127,7 +127,7 @@ export default function EssayChatTab() {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Describe what you need help with..."
-            className="flex-1 resize-none bg-transparent text-sm text-warm-800 placeholder:text-warm-400 focus:outline-none leading-relaxed py-1"
+            className="flex-1 resize-none bg-transparent text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none leading-relaxed py-1"
             rows={1}
             disabled={chatLoading}
           />

@@ -4,43 +4,43 @@
 
 @layer base {
   body {
-    @apply bg-cream text-warm-800 font-sans antialiased;
+    @apply bg-navy-950 text-slate-100 font-sans antialiased;
   }
 }
 
 @layer components {
   .btn-primary {
     @apply inline-flex items-center justify-center gap-2 px-5 py-2.5
-           bg-amber-500 hover:bg-amber-600 active:bg-amber-700
+           bg-blue-500 hover:bg-blue-600 active:bg-blue-700
            text-white font-medium rounded-full
            transition-all duration-200 ease-out
-           shadow-warm hover:shadow-warm-md
+           shadow-dark hover:shadow-dark-md
            disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
   .btn-secondary {
     @apply inline-flex items-center justify-center gap-2 px-4 py-2
-           bg-white hover:bg-amber-50 active:bg-amber-100
-           text-warm-700 font-medium rounded-full
-           border border-amber-200 hover:border-amber-300
+           bg-navy-800 hover:bg-navy-700 active:bg-navy-700
+           text-slate-300 font-medium rounded-full
+           border border-navy-700 hover:border-slate-500
            transition-all duration-200 ease-out
-           shadow-warm-sm hover:shadow-warm;
+           shadow-dark-sm hover:shadow-dark;
   }
 
   .card {
-    @apply bg-white rounded-2xl shadow-warm-sm border border-amber-100/60
+    @apply bg-navy-900 rounded-2xl shadow-dark-sm border border-navy-700
            transition-shadow duration-200;
   }
 
   .card-hover {
-    @apply card hover:shadow-warm-md;
+    @apply card hover:shadow-dark-md;
   }
 
   .input-field {
     @apply w-full px-4 py-3 rounded-xl
-           bg-white border border-amber-200
-           text-warm-800 placeholder:text-warm-400
-           focus:outline-none focus:ring-2 focus:ring-amber-400/40 focus:border-amber-400
+           bg-navy-800 border border-navy-700
+           text-slate-100 placeholder:text-slate-500
+           focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500
            transition-all duration-200;
   }
 }
@@ -54,26 +54,26 @@
 .dot-bounce:nth-child(3) { animation-delay: 0s; }
 
 /* Markdown answer styling */
-.markdown-answer h1 { @apply text-xl font-bold mt-4 mb-2 text-warm-800; }
-.markdown-answer h2 { @apply text-lg font-semibold mt-3 mb-2 text-warm-800; }
-.markdown-answer h3 { @apply text-base font-semibold mt-2 mb-1 text-warm-700; }
+.markdown-answer h1 { @apply text-xl font-bold mt-4 mb-2 text-slate-100; }
+.markdown-answer h2 { @apply text-lg font-semibold mt-3 mb-2 text-slate-100; }
+.markdown-answer h3 { @apply text-base font-semibold mt-2 mb-1 text-slate-200; }
 .markdown-answer p { @apply mb-3 leading-relaxed; }
 .markdown-answer ul { @apply mb-3 pl-5 list-disc space-y-1; }
 .markdown-answer ol { @apply mb-3 pl-5 list-decimal space-y-1; }
 .markdown-answer li { @apply leading-relaxed; }
-.markdown-answer strong { @apply font-semibold text-warm-800; }
-.markdown-answer a { @apply text-amber-600 hover:text-amber-700 underline; }
+.markdown-answer strong { @apply font-semibold text-slate-100; }
+.markdown-answer a { @apply text-blue-400 hover:text-blue-300 underline; }
 .markdown-answer blockquote {
-  @apply border-l-4 border-amber-300 pl-4 my-3 text-warm-600 italic;
+  @apply border-l-4 border-blue-500/40 pl-4 my-3 text-slate-400 italic;
 }
 
 /* Citation badges */
 .citation-badge {
   @apply inline-flex items-center justify-center
          w-5 h-5 text-xs font-semibold
-         bg-amber-100 text-amber-700
+         bg-blue-500/20 text-blue-400
          rounded-full cursor-pointer
-         hover:bg-amber-200 transition-colors;
+         hover:bg-blue-500/30 transition-colors;
 }
 
 /* Scrollbar styling */
@@ -84,8 +84,8 @@
   background: transparent;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  @apply bg-amber-200 rounded-full;
+  @apply bg-navy-700 rounded-full;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  @apply bg-amber-300;
+  @apply bg-slate-600;
 }

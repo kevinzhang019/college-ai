@@ -95,11 +95,11 @@ export default function EssayEditorTab() {
       <div className="flex flex-col md:flex-row gap-4 min-h-[400px]">
         {/* Left — editor */}
         <div className="flex-1 card flex flex-col">
-          <div className="flex items-center justify-between px-4 py-2 border-b border-amber-100">
-            <span className="text-xs font-medium text-warm-500">
+          <div className="flex items-center justify-between px-4 py-2 border-b border-navy-700">
+            <span className="text-xs font-medium text-slate-400">
               Your Essay
             </span>
-            <span className="text-xs text-warm-400">
+            <span className="text-xs text-slate-500">
               {wordCount} {wordCount === 1 ? 'word' : 'words'}
             </span>
           </div>
@@ -107,14 +107,14 @@ export default function EssayEditorTab() {
             value={essayText}
             onChange={(e) => setEssayText(e.target.value)}
             placeholder="Paste your essay draft here, or start writing..."
-            className="flex-1 p-4 bg-transparent resize-none focus:outline-none text-sm text-warm-700 leading-relaxed placeholder:text-warm-400"
+            className="flex-1 p-4 bg-transparent resize-none focus:outline-none text-sm text-slate-200 leading-relaxed placeholder:text-slate-500"
           />
         </div>
 
         {/* Right — feedback */}
         <div className="flex-1 card flex flex-col overflow-hidden">
-          <div className="px-4 py-2 border-b border-amber-100">
-            <span className="text-xs font-medium text-warm-500">
+          <div className="px-4 py-2 border-b border-navy-700">
+            <span className="text-xs font-medium text-slate-400">
               AI Feedback
             </span>
           </div>
@@ -146,7 +146,7 @@ export default function EssayEditorTab() {
                 className="flex-1 flex flex-col items-center justify-center text-center px-6"
               >
                 <span className="text-3xl mb-2">📋</span>
-                <p className="text-sm text-warm-400">
+                <p className="text-sm text-slate-500">
                   Paste your essay and click "Get Feedback" for AI-powered
                   review, or click "Get Ideas" to brainstorm.
                 </p>

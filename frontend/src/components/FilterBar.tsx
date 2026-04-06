@@ -8,15 +8,15 @@ export default function FilterBar() {
   const setTopK = useStore((s) => s.setTopK)
 
   return (
-    <div className="flex flex-col sm:flex-row gap-3 mb-6 max-w-2xl mx-auto px-4">
+    <div className="flex flex-col sm:flex-row gap-3 mb-6 max-w-4xl mx-auto px-4">
       <div className="flex-1">
-        <label className="block text-xs font-medium text-warm-500 mb-1 ml-1">
+        <label className="block text-xs font-medium text-slate-400 mb-1 ml-1">
           Filter by college
         </label>
         <CollegeCombobox />
       </div>
       <div className="w-full sm:w-32">
-        <label className="block text-xs font-medium text-warm-500 mb-1 ml-1">
+        <label className="block text-xs font-medium text-slate-400 mb-1 ml-1">
           Sources
         </label>
         <select

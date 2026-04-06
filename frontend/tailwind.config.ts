@@ -5,35 +5,21 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        cream: '#fffbeb',
-        sand: '#fef3c7',
-        coral: {
-          50: '#fff1f2',
-          100: '#ffe4e6',
-          400: '#fb7185',
-          500: '#f87171',
-        },
-        warm: {
-          50: '#fafaf9',
-          100: '#f5f5f4',
-          200: '#e7e5e4',
-          300: '#d6d3d1',
-          400: '#a8a29e',
-          500: '#78716c',
-          600: '#57534e',
-          700: '#44403c',
-          800: '#292524',
-          900: '#1c1917',
+        navy: {
+          700: '#1e3a5f',
+          800: '#1a2744',
+          900: '#111827',
+          950: '#0a0e1a',
         },
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
       },
       boxShadow: {
-        'warm-sm': '0 1px 2px 0 rgba(217, 119, 6, 0.05)',
-        'warm': '0 1px 3px 0 rgba(217, 119, 6, 0.1), 0 1px 2px -1px rgba(217, 119, 6, 0.1)',
-        'warm-md': '0 4px 6px -1px rgba(217, 119, 6, 0.1), 0 2px 4px -2px rgba(217, 119, 6, 0.1)',
-        'warm-lg': '0 10px 15px -3px rgba(217, 119, 6, 0.1), 0 4px 6px -4px rgba(217, 119, 6, 0.1)',
+        'dark-sm': '0 1px 2px 0 rgba(0, 0, 0, 0.3)',
+        'dark': '0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 2px -1px rgba(0, 0, 0, 0.3)',
+        'dark-md': '0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3)',
+        'dark-lg': '0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.3)',
       },
       animation: {
         'bounce-dot': 'bounce-dot 1.4s infinite ease-in-out both',

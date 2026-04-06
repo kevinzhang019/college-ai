@@ -12,21 +12,21 @@ export default function EssayTabSwitch() {
 
   return (
     <div className="flex justify-center mb-4">
-      <div className="inline-flex bg-amber-50 rounded-full p-0.5 border border-amber-100">
+      <div className="inline-flex bg-navy-800 rounded-full p-0.5 border border-navy-700">
         {tabs.map((t) => (
           <button
             key={t.key}
             onClick={() => setEssayTab(t.key)}
             className={`relative px-4 py-1.5 rounded-full text-xs font-medium transition-colors duration-200 ${
               essayTab === t.key
-                ? 'text-amber-800'
-                : 'text-warm-400 hover:text-warm-600'
+                ? 'text-slate-100'
+                : 'text-slate-500 hover:text-slate-300'
             }`}
           >
             {essayTab === t.key && (
               <motion.div
                 layoutId="essay-tab-pill"
-                className="absolute inset-0 bg-white rounded-full shadow-warm-sm"
+                className="absolute inset-0 bg-navy-900 rounded-full shadow-dark-sm border border-navy-700"
                 transition={{ type: 'spring', bounce: 0.2, duration: 0.35 }}
               />
             )}

@@ -2,17 +2,17 @@ const config = {
   high: {
     icon: '✓',
     label: 'High confidence',
-    classes: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+    classes: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30',
   },
   medium: {
     icon: '●',
     label: 'Medium confidence',
-    classes: 'bg-amber-50 text-amber-700 border-amber-200',
+    classes: 'bg-amber-500/15 text-amber-400 border-amber-500/30',
   },
   low: {
     icon: '?',
     label: 'Low confidence',
-    classes: 'bg-warm-100 text-warm-500 border-warm-200',
+    classes: 'bg-slate-500/15 text-slate-400 border-slate-500/30',
   },
 }
 

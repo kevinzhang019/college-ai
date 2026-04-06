@@ -1,5 +1,6 @@
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+import rehypeRaw from 'rehype-raw'
 import type { AskResponse } from '../types'
 import ConfidenceBadge from './ConfidenceBadge'
 import SourceCard from './SourceCard'
@@ -26,14 +27,10 @@ export default function AnswerCard({ result }: { result: AskResponse }) {
           <div className="flex-1" />
           <ConfidenceBadge confidence={confidence} />
         </div>
-        <div className="markdown-answer text-warm-700 leading-relaxed">
+        <div className="markdown-answer text-slate-300 leading-relaxed">
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
-            allowedElements={undefined}
-            unwrapDisallowed={false}
-            components={{
-              p: ({ children }) => <p>{children}</p>,
-            }}
+            rehypePlugins={[rehypeRaw]}
           >
             {processed}
           </ReactMarkdown>
@@ -43,7 +40,7 @@ export default function AnswerCard({ result }: { result: AskResponse }) {
       {/* Sources */}
       {sources.length > 0 && (
         <div>
-          <h3 className="text-sm font-medium text-warm-500 mb-3 px-1">
+          <h3 className="text-sm font-medium text-slate-500 mb-3 px-1">
             Sources ({result.source_count ?? sources.length})
           </h3>
           <div className="space-y-2">

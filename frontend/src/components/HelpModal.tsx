@@ -53,7 +53,7 @@ export default function HelpModal() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-warm-900/30 backdrop-blur-sm z-40"
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
             onClick={() => setHelpOpen(false)}
           />
           {/* Modal */}
@@ -62,19 +62,19 @@ export default function HelpModal() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: 'spring', bounce: 0.2, duration: 0.4 }}
-            className="fixed inset-4 sm:inset-auto sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 sm:w-full sm:max-w-lg sm:max-h-[80vh] bg-white rounded-2xl shadow-warm-lg z-50 overflow-hidden flex flex-col"
+            className="fixed inset-4 sm:inset-auto sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 sm:w-full sm:max-w-lg sm:max-h-[80vh] bg-navy-900 rounded-2xl shadow-dark-lg border border-navy-700 z-50 overflow-hidden flex flex-col"
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-amber-100">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-navy-700">
               <div className="flex items-center gap-2">
                 <span className="text-xl">💡</span>
-                <h2 className="font-semibold text-warm-800">
+                <h2 className="font-semibold text-slate-100">
                   Example Questions
                 </h2>
               </div>
               <button
                 onClick={() => setHelpOpen(false)}
-                className="p-1 text-warm-400 hover:text-warm-600 transition-colors"
+                className="p-1 text-slate-500 hover:text-slate-300 transition-colors"
               >
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -85,7 +85,7 @@ export default function HelpModal() {
             <div className="overflow-y-auto custom-scrollbar p-6 space-y-5">
               {categories.map((cat) => (
                 <div key={cat.title}>
-                  <h3 className="text-sm font-medium text-warm-600 flex items-center gap-2 mb-2">
+                  <h3 className="text-sm font-medium text-slate-300 flex items-center gap-2 mb-2">
                     <span>{cat.icon}</span>
                     {cat.title}
                   </h3>
@@ -94,7 +94,7 @@ export default function HelpModal() {
                       <button
                         key={q}
                         onClick={() => handleSelect(q)}
-                        className="w-full text-left text-sm text-warm-600 hover:text-amber-700 hover:bg-amber-50 px-3 py-2 rounded-lg transition-colors"
+                        className="w-full text-left text-sm text-slate-400 hover:text-blue-400 hover:bg-navy-800 px-3 py-2 rounded-lg transition-colors"
                       >
                         {q}
                       </button>

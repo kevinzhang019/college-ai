@@ -19,7 +19,7 @@ function QAMode() {
   const qaResult = useStore((s) => s.qaResult)
 
   return (
-    <div className="max-w-2xl mx-auto space-y-6 px-4">
+    <div className="max-w-4xl mx-auto space-y-6 px-4">
       <QuestionInput />
 
       {qaLoading && <LoadingState message="Searching colleges..." />}
@@ -56,10 +56,10 @@ function WelcomeState() {
       className="text-center py-8"
     >
       <span className="text-5xl mb-4 block">🎒</span>
-      <h2 className="text-lg font-medium text-warm-700 mb-2">
+      <h2 className="text-lg font-medium text-slate-200 mb-2">
         What would you like to know?
       </h2>
-      <p className="text-sm text-warm-400 mb-6 max-w-sm mx-auto">
+      <p className="text-sm text-slate-500 mb-6 max-w-sm mx-auto">
         Ask me anything about college admissions, requirements, scholarships, or
         deadlines.
       </p>
@@ -68,7 +68,7 @@ function WelcomeState() {
           <button
             key={s}
             onClick={() => setQaQuestion(s)}
-            className="text-xs bg-white text-warm-600 px-3 py-2 rounded-full border border-amber-100 shadow-warm-sm hover:shadow-warm hover:border-amber-200 transition-all"
+            className="text-xs bg-navy-800 text-slate-300 px-3 py-2 rounded-full border border-navy-700 shadow-dark-sm hover:shadow-dark hover:border-slate-500 transition-all"
           >
             {s}
           </button>
@@ -116,7 +116,7 @@ export default function App() {
   const mode = useStore((s) => s.mode)
 
   return (
-    <div className="min-h-screen bg-cream">
+    <div className="min-h-screen bg-navy-950">
       <ErrorBoundary>
       <div className="max-w-6xl mx-auto pb-20">
         <Header />

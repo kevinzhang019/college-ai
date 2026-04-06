@@ -25,15 +25,15 @@ export default function CollegeCombobox() {
             onChange={(e) => setQuery(e.target.value)}
           />
           <ComboboxButton className="absolute inset-y-0 right-0 flex items-center pr-3">
-            <svg className="w-4 h-4 text-warm-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
           </ComboboxButton>
         </div>
-        <ComboboxOptions className="absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-xl bg-white shadow-warm-lg border border-amber-100 py-1">
+        <ComboboxOptions className="absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-xl bg-navy-900 shadow-dark-lg border border-navy-700 py-1">
           <ComboboxOption
             value={null}
-            className="px-4 py-2 text-sm text-warm-400 cursor-pointer data-[focus]:bg-amber-50 data-[selected]:text-amber-600"
+            className="px-4 py-2 text-sm text-slate-500 cursor-pointer data-[focus]:bg-navy-800 data-[selected]:text-blue-400"
           >
             All colleges
           </ComboboxOption>
@@ -41,7 +41,7 @@ export default function CollegeCombobox() {
             <ComboboxOption
               key={c}
               value={c}
-              className="px-4 py-2 text-sm text-warm-700 cursor-pointer data-[focus]:bg-amber-50 data-[selected]:text-amber-600 data-[selected]:font-medium"
+              className="px-4 py-2 text-sm text-slate-300 cursor-pointer data-[focus]:bg-navy-800 data-[selected]:text-blue-400 data-[selected]:font-medium"
             >
               {c}
             </ComboboxOption>

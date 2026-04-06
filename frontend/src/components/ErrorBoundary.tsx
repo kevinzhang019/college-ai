@@ -24,7 +24,7 @@ export default class ErrorBoundary extends Component<Props, State> {
       return (
         <div className="flex flex-col items-center justify-center py-20 px-4">
           <span className="text-4xl mb-4">Something went wrong.</span>
-          <p className="text-sm text-warm-400 mb-6">
+          <p className="text-sm text-slate-500 mb-6">
             An unexpected error occurred while rendering.
           </p>
           <button

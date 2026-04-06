@@ -55,7 +55,7 @@ export default function QuestionInput() {
   }
 
   return (
-    <div className="card p-4 max-w-2xl mx-auto">
+    <div className="card p-4">
       <div className="flex gap-3 items-end">
         <textarea
           ref={textareaRef}
@@ -63,7 +63,7 @@ export default function QuestionInput() {
           onChange={(e) => setQaQuestion(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="Ask about admissions, requirements, deadlines, scholarships..."
-          className="flex-1 resize-none bg-transparent text-warm-800 placeholder:text-warm-400 focus:outline-none text-sm leading-relaxed py-1"
+          className="flex-1 resize-none bg-transparent text-slate-100 placeholder:text-slate-500 focus:outline-none text-sm leading-relaxed py-1"
           rows={1}
           disabled={qaLoading}
         />
