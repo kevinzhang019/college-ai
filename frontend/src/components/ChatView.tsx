@@ -5,18 +5,27 @@ import remarkGfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
 import { useStore } from '../store'
 import MessageBubble from './MessageBubble'
-// SourceCard is used via MessageBubble
+
+function ColeAvatar({ size = 'sm' }: { size?: 'sm' | 'lg' }) {
+  const cls = size === 'lg' ? 'w-12 h-12 text-lg' : 'w-6 h-6 text-xs'
+  return (
+    <div className={`${cls} rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold shadow-dark-sm shrink-0`}>
+      C
+    </div>
+  )
+}
 
 function StreamingMessage({ content }: { content: string }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      className="flex justify-start"
+      className="flex gap-3 justify-start"
     >
-      <div className="max-w-[85%] bg-navy-900 border border-navy-700 rounded-2xl rounded-bl-md px-4 py-3 shadow-dark-sm">
-        <div className="flex items-center gap-2 mb-2">
-          <span className="text-lg">🎓</span>
+      <ColeAvatar />
+      <div className="max-w-[85%] bg-navy-900 border border-navy-700 rounded-2xl rounded-tl-md px-4 py-3 shadow-dark-sm">
+        <div className="flex items-center gap-2 mb-1.5">
+          <span className="text-xs font-medium text-indigo-400">Cole</span>
           <span className="flex gap-1">
             <span className="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-pulse" />
             <span className="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-pulse [animation-delay:0.2s]" />
@@ -52,14 +61,14 @@ function WelcomeState() {
 
   return (
     <div className="flex-1 flex flex-col items-center justify-center text-center px-6">
-      <span className="text-5xl mb-4">{mode === 'essay' ? '✍️' : '🎒'}</span>
-      <h2 className="text-xl font-medium text-slate-200 mb-2">
-        {mode === 'essay' ? 'Essay Helper' : 'Ask me anything'}
+      <ColeAvatar size="lg" />
+      <h2 className="text-xl font-medium text-slate-200 mt-4 mb-1">
+        Hey, I'm Cole
       </h2>
       <p className="text-sm text-slate-500 mb-6 max-w-md">
         {mode === 'essay'
-          ? 'I\'ll help you brainstorm essay ideas and review drafts using real college data.'
-          : 'Ask about admissions, requirements, scholarships, deadlines, and more.'}
+          ? "I'm your essay coach. I'll help you brainstorm ideas and review drafts using real college data."
+          : "Your friendly college advisor. Ask me about admissions, requirements, scholarships, or deadlines."}
       </p>
       <div className="flex flex-wrap gap-2 justify-center max-w-lg">
         {suggestions.map((s) => (
@@ -116,12 +125,13 @@ export default function ChatView() {
           <motion.div
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex justify-start"
+            className="flex gap-3 justify-start"
           >
-            <div className="bg-navy-900 border border-navy-700 rounded-2xl rounded-bl-md px-4 py-3 shadow-dark-sm">
+            <ColeAvatar />
+            <div className="bg-navy-900 border border-navy-700 rounded-2xl rounded-tl-md px-4 py-3 shadow-dark-sm">
               <div className="flex items-center gap-2">
-                <span className="text-lg">🎓</span>
-                <span className="text-sm text-slate-500">Searching colleges...</span>
+                <span className="text-xs font-medium text-indigo-400">Cole</span>
+                <span className="text-sm text-slate-500">is thinking...</span>
                 <span className="flex gap-1">
                   <span className="w-1.5 h-1.5 bg-indigo-400 rounded-full dot-bounce" />
                   <span className="w-1.5 h-1.5 bg-indigo-400 rounded-full dot-bounce" />

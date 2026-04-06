@@ -83,6 +83,53 @@ export default function InputArea() {
     isConnected &&
     (mode !== 'essay' || essayPrompt.trim().length > 0)
 
+  // Full loading skeleton for connecting state
+  if (!isConnected) {
+    return (
+      <div className="border-t border-navy-700 bg-navy-950/80 backdrop-blur-sm">
+        <div className="max-w-3xl mx-auto px-4 py-3 space-y-2">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key="connecting"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="space-y-2"
+            >
+              {/* Skeleton for mode-specific fields */}
+              <div className="flex gap-2">
+                <div className={mode === 'essay' ? 'w-1/2' : 'w-full'}>
+                  <div className="h-9 bg-navy-800 rounded-lg animate-pulse" />
+                </div>
+                {mode === 'essay' && (
+                  <div className="w-1/2">
+                    <div className="h-9 bg-navy-800 rounded-lg animate-pulse" />
+                  </div>
+                )}
+              </div>
+              {/* Skeleton for chat input */}
+              <div className="flex gap-2 items-end">
+                <div className="flex-1">
+                  <div className="h-10 bg-navy-800 rounded-xl animate-pulse" />
+                </div>
+                <div className="shrink-0 w-9 h-9 bg-navy-800 rounded-full animate-pulse" />
+              </div>
+              {/* Connecting label */}
+              <div className="flex items-center justify-center gap-2 py-1">
+                <span className="flex gap-1">
+                  <span className="w-1.5 h-1.5 bg-indigo-400 rounded-full dot-bounce" />
+                  <span className="w-1.5 h-1.5 bg-indigo-400 rounded-full dot-bounce" />
+                  <span className="w-1.5 h-1.5 bg-indigo-400 rounded-full dot-bounce" />
+                </span>
+                <span className="text-xs text-slate-500">Connecting to Cole...</span>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="border-t border-navy-700 bg-navy-950/80 backdrop-blur-sm">
       {/* Essay review panel — slides up above input */}
@@ -119,66 +166,48 @@ export default function InputArea() {
         </div>
 
         {/* Chat input */}
-        <AnimatePresence mode="wait">
-          {!isConnected ? (
-            <motion.div
-              key="skeleton"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="flex gap-2 items-end"
-            >
-              <div className="flex-1 py-1">
-                <div className="h-5 bg-navy-800 rounded-lg animate-pulse w-2/3" />
-              </div>
-              <div className="shrink-0 w-9 h-9 bg-navy-800 rounded-full animate-pulse" />
-            </motion.div>
-          ) : (
-            <motion.div
-              key="input"
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-              className="flex gap-2 items-end"
-            >
-              <textarea
-                ref={textareaRef}
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder={
-                  mode === 'essay'
-                    ? 'Direct the response (e.g., "focus on my research experience")...'
-                    : 'Ask about colleges...'
-                }
-                className="flex-1 resize-none bg-navy-800 border border-navy-700 rounded-xl px-4 py-2.5 text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all leading-relaxed"
-                rows={1}
-                disabled={streamingLoading}
-              />
+        <motion.div
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+          className="flex gap-2 items-end"
+        >
+          <textarea
+            ref={textareaRef}
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder={
+              mode === 'essay'
+                ? 'Tell Cole what to focus on (e.g., "highlight my research experience")...'
+                : 'Ask Cole about colleges...'
+            }
+            className="flex-1 resize-none bg-navy-800 border border-navy-700 rounded-xl px-4 py-2.5 text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all leading-relaxed"
+            rows={1}
+            disabled={streamingLoading}
+          />
 
-              {streamingLoading ? (
-                <button
-                  onClick={cancel}
-                  className="shrink-0 w-9 h-9 flex items-center justify-center rounded-full bg-red-500/20 text-red-400 hover:bg-red-500/30 transition-colors"
-                >
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              ) : (
-                <button
-                  onClick={handleSend}
-                  disabled={!canSend}
-                  className="shrink-0 w-9 h-9 flex items-center justify-center rounded-full bg-indigo-600 text-white hover:bg-indigo-500 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-                >
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                  </svg>
-                </button>
-              )}
-            </motion.div>
+          {streamingLoading ? (
+            <button
+              onClick={cancel}
+              className="shrink-0 w-9 h-9 flex items-center justify-center rounded-full bg-red-500/20 text-red-400 hover:bg-red-500/30 transition-colors"
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          ) : (
+            <button
+              onClick={handleSend}
+              disabled={!canSend}
+              className="shrink-0 w-9 h-9 flex items-center justify-center rounded-full bg-indigo-600 text-white hover:bg-indigo-500 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </button>
           )}
-        </AnimatePresence>
+        </motion.div>
       </div>
     </div>
   )

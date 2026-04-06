@@ -32,7 +32,7 @@ export default function App() {
               </button>
             )}
             <span className="text-sm font-medium text-slate-300">
-              College AI
+              Cole
             </span>
           </div>
 

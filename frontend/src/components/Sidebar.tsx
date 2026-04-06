@@ -5,8 +5,8 @@ import type { AppMode } from '../types'
 
 const modes: { key: AppMode; label: string; icon: string }[] = [
   { key: 'qa', label: 'Q&A', icon: '💬' },
-  { key: 'essay', label: 'Essay', icon: '✍️' },
-  { key: 'experiences', label: 'Profile', icon: '📋' },
+  { key: 'essay', label: 'Essay Helper', icon: '✍️' },
+  { key: 'experiences', label: 'My Profile', icon: '📋' },
 ]
 
 export default function Sidebar() {
@@ -46,9 +46,17 @@ export default function Sidebar() {
         {/* Header */}
         <div className="p-4 border-b border-navy-700">
           <div className="flex items-center justify-between mb-4">
-            <h1 className="text-lg font-semibold text-slate-100 tracking-tight">
-              College AI
-            </h1>
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white text-sm font-bold shadow-dark-sm">
+                C
+              </div>
+              <div>
+                <h1 className="text-base font-semibold text-slate-100 tracking-tight leading-none">
+                  Cole
+                </h1>
+                <p className="text-[10px] text-slate-500 mt-0.5">Your college advisor</p>
+              </div>
+            </div>
             <button
               onClick={() => setSidebarOpen(false)}
               className="lg:hidden p-1 text-slate-400 hover:text-slate-200"
@@ -59,39 +67,37 @@ export default function Sidebar() {
             </button>
           </div>
 
-          {/* Mode selector */}
-          <div className="flex gap-1 p-1 bg-navy-950 rounded-xl">
-            {modes.map((m) => (
-              <button
-                key={m.key}
-                onClick={() => setMode(m.key)}
-                className={`flex-1 flex items-center justify-center gap-1.5 px-2 py-2 rounded-lg text-xs font-medium transition-all ${
-                  mode === m.key
-                    ? 'bg-indigo-600 text-white shadow-dark-sm'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-navy-800'
-                }`}
-              >
-                <span className="text-sm">{m.icon}</span>
-                {m.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* New chat button */}
-        {mode !== 'experiences' && (
-          <div className="p-3">
+          {/* New chat button */}
+          {mode !== 'experiences' && (
             <button
               onClick={handleNewChat}
-              className="w-full flex items-center gap-2 px-4 py-2.5 rounded-xl border border-navy-700 text-sm text-slate-300 hover:bg-navy-800 hover:border-slate-600 transition-all"
+              className="w-full flex items-center gap-2 px-3 py-2 rounded-lg border border-navy-700 text-sm text-slate-300 hover:bg-navy-800 hover:border-slate-600 transition-all mb-3"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
               </svg>
               New Chat
             </button>
+          )}
+
+          {/* Vertical mode selector */}
+          <div className="space-y-1">
+            {modes.map((m) => (
+              <button
+                key={m.key}
+                onClick={() => setMode(m.key)}
+                className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                  mode === m.key
+                    ? 'bg-indigo-600/15 text-indigo-300 border border-indigo-500/20'
+                    : 'text-slate-400 hover:text-slate-200 hover:bg-navy-800 border border-transparent'
+                }`}
+              >
+                <span className="text-base">{m.icon}</span>
+                {m.label}
+              </button>
+            ))}
           </div>
-        )}
+        </div>
 
         {/* Conversation list */}
         {mode !== 'experiences' && (
@@ -104,8 +110,8 @@ export default function Sidebar() {
         {mode === 'experiences' && (
           <div className="flex-1 flex items-center justify-center p-6 text-center">
             <p className="text-sm text-slate-500">
-              Add your activities, projects, and experiences. They'll be included
-              as context when you use Essay mode.
+              Add your activities, projects, and experiences. Cole will use
+              them as context when helping with essays.
             </p>
           </div>
         )}

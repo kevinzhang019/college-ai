@@ -13,18 +13,25 @@ export default function MessageBubble({ message }: { message: ChatMessage }) {
     <motion.div
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      className={`flex ${isUser ? 'justify-end' : 'justify-start'}`}
+      className={`flex gap-3 ${isUser ? 'justify-end' : 'justify-start'}`}
     >
+      {/* Cole avatar for assistant */}
+      {!isUser && (
+        <div className="w-6 h-6 rounded-full bg-indigo-600 flex items-center justify-center text-white text-xs font-bold shadow-dark-sm shrink-0 mt-0.5">
+          C
+        </div>
+      )}
+
       <div
         className={`max-w-[85%] ${
           isUser
-            ? 'bg-blue-500 text-white rounded-2xl rounded-br-md px-4 py-3'
-            : 'bg-navy-900 border border-navy-700 rounded-2xl rounded-bl-md px-4 py-3 shadow-dark-sm'
+            ? 'bg-indigo-600 text-white rounded-2xl rounded-br-md px-4 py-3'
+            : 'bg-navy-900 border border-navy-700 rounded-2xl rounded-tl-md px-4 py-3 shadow-dark-sm'
         }`}
       >
         {!isUser && (
-          <div className="flex items-center gap-2 mb-2">
-            <span className="text-lg">🎓</span>
+          <div className="flex items-center gap-2 mb-1.5">
+            <span className="text-xs font-medium text-indigo-400">Cole</span>
             {message.confidence && (
               <ConfidenceBadge confidence={message.confidence} />
             )}
