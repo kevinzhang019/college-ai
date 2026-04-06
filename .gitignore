@@ -212,7 +212,7 @@ kate.pem
 
 # Runtime / generated data
 college_ai/scraping/playwright_cookies/
-data/
+/data/
 logs/
 *.db
 *.parquet
