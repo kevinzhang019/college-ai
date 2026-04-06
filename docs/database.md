@@ -32,7 +32,7 @@ Niche.com letter grades per school.
 ## Connection (`connection.py`)
 
 - Auth token passed via `connect_args`, NOT URL query string (libSQL driver requirement)
-- `with_retry()` pattern detects Hrana WebSocket stream expiry errors (`stream not found`, `stream expired`), resets engine, exponential backoff, up to 3 attempts
+- `with_retry()` pattern detects Hrana WebSocket stream expiry errors (`stream not found`, `stream expired`), resets engine, exponential backoff, up to 3 attempts. Turso plan-level blocks (quota exhaustion) are detected separately by `is_blocked_error()` and fail fast without retries — these are not transient.
 - Inline migrations via `_migrate_add_columns()` / `_migrate_drop_columns()` — no migration files
 
 ## Environment Variables

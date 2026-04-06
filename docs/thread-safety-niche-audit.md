@@ -106,6 +106,7 @@ The DB writer expects exactly `num_workers` sentinels before exiting.
 - `reset_engine()` builds both `new_engine` and `new_factory` into locals before swapping both globals atomically — no partial state window
 - `NullPool` means `old.dispose()` is safe even with active sessions (no idle connection cache to invalidate)
 - `old.dispose()` failure swallowed safely — old engine collected by GC when reference goes out of scope
+- `is_blocked_error()` — pure function, no shared state or locks. Used in `_write_one_with_retry()` (returns `False` immediately, skipping retries), `_keepalive()` (logs warning, skips engine reset), and `with_retry()` (re-raises immediately). All call sites are inside `except` blocks after `session.rollback()` — no locks held. The `return False` path feeds into the existing `consec_errors` abort mechanism with no change to thread lifecycle or shutdown ordering.
 
 ## Theoretical Edge Cases (Not Fixed — Acceptable Risk)
 

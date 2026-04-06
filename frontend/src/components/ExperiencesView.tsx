@@ -1,8 +1,11 @@
-import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useState, useMemo } from 'react'
+import { motion, AnimatePresence, Reorder } from 'framer-motion'
+import { Combobox, ComboboxInput, ComboboxOption, ComboboxOptions } from '@headlessui/react'
 import { useStore } from '../store'
 import ExperienceForm from './ExperienceForm'
 import type { TestScoreType } from '../types'
+import { ALLOWED_MAJORS } from '../types'
+import { COUNTRIES, US_STATES } from '../data/locations'
 
 const TYPE_LABELS: Record<string, string> = {
   extracurricular: 'Extracurricular',
@@ -24,7 +27,12 @@ export default function ExperiencesView() {
   const profile = useStore((s) => s.profile)
   const setProfileGpa = useStore((s) => s.setProfileGpa)
   const setProfileTestScore = useStore((s) => s.setProfileTestScore)
+  const setProfileLocation = useStore((s) => s.setProfileLocation)
+  const addPreferredMajor = useStore((s) => s.addPreferredMajor)
+  const removePreferredMajor = useStore((s) => s.removePreferredMajor)
+  const reorderPreferredMajors = useStore((s) => s.reorderPreferredMajors)
   const [showForm, setShowForm] = useState(false)
+  const [majorQuery, setMajorQuery] = useState('')
   const [editingId, setEditingId] = useState<string | null>(null)
   const [gpaError, setGpaError] = useState('')
   const [scoreError, setScoreError] = useState('')
@@ -43,6 +51,14 @@ export default function ExperiencesView() {
     else if (type === 'act' && (isNaN(n) || n < 1 || n > 36)) setScoreError('1 – 36')
     else setScoreError('')
   }
+
+  const availableMajors = useMemo(() => {
+    const selected = new Set(profile.preferredMajors)
+    const available = ALLOWED_MAJORS.filter((m) => !selected.has(m))
+    if (!majorQuery) return available.slice(0, 50)
+    const lower = majorQuery.toLowerCase()
+    return available.filter((m) => m.toLowerCase().includes(lower)).slice(0, 50)
+  }, [majorQuery, profile.preferredMajors])
 
   const editingExp = editingId
     ? experiences.find((e) => e.id === editingId) || null
@@ -148,6 +164,122 @@ export default function ExperiencesView() {
               {scoreError && <p className="text-[10px] text-red-400 mt-0.5">{scoreError}</p>}
             </div>
           </div>
+
+          <label className="block text-xs font-medium text-slate-400 mb-1 mt-4">Location</label>
+          <div className="flex gap-3">
+            <div className={profile.country === 'US' ? 'w-1/2' : 'flex-1'}>
+              <select
+                value={profile.country}
+                onChange={(e) => {
+                  const c = e.target.value
+                  const label = COUNTRIES.find((x) => x.value === c)?.label || c
+                  setProfileLocation(c, label, c === 'US' ? profile.state : '')
+                }}
+                className="input-field-compact text-sm w-full"
+              >
+                <option value="">Select country...</option>
+                {COUNTRIES.map((c) => (
+                  <option key={c.value} value={c.value}>{c.label}</option>
+                ))}
+              </select>
+            </div>
+            {profile.country === 'US' && (
+              <div className="w-1/2">
+                <select
+                  value={profile.state}
+                  onChange={(e) => setProfileLocation(profile.country, profile.countryLabel, e.target.value)}
+                  className="input-field-compact text-sm w-full"
+                >
+                  <option value="">Select state...</option>
+                  {US_STATES.map((s) => (
+                    <option key={s.value} value={s.value}>{s.label}</option>
+                  ))}
+                </select>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Major Preferences card */}
+        <div className="card p-4 mb-6">
+          <h3 className="text-sm font-medium text-slate-100 mb-1">Major Preferences</h3>
+          <p className="text-xs text-slate-500 mb-3">
+            Rank your preferred majors. Cole will use this to personalize program and admissions advice.
+          </p>
+
+          <Combobox
+            value={null}
+            onChange={(val: string | null) => {
+              if (val) {
+                addPreferredMajor(val)
+                setMajorQuery('')
+              }
+            }}
+            onClose={() => setMajorQuery('')}
+          >
+            <div className="relative">
+              <ComboboxInput
+                className="input-field-compact text-sm w-full"
+                placeholder="Search and add a major..."
+                displayValue={() => ''}
+                onChange={(e) => setMajorQuery(e.target.value)}
+                value={majorQuery}
+              />
+              <ComboboxOptions className="absolute z-50 mt-1 max-h-48 w-full overflow-auto rounded-xl bg-dark-900 shadow-dark-lg border border-dark-700 py-1">
+                {availableMajors.map((m) => (
+                  <ComboboxOption
+                    key={m}
+                    value={m}
+                    className="px-4 py-2 text-sm text-slate-300 cursor-pointer data-[focus]:bg-dark-800"
+                  >
+                    {m}
+                  </ComboboxOption>
+                ))}
+                {availableMajors.length === 0 && (
+                  <div className="px-4 py-2 text-sm text-slate-500">No majors found</div>
+                )}
+              </ComboboxOptions>
+            </div>
+          </Combobox>
+
+          {profile.preferredMajors.length > 0 && (
+            <Reorder.Group
+              axis="y"
+              values={profile.preferredMajors}
+              onReorder={reorderPreferredMajors}
+              className="mt-3 space-y-1.5"
+            >
+              <AnimatePresence>
+                {profile.preferredMajors.map((major, i) => (
+                  <Reorder.Item
+                    key={major}
+                    value={major}
+                    initial={{ opacity: 0, y: -4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    className="flex items-center gap-2 bg-dark-800 rounded-lg px-3 py-2 cursor-grab active:cursor-grabbing"
+                  >
+                    <span className="text-xs font-medium text-slate-500 w-5 shrink-0">#{i + 1}</span>
+                    {/* Drag handle */}
+                    <svg className="w-3.5 h-3.5 text-slate-600 shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                      <circle cx="9" cy="6" r="1.5" /><circle cx="15" cy="6" r="1.5" />
+                      <circle cx="9" cy="12" r="1.5" /><circle cx="15" cy="12" r="1.5" />
+                      <circle cx="9" cy="18" r="1.5" /><circle cx="15" cy="18" r="1.5" />
+                    </svg>
+                    <span className="text-sm text-slate-200 flex-1">{major}</span>
+                    <button
+                      onClick={() => removePreferredMajor(major)}
+                      className="p-0.5 text-slate-500 hover:text-red-400 transition-colors shrink-0"
+                    >
+                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </Reorder.Item>
+                ))}
+              </AnimatePresence>
+            </Reorder.Group>
+          )}
         </div>
 
         {experiences.length === 0 && !showForm && (

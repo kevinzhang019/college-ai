@@ -104,7 +104,21 @@ def get_filter_options() -> Dict[str, Any]:
             except Exception:
                 continue
 
-        return {"colleges": sorted(colleges)}
+        # Build school→state mapping from the database
+        school_states: Dict[str, str] = {}
+        try:
+            from college_ai.db.connection import get_session
+            from college_ai.db.models import School
+            session = get_session()
+            try:
+                rows = session.query(School.name, School.state).all()
+                school_states = {name: state for name, state in rows if state}
+            finally:
+                session.close()
+        except Exception:
+            pass  # Degrade gracefully — residency auto-detect won't work
+
+        return {"colleges": sorted(colleges), "school_states": school_states}
 
     except Exception:
         return {
@@ -114,6 +128,7 @@ def get_filter_options() -> Dict[str, Any]:
                 "MIT",
                 "Harvard University",
             ],
+            "school_states": {},
         }
 
 

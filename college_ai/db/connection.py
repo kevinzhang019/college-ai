@@ -105,6 +105,17 @@ def is_hrana_error(exc: Exception) -> bool:
     ])
 
 
+def is_blocked_error(exc: Exception) -> bool:
+    """Detect Turso plan-level blocks (quota exhaustion).
+
+    When monthly row-read/write quotas are exceeded, Turso returns a BLOCKED
+    error code.  These are NOT transient — retrying or resetting the engine
+    will not help.  Callers should fail fast.
+    """
+    msg = str(exc).lower()
+    return "blocked" in msg and "upgrade" in msg
+
+
 def get_session() -> Session:
     with _engine_lock:
         factory = _session_factory
@@ -145,6 +156,8 @@ def with_retry(work_fn, max_retries=3):
                 session.rollback()
             except Exception:
                 pass
+            if is_blocked_error(e):
+                raise  # Quota block is not transient — fail fast
             if is_hrana_error(e) and attempt < max_retries - 1:
                 delay = 0.5 * (2 ** attempt)
                 logger.warning(

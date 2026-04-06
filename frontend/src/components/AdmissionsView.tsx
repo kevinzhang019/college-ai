@@ -3,9 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useStore } from '../store'
 import { predict } from '../api'
 import CollegeCombobox from './CollegeCombobox'
+import MajorCombobox from './MajorCombobox'
 import PredictionCard from './PredictionCard'
-import type { PredictionResult, Residency, SelectedSchool, TestScoreType } from '../types'
-import { ALLOWED_MAJORS } from '../types'
+import type { ProfileData, PredictionResult, Residency, SelectedSchool, TestScoreType } from '../types'
 
 const MAX_SCHOOLS = 10
 
@@ -16,10 +16,26 @@ const filterNumericInput = (value: string, allowDot: boolean): string => {
   return value.replace(/[^0-9]/g, '')
 }
 
+function computeResidency(
+  schoolName: string,
+  profile: ProfileData,
+  schoolStates: Record<string, string>,
+): Residency | null {
+  if (!profile.country) return null
+  if (profile.country !== 'US') return 'outOfState'
+  if (!profile.state) return null
+  const schoolState = schoolStates[schoolName]
+  if (!schoolState) return null
+  return schoolState === profile.state ? 'inState' : 'outOfState'
+}
+
 export default function AdmissionsView() {
   const profile = useStore((s) => s.profile)
+  const schoolStates = useStore((s) => s.schoolStates)
   const setProfileGpa = useStore((s) => s.setProfileGpa)
   const setProfileTestScore = useStore((s) => s.setProfileTestScore)
+
+  const hasProfileLocation = Boolean(profile.country)
 
   // Local form state
   const [selectedSchools, setSelectedSchools] = useState<SelectedSchool[]>([])
@@ -54,9 +70,12 @@ export default function AdmissionsView() {
 
   const handleAddSchool = (school: string | null) => {
     if (!school || selectedSchools.some((s) => s.name === school) || selectedSchools.length >= MAX_SCHOOLS) return
+    const residency = hasProfileLocation
+      ? computeResidency(school, profile, schoolStates)
+      : defaultResidency
     setSelectedSchools((prev) => [...prev, {
       name: school,
-      residency: defaultResidency,
+      residency,
       major: defaultMajor,
     }])
   }
@@ -100,11 +119,14 @@ export default function AdmissionsView() {
           : { act: parseFloat(profile.testScore) }),
       }
 
-      const promises = selectedSchools.map((school) =>
-        predict({
+      const promises = selectedSchools.map((school) => {
+        const residency = hasProfileLocation
+          ? computeResidency(school.name, profile, schoolStates)
+          : school.residency
+        return predict({
           ...baseParams,
           school_name: school.name,
-          ...(school.residency ? { residency: school.residency } : {}),
+          ...(residency ? { residency } : {}),
           ...(school.major ? { major: school.major } : {}),
         }).catch((err) => ({
           school_name: school.name,
@@ -115,7 +137,7 @@ export default function AdmissionsView() {
           school_acceptance_rate: 0,
           factors: [],
         }))
-      )
+      })
 
       const allResults = await Promise.all(promises)
       allResults.sort((a, b) => b.probability - a.probability)
@@ -205,28 +227,30 @@ export default function AdmissionsView() {
           <div className="flex gap-3">
             <div className="flex-1">
               <label className="block text-xs font-medium text-slate-400 mb-1">Default Major</label>
-              <select
-                value={defaultMajor || ''}
-                onChange={(e) => setDefaultMajor(e.target.value || null)}
-                className="input-field-compact text-sm"
-              >
-                <option value="">Not specified</option>
-                {ALLOWED_MAJORS.map((m) => (
-                  <option key={m} value={m}>{m}</option>
-                ))}
-              </select>
+              <MajorCombobox value={defaultMajor} onChange={setDefaultMajor} />
             </div>
             <div className="w-40">
               <label className="block text-xs font-medium text-slate-400 mb-1">Default Residency</label>
-              <select
-                value={defaultResidency || ''}
-                onChange={(e) => setDefaultResidency((e.target.value || null) as Residency | null)}
-                className="input-field-compact text-sm"
-              >
-                <option value="">Not specified</option>
-                <option value="inState">In-State</option>
-                <option value="outOfState">Out-of-State</option>
-              </select>
+              {hasProfileLocation ? (
+                <select
+                  disabled
+                  value=""
+                  className="input-field-compact text-sm opacity-50 cursor-not-allowed"
+                >
+                  <option value="">Use Location</option>
+                </select>
+              ) : (
+                <select
+                  value={defaultResidency || ''}
+                  onChange={(e) => setDefaultResidency((e.target.value || null) as Residency | null)}
+                  className="input-field-compact text-sm"
+                >
+                  <option value="">Not specified</option>
+                  <option value="inState">In-State</option>
+                  <option value="outOfState">Out-of-State</option>
+                  <option value="outOfState">International</option>
+                </select>
+              )}
             </div>
           </div>
         </div>
@@ -248,41 +272,53 @@ export default function AdmissionsView() {
 
           {/* Selected school cards — vertical list with alternating greys */}
           {selectedSchools.length > 0 && (
-            <div className="mt-3 rounded-xl overflow-hidden border border-dark-700">
+            <div className="mt-3 rounded-xl border border-dark-700">
               {selectedSchools.map((school, i) => (
                 <div
                   key={school.name}
                   className={`px-3 py-2.5 flex items-center gap-2 ${
                     i % 2 === 0 ? 'bg-dark-800' : 'bg-dark-800/50'
-                  } ${i > 0 ? 'border-t border-dark-700' : ''}`}
+                  } ${i > 0 ? 'border-t border-dark-700' : ''}${
+                    i === 0 ? ' rounded-t-xl' : ''
+                  }${i === selectedSchools.length - 1 ? ' rounded-b-xl' : ''}`}
                 >
                   <span
-                    className="text-sm text-slate-200 font-medium min-w-0 truncate flex-shrink-0 max-w-[160px]"
+                    className="text-sm text-slate-200 font-medium flex-1 min-w-0 truncate"
                     title={school.name}
                   >
                     {school.name}
                   </span>
 
-                  <select
-                    value={school.major || ''}
-                    onChange={(e) => handleSchoolMajor(school.name, e.target.value || null)}
-                    className="input-field-compact text-xs py-1.5 flex-1 min-w-0"
-                  >
-                    <option value="">No major</option>
-                    {ALLOWED_MAJORS.map((m) => (
-                      <option key={m} value={m}>{m}</option>
-                    ))}
-                  </select>
+                  <div className="flex-shrink-0">
+                    <MajorCombobox
+                      value={school.major}
+                      onChange={(m) => handleSchoolMajor(school.name, m)}
+                      compact
+                    />
+                  </div>
 
-                  <select
-                    value={school.residency || ''}
-                    onChange={(e) => handleSchoolResidency(school.name, (e.target.value || null) as Residency | null)}
-                    className="input-field-compact text-xs py-1.5 w-28 flex-shrink-0"
-                  >
-                    <option value="">No residency</option>
-                    <option value="inState">In-State</option>
-                    <option value="outOfState">Out-of-State</option>
-                  </select>
+                  {hasProfileLocation ? (
+                    <select
+                      disabled
+                      value={computeResidency(school.name, profile, schoolStates) || ''}
+                      className="input-field-compact text-xs py-1.5 w-28 flex-shrink-0 opacity-50 cursor-not-allowed"
+                    >
+                      <option value="">Unknown</option>
+                      <option value="inState">In-State</option>
+                      <option value="outOfState">{profile.country !== 'US' ? 'International' : 'Out-of-State'}</option>
+                    </select>
+                  ) : (
+                    <select
+                      value={school.residency || ''}
+                      onChange={(e) => handleSchoolResidency(school.name, (e.target.value || null) as Residency | null)}
+                      className="input-field-compact text-xs py-1.5 w-28 flex-shrink-0"
+                    >
+                      <option value="">No residency</option>
+                      <option value="inState">In-State</option>
+                      <option value="outOfState">Out-of-State</option>
+                      <option value="outOfState">International</option>
+                    </select>
+                  )}
 
                   <button
                     onClick={() => handleRemoveSchool(school.name)}

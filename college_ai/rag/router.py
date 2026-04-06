@@ -84,20 +84,35 @@ ADMISSION_PREDICTION_PATTERNS = [
 ]
 
 
+SIMPLE = "simple"
+COMPLEX = "complex"
+
+# Keywords that indicate a complex (non-lookup) question
+COMPLEX_SIGNALS = [
+    "compare", "versus", "vs", "difference between",
+    "how do i", "how to", "should i", "best way", "strategy",
+    "steps to", "process for", "what should", "recommend",
+    "worth it", "better", "pros and cons", "trade-off",
+    "explain", "why does", "why is", "what makes",
+]
+
+
 class QueryClassification:
     """Result of classifying a user query."""
 
-    __slots__ = ("query_type", "detected_school", "confidence")
+    __slots__ = ("query_type", "detected_school", "confidence", "complexity")
 
     def __init__(
         self,
         query_type: str,
         detected_school: Optional[str] = None,
         confidence: str = "rule",
+        complexity: str = COMPLEX,
     ):
         self.query_type = query_type
         self.detected_school = detected_school
         self.confidence = confidence  # "rule" or "llm"
+        self.complexity = complexity  # "simple" or "complex"
 
 
 class QueryRouter:
@@ -207,21 +222,22 @@ class QueryRouter:
             essay_text: Optional pasted essay draft. If provided, forces essay_review mode.
 
         Returns:
-            QueryClassification with query_type, detected_school, confidence.
+            QueryClassification with query_type, detected_school, confidence, complexity.
         """
         detected_school = self.extract_school(question)
 
         # If essay text is provided, it's always a review
         if essay_text and essay_text.strip():
-            return QueryClassification(ESSAY_REVIEW, detected_school, "rule")
+            return QueryClassification(ESSAY_REVIEW, detected_school, "rule", COMPLEX)
 
         query_type = self._classify_rules(question)
         if query_type is not None:
-            return QueryClassification(query_type, detected_school, "rule")
+            complexity = self._classify_complexity(question, query_type)
+            return QueryClassification(query_type, detected_school, "rule", complexity)
 
-        # LLM fallback
+        # LLM fallback — always treat as complex (ambiguous query)
         query_type = self._classify_llm(question)
-        return QueryClassification(query_type, detected_school, "llm")
+        return QueryClassification(query_type, detected_school, "llm", COMPLEX)
 
     def _classify_rules(self, question: str) -> Optional[str]:
         """Rule-based fast path. Returns None if ambiguous."""
@@ -245,6 +261,38 @@ class QueryRouter:
             return QA
 
         return None  # ambiguous → LLM fallback
+
+    @staticmethod
+    def _classify_complexity(question: str, query_type: str) -> str:
+        """Determine query complexity for model routing.
+
+        Only Q&A queries can be classified as simple.  All other types
+        (essay_ideas, essay_review, admission_prediction) are always complex.
+
+        A Q&A query is simple when ALL of these hold:
+          - Short (< 20 words)
+          - No comparison/strategy keywords
+          - At most 1 factual signal (single-topic lookup)
+        """
+        if query_type != QA:
+            return COMPLEX
+
+        q = question.lower()
+
+        # Long questions are complex
+        if len(question.split()) >= 20:
+            return COMPLEX
+
+        # Comparison / strategy keywords → complex
+        if any(s in q for s in COMPLEX_SIGNALS):
+            return COMPLEX
+
+        # Multiple factual signals means multi-part → complex
+        factual_count = sum(1 for s in FACTUAL_SIGNALS if s in q)
+        if factual_count > 1:
+            return COMPLEX
+
+        return SIMPLE
 
     def _classify_llm(self, question: str) -> str:
         """LLM fallback for ambiguous queries."""

@@ -45,7 +45,7 @@ Zustand store (`store.ts`) with `persist` middleware, serializing to `localStora
 - `conversations` — `Record<string, Conversation>`, max 50 with LRU eviction
 - `conversationOrder` — `string[]` sorted by recency (newest first)
 - `experiences` — `Experience[]` (user's extracurriculars)
-- `profile` — `ProfileData` (GPA, test score type, test score)
+- `profile` — `ProfileData` (GPA, test score type, test score, country, countryLabel, state, preferredMajors)
 - `activeConversationId` — currently selected conversation
 - `contextSize` — RAG context size (`'XS'|'S'|'M'|'L'|'XL'`, default `'M'`). Controls `top_k` sent to backend (3/5/8/12/16 sources)
 - `responseLength` — Response length preference (`'XS'|'S'|'M'|'L'|'XL'`, default `'M'`). Controls LLM length budgets (XS: 50-100w, S: 100-200w, M: auto-detect, L: 400-600w, XL: 600-900w)
@@ -54,6 +54,7 @@ Zustand store (`store.ts`) with `persist` middleware, serializing to `localStora
 - `mode` — current `AppMode`
 - `isConnected` — whether `/health` returned ok
 - `collegeOptions` — college list from `/options`
+- `schoolStates` — `Record<string, string>` mapping school names to state codes (from `/options`), used for auto-residency
 - `streamingContent` — accumulated tokens during SSE streaming
 - `streamingLoading` — whether a stream is in progress
 - `sidebarOpen` — mobile sidebar visibility
@@ -95,16 +96,22 @@ Renders the conversation for Q&A and Essay modes.
 
 - **User messages:** Right-aligned, forest-600 background, white text, `rounded-2xl rounded-br-md` (chat bubble shape)
 - **Assistant messages:** Full-width, left-aligned with Cole avatar (20px) + "Cole" label in forest-400. Content rendered as markdown (GFM + raw HTML). Confidence badge shown inline with Cole's name if present.
-- **Sources:** Shown below assistant messages, first 3 only. Each is a `SourceCard`.
+- **Sources toggle:** When sources exist, a green "Show Sources" pill button appears in the top-right of the header row (`ml-auto`). Clicking toggles to "Hide Sources" (same style). Sources are hidden by default.
+  - **Hidden state:** `[N]` citation markers are stripped from the displayed markdown via `stripCitations()`. No source cards visible.
+  - **Shown state:** `[N]` markers are converted to gray badge elements via `processCitations()` (class `source-badge`, rendered through `rehype-raw`). Source cards appear below with AnimatePresence height animation. All sources shown (no limit).
+- **Citation badge interaction** (event delegation via `mouseover`/`mouseout`/`click` on container ref):
+  - **Hover:** Badge turns green (`source-badge--active`), all paragraphs/list items containing citations to the same source get a dotted green underline (`source-highlight` class)
+  - **Click:** Smooth scrolls to the corresponding `SourceCard` below (`scrollIntoView({ block: 'center' })`), briefly highlights it with a green ring (1.5s)
 
 ### SourceCard (`SourceCard.tsx`)
 
-Expandable card with forest-green left border (`border-l-4 border-l-forest-500`):
+Expandable card with forest-green left border (`border-l-4 border-l-forest-500`). Only visible when "Show Sources" is toggled on in the parent MessageBubble:
 - College name badge (forest green pill)
 - Page type label
 - Clickable title linking to source URL
 - Content preview (first 200 chars, click to expand full content)
 - Staggered entrance animation (50ms delay per card)
+- Has `id={source-${index}}` for citation badge click-to-scroll targeting
 
 ### InputArea (`InputArea.tsx`)
 
@@ -153,8 +160,16 @@ Standalone view for My Profile mode:
 - GPA input (0–5.0 with validation)
 - SAT/ACT toggle (two buttons with active highlight)
 - Test score input (400–1600 for SAT, 1–36 for ACT)
+- Location: country dropdown (all countries, US first) + conditional US state dropdown. Selecting a non-US country clears the state. On the backend, `determine_residency()` fuzzy-matches the selected school against the Turso DB to auto-determine in-state/out-of-state/international residency
 - All values persisted to Zustand `profile`, auto-populate Admissions Calculator and QuickPredictModal
-- Profile data is also sent to the backend on every streaming request (all modes) for stats contextualization via `format_profile_context()` on backend
+- Profile data is also sent to the backend on every streaming request (all modes) for stats contextualization, residency-aware tuition advice, and major-specific guidance via `format_profile_context()` on backend
+
+**Major Preferences card:**
+- Searchable Headless UI `Combobox` to add majors from `ALLOWED_MAJORS` (filters out already-selected)
+- Drag-to-reorder ranked list using Framer Motion `Reorder.Group` / `Reorder.Item`
+- Each item shows: rank number (#1, #2, ...), drag handle (grip dots), major name, remove button (X)
+- Persisted in `profile.preferredMajors: string[]` (ordered by preference)
+- Passed to LLM as `"Preferred majors (ranked): #1 Computer Science, #2 Data Science"` via `format_profile_context()`
 
 **Experiences list:**
 - Cards with title, organization, type badge (color-coded), dates, truncated description
@@ -181,14 +196,20 @@ Standalone view for Admissions Calculator mode:
 
 **Stats card:**
 - Same GPA + SAT/ACT inputs as ExperiencesView (shared profile data)
-- Major dropdown (83 options) + Residency selector
+- Default Major: searchable `MajorCombobox` (Headless UI Combobox). When search is empty, shows sectioned default menu — "Your Majors" (from `profile.preferredMajors`, ranked order) then "All Majors" (remaining, alphabetical). When search has text, shows flat filtered results
+- Default Residency selector: In-State / Out-of-State / International. When profile location is set, shows "Use Location" (disabled/greyed out)
 - Required fields marked with asterisk
 
 **School picker:**
 - CollegeCombobox for adding schools
 - Counter: "Schools (N/10)"
-- Selected schools as removable chips (rounded-full, dark-800 background, X button)
+- Selected schools shown in alternating-row list with school name, searchable major combobox (`MajorCombobox compact`, `w-28` input with wider `w-56` dropdown), and residency dropdown (`w-28`)
 - Max 10 schools
+
+**Auto-residency:** When the user has set a location in My Profile:
+- Default Residency dropdown is disabled, showing "Use Location"
+- Per-school residency dropdowns are disabled with auto-computed values based on `computeResidency()`: compares profile state to school state (from `/options` `school_states` mapping). Non-US country → "International" (sent as `outOfState`). US with matching state → "In-State". US with different state → "Out-of-State"
+- When profile location is not set, residency dropdowns are manual with In-State / Out-of-State / International options
 
 **Calculate button:** Full-width forest-600 button with bouncing dots during loading
 
@@ -212,6 +233,15 @@ Headless UI Combobox with:
 - Loaded from `/options` endpoint with 31-school fallback list
 - Placeholder references Cole by name
 
+### MajorCombobox (`MajorCombobox.tsx`)
+
+Searchable Headless UI Combobox for major selection, used in AdmissionsView (default major + per-school cards):
+- **Default menu** (empty search): two sections — "Your Majors" (from `profile.preferredMajors`, ranked order) then "All Majors" (remaining `ALLOWED_MAJORS`, alphabetical). Section headers are non-interactive `div` labels
+- **Search mode** (query entered): flat filtered list from all `ALLOWED_MAJORS`, case-insensitive
+- "Not specified" / "No major" clear option (value: null) always at top
+- **Compact mode** (`compact` prop): `text-xs py-1.5 w-28` input with wider `w-56` dropdown anchored bottom-end. Used in per-school cards
+- **Full mode**: `text-sm` input, dropdown matches parent width. Used for default major
+
 ### ConfidenceBadge (`ConfidenceBadge.tsx`)
 
 Small pill badge showing confidence level:
@@ -233,7 +263,7 @@ Sidebar conversation history filtered by current mode:
 
 **Functions:**
 - `checkHealth()` → `GET /health`
-- `getOptions()` → `GET /options` (fallback: 31 hardcoded colleges)
+- `getOptions()` → `GET /options` → `{colleges, school_states}` (fallback: 31 hardcoded colleges, empty states)
 - `ask(params)` → `POST /ask` (non-streaming, not used by main UI)
 - `askStream(params, callbacks, signal)` → `POST /ask/stream` (SSE streaming)
 - `predict(params)` → `POST /predict`
@@ -247,7 +277,7 @@ Sidebar conversation history filtered by current mode:
 
 ### `useApi` (`hooks/useApi.ts`)
 
-One-time mount effect: calls `checkHealth()` and `getOptions()` in parallel. Sets `isConnected` and `collegeOptions` in store.
+One-time mount effect: calls `checkHealth()` and `getOptions()` in parallel. Sets `isConnected`, `collegeOptions`, and `schoolStates` in store.
 
 ### `useStreaming` (`hooks/useStreaming.ts`)
 
@@ -256,7 +286,7 @@ Returns `{ send, cancel }`:
 - **`send(question, essayText?)`:** Creates conversation if needed, adds user message, builds request (with history, experiences, college, essay_prompt, profile, `top_k` from `contextSize`, `response_length` from `responseLength`), initiates SSE stream via `askStream`. Collects tokens into `streamingContent`, then on `onDone` assembles final assistant message with sources/confidence and adds to conversation.
 - **`cancel()`:** Aborts the AbortController, clears streaming state.
 
-History is built from the last 6 messages of the current conversation. Experiences are only included in essay mode. Profile data (GPA, test scores) is sent on every request when the student has entered a GPA — this allows the LLM to contextualize statistics against the student's credentials in Q&A mode.
+History is built from the last 6 messages of the current conversation. Experiences are only included in essay mode. Profile data (GPA, test scores, location, preferred majors) is sent on every request when the student has entered a GPA, set a country, or added preferred majors — this allows the LLM to contextualize statistics, personalize tuition/residency advice, and tailor program guidance to the student's ranked major preferences.
 
 ## Conversations
 
@@ -347,6 +377,9 @@ frontend/src/
 ├── store.ts                   Zustand store (persisted + ephemeral)
 ├── types.ts                   TypeScript types, ALLOWED_MAJORS, ContextSize, CONTEXT_SIZE_MAP
 ├── suggestions.ts             QA + Essay suggestion banks
+├── markdown.tsx               Citation utilities (processCitations, stripCitations)
+├── data/
+│   └── locations.ts           Country + US state dropdown options
 ├── hooks/
 │   ├── useApi.ts              Health check + options fetch on mount
 │   └── useStreaming.ts        SSE streaming hook (send/cancel)
@@ -356,6 +389,7 @@ frontend/src/
     ├── MessageBubble.tsx      User/assistant message rendering
     ├── InputArea.tsx          Chat input + college picker + mode fields
     ├── CollegeCombobox.tsx    Searchable school dropdown (Headless UI)
+    ├── MajorCombobox.tsx      Searchable major dropdown with preferred sections
     ├── ReviewPanel.tsx        Collapsible essay draft editor
     ├── QuickPredictModal.tsx  Inline admission prediction modal
     ├── SourceCard.tsx         Expandable source citation card

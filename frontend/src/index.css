@@ -75,13 +75,29 @@
   @apply border-l-4 border-forest-500/40 pl-4 my-3 text-slate-400 italic;
 }
 
-/* Citation badges */
-.citation-badge {
+/* Source citation badges — gray default, green on hover/active */
+.source-badge {
   @apply inline-flex items-center justify-center
-         w-5 h-5 text-xs font-semibold
-         bg-forest-500/20 text-forest-400
+         min-w-[1.25rem] h-5 px-1 text-[11px] font-semibold
+         bg-dark-700 text-slate-400
          rounded-full cursor-pointer
-         hover:bg-forest-500/30 transition-colors;
+         transition-colors duration-150;
+  vertical-align: baseline;
+  margin: 0 1px;
+}
+.source-badge:hover,
+.source-badge.source-badge--active {
+  @apply bg-forest-500/25 text-forest-400;
+}
+
+/* Dotted green underline on paragraphs influenced by a hovered source */
+.source-highlight {
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-decoration-color: #34B874;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1.5px;
+  transition: text-decoration-color 0.15s ease;
 }
 
 /* Hide number input spinners */

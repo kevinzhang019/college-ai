@@ -38,7 +38,7 @@ from playwright.sync_api import sync_playwright, BrowserContext, Page
 
 from college_ai.scraping.shutdown import shutdown_event, install as install_shutdown
 
-from college_ai.db.connection import get_session, init_db, reset_engine, is_hrana_error
+from college_ai.db.connection import get_session, init_db, reset_engine, is_hrana_error, is_blocked_error
 from college_ai.db.models import (
     School, ApplicantDatapoint, NicheGrade,
 )
@@ -453,6 +453,13 @@ class DBWriterThread(threading.Thread):
                     session.rollback()
                 except Exception:
                     pass
+                if is_blocked_error(e):
+                    logger.error(
+                        "[DB] Turso plan quota exceeded — cannot write %s. "
+                        "Upgrade your Turso plan or wait for monthly quota reset.",
+                        slug,
+                    )
+                    return False  # No retries — quota block is not transient
                 if is_hrana_error(e) and attempt < self.MAX_RETRIES - 1:
                     delay = 0.5 * (2 ** attempt)
                     logger.warning(
@@ -488,8 +495,11 @@ class DBWriterThread(threading.Thread):
             except Exception:
                 pass
             if is_hrana_error(e):
-                logger.info("[DB] Keepalive hit stale stream — resetting engine")
-                reset_engine()
+                if is_blocked_error(e):
+                    logger.warning("[DB] Keepalive blocked — Turso plan quota exceeded")
+                else:
+                    logger.info("[DB] Keepalive hit stale stream — resetting engine")
+                    reset_engine()
             else:
                 logger.warning("[DB] Keepalive failed (non-Hrana): %s", e)
         finally:

@@ -12,7 +12,7 @@ Served by uvicorn on port 8000.
 |---|---|---|---|
 | GET | `/health` | — | Liveness probe → `{"status": "ok"}` |
 | GET | `/config` | — | Returns current Zilliz collection name |
-| GET | `/options` | — | Sorted list of all college names (from CSV seeds) |
+| GET | `/options` | — | Sorted college names + school→state mapping `{colleges[], school_states{}}` |
 | POST | `/ask` | `{question, top_k, college, essay_text}` | Non-streaming RAG Q&A (CLI/testing) |
 | POST | `/ask/stream` | `{question, top_k, college, essay_text, essay_prompt, history, experiences, profile}` | SSE streaming RAG (primary frontend endpoint) |
 | POST | `/predict` | `{gpa, school_name, sat, act, residency, major}` | Admission prediction → `{probability, confidence_interval, classification, factors}` |
@@ -57,7 +57,7 @@ Primary endpoint used by the frontend. Runs the same pipeline as `/ask` (route �
 | `essay_prompt` | string | No | — | Essay assignment prompt (essay mode) |
 | `history` | array | No | — | Previous messages `[{role, content}]`, last 6 used |
 | `experiences` | array | No | — | User's extracurriculars `[{title, organization, type, description, startDate, endDate}]` |
-| `profile` | object | No | — | Student academic profile `{gpa, testScoreType, testScore}` — injected into QA prompts for stats contextualization |
+| `profile` | object | No | — | Student profile `{gpa, testScoreType, testScore, country, countryLabel, state, preferredMajors}` — injected into QA prompts for stats contextualization, residency determination, and major-specific advice |
 
 Field aliasing: `startDate`/`endDate` accepted via Pydantic `populate_by_name` (maps to `start_date`/`end_date`).
 
@@ -141,20 +141,23 @@ App
 ### Admissions Calculator
 
 - Standalone view (not conversation-based)
-- Academic profile form: GPA (0–5.0), SAT/ACT toggle + score, major (83 options from `ALLOWED_MAJORS`), residency (in-state/out-of-state)
-- Multi-school selection via combobox with removable chips (max 10 schools)
-- Submits batch request to `POST /compare`
+- Academic profile form: GPA (0–5.0), SAT/ACT toggle + score, default major (searchable `MajorCombobox` with preferred majors section), default residency (in-state/out-of-state/international)
+- Multi-school selection via combobox (max 10 schools), each with per-school searchable major combobox and residency dropdown
+- Auto-residency: when profile location is set, residency is auto-computed from school state vs profile state (disabled/greyed out). International users default to out-of-state
 - Results displayed as PredictionCard components: probability percentage (color-coded), 95% confidence interval, safety/match/reach classification badge, contributing factors (positive/negative)
 
 ### My Profile / Experiences
 
-- **Academic Info** card: GPA + SAT/ACT type and score, persisted in Zustand `profile`
+- **Academic Info** card: GPA + SAT/ACT type and score + country/state location dropdowns, persisted in Zustand `profile`
+  - Country dropdown (all countries, US first). State dropdown appears only when US is selected
+  - Auto-determines residency (in-state/out-of-state/international) by fuzzy-matching the selected school against the Turso DB via `determine_residency()` on the backend
+- **Major Preferences** card: searchable Headless UI Combobox to add majors from `ALLOWED_MAJORS`, drag-to-reorder ranked list using Framer Motion `Reorder`. Ranked list passed to LLM as `"Preferred majors (ranked): #1 X, #2 Y"`
 - **Experiences** list with full CRUD via modal ExperienceForm
 - Experience types: `extracurricular`, `project`, `work`, `volunteer` (each color-coded)
 - Each experience: title, organization, type, description, start/end date (month picker, optional "Present" toggle)
 - Profile data auto-populates Admissions Calculator and Quick Predict modal
 - Experiences auto-included as context in Essay mode requests (formatted by `format_experiences()` on backend)
-- Profile data (GPA, test scores) sent on every request when GPA is set, enabling stats contextualization in Q&A mode
+- Profile data (GPA, test scores, location, preferred majors) sent on every request when GPA, country, or preferred majors are set, enabling stats contextualization, residency-aware tuition advice, and major-specific guidance in Q&A mode
 
 ### Design System
 

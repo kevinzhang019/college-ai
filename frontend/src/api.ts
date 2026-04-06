@@ -26,12 +26,17 @@ export async function checkHealth(): Promise<boolean> {
   }
 }
 
-export async function getOptions(): Promise<string[]> {
+export interface OptionsResponse {
+  colleges: string[]
+  school_states: Record<string, string>
+}
+
+export async function getOptions(): Promise<OptionsResponse> {
   try {
-    const data = await request<{ colleges: string[] }>('/options')
-    return data.colleges
+    const data = await request<{ colleges: string[]; school_states?: Record<string, string> }>('/options')
+    return { colleges: data.colleges, school_states: data.school_states || {} }
   } catch {
-    return FALLBACK_COLLEGES
+    return { colleges: FALLBACK_COLLEGES, school_states: {} }
   }
 }
 

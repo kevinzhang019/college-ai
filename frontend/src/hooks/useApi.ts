@@ -16,7 +16,7 @@ export function useApi() {
 
       const options = await getOptions()
       if (cancelled) return
-      setCollegeOptions(options)
+      setCollegeOptions(options.colleges, options.school_states)
     }
 
     init()

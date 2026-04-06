@@ -18,6 +18,7 @@ interface Store {
   mode: AppMode
   isConnected: boolean
   collegeOptions: string[]
+  schoolStates: Record<string, string>
   streamingContent: string
   streamingLoading: boolean
   sidebarOpen: boolean
@@ -43,6 +44,10 @@ interface Store {
   // ---- Actions: profile ----
   setProfileGpa: (gpa: string) => void
   setProfileTestScore: (type: TestScoreType, score: string) => void
+  setProfileLocation: (country: string, countryLabel: string, state: string) => void
+  addPreferredMajor: (major: string) => void
+  removePreferredMajor: (major: string) => void
+  reorderPreferredMajors: (majors: string[]) => void
 
   // ---- Actions: experiences ----
   addExperience: (exp: Experience) => void
@@ -51,7 +56,7 @@ interface Store {
 
   // ---- Actions: UI ----
   setIsConnected: (connected: boolean) => void
-  setCollegeOptions: (options: string[]) => void
+  setCollegeOptions: (options: string[], schoolStates?: Record<string, string>) => void
   setSidebarOpen: (open: boolean) => void
 }
 
@@ -62,7 +67,7 @@ export const useStore = create<Store>()(
       conversations: {},
       conversationOrder: [],
       experiences: [],
-      profile: { gpa: '', testScoreType: 'sat', testScore: '' },
+      profile: { gpa: '', testScoreType: 'sat', testScore: '', country: '', countryLabel: '', state: '', preferredMajors: [] },
       activeConversationId: null,
       contextSize: 'M',
       responseLength: 'M',
@@ -71,6 +76,7 @@ export const useStore = create<Store>()(
       mode: 'qa',
       isConnected: false,
       collegeOptions: [],
+      schoolStates: {},
       streamingContent: '',
       streamingLoading: false,
       sidebarOpen: true,
@@ -198,6 +204,23 @@ export const useStore = create<Store>()(
       setProfileTestScore: (type, score) =>
         set((state) => ({ profile: { ...state.profile, testScoreType: type, testScore: score } })),
 
+      setProfileLocation: (country, countryLabel, state) =>
+        set((s) => ({ profile: { ...s.profile, country, countryLabel, state } })),
+
+      addPreferredMajor: (major) =>
+        set((s) => {
+          if (s.profile.preferredMajors.includes(major)) return s
+          return { profile: { ...s.profile, preferredMajors: [...s.profile.preferredMajors, major] } }
+        }),
+
+      removePreferredMajor: (major) =>
+        set((s) => ({
+          profile: { ...s.profile, preferredMajors: s.profile.preferredMajors.filter((m) => m !== major) },
+        })),
+
+      reorderPreferredMajors: (majors) =>
+        set((s) => ({ profile: { ...s.profile, preferredMajors: majors } })),
+
       // ---- Experiences ----
       addExperience: (exp) =>
         set((state) => ({ experiences: [...state.experiences, exp] })),
@@ -216,7 +239,7 @@ export const useStore = create<Store>()(
 
       // ---- UI ----
       setIsConnected: (isConnected) => set({ isConnected }),
-      setCollegeOptions: (collegeOptions) => set({ collegeOptions }),
+      setCollegeOptions: (collegeOptions, schoolStates) => set({ collegeOptions, ...(schoolStates ? { schoolStates } : {}) }),
       setSidebarOpen: (sidebarOpen) => set({ sidebarOpen }),
     }),
     {

@@ -33,7 +33,7 @@ from college_ai.rag.prompts import (
     ESSAY_REVIEW_USER,
     NO_ANSWER_RESPONSE,
     QA_SYSTEM,
-    QA_SYSTEM_MULTITURN,
+    SYSTEM_MULTITURN,
     QA_USER,
     QUERY_REWRITE_SYSTEM,
     format_essay_prompt_context,
@@ -50,6 +50,7 @@ from college_ai.rag.router import (
     ESSAY_IDEAS,
     ESSAY_REVIEW,
     QA,
+    SIMPLE,
     QueryRouter,
 )
 from college_ai.scraping.config import VECTOR_DIM
@@ -72,9 +73,18 @@ class CollegeRAG:
         generation_model: Optional[str] = None,
         rewrite_model: Optional[str] = None,
     ):
-        self.generation_model = generation_model or os.getenv(
-            "OPENAI_CHAT_MODEL", "gpt-4.1-mini"
-        )
+        # Tiered model selection: simple Q&A gets a cheap model,
+        # everything else gets a higher-quality model.
+        self.model_simple = os.getenv("MODEL_SIMPLE", "gpt-4.1-nano")
+        self.model_standard = os.getenv("MODEL_STANDARD", "gpt-5.4-mini")
+
+        # Legacy override: if OPENAI_CHAT_MODEL or generation_model is set,
+        # use it as the standard model for backward compatibility.
+        if generation_model:
+            self.model_standard = generation_model
+        elif os.getenv("OPENAI_CHAT_MODEL"):
+            self.model_standard = os.getenv("OPENAI_CHAT_MODEL")
+
         self.rewrite_model = rewrite_model or "gpt-4.1-nano"
 
         self.retriever = HybridRetriever(collection_name=collection_name)
@@ -85,6 +95,12 @@ class CollegeRAG:
         self.collection_name = self.retriever.collection_name
 
         self._chat_client = None
+
+    def _select_model(self, query_type: str, complexity: str) -> str:
+        """Pick the generation model based on query type and complexity."""
+        if query_type == QA and complexity == SIMPLE:
+            return self.model_simple
+        return self.model_standard
 
     # ---- OpenAI client ----
 
@@ -218,6 +234,7 @@ class CollegeRAG:
         question: str,
         hits: List[Dict[str, Any]],
         college_name: Optional[str],
+        complexity: str = "complex",
     ) -> str:
         """Generate a grounded Q&A answer with citations."""
         client = self._get_chat_client()
@@ -234,19 +251,22 @@ class CollegeRAG:
             pass
 
         system = QA_SYSTEM
-        if college_name:
-            system += f"\nPrioritize information for {college_name} if present."
 
         user_prompt = QA_USER.format(
             question=question,
+            college_focus=f"Focus on: **{college_name}**\n" if college_name else "",
+            profile_context="",
             sources_block=sources_block,
             prediction_context=prediction_context,
             extra_instructions=get_extra_instructions(question),
             length_budget=get_length_budget(question),
         )
 
+        model = self._select_model(QA, complexity)
+        logger.info("Generation model=%s complexity=%s query=%r", model, complexity, question[:80])
+
         response = client.chat.completions.create(
-            model=self.generation_model,
+            model=model,
             messages=[
                 {"role": "system", "content": system},
                 {"role": "user", "content": user_prompt},
@@ -319,19 +339,20 @@ class CollegeRAG:
                 pass
 
             system = QA_SYSTEM
-            if college_name:
-                system += f"\nPrioritize information for {college_name} if present."
-            if history:
-                system += QA_SYSTEM_MULTITURN
 
             user_prompt = QA_USER.format(
                 question=question,
-                profile_context=format_profile_context(profile),
+                college_focus=f"Focus on: **{college_name}**\n" if college_name else "",
+                profile_context=format_profile_context(profile, college_name=college_name),
                 sources_block=sources_block,
                 prediction_context=prediction_context,
                 extra_instructions=get_extra_instructions(question),
                 length_budget=get_length_budget(question, response_length),
             )
+
+        # Append multi-turn context instruction for all modes when history exists
+        if history:
+            system += SYSTEM_MULTITURN
 
         messages = [{"role": "system", "content": system}]  # type: List[Dict[str, str]]
 
@@ -378,7 +399,7 @@ class CollegeRAG:
         )
 
         response = client.chat.completions.create(
-            model=self.generation_model,
+            model=self.model_standard,
             messages=[
                 {"role": "system", "content": ESSAY_IDEAS_SYSTEM},
                 {"role": "user", "content": user_prompt},
@@ -416,7 +437,7 @@ class CollegeRAG:
         )
 
         response = client.chat.completions.create(
-            model=self.generation_model,
+            model=self.model_standard,
             messages=[
                 {"role": "system", "content": ESSAY_REVIEW_SYSTEM},
                 {"role": "user", "content": user_prompt},
@@ -510,6 +531,7 @@ class CollegeRAG:
         hits = self.reranker.rerank(question, candidates, top_k=top_k)
 
         # 5. Generate
+        complexity = classification.complexity
         if query_type == ESSAY_IDEAS:
             answer = self._generate_essay_ideas(question, hits, school)
         elif query_type == ESSAY_REVIEW:
@@ -519,7 +541,7 @@ class CollegeRAG:
         else:
             # QA and admission_prediction both use the QA generator
             # (admission_prediction gets ML context injected via bridge)
-            answer = self._generate_qa(question, hits, school)
+            answer = self._generate_qa(question, hits, school, complexity)
 
         # 6. Post-process
         answer = self._verify_citations(answer, len(hits))
@@ -599,6 +621,7 @@ class CollegeRAG:
             hits = self.reranker.rerank(question, candidates, top_k=top_k)
 
             # 5. Build messages and stream generation
+            complexity = classification.complexity
             messages = self._build_messages(
                 question, query_type, hits, school,
                 essay_text=essay_text,
@@ -609,9 +632,12 @@ class CollegeRAG:
                 profile=profile,
             )
 
+            model = self._select_model(query_type, complexity)
+            logger.info("Streaming model=%s complexity=%s type=%s query=%r", model, complexity, query_type, question[:80])
+
             client = self._get_chat_client()
             stream = client.chat.completions.create(
-                model=self.generation_model,
+                model=model,
                 messages=messages,
                 temperature=self._get_temperature(query_type),
                 stream=True,

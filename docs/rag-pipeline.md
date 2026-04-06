@@ -5,11 +5,12 @@
 ## Architecture
 
 ```
-User Query + (optional school) + (optional history) + (optional experiences) + (optional profile)
+User Query + (optional school) + (optional history) + (optional experiences) + (optional profile w/ location)
     │
     ▼
 [Router]  ─── classify: qa | essay_ideas | essay_review | admission_prediction
     │           + extract school name from query text (fuzzy match)
+    │           + complexity: simple | complex (for model routing)
     ▼
 [Query Rewriting]  ─── always rewrites via gpt-4.1-nano (no length threshold)
     │
@@ -20,6 +21,10 @@ User Query + (optional school) + (optional history) + (optional experiences) + (
     ▼
 [Reranking]  ─── Cohere rerank-v3.5 cross-encoder (30 → 8 candidates)
     │              graceful fallback if COHERE_API_KEY not set
+    ▼
+[Model Selection]  ─── two-tier routing based on query type + complexity:
+    │                    simple Q&A → gpt-4.1-nano (cheap, fast)
+    │                    everything else → gpt-5.4-mini (higher quality, 90% cache discount)
     ▼
 [Generator]  ─── route to specialized prompt:
     │              • QA: grounded answer with citations         (temp 0.2)
@@ -41,10 +46,10 @@ User Query + (optional school) + (optional history) + (optional experiences) + (
 
 | File | Purpose |
 |---|---|
-| `rag/router.py` | Two-layer query classifier (rule-based + LLM fallback) + school name extraction via rapidfuzz |
+| `rag/router.py` | Two-layer query classifier (rule-based + LLM fallback) + school name extraction via rapidfuzz + complexity classification for model routing |
 | `rag/retrieval.py` | `HybridRetriever` — dense + BM25 hybrid search, school pre-filtering, URL dedup |
 | `rag/reranker.py` | Cohere rerank-v3.5 wrapper with graceful degradation |
-| `rag/prompts.py` | All system/user prompts: QA, essay ideas, essay review, query rewriting, classification. Also `format_experiences()`, `format_profile_context()`, `get_extra_instructions()` (conditional domain knowledge), and `QA_SYSTEM_MULTITURN` |
+| `rag/prompts.py` | All system/user prompts: QA, essay ideas, essay review, query rewriting, classification. Also `format_experiences()`, `format_profile_context()`, `determine_residency()`, `get_extra_instructions()` (conditional domain knowledge), and `SYSTEM_MULTITURN` |
 | `rag/service.py` | Thin orchestrator wiring router → retrieval → reranker → generator |
 | `rag/bridge.py` | ML prediction injection for admission-probability questions |
 | `rag/embeddings.py` | OpenAI embedding utilities, batch processing, cross-thread batcher |
@@ -64,6 +69,12 @@ Two-layer classifier:
 **Layer 2 — LLM fallback (for ambiguous queries):**
 - Single gpt-4.1-nano call, `max_tokens=10`, `temperature=0`
 - Categories: `qa | essay_ideas | essay_review | admission_prediction`
+
+**Complexity classification (for model routing):**
+- Only Q&A queries can be "simple" — all other types are always "complex"
+- Simple: < 20 words AND no comparison/strategy keywords AND at most 1 factual signal
+- Complex: everything else (multiple signals, comparisons, how-to, strategy, long questions, LLM-classified)
+- Conservative: ambiguous queries default to "complex" (better model)
 
 **School extraction:**
 - Exact substring match against known college list (from CSVs), longest match first
@@ -112,19 +123,40 @@ The frontend exposes this as a **context size selector** (XS=3, S=5, M=8, L=12, 
 
 ## Step 5: Generation (`prompts.py` + `service.py`)
 
-All prompts use the **Cole** persona ("You are Cole, a college admissions advisor/coach"). Four specialized prompt sets, all enforcing citation grounding:
+### Model Routing
 
-**QA:** Strict grounding contract — every factual claim needs `[N]` citation. Dynamic length budget based on query type (150-600 words), overridable by `response_length` parameter (XS: 50-100w, S: 100-200w, M: auto-detect, L: 400-600w, XL: 600-900w). Includes a statistics contextualization directive (acceptance rates describe the applicant pool, not individual chances; compare to student's profile when available). Optional "Next Steps" section for actionable queries. Conditional domain knowledge injected via `get_extra_instructions()` (see below). Model: gpt-4.1-mini, temperature 0.2.
+Two-tier model selection based on query type and complexity:
 
-**Essay Ideas:** Coach persona. Identifies 3-4 specific programs/values/traditions from sources, suggests essay angles with hooks. Step 5 requires framing each angle as what the student BRINGS to the school, not what the school offers. Specificity rule: every suggestion must include a detail that could NOT apply to a different school. Does NOT write the essay. Model: gpt-4.1-mini, temperature 0.4.
+| Query Type | Complexity | Model | Cost/query |
+|-----------|-----------|-------|-----------|
+| Simple factual Q&A | simple | `gpt-4.1-nano` | ~$0.0005 |
+| Complex Q&A, essay ideas, essay review, admission predictions | complex | `gpt-5.4-mini` | ~$0.004 |
 
-**Essay Review:** Coach persona reviewing a draft. Identifies strengths (naming the exact sentence/phrase that works), suggests school-specific details from sources, asks deepening questions, fact-checks claims, and flags common pitfalls (essay focuses on what school offers vs. what student contributes, inflated vocabulary, wrong school name, too much dialogue without reflection). Word cap overridable by `response_length` (XS: 150w, S: 250w, M: 350w default, L: 500w, XL: 700w). Model: gpt-4.1-mini, temperature 0.3.
+Configurable via environment variables: `MODEL_SIMPLE` (default: `gpt-4.1-nano`), `MODEL_STANDARD` (default: `gpt-5.4-mini`). Legacy `OPENAI_CHAT_MODEL` overrides `MODEL_STANDARD` for backward compatibility.
+
+### Prompt Caching
+
+All system prompts share a `COLE_PREAMBLE` prefix (~950 tokens) containing the Cole persona, grounding contract, citation protocol, formatting rules, residency/statistics contextualization, essay coaching principles, and tone guidelines. Each mode appends its specific instructions, pushing all system prompts above OpenAI's 1024-token caching threshold.
+
+**Cache behavior:** OpenAI automatically caches identical prompt prefixes. The gpt-5.4-mini model gets a **90% cache discount** on cached tokens (vs 75% for the 4.1 family). Since the preamble is identical across all query types, it stays cached across requests regardless of mode.
+
+**Key constraint:** No variable content (school names, timestamps) in system prompts — `college_name` injection moved to user message as `{college_focus}`.
+
+### Prompt Sets
+
+All prompts use the **Cole** persona ("You are Cole, a college admissions advisor and essay coach"). Four specialized prompt sets, all enforcing citation grounding:
+
+**QA:** Strict grounding contract — every factual claim needs `[N]` citation. Dynamic length budget based on query type (150-600 words), overridable by `response_length` parameter (XS: 50-100w, S: 100-200w, M: auto-detect, L: 400-600w, XL: 600-900w). Includes a statistics contextualization directive (acceptance rates describe the applicant pool, not individual chances; compare to student's profile when available). Optional "Next Steps" section for actionable queries. Conditional domain knowledge injected via `get_extra_instructions()` (see below). Temperature 0.2.
+
+**Essay Ideas:** Coach persona. Identifies 3-4 specific programs/values/traditions from sources, suggests essay angles with hooks. Requires framing each angle as what the student BRINGS to the school, not what the school offers. Specificity rule: every suggestion must include a detail that could NOT apply to a different school. Does NOT write the essay. Temperature 0.4.
+
+**Essay Review:** Coach persona reviewing a draft. Identifies strengths (naming the exact sentence/phrase that works), suggests school-specific details from sources, asks deepening questions, fact-checks claims, and flags common pitfalls (essay focuses on what school offers vs. what student contributes, inflated vocabulary, wrong school name, too much dialogue without reflection). Word cap overridable by `response_length` (XS: 150w, S: 250w, M: 350w default, L: 500w, XL: 700w). Temperature 0.3.
 
 **Admission Prediction:** Uses QA prompt with ML prediction context injected via `bridge.py` (probability, CI, classification, key factors, plus strategic guidance: SAFETY/MATCH/REACH classification, actionable improvement suggestions for REACH schools).
 
 ### Multi-turn Conversation Support
 
-When `history` is provided (via `/ask/stream`), `QA_SYSTEM_MULTITURN` is appended to the QA system prompt. This instructs the model to use conversation context for follow-up questions and answer independently for new topics. The last 6 messages from the conversation are prepended to the messages list before the current user prompt. Multi-turn is used only in the streaming path (Q&A and admission prediction modes).
+When `history` is provided (via `/ask/stream`), `SYSTEM_MULTITURN` is appended to the system prompt for **all modes** (QA, essay ideas, essay review, admission prediction). This instructs the model to use conversation context for follow-up questions, answer independently for new topics, and ask brief clarifying questions when the student's request is ambiguous or missing key details. The last 6 messages from the conversation are prepended to the messages list before the current user prompt.
 
 ### Experience Context Injection
 
@@ -132,9 +164,15 @@ For `essay_ideas` and `essay_review` modes, `format_experiences(experiences)` co
 
 ### Profile Context Injection
 
-For QA and admission prediction modes, `format_profile_context(profile)` converts the student's academic profile (GPA, SAT/ACT) into a one-line context string inserted into the user prompt as `{profile_context}`. Example: `"Student profile: GPA 3.8, SAT 1450"`. This enables the LLM to contextualize statistics against the student's actual credentials (e.g. comparing their SAT to a school's middle 50% range). Returns empty string if no profile data is provided.
+For QA and admission prediction modes, `format_profile_context(profile, college_name)` converts the student's academic profile, location, and major preferences into a one-line context string inserted into the user prompt as `{profile_context}`. Example: `"Student profile: GPA 3.8, SAT 1450, Residency: in-state, State: CA, Preferred majors (ranked): #1 Computer Science, #2 Data Science"`. This enables the LLM to contextualize statistics against the student's actual credentials, personalize tuition/aid advice based on residency status, and tailor program advice to the student's ranked major preferences.
 
-Profile data flows from the frontend Zustand store (`profile: { gpa, testScoreType, testScore }`) → `useStreaming` hook (sent on every request when GPA is set) → `/ask/stream` `profile` field → `_build_messages()` → `format_profile_context()`.
+**Residency determination** (`determine_residency(profile, college_name)`): When the student has set their country/state and a school is selected, this function fuzzy-matches the school name against the Turso DB via `SchoolMatcher`, retrieves the school's state, and compares:
+- Non-US country → `"international"`
+- US, same state as school → `"in-state"`
+- US, different state → `"out-of-state"`
+- Insufficient data → `None` (omitted from prompt)
+
+Profile data flows from the frontend Zustand store (`profile: { gpa, testScoreType, testScore, country, countryLabel, state, preferredMajors }`) → `useStreaming` hook (sent on every request when GPA, country, or preferred majors are set) → `/ask/stream` `profile` field → `_build_messages()` → `format_profile_context(profile, college_name)`.
 
 ### Conditional Domain Instructions (`get_extra_instructions()`)
 
@@ -144,7 +182,7 @@ Profile data flows from the frontend Zustand store (`profile: { gpa, testScoreTy
 |---|---|---|
 | **How-to / process** | "how to", "apply", "deadline", "steps" | Adds "Next Steps" section |
 | **Comparison** | "compare", "versus", "vs" | Structures answer as school comparison |
-| **Financial aid** | "financial aid", "tuition", "scholarship", "net price", "afford" | Distinguishes sticker vs net price, need-based vs merit aid |
+| **Financial aid** | "financial aid", "tuition", "scholarship", "net price", "afford" | Distinguishes sticker vs net price, need-based vs merit aid; uses residency to specify in-state vs out-of-state tuition |
 | **Demonstrated interest** | "demonstrated interest", "campus tour", "info session" | Notes DI policies vary; highly selective schools often don't track it |
 | **ED/EA/RD strategy** | "early decision", "early action", "when should i apply" | Explains binding/non-binding tradeoffs, financial implications of ED |
 | **Rec letters** | "recommendation", "rec letter" | Adds Next Steps for who to ask and timing |
@@ -157,6 +195,8 @@ The `essay_prompt` field from `/ask/stream` provides the essay assignment prompt
 ## Step 6: Post-processing
 
 **Citation verification:** Strips `[N]` where N > source count. Appends warning if no valid citations remain despite sources available.
+
+**Frontend citation rendering:** `[N]` markers are processed by `markdown.tsx` utilities. When sources are hidden (default), `stripCitations()` removes all markers. When the user toggles "Show Sources", `processCitations()` converts them to interactive gray badge elements (`source-badge` class) rendered via `rehype-raw`. Hovering a badge highlights the parent paragraph with a dotted green underline; clicking scrolls to the corresponding SourceCard.
 
 **Confidence scoring:** Based on rerank scores (if available) or COSINE similarity:
 - High: ≥4 hits, avg rerank score > 0.5 (or COSINE > 0.6)
@@ -209,7 +249,9 @@ Used by essay mode to target `about`/`academics`/`campus_life`/`diversity`/`outc
 
 | Variable | Default | Purpose |
 |---|---|---|
-| `OPENAI_CHAT_MODEL` | `gpt-4.1-mini` | Generation model |
+| `MODEL_SIMPLE` | `gpt-4.1-nano` | Model for simple factual Q&A |
+| `MODEL_STANDARD` | `gpt-5.4-mini` | Model for complex Q&A, essays, predictions |
+| `OPENAI_CHAT_MODEL` | — | Legacy override for `MODEL_STANDARD` |
 | `COHERE_API_KEY` | — | Cross-encoder reranking (optional) |
 | `ZILLIZ_COLLECTION_NAME` | `colleges` | Hybrid search collection |
 | `RAG_MAX_CHUNKS_PER_URL` | `2` | URL diversity cap |

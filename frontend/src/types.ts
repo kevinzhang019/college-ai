@@ -64,6 +64,10 @@ export interface ProfileData {
   gpa: string
   testScoreType: TestScoreType
   testScore: string
+  country: string
+  countryLabel: string
+  state: string
+  preferredMajors: string[]
 }
 
 export type Residency = 'inState' | 'outOfState'
