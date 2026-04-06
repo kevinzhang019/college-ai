@@ -51,6 +51,7 @@ Primary endpoint used by the frontend. Runs the same pipeline as `/ask` (route �
 |---|---|---|---|---|
 | `question` | string | Yes | — | User question or essay request |
 | `top_k` | int | No | 8 | 1–20, number of sources for generation |
+| `response_length` | string | No | — | XS/S/M/L/XL — overrides auto-detected length budget |
 | `college` | string | No | — | School from dropdown (hard filter) |
 | `essay_text` | string | No | — | Essay draft (forces essay_review mode) |
 | `essay_prompt` | string | No | — | Essay assignment prompt (essay mode) |
@@ -122,7 +123,7 @@ App
 ### Q&A Mode
 
 - Multi-message persistent conversations with SSE streaming via `useStreaming` hook
-- Context size selector (XS/S/M/L/XL) in bottom-right of textarea controls `top_k` sent to backend (3/5/8/12/16 sources). Default: M (8). Persisted across sessions. Uses Headless UI `Menu` dropdown
+- Settings popover (gear icon) in bottom-right of textarea with two controls: **Context Size** (XS/S/M/L/XL → `top_k` 3/5/8/12/16) and **Response Length** (XS/S/M/L/XL → overrides length budget). Both default to M and persist across sessions
 - Welcome state shows 4 randomized suggestions from ~100 QA questions across 10 categories
 - Searchable college combobox (Headless UI, loaded from `/options` with 31-school fallback)
 - Quick Predict button appears when a college is selected — opens modal with GPA, SAT/ACT, major, residency inputs, calls `POST /predict`, displays PredictionCard

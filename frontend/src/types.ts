@@ -48,6 +48,16 @@ export const CONTEXT_SIZE_MAP: Record<ContextSize, number> = {
   XL: 16,
 }
 
+export type ResponseLength = 'XS' | 'S' | 'M' | 'L' | 'XL'
+
+export const RESPONSE_LENGTH_LABELS: Record<ResponseLength, string> = {
+  XS: 'XS',
+  S: 'S',
+  M: 'M',
+  L: 'L',
+  XL: 'XL',
+}
+
 export type TestScoreType = 'sat' | 'act'
 
 export interface ProfileData {
@@ -57,6 +67,12 @@ export interface ProfileData {
 }
 
 export type Residency = 'inState' | 'outOfState'
+
+export interface SelectedSchool {
+  name: string
+  residency: Residency | null
+  major: string | null
+}
 
 export interface PredictionFactor {
   factor: string
@@ -118,6 +134,7 @@ export interface Experience {
 export interface AskStreamRequest {
   question: string
   top_k?: number
+  response_length?: string
   college?: string
   essay_text?: string
   essay_prompt?: string

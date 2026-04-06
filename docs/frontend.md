@@ -48,6 +48,7 @@ Zustand store (`store.ts`) with `persist` middleware, serializing to `localStora
 - `profile` — `ProfileData` (GPA, test score type, test score)
 - `activeConversationId` — currently selected conversation
 - `contextSize` — RAG context size (`'XS'|'S'|'M'|'L'|'XL'`, default `'M'`). Controls `top_k` sent to backend (3/5/8/12/16 sources)
+- `responseLength` — Response length preference (`'XS'|'S'|'M'|'L'|'XL'`, default `'M'`). Controls LLM length budgets (XS: 50-100w, S: 100-200w, M: auto-detect, L: 400-600w, XL: 600-900w)
 
 **Ephemeral (reset on reload):**
 - `mode` — current `AppMode`
@@ -117,7 +118,7 @@ Pinned to bottom of chat, `border-t border-dark-700` with backdrop blur.
    - Essay prompt input (Essay mode only, required before sending)
 3. **Chat input row:**
    - Auto-resizing textarea (max 150px height), Enter to submit, Shift+Enter for newline
-   - Context size selector (bottom-right of textarea): Headless UI `Menu` dropdown showing current size label (XS/S/M/L/XL) with chevron. Opens upward, active option highlighted in forest-400. Controls `top_k` per request. Persisted across sessions.
+   - Settings popover (bottom-right of textarea): Headless UI `Popover` with settings gear icon + chevron. Opens upward with two sections — **Context Size** (XS/S/M/L/XL controlling `top_k`) and **Response Length** (XS/S/M/L/XL controlling LLM length budget). Both use pill-button selectors with forest-green active state. Persisted across sessions.
    - Send button (forest-600 circle) or Cancel button (red circle during streaming)
 
 **Connecting state:** Full skeleton UI with pulsing placeholder blocks + "Connecting to Cole..." label with bouncing dots. Shown while `isConnected` is false.
@@ -250,7 +251,7 @@ One-time mount effect: calls `checkHealth()` and `getOptions()` in parallel. Set
 
 Returns `{ send, cancel }`:
 
-- **`send(question, essayText?)`:** Creates conversation if needed, adds user message, builds request (with history, experiences, college, essay_prompt, `top_k` from `contextSize`), initiates SSE stream via `askStream`. Collects tokens into `streamingContent`, then on `onDone` assembles final assistant message with sources/confidence and adds to conversation.
+- **`send(question, essayText?)`:** Creates conversation if needed, adds user message, builds request (with history, experiences, college, essay_prompt, `top_k` from `contextSize`, `response_length` from `responseLength`), initiates SSE stream via `askStream`. Collects tokens into `streamingContent`, then on `onDone` assembles final assistant message with sources/confidence and adds to conversation.
 - **`cancel()`:** Aborts the AbortController, clears streaming state.
 
 History is built from the last 6 messages of the current conversation. Experiences are only included in essay mode.

@@ -24,7 +24,7 @@ export default function CollegeCombobox({ value, onChange, compact }: Props) {
         <div className="relative">
           <ComboboxInput
             className={compact ? 'input-field-compact pr-8 text-sm' : 'input-field pr-8 text-sm'}
-            placeholder="Select a school (Optional, Cole will also understand if you just mention the school's name in your question)"
+            placeholder="Select a school (optional)"
             displayValue={(val: string | null) => val || ''}
             onChange={(e) => setQuery(e.target.value)}
           />

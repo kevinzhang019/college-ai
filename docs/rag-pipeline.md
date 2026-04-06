@@ -114,11 +114,11 @@ The frontend exposes this as a **context size selector** (XS=3, S=5, M=8, L=12, 
 
 Four specialized prompt sets, all enforcing citation grounding:
 
-**QA:** Strict grounding contract — every factual claim needs `[N]` citation. Dynamic length budget based on query type (150-600 words). Optional "Next Steps" section for actionable queries. Model: gpt-4.1-mini, temperature 0.2.
+**QA:** Strict grounding contract — every factual claim needs `[N]` citation. Dynamic length budget based on query type (150-600 words), overridable by `response_length` parameter (XS: 50-100w, S: 100-200w, M: auto-detect, L: 400-600w, XL: 600-900w). Optional "Next Steps" section for actionable queries. Model: gpt-4.1-mini, temperature 0.2.
 
 **Essay Ideas:** Coach persona. Identifies 3-4 specific programs/values/traditions from sources, suggests essay angles with hooks. Does NOT write the essay. Model: gpt-4.1-mini, temperature 0.4.
 
-**Essay Review:** Coach persona reviewing a draft. Identifies strengths, suggests school-specific details from sources, asks deepening questions, fact-checks claims. Model: gpt-4.1-mini, temperature 0.3.
+**Essay Review:** Coach persona reviewing a draft. Identifies strengths, suggests school-specific details from sources, asks deepening questions, fact-checks claims. Word cap overridable by `response_length` (XS: 150w, S: 250w, M: 350w default, L: 500w, XL: 700w). Model: gpt-4.1-mini, temperature 0.3.
 
 **Admission Prediction:** Uses QA prompt with ML prediction context injected via `bridge.py` (probability, CI, classification, key factors).
 

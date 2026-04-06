@@ -8,10 +8,9 @@ import { ALLOWED_MAJORS } from '../types'
 
 interface Props {
   college: string
-  onClose: () => void
 }
 
-export default function QuickPredictModal({ college, onClose }: Props) {
+export default function QuickPredictModal({ college }: Props) {
   const profile = useStore((s) => s.profile)
   const setProfileGpa = useStore((s) => s.setProfileGpa)
   const setProfileTestScore = useStore((s) => s.setProfileTestScore)
@@ -76,20 +75,12 @@ export default function QuickPredictModal({ college, onClose }: Props) {
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60"
-      onClick={onClose}
-    >
       <motion.div
-        initial={{ scale: 0.95, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.95, opacity: 0 }}
+        initial={{ scale: 0.95, opacity: 0, y: 10 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.95, opacity: 0, y: 10 }}
         transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-        onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-md bg-dark-900 rounded-2xl border border-dark-700 shadow-dark-lg p-6 space-y-4 max-h-[90vh] overflow-y-auto"
+        className="w-full max-w-md bg-dark-900 rounded-2xl border border-dark-700 shadow-2xl p-6 space-y-4 max-h-[70vh] overflow-y-auto"
       >
         <h3 className="text-lg font-semibold text-slate-100">
           Quick Estimate
@@ -217,13 +208,6 @@ export default function QuickPredictModal({ college, onClose }: Props) {
           {result && <PredictionCard result={result} />}
         </AnimatePresence>
 
-        {/* Close */}
-        <div className="flex justify-end pt-1">
-          <button onClick={onClose} className="btn-secondary text-sm">
-            Close
-          </button>
-        </div>
       </motion.div>
-    </motion.div>
   )
 }

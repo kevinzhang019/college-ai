@@ -36,8 +36,10 @@ from college_ai.rag.prompts import (
     QA_SYSTEM_MULTITURN,
     QA_USER,
     QUERY_REWRITE_SYSTEM,
+    format_essay_prompt_context,
     format_experiences,
     get_extra_instructions,
+    get_essay_length_budget,
     get_length_budget,
 )
 from college_ai.rag.reranker import Reranker
@@ -266,6 +268,7 @@ class CollegeRAG:
         essay_prompt: Optional[str] = None,
         history: Optional[List[Dict[str, str]]] = None,
         experiences: Optional[List[Dict[str, Any]]] = None,
+        response_length: Optional[str] = None,
     ) -> List[Dict[str, str]]:
         """Build the messages list for the OpenAI chat call."""
         sources_block = self._build_context_snippets(hits)
@@ -275,20 +278,28 @@ class CollegeRAG:
             school_context = ""
             if college_name:
                 school_context = f"School of interest: **{college_name}**\n\n"
+            essay_prompt_context = format_essay_prompt_context(essay_prompt)
             system = ESSAY_IDEAS_SYSTEM
+            essay_budget = get_essay_length_budget(response_length)
             user_prompt = ESSAY_IDEAS_USER.format(
                 question=question,
+                essay_prompt_context=essay_prompt_context,
                 school_context=school_context,
                 experience_context=experience_context,
                 sources_block=sources_block,
             )
+            user_prompt += f"\nTarget total length: under {essay_budget}."
         elif query_type == ESSAY_REVIEW:
             school_context = ""
             if college_name:
                 school_context = f"School of interest: **{college_name}**\n\n"
-            system = ESSAY_REVIEW_SYSTEM
+            essay_prompt_context = format_essay_prompt_context(essay_prompt)
+            system = ESSAY_REVIEW_SYSTEM.format(
+                essay_length_budget=get_essay_length_budget(response_length),
+            )
             user_prompt = ESSAY_REVIEW_USER.format(
                 question=question,
+                essay_prompt_context=essay_prompt_context,
                 school_context=school_context,
                 experience_context=experience_context,
                 essay_text=essay_text or "(No draft provided)",
@@ -316,7 +327,7 @@ class CollegeRAG:
                 sources_block=sources_block,
                 prediction_context=prediction_context,
                 extra_instructions=get_extra_instructions(question),
-                length_budget=get_length_budget(question),
+                length_budget=get_length_budget(question, response_length),
             )
 
         messages = [{"role": "system", "content": system}]  # type: List[Dict[str, str]]
@@ -357,7 +368,9 @@ class CollegeRAG:
 
         user_prompt = ESSAY_IDEAS_USER.format(
             question=question,
+            essay_prompt_context=format_essay_prompt_context(None),
             school_context=school_context,
+            experience_context="",
             sources_block=sources_block,
         )
 
@@ -392,7 +405,9 @@ class CollegeRAG:
 
         user_prompt = ESSAY_REVIEW_USER.format(
             question=question,
+            essay_prompt_context=format_essay_prompt_context(None),
             school_context=school_context,
+            experience_context="",
             essay_text=essay_text or "(No draft provided)",
             sources_block=sources_block,
         )
@@ -522,6 +537,7 @@ class CollegeRAG:
         question: str,
         *,
         top_k: int = 8,
+        response_length: Optional[str] = None,
         college_name: Optional[str] = None,
         essay_text: Optional[str] = None,
         essay_prompt: Optional[str] = None,
@@ -585,6 +601,7 @@ class CollegeRAG:
                 essay_prompt=essay_prompt,
                 history=history,
                 experiences=experiences,
+                response_length=response_length,
             )
 
             client = self._get_chat_client()

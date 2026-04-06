@@ -4,6 +4,7 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
 import { useStore } from '../store'
+import { useStreaming } from '../hooks/useStreaming'
 import MessageBubble from './MessageBubble'
 import { QA_SUGGESTIONS, ESSAY_SUGGESTIONS, pickRandom } from '../suggestions'
 
@@ -45,6 +46,7 @@ function StreamingMessage({ content }: { content: string }) {
 
 function WelcomeState() {
   const mode = useStore((s) => s.mode)
+  const { send } = useStreaming()
 
   const suggestions = useMemo(
     () => pickRandom(mode === 'essay' ? ESSAY_SUGGESTIONS : QA_SUGGESTIONS, 4),
@@ -66,6 +68,7 @@ function WelcomeState() {
         {suggestions.map((s) => (
           <button
             key={s}
+            onClick={() => send(s)}
             className="text-xs bg-dark-800/60 text-slate-400 px-3.5 py-2 rounded-full border border-dark-700 hover:border-forest-500/40 hover:text-slate-200 transition-all"
           >
             {s}

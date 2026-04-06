@@ -45,8 +45,9 @@ export function useStreaming() {
     const request = {
       question,
       top_k: CONTEXT_SIZE_MAP[state.contextSize],
+      response_length: state.responseLength,
       ...(conv.college ? { college: conv.college } : {}),
-      ...(chatMode === 'essay' && conv.essayPrompt ? { essay_prompt: conv.essayPrompt } : {}),
+      ...(chatMode === 'essay' ? { essay_prompt: conv.essayPrompt || '' } : {}),
       ...(chatMode === 'essay' && essayText ? { essay_text: essayText } : {}),
       ...(recentMessages.length > 0 ? { history: recentMessages } : {}),
       ...(chatMode === 'essay' && experiences.length > 0 ? { experiences } : {}),

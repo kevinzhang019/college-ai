@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import type { AppMode, ChatMessage, ContextSize, Conversation, Experience, ProfileData, TestScoreType } from './types'
+import type { AppMode, ChatMessage, ContextSize, Conversation, Experience, ProfileData, ResponseLength, TestScoreType } from './types'
 
 const MAX_CONVERSATIONS = 50
 
@@ -12,6 +12,7 @@ interface Store {
   profile: ProfileData
   activeConversationId: string | null
   contextSize: ContextSize
+  responseLength: ResponseLength
 
   // ---- Ephemeral ----
   mode: AppMode
@@ -24,6 +25,7 @@ interface Store {
   // ---- Actions: mode ----
   setMode: (mode: AppMode) => void
   setContextSize: (size: ContextSize) => void
+  setResponseLength: (size: ResponseLength) => void
 
   // ---- Actions: conversations ----
   createConversation: (mode: 'qa' | 'essay') => string
@@ -63,6 +65,7 @@ export const useStore = create<Store>()(
       profile: { gpa: '', testScoreType: 'sat', testScore: '' },
       activeConversationId: null,
       contextSize: 'M',
+      responseLength: 'M',
 
       // ---- Ephemeral defaults ----
       mode: 'qa',
@@ -75,6 +78,7 @@ export const useStore = create<Store>()(
       // ---- Mode ----
       setMode: (mode) => set({ mode, activeConversationId: null }),
       setContextSize: (contextSize) => set({ contextSize }),
+      setResponseLength: (responseLength) => set({ responseLength }),
 
       // ---- Conversations ----
       createConversation: (mode) => {
@@ -224,6 +228,7 @@ export const useStore = create<Store>()(
         profile: state.profile,
         activeConversationId: state.activeConversationId,
         contextSize: state.contextSize,
+        responseLength: state.responseLength,
       }),
     },
   ),

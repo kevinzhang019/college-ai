@@ -115,6 +115,7 @@ ESSAY_IDEAS_SYSTEM = (
 
 ESSAY_IDEAS_USER = (
     "Student's request: {question}\n\n"
+    "{essay_prompt_context}"
     "{school_context}"
     "{experience_context}"
     "Sources:\n{sources_block}\n\n"
@@ -138,7 +139,7 @@ ESSAY_REVIEW_SYSTEM = (
     "- Be encouraging but specific. Generic praise is not helpful.\n"
     "- Do NOT rewrite their essay. Coach, don't ghostwrite.\n"
     "- Cite sources [N] when referencing school-specific details.\n"
-    "- Keep total feedback under 350 words.\n\n"
+    "- Keep total feedback under {essay_length_budget}.\n\n"
     "FORMATTING:\n"
     "- Use ## for each feedback section heading\n"
     "- Use **bold** for emphasis\n"
@@ -147,6 +148,7 @@ ESSAY_REVIEW_SYSTEM = (
 
 ESSAY_REVIEW_USER = (
     "Student's request: {question}\n\n"
+    "{essay_prompt_context}"
     "{school_context}"
     "{experience_context}"
     "Student's essay draft:\n---\n{essay_text}\n---\n\n"
@@ -158,8 +160,35 @@ ESSAY_REVIEW_USER = (
 # Length budgets
 # ---------------------------------------------------------------------------
 
-def get_length_budget(question: str) -> str:
-    """Return a target word count range based on the query type."""
+RESPONSE_LENGTH_BUDGETS = {
+    "XS": "50-100 words (brief, direct answer)",
+    "S": "100-200 words (concise answer)",
+    "M": None,  # use auto-detection
+    "L": "400-600 words (thorough, detailed answer)",
+    "XL": "600-900 words (comprehensive, in-depth answer)",
+}
+
+ESSAY_LENGTH_BUDGETS = {
+    "XS": "150 words",
+    "S": "250 words",
+    "M": "350 words",
+    "L": "500 words",
+    "XL": "700 words",
+}
+
+
+def get_length_budget(question: str, response_length: Optional[str] = None) -> str:
+    """Return a target word count range based on the query type.
+
+    If *response_length* is provided (XS/S/M/L/XL), it overrides the
+    auto-detected budget.  ``M`` falls through to auto-detection so existing
+    behaviour is preserved.
+    """
+    if response_length and response_length in RESPONSE_LENGTH_BUDGETS:
+        override = RESPONSE_LENGTH_BUDGETS[response_length]
+        if override is not None:
+            return override
+
     q = question.lower()
     if any(kw in q for kw in ["compare", "versus", "vs", "difference between"]):
         return "400-600 words (comparative answer)"
@@ -173,6 +202,13 @@ def get_length_budget(question: str) -> str:
     ]):
         return "150-250 words (concise factual answer)"
     return "200-350 words"
+
+
+def get_essay_length_budget(response_length: Optional[str] = None) -> str:
+    """Return the essay feedback word cap for the given response length."""
+    if response_length and response_length in ESSAY_LENGTH_BUDGETS:
+        return ESSAY_LENGTH_BUDGETS[response_length]
+    return "350 words"
 
 
 def get_extra_instructions(question: str) -> str:
@@ -209,6 +245,21 @@ NO_ANSWER_RESPONSE = (
 # ---------------------------------------------------------------------------
 # Experience context formatting
 # ---------------------------------------------------------------------------
+
+def format_essay_prompt_context(essay_prompt: Optional[str] = None) -> str:
+    """Format essay prompt context for the LLM.
+
+    If a specific essay prompt is provided, tell the LLM to focus on it.
+    If blank/None, tell the LLM the student wants general essay advice.
+    """
+    if essay_prompt and essay_prompt.strip():
+        return f"Essay prompt the student is responding to: **{essay_prompt.strip()}**\n\n"
+    return (
+        "The student has not specified a particular essay prompt. "
+        "Provide general essay advice and strategies that apply broadly "
+        "across common college application essay prompts.\n\n"
+    )
+
 
 def format_experiences(
     experiences: Optional[List[Dict[str, Any]]],

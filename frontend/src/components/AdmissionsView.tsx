@@ -1,13 +1,20 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useStore } from '../store'
-import { compare } from '../api'
+import { predict } from '../api'
 import CollegeCombobox from './CollegeCombobox'
 import PredictionCard from './PredictionCard'
-import type { PredictionResult, Residency, TestScoreType } from '../types'
+import type { PredictionResult, Residency, SelectedSchool, TestScoreType } from '../types'
 import { ALLOWED_MAJORS } from '../types'
 
 const MAX_SCHOOLS = 10
+
+const filterNumericInput = (value: string, allowDot: boolean): string => {
+  if (allowDot) {
+    return value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')
+  }
+  return value.replace(/[^0-9]/g, '')
+}
 
 export default function AdmissionsView() {
   const profile = useStore((s) => s.profile)
@@ -15,9 +22,9 @@ export default function AdmissionsView() {
   const setProfileTestScore = useStore((s) => s.setProfileTestScore)
 
   // Local form state
-  const [selectedSchools, setSelectedSchools] = useState<string[]>([])
-  const [major, setMajor] = useState<string | null>(null)
-  const [residency, setResidency] = useState<Residency | null>(null)
+  const [selectedSchools, setSelectedSchools] = useState<SelectedSchool[]>([])
+  const [defaultMajor, setDefaultMajor] = useState<string | null>(null)
+  const [defaultResidency, setDefaultResidency] = useState<Residency | null>(null)
 
   // Validation
   const [gpaError, setGpaError] = useState('')
@@ -46,12 +53,28 @@ export default function AdmissionsView() {
   }
 
   const handleAddSchool = (school: string | null) => {
-    if (!school || selectedSchools.includes(school) || selectedSchools.length >= MAX_SCHOOLS) return
-    setSelectedSchools((prev) => [...prev, school])
+    if (!school || selectedSchools.some((s) => s.name === school) || selectedSchools.length >= MAX_SCHOOLS) return
+    setSelectedSchools((prev) => [...prev, {
+      name: school,
+      residency: defaultResidency,
+      major: defaultMajor,
+    }])
   }
 
-  const handleRemoveSchool = (school: string) => {
-    setSelectedSchools((prev) => prev.filter((s) => s !== school))
+  const handleRemoveSchool = (schoolName: string) => {
+    setSelectedSchools((prev) => prev.filter((s) => s.name !== schoolName))
+  }
+
+  const handleSchoolMajor = (schoolName: string, major: string | null) => {
+    setSelectedSchools((prev) => prev.map((s) =>
+      s.name === schoolName ? { ...s, major } : s
+    ))
+  }
+
+  const handleSchoolResidency = (schoolName: string, residency: Residency | null) => {
+    setSelectedSchools((prev) => prev.map((s) =>
+      s.name === schoolName ? { ...s, residency } : s
+    ))
   }
 
   const canSubmit =
@@ -70,18 +93,33 @@ export default function AdmissionsView() {
     setResults(null)
 
     try {
-      const params: Parameters<typeof compare>[0] = {
+      const baseParams = {
         gpa: parseFloat(profile.gpa),
-        schools: selectedSchools,
         ...(profile.testScoreType === 'sat'
           ? { sat: parseFloat(profile.testScore) }
           : { act: parseFloat(profile.testScore) }),
-        ...(residency ? { residency } : {}),
-        ...(major ? { major } : {}),
       }
 
-      const data = await compare(params)
-      setResults(data.results)
+      const promises = selectedSchools.map((school) =>
+        predict({
+          ...baseParams,
+          school_name: school.name,
+          ...(school.residency ? { residency: school.residency } : {}),
+          ...(school.major ? { major: school.major } : {}),
+        }).catch((err) => ({
+          school_name: school.name,
+          error: err instanceof Error ? err.message : 'Failed',
+          probability: 0,
+          confidence_interval: [0, 0] as [number, number],
+          classification: 'reach' as const,
+          school_acceptance_rate: 0,
+          factors: [],
+        }))
+      )
+
+      const allResults = await Promise.all(promises)
+      allResults.sort((a, b) => b.probability - a.probability)
+      setResults(allResults)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong')
     } finally {
@@ -96,7 +134,7 @@ export default function AdmissionsView() {
         <div className="mb-6">
           <h2 className="text-lg font-semibold text-slate-100">Admissions Calculator</h2>
           <p className="text-sm text-slate-500 mt-0.5">
-            Estimate your chances at up to {MAX_SCHOOLS} schools.
+            Estimate your admission chances
           </p>
         </div>
 
@@ -107,12 +145,10 @@ export default function AdmissionsView() {
             <div className="w-28">
               <label className="block text-xs font-medium text-slate-400 mb-1">GPA *</label>
               <input
-                type="number"
-                step="0.01"
-                min="0"
-                max="5"
+                type="text"
+                inputMode="decimal"
                 value={profile.gpa}
-                onChange={(e) => { setProfileGpa(e.target.value); setGpaError('') }}
+                onChange={(e) => { setProfileGpa(filterNumericInput(e.target.value, true)); setGpaError('') }}
                 onBlur={(e) => validateGpa(e.target.value)}
                 placeholder="e.g. 3.8"
                 className={`input-field-compact text-sm ${gpaError ? 'border-red-500/60 focus:ring-red-500/40 focus:border-red-500' : ''}`}
@@ -153,9 +189,10 @@ export default function AdmissionsView() {
                 {profile.testScoreType === 'sat' ? 'SAT Score *' : 'ACT Score *'}
               </label>
               <input
-                type="number"
+                type="text"
+                inputMode="numeric"
                 value={profile.testScore}
-                onChange={(e) => { setProfileTestScore(profile.testScoreType, e.target.value); setScoreError('') }}
+                onChange={(e) => { setProfileTestScore(profile.testScoreType, filterNumericInput(e.target.value, false)); setScoreError('') }}
                 onBlur={(e) => validateScore(e.target.value, profile.testScoreType)}
                 placeholder={profile.testScoreType === 'sat' ? '400 – 1600' : '1 – 36'}
                 className={`input-field-compact text-sm ${scoreError ? 'border-red-500/60 focus:ring-red-500/40 focus:border-red-500' : ''}`}
@@ -164,13 +201,13 @@ export default function AdmissionsView() {
             </div>
           </div>
 
-          {/* Row 2: Major + Residency */}
+          {/* Row 2: Default Major + Default Residency */}
           <div className="flex gap-3">
             <div className="flex-1">
-              <label className="block text-xs font-medium text-slate-400 mb-1">Major</label>
+              <label className="block text-xs font-medium text-slate-400 mb-1">Default Major</label>
               <select
-                value={major || ''}
-                onChange={(e) => setMajor(e.target.value || null)}
+                value={defaultMajor || ''}
+                onChange={(e) => setDefaultMajor(e.target.value || null)}
                 className="input-field-compact text-sm"
               >
                 <option value="">Not specified</option>
@@ -180,10 +217,10 @@ export default function AdmissionsView() {
               </select>
             </div>
             <div className="w-40">
-              <label className="block text-xs font-medium text-slate-400 mb-1">Residency</label>
+              <label className="block text-xs font-medium text-slate-400 mb-1">Default Residency</label>
               <select
-                value={residency || ''}
-                onChange={(e) => setResidency((e.target.value || null) as Residency | null)}
+                value={defaultResidency || ''}
+                onChange={(e) => setDefaultResidency((e.target.value || null) as Residency | null)}
                 className="input-field-compact text-sm"
               >
                 <option value="">Not specified</option>
@@ -209,24 +246,53 @@ export default function AdmissionsView() {
             <p className="text-xs text-slate-500 py-2">Maximum {MAX_SCHOOLS} schools reached.</p>
           )}
 
-          {/* Selected school chips */}
+          {/* Selected school cards — vertical list with alternating greys */}
           {selectedSchools.length > 0 && (
-            <div className="flex flex-wrap gap-2 mt-3">
-              {selectedSchools.map((school) => (
-                <span
-                  key={school}
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-dark-800 border border-dark-700 text-xs text-slate-300"
+            <div className="mt-3 rounded-xl overflow-hidden border border-dark-700">
+              {selectedSchools.map((school, i) => (
+                <div
+                  key={school.name}
+                  className={`px-3 py-2.5 flex items-center gap-2 ${
+                    i % 2 === 0 ? 'bg-dark-800' : 'bg-dark-800/50'
+                  } ${i > 0 ? 'border-t border-dark-700' : ''}`}
                 >
-                  {school}
-                  <button
-                    onClick={() => handleRemoveSchool(school)}
-                    className="text-slate-500 hover:text-red-400 transition-colors"
+                  <span
+                    className="text-sm text-slate-200 font-medium min-w-0 truncate flex-shrink-0 max-w-[160px]"
+                    title={school.name}
                   >
-                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    {school.name}
+                  </span>
+
+                  <select
+                    value={school.major || ''}
+                    onChange={(e) => handleSchoolMajor(school.name, e.target.value || null)}
+                    className="input-field-compact text-xs py-1.5 flex-1 min-w-0"
+                  >
+                    <option value="">No major</option>
+                    {ALLOWED_MAJORS.map((m) => (
+                      <option key={m} value={m}>{m}</option>
+                    ))}
+                  </select>
+
+                  <select
+                    value={school.residency || ''}
+                    onChange={(e) => handleSchoolResidency(school.name, (e.target.value || null) as Residency | null)}
+                    className="input-field-compact text-xs py-1.5 w-28 flex-shrink-0"
+                  >
+                    <option value="">No residency</option>
+                    <option value="inState">In-State</option>
+                    <option value="outOfState">Out-of-State</option>
+                  </select>
+
+                  <button
+                    onClick={() => handleRemoveSchool(school.name)}
+                    className="text-slate-500 hover:text-red-400 transition-colors flex-shrink-0"
+                  >
+                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                     </svg>
                   </button>
-                </span>
+                </div>
               ))}
             </div>
           )}

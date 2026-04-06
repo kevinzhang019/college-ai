@@ -151,6 +151,7 @@ class ExperienceItem(BaseModel):
 class AskStreamRequest(BaseModel):
     question: str = Field(..., description="User question or essay request")
     top_k: int = Field(8, ge=1, le=20)
+    response_length: Optional[str] = Field(None, description="Response length: XS, S, M, L, XL")
     college: Optional[str] = None
     essay_text: Optional[str] = None
     essay_prompt: Optional[str] = None
@@ -171,6 +172,7 @@ def _sse_generator(payload: AskStreamRequest):
     for event in rag_engine.answer_question_stream(
         payload.question,
         top_k=payload.top_k,
+        response_length=payload.response_length,
         college_name=payload.college,
         essay_text=payload.essay_text,
         essay_prompt=payload.essay_prompt,

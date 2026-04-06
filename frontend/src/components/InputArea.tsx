@@ -1,20 +1,14 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
+import { Popover, PopoverButton, PopoverPanel } from '@headlessui/react'
 import { useStore } from '../store'
 import { useStreaming } from '../hooks/useStreaming'
 import CollegeCombobox from './CollegeCombobox'
 import ReviewPanel from './ReviewPanel'
 import QuickPredictModal from './QuickPredictModal'
-import type { ContextSize } from '../types'
+import type { ContextSize, ResponseLength } from '../types'
 
-const CONTEXT_SIZES: { value: ContextSize; label: string }[] = [
-  { value: 'XS', label: 'XS' },
-  { value: 'S', label: 'S' },
-  { value: 'M', label: 'M' },
-  { value: 'L', label: 'L' },
-  { value: 'XL', label: 'XL' },
-]
+const SIZE_OPTIONS: ContextSize[] = ['XS', 'S', 'M', 'L', 'XL']
 
 export default function InputArea() {
   const [input, setInput] = useState('')
@@ -30,6 +24,8 @@ export default function InputArea() {
   const createConversation = useStore((s) => s.createConversation)
   const contextSize = useStore((s) => s.contextSize)
   const setContextSize = useStore((s) => s.setContextSize)
+  const responseLength = useStore((s) => s.responseLength)
+  const setResponseLength = useStore((s) => s.setResponseLength)
 
   const conversation = activeConversationId
     ? conversations[activeConversationId]
@@ -39,6 +35,7 @@ export default function InputArea() {
   const essayPrompt = conversation?.essayPrompt || ''
 
   const [quickPredictOpen, setQuickPredictOpen] = useState(false)
+  const chancesContainerRef = useRef<HTMLDivElement>(null)
 
   const { send, cancel } = useStreaming()
 
@@ -50,6 +47,18 @@ export default function InputArea() {
       ta.style.height = Math.min(ta.scrollHeight, 150) + 'px'
     }
   }, [input])
+
+  // Click-outside to close chances popup
+  useEffect(() => {
+    if (!quickPredictOpen) return
+    const handler = (e: MouseEvent) => {
+      if (chancesContainerRef.current && !chancesContainerRef.current.contains(e.target as Node)) {
+        setQuickPredictOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [quickPredictOpen])
 
   const handleCollegeChange = useCallback(
     (value: string | null) => {
@@ -79,11 +88,9 @@ export default function InputArea() {
   const handleSend = useCallback(async () => {
     const q = input.trim()
     if (!q || streamingLoading) return
-    if (mode === 'essay' && !essayPrompt.trim()) return
-
     setInput('')
     await send(q, essayText || undefined)
-  }, [input, streamingLoading, mode, essayPrompt, essayText, send])
+  }, [input, streamingLoading, essayText, send])
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -95,8 +102,7 @@ export default function InputArea() {
   const canSend =
     input.trim().length > 0 &&
     !streamingLoading &&
-    isConnected &&
-    (mode !== 'essay' || essayPrompt.trim().length > 0)
+    isConnected
 
   // Full loading skeleton for connecting state
   if (!isConnected) {
@@ -157,6 +163,19 @@ export default function InputArea() {
       <div className="max-w-3xl mx-auto px-4 py-3 space-y-2">
         {/* Mode-specific fields */}
         <div className="flex gap-2 items-start">
+          {/* Essay prompt field — essay mode only */}
+          {mode === 'essay' && (
+            <div className="flex-1">
+              <input
+                type="text"
+                value={essayPrompt}
+                onChange={(e) => handleEssayPromptChange(e.target.value)}
+                placeholder="Essay prompt (optional — leave blank for general advice)"
+                className="input-field-compact text-sm"
+              />
+            </div>
+          )}
+
           {/* School selection — shown in both Q&A and Essay */}
           <div className={mode === 'essay' ? 'w-2/5' : 'flex-1'}>
             <CollegeCombobox
@@ -166,39 +185,42 @@ export default function InputArea() {
             />
           </div>
 
-          {/* Quick predict button — when a college is selected */}
-          {college && (
-            <button
-              onClick={() => setQuickPredictOpen(true)}
-              className="shrink-0 px-3 py-2 rounded-lg bg-forest-600/15 text-forest-400 border border-forest-500/20 hover:bg-forest-600/25 text-xs font-medium transition-all"
-              title="Estimate admission chances"
-            >
-              Chances
-            </button>
-          )}
-
-          {/* Essay prompt field — essay mode only */}
-          {mode === 'essay' && (
-            <div className="flex-1">
-              <input
-                type="text"
-                value={essayPrompt}
-                onChange={(e) => handleEssayPromptChange(e.target.value)}
-                placeholder="Essay prompt (required)"
-                className="input-field-compact text-sm"
-              />
-            </div>
-          )}
         </div>
 
-        {/* Chat input */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.98 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-          className="flex gap-2 items-end"
-        >
-          <div className="flex-1 relative">
+        {/* Chances button + Chat input */}
+        <div className="flex gap-2 items-end">
+          <div className="flex-1">
+            {/* Ghost chances button — right-aligned above textarea */}
+            {college && (
+              <div className="flex justify-end mb-1" ref={chancesContainerRef}>
+                <div className="relative">
+                  <AnimatePresence>
+                    {quickPredictOpen && (
+                      <div className="absolute bottom-full right-0 mb-2 z-50">
+                        <QuickPredictModal college={college} />
+                      </div>
+                    )}
+                  </AnimatePresence>
+                  <button
+                    onClick={() => setQuickPredictOpen(!quickPredictOpen)}
+                    className="flex flex-col items-center px-3 py-1.5 rounded-lg text-forest-400 bg-transparent border border-transparent hover:bg-forest-600/15 hover:border-forest-500/20 transition-all cursor-pointer"
+                    title="Estimate admission chances"
+                  >
+                    <svg className="w-3.5 h-3.5 mb-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 15l7-7 7 7" />
+                    </svg>
+                    <span className="text-[11px] font-medium leading-tight text-center">See my<br />chances</span>
+                  </button>
+                </div>
+              </div>
+            )}
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+              className="relative"
+            >
             <textarea
               ref={textareaRef}
               value={input}
@@ -214,33 +236,64 @@ export default function InputArea() {
               disabled={streamingLoading}
             />
 
-            {/* Context size selector — bottom-right of textarea */}
-            <div className="absolute bottom-1.5 right-2">
-              <Menu as="div" className="relative">
-                <MenuButton className="flex items-center gap-0.5 px-1.5 py-0.5 rounded text-xs text-slate-400 hover:text-slate-200 hover:bg-dark-700 transition-colors">
-                  {contextSize}
-                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </MenuButton>
-                <MenuItems className="absolute bottom-full right-0 mb-1 w-20 bg-dark-800 border border-dark-700 rounded-lg shadow-xl py-1 z-50">
-                  {CONTEXT_SIZES.map((size) => (
-                    <MenuItem key={size.value}>
-                      <button
-                        onClick={() => setContextSize(size.value)}
-                        className={`w-full text-left px-3 py-1.5 text-xs transition-colors data-[focus]:bg-dark-700 ${
-                          contextSize === size.value
-                            ? 'text-forest-400 font-medium'
-                            : 'text-slate-300'
-                        }`}
-                      >
-                        {size.label}
-                      </button>
-                    </MenuItem>
-                  ))}
-                </MenuItems>
-              </Menu>
-            </div>
+              {/* Settings dropdown — bottom-right of textarea */}
+              <div className="absolute bottom-1.5 right-2">
+                <Popover className="relative">
+                  <PopoverButton className="flex items-center gap-1 px-1.5 py-0.5 rounded text-xs text-slate-400 hover:text-slate-200 hover:bg-dark-700 transition-colors">
+                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </PopoverButton>
+                  <PopoverPanel className="absolute bottom-full right-0 mb-1 w-48 bg-dark-800 border border-dark-700 rounded-lg shadow-xl z-50 py-2">
+                    {/* Context Size */}
+                    <div className="px-3 pb-1.5">
+                      <span className="text-[10px] font-medium text-slate-500 uppercase tracking-wider">Context Size</span>
+                    </div>
+                    <div className="flex gap-1 px-3 pb-2.5">
+                      {SIZE_OPTIONS.map((size) => (
+                        <button
+                          key={`ctx-${size}`}
+                          onClick={() => setContextSize(size)}
+                          className={`flex-1 py-1 rounded text-xs font-medium transition-colors ${
+                            contextSize === size
+                              ? 'bg-forest-600/25 text-forest-400 border border-forest-500/30'
+                              : 'text-slate-400 hover:text-slate-200 hover:bg-dark-700 border border-transparent'
+                          }`}
+                        >
+                          {size}
+                        </button>
+                      ))}
+                    </div>
+
+                    <div className="border-t border-dark-700 my-1" />
+
+                    {/* Response Length */}
+                    <div className="px-3 pb-1.5 pt-1">
+                      <span className="text-[10px] font-medium text-slate-500 uppercase tracking-wider">Response Length</span>
+                    </div>
+                    <div className="flex gap-1 px-3 pb-1">
+                      {SIZE_OPTIONS.map((size) => (
+                        <button
+                          key={`len-${size}`}
+                          onClick={() => setResponseLength(size as ResponseLength)}
+                          className={`flex-1 py-1 rounded text-xs font-medium transition-colors ${
+                            responseLength === size
+                              ? 'bg-forest-600/25 text-forest-400 border border-forest-500/30'
+                              : 'text-slate-400 hover:text-slate-200 hover:bg-dark-700 border border-transparent'
+                          }`}
+                        >
+                          {size}
+                        </button>
+                      ))}
+                    </div>
+                  </PopoverPanel>
+                </Popover>
+              </div>
+            </motion.div>
           </div>
 
           {streamingLoading ? (
@@ -263,18 +316,8 @@ export default function InputArea() {
               </svg>
             </button>
           )}
-        </motion.div>
+        </div>
       </div>
-
-      {/* Quick predict modal */}
-      <AnimatePresence>
-        {quickPredictOpen && college && (
-          <QuickPredictModal
-            college={college}
-            onClose={() => setQuickPredictOpen(false)}
-          />
-        )}
-      </AnimatePresence>
     </div>
   )
 }
