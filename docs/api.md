@@ -126,7 +126,7 @@ App
 - Settings popover (gear icon) in bottom-right of textarea with two controls: **Context Size** (XS/S/M/L/XL → `top_k` 3/5/8/12/16) and **Response Length** (XS/S/M/L/XL → overrides length budget). Both default to M and persist across sessions
 - Welcome state shows 4 randomized suggestions from ~100 QA questions across 10 categories
 - Searchable college combobox (Headless UI, loaded from `/options` with 31-school fallback)
-- Quick Predict button appears when a college is selected — opens modal with GPA, SAT/ACT, major, residency inputs, calls `POST /predict`, displays PredictionCard
+- "See my chances" button appears inline with school dropdown when a college is selected — opens QuickPredictModal with GPA/major/residency (row 1) and SAT/ACT toggle + score (row 2), calls `POST /predict`, displays PredictionCard
 - Answers rendered as markdown with `[N]` citation badges, expandable source cards (first 3 shown, rest collapsible), confidence badge
 
 ### Essay Helper Mode

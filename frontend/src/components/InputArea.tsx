@@ -185,36 +185,34 @@ export default function InputArea() {
             />
           </div>
 
+          {/* Chances button — inline with school dropdown */}
+          {college && (
+            <div className="relative shrink-0" ref={chancesContainerRef}>
+              <AnimatePresence>
+                {quickPredictOpen && (
+                  <div className="absolute bottom-full right-0 mb-2 z-50">
+                    <QuickPredictModal college={college} />
+                  </div>
+                )}
+              </AnimatePresence>
+              <button
+                onClick={() => setQuickPredictOpen(!quickPredictOpen)}
+                className="flex flex-col items-center px-3 py-1.5 rounded-lg text-forest-400 bg-transparent border border-transparent hover:bg-forest-600/15 hover:border-forest-500/20 transition-all cursor-pointer"
+                title="Estimate admission chances"
+              >
+                <svg className="w-3.5 h-3.5 mb-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 15l7-7 7 7" />
+                </svg>
+                <span className="text-[11px] font-medium leading-tight text-center">See my<br />chances</span>
+              </button>
+            </div>
+          )}
+
         </div>
 
-        {/* Chances button + Chat input */}
+        {/* Chat input */}
         <div className="flex gap-2 items-end">
           <div className="flex-1">
-            {/* Ghost chances button — right-aligned above textarea */}
-            {college && (
-              <div className="flex justify-end mb-1" ref={chancesContainerRef}>
-                <div className="relative">
-                  <AnimatePresence>
-                    {quickPredictOpen && (
-                      <div className="absolute bottom-full right-0 mb-2 z-50">
-                        <QuickPredictModal college={college} />
-                      </div>
-                    )}
-                  </AnimatePresence>
-                  <button
-                    onClick={() => setQuickPredictOpen(!quickPredictOpen)}
-                    className="flex flex-col items-center px-3 py-1.5 rounded-lg text-forest-400 bg-transparent border border-transparent hover:bg-forest-600/15 hover:border-forest-500/20 transition-all cursor-pointer"
-                    title="Estimate admission chances"
-                  >
-                    <svg className="w-3.5 h-3.5 mb-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 15l7-7 7 7" />
-                    </svg>
-                    <span className="text-[11px] font-medium leading-tight text-center">See my<br />chances</span>
-                  </button>
-                </div>
-              </div>
-            )}
-
             <motion.div
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}

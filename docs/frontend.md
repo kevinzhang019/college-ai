@@ -113,9 +113,9 @@ Pinned to bottom of chat, `border-t border-dark-700` with backdrop blur.
 **Layout:**
 1. **ReviewPanel** (Essay mode only): Positioned above the main input area
 2. **Mode-specific fields row:**
-   - College combobox (always shown, 2/5 width in essay, full width in Q&A)
-   - "Chances" button (appears when college selected → opens QuickPredictModal)
    - Essay prompt input (Essay mode only, required before sending)
+   - College combobox (always shown, 2/5 width in essay, full width in Q&A)
+   - "See my chances" button — inline to the right of school dropdown (appears when college selected → opens QuickPredictModal)
 3. **Chat input row:**
    - Auto-resizing textarea (max 150px height), Enter to submit, Shift+Enter for newline
    - Settings popover (bottom-right of textarea): Headless UI `Popover` with settings gear icon + chevron. Opens upward with two sections — **Context Size** (XS/S/M/L/XL controlling `top_k`) and **Response Length** (XS/S/M/L/XL controlling LLM length budget). Both use pill-button selectors with forest-green active state. Persisted across sessions.
@@ -137,10 +137,10 @@ Collapsible essay draft editor in Essay mode:
 ### QuickPredictModal (`QuickPredictModal.tsx`)
 
 Modal overlay for quick admission prediction within a chat:
-- GPA input (0–5.0)
-- SAT/ACT toggle + score input
-- Major dropdown (83 options from `ALLOWED_MAJORS`)
-- Residency selector
+- Header: "Quickly estimate admissions probability" (white text, `text-base`)
+- Row 1: GPA input (0–5.0), Major dropdown, Residency selector — all equal width (`flex-1`)
+- Row 2: SAT/ACT toggle + score input
+- Number input spinners hidden via CSS
 - Auto-populates from profile data if available
 - Calls `POST /predict` and displays a `PredictionCard` inline
 
