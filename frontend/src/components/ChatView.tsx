@@ -1,10 +1,11 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
 import { useStore } from '../store'
 import MessageBubble from './MessageBubble'
+import { QA_SUGGESTIONS, ESSAY_SUGGESTIONS, pickRandom } from '../suggestions'
 
 function ColeAvatar({ size = 'sm' }: { size?: 'sm' | 'lg' }) {
   const cls = size === 'lg' ? 'w-12 h-12 text-lg' : 'w-6 h-6 text-xs'
@@ -45,19 +46,10 @@ function StreamingMessage({ content }: { content: string }) {
 function WelcomeState() {
   const mode = useStore((s) => s.mode)
 
-  const suggestions =
-    mode === 'essay'
-      ? [
-          'Help me with my "Why Stanford?" essay',
-          'Brainstorm ideas for MIT supplement',
-          'What should I write about for Common App?',
-        ]
-      : [
-          'What is the acceptance rate at MIT?',
-          'Best scholarships for CS majors?',
-          'Stanford application deadlines',
-          'What GPA do I need for UCLA?',
-        ]
+  const suggestions = useMemo(
+    () => pickRandom(mode === 'essay' ? ESSAY_SUGGESTIONS : QA_SUGGESTIONS, 4),
+    [mode],
+  )
 
   return (
     <div className="flex-1 flex flex-col items-center justify-center text-center px-6">
