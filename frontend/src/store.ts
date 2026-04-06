@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import type { AppMode, ChatMessage, Conversation, Experience, Source } from './types'
+import type { AppMode, ChatMessage, Conversation, Experience } from './types'
 
 const MAX_CONVERSATIONS = 50
 
@@ -48,7 +48,7 @@ interface Store {
 
 export const useStore = create<Store>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       // ---- Persisted defaults ----
       conversations: {},
       conversationOrder: [],

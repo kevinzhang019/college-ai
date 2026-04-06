@@ -11,7 +11,7 @@
 @layer components {
   .btn-primary {
     @apply inline-flex items-center justify-center gap-2 px-5 py-2.5
-           bg-blue-500 hover:bg-blue-600 active:bg-blue-700
+           bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700
            text-white font-medium rounded-full
            transition-all duration-200 ease-out
            shadow-dark hover:shadow-dark-md
@@ -40,7 +40,15 @@
     @apply w-full px-4 py-3 rounded-xl
            bg-navy-800 border border-navy-700
            text-slate-100 placeholder:text-slate-500
-           focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500
+           focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500
+           transition-all duration-200;
+  }
+
+  .input-field-compact {
+    @apply w-full px-3 py-2 rounded-lg
+           bg-navy-800 border border-navy-700
+           text-slate-100 placeholder:text-slate-500
+           focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500
            transition-all duration-200;
   }
 }

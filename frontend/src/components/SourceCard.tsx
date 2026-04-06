@@ -39,7 +39,7 @@ export default function SourceCard({
           className="text-sm font-medium text-slate-200 hover:text-blue-400 transition-colors line-clamp-1"
           onClick={(e) => e.stopPropagation()}
         >
-          {source.title || source.url}
+          {(source.title || source.url).replace(/\s*\(chunk \d+\/\d+\)$/, '')}
         </a>
         <AnimatePresence initial={false}>
           <motion.p

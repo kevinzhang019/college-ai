@@ -2,9 +2,13 @@ import { useState, useMemo } from 'react'
 import { Combobox, ComboboxInput, ComboboxOption, ComboboxOptions, ComboboxButton } from '@headlessui/react'
 import { useStore } from '../store'
 
-export default function CollegeCombobox() {
-  const college = useStore((s) => s.college)
-  const setCollege = useStore((s) => s.setCollege)
+interface Props {
+  value: string | null
+  onChange: (value: string | null) => void
+  compact?: boolean
+}
+
+export default function CollegeCombobox({ value, onChange, compact }: Props) {
   const options = useStore((s) => s.collegeOptions)
   const [query, setQuery] = useState('')
 
@@ -15,12 +19,12 @@ export default function CollegeCombobox() {
   }, [query, options])
 
   return (
-    <Combobox value={college} onChange={setCollege} onClose={() => setQuery('')}>
+    <Combobox value={value} onChange={onChange} onClose={() => setQuery('')}>
       <div className="relative">
         <div className="relative">
           <ComboboxInput
-            className="input-field pr-8 text-sm"
-            placeholder="All colleges"
+            className={compact ? 'input-field-compact pr-8 text-sm' : 'input-field pr-8 text-sm'}
+            placeholder="Select a school (optional)"
             displayValue={(val: string | null) => val || ''}
             onChange={(e) => setQuery(e.target.value)}
           />

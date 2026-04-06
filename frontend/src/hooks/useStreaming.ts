@@ -6,11 +6,10 @@ import type { ChatMessage, Source } from '../types'
 export function useStreaming() {
   const abortRef = useRef<AbortController | null>(null)
 
-  const send = useCallback(async (question: string) => {
+  const send = useCallback(async (question: string, essayText?: string) => {
     const state = useStore.getState()
     const {
       activeConversationId,
-      conversations,
       experiences,
       mode,
       addMessage,
@@ -47,6 +46,7 @@ export function useStreaming() {
       top_k: 8,
       ...(conv.college ? { college: conv.college } : {}),
       ...(chatMode === 'essay' && conv.essayPrompt ? { essay_prompt: conv.essayPrompt } : {}),
+      ...(chatMode === 'essay' && essayText ? { essay_text: essayText } : {}),
       ...(recentMessages.length > 0 ? { history: recentMessages } : {}),
       ...(chatMode === 'essay' && experiences.length > 0 ? { experiences } : {}),
     }
