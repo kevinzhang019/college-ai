@@ -40,8 +40,8 @@ Full concurrency audit of `niche_scraper.py` and supporting modules (`connection
 |-----------|---------|--------------|
 | `shutdown_event` | `threading.Event` — global shutdown signal | Thread-safe by design. Signal handler runs on main thread only (Python guarantee), so `_ctrl_c_count += 1` is atomic |
 | `cookie_lock` | Protects `cookie_generation[0]` reads/writes | Brief holds only. Never nested as outer lock with any other lock |
-| `cookie_capture_lock` | Serializes interactive cookie captures (up to 300s) | 2s timeout polling loop checks `shutdown_event`. `finally` always releases. Lock ordering consistent: `cookie_lock` always inside `cookie_capture_lock`, never reversed |
-| `capture_in_progress` | `threading.Event` — set during active cookie capture | Other workers check at two gate checkpoints (top of school iteration + between scattergram/grades). When set, workers call `_close_for_capture()`, poll-wait, then restart with fresh cookies. Also checked before `restart()` in PX recovery path |
+| `cookie_capture_lock` | Serializes interactive cookie captures (unbounded duration) | 2s timeout polling loop checks `shutdown_event`. `finally` always releases. Lock ordering consistent: `cookie_lock` always inside `cookie_capture_lock`, never reversed |
+| `capture_in_progress` | `threading.Event` — set during active cookie capture | Other workers check at two gate checkpoints (top of school iteration + between scattergram/grades). When set, workers call `_close_for_capture()`, poll-wait, then restart with fresh cookies. PX recovery path also closes browser immediately via `_close_for_capture()` and checks this event (defense-in-depth) before restarting via `start()` |
 | `stats_lock` | Protects `stats["total_points"]` and `stats["total_grades"]` | Independent of all other locks. Acquired in workers and writer, never simultaneously with other locks |
 | `write_queue` | `Queue(maxsize=50)` — producer-consumer between workers and writer | `queue.Queue` provides all synchronization. `submit()` and `worker_done()` use timeout-based puts with shutdown checks |
 | `JobClaimer._lock` | Protects index increment + list read | Minimal critical section |
@@ -70,7 +70,7 @@ The DB writer expects exactly `num_workers` sentinels before exiting.
 | `capture_cookies()` raises exception | `finally: cookie_capture_lock.release()` fires (call is inside the `try` block) |
 | Capture browser hangs | Entry close: `_close_for_capture()` calls `playwright.stop()` synchronously on the worker thread — kills the server subprocess and browser process, so individual resource closes are unnecessary and skipped (avoids hang risk from Playwright #1847). Finally block: all cleanup (page/ctx/browser close + `pl.stop()`) runs synchronously on the same thread — Playwright sync API is not thread-safe. Stale asyncio loop handled by `_launch_chrome()` retry as defense-in-depth |
 | Capture cancelled by shutdown | Cookie generation NOT bumped, preventing stale cookie proliferation |
-| `consecutive_capture_failures` >= 2 | Worker skips capture and just restarts browser, preventing infinite 300s timeout cycles |
+| `consecutive_capture_failures` >= 2 | Worker skips capture and just restarts browser with existing cookies |
 
 ## Database Integrity — Atomic and Idempotent
 
@@ -96,6 +96,7 @@ The DB writer expects exactly `num_workers` sentinels before exiting.
 - Response handler runs in greenlet within same OS thread — no cross-thread data race on `_intercepted_data`
 - `capture_cookies()` calls `_close_for_capture()` which runs `playwright.stop()` synchronously on the worker thread — kills the server subprocess and browser process. Individual resource closes (page/ctx/browser) are skipped: the process is dead so they'd either fail or hang. This avoids both the greenlet errors from `close()`'s daemon thread approach and the hang risk from `browser.close()` on crashed browsers
 - Worker-loop gate checkpoints also use `_close_for_capture()` to release the browser while waiting for capture. After capture finishes, the worker restarts with fresh cookies. Checkpoint B also resets `_px_blocked = False` to prevent the stale flag (set by the pre-restart scattergram) from triggering redundant PX recovery
+- PX recovery path closes browser immediately via `_close_for_capture()` on PX detection — before lock acquisition or waiting. Then uses `start()` (not `restart()`) after capture completes, since the browser is already synchronously cleaned up. This avoids the greenlet errors caused by `restart()` → `close()` → daemon-thread `playwright.stop()`
 - `capture_cookies()` finally block runs all capture-browser cleanup (page/ctx/browser close + `pl.stop()`) synchronously — Playwright sync API calls from daemon threads cause `greenlet.error`
 - `_launch_chrome()` fallback handles stale asyncio loop by closing and replacing it (thread-local in Python 3.10+, no cross-thread effect) as defense-in-depth
 

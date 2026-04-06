@@ -45,7 +45,7 @@ The backend auto-classifies the query type. If `essay_text` is provided, it's al
 
 React + Vite + TypeScript SPA. Dev server on port 3000, production builds to `frontend/dist/`.
 
-**Tech stack:** React 18, TypeScript, Tailwind CSS, Zustand (state), Framer Motion (animations), Headless UI (combobox), react-markdown + remark-gfm.
+**Tech stack:** React 18, TypeScript, Tailwind CSS, Zustand (state), Framer Motion (animations), Headless UI (combobox), react-markdown + remark-gfm + rehype-raw.
 
 **Two main modes:**
 
@@ -53,7 +53,7 @@ React + Vite + TypeScript SPA. Dev server on port 3000, production builds to `fr
 - Single question/answer interface (not conversational chat)
 - Auto-resize textarea with Enter-to-submit
 - Welcome state with suggested question chips
-- Answer rendered as markdown with `[N]` citation badges
+- Answer rendered as markdown (with rehype-raw for inline HTML) with `[N]` citation badges
 - Expandable source cards with college name, page type, and content preview
 - Confidence badge (high/medium/low) with color coding
 
@@ -61,7 +61,7 @@ React + Vite + TypeScript SPA. Dev server on port 3000, production builds to `fr
 
 **Brainstorm (Chat tab):**
 - Conversational message bubbles for back-and-forth essay brainstorming
-- User messages (right, amber) and assistant responses (left, white) with markdown
+- User messages (right, blue) and assistant responses (left, dark card) with markdown
 - Suggestion chips for empty state
 - Calls `POST /ask` with `{question, college}` — no `essay_text`
 
@@ -77,10 +77,10 @@ React + Vite + TypeScript SPA. Dev server on port 3000, production builds to `fr
 - Animated pill mode toggle (Q&A / Essay Helper) with Framer Motion
 - Help modal with example questions across 3 categories
 - Floating help button (bottom-right)
-- Warm color palette: amber/coral/cream, soft shadows, rounded corners
+- Dark navy blue color palette with blue accents, subtle shadows, rounded corners
 - Mobile responsive with tablet/mobile breakpoints
 
-**Design tokens:** Primary amber-500/600, accent coral, background cream (#fffbeb), surface white with warm shadows, Inter font, rounded-2xl cards, rounded-full buttons.
+**Design tokens:** Primary blue-500/600, background navy-950 (#0a0e1a), surface navy-900 (#111827) with navy-700 (#1e3a5f) borders, text slate-100/300/400, Inter font, rounded-2xl cards, rounded-full buttons.
 
 ## Startup
 
