@@ -1,4 +1,4 @@
-import type { AskRequest, AskResponse, Source } from './types'
+import type { AskRequest, AskResponse, AskStreamRequest, Source, SSEEvent } from './types'
 
 declare global {
   interface Window {
@@ -55,6 +55,83 @@ export async function ask(params: AskRequest): Promise<AskResponse> {
     res.sources = normalizeSources(res.sources as unknown as Record<string, unknown>[])
   }
   return res
+}
+
+// ---- Streaming SSE client ----
+
+export interface StreamCallbacks {
+  onToken: (text: string) => void
+  onSources: (sources: Source[], confidence: string, queryType: string) => void
+  onDone: () => void
+  onError: (message: string) => void
+}
+
+export async function askStream(
+  params: AskStreamRequest,
+  callbacks: StreamCallbacks,
+  signal?: AbortSignal,
+): Promise<void> {
+  const res = await fetch(`${API_BASE}/ask/stream`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(params),
+    signal,
+  })
+
+  if (!res.ok) {
+    callbacks.onError(`API error: ${res.status}`)
+    return
+  }
+
+  const reader = res.body?.getReader()
+  if (!reader) {
+    callbacks.onError('No response body')
+    return
+  }
+
+  const decoder = new TextDecoder()
+  let buffer = ''
+
+  while (true) {
+    const { done, value } = await reader.read()
+    if (done) break
+
+    buffer += decoder.decode(value, { stream: true })
+
+    // Parse SSE lines
+    const lines = buffer.split('\n')
+    buffer = lines.pop() || '' // keep incomplete line in buffer
+
+    for (const line of lines) {
+      const trimmed = line.trim()
+      if (!trimmed.startsWith('data: ')) continue
+
+      try {
+        const event: SSEEvent = JSON.parse(trimmed.slice(6))
+
+        switch (event.type) {
+          case 'token':
+            callbacks.onToken(event.content)
+            break
+          case 'sources': {
+            const sources = normalizeSources(
+              event.sources as unknown as Record<string, unknown>[],
+            )
+            callbacks.onSources(sources, event.confidence, event.query_type)
+            break
+          }
+          case 'done':
+            callbacks.onDone()
+            break
+          case 'error':
+            callbacks.onError(event.message)
+            break
+        }
+      } catch {
+        // Skip malformed lines
+      }
+    }
+  }
 }
 
 const FALLBACK_COLLEGES = [
