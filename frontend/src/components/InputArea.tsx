@@ -185,8 +185,22 @@ export default function InputArea() {
             />
           </div>
 
-          {/* Chances button — inline with school dropdown, or spacer to align with send button */}
-          {college ? (
+          {/* Info tooltip — shown when no college selected */}
+          {!college && (
+            <div className="relative shrink-0 group">
+              <div className="flex items-center justify-center w-5 h-5 rounded-full border border-dark-700 text-slate-500 hover:text-slate-300 hover:border-slate-500 transition-colors cursor-help mt-1">
+                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 px-3 py-2 bg-dark-800 border border-dark-700 rounded-lg shadow-xl text-xs text-slate-300 leading-relaxed opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity z-50">
+                Cole will also understand if you just mention the school in your question.
+              </div>
+            </div>
+          )}
+
+          {/* Chances button — inline with school dropdown */}
+          {college && (
             <div className="relative shrink-0" ref={chancesContainerRef}>
               <AnimatePresence>
                 {quickPredictOpen && (
@@ -206,9 +220,10 @@ export default function InputArea() {
                 <span className="text-[11px] font-medium leading-tight text-center">See my<br />chances</span>
               </button>
             </div>
-          ) : (
-            <div className="shrink-0 w-9" />
           )}
+
+          {/* Spacer to align with send button below */}
+          <div className="shrink-0 w-9" />
 
         </div>
 

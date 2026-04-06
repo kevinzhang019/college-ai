@@ -14,7 +14,7 @@ Served by uvicorn on port 8000.
 | GET | `/config` | — | Returns current Zilliz collection name |
 | GET | `/options` | — | Sorted list of all college names (from CSV seeds) |
 | POST | `/ask` | `{question, top_k, college, essay_text}` | Non-streaming RAG Q&A (CLI/testing) |
-| POST | `/ask/stream` | `{question, top_k, college, essay_text, essay_prompt, history, experiences}` | SSE streaming RAG (primary frontend endpoint) |
+| POST | `/ask/stream` | `{question, top_k, college, essay_text, essay_prompt, history, experiences, profile}` | SSE streaming RAG (primary frontend endpoint) |
 | POST | `/predict` | `{gpa, school_name, sat, act, residency, major}` | Admission prediction → `{probability, confidence_interval, classification, factors}` |
 | POST | `/compare` | `{gpa, sat, act, schools[], residency, major}` | Multi-school comparison → `{results[]}` sorted by probability |
 | GET | `/scattergram/{school_name}` | — | All applicant datapoints for scatter plot visualization |
@@ -57,6 +57,7 @@ Primary endpoint used by the frontend. Runs the same pipeline as `/ask` (route �
 | `essay_prompt` | string | No | — | Essay assignment prompt (essay mode) |
 | `history` | array | No | — | Previous messages `[{role, content}]`, last 6 used |
 | `experiences` | array | No | — | User's extracurriculars `[{title, organization, type, description, startDate, endDate}]` |
+| `profile` | object | No | — | Student academic profile `{gpa, testScoreType, testScore}` — injected into QA prompts for stats contextualization |
 
 Field aliasing: `startDate`/`endDate` accepted via Pydantic `populate_by_name` (maps to `start_date`/`end_date`).
 
@@ -153,6 +154,7 @@ App
 - Each experience: title, organization, type, description, start/end date (month picker, optional "Present" toggle)
 - Profile data auto-populates Admissions Calculator and Quick Predict modal
 - Experiences auto-included as context in Essay mode requests (formatted by `format_experiences()` on backend)
+- Profile data (GPA, test scores) sent on every request when GPA is set, enabling stats contextualization in Q&A mode
 
 ### Design System
 

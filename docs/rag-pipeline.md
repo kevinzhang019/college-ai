@@ -5,7 +5,7 @@
 ## Architecture
 
 ```
-User Query + (optional school) + (optional history) + (optional experiences)
+User Query + (optional school) + (optional history) + (optional experiences) + (optional profile)
     │
     ▼
 [Router]  ─── classify: qa | essay_ideas | essay_review | admission_prediction
@@ -44,7 +44,7 @@ User Query + (optional school) + (optional history) + (optional experiences)
 | `rag/router.py` | Two-layer query classifier (rule-based + LLM fallback) + school name extraction via rapidfuzz |
 | `rag/retrieval.py` | `HybridRetriever` — dense + BM25 hybrid search, school pre-filtering, URL dedup |
 | `rag/reranker.py` | Cohere rerank-v3.5 wrapper with graceful degradation |
-| `rag/prompts.py` | All system/user prompts: QA, essay ideas, essay review, query rewriting, classification. Also `format_experiences()` and `QA_SYSTEM_MULTITURN` |
+| `rag/prompts.py` | All system/user prompts: QA, essay ideas, essay review, query rewriting, classification. Also `format_experiences()`, `format_profile_context()`, `get_extra_instructions()` (conditional domain knowledge), and `QA_SYSTEM_MULTITURN` |
 | `rag/service.py` | Thin orchestrator wiring router → retrieval → reranker → generator |
 | `rag/bridge.py` | ML prediction injection for admission-probability questions |
 | `rag/embeddings.py` | OpenAI embedding utilities, batch processing, cross-thread batcher |
@@ -57,7 +57,7 @@ Two-layer classifier:
 **Layer 1 — Rule-based (zero latency, ~85% of queries):**
 - Essay signals: "essay", "common app", "personal statement", "help me write", "brainstorm", etc.
 - Essay review signals: "review my", "feedback on", "edit my", etc.
-- Factual signals: "acceptance rate", "deadline", "tuition", "financial aid", "dorm", etc.
+- Factual signals: "acceptance rate", "deadline", "tuition", "financial aid", "dorm", "net price", "demonstrated interest", "css profile", "waitlist", "ap credit", etc.
 - Admission prediction: regex patterns from `bridge.py` ("what are my chances", "can i get into", etc.)
 - If `essay_text` param provided → always `essay_review`
 
@@ -112,15 +112,15 @@ The frontend exposes this as a **context size selector** (XS=3, S=5, M=8, L=12, 
 
 ## Step 5: Generation (`prompts.py` + `service.py`)
 
-Four specialized prompt sets, all enforcing citation grounding:
+All prompts use the **Cole** persona ("You are Cole, a college admissions advisor/coach"). Four specialized prompt sets, all enforcing citation grounding:
 
-**QA:** Strict grounding contract — every factual claim needs `[N]` citation. Dynamic length budget based on query type (150-600 words), overridable by `response_length` parameter (XS: 50-100w, S: 100-200w, M: auto-detect, L: 400-600w, XL: 600-900w). Optional "Next Steps" section for actionable queries. Model: gpt-4.1-mini, temperature 0.2.
+**QA:** Strict grounding contract — every factual claim needs `[N]` citation. Dynamic length budget based on query type (150-600 words), overridable by `response_length` parameter (XS: 50-100w, S: 100-200w, M: auto-detect, L: 400-600w, XL: 600-900w). Includes a statistics contextualization directive (acceptance rates describe the applicant pool, not individual chances; compare to student's profile when available). Optional "Next Steps" section for actionable queries. Conditional domain knowledge injected via `get_extra_instructions()` (see below). Model: gpt-4.1-mini, temperature 0.2.
 
-**Essay Ideas:** Coach persona. Identifies 3-4 specific programs/values/traditions from sources, suggests essay angles with hooks. Does NOT write the essay. Model: gpt-4.1-mini, temperature 0.4.
+**Essay Ideas:** Coach persona. Identifies 3-4 specific programs/values/traditions from sources, suggests essay angles with hooks. Step 5 requires framing each angle as what the student BRINGS to the school, not what the school offers. Specificity rule: every suggestion must include a detail that could NOT apply to a different school. Does NOT write the essay. Model: gpt-4.1-mini, temperature 0.4.
 
-**Essay Review:** Coach persona reviewing a draft. Identifies strengths, suggests school-specific details from sources, asks deepening questions, fact-checks claims. Word cap overridable by `response_length` (XS: 150w, S: 250w, M: 350w default, L: 500w, XL: 700w). Model: gpt-4.1-mini, temperature 0.3.
+**Essay Review:** Coach persona reviewing a draft. Identifies strengths (naming the exact sentence/phrase that works), suggests school-specific details from sources, asks deepening questions, fact-checks claims, and flags common pitfalls (essay focuses on what school offers vs. what student contributes, inflated vocabulary, wrong school name, too much dialogue without reflection). Word cap overridable by `response_length` (XS: 150w, S: 250w, M: 350w default, L: 500w, XL: 700w). Model: gpt-4.1-mini, temperature 0.3.
 
-**Admission Prediction:** Uses QA prompt with ML prediction context injected via `bridge.py` (probability, CI, classification, key factors).
+**Admission Prediction:** Uses QA prompt with ML prediction context injected via `bridge.py` (probability, CI, classification, key factors, plus strategic guidance: SAFETY/MATCH/REACH classification, actionable improvement suggestions for REACH schools).
 
 ### Multi-turn Conversation Support
 
@@ -129,6 +129,26 @@ When `history` is provided (via `/ask/stream`), `QA_SYSTEM_MULTITURN` is appende
 ### Experience Context Injection
 
 For `essay_ideas` and `essay_review` modes, `format_experiences(experiences)` converts the user's extracurricular list into a markdown block inserted into the user prompt as `{experience_context}`. Each experience renders as `- **Title** at Organization (type) [dates]` with an indented description. This enables personalized brainstorming grounded in both school sources and the student's actual activities.
+
+### Profile Context Injection
+
+For QA and admission prediction modes, `format_profile_context(profile)` converts the student's academic profile (GPA, SAT/ACT) into a one-line context string inserted into the user prompt as `{profile_context}`. Example: `"Student profile: GPA 3.8, SAT 1450"`. This enables the LLM to contextualize statistics against the student's actual credentials (e.g. comparing their SAT to a school's middle 50% range). Returns empty string if no profile data is provided.
+
+Profile data flows from the frontend Zustand store (`profile: { gpa, testScoreType, testScore }`) → `useStreaming` hook (sent on every request when GPA is set) → `/ask/stream` `profile` field → `_build_messages()` → `format_profile_context()`.
+
+### Conditional Domain Instructions (`get_extra_instructions()`)
+
+`get_extra_instructions(question)` injects topic-specific instructions into the QA user prompt based on keyword detection. These cost zero tokens when not triggered. Current patterns:
+
+| Pattern | Trigger Keywords | Injected Guidance |
+|---|---|---|
+| **How-to / process** | "how to", "apply", "deadline", "steps" | Adds "Next Steps" section |
+| **Comparison** | "compare", "versus", "vs" | Structures answer as school comparison |
+| **Financial aid** | "financial aid", "tuition", "scholarship", "net price", "afford" | Distinguishes sticker vs net price, need-based vs merit aid |
+| **Demonstrated interest** | "demonstrated interest", "campus tour", "info session" | Notes DI policies vary; highly selective schools often don't track it |
+| **ED/EA/RD strategy** | "early decision", "early action", "when should i apply" | Explains binding/non-binding tradeoffs, financial implications of ED |
+| **Rec letters** | "recommendation", "rec letter" | Adds Next Steps for who to ask and timing |
+| **FAFSA/CSS** | "fafsa deadline", "css profile", "priority deadline" | FAFSA timing, priority deadlines, CSS Profile requirements |
 
 ### `essay_prompt` Parameter
 

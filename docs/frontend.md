@@ -18,7 +18,7 @@ The assistant is named **Cole** — a friendly, knowledgeable college advisor wh
 - **Sidebar hints** speak in Cole's voice: "Cole will use them as context when helping with essays."
 - **College combobox** placeholder: "Select a school (Optional, Cole will also understand if you just mention the school's name in your question)"
 
-Cole's personality is embedded in the UI copy, not just the backend prompts — this ensures the assistant feels consistent whether the user is reading a welcome message, watching a loading state, or scanning a placeholder.
+Cole's personality is embedded in both the UI copy and the backend system prompts (all LLM prompts open with "You are Cole, ..."). This ensures the assistant feels consistent whether the user is reading a welcome message, watching a loading state, chatting, or scanning a placeholder.
 
 ## Tech Stack
 
@@ -154,6 +154,7 @@ Standalone view for My Profile mode:
 - SAT/ACT toggle (two buttons with active highlight)
 - Test score input (400–1600 for SAT, 1–36 for ACT)
 - All values persisted to Zustand `profile`, auto-populate Admissions Calculator and QuickPredictModal
+- Profile data is also sent to the backend on every streaming request (all modes) for stats contextualization via `format_profile_context()` on backend
 
 **Experiences list:**
 - Cards with title, organization, type badge (color-coded), dates, truncated description
@@ -252,10 +253,10 @@ One-time mount effect: calls `checkHealth()` and `getOptions()` in parallel. Set
 
 Returns `{ send, cancel }`:
 
-- **`send(question, essayText?)`:** Creates conversation if needed, adds user message, builds request (with history, experiences, college, essay_prompt, `top_k` from `contextSize`, `response_length` from `responseLength`), initiates SSE stream via `askStream`. Collects tokens into `streamingContent`, then on `onDone` assembles final assistant message with sources/confidence and adds to conversation.
+- **`send(question, essayText?)`:** Creates conversation if needed, adds user message, builds request (with history, experiences, college, essay_prompt, profile, `top_k` from `contextSize`, `response_length` from `responseLength`), initiates SSE stream via `askStream`. Collects tokens into `streamingContent`, then on `onDone` assembles final assistant message with sources/confidence and adds to conversation.
 - **`cancel()`:** Aborts the AbortController, clears streaming state.
 
-History is built from the last 6 messages of the current conversation. Experiences are only included in essay mode.
+History is built from the last 6 messages of the current conversation. Experiences are only included in essay mode. Profile data (GPA, test scores) is sent on every request when the student has entered a GPA — this allows the LLM to contextualize statistics against the student's credentials in Q&A mode.
 
 ## Conversations
 

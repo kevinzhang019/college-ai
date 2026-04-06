@@ -38,6 +38,7 @@ from college_ai.rag.prompts import (
     QUERY_REWRITE_SYSTEM,
     format_essay_prompt_context,
     format_experiences,
+    format_profile_context,
     get_extra_instructions,
     get_essay_length_budget,
     get_length_budget,
@@ -269,6 +270,7 @@ class CollegeRAG:
         history: Optional[List[Dict[str, str]]] = None,
         experiences: Optional[List[Dict[str, Any]]] = None,
         response_length: Optional[str] = None,
+        profile: Optional[Dict[str, Any]] = None,
     ) -> List[Dict[str, str]]:
         """Build the messages list for the OpenAI chat call."""
         sources_block = self._build_context_snippets(hits)
@@ -324,6 +326,7 @@ class CollegeRAG:
 
             user_prompt = QA_USER.format(
                 question=question,
+                profile_context=format_profile_context(profile),
                 sources_block=sources_block,
                 prediction_context=prediction_context,
                 extra_instructions=get_extra_instructions(question),
@@ -543,6 +546,7 @@ class CollegeRAG:
         essay_prompt: Optional[str] = None,
         history: Optional[List[Dict[str, str]]] = None,
         experiences: Optional[List[Dict[str, Any]]] = None,
+        profile: Optional[Dict[str, Any]] = None,
     ):
         """Stream RAG answer as SSE events (generator of dicts).
 
@@ -602,6 +606,7 @@ class CollegeRAG:
                 history=history,
                 experiences=experiences,
                 response_length=response_length,
+                profile=profile,
             )
 
             client = self._get_chat_client()

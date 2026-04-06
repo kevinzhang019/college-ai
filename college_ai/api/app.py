@@ -157,6 +157,7 @@ class AskStreamRequest(BaseModel):
     essay_prompt: Optional[str] = None
     history: Optional[List[HistoryMessage]] = None
     experiences: Optional[List[ExperienceItem]] = None
+    profile: Optional[Dict[str, Any]] = Field(None, description="Student profile: gpa, testScoreType, testScore")
 
 
 def _sse_generator(payload: AskStreamRequest):
@@ -178,6 +179,7 @@ def _sse_generator(payload: AskStreamRequest):
         essay_prompt=payload.essay_prompt,
         history=history_dicts,
         experiences=experience_dicts,
+        profile=payload.profile,
     ):
         yield f"data: {json.dumps(event)}\n\n"
 

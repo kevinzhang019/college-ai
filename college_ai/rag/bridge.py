@@ -121,7 +121,16 @@ def get_prediction_context(
 
         lines.append(
             "Note: This prediction is based on self-reported data and should be "
-            "treated as a rough estimate, not a guarantee."
+            "treated as a rough estimate, not a guarantee.\n"
+            "Guidance for incorporating this prediction:\n"
+            "- Frame the probability relative to the school's overall acceptance rate.\n"
+            "- Classify the school as: SAFETY (>70%), MATCH (30-70%), or REACH (<30%) "
+            "based on the predicted probability.\n"
+            "- If REACH, suggest specific actions that could improve candidacy "
+            "(strong essays, demonstrated interest if the school tracks it, "
+            "ED if financial aid is not a constraint).\n"
+            "- Never present the probability as deterministic — admissions involves "
+            "holistic review factors not captured by the model."
         )
 
         return "\n".join(lines)

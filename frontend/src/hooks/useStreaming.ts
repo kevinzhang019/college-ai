@@ -35,6 +35,20 @@ export function useStreaming() {
     }
     addMessage(convId, userMsg)
 
+    // Easter egg: Cole age pun
+    const normalized = question.replace(/[^\w\s]/g, '').toLowerCase().replace(/cole/g, '').replace(/\s/g, '')
+    const ageEggs = ['whatisyourage', 'whatsyourage', 'age', 'howoldareyou', 'howold']
+    if (ageEggs.includes(normalized)) {
+      const eggMsg: ChatMessage = {
+        id: crypto.randomUUID(),
+        role: 'assistant',
+        content: 'Cole age? Say that 5 times fast ;)',
+        timestamp: Date.now(),
+      }
+      addMessage(convId, eggMsg)
+      return
+    }
+
     // Build history from conversation (last 6 messages)
     const recentMessages = conv.messages.slice(-6).map((m) => ({
       role: m.role,
@@ -51,6 +65,7 @@ export function useStreaming() {
       ...(chatMode === 'essay' && essayText ? { essay_text: essayText } : {}),
       ...(recentMessages.length > 0 ? { history: recentMessages } : {}),
       ...(chatMode === 'essay' && experiences.length > 0 ? { experiences } : {}),
+      ...(state.profile.gpa ? { profile: state.profile } : {}),
     }
 
     // Start streaming

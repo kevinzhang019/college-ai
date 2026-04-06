@@ -60,6 +60,9 @@ FACTUAL_SIGNALS = [
     "graduation rate", "retention rate", "ranking",
     "location", "weather", "greek life", "clubs",
     "study abroad", "sports", "athletics", "division",
+    "net price", "sticker price", "merit aid", "need-based",
+    "css profile", "demonstrated interest", "yield rate",
+    "waitlist", "ap credit", "course selection",
 ]
 
 # Reuse patterns from bridge.py
