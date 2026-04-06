@@ -16,7 +16,7 @@ The assistant is named **Cole** — a friendly, knowledgeable college advisor wh
 - **Placeholder text** in the chat input references Cole by name: "Ask Cole about colleges..." (Q&A) and "Tell Cole what to focus on..." (Essay)
 - **Loading states:** "Cole is thinking..." with pulsing dots while waiting for the first token, "Connecting to Cole..." during initial API health check
 - **Sidebar hints** speak in Cole's voice: "Cole will use them as context when helping with essays."
-- **College combobox** placeholder: "Select a school (Optional, Cole will also understand if you just mention the school's name in your question)"
+- **College combobox** placeholder: "Select a school (Or just mention the school in your question, Cole will understand.)"
 
 Cole's personality is embedded in both the UI copy and the backend system prompts (all LLM prompts open with "You are Cole, ..."). This ensures the assistant feels consistent whether the user is reading a welcome message, watching a loading state, chatting, or scanning a placeholder.
 

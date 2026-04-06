@@ -194,7 +194,7 @@ export default function InputArea() {
                 </svg>
               </div>
               <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 px-3 py-2 bg-dark-800 border border-dark-700 rounded-lg shadow-xl text-xs text-slate-300 leading-relaxed opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity z-50">
-                Cole will also understand if you just mention the school in your question.
+                Or just mention the school in your question, Cole will understand.
               </div>
             </div>
           )}
