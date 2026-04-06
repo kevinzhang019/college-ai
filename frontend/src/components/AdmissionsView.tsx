@@ -248,7 +248,6 @@ export default function AdmissionsView() {
                   <option value="">Not specified</option>
                   <option value="inState">In-State</option>
                   <option value="outOfState">Out-of-State</option>
-                  <option value="outOfState">International</option>
                 </select>
               )}
             </div>
@@ -316,7 +315,6 @@ export default function AdmissionsView() {
                       <option value="">No residency</option>
                       <option value="inState">In-State</option>
                       <option value="outOfState">Out-of-State</option>
-                      <option value="outOfState">International</option>
                     </select>
                   )}
 

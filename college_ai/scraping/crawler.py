@@ -241,6 +241,7 @@ from college_ai.rag.embeddings import (
     get_embedding,
     get_embeddings_batch,
     chunk_text_by_tokens,
+    chunk_text_by_sentences,
     EmbeddingBatcher,
 )
 from college_ai.rag.text_cleaner import clean_text
@@ -3247,12 +3248,20 @@ class MultithreadedCollegeCrawler:
             # Chunk content and embed per chunk for better RAG retrieval
             title_text = page_data["title"]
             content_text = page_data["content"]
-            chunks = chunk_text_by_tokens(
-                content_text,
-                max_tokens=CHUNK_MAX_TOKENS,
-                overlap_tokens=CHUNK_OVERLAP_TOKENS,
-                model="text-embedding-3-small",
-            )
+            if CHUNK_SENTENCE_AWARE:
+                chunks = chunk_text_by_sentences(
+                    content_text,
+                    max_tokens=CHUNK_MAX_TOKENS,
+                    overlap_sentences=1,
+                    model="text-embedding-3-small",
+                )
+            else:
+                chunks = chunk_text_by_tokens(
+                    content_text,
+                    max_tokens=CHUNK_MAX_TOKENS,
+                    overlap_tokens=CHUNK_OVERLAP_TOKENS,
+                    model="text-embedding-3-small",
+                )
 
             # Content dedup: skip chunks we've already embedded for this college.
             # Falling back to the instance-level hash cache is unsafe with

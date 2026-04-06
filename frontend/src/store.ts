@@ -38,6 +38,7 @@ interface Store {
 
   // ---- Actions: streaming ----
   appendStreamingContent: (token: string) => void
+  setStreamingContent: (content: string) => void
   clearStreaming: () => void
   setStreamingLoading: (loading: boolean) => void
 
@@ -194,6 +195,7 @@ export const useStore = create<Store>()(
       // ---- Streaming ----
       appendStreamingContent: (token) =>
         set((state) => ({ streamingContent: state.streamingContent + token })),
+      setStreamingContent: (content) => set({ streamingContent: content }),
       clearStreaming: () => set({ streamingContent: '', streamingLoading: false }),
       setStreamingLoading: (loading) => set({ streamingLoading: loading }),
 
@@ -244,6 +246,14 @@ export const useStore = create<Store>()(
     }),
     {
       name: 'college-ai-store',
+      merge: (persisted, current) => {
+        const state = persisted as Partial<Store>
+        return {
+          ...current,
+          ...state,
+          profile: { ...current.profile, ...state.profile },
+        }
+      },
       partialize: (state) => ({
         conversations: state.conversations,
         conversationOrder: state.conversationOrder,

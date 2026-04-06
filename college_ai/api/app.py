@@ -63,13 +63,13 @@ rag_engine = CollegeRAG()
 
 
 class AskRequest(BaseModel):
-    question: str = Field(..., description="User question or essay request")
+    question: str = Field(..., description="User question or essay request", max_length=2000)
     top_k: int = Field(8, ge=1, le=20)
     college: Optional[str] = Field(
-        None, description="Optional college name filter (from dropdown)"
+        None, description="Optional college name filter (from dropdown)", max_length=200,
     )
     essay_text: Optional[str] = Field(
-        None, description="Pasted essay draft for review mode"
+        None, description="Pasted essay draft for review mode", max_length=10000,
     )
 
 
@@ -147,8 +147,8 @@ def ask(payload: AskRequest) -> Dict[str, Any]:
 
 
 class HistoryMessage(BaseModel):
-    role: str = Field(..., description="'user' or 'assistant'")
-    content: str
+    role: str = Field(..., description="'user' or 'assistant'", max_length=20)
+    content: str = Field(..., max_length=5000)
 
 
 class ExperienceItem(BaseModel):
@@ -164,12 +164,12 @@ class ExperienceItem(BaseModel):
 
 
 class AskStreamRequest(BaseModel):
-    question: str = Field(..., description="User question or essay request")
+    question: str = Field(..., description="User question or essay request", max_length=2000)
     top_k: int = Field(8, ge=1, le=20)
     response_length: Optional[str] = Field(None, description="Response length: XS, S, M, L, XL")
-    college: Optional[str] = None
-    essay_text: Optional[str] = None
-    essay_prompt: Optional[str] = None
+    college: Optional[str] = Field(None, max_length=200)
+    essay_text: Optional[str] = Field(None, max_length=10000)
+    essay_prompt: Optional[str] = Field(None, max_length=1000)
     history: Optional[List[HistoryMessage]] = None
     experiences: Optional[List[ExperienceItem]] = None
     profile: Optional[Dict[str, Any]] = Field(None, description="Student profile: gpa, testScoreType, testScore")

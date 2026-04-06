@@ -148,6 +148,7 @@ export interface AskStreamRequest {
 
 export type SSEEvent =
   | { type: 'token'; content: string }
-  | { type: 'sources'; sources: Source[]; confidence: string; query_type: string }
+  | { type: 'answer_replaced'; content: string }
+  | { type: 'sources'; sources: Source[]; confidence: string; query_type: string; reranked?: boolean }
   | { type: 'done' }
   | { type: 'error'; message: string }

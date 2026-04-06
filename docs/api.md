@@ -49,15 +49,15 @@ Primary endpoint used by the frontend. Runs the same pipeline as `/ask` (route �
 **Request:**
 | Field | Type | Required | Default | Notes |
 |---|---|---|---|---|
-| `question` | string | Yes | — | User question or essay request |
+| `question` | string | Yes | — | User question or essay request (max 2000 chars) |
 | `top_k` | int | No | 8 | 1–20, number of sources for generation |
 | `response_length` | string | No | — | XS/S/M/L/XL — overrides auto-detected length budget |
-| `college` | string | No | — | School from dropdown (hard filter) |
-| `essay_text` | string | No | — | Essay draft (forces essay_review mode) |
-| `essay_prompt` | string | No | — | Essay assignment prompt (essay mode) |
-| `history` | array | No | — | Previous messages `[{role, content}]`, last 6 used |
+| `college` | string | No | — | School from dropdown (hard filter, max 200 chars) |
+| `essay_text` | string | No | — | Essay draft (forces essay_review mode, max 10000 chars) |
+| `essay_prompt` | string | No | — | Essay assignment prompt (essay mode, max 1000 chars) |
+| `history` | array | No | — | Previous messages `[{role, content}]`, last 6 used (content max 5000 chars each) |
 | `experiences` | array | No | — | User's extracurriculars `[{title, organization, type, description, startDate, endDate}]` |
-| `profile` | object | No | — | Student profile `{gpa, testScoreType, testScore, country, countryLabel, state, preferredMajors}` — injected into QA prompts for stats contextualization, residency determination, and major-specific advice |
+| `profile` | object | No | — | Student profile `{gpa, testScoreType, testScore, country, countryLabel, state, preferredMajors}` — injected into all prompt modes (QA, essay ideas, essay review) for stats contextualization, residency determination, major-specific advice, and admission prediction fallback |
 
 Field aliasing: `startDate`/`endDate` accepted via Pydantic `populate_by_name` (maps to `start_date`/`end_date`).
 
@@ -65,12 +65,13 @@ Field aliasing: `startDate`/`endDate` accepted via Pydantic `populate_by_name` (
 
 ```
 data: {"type": "token", "content": "..."}         // streamed text fragment
-data: {"type": "sources", "sources": [...], "confidence": "...", "query_type": "..."}
+data: {"type": "answer_replaced", "content": "..."}  // citation-verified replacement (only if changed)
+data: {"type": "sources", "sources": [...], "confidence": "...", "query_type": "...", "reranked": true}
 data: {"type": "done"}                             // stream complete
 data: {"type": "error", "message": "..."}          // on exception
 ```
 
-Citation verification and confidence scoring happen after generation completes, sent in the `sources` event.
+Citation verification and confidence scoring happen after generation completes. If verification modifies the answer (strips invalid citations or appends a grounding warning), an `answer_replaced` event is sent before `sources` so the frontend can replace the streamed text.
 
 ## Frontend (`frontend/`)
 

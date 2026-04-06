@@ -67,6 +67,7 @@ export async function ask(params: AskRequest): Promise<AskResponse> {
 export interface StreamCallbacks {
   onToken: (text: string) => void
   onSources: (sources: Source[], confidence: string, queryType: string) => void
+  onAnswerReplaced?: (content: string) => void
   onDone: () => void
   onError: (message: string) => void
 }
@@ -117,6 +118,10 @@ export async function askStream(
         switch (event.type) {
           case 'token':
             callbacks.onToken(event.content)
+            break
+          case 'answer_replaced':
+            // Citation verification corrected the streamed answer
+            callbacks.onAnswerReplaced?.(event.content)
             break
           case 'sources': {
             const sources = normalizeSources(

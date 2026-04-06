@@ -33,7 +33,6 @@ from college_ai.rag.prompts import (
     ESSAY_REVIEW_USER,
     NO_ANSWER_RESPONSE,
     QA_SYSTEM,
-    SYSTEM_MULTITURN,
     QA_USER,
     QUERY_REWRITE_SYSTEM,
     format_essay_prompt_context,
@@ -49,11 +48,16 @@ from college_ai.rag.router import (
     ADMISSION_PREDICTION,
     ESSAY_IDEAS,
     ESSAY_REVIEW,
+    GREETING,
     QA,
     SIMPLE,
     QueryRouter,
 )
-from college_ai.scraping.config import VECTOR_DIM
+from college_ai.scraping.config import (
+    RAG_HISTORY_LIMIT,
+    RAG_HISTORY_REWRITE_LIMIT,
+    VECTOR_DIM,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -113,20 +117,73 @@ class CollegeRAG:
             self._chat_client = OpenAI(api_key=api_key)
         return self._chat_client
 
+    # ---- Greeting handler (no retrieval) ----
+
+    def _generate_greeting(self, question: str) -> str:
+        """Generate a lightweight response for greetings/off-topic without RAG."""
+        try:
+            client = self._get_chat_client()
+            response = client.chat.completions.create(
+                model=self.model_simple,
+                messages=[
+                    {
+                        "role": "system",
+                        "content": (
+                            "You are Cole, a friendly college admissions advisor. "
+                            "Respond briefly to the greeting or conversational message. "
+                            "Keep it to 1-2 sentences. Offer to help with college questions."
+                        ),
+                    },
+                    {"role": "user", "content": question},
+                ],
+                temperature=0.5,
+                max_tokens=100,
+            )
+            if response and response.choices:
+                return response.choices[0].message.content or ""
+        except Exception:
+            pass
+        return "Hey! I'm Cole, your college admissions advisor. What can I help you with?"
+
     # ---- Query rewriting ----
 
-    def _rewrite_query(self, question: str, query_type: str) -> str:
+    def _rewrite_query(
+        self,
+        question: str,
+        query_type: str,
+        history: Optional[List[Dict[str, str]]] = None,
+    ) -> str:
         """Rewrite the user query for better retrieval.
 
         Always rewrites (no length threshold). Uses cheap nano model.
+        When *history* is provided, includes the last few messages so the
+        rewriter can resolve pronouns and implicit references (e.g.
+        "What about their CS program?" → "MIT Computer Science program").
         """
         try:
             client = self._get_chat_client()
+
+            # Build user content: optionally prepend recent conversation context
+            user_content = question
+            if history:
+                recent = history[-RAG_HISTORY_REWRITE_LIMIT:]
+                context_lines = []
+                for msg in recent:
+                    role = msg.get("role", "user")
+                    content = msg.get("content", "")
+                    # Truncate to keep rewrite fast
+                    context_lines.append(f"{role}: {content[:200]}")
+                user_content = (
+                    "Recent conversation:\n"
+                    + "\n".join(context_lines)
+                    + f"\n\nCurrent question: {question}"
+                )
+
             response = client.chat.completions.create(
                 model=self.rewrite_model,
                 messages=[
                     {"role": "system", "content": QUERY_REWRITE_SYSTEM},
-                    {"role": "user", "content": question},
+                    {"role": "user", "content": user_content},
                 ],
                 temperature=0,
                 max_tokens=120,
@@ -200,17 +257,16 @@ class CollegeRAG:
 
     @staticmethod
     def _compute_confidence(hits: List[Dict[str, Any]]) -> str:
-        """Compute confidence label from source count and distances."""
+        """Compute confidence label from source count and relevance scores.
+
+        Prefers rerank_score (Cohere, 0-1 higher = more relevant) when
+        available. Falls back to RRF distance from hybrid search.
+        """
         if not hits:
             return "low"
 
-        distances = [float(h.get("distance", 0.0) or 0.0) for h in hits]
-        avg = sum(distances) / len(distances)
-
-        # For COSINE metric, higher = more similar (opposite of L2)
-        # Reranked results may have rerank_score instead
+        # Prefer rerank scores (clear semantics: higher = more relevant)
         has_rerank = any("rerank_score" in h for h in hits)
-
         if has_rerank:
             scores = [float(h.get("rerank_score", 0.0) or 0.0) for h in hits]
             avg_score = sum(scores) / len(scores)
@@ -220,7 +276,10 @@ class CollegeRAG:
                 return "medium"
             return "low"
 
-        # COSINE similarity: 1.0 = identical, 0.0 = orthogonal
+        # RRF/hybrid search distance: higher score = more relevant
+        # (RRF produces fused relevance scores, not cosine distances)
+        distances = [float(h.get("distance", 0.0) or 0.0) for h in hits]
+        avg = sum(distances) / len(distances)
         if len(hits) >= 4 and avg > 0.6:
             return "high"
         if len(hits) >= 2 and avg > 0.4:
@@ -272,6 +331,7 @@ class CollegeRAG:
                 {"role": "user", "content": user_prompt},
             ],
             temperature=0.2,
+            max_tokens=self._get_max_tokens(None, QA),
         )
         if response and response.choices:
             return response.choices[0].message.content or ""
@@ -295,6 +355,7 @@ class CollegeRAG:
         """Build the messages list for the OpenAI chat call."""
         sources_block = self._build_context_snippets(hits)
         experience_context = format_experiences(experiences)
+        profile_context = format_profile_context(profile, college_name=college_name)
 
         if query_type == ESSAY_IDEAS:
             school_context = ""
@@ -310,15 +371,18 @@ class CollegeRAG:
                 experience_context=experience_context,
                 sources_block=sources_block,
             )
+            if profile_context:
+                user_prompt += f"\n{profile_context}"
             user_prompt += f"\nTarget total length: under {essay_budget}."
         elif query_type == ESSAY_REVIEW:
             school_context = ""
             if college_name:
                 school_context = f"School of interest: **{college_name}**\n\n"
             essay_prompt_context = format_essay_prompt_context(essay_prompt)
-            system = ESSAY_REVIEW_SYSTEM.format(
-                essay_length_budget=get_essay_length_budget(response_length),
-            )
+            # essay_length_budget goes in the user message (not system) to
+            # preserve a static system-prompt prefix for OpenAI prompt caching.
+            system = ESSAY_REVIEW_SYSTEM
+            essay_budget = get_essay_length_budget(response_length)
             user_prompt = ESSAY_REVIEW_USER.format(
                 question=question,
                 essay_prompt_context=essay_prompt_context,
@@ -327,12 +391,17 @@ class CollegeRAG:
                 essay_text=essay_text or "(No draft provided)",
                 sources_block=sources_block,
             )
+            if profile_context:
+                user_prompt += f"\n{profile_context}"
+            user_prompt += f"\nKeep total feedback under {essay_budget}."
         else:
             # QA / admission_prediction
             prediction_context = ""
             try:
                 from college_ai.rag.bridge import get_prediction_context
-                ctx = get_prediction_context(question, college_name=college_name)
+                ctx = get_prediction_context(
+                    question, college_name=college_name, profile=profile,
+                )
                 if ctx:
                     prediction_context = f"\n{ctx}\n"
             except Exception:
@@ -343,22 +412,22 @@ class CollegeRAG:
             user_prompt = QA_USER.format(
                 question=question,
                 college_focus=f"Focus on: **{college_name}**\n" if college_name else "",
-                profile_context=format_profile_context(profile, college_name=college_name),
+                profile_context=profile_context,
                 sources_block=sources_block,
                 prediction_context=prediction_context,
                 extra_instructions=get_extra_instructions(question),
                 length_budget=get_length_budget(question, response_length),
             )
 
-        # Append multi-turn context instruction for all modes when history exists
-        if history:
-            system += SYSTEM_MULTITURN
+        # Multi-turn instructions are now baked into each system prompt
+        # (static prefix) so OpenAI prompt caching works across single-turn
+        # and multi-turn requests.
 
         messages = [{"role": "system", "content": system}]  # type: List[Dict[str, str]]
 
         # Add conversation history for multi-turn
         if history:
-            for msg in history[-6:]:
+            for msg in history[-RAG_HISTORY_LIMIT:]:
                 messages.append({
                     "role": msg.get("role", "user"),
                     "content": msg.get("content", ""),
@@ -373,6 +442,23 @@ class CollegeRAG:
         if query_type == ESSAY_REVIEW:
             return 0.3
         return 0.2
+
+    @staticmethod
+    def _get_max_tokens(response_length: Optional[str], query_type: str) -> int:
+        """Return a hard max_tokens cap for the generation call."""
+        _LENGTH_TOKEN_MAP = {
+            "XS": 200,
+            "S": 400,
+            "M": 700,
+            "L": 1200,
+            "XL": 1800,
+        }
+        if response_length and response_length in _LENGTH_TOKEN_MAP:
+            return _LENGTH_TOKEN_MAP[response_length]
+        # Default caps per query type
+        if query_type in (ESSAY_IDEAS, ESSAY_REVIEW):
+            return 1200
+        return 700
 
     # ---- Generation: Essay Ideas ----
 
@@ -405,6 +491,7 @@ class CollegeRAG:
                 {"role": "user", "content": user_prompt},
             ],
             temperature=0.4,  # slightly more creative for brainstorming
+            max_tokens=self._get_max_tokens(None, ESSAY_IDEAS),
         )
         if response and response.choices:
             return response.choices[0].message.content or ""
@@ -436,13 +523,15 @@ class CollegeRAG:
             sources_block=sources_block,
         )
 
+        review_user_prompt = user_prompt + "\nKeep total feedback under 350 words."
         response = client.chat.completions.create(
             model=self.model_standard,
             messages=[
                 {"role": "system", "content": ESSAY_REVIEW_SYSTEM},
-                {"role": "user", "content": user_prompt},
+                {"role": "user", "content": review_user_prompt},
             ],
             temperature=0.3,
+            max_tokens=self._get_max_tokens(None, ESSAY_REVIEW),
         )
         if response and response.choices:
             return response.choices[0].message.content or ""
@@ -474,6 +563,18 @@ class CollegeRAG:
         school = college_name or classification.detected_school
         query_type = classification.query_type
 
+        # Short-circuit for greetings — skip the full RAG pipeline
+        if query_type == GREETING:
+            answer = self._generate_greeting(question)
+            return {
+                "answer": answer,
+                "sources": [],
+                "confidence": "high",
+                "source_count": 0,
+                "query_type": query_type,
+                "reranked": False,
+            }
+
         # 2. Rewrite query for retrieval
         search_query = self._rewrite_query(question, query_type)
 
@@ -488,7 +589,7 @@ class CollegeRAG:
                 "query_type": query_type,
             }
 
-        # For essay modes, run supplemental queries with page_type targeting
+        # Multi-query retrieval for richer context coverage
         if query_type in (ESSAY_IDEAS, ESSAY_REVIEW) and school:
             queries = [search_query]
             queries.append(f"{school} mission values what we look for in students")
@@ -497,6 +598,13 @@ class CollegeRAG:
                 queries, college_name=school,
                 page_types=["about", "academics", "campus_life", "diversity", "outcomes"],
                 top_k=30,
+            )
+        elif query_type == ADMISSION_PREDICTION and school:
+            queries = [search_query]
+            queries.append(f"{school} admissions statistics acceptance rate class profile")
+            queries.append(f"{school} application requirements deadlines")
+            candidates = self.retriever.search_multi_query(
+                queries, college_name=school, top_k=30,
             )
         else:
             candidates = self.retriever.search(
@@ -553,6 +661,7 @@ class CollegeRAG:
             "confidence": confidence,
             "source_count": len(hits),
             "query_type": query_type,
+            "reranked": self.reranker.available,
         }
 
     # ---- Streaming high-level API ----
@@ -586,8 +695,16 @@ class CollegeRAG:
             school = college_name or classification.detected_school
             query_type = classification.query_type
 
-            # 2. Rewrite
-            search_query = self._rewrite_query(question, query_type)
+            # Short-circuit for greetings — skip the full RAG pipeline
+            if query_type == GREETING:
+                answer = self._generate_greeting(question)
+                yield {"type": "token", "content": answer}
+                yield {"type": "sources", "sources": [], "confidence": "high", "query_type": query_type, "reranked": False}
+                yield {"type": "done"}
+                return
+
+            # 2. Rewrite (pass history so pronouns/references are resolved)
+            search_query = self._rewrite_query(question, query_type, history=history)
 
             # 3. Retrieve
             embedding = get_embedding(search_query)
@@ -605,6 +722,13 @@ class CollegeRAG:
                     queries, college_name=school,
                     page_types=["about", "academics", "campus_life", "diversity", "outcomes"],
                     top_k=30,
+                )
+            elif query_type == ADMISSION_PREDICTION and school:
+                queries = [search_query]
+                queries.append(f"{school} admissions statistics acceptance rate class profile")
+                queries.append(f"{school} application requirements deadlines")
+                candidates = self.retriever.search_multi_query(
+                    queries, college_name=school, top_k=30,
                 )
             else:
                 candidates = self.retriever.search(
@@ -640,6 +764,7 @@ class CollegeRAG:
                 model=model,
                 messages=messages,
                 temperature=self._get_temperature(query_type),
+                max_tokens=self._get_max_tokens(response_length, query_type),
                 stream=True,
             )
 
@@ -651,15 +776,22 @@ class CollegeRAG:
                     yield {"type": "token", "content": token}
 
             # 6. Post-process and send metadata
-            answer = "".join(full_answer)
-            answer = self._verify_citations(answer, len(hits))
+            raw_answer = "".join(full_answer)
+            verified_answer = self._verify_citations(raw_answer, len(hits))
             confidence = self._compute_confidence(hits)
+
+            # If citation verification changed the answer (stripped invalid
+            # refs or appended a warning), send the corrected text so the
+            # frontend can replace what was streamed.
+            if verified_answer != raw_answer:
+                yield {"type": "answer_replaced", "content": verified_answer}
 
             yield {
                 "type": "sources",
                 "sources": hits,
                 "confidence": confidence,
                 "query_type": query_type,
+                "reranked": self.reranker.available,
             }
             yield {"type": "done"}
 

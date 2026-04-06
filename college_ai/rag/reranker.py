@@ -24,6 +24,12 @@ class Reranker:
         self._cohere_client = None
         self._available = None  # tri-state: None = unchecked
 
+    @property
+    def available(self) -> bool:
+        """Whether Cohere reranking is available."""
+        self._init_cohere()
+        return bool(self._available)
+
     def _init_cohere(self) -> bool:
         """Lazily initialize the Cohere client. Returns True if available."""
         if self._available is not None:
@@ -73,13 +79,13 @@ class Reranker:
             return hits[:top_k]
 
         try:
-            # Build document strings for Cohere
+            # Build document strings for Cohere (rerank-v3.5 supports ~4096 tokens;
+            # use up to 3000 chars to cover full chunk content)
             documents = []
             for h in hits:
                 title = h.get("title", "") or ""
                 content = h.get("content", "") or ""
-                # Cohere rerank works best with title + content snippet
-                doc_text = f"{title}\n{content[:800]}" if title else content[:1000]
+                doc_text = f"{title}\n{content[:3000]}" if title else content[:3000]
                 documents.append(doc_text)
 
             response = self._cohere_client.rerank(
@@ -94,6 +100,16 @@ class Reranker:
                 hit = hits[result.index]
                 hit["rerank_score"] = result.relevance_score
                 reranked.append(hit)
+
+            # Filter out low-relevance hits to avoid diluting context
+            min_score = 0.1
+            before_count = len(reranked)
+            reranked = [h for h in reranked if h.get("rerank_score", 0) >= min_score]
+            if len(reranked) < before_count:
+                logger.info(
+                    "Reranker filtered %d low-relevance hits (score < %.2f)",
+                    before_count - len(reranked), min_score,
+                )
 
             return reranked
 

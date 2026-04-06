@@ -28,8 +28,9 @@ QA = "qa"
 ESSAY_IDEAS = "essay_ideas"
 ESSAY_REVIEW = "essay_review"
 ADMISSION_PREDICTION = "admission_prediction"
+GREETING = "greeting"
 
-VALID_TYPES = {QA, ESSAY_IDEAS, ESSAY_REVIEW, ADMISSION_PREDICTION}
+VALID_TYPES = {QA, ESSAY_IDEAS, ESSAY_REVIEW, ADMISSION_PREDICTION, GREETING}
 
 # ---------------------------------------------------------------------------
 # Signal keyword lists
@@ -83,6 +84,17 @@ ADMISSION_PREDICTION_PATTERNS = [
     r"gpa.*\d+\.\d+.*chance|chance.*gpa.*\d+\.\d+",
 ]
 
+
+# Greeting / off-topic patterns — short messages with no college-related content
+GREETING_PATTERNS = [
+    r"^(hi|hello|hey|howdy|yo|sup)\b",
+    r"^good (morning|afternoon|evening|night)\b",
+    r"^(thanks|thank you|thx|ty)\b",
+    r"^(bye|goodbye|see you|later)\b",
+    r"^how are you",
+    r"^what'?s up\b",
+    r"^nice to meet you",
+]
 
 SIMPLE = "simple"
 COMPLEX = "complex"
@@ -241,7 +253,16 @@ class QueryRouter:
 
     def _classify_rules(self, question: str) -> Optional[str]:
         """Rule-based fast path. Returns None if ambiguous."""
-        q = question.lower()
+        q = question.lower().strip()
+
+        # Greetings / off-topic: short messages with no college-related signals
+        words = q.split()
+        if len(words) <= 8:
+            essay_count = sum(1 for s in ESSAY_SIGNALS if s in q)
+            factual_count = sum(1 for s in FACTUAL_SIGNALS if s in q)
+            if essay_count == 0 and factual_count == 0:
+                if any(re.search(p, q) for p in GREETING_PATTERNS):
+                    return GREETING
 
         # Check admission prediction first (specific patterns)
         if any(re.search(p, q) for p in ADMISSION_PREDICTION_PATTERNS):

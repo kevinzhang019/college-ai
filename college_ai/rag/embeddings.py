@@ -5,11 +5,12 @@ Supports true batch embedding (multiple texts per API call) for performance.
 """
 
 import os
+import re
 import queue
 import threading
 import concurrent.futures
 from openai import OpenAI
-from typing import List, Optional
+from typing import Dict, List, Optional
 import time
 import logging
 from dotenv import load_dotenv
@@ -82,6 +83,71 @@ def chunk_text_by_tokens(
             break
         # move with overlap
         start = max(0, end - overlap_tokens)
+    return chunks
+
+
+def chunk_text_by_sentences(
+    text: str,
+    max_tokens: int = 512,
+    overlap_sentences: int = 1,
+    model: str = "text-embedding-3-small",
+) -> List[str]:
+    """Split text into chunks at sentence boundaries, respecting token limits.
+
+    Sentences are grouped until adding the next one would exceed *max_tokens*.
+    The last *overlap_sentences* from the previous chunk are carried over for
+    context continuity.  If a single sentence exceeds *max_tokens*, it falls
+    back to :func:`chunk_text_by_tokens` for that sentence only.
+    """
+    if not text:
+        return []
+
+    encoding = _ensure_tokenizer(model)
+
+    # Split on sentence-ending punctuation followed by whitespace
+    sentences = re.split(r"(?<=[.!?])\s+", text)
+    sentences = [s.strip() for s in sentences if s.strip()]
+
+    if not sentences:
+        return []
+
+    chunks: List[str] = []
+    current_sentences: List[str] = []
+    current_tokens = 0
+
+    for sentence in sentences:
+        sent_tokens = len(encoding.encode(sentence))
+
+        # Single sentence exceeds budget → token-split it as a fallback
+        if sent_tokens > max_tokens:
+            if current_sentences:
+                chunks.append(" ".join(current_sentences))
+                current_sentences = []
+                current_tokens = 0
+            chunks.extend(
+                chunk_text_by_tokens(sentence, max_tokens, overlap_tokens=50, model=model)
+            )
+            continue
+
+        # Adding this sentence would exceed the budget → flush
+        if current_tokens + sent_tokens > max_tokens and current_sentences:
+            chunks.append(" ".join(current_sentences))
+            # Overlap: carry over last N sentences for context continuity
+            if overlap_sentences:
+                current_sentences = current_sentences[-overlap_sentences:]
+                current_tokens = sum(
+                    len(encoding.encode(s)) for s in current_sentences
+                )
+            else:
+                current_sentences = []
+                current_tokens = 0
+
+        current_sentences.append(sentence)
+        current_tokens += sent_tokens
+
+    if current_sentences:
+        chunks.append(" ".join(current_sentences))
+
     return chunks
 
 
@@ -193,11 +259,20 @@ def get_openai_client() -> Optional[OpenAI]:
     return _client
 
 
+# Thread-safe embedding cache (query-time only, not used during crawl)
+import hashlib
+
+_embedding_cache: Dict[str, List[float]] = {}
+_embedding_cache_lock = threading.Lock()
+_EMBEDDING_CACHE_MAX = 1024
+
+
 def get_embedding(
     text: str, model: str = "text-embedding-3-small", max_retries: int = 3
 ) -> Optional[List[float]]:
     """
     Generate embedding for the given text using OpenAI's embedding API.
+    Results are cached in-memory (up to 1024 entries) to avoid redundant API calls.
 
     Args:
         text: Text to generate embedding for
@@ -211,11 +286,18 @@ def get_embedding(
         logger.warning("Empty text provided for embedding")
         return None
 
+    text = _truncate_text(text.strip(), model=model)
+
+    # Check cache
+    cache_key = hashlib.sha256((model + "|" + text).encode()).hexdigest()
+    with _embedding_cache_lock:
+        if cache_key in _embedding_cache:
+            logger.debug("Embedding cache hit")
+            return list(_embedding_cache[cache_key])
+
     client = get_openai_client()
     if client is None:
         return None
-
-    text = _truncate_text(text.strip(), model=model)
 
     for attempt in range(max_retries):
         try:
@@ -226,6 +308,10 @@ def get_embedding(
                 logger.debug(
                     f"Successfully generated embedding of dimension {len(embedding)}"
                 )
+                # Store in cache
+                with _embedding_cache_lock:
+                    if len(_embedding_cache) < _EMBEDDING_CACHE_MAX:
+                        _embedding_cache[cache_key] = embedding
                 return embedding
             else:
                 logger.error("No embedding data returned from OpenAI")

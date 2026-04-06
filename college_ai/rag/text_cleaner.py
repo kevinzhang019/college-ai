@@ -31,13 +31,14 @@ def clean_text(text: str, max_length: Optional[int] = None) -> str:
     
     # Decode HTML entities
     text = html.unescape(text)
-    
-    # Remove HTML tags
-    text = re.sub(r'<[^>]+>', '', text)
-    
-    # Remove script and style content
+
+    # Remove script and style content FIRST (before stripping tags,
+    # otherwise the tags are gone but the JS/CSS text content remains)
     text = re.sub(r'<script.*?</script>', '', text, flags=re.DOTALL | re.IGNORECASE)
     text = re.sub(r'<style.*?</style>', '', text, flags=re.DOTALL | re.IGNORECASE)
+
+    # Remove remaining HTML tags
+    text = re.sub(r'<[^>]+>', '', text)
     
     # Remove excessive whitespace
     text = re.sub(r'\s+', ' ', text)

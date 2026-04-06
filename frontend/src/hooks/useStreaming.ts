@@ -85,6 +85,11 @@ export function useStreaming() {
           onToken: (text) => {
             appendStreamingContent(text)
           },
+          onAnswerReplaced: (content) => {
+            // Citation verification corrected the streamed answer;
+            // replace the accumulated content with the verified version.
+            useStore.getState().setStreamingContent(content)
+          },
           onSources: (sources, confidence) => {
             collectedSources = sources
             collectedConfidence = confidence as ChatMessage['confidence']

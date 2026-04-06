@@ -72,9 +72,13 @@ def extract_stats(question: str) -> Dict[str, Optional[float]]:
 def get_prediction_context(
     question: str,
     college_name: Optional[str] = None,
+    profile: Optional[Dict[str, Any]] = None,
 ) -> Optional[str]:
     """If the question is about admission chances and contains stats,
     generate a prediction context string to inject into the RAG prompt.
+
+    Stats are first extracted from the question text.  If missing, falls
+    back to ``profile`` data (GPA, SAT/ACT from the user's saved profile).
 
     Returns None if not applicable.
     """
@@ -82,6 +86,20 @@ def get_prediction_context(
         return None
 
     stats = extract_stats(question)
+
+    # Fall back to profile data when stats aren't in the question text
+    if profile:
+        if stats["gpa"] is None and profile.get("gpa"):
+            stats["gpa"] = float(profile["gpa"])
+        if stats["sat"] is None and stats["act"] is None:
+            score_type = (profile.get("testScoreType") or "").upper()
+            score = profile.get("testScore")
+            if score is not None:
+                if score_type == "SAT" and 400 <= float(score) <= 1600:
+                    stats["sat"] = float(score)
+                elif score_type == "ACT" and 1 <= float(score) <= 36:
+                    stats["act"] = float(score)
+
     if stats["gpa"] is None or (stats["sat"] is None and stats["act"] is None):
         return None
 

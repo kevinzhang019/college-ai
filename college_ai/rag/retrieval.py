@@ -17,6 +17,7 @@ from typing import Any, Dict, List, Optional
 
 from college_ai.rag.embeddings import get_embedding
 from college_ai.scraping.config import (
+    RETRIEVAL_NPROBE,
     ZILLIZ_URI,
     ZILLIZ_API_KEY,
     ZILLIZ_COLLECTION_NAME,
@@ -208,7 +209,7 @@ class HybridRetriever:
         dense_req = AnnSearchRequest(
             data=[query_embedding],
             anns_field="embedding",
-            param={"metric_type": "COSINE", "params": {"nprobe": 32}},
+            param={"metric_type": "COSINE", "params": {"nprobe": RETRIEVAL_NPROBE}},
             limit=top_k,
             expr=expr,
         )
@@ -236,7 +237,15 @@ class HybridRetriever:
                 query_embedding, top_k, output_fields, expr
             )
 
-        return self._normalize_results(results)
+        hits = self._normalize_results(results)
+        if hits:
+            sample_dists = [h.get("distance", 0) for h in hits[:3]]
+            logger.debug(
+                "Hybrid search sample distances (first 3): %s "
+                "(convention: RRF score, higher = more relevant)",
+                sample_dists,
+            )
+        return hits
 
     def _dense_only_search(
         self,
@@ -251,7 +260,7 @@ class HybridRetriever:
             results = col.search(
                 data=[query_embedding],
                 anns_field="embedding",
-                param={"metric_type": "COSINE", "params": {"nprobe": 32}},
+                param={"metric_type": "COSINE", "params": {"nprobe": RETRIEVAL_NPROBE}},
                 limit=top_k,
                 expr=expr,
                 output_fields=output_fields,
@@ -357,16 +366,21 @@ class HybridRetriever:
         target_college: str,
         boost_factor: float = 0.15,
     ) -> List[Dict[str, Any]]:
-        """Boost results from the target college without hard-filtering others."""
+        """Boost results from the target college without hard-filtering others.
+
+        RRF/hybrid search returns scores where higher = more relevant.
+        Adding boost_factor increases the target school's effective score.
+        Sort descending so highest-scoring results come first.
+        """
         college_lc = target_college.lower()
         for rec in hits:
             name = str(rec.get("college_name", "")).lower()
-            dist = float(rec.get("distance", 0.0) or 0.0)
+            score = float(rec.get("distance", 0.0) or 0.0)
             if name == college_lc:
-                rec["_boosted_distance"] = dist - boost_factor
+                rec["_boosted_score"] = score + boost_factor
             else:
-                rec["_boosted_distance"] = dist
-        hits.sort(key=lambda r: r["_boosted_distance"])
+                rec["_boosted_score"] = score
+        hits.sort(key=lambda r: r["_boosted_score"], reverse=True)
         return hits
 
     @staticmethod

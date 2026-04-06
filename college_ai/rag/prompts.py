@@ -15,7 +15,8 @@ from typing import Any, Dict, List, Optional
 
 QUERY_REWRITE_SYSTEM = (
     "You are a search query optimizer for a college admissions knowledge base.\n"
-    "Given a user question, produce a single search query optimized for semantic "
+    "Given a user question (and optionally recent conversation context), "
+    "produce a single search query optimized for semantic "
     "search over college website content (admissions pages, financial aid pages, "
     "academic program pages, campus life pages).\n\n"
     "Rules:\n"
@@ -23,6 +24,8 @@ QUERY_REWRITE_SYSTEM = (
     "- Expand abbreviations: SAT, GPA, CS → Computer Science, EA → Early Action, "
     "ED → Early Decision, RD → Regular Decision, FA → Financial Aid, FAFSA\n"
     "- Add relevant context terms a matching document would contain\n"
+    "- If conversation context is provided, resolve pronouns and references "
+    "(e.g. 'their CS program' → 'MIT Computer Science program')\n"
     "- Output ONLY the rewritten query — no explanations, no markdown"
 )
 
@@ -169,11 +172,12 @@ QA_SYSTEM = (
     "For process questions (how to apply, what's required), end with a "
     "## Next Steps section using bullet points for undergraduate applicants.\n"
     "For comparison questions, structure the answer with clear sections for each school.\n"
-)
-
-SYSTEM_MULTITURN = (
-    "\n\nPrevious conversation messages are provided for context. "
-    "Answer the user's latest question. If it's a follow-up, use the conversation "
+    # SYSTEM_MULTITURN is always included (static) so the system prompt prefix
+    # stays identical across single-turn and multi-turn requests, enabling
+    # OpenAI prompt caching. When no history is present, the model simply
+    # ignores this section.
+    "\n\nIf previous conversation messages are provided for context, "
+    "answer the user's latest question. If it's a follow-up, use the conversation "
     "context to understand what they're referring to. If it's a new topic, answer "
     "it independently.\n"
     "If the student's question is ambiguous or missing key details you need to give "
@@ -182,6 +186,7 @@ SYSTEM_MULTITURN = (
     "would fill in the biggest gaps, and ask before answering. Pick the question(s) "
     "that would most change your advice depending on the answer."
 )
+
 
 QA_USER = (
     "{college_focus}"
@@ -219,7 +224,10 @@ ESSAY_IDEAS_SYSTEM = (
     "a detail that could NOT apply to a different school.\n"
     "- If no school is specified, give general essay strategy advice grounded "
     "in what the student's experiences suggest. Note that school-specific "
-    "suggestions require selecting a school.\n"
+    "suggestions require selecting a school.\n\n"
+    "If previous conversation messages are provided for context, "
+    "answer the user's latest question. If it's a follow-up, use the conversation "
+    "context. If it's a new topic, answer independently."
 )
 
 ESSAY_IDEAS_USER = (
@@ -251,7 +259,9 @@ ESSAY_REVIEW_SYSTEM = (
     "   - Uses inflated vocabulary that doesn't sound like the student's voice\n"
     "   - Contains another school's name\n"
     "   - Has too much dialogue or narrative without reflection on what it meant\n\n"
-    "Keep total feedback under {essay_length_budget}.\n"
+    "If previous conversation messages are provided for context, "
+    "answer the user's latest question. If it's a follow-up, use the conversation "
+    "context. If it's a new topic, answer independently."
 )
 
 ESSAY_REVIEW_USER = (

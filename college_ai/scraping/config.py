@@ -155,6 +155,15 @@ CHUNK_OVERLAP_TOKENS = int(os.getenv("CHUNK_OVERLAP_TOKENS", "50"))
 # Off by default — set CONTEXTUAL_PREFIXES=1 to enable.
 CONTEXTUAL_PREFIXES = os.getenv("CONTEXTUAL_PREFIXES", "0") == "1"
 
+# Sentence-aware chunking: split at sentence boundaries instead of raw token windows.
+# Default ON for new crawls. Set CHUNK_SENTENCE_AWARE=0 to use token-only chunking.
+CHUNK_SENTENCE_AWARE = os.getenv("CHUNK_SENTENCE_AWARE", "1") == "1"
+
+# RAG retrieval settings
+RETRIEVAL_NPROBE = int(os.getenv("RETRIEVAL_NPROBE", "64"))
+RAG_HISTORY_LIMIT = int(os.getenv("RAG_HISTORY_LIMIT", "6"))
+RAG_HISTORY_REWRITE_LIMIT = int(os.getenv("RAG_HISTORY_REWRITE_LIMIT", "3"))
+
 # ==================== PAGE TYPE CLASSIFICATION ====================
 
 # URL pattern → page type mapping for the page_type Milvus field.
