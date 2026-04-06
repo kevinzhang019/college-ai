@@ -14,8 +14,11 @@ import argparse
 import os
 from typing import Any, Dict, List, Optional
 
+import json
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
 
 from college_ai.rag.service import CollegeRAG
@@ -123,6 +126,71 @@ def ask(payload: AskRequest) -> Dict[str, Any]:
         essay_text=payload.essay_text,
     )
     return result
+
+
+# ==================== Streaming Endpoint ====================
+
+
+class HistoryMessage(BaseModel):
+    role: str = Field(..., description="'user' or 'assistant'")
+    content: str
+
+
+class ExperienceItem(BaseModel):
+    title: str
+    organization: Optional[str] = None
+    type: str = Field("", description="extracurricular, project, work, volunteer")
+    description: str = ""
+    start_date: Optional[str] = Field(None, alias="startDate")
+    end_date: Optional[str] = Field(None, alias="endDate")
+
+    class Config:
+        populate_by_name = True
+
+
+class AskStreamRequest(BaseModel):
+    question: str = Field(..., description="User question or essay request")
+    top_k: int = Field(8, ge=1, le=20)
+    college: Optional[str] = None
+    essay_text: Optional[str] = None
+    essay_prompt: Optional[str] = None
+    history: Optional[List[HistoryMessage]] = None
+    experiences: Optional[List[ExperienceItem]] = None
+
+
+def _sse_generator(payload: AskStreamRequest):
+    """Wrap the RAG streaming generator as SSE text lines."""
+    history_dicts = None
+    if payload.history:
+        history_dicts = [{"role": m.role, "content": m.content} for m in payload.history]
+
+    experience_dicts = None
+    if payload.experiences:
+        experience_dicts = [e.dict() for e in payload.experiences]
+
+    for event in rag_engine.answer_question_stream(
+        payload.question,
+        top_k=payload.top_k,
+        college_name=payload.college,
+        essay_text=payload.essay_text,
+        essay_prompt=payload.essay_prompt,
+        history=history_dicts,
+        experiences=experience_dicts,
+    ):
+        yield f"data: {json.dumps(event)}\n\n"
+
+
+@app.post("/ask/stream")
+def ask_stream(payload: AskStreamRequest):
+    return StreamingResponse(
+        _sse_generator(payload),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            "X-Accel-Buffering": "no",
+        },
+    )
 
 
 # ==================== Admissions Prediction Endpoints ====================

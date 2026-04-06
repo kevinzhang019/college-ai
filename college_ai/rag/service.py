@@ -33,8 +33,10 @@ from college_ai.rag.prompts import (
     ESSAY_REVIEW_USER,
     NO_ANSWER_RESPONSE,
     QA_SYSTEM,
+    QA_SYSTEM_MULTITURN,
     QA_USER,
     QUERY_REWRITE_SYSTEM,
+    format_experiences,
     get_extra_instructions,
     get_length_budget,
 )
@@ -252,6 +254,91 @@ class CollegeRAG:
             return response.choices[0].message.content or ""
         return ""
 
+    # ---- Streaming generation ----
+
+    def _build_messages(
+        self,
+        question: str,
+        query_type: str,
+        hits: List[Dict[str, Any]],
+        college_name: Optional[str],
+        essay_text: Optional[str] = None,
+        essay_prompt: Optional[str] = None,
+        history: Optional[List[Dict[str, str]]] = None,
+        experiences: Optional[List[Dict[str, Any]]] = None,
+    ) -> List[Dict[str, str]]:
+        """Build the messages list for the OpenAI chat call."""
+        sources_block = self._build_context_snippets(hits)
+        experience_context = format_experiences(experiences)
+
+        if query_type == ESSAY_IDEAS:
+            school_context = ""
+            if college_name:
+                school_context = f"School of interest: **{college_name}**\n\n"
+            system = ESSAY_IDEAS_SYSTEM
+            user_prompt = ESSAY_IDEAS_USER.format(
+                question=question,
+                school_context=school_context,
+                experience_context=experience_context,
+                sources_block=sources_block,
+            )
+        elif query_type == ESSAY_REVIEW:
+            school_context = ""
+            if college_name:
+                school_context = f"School of interest: **{college_name}**\n\n"
+            system = ESSAY_REVIEW_SYSTEM
+            user_prompt = ESSAY_REVIEW_USER.format(
+                question=question,
+                school_context=school_context,
+                experience_context=experience_context,
+                essay_text=essay_text or "(No draft provided)",
+                sources_block=sources_block,
+            )
+        else:
+            # QA / admission_prediction
+            prediction_context = ""
+            try:
+                from college_ai.rag.bridge import get_prediction_context
+                ctx = get_prediction_context(question, college_name=college_name)
+                if ctx:
+                    prediction_context = f"\n{ctx}\n"
+            except Exception:
+                pass
+
+            system = QA_SYSTEM
+            if college_name:
+                system += f"\nPrioritize information for {college_name} if present."
+            if history:
+                system += QA_SYSTEM_MULTITURN
+
+            user_prompt = QA_USER.format(
+                question=question,
+                sources_block=sources_block,
+                prediction_context=prediction_context,
+                extra_instructions=get_extra_instructions(question),
+                length_budget=get_length_budget(question),
+            )
+
+        messages = [{"role": "system", "content": system}]  # type: List[Dict[str, str]]
+
+        # Add conversation history for multi-turn
+        if history:
+            for msg in history[-6:]:
+                messages.append({
+                    "role": msg.get("role", "user"),
+                    "content": msg.get("content", ""),
+                })
+
+        messages.append({"role": "user", "content": user_prompt})
+        return messages
+
+    def _get_temperature(self, query_type: str) -> float:
+        if query_type == ESSAY_IDEAS:
+            return 0.4
+        if query_type == ESSAY_REVIEW:
+            return 0.3
+        return 0.2
+
     # ---- Generation: Essay Ideas ----
 
     def _generate_essay_ideas(
@@ -427,6 +514,110 @@ class CollegeRAG:
             "source_count": len(hits),
             "query_type": query_type,
         }
+
+    # ---- Streaming high-level API ----
+
+    def answer_question_stream(
+        self,
+        question: str,
+        *,
+        top_k: int = 8,
+        college_name: Optional[str] = None,
+        essay_text: Optional[str] = None,
+        essay_prompt: Optional[str] = None,
+        history: Optional[List[Dict[str, str]]] = None,
+        experiences: Optional[List[Dict[str, Any]]] = None,
+    ):
+        """Stream RAG answer as SSE events (generator of dicts).
+
+        Yields dicts with a ``type`` key:
+        - ``{"type": "token", "content": "..."}``
+        - ``{"type": "sources", "sources": [...], "confidence": "...", "query_type": "..."}``
+        - ``{"type": "done"}``
+        - ``{"type": "error", "message": "..."}``
+        """
+        import json
+
+        try:
+            # 1. Route
+            classification = self.router.classify(question, essay_text)
+            school = college_name or classification.detected_school
+            query_type = classification.query_type
+
+            # 2. Rewrite
+            search_query = self._rewrite_query(question, query_type)
+
+            # 3. Retrieve
+            embedding = get_embedding(search_query)
+            if embedding is None or len(embedding) != VECTOR_DIM:
+                yield {"type": "token", "content": NO_ANSWER_RESPONSE}
+                yield {"type": "sources", "sources": [], "confidence": "low", "query_type": query_type}
+                yield {"type": "done"}
+                return
+
+            if query_type in (ESSAY_IDEAS, ESSAY_REVIEW) and school:
+                queries = [search_query]
+                queries.append(f"{school} mission values what we look for in students")
+                queries.append(f"{school} unique programs culture community")
+                candidates = self.retriever.search_multi_query(
+                    queries, college_name=school,
+                    page_types=["about", "academics", "campus_life", "diversity", "outcomes"],
+                    top_k=30,
+                )
+            else:
+                candidates = self.retriever.search(
+                    search_query, embedding, college_name=school, top_k=30,
+                )
+
+            if not candidates:
+                yield {"type": "token", "content": NO_ANSWER_RESPONSE}
+                yield {"type": "sources", "sources": [], "confidence": "low", "query_type": query_type}
+                yield {"type": "done"}
+                return
+
+            # 4. Rerank
+            hits = self.reranker.rerank(question, candidates, top_k=top_k)
+
+            # 5. Build messages and stream generation
+            messages = self._build_messages(
+                question, query_type, hits, school,
+                essay_text=essay_text,
+                essay_prompt=essay_prompt,
+                history=history,
+                experiences=experiences,
+            )
+
+            client = self._get_chat_client()
+            stream = client.chat.completions.create(
+                model=self.generation_model,
+                messages=messages,
+                temperature=self._get_temperature(query_type),
+                stream=True,
+            )
+
+            full_answer = []
+            for chunk in stream:
+                if chunk.choices and chunk.choices[0].delta.content:
+                    token = chunk.choices[0].delta.content
+                    full_answer.append(token)
+                    yield {"type": "token", "content": token}
+
+            # 6. Post-process and send metadata
+            answer = "".join(full_answer)
+            answer = self._verify_citations(answer, len(hits))
+            confidence = self._compute_confidence(hits)
+
+            yield {
+                "type": "sources",
+                "sources": hits,
+                "confidence": confidence,
+                "query_type": query_type,
+            }
+            yield {"type": "done"}
+
+        except Exception as e:
+            logger.exception("Streaming error: %s", e)
+            yield {"type": "error", "message": str(e)}
 
 
 # ---------------------------------------------------------------------------

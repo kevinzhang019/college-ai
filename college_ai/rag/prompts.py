@@ -7,6 +7,8 @@ instructions live here so they can be tuned in one place.
 
 from __future__ import annotations
 
+from typing import Any, Dict, List, Optional
+
 # ---------------------------------------------------------------------------
 # Query rewriting
 # ---------------------------------------------------------------------------
@@ -66,6 +68,13 @@ QA_SYSTEM = (
     "context or note it's not applicable."
 )
 
+QA_SYSTEM_MULTITURN = (
+    "\n\nPrevious conversation messages are provided for context. "
+    "Answer the user's latest question. If it's a follow-up, use the conversation "
+    "context to understand what they're referring to. If it's a new topic, answer "
+    "it independently."
+)
+
 QA_USER = (
     "Question: {question}\n\n"
     "Sources:\n{sources_block}\n\n"
@@ -107,6 +116,7 @@ ESSAY_IDEAS_SYSTEM = (
 ESSAY_IDEAS_USER = (
     "Student's request: {question}\n\n"
     "{school_context}"
+    "{experience_context}"
     "Sources:\n{sources_block}\n\n"
     "Provide 3-4 specific essay angle suggestions grounded in the sources."
 )
@@ -138,6 +148,7 @@ ESSAY_REVIEW_SYSTEM = (
 ESSAY_REVIEW_USER = (
     "Student's request: {question}\n\n"
     "{school_context}"
+    "{experience_context}"
     "Student's essay draft:\n---\n{essay_text}\n---\n\n"
     "Sources:\n{sources_block}\n\n"
     "Provide specific, actionable feedback grounded in the sources."
@@ -193,3 +204,40 @@ NO_ANSWER_RESPONSE = (
     "Please check the college's official website directly for the most "
     "accurate and up-to-date information."
 )
+
+
+# ---------------------------------------------------------------------------
+# Experience context formatting
+# ---------------------------------------------------------------------------
+
+def format_experiences(
+    experiences: Optional[List[Dict[str, Any]]],
+) -> str:
+    """Format user experiences/extracurriculars as context for essay prompts."""
+    if not experiences:
+        return ""
+
+    lines = ["Student's experiences and activities:"]
+    for exp in experiences:
+        title = exp.get("title", "")
+        org = exp.get("organization", "")
+        exp_type = exp.get("type", "")
+        desc = exp.get("description", "")
+        start = exp.get("start_date") or exp.get("startDate") or ""
+        end = exp.get("end_date") or exp.get("endDate") or ""
+
+        header = f"- **{title}**"
+        if org:
+            header += f" at {org}"
+        if exp_type:
+            header += f" ({exp_type})"
+        if start:
+            date_str = start
+            if end:
+                date_str += " – " + end
+            header += f" [{date_str}]"
+        lines.append(header)
+        if desc:
+            lines.append(f"  {desc}")
+
+    return "\n".join(lines) + "\n\n"
