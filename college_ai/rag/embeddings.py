@@ -9,6 +9,7 @@ import re
 import queue
 import threading
 import concurrent.futures
+from collections import OrderedDict
 from openai import OpenAI
 from typing import Dict, List, Optional
 import time
@@ -262,7 +263,7 @@ def get_openai_client() -> Optional[OpenAI]:
 # Thread-safe embedding cache (query-time only, not used during crawl)
 import hashlib
 
-_embedding_cache: Dict[str, List[float]] = {}
+_embedding_cache: OrderedDict = OrderedDict()  # LRU cache
 _embedding_cache_lock = threading.Lock()
 _EMBEDDING_CACHE_MAX = 1024
 
@@ -288,10 +289,11 @@ def get_embedding(
 
     text = _truncate_text(text.strip(), model=model)
 
-    # Check cache
+    # Check cache (LRU: move hit to end)
     cache_key = hashlib.sha256((model + "|" + text).encode()).hexdigest()
     with _embedding_cache_lock:
         if cache_key in _embedding_cache:
+            _embedding_cache.move_to_end(cache_key)
             logger.debug("Embedding cache hit")
             return list(_embedding_cache[cache_key])
 
@@ -308,10 +310,11 @@ def get_embedding(
                 logger.debug(
                     f"Successfully generated embedding of dimension {len(embedding)}"
                 )
-                # Store in cache
+                # Store in cache (LRU eviction when over cap)
                 with _embedding_cache_lock:
-                    if len(_embedding_cache) < _EMBEDDING_CACHE_MAX:
-                        _embedding_cache[cache_key] = embedding
+                    _embedding_cache[cache_key] = embedding
+                    if len(_embedding_cache) > _EMBEDDING_CACHE_MAX:
+                        _embedding_cache.popitem(last=False)
                 return embedding
             else:
                 logger.error("No embedding data returned from OpenAI")

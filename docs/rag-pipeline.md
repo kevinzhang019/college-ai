@@ -9,7 +9,7 @@ User Query + (optional school) + (optional history) + (optional experiences) + (
     │
     ▼
 [Router]  ─── classify: qa | essay_ideas | essay_review | admission_prediction | greeting
-    │           + extract school name from query text (fuzzy match)
+    │           + extract school name from query text (alias/acronym → substring → fuzzy)
     │           + complexity: simple | complex (for model routing)
     │           greeting → skip RAG pipeline, lightweight nano response
     ▼
@@ -49,7 +49,7 @@ User Query + (optional school) + (optional history) + (optional experiences) + (
 
 | File | Purpose |
 |---|---|
-| `rag/router.py` | Two-layer query classifier (rule-based + LLM fallback) + school name extraction via rapidfuzz + complexity classification for model routing + greeting detection (skips RAG pipeline) |
+| `rag/router.py` | Two-layer query classifier (rule-based + LLM fallback) + school name extraction (alias/acronym dict → substring → rapidfuzz) + complexity classification for model routing + greeting detection (skips RAG pipeline) |
 | `rag/retrieval.py` | `HybridRetriever` — dense + BM25 hybrid search, school pre-filtering, URL dedup |
 | `rag/reranker.py` | Cohere rerank-v3.5 wrapper with graceful degradation, exposes `available` property for response metadata |
 | `rag/prompts.py` | All system/user prompts: QA, essay ideas, essay review, query rewriting, classification. Also `format_experiences()`, `format_profile_context()`, `determine_residency()`, `get_extra_instructions()` (conditional domain knowledge). Multi-turn instructions are inlined into each system prompt for prompt caching. |
@@ -81,9 +81,11 @@ Two-layer classifier:
 - Conservative: ambiguous queries default to "complex" (better model)
 
 **School extraction:**
+- Alias/acronym lookup first: ~100 entries mapping acronyms (MIT, BYU, UCLA, UIUC, etc.), shorthands (UMich, WashU, UPenn, Cal Poly, Ole Miss, etc.), and single-name schools (Harvard, Stanford, etc.) to canonical names. Uses word-boundary regex to avoid false positives (e.g., "bu" inside "about").
 - Exact substring match against known college list (from CSVs), longest match first
-- Fuzzy ngram matching via rapidfuzz (`token_sort_ratio`, cutoff 85)
+- Fuzzy ngram matching via rapidfuzz (`token_sort_ratio`, cutoff 85, ngram length 1-7)
 - Dropdown selection takes precedence over text extraction
+- When a school is detected from the prompt, it filters retrieval identically to a dropdown selection
 
 ## Step 2: Query Rewriting
 

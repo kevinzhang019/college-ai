@@ -39,7 +39,7 @@ Multithreaded BFS crawler that embeds college website pages into Zilliz Cloud wi
 7. Stops at `MAX_PAGES_PER_COLLEGE=500`, `MAX_DEPTH=3`, or `MAX_CRAWL_TIME_PER_COLLEGE=300s`
 
 **Anti-bot measures:**
-- `curl_cffi` for TLS/JA3 fingerprint impersonation (Chrome/Safari/Edge/Firefox)
+- `curl_cffi` for TLS/JA3 fingerprint impersonation (Chrome/Safari/Edge/Firefox) — per-worker `curl_cffi.requests.Session` reuses libcurl handles
 - `playwright-stealth` (15+ detection vector patches)
 - `camoufox` Firefox-based stealth for deep fingerprint spoofing
 - `browserforge` for realistic rotating HTTP headers + fingerprints
@@ -89,7 +89,7 @@ US DOE College Scorecard REST API. Fetches ~6,500 schools' admissions, demograph
 | `USE_CAMOUFOX` | `1` | Firefox stealth browser |
 | `USE_CURL_CFFI` | `1` | TLS fingerprint impersonation |
 | `CRAWLER_PROXIES` | empty | Comma-separated proxy list |
-| `PLAYWRIGHT_POOL_SIZE` | `5` | Concurrent browsers |
+| `PLAYWRIGHT_POOL_SIZE` | `5` | Max browsers (capped at `PLAYWRIGHT_MAX_CONCURRENCY` to avoid idle processes) |
 | `ENABLE_DELTA_CRAWLING` | `1` | Skip unchanged pages |
 | `MILVUS_INSERT_BUFFER_SIZE` | `50` | Batch insert size |
 | `EMBED_MAX_CONCURRENCY` | `3` | Concurrent embed calls |

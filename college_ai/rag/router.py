@@ -99,6 +99,123 @@ GREETING_PATTERNS = [
 SIMPLE = "simple"
 COMPLEX = "complex"
 
+# ---------------------------------------------------------------------------
+# School acronym / shorthand aliases → canonical CSV name
+# ---------------------------------------------------------------------------
+
+SCHOOL_ALIASES = {
+    # Pure acronyms
+    "mit": "Massachusetts Institute of Technology",
+    "cmu": "Carnegie Mellon University",
+    "nyu": "New York University",
+    "usc": "University of Southern California",
+    "ucla": "University of California—Los Angeles",
+    "ucsd": "University of California—San Diego",
+    "uci": "University of California—Irvine",
+    "ucb": "University of California—Berkeley",
+    "ucd": "University of California-Davis",
+    "ucf": "University of Central Florida",
+    "uga": "University of Georgia",
+    "uva": "University of Virginia",
+    "unc": "University of North Carolina—Chapel Hill",
+    "uf": "University of Florida",
+    "ut": "University of Texas—Austin",
+    "utsa": "University of Texas—San Antonio",
+    "utd": "University of Texas—Dallas",
+    "umd": "University of Maryland—College Park",
+    "osu": "The Ohio State University",
+    "msu": "Michigan State University",
+    "lsu": "Louisiana State University",
+    "fsu": "Florida State University",
+    "fiu": "Florida International University",
+    "byu": "Brigham Young University",
+    "tcu": "Texas Christian University",
+    "smu": "Southern Methodist University",
+    "gwu": "George Washington University",
+    "gw": "George Washington University",
+    "vcu": "Virginia Commonwealth University",
+    "sjsu": "San José State University",
+    "sdsu": "San Diego State University",
+    "asu": "Arizona State University",
+    "bu": "Boston University",
+    "bc": "Boston College",
+    "vt": "Virginia Tech",
+    "gt": "Georgia Institute of Technology",
+    "uiuc": "University of Illinois Urbana-Champaign",
+    "cwru": "Case Western Reserve University",
+    "wfu": "Wake Forest University",
+    "isu": "Iowa State University",
+    "ksu": "Kansas State University",
+    "ttu": "Texas Tech University",
+    "unt": "University of North Texas",
+    "psu": "Pennsylvania State University",
+    "unh": "University of New Hampshire",
+    "uvm": "University of Vermont",
+    "ncsu": "North Carolina State University",
+    # Shorthands / nicknames
+    "umich": "University of Michigan—Ann Arbor",
+    "upenn": "University of Pennsylvania",
+    "washu": "Washington University in St. Louis",
+    "cal poly": "Cal Poly San Luis Obispo",
+    "ole miss": "University of Mississippi",
+    "gatech": "Georgia Institute of Technology",
+    "georgia tech": "Georgia Institute of Technology",
+    "umass": "University of Massachusetts Amherst",
+    "umass amherst": "University of Massachusetts Amherst",
+    "umass lowell": "University of Massachusetts Lowell",
+    "penn state": "Pennsylvania State University",
+    "ohio state": "The Ohio State University",
+    "texas a&m": "Texas A&M University",
+    "a&m": "Texas A&M University",
+    "cal berkeley": "University of California—Berkeley",
+    "uc berkeley": "University of California—Berkeley",
+    "uc davis": "University of California-Davis",
+    "uc irvine": "University of California—Irvine",
+    "uc san diego": "University of California—San Diego",
+    "uc la": "University of California—Los Angeles",
+    "iu": "Indiana University—Bloomington",
+    "william and mary": "College of William & Mary",
+    "william & mary": "College of William & Mary",
+    "w&m": "College of William & Mary",
+    "wm": "College of William & Mary",
+    "u of m": "University of Michigan—Ann Arbor",
+    "u of t": "University of Texas—Austin",
+    "u of f": "University of Florida",
+    "rutgers": "Rutgers University–New Brunswick",
+    "cuny brooklyn": "CUNY Brooklyn College",
+    # Single-name schools (won't fuzzy-match due to low token_sort_ratio)
+    "stanford": "Stanford University",
+    "harvard": "Harvard University",
+    "yale": "Yale University",
+    "princeton": "Princeton University",
+    "dartmouth": "Dartmouth College",
+    "columbia": "Columbia University",
+    "cornell": "Cornell University",
+    "brown": "Brown University",
+    "duke": "Duke University",
+    "vanderbilt": "Vanderbilt University",
+    "emory": "Emory University",
+    "georgetown": "Georgetown University",
+    "northwestern": "Northwestern University",
+    "tulane": "Tulane University",
+    "fordham": "Fordham University",
+    "northeastern": "Northeastern University",
+    "clemson": "Clemson University",
+    "auburn": "Auburn University",
+    "purdue": "Purdue University",
+    "baylor": "Baylor University",
+    "syracuse": "Syracuse University",
+    "villanova": "Villanova University",
+    "howard": "Howard University",
+    "rice": "Rice University",
+    "babson": "Babson College",
+    "bentley": "Bentley University",
+    "minerva": "Minerva University",
+    "binghamton": "Binghamton University",
+    "clarkson": "Clarkson University",
+    "notre dame": "University of Notre Dame",
+}
+
 # Keywords that indicate a complex (non-lookup) question
 COMPLEX_SIGNALS = [
     "compare", "versus", "vs", "difference between",
@@ -166,35 +283,43 @@ class QueryRouter:
     def extract_school(self, question: str) -> Optional[str]:
         """Extract a college name from the query text via fuzzy matching.
 
+        Checks aliases/acronyms first, then exact substring, then fuzzy ngrams.
         Returns the canonical school name or None.
         """
+        # 1. Check aliases (acronyms and shorthands) — longest first
+        q_lower = question.lower()
+        # Build word list for token-boundary matching
+        q_words = re.findall(r"[a-z&']+(?:\s+[a-z&']+)*", q_lower)
+        q_joined = " ".join(q_words)
+
+        for alias in sorted(SCHOOL_ALIASES, key=len, reverse=True):
+            # Use word-boundary matching to avoid false positives
+            # e.g., "bu" shouldn't match inside "about"
+            pattern = r'(?<![a-z])' + re.escape(alias) + r'(?![a-z])'
+            if re.search(pattern, q_lower):
+                return SCHOOL_ALIASES[alias]
+
+        # 2. Exact substring match against known college names
         colleges = self._load_college_names()
         if not colleges:
             return None
 
-        try:
-            from rapidfuzz import process as rfp, fuzz
-        except ImportError:
-            return self._extract_school_exact(question, colleges)
-
-        # Build lowercase lookup map
-        name_map = {n.lower(): n for n in colleges}
-
-        # Try exact substring match first (cheaper)
-        q_lower = question.lower()
-        # Sort by length descending so "University of California—Berkeley" matches
-        # before "University of California"
         for name in sorted(colleges, key=len, reverse=True):
             if name.lower() in q_lower:
                 return name
 
-        # Fuzzy match: extract best match from the question
-        # We try matching progressively longer ngrams against the college list
+        # 3. Fuzzy ngram match (rapidfuzz)
+        try:
+            from rapidfuzz import process as rfp, fuzz
+        except ImportError:
+            return None
+
+        name_map = {n.lower(): n for n in colleges}
         words = question.split()
         best_match = None
         best_score = 0
 
-        for ngram_len in range(2, min(8, len(words) + 1)):
+        for ngram_len in range(1, min(8, len(words) + 1)):
             for i in range(len(words) - ngram_len + 1):
                 ngram = " ".join(words[i:i + ngram_len])
                 result = rfp.extractOne(

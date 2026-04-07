@@ -2,7 +2,7 @@
 
 Full concurrency audit of `crawler.py` and supporting modules (`embeddings.py`, `shutdown.py`, `connection.py`, `config.py`). Cross-referenced with pymilvus ORM documentation and Python `threading` semantics.
 
-**Verdict: Architecture is sound.** Six bugs fixed (2 in round 1, 3 in round 2, 1 in re-audit), no data races, no deadlocks, no memory leaks, Milvus writes are validated before insert.
+**Verdict: Architecture is sound.** Six concurrency bugs fixed (2 in round 1, 3 in round 2, 1 in re-audit), 7 memory leak fixes + 8 memory optimization fixes, no data races, no deadlocks, Milvus writes are validated before insert.
 
 ## Bugs Fixed
 
@@ -102,16 +102,22 @@ URLs are claimed in `_pending_canonical_urls` before the Milvus existence query 
 
 | Resource | Bound | Cleanup |
 |----------|-------|---------|
-| `_pending_canonical_urls` | Bounded by concurrent in-flight pages. Claims released by flush thread after insert, or by error paths | All paths verified (see invariant table above) |
-| `_host_tokens` / `_host_failures` / etc. | Grows with unique hostnames | `_prune_host_state()` called per-college, evicts entries > 30min |
+| `_pending_canonical_urls` | Bounded by concurrent in-flight pages. Claims released by flush thread after insert, or by error paths | All paths verified (see invariant table above). Diagnostic warning at 500+ entries |
+| `_host_tokens` / `_host_failures` / etc. | Hard cap: `_HOST_STATE_MAX_ENTRIES=200` | `_prune_host_state()` called per-college + every ~100 `scrape_page` calls per thread. TTL eviction (600s periodic, 1800s at college boundary) + hard cap evicts oldest by last-seen |
 | `ProxyPool._sticky` | Grows with sticky assignments | TTL-based eviction (`cooldown_sec * 2`) in every `acquire()` call |
 | `PlaywrightPool._all_locals` | Bounded by `pool_size` semaphore | Rotation removes + closes slots. `prune_dead_slots()` cleans unhealthy. `shutdown()` clears all |
-| `_pw_local_registry` | Bounded by threads using fallback (non-pool) PW path | `close()` iterates all entries, closes browsers in daemon threads with 10s timeout |
+| `_pw_local_registry` | Bounded by threads using fallback (non-pool) PW path | `close()` snapshots + clears registry, then closes browsers in daemon threads with 10s timeout |
 | `DeltaCrawlCache._all_conns` | One per thread (thread-local) | `close()` closes all under lock. Minor: dead-thread connections persist until `close()` (bounded by thread pool size) |
-| `_insert_buffer` | `Queue(maxsize=500)` | Backpressure blocks workers. Final drain in flush thread + `_flush_all_inserts()` |
+| `_insert_buffer` | `Queue(maxsize=200)` | Backpressure blocks workers. In-place merge halves flush memory. Final drain in flush thread + `_flush_all_inserts()` |
 | `EmbeddingBatcher._queue` | `Queue(maxsize=200)` | `submit()` retries on full. `_cancel_remaining()` resolves orphaned futures on shutdown |
-| `_pw_profile_cache` | Grows with unique domains | Bounded by colleges crawled. Short-lived (process lifetime) |
-| Worker sessions | One per worker thread | `worker_session.close()` in `try/finally` at end of `worker_task` |
+| `_pw_profile_cache` | `OrderedDict` with LRU, cap 50 entries | Read hits: `move_to_end()`. Writes: `popitem(last=False)` when over cap. All under `_pw_profile_cache_lock` |
+| `_embedding_cache` | `OrderedDict` with LRU, cap 1024 entries | Hits: `move_to_end()`. Inserts: `popitem(last=False)` when over cap. All under `_embedding_cache_lock` |
+| Per-college sets | Cleared at end of `crawl_college_site` | `.clear()` under `state_lock` / `college_hash_lock` breaks closure refs from orphaned PW callbacks |
+| Worker sessions | One per worker thread (curl_cffi Session when available) | `worker_session.close()` in `try/finally` at end of `worker_task`. curl_cffi sessions reuse libcurl handle |
+| Playwright pool size | `min(PLAYWRIGHT_POOL_SIZE, PLAYWRIGHT_MAX_CONCURRENCY)` | Prevents idle browser processes from wasting ~300-500 MB each |
+| Chromium flags | `_CHROMIUM_FLAGS_SAFE` (pool) + `_CHROMIUM_FLAGS_FALLBACK_EXTRA` (non-pool only) | Safe flags save memory; fingerprint-affecting flags restricted to fallback path |
+| PW BeautifulSoup | Single soup from longer HTML snapshot | Title from other snapshot via regex. Links extracted before nav decomposition |
+| Response body in `scrape_page` | Freed via `del response` after extracting url/text/headers | Saves ~1 MB per concurrent worker |
 
 ## Playwright Lifecycle — Correct
 
@@ -200,3 +206,151 @@ if not slot.get("_healthy", True):
 **File:** `crawler.py`, `crawl_college_site()`
 
 `pw_uploaded_shared` used the `nonlocal int` pattern — all writes were correctly under `state_lock`, but a future edit adding a write without the lock would silently introduce a data race. Refactored to `pw_uploaded = {"count": 0}` dict pattern, matching the existing `college_counter` pattern (line 4011). No behavioral change — all mutations remain under `state_lock`, but `nonlocal` is no longer needed and the lock requirement is visually obvious.
+
+## Memory Leak Fixes (2026-04-06)
+
+Seven fixes targeting OOM crashes caused by unbounded memory growth during long crawler runs.
+
+### 7. Per-College Set Closure Leak (Critical — OOM)
+
+**File:** `crawler.py`, `crawl_college_site()` return path
+
+`_merge_pw_result` callbacks capture per-college sets (`crawled_canon`, `discovered_canon`, `discovered_urls`, `college_hash_cache`, `college_canonical_urls`) by closure. After `pw_executor.shutdown(wait=False)`, orphaned callbacks keep these sets alive, preventing GC. With 4 colleges × 6 sets × 25K URLs each, memory accumulates across colleges.
+
+**Fix:** Explicitly `.clear()` all per-college sets at the end of `crawl_college_site()`, after `_flush_all_inserts()` and before the return. Clears under `state_lock` (for BFS sets) and `college_hash_lock` (for dedup cache) to synchronize with any late PW callbacks. After clear, a late callback finds empty sets — harmless since `stop_event` is set and nobody consumes the queue.
+
+**Thread safety:** Lock ordering preserved (`state_lock` → `self.lock`; `college_hash_lock` is independent). `.clear()` empties in-place under the same locks callbacks use. **Safe.**
+
+### 8. Insert Buffer Merge Memory Doubling (Critical — OOM)
+
+**File:** `crawler.py`, `_flush_insert_buffer_inner()`
+
+The old code created a separate `merged` dict and `.extend()`ed each column. Both `rows` and `merged` held all embedding vectors simultaneously, doubling peak memory (~48 MB per flush).
+
+**Fix:** In-place merge into the first row's lists. Consumed rows nulled immediately (`rows[i] = None`). On alignment mismatch, drops the batch (per-row recovery no longer possible since original rows are consumed).
+
+**Thread safety:** `_flush_insert_buffer_inner` runs exclusively on `MilvusFlushThread` (single consumer). No concurrent access. **Safe.**
+
+### 9. Unbounded Host State Dicts (High — sustained growth)
+
+**File:** `crawler.py`, `_prune_host_state()`, `scrape_page()`
+
+`_host_tokens` et al. grew with every unique hostname. Pruning only happened at college boundaries with a 30-min TTL, but active hosts were never evicted.
+
+**Fix:** Hard cap of `_HOST_STATE_MAX_ENTRIES=200` evicts oldest entries by last-seen time after TTL eviction. Periodic pruning every ~100 `scrape_page` calls per thread via thread-local counter (600s TTL for periodic, 1800s at college boundary).
+
+**Thread safety:** All mutations under `_host_lock` (existing). Thread-local counter uses `threading.local()` — no lock needed. **Safe.**
+
+### 10. Unbounded Playwright Profile Cache (High — sustained growth)
+
+**File:** `crawler.py`, `_load_playwright_profile()`
+
+`_pw_profile_cache` stored parsed YAML profiles per domain with no eviction.
+
+**Fix:** `OrderedDict` with LRU eviction (cap 50). Read hits: `move_to_end()`. Writes: `popitem(last=False)` when over cap.
+
+**Thread safety:** All operations under existing `_pw_profile_cache_lock`. **Safe.**
+
+### 11. `_pw_local_registry` Stale References (High — post-close leak)
+
+**File:** `crawler.py`, `close()`
+
+Registry snapshotted but never cleared. Stale entries held Playwright runtime references.
+
+**Fix:** `self._pw_local_registry.clear()` after snapshotting, under `_pw_local_registry_lock`.
+
+**Thread safety:** `close()` is idempotent via `_close_lock`. Workers stopped before `close()` runs. No new appends possible. **Safe.**
+
+### 12. Embedding Cache Stale Entries (Medium — correctness)
+
+**File:** `embeddings.py`, `get_embedding()`
+
+`_embedding_cache` grew to 1024 entries then stopped accepting new entries. Old stale entries never replaced.
+
+**Fix:** `OrderedDict` with LRU eviction. Always inserts; `popitem(last=False)` when over cap. Hits: `move_to_end()`.
+
+**Thread safety:** All operations under existing `_embedding_cache_lock`. **Safe.**
+
+### 13. Pending Canonical URL Diagnostic (Medium — observability)
+
+**File:** `crawler.py`, `_flush_insert_buffer_inner()` after successful insert
+
+No visibility into `_pending_canonical_urls` growth during high throughput.
+
+**Fix:** Diagnostic `print()` when set exceeds 500 entries. Uses `len()` (GIL-atomic, approximate). **Safe.**
+
+## Memory Optimization Fixes (2026-04-06, round 2)
+
+Eight fixes targeting OOM crashes caused by Playwright browser over-provisioning, BeautifulSoup memory amplification, and per-request C-level allocations.
+
+### 14. Playwright Pool Over-Provisioned (High — ~600MB-1GB wasted)
+
+**File:** `crawler.py`, `__init__` pool instantiation
+
+`PLAYWRIGHT_POOL_SIZE=5` but `PLAYWRIGHT_MAX_CONCURRENCY=3`. Two idle browser processes consumed ~300-500 MB each for nothing.
+
+**Fix:** Pool size capped at `min(PLAYWRIGHT_POOL_SIZE, PLAYWRIGHT_MAX_CONCURRENCY)`, so every browser slot is actively used. Pool browsers also now use comprehensive memory-saving Chromium flags (`_CHROMIUM_FLAGS_SAFE`) — previously only 9 flags vs 20 in the non-pool fallback path.
+
+**Thread safety:** Pool initialization is single-threaded (`__init__`). Flag constants are module-level immutable. **Safe.**
+
+### 15. BeautifulSoup 4x Parse in Playwright Path (High — ~30MB peak)
+
+**File:** `crawler.py`, `_scrape_with_playwright_single_attempt()` content extraction
+
+Previously built 4 BeautifulSoup objects simultaneously: `soup_dom`, `soup_idle`, and 2x `soup_copy` via `str()` re-serialization inside `extract_text_and_links()`. Each soup is ~5x the HTML size.
+
+**Fix:** Single-soup strategy — pick the longer HTML snapshot, build one soup. Extract title from the other via lightweight regex. Extract links before decomposing nav/footer elements (links live in nav). Free unused HTML strings and soup via `del` immediately after use.
+
+**Thread safety:** All variables are local to the function. No shared state. **Safe.**
+
+### 16. Response Body Held Alongside Soup (Medium — ~30MB across 24 workers)
+
+**File:** `crawler.py`, `scrape_page()` after soup creation
+
+`response.content` (~1MB) and `soup` (~4MB) both in memory for the duration of `scrape_page()`. Extracted `response.url`, `response.text`, `response.headers.get("ETag")`, and `response.headers.get("Last-Modified")` into locals, then `del response`.
+
+**Thread safety:** `response` is a local variable. `del` only affects the current thread. **Safe.**
+
+### 17. Per-Request curl_cffi Session Creation (Medium — C-level memory fragmentation)
+
+**File:** `crawler.py`, `worker_task()` session creation, `scrape_page()` request path
+
+`curl_requests.get()` (module-level) created a new internal `Session` + libcurl handle per request. Each handle allocates C-level memory (DNS cache, SSL session cache) that may not be freed promptly by Python GC.
+
+**Fix:** Worker threads create `curl_cffi.requests.Session()` when `USE_CURL_CFFI` is enabled. `scrape_page()` detects curl_cffi sessions via `hasattr(session, "curl")` and calls `session.get()` (reusing the handle) instead of the module-level function. Test sessions in `crawl_college_site()` also use curl_cffi when available.
+
+**Thread safety:** Each worker thread owns its own session (no sharing). Session closed in `worker_task()`'s `try/finally`. **Safe.**
+
+### 18. Insert Buffer Maxsize Reduced (Low — ~35MB saved at capacity)
+
+**File:** `crawler.py`, `__init__` insert buffer
+
+`Queue(maxsize=500)` reduced to `Queue(maxsize=200)`. With flush every 2s in batches of 50-200, the buffer rarely exceeds 100 items. Still provides ample headroom.
+
+**Thread safety:** `Queue` is thread-safe by design. Size change has no concurrency impact. **Safe.**
+
+### 19. Work Queue Drain After Workers Stop (Low — faster GC)
+
+**File:** `crawler.py`, `crawl_college_site()` after `with ThreadPoolExecutor` block
+
+Added drain loop to free queued `(depth, url)` tuples before flush/cleanup, rather than waiting for function return and GC.
+
+**Thread safety:** Workers have stopped (executor `__exit__` called). No concurrent producers. **Safe.**
+
+### 20. Pop `internal_links` After Enqueuing (Very Low — removes dangling reference)
+
+**File:** `crawler.py`, `worker_task()` after BFS link enqueue loop
+
+`page_data.pop("internal_links", None)` after links are enqueued. Removes ~10KB of URL strings that would otherwise persist until the next loop iteration.
+
+**Thread safety:** `page_data` is a local variable. No shared access. **Safe.**
+
+### 21. Shared Chromium Flag Constants (No memory impact — maintainability)
+
+**File:** `crawler.py`, module-level constants
+
+Extracted `_CHROMIUM_FLAGS_SAFE` (safe flags) and `_CHROMIUM_FLAGS_FALLBACK_EXTRA` (fingerprint-affecting flags) as module-level constants. Pool browsers use `_CHROMIUM_FLAGS_SAFE` only. Non-pool fallback browsers use both. Eliminates flag duplication and ensures pool browsers get all safe memory-saving flags.
+
+**Safe flags** (no fingerprint impact): `--no-zygote`, `--disable-background-timer-throttling`, `--disable-renderer-backgrounding`, `--disable-backgrounding-occluded-windows`, etc.
+
+**Fingerprint-affecting flags** (non-pool only): `--disable-accelerated-2d-canvas`, `--disable-permissions-api`, `--force-device-scale-factor=1`.

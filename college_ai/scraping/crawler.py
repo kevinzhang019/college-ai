@@ -18,6 +18,7 @@ import random
 import concurrent.futures
 import json
 from concurrent.futures import ThreadPoolExecutor, wait, FIRST_COMPLETED
+from collections import OrderedDict
 from typing import Dict, List, Any, Optional, Set
 from datetime import datetime
 from urllib.parse import urljoin, urlparse, parse_qsl, urlencode
@@ -67,6 +68,43 @@ from pymilvus import (
     FunctionType,
     utility,
 )
+
+
+# ==================== Chromium Launch Flags ====================
+# Safe memory-saving flags with no fingerprint/detection impact.
+# Shared between PlaywrightPool and non-pool fallback browser launches.
+_CHROMIUM_FLAGS_SAFE = [
+    "--no-sandbox", "--disable-setuid-sandbox",
+    "--disable-dev-shm-usage", "--disable-gpu",
+    "--disable-blink-features=AutomationControlled",
+    "--disable-background-networking",
+    "--disable-extensions", "--disable-sync", "--mute-audio",
+    "--disable-features=ExternalProtocolDialog",
+    # Memory-saving flags (no fingerprint impact — purely internal)
+    "--no-first-run", "--no-zygote",
+    "--disable-ipc-flooding-protection",
+    "--disable-default-apps",
+    "--metrics-recording-only",
+    "--no-default-browser-check",
+    "--disable-logging",
+    "--disable-client-side-phishing-detection",
+    "--disable-component-update",
+    "--disable-hang-monitor",
+    "--disable-prompt-on-repost",
+    "--disable-background-timer-throttling",
+    "--disable-renderer-backgrounding",
+    "--disable-backgrounding-occluded-windows",
+]
+
+# Additional flags for non-pool fallback path only.
+# These affect fingerprinting but are acceptable in the rarely-used fallback.
+_CHROMIUM_FLAGS_FALLBACK_EXTRA = [
+    "--disable-accelerated-2d-canvas",
+    "--disable-features=TranslateUI,BlinkGenPropertyTrees,ExternalProtocolDialog",
+    "--disable-permissions-api",
+    "--allow-running-insecure-content",
+    "--force-device-scale-factor=1",
+]
 
 
 # ==================== Proxy Pool ====================
@@ -314,14 +352,7 @@ class PlaywrightPool:
                 pw = sync_playwright().start()
                 browser = pw.chromium.launch(
                     headless=self.headless,
-                    args=[
-                        "--no-sandbox", "--disable-setuid-sandbox",
-                        "--disable-dev-shm-usage", "--disable-gpu",
-                        "--disable-blink-features=AutomationControlled",
-                        "--disable-background-networking",
-                        "--disable-extensions", "--disable-sync", "--mute-audio",
-                        "--disable-features=ExternalProtocolDialog",
-                    ],
+                    args=list(_CHROMIUM_FLAGS_SAFE),
                 )
                 slot = {"pw": pw, "browser": browser, "camoufox_cm": None, "uses": 0, "_healthy": True}
             with self._all_locals_lock:
@@ -711,7 +742,8 @@ class MultithreadedCollegeCrawler:
             os.path.dirname(__file__), "playwright_profiles"
         )
         self._pw_profile_cache_lock = threading.Lock()
-        self._pw_profile_cache: Dict[str, Dict[str, Any]] = {}
+        self._pw_profile_cache: OrderedDict = OrderedDict()
+        self._PW_PROFILE_CACHE_MAX = 50
         # Playwright runtime and browser cache (thread-local)
         self._pw_local = threading.local()  # Thread-local Playwright instances
         # Registry of all thread-local objects that hold Playwright resources,
@@ -771,7 +803,7 @@ class MultithreadedCollegeCrawler:
         # === Performance: Batched insert buffer ===
         # Instead of acquiring collection_write_lock per page, accumulate rows
         # and flush in batches (reduces lock contention by ~50x).
-        self._insert_buffer: queue.Queue = queue.Queue(maxsize=500)
+        self._insert_buffer: queue.Queue = queue.Queue(maxsize=200)
         self._insert_buffer_size = MILVUS_INSERT_BUFFER_SIZE
         self._insert_flush_interval = MILVUS_INSERT_FLUSH_INTERVAL
         self._insert_flush_stop = threading.Event()
@@ -798,8 +830,10 @@ class MultithreadedCollegeCrawler:
 
         # === Performance: Persistent Playwright browser pool ===
         # Pre-launches browser instances to avoid ~2-3s startup per request.
+        # Pool size matches PLAYWRIGHT_MAX_CONCURRENCY (not PLAYWRIGHT_POOL_SIZE)
+        # to avoid idle browser processes wasting ~300-500 MB each.
         self.pw_pool = PlaywrightPool(
-            pool_size=PLAYWRIGHT_POOL_SIZE,
+            pool_size=min(PLAYWRIGHT_POOL_SIZE, self.playwright_max_workers),
             rotate_after=PLAYWRIGHT_POOL_ROTATE_AFTER,
             headless=True,
             use_camoufox=USE_CAMOUFOX,
@@ -904,7 +938,9 @@ class MultithreadedCollegeCrawler:
 
     def _flush_insert_buffer_inner(self, rows, inserted_canonicals):
         """Inner flush logic — caller guarantees claim release on failure."""
-        # Merge all rows into column-based format for a single insert
+        # Merge all rows into column-based format for a single insert.
+        # In-place merge: accumulate into the first row's lists and null out
+        # consumed rows immediately to avoid doubling peak memory.
         # Exclude BM25 function output fields (auto-generated by Milvus at insert time)
         bm25_output_fields = set()
         try:
@@ -918,10 +954,18 @@ class MultithreadedCollegeCrawler:
             f.name for f in self.collection.schema.fields
             if f.name not in bm25_output_fields
         ]
-        merged = {name: [] for name in field_names}
-        for row in rows:
+        # Use first row as accumulator; extend from remaining rows in-place
+        merged = rows[0]
+        for i in range(1, len(rows)):
+            row = rows[i]
             for name in field_names:
-                merged[name].extend(row.get(name, []))
+                target = merged.get(name)
+                source = row.get(name, [])
+                if target is not None:
+                    target.extend(source)
+                elif source:
+                    merged[name] = source
+            rows[i] = None  # Release reference immediately
 
         if not merged.get("id"):
             # No data to insert — release claims
@@ -938,35 +982,16 @@ class MultithreadedCollegeCrawler:
             expected = len(merged.get("id", []))
             bad_cols = {k: v for k, v in col_lengths.items() if v != expected}
             print(f"    ✗ Column alignment mismatch (expected {expected} rows): {bad_cols}")
-            # Attempt per-row recovery: re-insert each original row individually
-            recovered = 0
-            for row in rows:
-                row_lengths = {name: len(row.get(name, [])) for name in field_names}
-                if len(set(row_lengths.values())) == 1 and row.get("id"):
-                    row_count = len(row.get("id", []))
-                    for attempt in range(3):
-                        try:
-                            with self.collection_write_lock:
-                                ordered_columns = [row.get(name, []) for name in field_names]
-                                self.collection.insert(ordered_columns)
-                            recovered += row_count
-                            break
-                        except Exception as e:
-                            if attempt < 2:
-                                time.sleep(2 ** attempt)
-                            else:
-                                print(f"    ✗ Single-row recovery failed: {e}")
-            dropped = max(0, expected - recovered)
-            if dropped > 0:
-                with self.lock:
-                    self.stats["rows_dropped_alignment"] += dropped
-            # Release pending URL claims so these URLs are not permanently
-            # blocked from future insertion attempts.
+            # In-place merge has already consumed the original rows, so
+            # per-row recovery is not possible.  Drop the batch and release
+            # canonical URL claims so these URLs can be re-crawled.
+            with self.lock:
+                self.stats["rows_dropped_alignment"] += expected
             if inserted_canonicals:
                 with self._pending_canonical_lock:
                     for uc in inserted_canonicals:
                         self._pending_canonical_urls.discard(uc)
-            print(f"    ✓ Recovered {recovered}/{expected} rows from misaligned batch")
+            print(f"    ⚠️  Dropped {expected} rows from misaligned batch")
             return
 
         insert_data = [merged.get(name, []) for name in field_names]
@@ -983,6 +1008,11 @@ class MultithreadedCollegeCrawler:
                     with self._pending_canonical_lock:
                         for uc in inserted_canonicals:
                             self._pending_canonical_urls.discard(uc)
+                # Diagnostic: warn if pending set is growing unexpectedly
+                # len() is GIL-atomic; no lock needed for approximate check
+                _pending_size = len(self._pending_canonical_urls)
+                if _pending_size > 500:
+                    print(f"    diag: {_pending_size} pending canonical URLs")
                 break
             except Exception as e:
                 if attempt < max_retries - 1:
@@ -1716,27 +1746,47 @@ class MultithreadedCollegeCrawler:
             return True
         return False
 
+    _HOST_STATE_MAX_ENTRIES = 200
+
     def _prune_host_state(self, max_age_seconds: float = 1800.0) -> None:
         """Evict stale entries from per-host rate-limit dicts.
 
         Entries are stale when their token bucket was last refilled more than
         max_age_seconds ago AND their circuit-breaker has already expired.
+        After TTL eviction, a hard cap (``_HOST_STATE_MAX_ENTRIES``) evicts the
+        oldest entries by last-seen time to prevent unbounded growth when many
+        hosts are concurrently active.
         """
         now = time.time()
-        stale_netlocs: List[str] = []
+        evicted: List[str] = []
         with self._host_lock:
+            # TTL-based eviction
             for netloc, bucket in list(self._host_tokens.items()):
                 last_seen = bucket.get("last", 0.0)
                 circuit_until = self._host_circuit_until.get(netloc, 0.0)
                 if (now - last_seen) > max_age_seconds and now >= circuit_until:
-                    stale_netlocs.append(netloc)
-            for netloc in stale_netlocs:
+                    evicted.append(netloc)
+            for netloc in evicted:
                 self._host_tokens.pop(netloc, None)
                 self._host_failures.pop(netloc, None)
                 self._host_concurrency.pop(netloc, None)
                 self._host_circuit_until.pop(netloc, None)
-        if stale_netlocs:
-            print(f"    🧹 Pruned {len(stale_netlocs)} stale host-state entries")
+            # Hard cap: evict oldest entries if still over limit
+            remaining = len(self._host_tokens)
+            if remaining > self._HOST_STATE_MAX_ENTRIES:
+                sorted_hosts = sorted(
+                    self._host_tokens.items(),
+                    key=lambda kv: kv[1].get("last", 0.0),
+                )
+                excess = remaining - self._HOST_STATE_MAX_ENTRIES
+                for netloc, _ in sorted_hosts[:excess]:
+                    self._host_tokens.pop(netloc, None)
+                    self._host_failures.pop(netloc, None)
+                    self._host_concurrency.pop(netloc, None)
+                    self._host_circuit_until.pop(netloc, None)
+                    evicted.append(netloc)
+        if evicted:
+            print(f"    🧹 Pruned {len(evicted)} host-state entries")
 
     def scrape_page(
         self, url: str, session: requests.Session = None
@@ -1748,6 +1798,14 @@ class MultithreadedCollegeCrawler:
             return None
         try:
             print(f"    Crawling: {url}")
+
+            # Periodic host state pruning (every ~100 requests per thread).
+            # Uses thread-local counter — no lock needed (threading.local).
+            _prune_ctr = getattr(self._pw_local, "_host_prune_counter", 0) + 1
+            if _prune_ctr >= 100:
+                _prune_ctr = 0
+                self._prune_host_state(max_age_seconds=600.0)
+            self._pw_local._host_prune_counter = _prune_ctr
 
             # Human-like delay: log-normal distribution (mostly short, occasional longer pauses)
             delay = min(self.max_delay, random.lognormvariate(math.log(self.delay), 0.4))
@@ -1843,19 +1901,22 @@ class MultithreadedCollegeCrawler:
                         if bucket2:
                             bucket2["tokens"] = max(0.0, bucket2["tokens"] - 1.0)
 
-                    if USE_CURL_CFFI and curl_requests is not None:
-                        # curl_cffi as primary — rotate TLS fingerprint on retries
+                    _is_curl_session = (
+                        curl_requests is not None
+                        and hasattr(request_session, "curl")
+                    )
+                    if _is_curl_session:
+                        # curl_cffi Session: rotate TLS fingerprint on retries,
+                        # reuse the underlying libcurl handle across requests.
                         impersonate_target = self._curl_impersonate_targets[
                             attempt % len(self._curl_impersonate_targets)
                         ]
-                        # Generate fresh headers on retry attempts
                         req_headers = dict(request_session.headers)
                         if attempt > 0:
                             req_headers.update(self._generate_headers())
-                        # Delta crawling: add conditional headers
                         if _delta_headers:
                             req_headers.update(_delta_headers)
-                        response = curl_requests.get(
+                        response = request_session.get(
                             url,
                             impersonate=impersonate_target,
                             headers=req_headers,
@@ -1864,7 +1925,7 @@ class MultithreadedCollegeCrawler:
                             allow_redirects=True,
                         )
                     else:
-                        # Delta crawling: add conditional headers to session
+                        # plain requests.Session
                         if _delta_headers:
                             request_session.headers.update(_delta_headers)
                         response = request_session.get(
@@ -1873,7 +1934,6 @@ class MultithreadedCollegeCrawler:
                             allow_redirects=True,
                             proxies=proxy_dict,
                         )
-                        # Remove conditional headers after use
                         if _delta_headers:
                             for k in _delta_headers:
                                 request_session.headers.pop(k, None)
@@ -2071,14 +2131,25 @@ class MultithreadedCollegeCrawler:
             except Exception:
                 pass
 
-            # Parse with BeautifulSoup
+            # Parse with BeautifulSoup, then free the response body immediately.
+            # Holding both response.content (~1 MB) and soup (~4 MB) simultaneously
+            # across 24 workers wastes ~30 MB.
             soup = BeautifulSoup(response.content, "html.parser")
-
-            # Use the final resolved URL after redirects as the base for link resolution and storage
             try:
                 final_url = response.url or url
             except Exception:
                 final_url = url
+            try:
+                _response_text = response.text if hasattr(response, "text") else ""
+            except Exception:
+                _response_text = ""
+            try:
+                _resp_etag = response.headers.get("ETag")
+                _resp_last_modified = response.headers.get("Last-Modified")
+            except Exception:
+                _resp_etag = None
+                _resp_last_modified = None
+            del response  # free response body bytes
 
             # Extract title
             title = soup.find("title")
@@ -2139,9 +2210,8 @@ class MultithreadedCollegeCrawler:
             except Exception:
                 min_words = 0
             # JS-heavy heuristic
-            js_heavy = self.is_js_heavy(
-                response.text if hasattr(response, "text") else "", soup, url
-            )
+            js_heavy = self.is_js_heavy(_response_text, soup, url)
+            del _response_text  # no longer needed
 
             # Enhanced content insufficiency detection
             content_insufficient = len(cleaned_content.strip()) < max(
@@ -2242,13 +2312,8 @@ class MultithreadedCollegeCrawler:
             if self._delta_cache and not needs_pw:
                 try:
                     canon = _delta_canon or self._url_canonical_key(url)
-                    etag = None
-                    last_mod = None
-                    try:
-                        etag = response.headers.get("ETag")
-                        last_mod = response.headers.get("Last-Modified")
-                    except Exception:
-                        pass
+                    etag = _resp_etag
+                    last_mod = _resp_last_modified
                     c_hash = self._content_hash(cleaned_content) if cleaned_content else None
 
                     # Check if content actually changed vs cached hash
@@ -2512,36 +2577,7 @@ class MultithreadedCollegeCrawler:
                         if browser is None:
                             launch_options = {
                                 "headless": True,
-                                "args": [
-                                    "--no-sandbox",
-                                    "--disable-setuid-sandbox",
-                                    "--disable-dev-shm-usage",
-                                    "--disable-accelerated-2d-canvas",
-                                    "--no-first-run",
-                                    "--no-zygote",
-                                    "--disable-gpu",
-                                    "--disable-features=TranslateUI,BlinkGenPropertyTrees,ExternalProtocolDialog",
-                                    "--disable-ipc-flooding-protection",
-                                    "--disable-background-networking",
-                                    "--disable-default-apps",
-                                    "--disable-extensions",
-                                    "--disable-sync",
-                                    "--metrics-recording-only",
-                                    "--no-default-browser-check",
-                                    "--mute-audio",
-                                    "--disable-logging",
-                                    "--disable-permissions-api",
-                                    "--disable-blink-features=AutomationControlled",
-                                    "--allow-running-insecure-content",
-                                    "--disable-client-side-phishing-detection",
-                                    "--disable-component-update",
-                                    "--disable-hang-monitor",
-                                    "--disable-prompt-on-repost",
-                                    "--disable-background-timer-throttling",
-                                    "--disable-renderer-backgrounding",
-                                    "--disable-backgrounding-occluded-windows",
-                                    "--force-device-scale-factor=1",
-                                ],
+                                "args": list(_CHROMIUM_FLAGS_SAFE) + _CHROMIUM_FLAGS_FALLBACK_EXTRA,
                             }
                             if pw_proxy_settings:
                                 launch_options["proxy"] = pw_proxy_settings
@@ -2774,122 +2810,82 @@ class MultithreadedCollegeCrawler:
             finally:
                 self.playwright_semaphore.release()
 
-            # Choose best snapshot and build soups
-            soup_dom = BeautifulSoup(html_dom or "", "html.parser")
-            soup_idle = BeautifulSoup(html_idle or "", "html.parser")
+            # --- Memory-efficient single-soup strategy ---
+            # Pick the longer snapshot (more content), build only ONE soup.
+            # Extract title from the other via lightweight regex.
+            html_best = html_idle if len(html_idle or "") >= len(html_dom or "") else html_dom
+            html_other = html_dom if html_best is html_idle else html_idle
+            # Free the raw HTML we won't parse
+            if html_best is html_idle:
+                del html_dom
+            else:
+                del html_idle
+
+            # Extract title from the other snapshot via regex (avoids full parse)
+            _title_match = re.search(r"<title[^>]*>([^<]+)</title>", html_other or "", re.IGNORECASE)
+            title_other = _title_match.group(1).strip() if _title_match else ""
+            del html_other  # free immediately
+
+            soup = BeautifulSoup(html_best or "", "html.parser")
+            del html_best  # raw HTML no longer needed
+
             # Remove common consent overlays
             cookie_selectors = [
-                '[id*="cookie"]',
-                '[class*="cookie"]',
-                '[id*="consent"]',
-                '[class*="consent"]',
-                '[id*="gdpr"]',
-                '[class*="gdpr"]',
-                "#onetrust-banner-sdk",
-                "#onetrust-consent-sdk",
-                "#truste-consent-track",
-                ".truste_overlay",
-                "#qc-cmp2-ui",
-                "#sp-cc",
-                ".sp_choice_type",
+                '[id*="cookie"]', '[class*="cookie"]',
+                '[id*="consent"]', '[class*="consent"]',
+                '[id*="gdpr"]', '[class*="gdpr"]',
+                "#onetrust-banner-sdk", "#onetrust-consent-sdk",
+                "#truste-consent-track", ".truste_overlay",
+                "#qc-cmp2-ui", "#sp-cc", ".sp_choice_type",
                 "#CybotCookiebotDialog",
             ]
             for sel in cookie_selectors:
-                for el in soup_dom.select(sel):
-                    el.decompose()
-                for el in soup_idle.select(sel):
+                for el in soup.select(sel):
                     el.decompose()
 
-            # Pick better title/content
-            def extract_text_and_links(soup_obj: BeautifulSoup, base_url: str) -> tuple:
-                if not soup_obj:
-                    return "", []
+            # Extract links BEFORE decomposing nav/footer (links live in nav)
+            internal_links = self.extract_internal_links(soup, final_url)
 
-                # Make a copy to avoid modifying the original
-                soup_copy = BeautifulSoup(str(soup_obj), "html.parser")
+            # Extract title from soup (prefer idle-snapshot title, fall back to soup)
+            title_tag = soup.find("title")
+            title_text = title_other or (title_tag.get_text(strip=True) if title_tag else "")
 
-                # Remove unwanted elements but preserve content structure
-                for element in soup_copy(["script", "style", "noscript"]):
-                    element.decompose()
+            # Now decompose non-content elements for text extraction
+            for element in soup(["script", "style", "noscript"]):
+                element.decompose()
 
-                # Try multiple strategies for content extraction
-                main_selectors_local = [
-                    "main",
-                    "article",
-                    '[role="main"]',
-                    ".main-content",
-                    ".content",
-                    "#content",
-                    ".post-content",
-                    ".entry-content",
-                    ".page-content",
-                    ".article-content",
-                    "[data-content]",
-                    ".container .row",  # Common bootstrap patterns
-                ]
+            main_selectors_local = [
+                "main", "article", '[role="main"]',
+                ".main-content", ".content", "#content",
+                ".post-content", ".entry-content", ".page-content",
+                ".article-content", "[data-content]",
+                ".container .row",
+            ]
+            chosen_content = ""
+            for selector in main_selectors_local:
+                main_element = soup.select_one(selector)
+                if main_element:
+                    content_text = main_element.get_text(separator=" ", strip=True)
+                    if len(content_text.split()) > 10:
+                        chosen_content = content_text
+                        break
+            if not chosen_content:
+                body = soup.find("body")
+                if body:
+                    for unwanted in body.select(
+                        "nav, footer, header, aside, .sidebar, .navigation, .menu"
+                    ):
+                        unwanted.decompose()
+                    chosen_content = body.get_text(separator=" ", strip=True)
+            if not chosen_content:
+                chosen_content = soup.get_text(separator=" ", strip=True)
 
-                main_content_local = ""
-
-                # Try each selector
-                for selector in main_selectors_local:
-                    main_element = soup_copy.select_one(selector)
-                    if main_element:
-                        content_text = main_element.get_text(separator=" ", strip=True)
-                        if len(content_text.split()) > 10:  # Require at least 10 words
-                            main_content_local = content_text
-                            break
-
-                # Fallback strategies
-                if not main_content_local:
-                    # Try looking for the largest text container
-                    body = soup_copy.find("body")
-                    if body:
-                        # Remove common non-content areas but keep their siblings
-                        for unwanted in body.select(
-                            "nav, footer, header, aside, .sidebar, .navigation, .menu"
-                        ):
-                            unwanted.decompose()
-                        main_content_local = body.get_text(separator=" ", strip=True)
-
-                # Final fallback - just get all visible text
-                if not main_content_local and soup_copy:
-                    main_content_local = soup_copy.get_text(separator=" ", strip=True)
-
-                cleaned_local = clean_text(main_content_local)
-                links_local = self.extract_internal_links(
-                    soup_obj, base_url
-                )  # Use final URL for proper link resolution
-                return cleaned_local, links_local
-
-            cleaned_dom, links_dom = extract_text_and_links(soup_dom, final_url)
-            cleaned_idle, links_idle = extract_text_and_links(soup_idle, final_url)
-
-            # Debug output for content extraction
-            print(f"    🔍 Playwright extraction debug for {url}:")
-            print(
-                f"        DOM snapshot: {len(html_dom)} chars, {len(cleaned_dom)} cleaned chars"
-            )
-            print(
-                f"        Idle snapshot: {len(html_idle)} chars, {len(cleaned_idle)} cleaned chars"
-            )
-            print(f"        DOM links: {len(links_dom)}, Idle links: {len(links_idle)}")
-
-            title_dom = soup_dom.find("title") if soup_dom else None
-            title_idle = soup_idle.find("title") if soup_idle else None
-            title_text = (
-                title_idle.get_text(strip=True)
-                if title_idle
-                else (title_dom.get_text(strip=True) if title_dom else "")
-            )
-
-            chosen_content = (
-                cleaned_idle if len(cleaned_idle) >= len(cleaned_dom) else cleaned_dom
-            )
-            internal_links = list({*links_dom, *links_idle})
+            chosen_content = clean_text(chosen_content)
+            del soup  # free soup tree
             word_count = len(chosen_content.split())
 
             print(
-                f"        Final content: {word_count} words, {len(chosen_content)} chars"
+                f"    🔍 Playwright content: {word_count} words, {len(chosen_content)} chars, {len(internal_links)} links"
             )
 
             # Enhanced content validation for Playwright results
@@ -3122,9 +3118,10 @@ class MultithreadedCollegeCrawler:
 
         Merges with default.yml if present; domain overrides take precedence.
         """
-        # Use lock to protect cache updates
+        # Use lock to protect cache updates (LRU: move hit to end)
         with self._pw_profile_cache_lock:
             if netloc in self._pw_profile_cache:
+                self._pw_profile_cache.move_to_end(netloc)
                 return self._pw_profile_cache[netloc]
         # Outside lock for IO
         default_path = os.path.join(self.playwright_profiles_dir, "default.yml")
@@ -3144,9 +3141,11 @@ class MultithreadedCollegeCrawler:
                         data.update(loaded)
         except Exception as e:
             print(f"    ⚠️  Failed to load profile for {netloc}: {e}")
-        # Cache the result (even empty) for this run
+        # Cache the result (even empty) for this run; LRU eviction at cap
         with self._pw_profile_cache_lock:
             self._pw_profile_cache[netloc] = data
+            while len(self._pw_profile_cache) > self._PW_PROFILE_CACHE_MAX:
+                self._pw_profile_cache.popitem(last=False)
         return data
 
     def _apply_playwright_profile(self, page, profile: Dict[str, Any]) -> None:
@@ -3497,7 +3496,12 @@ class MultithreadedCollegeCrawler:
         # Use a short-lived session — self.session headers are mutated on 403
         # retries, which is a data race with INTER_COLLEGE_PARALLELISM > 1.
         print(f"    Testing base URL: {normalized_base}")
-        _test_session = requests.Session()
+        if USE_CURL_CFFI and curl_requests is not None:
+            _test_session = curl_requests.Session(
+                impersonate=random.choice(self._curl_impersonate_targets),
+            )
+        else:
+            _test_session = requests.Session()
         _test_session.headers.update(self._base_headers_snapshot)
         try:
             test_page = self.scrape_page(normalized_base, _test_session)
@@ -3561,8 +3565,16 @@ class MultithreadedCollegeCrawler:
                 consecutive_empty_checks = 0
                 max_empty_checks = MAX_EMPTY_CHECKS  # Configurable to account for Playwright processing time
 
-                # Create thread-local session for thread safety
-                worker_session = requests.Session()
+                # Create thread-local session for thread safety.
+                # When curl_cffi is available, use a curl_cffi Session to reuse
+                # the libcurl handle across requests (avoids C-level allocations
+                # per request from curl_requests.get() module-level calls).
+                if USE_CURL_CFFI and curl_requests is not None:
+                    worker_session = curl_requests.Session(
+                        impersonate=random.choice(self._curl_impersonate_targets),
+                    )
+                else:
+                    worker_session = requests.Session()
                 worker_session.headers.update(self._base_headers_snapshot)
 
                 while not stop_event.is_set() and not global_shutdown_event.is_set():
@@ -3802,6 +3814,9 @@ class MultithreadedCollegeCrawler:
                                     with self.lock:
                                         self.stats["duplicate_urls_skipped"] += 1
 
+                        # Free link list — no longer needed after enqueuing
+                        page_data.pop("internal_links", None)
+
                         # Progress update
                         if local_crawled % 5 == 0:  # More frequent updates
                             print(
@@ -3965,23 +3980,48 @@ class MultithreadedCollegeCrawler:
                 wait(active_futures, timeout=2.0)
                 pw_executor.shutdown(wait=False, cancel_futures=True)
 
+        # Drain work_queue to free queued (depth, url) tuples before flush
+        while not work_queue.empty():
+            try:
+                work_queue.get_nowait()
+            except queue.Empty:
+                break
+
         # Flush any remaining buffered inserts for this college
         self._flush_all_inserts()
 
         # Include PW callback uploads in the total
         pages_uploaded += pw_uploaded["count"]
 
+        # Capture stats before clearing (discovered_urls used in return value)
+        urls_discovered_count = len(discovered_urls)
+
+        # Break closure references held by orphaned PW callbacks.
+        # After the PW drain timeout, _merge_pw_result callbacks may still be
+        # running on pw_executor threads — they access these sets under
+        # state_lock / college_hash_lock.  Clearing under the same locks
+        # ensures no concurrent mutation.  Post-clear, a late callback sees
+        # empty sets (harmless: stop_event is set, nobody consumes the queue).
+        with state_lock:
+            crawled_urls.clear()
+            discovered_urls.clear()
+            crawled_canon.clear()
+            discovered_canon.clear()
+            college_canonical_urls.clear()
+        with college_hash_lock:
+            college_hash_cache.clear()
+
         print(f"\n✓ Completed crawling {college_name}")
         print(f"  Pages crawled: {pages_crawled}")
         print(f"  Pages uploaded to Milvus: {pages_uploaded}")
-        print(f"  Unique URLs discovered: {len(discovered_urls)}")
+        print(f"  Unique URLs discovered: {urls_discovered_count}")
 
         return {
             "college_name": college_name,
             "base_url": base_url,
             "pages_crawled": pages_crawled,
             "pages_uploaded": pages_uploaded,
-            "urls_discovered": len(discovered_urls),
+            "urls_discovered": urls_discovered_count,
             "status": "completed",
         }
 
@@ -4166,6 +4206,7 @@ class MultithreadedCollegeCrawler:
         try:
             with self._pw_local_registry_lock:
                 pw_entries = list(self._pw_local_registry)
+                self._pw_local_registry.clear()  # Release stale references
             for entry in pw_entries:
                 def _cleanup_entry(e=entry):
                     try:
