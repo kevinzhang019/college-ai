@@ -89,6 +89,9 @@
 .source-badge.source-badge--active {
   @apply bg-forest-500/25 text-forest-400;
 }
+.source-badge.source-badge--static {
+  @apply bg-forest-500/25 text-forest-400 cursor-default;
+}
 
 /* Dotted green underline on paragraphs influenced by a hovered source */
 .source-highlight {

@@ -211,10 +211,10 @@ export default function InputArea() {
               </AnimatePresence>
               <button
                 onClick={() => setQuickPredictOpen(!quickPredictOpen)}
-                className="flex flex-col items-center px-3 py-1.5 rounded-lg text-forest-400 bg-transparent border border-transparent hover:bg-forest-600/15 hover:border-forest-500/20 transition-all cursor-pointer"
+                className="group flex flex-col items-center px-1.5 py-1 rounded-lg text-forest-400 bg-transparent transition-all cursor-pointer"
                 title="Estimate admission chances"
               >
-                <svg className="w-3.5 h-3.5 mb-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-3 h-3 transition-transform duration-200 group-hover:-translate-y-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 15l7-7 7 7" />
                 </svg>
                 <span className="text-[11px] font-medium leading-tight text-center">See my<br />chances</span>

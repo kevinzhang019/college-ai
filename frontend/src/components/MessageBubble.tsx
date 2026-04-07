@@ -33,30 +33,33 @@ export default function MessageBubble({ message }: { message: ChatMessage }) {
       const sourceNum = badge.dataset.source
       if (!sourceNum) return
 
-      container.querySelectorAll(`.source-badge[data-source="${sourceNum}"]`)
-        .forEach(el => el.classList.add('source-badge--active'))
+      // Highlight only this specific badge
+      badge.classList.add('source-badge--active')
 
-      container.querySelectorAll(`.source-badge[data-source="${sourceNum}"]`)
-        .forEach(el => {
-          const block = el.closest('p, li, blockquote')
-          if (block) block.classList.add('source-highlight')
-        })
+      // Walk back past any sibling badges to find the cite-sentence span
+      let prev = badge.previousElementSibling
+      while (prev && prev.classList.contains('source-badge')) {
+        prev = prev.previousElementSibling
+      }
+      if (prev?.classList.contains('cite-sentence') &&
+          prev.getAttribute('data-sources')?.split(',').includes(sourceNum)) {
+        prev.classList.add('source-highlight')
+      }
     }
 
     const handleMouseOut = (e: MouseEvent) => {
       const badge = (e.target as HTMLElement).closest('.source-badge') as HTMLElement | null
       if (!badge) return
-      const sourceNum = badge.dataset.source
-      if (!sourceNum) return
 
-      container.querySelectorAll(`.source-badge[data-source="${sourceNum}"]`)
-        .forEach(el => el.classList.remove('source-badge--active'))
+      badge.classList.remove('source-badge--active')
 
-      container.querySelectorAll(`.source-badge[data-source="${sourceNum}"]`)
-        .forEach(el => {
-          const block = el.closest('p, li, blockquote')
-          if (block) block.classList.remove('source-highlight')
-        })
+      let prev = badge.previousElementSibling
+      while (prev && prev.classList.contains('source-badge')) {
+        prev = prev.previousElementSibling
+      }
+      if (prev?.classList.contains('cite-sentence')) {
+        prev.classList.remove('source-highlight')
+      }
     }
 
     const handleClick = (e: MouseEvent) => {

@@ -25,6 +25,7 @@ export default function SourceCard({
     >
       <div className="min-w-0">
         <div className="flex items-center gap-2 mb-1">
+          <span className="source-badge source-badge--static">{index + 1}</span>
           <span className="text-xs font-medium text-forest-400 bg-forest-500/10 px-2 py-0.5 rounded-full">
             {source.college_name || 'Unknown'}
           </span>

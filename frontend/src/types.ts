@@ -70,7 +70,7 @@ export interface ProfileData {
   preferredMajors: string[]
 }
 
-export type Residency = 'inState' | 'outOfState'
+export type Residency = 'inState' | 'outOfState' | 'international'
 
 export interface SelectedSchool {
   name: string

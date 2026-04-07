@@ -98,14 +98,15 @@ Renders the conversation for Q&A and Essay modes.
 - **Assistant messages:** Full-width, left-aligned with Cole avatar (20px) + "Cole" label in forest-400. Content rendered as markdown (GFM + raw HTML). Confidence badge shown inline with Cole's name if present.
 - **Sources toggle:** When sources exist, a green "Show Sources" pill button appears in the top-right of the header row (`ml-auto`). Clicking toggles to "Hide Sources" (same style). Sources are hidden by default.
   - **Hidden state:** `[N]` citation markers are stripped from the displayed markdown via `stripCitations()`. No source cards visible.
-  - **Shown state:** `[N]` markers are converted to gray badge elements via `processCitations()` (class `source-badge`, rendered through `rehype-raw`). Source cards appear below with AnimatePresence height animation. All sources shown (no limit).
+  - **Shown state:** `[N]` markers are converted to gray badge elements via `processCitations()` (class `source-badge`, rendered through `rehype-raw`). The sentence preceding each badge group is wrapped in a `<span class="cite-sentence" data-sources="1,3">` for targeted highlighting. Source cards appear below with AnimatePresence height animation. All sources shown (no limit).
 - **Citation badge interaction** (event delegation via `mouseover`/`mouseout`/`click` on container ref):
-  - **Hover:** Badge turns green (`source-badge--active`), all paragraphs/list items containing citations to the same source get a dotted green underline (`source-highlight` class)
+  - **Hover:** Badge turns green (`source-badge--active`), only the sentence immediately before that specific badge instance gets a dotted green underline (`source-highlight` on the `cite-sentence` span). Same source number at different locations highlights only the hovered location's sentence.
   - **Click:** Smooth scrolls to the corresponding `SourceCard` below (`scrollIntoView({ block: 'center' })`), briefly highlights it with a green ring (1.5s)
 
 ### SourceCard (`SourceCard.tsx`)
 
 Expandable card with forest-green left border (`border-l-4 border-l-forest-500`). Only visible when "Show Sources" is toggled on in the parent MessageBubble:
+- Numbered source badge (matching inline citation style, `source-badge--static` green variant) before college name
 - College name badge (forest green pill)
 - Page type label
 - Clickable title linking to source URL
@@ -147,7 +148,7 @@ Modal overlay (`max-w-lg`) for quick admission prediction within a chat:
 - Header: "Quickly estimate admissions probability" (white text, `text-sm`)
 - Row 1: GPA input (0–5.0, fixed `w-24`)
 - Row 2: SAT/ACT toggle + score input
-- Row 3: Major dropdown + Residency selector — equal width (`flex-1`)
+- Row 3: Major dropdown + Residency selector (Not specified, In-State, Out-of-State, International) — equal width (`flex-1`)
 - Number input spinners hidden via CSS
 - Auto-populates from profile data if available
 - Calls `POST /predict` and displays a `PredictionCard` inline
@@ -160,7 +161,7 @@ Standalone view for My Profile mode:
 - GPA input (0–5.0 with validation)
 - SAT/ACT toggle (two buttons with active highlight)
 - Test score input (400–1600 for SAT, 1–36 for ACT)
-- Location: country dropdown (all countries, US first) + conditional US state dropdown. Selecting a non-US country clears the state. On the backend, `determine_residency()` fuzzy-matches the selected school against the Turso DB to auto-determine in-state/out-of-state/international residency
+- Location: country dropdown (all countries, US first) + conditional US state dropdown. Selecting a non-US country clears the state. Location data drives auto-residency in AdmissionsView: the `/options` endpoint fuzzy-matches school names (from CSVs) against the Turso DB to build a school→state mapping, enabling `computeResidency()` to determine in-state/out-of-state/international residency per school
 - All values persisted to Zustand `profile`, auto-populate Admissions Calculator and QuickPredictModal
 - Profile data is also sent to the backend on every streaming request (all modes) for stats contextualization, residency-aware tuition advice, and major-specific guidance via `format_profile_context()` on backend
 
@@ -197,7 +198,7 @@ Standalone view for Admissions Calculator mode:
 **Stats card:**
 - Same GPA + SAT/ACT inputs as ExperiencesView (shared profile data)
 - Default Major: searchable `MajorCombobox` (Headless UI Combobox). When search is empty, shows sectioned default menu — "Your Majors" (from `profile.preferredMajors`, ranked order) then "All Majors" (remaining, alphabetical). When search has text, shows flat filtered results
-- Default Residency selector: In-State / Out-of-State / International. When profile location is set, shows "Use Location" (disabled/greyed out)
+- Default Residency selector: always editable dropdown with options: Use Location (when eligible), Not specified, In-State, Out-of-State, International. "Use Location" is a special mode that auto-computes residency per school from profile location when adding schools.
 - Required fields marked with asterisk
 
 **School picker:**
@@ -206,10 +207,12 @@ Standalone view for Admissions Calculator mode:
 - Selected schools shown in alternating-row list with school name, searchable major combobox (`MajorCombobox compact`, `w-28` input with wider `w-56` dropdown), and residency dropdown (`w-28`)
 - Max 10 schools
 
-**Auto-residency:** When the user has set a location in My Profile:
-- Default Residency dropdown is disabled, showing "Use Location"
-- Per-school residency dropdowns are disabled with auto-computed values based on `computeResidency()`: compares profile state to school state (from `/options` `school_states` mapping). Non-US country → "International" (sent as `outOfState`). US with matching state → "In-State". US with different state → "Out-of-State"
-- When profile location is not set, residency dropdowns are manual with In-State / Out-of-State / International options
+**Auto-residency:** `computeResidency()` compares profile location to school state (from `/options` `school_states` mapping, fuzzy-matched via rapidfuzz against the Turso DB). Non-US country → "International". US with matching state → "In-State". US with different state → "Out-of-State". No match found → null (no residency).
+
+- **Location-eligible** means: country is set AND (country is non-US OR US with state selected). US without state → not eligible.
+- **Default Residency dropdown:** When location-eligible, defaults to "Use Location" on every tab load (auto-computes per school). User can switch to a manual option and switch back. "Use Location" option is only visible when eligible. Only the main Default Residency dropdown has this option — per-school and QuickPredictModal dropdowns do not.
+- **Per-school residency dropdowns:** Always editable with options: No residency, In-State, Out-of-State, International. Pre-populated from default residency when the school is added, but user can always override.
+- **On submit:** Uses each school's selected residency value directly — no recomputation. User overrides are respected.
 
 **Calculate button:** Full-width forest-600 button with bouncing dots during loading
 

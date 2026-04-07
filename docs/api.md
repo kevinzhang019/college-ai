@@ -12,7 +12,7 @@ Served by uvicorn on port 8000.
 |---|---|---|---|
 | GET | `/health` | — | Liveness probe → `{"status": "ok"}` |
 | GET | `/config` | — | Returns current Zilliz collection name |
-| GET | `/options` | — | Sorted college names + school→state mapping `{colleges[], school_states{}}` |
+| GET | `/options` | — | Sorted college names + school→state mapping `{colleges[], school_states{}}` (fuzzy-matched via rapidfuzz) |
 | POST | `/ask` | `{question, top_k, college, essay_text}` | Non-streaming RAG Q&A (CLI/testing) |
 | POST | `/ask/stream` | `{question, top_k, college, essay_text, essay_prompt, history, experiences, profile}` | SSE streaming RAG (primary frontend endpoint) |
 | POST | `/predict` | `{gpa, school_name, sat, act, residency, major}` | Admission prediction → `{probability, confidence_interval, classification, factors}` |
@@ -128,7 +128,7 @@ App
 - Settings popover (gear icon) in bottom-right of textarea with two controls: **Context Size** (XS/S/M/L/XL → `top_k` 3/5/8/12/16) and **Response Length** (XS/S/M/L/XL → overrides length budget). Both default to M and persist across sessions
 - Welcome state shows 4 randomized suggestions from ~100 QA questions across 10 categories
 - Searchable college combobox (Headless UI, loaded from `/options` with 31-school fallback)
-- "See my chances" button appears inline with school dropdown when a college is selected — opens QuickPredictModal with GPA (row 1), SAT/ACT toggle + score (row 2), and major/residency (row 3), calls `POST /predict`, displays PredictionCard
+- "See my chances" button appears inline with school dropdown when a college is selected — opens QuickPredictModal with GPA (row 1), SAT/ACT toggle + score (row 2), and major/residency (row 3, residency options: Not specified / In-State / Out-of-State / International), calls `POST /predict`, displays PredictionCard
 - Answers rendered as markdown with `[N]` citation badges, expandable source cards (first 3 shown, rest collapsible), confidence badge
 
 ### Essay Helper Mode
@@ -142,9 +142,9 @@ App
 ### Admissions Calculator
 
 - Standalone view (not conversation-based)
-- Academic profile form: GPA (0–5.0), SAT/ACT toggle + score, default major (searchable `MajorCombobox` with preferred majors section), default residency (in-state/out-of-state/international)
-- Multi-school selection via combobox (max 10 schools), each with per-school searchable major combobox and residency dropdown
-- Auto-residency: when profile location is set, residency is auto-computed from school state vs profile state (disabled/greyed out). International users default to out-of-state
+- Academic profile form: GPA (0–5.0), SAT/ACT toggle + score, default major (searchable `MajorCombobox` with preferred majors section), default residency (Use Location / Not specified / In-State / Out-of-State / International)
+- Multi-school selection via combobox (max 10 schools), each with per-school searchable major combobox and always-editable residency dropdown (No residency / In-State / Out-of-State / International)
+- Auto-residency: when location-eligible (non-US country, or US with state selected), Default Residency defaults to "Use Location" which auto-computes per school via `computeResidency()` (fuzzy-matched school→state mapping from `/options`). Non-US → International, US matching state → In-State, US different state → Out-of-State. All dropdowns remain editable — user overrides are respected on submit
 - Results displayed as PredictionCard components: probability percentage (color-coded), 95% confidence interval, safety/match/reach classification badge, contributing factors (positive/negative)
 
 ### My Profile / Experiences

@@ -118,6 +118,29 @@ def get_filter_options() -> Dict[str, Any]:
         except Exception:
             pass  # Degrade gracefully — residency auto-detect won't work
 
+        # Fuzzy-match CSV college names to DB names for state lookup
+        # (dropdown names come from CSVs, DB names may differ slightly)
+        try:
+            from rapidfuzz import fuzz, process as rfprocess
+            from college_ai.ml.school_matcher import _normalize
+
+            normalized_db = {_normalize(n): n for n in school_states}
+            norm_keys = list(normalized_db.keys())
+
+            for csv_name in colleges:
+                if csv_name in school_states:
+                    continue
+                norm = _normalize(csv_name)
+                result = rfprocess.extractOne(
+                    norm, norm_keys, scorer=fuzz.token_sort_ratio, score_cutoff=80
+                )
+                if result:
+                    matched_norm, _score, _ = result
+                    original_db_name = normalized_db[matched_norm]
+                    school_states[csv_name] = school_states[original_db_name]
+        except Exception:
+            pass  # Degrade gracefully — exact-match still works
+
         return {"colleges": sorted(colleges), "school_states": school_states}
 
     except Exception:

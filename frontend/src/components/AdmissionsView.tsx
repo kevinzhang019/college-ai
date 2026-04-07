@@ -22,7 +22,7 @@ function computeResidency(
   schoolStates: Record<string, string>,
 ): Residency | null {
   if (!profile.country) return null
-  if (profile.country !== 'US') return 'outOfState'
+  if (profile.country !== 'US') return 'international'
   if (!profile.state) return null
   const schoolState = schoolStates[schoolName]
   if (!schoolState) return null
@@ -35,12 +35,16 @@ export default function AdmissionsView() {
   const setProfileGpa = useStore((s) => s.setProfileGpa)
   const setProfileTestScore = useStore((s) => s.setProfileTestScore)
 
-  const hasProfileLocation = Boolean(profile.country)
+  const locationEligible = Boolean(
+    profile.country && (profile.country !== 'US' || profile.state)
+  )
 
   // Local form state
   const [selectedSchools, setSelectedSchools] = useState<SelectedSchool[]>([])
   const [defaultMajor, setDefaultMajor] = useState<string | null>(null)
-  const [defaultResidency, setDefaultResidency] = useState<Residency | null>(null)
+  const [defaultResidency, setDefaultResidency] = useState<Residency | 'useLocation' | null>(
+    locationEligible ? 'useLocation' : null
+  )
 
   // Validation
   const [gpaError, setGpaError] = useState('')
@@ -70,7 +74,7 @@ export default function AdmissionsView() {
 
   const handleAddSchool = (school: string | null) => {
     if (!school || selectedSchools.some((s) => s.name === school) || selectedSchools.length >= MAX_SCHOOLS) return
-    const residency = hasProfileLocation
+    const residency = defaultResidency === 'useLocation'
       ? computeResidency(school, profile, schoolStates)
       : defaultResidency
     setSelectedSchools((prev) => [...prev, {
@@ -120,9 +124,7 @@ export default function AdmissionsView() {
       }
 
       const promises = selectedSchools.map((school) => {
-        const residency = hasProfileLocation
-          ? computeResidency(school.name, profile, schoolStates)
-          : school.residency
+        const residency = school.residency
         return predict({
           ...baseParams,
           school_name: school.name,
@@ -231,25 +233,17 @@ export default function AdmissionsView() {
             </div>
             <div className="w-40">
               <label className="block text-xs font-medium text-slate-400 mb-1">Default Residency</label>
-              {hasProfileLocation ? (
-                <select
-                  disabled
-                  value=""
-                  className="input-field-compact text-sm opacity-50 cursor-not-allowed"
-                >
-                  <option value="">Use Location</option>
-                </select>
-              ) : (
-                <select
-                  value={defaultResidency || ''}
-                  onChange={(e) => setDefaultResidency((e.target.value || null) as Residency | null)}
-                  className="input-field-compact text-sm"
-                >
-                  <option value="">Not specified</option>
-                  <option value="inState">In-State</option>
-                  <option value="outOfState">Out-of-State</option>
-                </select>
-              )}
+              <select
+                value={defaultResidency || ''}
+                onChange={(e) => setDefaultResidency((e.target.value || null) as Residency | 'useLocation' | null)}
+                className="input-field-compact text-sm"
+              >
+                {locationEligible && <option value="useLocation">Use Location</option>}
+                <option value="">Not specified</option>
+                <option value="inState">In-State</option>
+                <option value="outOfState">Out-of-State</option>
+                <option value="international">International</option>
+              </select>
             </div>
           </div>
         </div>
@@ -296,27 +290,16 @@ export default function AdmissionsView() {
                     />
                   </div>
 
-                  {hasProfileLocation ? (
-                    <select
-                      disabled
-                      value={computeResidency(school.name, profile, schoolStates) || ''}
-                      className="input-field-compact text-xs py-1.5 w-28 flex-shrink-0 opacity-50 cursor-not-allowed"
-                    >
-                      <option value="">Unknown</option>
-                      <option value="inState">In-State</option>
-                      <option value="outOfState">{profile.country !== 'US' ? 'International' : 'Out-of-State'}</option>
-                    </select>
-                  ) : (
-                    <select
-                      value={school.residency || ''}
-                      onChange={(e) => handleSchoolResidency(school.name, (e.target.value || null) as Residency | null)}
-                      className="input-field-compact text-xs py-1.5 w-28 flex-shrink-0"
-                    >
-                      <option value="">No residency</option>
-                      <option value="inState">In-State</option>
-                      <option value="outOfState">Out-of-State</option>
-                    </select>
-                  )}
+                  <select
+                    value={school.residency || ''}
+                    onChange={(e) => handleSchoolResidency(school.name, (e.target.value || null) as Residency | null)}
+                    className="input-field-compact text-xs py-1.5 w-28 flex-shrink-0"
+                  >
+                    <option value="">No residency</option>
+                    <option value="inState">In-State</option>
+                    <option value="outOfState">Out-of-State</option>
+                    <option value="international">International</option>
+                  </select>
 
                   <button
                     onClick={() => handleRemoveSchool(school.name)}

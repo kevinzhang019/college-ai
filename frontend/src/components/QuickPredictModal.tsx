@@ -80,29 +80,28 @@ export default function QuickPredictModal({ college }: Props) {
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.95, opacity: 0, y: 10 }}
         transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-        className="w-full max-w-lg bg-dark-900 rounded-2xl border border-dark-700 shadow-2xl p-6 space-y-4 max-h-[70vh] overflow-y-auto"
+        className="w-full max-w-5xl bg-dark-900 rounded-2xl border border-dark-700 shadow-2xl p-6 space-y-4 max-h-[70vh] overflow-y-auto"
       >
         <p className="text-sm font-medium text-slate-100">Quickly estimate admissions probability</p>
 
-        {/* GPA */}
-        <div>
-          <label className="block text-xs font-medium text-slate-400 mb-1">GPA *</label>
-          <input
-            type="number"
-            step="0.01"
-            min="0"
-            max="5"
-            value={profile.gpa}
-            onChange={(e) => { setProfileGpa(e.target.value); setGpaError('') }}
-            onBlur={(e) => validateGpa(e.target.value)}
-            placeholder="3.8"
-            className={`input-field-compact text-sm w-24 ${gpaError ? 'border-red-500/60 focus:ring-red-500/40 focus:border-red-500' : ''}`}
-          />
-          {gpaError && <p className="text-[10px] text-red-400 mt-0.5">{gpaError}</p>}
-        </div>
-
-        {/* Test + Score */}
+        {/* GPA + Test + Score */}
         <div className="flex gap-3 items-start">
+          <div>
+            <label className="block text-xs font-medium text-slate-400 mb-1">GPA *</label>
+            <input
+              type="number"
+              step="0.01"
+              min="0"
+              max="5"
+              value={profile.gpa}
+              onChange={(e) => { setProfileGpa(e.target.value); setGpaError('') }}
+              onBlur={(e) => validateGpa(e.target.value)}
+              placeholder="3.8"
+              className={`input-field-compact text-sm w-24 ${gpaError ? 'border-red-500/60 focus:ring-red-500/40 focus:border-red-500' : ''}`}
+            />
+            {gpaError && <p className="text-[10px] text-red-400 mt-0.5">{gpaError}</p>}
+          </div>
+
           <div>
             <label className="block text-xs font-medium text-slate-400 mb-1">Test *</label>
             <div className="flex rounded-lg overflow-hidden border border-dark-700">
@@ -172,6 +171,7 @@ export default function QuickPredictModal({ college }: Props) {
               <option value="">Not specified</option>
               <option value="inState">In-State</option>
               <option value="outOfState">Out-of-State</option>
+              <option value="international">International</option>
             </select>
           </div>
         </div>
