@@ -999,41 +999,60 @@ class MultithreadedCollegeCrawler:
             print(f"    ⚠️  Dropped {expected} rows from misaligned batch")
             return
 
-        insert_data = [merged.get(name, []) for name in field_names]
         count = len(merged["id"])
-        max_retries = 3
-        for attempt in range(max_retries):
-            try:
-                with self.collection_write_lock:
-                    self.collection.insert(insert_data)
-                with self.lock:
-                    self.stats["total_vectors_uploaded"] += count
-                # Release pending URL claims — they're now committed in Milvus
-                if inserted_canonicals:
-                    with self._pending_canonical_lock:
-                        for uc in inserted_canonicals:
-                            self._pending_canonical_urls.discard(uc)
-                # Diagnostic: warn if pending set is growing unexpectedly
-                # len() is GIL-atomic; no lock needed for approximate check
-                _pending_size = len(self._pending_canonical_urls)
-                if _pending_size > 500:
-                    print(f"    diag: {_pending_size} pending canonical URLs")
-                break
-            except Exception as e:
-                if attempt < max_retries - 1:
-                    backoff = 2 ** attempt  # 1s, 2s
-                    print(f"    ✗ Batched insert failed (attempt {attempt + 1}/{max_retries}, "
-                          f"retrying in {backoff}s): {e}")
-                    time.sleep(backoff)
-                else:
-                    print(f"    ✗ Batched insert permanently failed ({count} rows dropped): {e}")
-                    with self.lock:
-                        self.stats["rows_dropped_insert_fail"] += count
-                    # Release claims so URLs can be retried on next crawl run
-                    if inserted_canonicals:
-                        with self._pending_canonical_lock:
-                            for uc in inserted_canonicals:
-                                self._pending_canonical_urls.discard(uc)
+
+        # Split into sub-batches to stay under Zilliz's 4MB gRPC message
+        # limit.  Each row carries a 1536-dim float32 embedding (~6KB) plus
+        # content text, so 50 rows is a safe ceiling (~2MB per batch).
+        MAX_INSERT_BATCH = 50
+        total_inserted = 0
+        total_dropped = 0
+
+        for batch_start in range(0, count, MAX_INSERT_BATCH):
+            batch_end = min(batch_start + MAX_INSERT_BATCH, count)
+            batch_data = [
+                merged.get(name, [])[batch_start:batch_end]
+                for name in field_names
+            ]
+            batch_size = batch_end - batch_start
+
+            max_retries = 3
+            for attempt in range(max_retries):
+                try:
+                    with self.collection_write_lock:
+                        self.collection.insert(batch_data)
+                    total_inserted += batch_size
+                    break
+                except Exception as e:
+                    if attempt < max_retries - 1:
+                        backoff = 2 ** attempt  # 1s, 2s
+                        print(f"    ✗ Batched insert failed (attempt {attempt + 1}/{max_retries}, "
+                              f"retrying in {backoff}s): {e}")
+                        time.sleep(backoff)
+                    else:
+                        print(f"    ✗ Batched insert permanently failed ({batch_size} rows dropped): {e}")
+                        total_dropped += batch_size
+
+        if total_dropped > 0 and total_inserted > 0:
+            print(f"    ⚠️  Partial batch: {total_inserted} rows inserted, "
+                  f"{total_dropped} rows dropped from same flush")
+        if total_inserted > 0:
+            with self.lock:
+                self.stats["total_vectors_uploaded"] += total_inserted
+        if total_dropped > 0:
+            with self.lock:
+                self.stats["rows_dropped_insert_fail"] += total_dropped
+
+        # Release pending URL claims — committed or permanently failed
+        if inserted_canonicals:
+            with self._pending_canonical_lock:
+                for uc in inserted_canonicals:
+                    self._pending_canonical_urls.discard(uc)
+        # Diagnostic: warn if pending set is growing unexpectedly
+        # len() is GIL-atomic; no lock needed for approximate check
+        _pending_size = len(self._pending_canonical_urls)
+        if _pending_size > 500:
+            print(f"    diag: {_pending_size} pending canonical URLs")
 
     def _flush_all_inserts(self):
         """Flush any remaining buffered rows (call at end of crawl)."""
@@ -1596,7 +1615,7 @@ class MultithreadedCollegeCrawler:
     def _load_college_canonicals(
         self, college_name: str, rechunk: bool = False
     ):
-        # type: (...) -> Tuple[Set[str], Set[str]]
+        # type: (...) -> Tuple[Set[str], Set[str], Dict[str, str]]
         """Load canonical URL keys for a specific college to prevent re-crawling duplicates.
 
         Args:
@@ -1604,8 +1623,10 @@ class MultithreadedCollegeCrawler:
             rechunk: If True, also identify URLs with old 512-token chunks
 
         Returns:
-            Tuple of (canonical_urls, rechunk_urls). rechunk_urls is empty when
-            rechunk=False. URLs in rechunk_urls are excluded from canonical_urls.
+            Tuple of (canonical_urls, rechunk_urls, rechunk_full_urls).
+            rechunk_urls is empty when rechunk=False. URLs in rechunk_urls are
+            excluded from canonical_urls. rechunk_full_urls maps canonical key
+            to a full URL (with scheme) for seeding into the BFS queue.
 
         Raises:
             Exception: If all retry attempts fail (caller should skip this college
@@ -1617,26 +1638,33 @@ class MultithreadedCollegeCrawler:
         for attempt in range(max_attempts):
             canonical_urls = set()  # type: Set[str]
             rechunk_urls = set()  # type: Set[str]
+            rechunk_full_urls = {}  # type: Dict[str, str]
             try:
                 # Get records only for this specific college using query_iterator
                 # (avoids the offset+limit <= 16,384 Milvus restriction)
                 safe_college = college_name.replace('"', '\\"')
                 expr = f'college_name == "{safe_college}"'
-                output_fields = ["url_canonical", "content"] if rechunk else ["url_canonical"]
+                # In rechunk mode, also fetch 'url' to seed the BFS queue
+                output_fields = ["url_canonical", "content", "url"] if rechunk else ["url_canonical"]
 
                 # Track per-URL chunk token counts to detect old chunker pattern:
                 # old chunker produces exactly 512 tokens for every chunk except the
                 # last (remainder). Single-chunk pages can't be distinguished and are
                 # skipped since rechunking them has no benefit.
                 url_chunk_tokens = {}  # type: Dict[str, List[int]]
+                # Map canonical key → full URL (first occurrence wins)
+                canon_to_full = {}  # type: Dict[str, str]
                 if rechunk:
                     enc = _ensure_tokenizer("text-embedding-3-small")
 
+                # In rechunk mode we fetch content + url per record (~3KB each),
+                # so use a smaller batch to stay under the 4MB gRPC response limit.
+                _batch_size = 256 if rechunk else 2048
                 with self.collection_query_sema:
                     iterator = self.collection.query_iterator(
                         expr=expr,
                         output_fields=output_fields,
-                        batch_size=2048,
+                        batch_size=_batch_size,
                     )
                     while True:
                         batch = iterator.next()
@@ -1652,6 +1680,9 @@ class MultithreadedCollegeCrawler:
                                 content = rec.get("content") or ""
                                 token_count = len(enc.encode(content))
                                 url_chunk_tokens.setdefault(key, []).append(token_count)
+                                full_url = (rec.get("url") or "").strip()
+                                if full_url and key not in canon_to_full:
+                                    canon_to_full[key] = full_url
 
                 if rechunk:
                     # Old chunker pattern: multi-chunk pages where every chunk
@@ -1660,6 +1691,10 @@ class MultithreadedCollegeCrawler:
                         if len(counts) >= 2 and all(c == 512 for c in counts[:-1]):
                             rechunk_urls.add(url_key)
                     canonical_urls -= rechunk_urls
+                    # Build full-URL map for rechunk URLs (for BFS seeding)
+                    for rk in rechunk_urls:
+                        if rk in canon_to_full:
+                            rechunk_full_urls[rk] = canon_to_full[rk]
                     print(
                         f"    ✓ Loaded {len(canonical_urls):,} canonical URLs for {college_name}"
                         f" ({len(rechunk_urls):,} flagged for rechunking)"
@@ -1668,7 +1703,7 @@ class MultithreadedCollegeCrawler:
                     print(
                         f"    ✓ Loaded {len(canonical_urls):,} canonical URLs for {college_name}"
                     )
-                return canonical_urls, rechunk_urls
+                return canonical_urls, rechunk_urls, rechunk_full_urls
             except Exception as e:
                 if attempt < max_attempts - 1:
                     backoff = 2 ** attempt
@@ -1679,7 +1714,7 @@ class MultithreadedCollegeCrawler:
                     print(f"    ✗ Failed to load canonical URLs for {college_name} "
                           f"after {max_attempts} attempts: {e}")
                     raise
-        return set(), set()  # unreachable, satisfies type checker
+        return set(), set(), {}  # unreachable, satisfies type checker
 
     def extract_internal_links(self, soup: BeautifulSoup, base_url: str) -> List[str]:
         """Extract all internal links from a BeautifulSoup object."""
@@ -3498,7 +3533,7 @@ class MultithreadedCollegeCrawler:
         # If loading fails after retries, skip this college entirely rather than
         # re-crawling everything (which would produce mass duplicate vectors).
         try:
-            college_canonical_urls, rechunk_urls = self._load_college_canonicals(
+            college_canonical_urls, rechunk_urls, rechunk_full_urls = self._load_college_canonicals(
                 college_name, rechunk=self.rechunk
             )
         except Exception as e:
@@ -3588,6 +3623,22 @@ class MultithreadedCollegeCrawler:
 
             work_queue = Queue()
             work_queue.put((0, normalized_base))
+
+            # Seed rechunk URLs directly into the BFS queue so they are
+            # guaranteed to be re-crawled (not dependent on link discovery).
+            # state_lock is held for consistency with the documented invariant
+            # that discovered_canon/discovered_urls are always mutated under lock.
+            if self.rechunk and rechunk_full_urls:
+                seeded = 0
+                with state_lock:
+                    for rk, full_url in rechunk_full_urls.items():
+                        norm = self.normalize_url(full_url)
+                        if norm:
+                            discovered_urls.add(norm)
+                            discovered_canon.add(rk)
+                            work_queue.put((0, norm))
+                            seeded += 1
+                print(f"    ✓ Seeded {seeded:,} rechunk URLs into BFS queue")
 
             # Track active futures
             active_futures = set()
@@ -4063,6 +4114,7 @@ class MultithreadedCollegeCrawler:
             discovered_canon.clear()
             college_canonical_urls.clear()
             rechunk_urls.clear()
+            rechunk_full_urls.clear()
         with college_hash_lock:
             college_hash_cache.clear()
 

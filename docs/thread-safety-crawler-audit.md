@@ -63,6 +63,7 @@ URLs are claimed in `_pending_canonical_urls` before the Milvus existence query 
 | Embedding succeeds, buffer put succeeds | Flush thread releases after successful Milvus insert |
 | Embedding fails (batcher + fallback) | `upload_to_milvus` releases in error path |
 | Milvus insert fails after retries | Flush thread releases in permanent-failure handler |
+| Sub-batch partial insert failure | Merged batch split into sub-batches of 50; if some succeed and others fail permanently, all claims released together after loop completes (partial Milvus data acceptable — URLs re-crawlable on next run) |
 | Column alignment mismatch | Flush thread releases after per-row recovery attempt |
 | `_flush_insert_buffer` outer raises | Except block releases all claims for the batch |
 | Buffer full + flush thread crashed | `upload_to_milvus` detects `_flush_thread_crashed`, releases, raises |
@@ -97,6 +98,7 @@ URLs are claimed in `_pending_canonical_urls` before the Milvus existence query 
 | Milvus expression escaping | `college_name` and `page_canon` escape `"` -> `\\"`. Residual risk: trailing `\` in URL could break expression parsing (extremely unlikely for HTTP URLs) |
 | Content dedup | SHA-256 truncated to 16 hex chars (64 bits) per chunk. Per-college cache under `college_hash_lock`. Instance-level cache explicitly forbidden for `INTER_COLLEGE_PARALLELISM > 1` |
 | Insert retry | Both batch and per-row recovery retry 3 times with exponential backoff (1s, 2s). Dropped rows tracked in `stats["rows_dropped_insert_fail"]` |
+| Sub-batch splitting | Merged batch split into sub-batches of 50 rows before Milvus insert to stay under the 4MB gRPC message limit. Each sub-batch retried independently. Partial success tracked separately (`total_inserted`, `total_dropped`). All pending canonical claims released after the loop completes (not per sub-batch) |
 
 ## Memory Management — No Leaks
 
@@ -361,16 +363,23 @@ Extracted `_CHROMIUM_FLAGS_SAFE` (safe flags) and `_CHROMIUM_FLAGS_FALLBACK_EXTR
 
 ### Detection Logic
 
-`_load_college_canonicals(rechunk=True)` fetches `content` alongside `url_canonical`, counts tokens per chunk, and groups by URL. Old chunker pattern: multi-chunk pages where every chunk except the last is exactly 512 tokens. Single-chunk pages are skipped (no benefit to rechunking). Identified URLs are excluded from `college_canonical_urls` and returned as `rechunk_urls`.
+`_load_college_canonicals(rechunk=True)` fetches `content`, `url`, and `url_canonical` with a reduced `batch_size=256` (vs. 2048 for non-rechunk) to stay under the 4MB gRPC response limit when content fields are included. Counts tokens per chunk and groups by URL. Old chunker pattern: multi-chunk pages where every chunk except the last is exactly 512 tokens. Single-chunk pages are skipped (no benefit to rechunking). Identified URLs are excluded from `college_canonical_urls` and returned as `rechunk_urls`. Also returns `rechunk_full_urls` (canonical key → full URL with scheme) for BFS seeding.
+
+### BFS Seeding
+
+Rechunk URLs are seeded directly into the BFS `work_queue` at depth 0 under `state_lock` before workers are submitted, guaranteeing they will be re-crawled regardless of link discovery. `discovered_urls` and `discovered_canon` are updated under `state_lock` for consistency with the documented invariant.
 
 ### Thread Safety of New Code
 
 | Component | Safety |
 |-----------|--------|
 | `rechunk_urls` set | Local to `crawl_college_site`, built before workers start, read-only via closures. No lock needed for reads |
+| `rechunk_full_urls` dict | Local to `crawl_college_site`, used only for BFS seeding before workers start. Not accessed by workers. `.clear()` under `state_lock` at end |
 | `rechunk_urls` cleanup | `.clear()` under `state_lock` at end of `crawl_college_site` alongside other per-college sets |
+| Rechunk URL seeding | `discovered_urls`, `discovered_canon`, `work_queue` mutated under `state_lock` before worker submission. No concurrent access |
 | `force_replace` in `upload_to_milvus` | Extends existing `no_resume` delete condition. Same `collection_write_lock` acquisition. `_pending_canonical_urls` invariant holds identically |
 | `_load_college_canonicals` token counting | CPU-only work inside existing `collection_query_sema` hold. No shared state mutation |
+| `_load_college_canonicals` batch size | Reduced to 256 in rechunk mode to prevent gRPC RESOURCE_EXHAUSTED on response. Semaphore held for entire iteration (same pattern, more round-trips) |
 | Delta cache | Disabled in rechunk mode (same as `no_resume`). No crash-consistency concern |
 | Lock ordering | No new locks. No changes to existing ordering |
-| Memory | `content` fetched in batches of 2048, discarded after token counting. `url_chunk_tokens` dict holds `List[int]` per URL, freed after set comprehension |
+| Memory | `content` fetched in batches of 256, discarded after token counting. `url_chunk_tokens` dict holds `List[int]` per URL, `canon_to_full` dict holds one URL string per canonical key; both freed after set comprehension |

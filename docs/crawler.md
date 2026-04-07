@@ -54,7 +54,7 @@ Multithreaded BFS crawler that embeds college website pages into Zilliz Cloud wi
 | `--colleges N` | `INTER_COLLEGE_PARALLELISM` | Colleges to crawl in parallel |
 | `--max-pages N` | `MAX_PAGES_PER_COLLEGE` | Max pages per college |
 | `--no-resume` | off | Force full re-crawl: disables delta cache and replaces existing Milvus vectors (delete + re-insert) instead of skipping them |
-| `--rechunk` | off | Re-crawl pages with old 512-token chunks (detects multi-chunk pages where all non-final chunks are exactly 512 tokens), replacing with sentence-aware chunks. Mutually exclusive with `--no-resume`. Temporary flag — remove after migration is complete |
+| `--rechunk` | off | Re-crawl pages with old 512-token chunks (detects multi-chunk pages where all non-final chunks are exactly 512 tokens), replacing with sentence-aware chunks. Seeds identified URLs directly into BFS queue at depth 0 so they are re-crawled regardless of link discovery. Uses reduced query batch_size (256) to stay under gRPC response limit. Mutually exclusive with `--no-resume`. Temporary flag — remove after migration is complete |
 
 See [thread-safety-crawler.md](thread-safety-crawler.md) for concurrency details — this is critical.
 

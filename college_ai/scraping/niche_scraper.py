@@ -2293,10 +2293,22 @@ def _worker_loop(
                             sleep_for -= 0.5
                         if shutdown_event.is_set():
                             break
-                        try:
-                            scraper.start(headless=headless, grades_only=grades_only)
-                        except Exception as start_err:
-                            logger.error(f"{tag} Browser re-launch failed ({start_err}) — worker exiting")
+                        relaunch_ok = False
+                        for attempt in range(1, 4):
+                            try:
+                                scraper.start(headless=headless, grades_only=grades_only)
+                                relaunch_ok = True
+                                break
+                            except Exception as start_err:
+                                logger.warning(f"{tag} Browser re-launch attempt {attempt}/3 failed: {start_err}")
+                                try:
+                                    scraper.close()
+                                except Exception:
+                                    pass
+                                if attempt < 3 and not shutdown_event.is_set():
+                                    time.sleep(random.uniform(3, 6))
+                        if not relaunch_ok:
+                            logger.error(f"{tag} Browser re-launch failed after 3 attempts — worker exiting")
                             break
                         consecutive_px_blocks = 0
                         scraper._px_blocked = False
