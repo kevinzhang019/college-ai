@@ -45,7 +45,7 @@ Zustand store (`store.ts`) with `persist` middleware, serializing to `localStora
 - `conversations` — `Record<string, Conversation>`, max 50 with LRU eviction
 - `conversationOrder` — `string[]` sorted by recency (newest first)
 - `experiences` — `Experience[]` (user's extracurriculars)
-- `profile` — `ProfileData` (GPA, test score type, test score, country, countryLabel, state, preferredMajors)
+- `profile` — `ProfileData` (GPA, test score type, test score, country, countryLabel, state, preferredMajors, savedSchools)
 - `activeConversationId` — currently selected conversation
 - `contextSize` — RAG context size (`'XS'|'S'|'M'|'L'|'XL'`, default `'M'`). Controls `top_k` sent to backend (3/5/8/12/16 sources)
 - `responseLength` — Response length preference (`'XS'|'S'|'M'|'L'|'XL'`, default `'M'`). Controls LLM length budgets (XS: 50-100w, S: 100-200w, M: auto-detect, L: 400-600w, XL: 600-900w)
@@ -172,6 +172,12 @@ Standalone view for My Profile mode:
 - Persisted in `profile.preferredMajors: string[]` (ordered by preference)
 - Passed to LLM as `"Preferred majors (ranked): #1 Computer Science, #2 Data Science"` via `format_profile_context()`
 
+**Saved Schools card:**
+- Searchable `CollegeCombobox` (with `showDefaultScreen={false}`) to add schools the user is interested in
+- Saved schools listed as animated cards with remove button (X), using Framer Motion `AnimatePresence`
+- Persisted in `profile.savedSchools: string[]`
+- Saved schools appear as a "Your Schools" section at the top of all CollegeCombobox dropdowns in chat tabs (Q&A, Essay, Admissions) — the profile's own school picker does not show this sectioned view
+
 **Experiences list:**
 - Cards with title, organization, type badge (color-coded), dates, truncated description
 - Edit/delete buttons appear on hover (opacity transition)
@@ -229,16 +235,17 @@ Displays a single school's admission prediction:
 
 ### CollegeCombobox (`CollegeCombobox.tsx`)
 
-Headless UI Combobox with:
-- Case-insensitive filtering, first 50 results shown
-- "All colleges" option (selects null)
+Headless UI Combobox with `immediate` (auto-opens on focus):
+- **Default screen** (`showDefaultScreen` prop, default `true`): When query is empty, shows sectioned view — "Your Schools" (from `profile.savedSchools`) then "All Colleges" (remaining, first 50). Section headers are non-interactive `div` labels. Saved schools that no longer exist in `collegeOptions` are filtered out
+- **Search mode** (query entered): flat filtered list from all `collegeOptions`, case-insensitive, first 50 results
+- **No default screen** (`showDefaultScreen={false}`): used in profile's school picker. Shows flat list of first 50 when query is empty, like search mode
+- "All colleges" clear option (value: null) always at top
 - Compact variant (smaller padding/height) for inline use
 - Loaded from `/options` endpoint with 31-school fallback list
-- Placeholder references Cole by name
 
 ### MajorCombobox (`MajorCombobox.tsx`)
 
-Searchable Headless UI Combobox for major selection, used in AdmissionsView (default major + per-school cards):
+Searchable Headless UI Combobox with `immediate` (auto-opens on focus), used in AdmissionsView (default major + per-school cards):
 - **Default menu** (empty search): two sections — "Your Majors" (from `profile.preferredMajors`, ranked order) then "All Majors" (remaining `ALLOWED_MAJORS`, alphabetical). Section headers are non-interactive `div` labels
 - **Search mode** (query entered): flat filtered list from all `ALLOWED_MAJORS`, case-insensitive
 - "Not specified" / "No major" clear option (value: null) always at top

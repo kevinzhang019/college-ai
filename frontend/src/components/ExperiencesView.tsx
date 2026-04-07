@@ -3,6 +3,7 @@ import { motion, AnimatePresence, Reorder } from 'framer-motion'
 import { Combobox, ComboboxInput, ComboboxOption, ComboboxOptions } from '@headlessui/react'
 import { useStore } from '../store'
 import ExperienceForm from './ExperienceForm'
+import CollegeCombobox from './CollegeCombobox'
 import type { TestScoreType } from '../types'
 import { ALLOWED_MAJORS } from '../types'
 import { COUNTRIES, US_STATES } from '../data/locations'
@@ -31,6 +32,9 @@ export default function ExperiencesView() {
   const addPreferredMajor = useStore((s) => s.addPreferredMajor)
   const removePreferredMajor = useStore((s) => s.removePreferredMajor)
   const reorderPreferredMajors = useStore((s) => s.reorderPreferredMajors)
+  const savedSchools = useStore((s) => s.profile.savedSchools)
+  const addSavedSchool = useStore((s) => s.addSavedSchool)
+  const removeSavedSchool = useStore((s) => s.removeSavedSchool)
   const [showForm, setShowForm] = useState(false)
   const [majorQuery, setMajorQuery] = useState('')
   const [editingId, setEditingId] = useState<string | null>(null)
@@ -216,6 +220,7 @@ export default function ExperiencesView() {
               }
             }}
             onClose={() => setMajorQuery('')}
+            immediate
           >
             <div className="relative">
               <ComboboxInput
@@ -279,6 +284,46 @@ export default function ExperiencesView() {
                 ))}
               </AnimatePresence>
             </Reorder.Group>
+          )}
+        </div>
+
+        {/* Saved Schools card */}
+        <div className="card p-4 mb-6">
+          <h3 className="text-sm font-medium text-slate-100 mb-1">Saved Schools</h3>
+          <p className="text-xs text-slate-500 mb-3">
+            Schools you're interested in. They'll appear at the top of school dropdowns.
+          </p>
+
+          <CollegeCombobox
+            value={null}
+            onChange={(val) => { if (val) addSavedSchool(val) }}
+            showDefaultScreen={false}
+          />
+
+          {savedSchools.length > 0 && (
+            <div className="mt-3 space-y-1.5">
+              <AnimatePresence>
+                {savedSchools.map((school) => (
+                  <motion.div
+                    key={school}
+                    initial={{ opacity: 0, y: -4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    className="flex items-center gap-2 bg-dark-800 rounded-lg px-3 py-2"
+                  >
+                    <span className="text-sm text-slate-200 flex-1 truncate">{school}</span>
+                    <button
+                      onClick={() => removeSavedSchool(school)}
+                      className="p-0.5 text-slate-500 hover:text-red-400 transition-colors shrink-0"
+                    >
+                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
           )}
         </div>
 

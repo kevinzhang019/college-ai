@@ -130,7 +130,7 @@ export default function QuickPredictModal({ college }: Props) {
             </div>
           </div>
 
-          <div className="flex-1">
+          <div>
             <label className="block text-xs font-medium text-slate-400 mb-1">
               {profile.testScoreType === 'sat' ? 'SAT *' : 'ACT *'}
             </label>
@@ -140,7 +140,7 @@ export default function QuickPredictModal({ college }: Props) {
               onChange={(e) => { setProfileTestScore(profile.testScoreType, e.target.value); setScoreError('') }}
               onBlur={(e) => validateScore(e.target.value, profile.testScoreType)}
               placeholder={profile.testScoreType === 'sat' ? '400–1600' : '1–36'}
-              className={`input-field-compact text-sm ${scoreError ? 'border-red-500/60 focus:ring-red-500/40 focus:border-red-500' : ''}`}
+              className={`input-field-compact text-sm w-24 ${scoreError ? 'border-red-500/60 focus:ring-red-500/40 focus:border-red-500' : ''}`}
             />
             {scoreError && <p className="text-[10px] text-red-400 mt-0.5">{scoreError}</p>}
           </div>

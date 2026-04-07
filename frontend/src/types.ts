@@ -68,6 +68,7 @@ export interface ProfileData {
   countryLabel: string
   state: string
   preferredMajors: string[]
+  savedSchools: string[]
 }
 
 export type Residency = 'inState' | 'outOfState' | 'international'

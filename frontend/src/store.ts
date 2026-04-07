@@ -49,6 +49,8 @@ interface Store {
   addPreferredMajor: (major: string) => void
   removePreferredMajor: (major: string) => void
   reorderPreferredMajors: (majors: string[]) => void
+  addSavedSchool: (school: string) => void
+  removeSavedSchool: (school: string) => void
 
   // ---- Actions: experiences ----
   addExperience: (exp: Experience) => void
@@ -68,7 +70,7 @@ export const useStore = create<Store>()(
       conversations: {},
       conversationOrder: [],
       experiences: [],
-      profile: { gpa: '', testScoreType: 'sat', testScore: '', country: '', countryLabel: '', state: '', preferredMajors: [] },
+      profile: { gpa: '', testScoreType: 'sat', testScore: '', country: '', countryLabel: '', state: '', preferredMajors: [], savedSchools: [] },
       activeConversationId: null,
       contextSize: 'M',
       responseLength: 'M',
@@ -222,6 +224,17 @@ export const useStore = create<Store>()(
 
       reorderPreferredMajors: (majors) =>
         set((s) => ({ profile: { ...s.profile, preferredMajors: majors } })),
+
+      addSavedSchool: (school) =>
+        set((s) => {
+          if (s.profile.savedSchools.includes(school)) return s
+          return { profile: { ...s.profile, savedSchools: [...s.profile.savedSchools, school] } }
+        }),
+
+      removeSavedSchool: (school) =>
+        set((s) => ({
+          profile: { ...s.profile, savedSchools: s.profile.savedSchools.filter((x) => x !== school) },
+        })),
 
       // ---- Experiences ----
       addExperience: (exp) =>

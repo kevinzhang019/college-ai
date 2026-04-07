@@ -29,6 +29,7 @@ export default function MajorCombobox({ value, onChange, compact }: Props) {
       value={value}
       onChange={(v) => { onChange(v); setQuery('') }}
       onClose={() => setQuery('')}
+      immediate
     >
       <div className="relative">
         <div className="relative">
