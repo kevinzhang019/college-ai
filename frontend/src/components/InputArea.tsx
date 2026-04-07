@@ -201,7 +201,7 @@ export default function InputArea() {
 
           {/* Chances button — inline with school dropdown */}
           {college && (
-            <div className="relative shrink-0 self-end -mb-3" ref={chancesContainerRef}>
+            <div className="relative shrink-0 self-end" ref={chancesContainerRef}>
               <AnimatePresence>
                 {quickPredictOpen && (
                   <div className="absolute bottom-full right-0 mb-2 z-50">
