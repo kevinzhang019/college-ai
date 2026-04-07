@@ -188,8 +188,8 @@ export default function InputArea() {
           {/* Info tooltip — shown when no college selected */}
           {!college && (
             <div className="relative shrink-0 group">
-              <div className="flex items-center justify-center w-5 h-5 rounded-full border border-dark-700 text-slate-500 hover:text-slate-300 hover:border-slate-500 transition-colors cursor-help mt-1">
-                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="flex items-center justify-center w-8 h-8 rounded-full border border-dark-700 text-slate-500 hover:text-slate-300 hover:border-slate-500 transition-colors cursor-help">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
@@ -204,7 +204,7 @@ export default function InputArea() {
             <div className="relative shrink-0 self-end" ref={chancesContainerRef}>
               <AnimatePresence>
                 {quickPredictOpen && (
-                  <div className="absolute bottom-full right-0 mb-2 z-50">
+                  <div className="absolute bottom-full right-0 mb-2 z-50 min-w-[480px]">
                     <QuickPredictModal college={college} />
                   </div>
                 )}

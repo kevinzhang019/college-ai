@@ -29,7 +29,9 @@ The crawler (`crawler.py`) is heavily multithreaded. Read this before modifying 
 
 When `INTER_COLLEGE_PARALLELISM > 1`, multiple `crawl_college_site()` calls run concurrently. Per-college state (canonical URL sets, content hash caches) **must** be local to `crawl_college_site`, not instance attributes. Instance-level state is only safe if it's read-only or protected by a lock shared across all colleges (e.g., `self.lock` for stats).
 
-- **`_load_college_canonicals`** retries 3 times with exponential backoff (1s, 2s) on Milvus query failure. If all retries fail, raises the exception so `crawl_college_site` skips the college entirely — this prevents mass duplicate inserts that would occur if crawling proceeded with an empty dedup set.
+- **`_load_college_canonicals`** retries 3 times with exponential backoff (1s, 2s) on Milvus query failure. If all retries fail, raises the exception so `crawl_college_site` skips the college entirely — this prevents mass duplicate inserts that would occur if crawling proceeded with an empty dedup set. Returns `(canonical_urls, rechunk_urls)` tuple. When `rechunk=True`, also fetches `content` to count tokens and identify old 512-token chunks; `rechunk_urls` are excluded from `canonical_urls` so they pass through the BFS resume gate.
+
+- **`rechunk_urls`** (per-college) — built once in `crawl_college_site` before workers start, read-only via closures. Cleared under `state_lock` at end of `crawl_college_site` alongside other per-college sets. `upload_to_milvus` receives `force_replace=True` for rechunk URLs, which follows the same delete-then-reinsert path as `no_resume` (acquires `collection_write_lock`). The `_pending_canonical_urls` invariant holds identically to the `no_resume` path.
 
 - **`self._base_headers_snapshot`** — frozen `dict` snapshot of `self.session.headers` taken at `__init__` time (single-threaded). Used to seed per-thread `worker_session` and `_test_session` instances. **Never read `self.session.headers` from worker threads** — `scrape_page()` may mutate `request_session.headers` on 403 retries, making it unsafe for concurrent reads.
 
@@ -55,7 +57,10 @@ The `close()` shutdown sequence is order-dependent:
 
 Changing this order can cause data loss (e.g., stopping the flush thread before the batcher means late-resolved embeddings never get inserted).
 
-**KeyboardInterrupt:** `crawl_college_site` catches `KeyboardInterrupt` and explicitly shuts down `pw_executor` (Playwright worker pool) before exiting, preventing orphaned browser processes. The `global_shutdown_event` propagates to all worker threads.
+**`pw_executor` shutdown is scenario-aware:**
+- **Normal completion:** `pw_executor.shutdown(wait=True, cancel_futures=True)` — cancels queued tasks, blocks until all running tasks AND their `done_callbacks` complete. CPython's `ThreadPoolExecutor` runs callbacks synchronously on worker threads before they exit, so by the time `shutdown()` returns, all Milvus uploads from `_merge_pw_result` have completed and all thread-local Playwright resources have been cleaned up. The wait is bounded by Playwright's page navigation timeout (30s) plus retry overhead (~90s worst case per task; tasks run in parallel so total = slowest task).
+- **Global shutdown** (`global_shutdown_event` set): `pw_executor.shutdown(wait=False, cancel_futures=True)` + 5-second poll on `active_pw_futures`. Fast exit when user has pressed Ctrl+C once. Orphaned callbacks may still be running — the per-college set cleanup (under `state_lock` / `college_hash_lock`) makes late callbacks see empty sets (harmless).
+- **KeyboardInterrupt:** `pw_executor.shutdown(wait=False, cancel_futures=True)` with no wait — immediate exit. The `global_shutdown_event` propagates to all worker threads.
 
 ## Database Connection (`connection.py`)
 
@@ -72,7 +77,7 @@ This separation ensures `close()` disconnecting the crawler alias does not kill 
 
 ## Memory Management
 
-- **Per-college set cleanup:** At the end of `crawl_college_site()`, all per-college sets (`crawled_urls`, `discovered_urls`, `crawled_canon`, `discovered_canon`, `college_canonical_urls`, `college_hash_cache`) are explicitly `.clear()`ed under their respective locks (`state_lock`, `college_hash_lock`). This breaks closure references held by orphaned PW callbacks that survived the drain timeout, preventing memory accumulation across colleges.
+- **Per-college set cleanup:** At the end of `crawl_college_site()`, all per-college sets (`crawled_urls`, `discovered_urls`, `crawled_canon`, `discovered_canon`, `college_canonical_urls`, `rechunk_urls`, `college_hash_cache`) are explicitly `.clear()`ed under their respective locks (`state_lock`, `college_hash_lock`). In the normal path (`wait=True`), all callbacks have completed so this purely frees memory. In the global-shutdown path (`wait=False`), this also breaks closure references held by orphaned PW callbacks that survived the 5s drain timeout.
 - **`_host_tokens` / `_host_failures` / etc.:** Per-host rate-limit state. `_prune_host_state()` evicts entries older than the TTL (default 1800s, or 600s when called periodically from `scrape_page`). A hard cap of `_HOST_STATE_MAX_ENTRIES=200` evicts the oldest entries by last-seen time when the dict grows too large, even if hosts are still active. Periodic pruning runs every ~100 `scrape_page` calls per thread via a thread-local counter.
 - **`_pw_profile_cache`:** `OrderedDict` with LRU eviction, capped at 50 entries. Read hits call `move_to_end()`; writes evict the oldest entry via `popitem(last=False)` when over cap. All operations under `_pw_profile_cache_lock`.
 - **`_pw_local_registry`:** Cleared after snapshotting in `close()` to release stale Playwright runtime references immediately.

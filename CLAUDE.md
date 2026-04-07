@@ -23,7 +23,9 @@ cd frontend && npm install && cd ..                # install frontend deps
 - [Thread Safety — Niche](docs/thread-safety-niche.md) — **CRITICAL**: DBWriterThread, rate limiter, sentinel guarantee in `niche_scraper.py`
 - [Thread Safety Audit — Niche](docs/thread-safety-niche-audit.md) — Full concurrency audit (2026-04-05): verified no data races, deadlocks, or memory leaks
 - [Thread Safety Audit — Crawler](docs/thread-safety-crawler-audit.md) — Full concurrency audit (2026-04-05): five bugs fixed (pw_done_callback ordering, PlaywrightPool rotation lock scope, prune_dead_slots blocking, delta cache crash-consistency, worker_session cleanup), no data races, deadlocks, or memory leaks
-- [Scraping](docs/scraping.md) — BFS crawler (curl_cffi, Playwright, camoufox, delta crawling), Niche scraper, Scorecard client
+- [Crawler](docs/crawler.md) — BFS crawler (curl_cffi, Playwright, camoufox, delta crawling) → Zilliz hybrid search
+- [Niche Scraper](docs/niche-scraper.md) — Niche.com scattergrams + letter grades via Camoufox
+- [Scorecard Client](docs/scorecard-client.md) — US DOE College Scorecard API → schools table
 - [RAG Pipeline](docs/rag-pipeline.md) — v2: greeting detection (skip pipeline) → school data injection (Turso DB → `[SCHOOL DATA]` block in prompt) → LLM-based ranking intent detection (gpt-4.1-nano → Niche categories) → hybrid search (dense + BM25, nprobe=64, embedding cache) → Cohere reranking (relevance threshold, ranking boost by niche_rank + category grades) → two-tier model routing (simple Q&A → gpt-4.1-nano, everything else → gpt-5.4-mini) → specialized generators (Q&A, Essay, Admission Prediction) with SSE streaming, multi-turn history, multi-query retrieval (essay + admissions), profile context in all modes, sentence-aware chunking, and prompt caching
 - [Database](docs/database.md) — three tables (schools, applicant_datapoints, niche_grades), Turso/libSQL connection, inline migrations
 - [API & Frontend](docs/api.md) — FastAPI endpoints (/ask, /ask/stream, /predict, /compare), React frontend with 4 modes (Q&A, Essay Helper, Admissions Calculator, My Profile)

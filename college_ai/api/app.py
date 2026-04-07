@@ -11,6 +11,7 @@ Or programmatically:
 from __future__ import annotations
 
 import argparse
+import logging
 import os
 from typing import Any, Dict, List, Optional
 
@@ -23,6 +24,8 @@ from pydantic import BaseModel, Field
 
 from college_ai.rag.service import CollegeRAG
 
+logger = logging.getLogger(__name__)
+
 app = FastAPI(title="College RAG API", version="2.0.0")
 
 # ---- Admissions ML model (lazy-loaded) ----
@@ -34,8 +37,9 @@ def _get_predictor():
     if _admissions_predictor is None:
         try:
             from college_ai.ml.predict import AdmissionsPredictor
-            _admissions_predictor = AdmissionsPredictor()
-            _admissions_predictor.load()
+            predictor = AdmissionsPredictor()
+            predictor.load()
+            _admissions_predictor = predictor
         except FileNotFoundError:
             return None
     return _admissions_predictor
@@ -259,34 +263,42 @@ class CompareRequest(BaseModel):
 @app.post("/predict")
 def predict_admission(payload: PredictRequest) -> Dict[str, Any]:
     """Predict admission probability for a student at a specific school."""
-    predictor = _get_predictor()
-    if predictor is None:
-        return {"error": "Admissions model not yet trained. Run: python -m college_ai.ml.train"}
-    return predictor.predict(
-        gpa=payload.gpa,
-        school_name=payload.school_name,
-        sat=payload.sat,
-        act=payload.act,
-        residency=payload.residency,
-        major=payload.major,
-    )
+    try:
+        predictor = _get_predictor()
+        if predictor is None:
+            return {"error": "Admissions model not yet trained. Run: python -m college_ai.ml.train"}
+        return predictor.predict(
+            gpa=payload.gpa,
+            school_name=payload.school_name,
+            sat=payload.sat,
+            act=payload.act,
+            residency=payload.residency,
+            major=payload.major,
+        )
+    except Exception as e:
+        logger.exception("Prediction failed")
+        return {"error": f"Prediction failed: {e}"}
 
 
 @app.post("/compare")
 def compare_schools(payload: CompareRequest) -> Dict[str, Any]:
     """Compare admission probability across multiple schools."""
-    predictor = _get_predictor()
-    if predictor is None:
-        return {"error": "Admissions model not yet trained."}
-    results = predictor.compare(
-        gpa=payload.gpa,
-        sat=payload.sat,
-        act=payload.act,
-        schools=payload.schools,
-        residency=payload.residency,
-        major=payload.major,
-    )
-    return {"results": results}
+    try:
+        predictor = _get_predictor()
+        if predictor is None:
+            return {"error": "Admissions model not yet trained."}
+        results = predictor.compare(
+            gpa=payload.gpa,
+            sat=payload.sat,
+            act=payload.act,
+            schools=payload.schools,
+            residency=payload.residency,
+            major=payload.major,
+        )
+        return {"results": results}
+    except Exception as e:
+        logger.exception("Comparison failed")
+        return {"error": f"Comparison failed: {e}"}
 
 
 @app.get("/scattergram/{school_name}")

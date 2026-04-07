@@ -19,7 +19,7 @@ import concurrent.futures
 import json
 from concurrent.futures import ThreadPoolExecutor, wait, FIRST_COMPLETED
 from collections import OrderedDict
-from typing import Dict, List, Any, Optional, Set
+from typing import Dict, List, Any, Optional, Set, Tuple
 from datetime import datetime
 from urllib.parse import urljoin, urlparse, parse_qsl, urlencode
 import hashlib
@@ -281,6 +281,7 @@ from college_ai.rag.embeddings import (
     chunk_text_by_tokens,
     chunk_text_by_sentences,
     EmbeddingBatcher,
+    _ensure_tokenizer,
 )
 from college_ai.rag.text_cleaner import clean_text
 from college_ai.scraping.config import *
@@ -628,7 +629,7 @@ class MultithreadedCollegeCrawler:
     """Multithreaded crawler that crawls college websites and uploads directly to Milvus."""
 
     def __init__(self, delay: float = None, max_workers: int = None,
-                 no_resume: bool = False):
+                 no_resume: bool = False, rechunk: bool = False):
         """
         Initialize the crawler.
 
@@ -636,10 +637,12 @@ class MultithreadedCollegeCrawler:
             delay: Delay between requests to be respectful (uses config if None)
             max_workers: Number of worker threads per college (uses config if None)
             no_resume: Force full re-crawl, ignoring delta cache and replacing existing vectors
+            rechunk: Re-crawl pages with old 512-token chunks, replacing with sentence-aware chunks
         """
         self.delay = delay or CRAWLER_DELAY
         self.max_workers = max_workers or CRAWLER_MAX_WORKERS
         self.no_resume = no_resume
+        self.rechunk = rechunk
         self.colleges_dir = os.path.join(os.path.dirname(__file__), "colleges")
 
         # Ensure colleges directory exists
@@ -846,6 +849,8 @@ class MultithreadedCollegeCrawler:
         self._delta_cache: Optional[DeltaCrawlCache] = None
         if self.no_resume:
             print("    No-resume mode: delta cache disabled, existing vectors will be replaced")
+        elif self.rechunk:
+            print("    Rechunk mode: delta cache disabled, old 512-token chunks will be replaced")
         elif ENABLE_DELTA_CRAWLING:
             cache_path = os.path.join(DATA_DIR, "crawl_cache.db")
             self._delta_cache = DeltaCrawlCache(cache_path)
@@ -1588,14 +1593,19 @@ class MultithreadedCollegeCrawler:
                 s = s[4:]
             return s
 
-    def _load_college_canonicals(self, college_name: str) -> Set[str]:
+    def _load_college_canonicals(
+        self, college_name: str, rechunk: bool = False
+    ):
+        # type: (...) -> Tuple[Set[str], Set[str]]
         """Load canonical URL keys for a specific college to prevent re-crawling duplicates.
 
         Args:
             college_name: Name of the college to load canonicals for
+            rechunk: If True, also identify URLs with old 512-token chunks
 
         Returns:
-            Set of canonical URL keys for the college
+            Tuple of (canonical_urls, rechunk_urls). rechunk_urls is empty when
+            rechunk=False. URLs in rechunk_urls are excluded from canonical_urls.
 
         Raises:
             Exception: If all retry attempts fail (caller should skip this college
@@ -1606,15 +1616,26 @@ class MultithreadedCollegeCrawler:
         max_attempts = 3
         for attempt in range(max_attempts):
             canonical_urls = set()  # type: Set[str]
+            rechunk_urls = set()  # type: Set[str]
             try:
                 # Get records only for this specific college using query_iterator
                 # (avoids the offset+limit <= 16,384 Milvus restriction)
                 safe_college = college_name.replace('"', '\\"')
                 expr = f'college_name == "{safe_college}"'
+                output_fields = ["url_canonical", "content"] if rechunk else ["url_canonical"]
+
+                # Track per-URL chunk token counts to detect old chunker pattern:
+                # old chunker produces exactly 512 tokens for every chunk except the
+                # last (remainder). Single-chunk pages can't be distinguished and are
+                # skipped since rechunking them has no benefit.
+                url_chunk_tokens = {}  # type: Dict[str, List[int]]
+                if rechunk:
+                    enc = _ensure_tokenizer("text-embedding-3-small")
+
                 with self.collection_query_sema:
                     iterator = self.collection.query_iterator(
                         expr=expr,
-                        output_fields=["url_canonical"],
+                        output_fields=output_fields,
                         batch_size=2048,
                     )
                     while True:
@@ -1624,12 +1645,30 @@ class MultithreadedCollegeCrawler:
                             break
                         for rec in batch:
                             key = (rec.get("url_canonical") or "").strip()
-                            if key:
-                                canonical_urls.add(key)
-                print(
-                    f"    ✓ Loaded {len(canonical_urls):,} canonical URLs for {college_name}"
-                )
-                return canonical_urls
+                            if not key:
+                                continue
+                            canonical_urls.add(key)
+                            if rechunk:
+                                content = rec.get("content") or ""
+                                token_count = len(enc.encode(content))
+                                url_chunk_tokens.setdefault(key, []).append(token_count)
+
+                if rechunk:
+                    # Old chunker pattern: multi-chunk pages where every chunk
+                    # except the last is exactly 512 tokens.
+                    for url_key, counts in url_chunk_tokens.items():
+                        if len(counts) >= 2 and all(c == 512 for c in counts[:-1]):
+                            rechunk_urls.add(url_key)
+                    canonical_urls -= rechunk_urls
+                    print(
+                        f"    ✓ Loaded {len(canonical_urls):,} canonical URLs for {college_name}"
+                        f" ({len(rechunk_urls):,} flagged for rechunking)"
+                    )
+                else:
+                    print(
+                        f"    ✓ Loaded {len(canonical_urls):,} canonical URLs for {college_name}"
+                    )
+                return canonical_urls, rechunk_urls
             except Exception as e:
                 if attempt < max_attempts - 1:
                     backoff = 2 ** attempt
@@ -1640,7 +1679,7 @@ class MultithreadedCollegeCrawler:
                     print(f"    ✗ Failed to load canonical URLs for {college_name} "
                           f"after {max_attempts} attempts: {e}")
                     raise
-        return set()  # unreachable, satisfies type checker
+        return set(), set()  # unreachable, satisfies type checker
 
     def extract_internal_links(self, soup: BeautifulSoup, base_url: str) -> List[str]:
         """Extract all internal links from a BeautifulSoup object."""
@@ -3189,12 +3228,14 @@ class MultithreadedCollegeCrawler:
         self, page_data: Dict[str, Any], college_name: str,
         content_hash_cache: Optional[set] = None,
         content_hash_lock: Optional[threading.Lock] = None,
+        force_replace: bool = False,
     ) -> bool:
         """Upload a single page to Milvus with per-chunk embeddings for RAG.
 
         Args:
             content_hash_cache: Per-college dedup cache (required).
             content_hash_lock: Lock for the per-college dedup cache (required).
+            force_replace: Delete existing vectors and re-insert (used by rechunk mode).
         """
         _pending_claimed = False  # track whether we claimed a pending URL slot
         try:
@@ -3224,7 +3265,7 @@ class MultithreadedCollegeCrawler:
                         limit=1,
                     )
                 if existing_records:
-                    if self.no_resume:
+                    if self.no_resume or force_replace:
                         # Delete old vectors, then proceed to re-insert
                         with self.collection_write_lock:
                             self.collection.delete(
@@ -3457,7 +3498,9 @@ class MultithreadedCollegeCrawler:
         # If loading fails after retries, skip this college entirely rather than
         # re-crawling everything (which would produce mass duplicate vectors).
         try:
-            college_canonical_urls = self._load_college_canonicals(college_name)
+            college_canonical_urls, rechunk_urls = self._load_college_canonicals(
+                college_name, rechunk=self.rechunk
+            )
         except Exception as e:
             print(f"    ✗ Skipping {college_name}: failed to load canonical URLs after retries: {e}")
             return {
@@ -3470,6 +3513,8 @@ class MultithreadedCollegeCrawler:
         print(
             f"    Found {len(college_canonical_urls):,} existing canonical URLs for {college_name}"
         )
+        if self.rechunk and rechunk_urls:
+            print(f"    Rechunk mode: {len(rechunk_urls):,} URLs will be re-chunked")
 
         # Reset state for this college (shared across workers)
         crawled_urls = set()
@@ -3636,10 +3681,12 @@ class MultithreadedCollegeCrawler:
                                         # Delta cache write is AFTER upload_to_milvus
                                         # so a crash before buffer acceptance doesn't
                                         # leave a stale hash that prevents re-insertion.
+                                        _pw_force = self.rechunk and canon_key in rechunk_urls
                                         if self.upload_to_milvus(
                                             pw_result, college_name,
                                             content_hash_cache=college_hash_cache,
                                             content_hash_lock=college_hash_lock,
+                                            force_replace=_pw_force,
                                         ):
                                             local_uploaded += 1
                                         self._write_pw_delta_cache(pw_result, url)
@@ -3688,9 +3735,11 @@ class MultithreadedCollegeCrawler:
                         # Upload to Milvus unless we plan a PW fallback upload
                         # or delta crawling detected unchanged content
                         if not page_data.get("needs_pw") and not page_data.get("skip_embed"):
+                            _force = self.rechunk and canon_key in rechunk_urls
                             if self.upload_to_milvus(page_data, college_name,
                                                        content_hash_cache=college_hash_cache,
-                                                       content_hash_lock=college_hash_lock):
+                                                       content_hash_lock=college_hash_lock,
+                                                       force_replace=_force):
                                 local_uploaded += 1
 
                         # Write delta cache AFTER insert buffer acceptance (or
@@ -3727,9 +3776,12 @@ class MultithreadedCollegeCrawler:
                                 # crash before buffer acceptance doesn't leave a stale
                                 # hash that prevents re-insertion on next run.
                                 try:
+                                    _pw_cb_canon = self._url_canonical_key(src_url)
+                                    _pw_cb_force = self.rechunk and _pw_cb_canon in rechunk_urls
                                     if self.upload_to_milvus(result, college_name,
                                                             content_hash_cache=college_hash_cache,
-                                                            content_hash_lock=college_hash_lock):
+                                                            content_hash_lock=college_hash_lock,
+                                                            force_replace=_pw_cb_force):
                                         with state_lock:
                                             pw_uploaded["count"] += 1
                                 except Exception as _pw_upload_err:
@@ -3945,27 +3997,30 @@ class MultithreadedCollegeCrawler:
                             print(
                                 f"    ✗ Worker failed during shutdown for {college_name}: {e}"
                             )
-                # Playwright threads have bounded semaphore waits (30s) and
-                # page navigation timeouts.  Use cancel_futures to drop queued
-                # jobs, but don't wait indefinitely for running tasks — a stuck
-                # browser process could hang forever.
-                pw_executor.shutdown(wait=False, cancel_futures=True)
-                # Wait for in-flight PW callbacks to finish uploading so their
-                # inserts land in the buffer before we drain it.  30s matches
-                # the PW page navigation timeout; 5s during shutdown.
-                _pw_wait_limit = 5 if global_shutdown_event.is_set() else 30
-                _pw_wait_start = time.time()
-                while time.time() - _pw_wait_start < _pw_wait_limit:
-                    with pw_futures_lock:
-                        if not active_pw_futures:
-                            break
-                    time.sleep(0.5)
+                if global_shutdown_event.is_set():
+                    # Shutdown path: cancel queued, short bounded wait for
+                    # running tasks so we exit promptly after Ctrl+C.
+                    pw_executor.shutdown(wait=False, cancel_futures=True)
+                    _pw_wait_limit = 5
+                    _pw_wait_start = time.time()
+                    while time.time() - _pw_wait_start < _pw_wait_limit:
+                        with pw_futures_lock:
+                            if not active_pw_futures:
+                                break
+                        time.sleep(0.5)
+                    else:
+                        with pw_futures_lock:
+                            _leftover = len(active_pw_futures)
+                        if _leftover:
+                            print(f"    ⚠️  {_leftover} Playwright future(s) still active after "
+                                  f"{_pw_wait_limit}s wait")
                 else:
-                    with pw_futures_lock:
-                        _leftover = len(active_pw_futures)
-                    if _leftover:
-                        print(f"    ⚠️  {_leftover} Playwright future(s) still active after "
-                              f"{_pw_wait_limit}s wait; data will be flushed by background thread")
+                    # Normal completion: cancel queued tasks, wait for running
+                    # ones.  shutdown(wait=True) joins worker threads — all
+                    # task functions AND done_callbacks complete before it
+                    # returns.  Bounded by Playwright's page navigation
+                    # timeout (30s) + retry overhead.
+                    pw_executor.shutdown(wait=True, cancel_futures=True)
 
                 # Final progress
                 if pages_crawled > 0:
@@ -3996,18 +4051,18 @@ class MultithreadedCollegeCrawler:
         # Capture stats before clearing (discovered_urls used in return value)
         urls_discovered_count = len(discovered_urls)
 
-        # Break closure references held by orphaned PW callbacks.
-        # After the PW drain timeout, _merge_pw_result callbacks may still be
-        # running on pw_executor threads — they access these sets under
-        # state_lock / college_hash_lock.  Clearing under the same locks
-        # ensures no concurrent mutation.  Post-clear, a late callback sees
-        # empty sets (harmless: stop_event is set, nobody consumes the queue).
+        # Break closure references held by PW callbacks.
+        # In the global-shutdown path (wait=False), _merge_pw_result callbacks
+        # may still be running on pw_executor threads.  Clearing under locks
+        # ensures no concurrent mutation.  In the normal path (wait=True),
+        # all callbacks have completed, but clearing still frees memory.
         with state_lock:
             crawled_urls.clear()
             discovered_urls.clear()
             crawled_canon.clear()
             discovered_canon.clear()
             college_canonical_urls.clear()
+            rechunk_urls.clear()
         with college_hash_lock:
             college_hash_cache.clear()
 
@@ -4303,10 +4358,18 @@ def main():
         "--no-resume", action="store_true", default=False,
         help="Force full re-crawl: ignore delta cache and replace existing Milvus vectors"
     )
+    parser.add_argument(
+        "--rechunk", action="store_true", default=False,
+        help="Re-crawl pages with old 512-token chunks, replacing with sentence-aware chunks"
+    )
     args = parser.parse_args()
 
+    if args.rechunk and args.no_resume:
+        parser.error("--rechunk and --no-resume are mutually exclusive; use --no-resume for a full re-crawl")
+
     crawler = MultithreadedCollegeCrawler(max_workers=args.workers,
-                                         no_resume=args.no_resume)
+                                         no_resume=args.no_resume,
+                                         rechunk=args.rechunk)
     try:
         crawler.run_full_crawling_pipeline(
             max_pages_per_college=args.max_pages,

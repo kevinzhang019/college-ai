@@ -244,7 +244,9 @@ Detailed architecture docs are in `docs/`:
 | [ML Pipelines](docs/ml-pipelines.md) | Single global model + per-selectivity-bucket models (LightGBM, focal loss, Venn-ABERS) |
 | [Thread Safety — Crawler](docs/thread-safety-crawler.md) | Concurrency primitives in the BFS crawler (locks, semaphores, thread-local storage, shutdown ordering) |
 | [Thread Safety — Niche](docs/thread-safety-niche.md) | Concurrency primitives in the Niche scraper (DBWriterThread, rate limiter, sentinel guarantee) |
-| [Scraping](docs/scraping.md) | BFS crawler, Niche scraper, Scorecard client — anti-bot measures, delta crawling |
+| [Crawler](docs/crawler.md) | BFS crawler — anti-bot measures, delta crawling, hybrid search schema |
+| [Niche Scraper](docs/niche-scraper.md) | Niche.com scattergrams + letter grades via Camoufox |
+| [Scorecard Client](docs/scorecard-client.md) | US DOE College Scorecard API → schools table |
 | [RAG Pipeline](docs/rag-pipeline.md) | v2: hybrid search (dense + BM25), query routing, Cohere reranking, specialized generators (Q&A + Essay Helper) |
 | [Database](docs/database.md) | Three tables, Turso/libSQL connection resilience, inline migrations |
 | [API & Frontend](docs/api.md) | Endpoint details, request/response shapes, React frontend (Q&A + Essay Helper modes) |

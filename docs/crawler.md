@@ -1,8 +1,4 @@
-# Scraping Architecture
-
-Three data sources, each with its own scraper module.
-
-## Web Crawler (`crawler.py`)
+# Web Crawler (`crawler.py`)
 
 Multithreaded BFS crawler that embeds college website pages into Zilliz Cloud with hybrid search support (dense + BM25).
 
@@ -48,7 +44,7 @@ Multithreaded BFS crawler that embeds college website pages into Zilliz Cloud wi
 - Resource blocking: images, stylesheets, fonts, analytics blocked
 - Cookie persistence + per-domain YAML profiles
 
-**Delta crawling:** `DeltaCrawlCache` (SQLite, WAL mode) stores ETag, Last-Modified, content hash per URL. Skips unchanged pages on re-crawl. Disabled when `--no-resume` is used.
+**Delta crawling:** `DeltaCrawlCache` (SQLite, WAL mode) stores ETag, Last-Modified, content hash per URL. Skips unchanged pages on re-crawl. Disabled when `--no-resume` or `--rechunk` is used.
 
 **CLI flags:**
 
@@ -58,20 +54,9 @@ Multithreaded BFS crawler that embeds college website pages into Zilliz Cloud wi
 | `--colleges N` | `INTER_COLLEGE_PARALLELISM` | Colleges to crawl in parallel |
 | `--max-pages N` | `MAX_PAGES_PER_COLLEGE` | Max pages per college |
 | `--no-resume` | off | Force full re-crawl: disables delta cache and replaces existing Milvus vectors (delete + re-insert) instead of skipping them |
+| `--rechunk` | off | Re-crawl pages with old 512-token chunks (detects multi-chunk pages where all non-final chunks are exactly 512 tokens), replacing with sentence-aware chunks. Mutually exclusive with `--no-resume`. Temporary flag — remove after migration is complete |
 
 See [thread-safety-crawler.md](thread-safety-crawler.md) for concurrency details — this is critical.
-
-## Niche Scraper (`niche_scraper.py`)
-
-Playwright-based scraper for Niche.com scattergram data (GPA/SAT/outcome) and letter grades (12 categories).
-
-**Technology:** Camoufox (Firefox stealth) to bypass Cloudflare/PerimeterX. Requires a free Niche account.
-
-**Threading:** `ThreadPoolExecutor` with `MAX_WORKERS=5`. `DBWriterThread` handles all DB writes via a single queue. See [thread-safety-niche.md](thread-safety-niche.md) and [thread-safety-niche-audit.md](thread-safety-niche-audit.md).
-
-## Scorecard Client (`scorecard_client.py`)
-
-US DOE College Scorecard REST API. Fetches ~6,500 schools' admissions, demographic, and outcomes data. `ThreadPoolExecutor` with `SCORECARD_WORKERS=3`. Upserts into `schools` table.
 
 ## Environment Variables
 
@@ -96,5 +81,3 @@ US DOE College Scorecard REST API. Fetches ~6,500 schools' admissions, demograph
 | `CHUNK_MAX_TOKENS` | `512` | Tokens per chunk |
 | `CHUNK_OVERLAP_TOKENS` | `50` | Token overlap between chunks |
 | `CONTEXTUAL_PREFIXES` | `0` | Set to `1` for LLM contextual chunk prefixes |
-| `SCORECARD_API_KEY` | required | College Scorecard API key |
-| `SCORECARD_WORKERS` | `3` | Scorecard fetch threads |

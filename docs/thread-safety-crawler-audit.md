@@ -79,11 +79,11 @@ URLs are claimed in `_pending_canonical_urls` before the Milvus existence query 
 | Flush thread crash | Sets `_flush_thread_crashed` + `global_shutdown_event`. Runs final drain + abandoned-rows claim release before exiting |
 | `_flush_all_inserts` concurrent with flush thread | Both drain same `Queue` — `Queue.get()` is atomic, each caller gets distinct items. Both serialize inserts via `collection_write_lock` |
 | Double `close()` (`run_full_crawling_pipeline` finally + `main()` finally) | `_close_lock` guards check-then-set on `_closed`. Lock released before any blocking I/O |
-| Workers still running when `close()` called | Workers check `global_shutdown_event` every `QUEUE_TIMEOUT_SECONDS` (1.5s). 30s wait for futures. PW executor shutdown with `wait=False, cancel_futures=True` — running tasks continue but queued tasks cancelled |
+| Workers still running when `close()` called | Workers check `global_shutdown_event` every `QUEUE_TIMEOUT_SECONDS` (1.5s). 30s wait for futures. Normal path: `pw_executor.shutdown(wait=True, cancel_futures=True)` — all tasks and callbacks complete before return. Shutdown path: `wait=False` with 5s poll |
 | Milvus disconnect while flush thread running | Flush thread is joined with 30s timeout first. If still alive (daemon), in-flight gRPC RPCs get "cancelled" error — caught by retry logic |
 | `queue.Queue.qsize()` TOCTOU in drain loops | Used as early-exit optimization only. Bounded loop (200 iterations) provides real safety net |
 | `KeyboardInterrupt` in `crawl_college_site` | Dead code in practice — `install_shutdown()` replaces default SIGINT handler. Signal handler sets `global_shutdown_event` instead of raising |
-| PW callbacks running after `pw_executor.shutdown()` | `shutdown(wait=False)` doesn't cancel running tasks. Callbacks continue in worker threads. Wait loop (up to 30s) checks `active_pw_futures` — with fix #1, loop only exits once all callback work completes |
+| PW callbacks running after `pw_executor.shutdown()` | Normal path: `shutdown(wait=True)` joins threads — all tasks and callbacks complete before return, no orphans possible. Shutdown path: `shutdown(wait=False)` with 5s poll on `active_pw_futures`. With fix #1 ordering, set only empties once all callback work completes |
 
 ## Data Integrity — Validated Before Insert
 
@@ -215,9 +215,9 @@ Seven fixes targeting OOM crashes caused by unbounded memory growth during long 
 
 **File:** `crawler.py`, `crawl_college_site()` return path
 
-`_merge_pw_result` callbacks capture per-college sets (`crawled_canon`, `discovered_canon`, `discovered_urls`, `college_hash_cache`, `college_canonical_urls`) by closure. After `pw_executor.shutdown(wait=False)`, orphaned callbacks keep these sets alive, preventing GC. With 4 colleges × 6 sets × 25K URLs each, memory accumulates across colleges.
+`_merge_pw_result` callbacks capture per-college sets (`crawled_canon`, `discovered_canon`, `discovered_urls`, `college_hash_cache`, `college_canonical_urls`) by closure. In the global-shutdown path (`wait=False`), orphaned callbacks keep these sets alive, preventing GC. With 4 colleges × 6 sets × 25K URLs each, memory accumulates across colleges. (In the normal path, `shutdown(wait=True)` guarantees all callbacks complete before return, so no orphans exist — but clearing still frees memory promptly.)
 
-**Fix:** Explicitly `.clear()` all per-college sets at the end of `crawl_college_site()`, after `_flush_all_inserts()` and before the return. Clears under `state_lock` (for BFS sets) and `college_hash_lock` (for dedup cache) to synchronize with any late PW callbacks. After clear, a late callback finds empty sets — harmless since `stop_event` is set and nobody consumes the queue.
+**Fix:** Explicitly `.clear()` all per-college sets at the end of `crawl_college_site()`, after `_flush_all_inserts()` and before the return. Clears under `state_lock` (for BFS sets) and `college_hash_lock` (for dedup cache) to synchronize with any late PW callbacks in the shutdown path. After clear, a late callback finds empty sets — harmless since `stop_event` is set and nobody consumes the queue.
 
 **Thread safety:** Lock ordering preserved (`state_lock` → `self.lock`; `college_hash_lock` is independent). `.clear()` empties in-place under the same locks callbacks use. **Safe.**
 
@@ -354,3 +354,23 @@ Extracted `_CHROMIUM_FLAGS_SAFE` (safe flags) and `_CHROMIUM_FLAGS_FALLBACK_EXTR
 **Safe flags** (no fingerprint impact): `--no-zygote`, `--disable-background-timer-throttling`, `--disable-renderer-backgrounding`, `--disable-backgrounding-occluded-windows`, etc.
 
 **Fingerprint-affecting flags** (non-pool only): `--disable-accelerated-2d-canvas`, `--disable-permissions-api`, `--force-device-scale-factor=1`.
+
+## Rechunk Mode — Thread Safety (2026-04-07)
+
+`--rechunk` adds a temporary crawl mode that re-crawls pages with old 512-token mechanical chunks, replacing them with sentence-aware chunks.
+
+### Detection Logic
+
+`_load_college_canonicals(rechunk=True)` fetches `content` alongside `url_canonical`, counts tokens per chunk, and groups by URL. Old chunker pattern: multi-chunk pages where every chunk except the last is exactly 512 tokens. Single-chunk pages are skipped (no benefit to rechunking). Identified URLs are excluded from `college_canonical_urls` and returned as `rechunk_urls`.
+
+### Thread Safety of New Code
+
+| Component | Safety |
+|-----------|--------|
+| `rechunk_urls` set | Local to `crawl_college_site`, built before workers start, read-only via closures. No lock needed for reads |
+| `rechunk_urls` cleanup | `.clear()` under `state_lock` at end of `crawl_college_site` alongside other per-college sets |
+| `force_replace` in `upload_to_milvus` | Extends existing `no_resume` delete condition. Same `collection_write_lock` acquisition. `_pending_canonical_urls` invariant holds identically |
+| `_load_college_canonicals` token counting | CPU-only work inside existing `collection_query_sema` hold. No shared state mutation |
+| Delta cache | Disabled in rechunk mode (same as `no_resume`). No crash-consistency concern |
+| Lock ordering | No new locks. No changes to existing ordering |
+| Memory | `content` fetched in batches of 2048, discarded after token counting. `url_chunk_tokens` dict holds `List[int]` per URL, freed after set comprehension |

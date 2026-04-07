@@ -47,7 +47,8 @@ pip install \
     openai tiktoken \
     python-dotenv \
     fastapi uvicorn \
-    lightgbm scikit-learn joblib venn-abers
+    lightgbm scikit-learn joblib venn-abers \
+    pandas rapidfuzz
 
 # --- Environment file ---
 if [ ! -f .env ]; then
