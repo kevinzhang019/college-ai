@@ -98,9 +98,9 @@ Renders the conversation for Q&A and Essay modes.
 - **Assistant messages:** Full-width, left-aligned with Cole avatar (20px) + "Cole" label in forest-400. Content rendered as markdown (GFM + raw HTML). Confidence badge shown inline with Cole's name if present.
 - **Sources toggle:** When sources exist, a green "Show Sources" pill button appears in the top-right of the header row (`ml-auto`). Clicking toggles to "Hide Sources" (same style). Sources are hidden by default.
   - **Hidden state:** `[N]` citation markers are stripped from the displayed markdown via `stripCitations()`. No source cards visible.
-  - **Shown state:** `[N]` markers are converted to gray badge elements via `processCitations()` (class `source-badge`, rendered through `rehype-raw`). The sentence preceding each badge group is wrapped in a `<span class="cite-sentence" data-sources="1,3">` for targeted highlighting. Source cards appear below with AnimatePresence height animation. All sources shown (no limit).
+  - **Shown state:** `[N]` markers are converted to gray badge elements via `processCitations()` (class `source-badge`, rendered through `rehype-raw`). Source cards appear below with AnimatePresence height animation. All sources shown (no limit).
 - **Citation badge interaction** (event delegation via `mouseover`/`mouseout`/`click` on container ref):
-  - **Hover:** Badge turns green (`source-badge--active`), only the sentence immediately before that specific badge instance gets a dotted green underline (`source-highlight` on the `cite-sentence` span). Same source number at different locations highlights only the hovered location's sentence.
+  - **Hover:** Badge turns green (`source-badge--active`). The sentence immediately before the hovered badge gets a dotted green underline via the CSS Custom Highlight API (`getSentenceRange()` walks backwards through DOM siblings to find the preceding text, `CSS.highlights` applies `::highlight(source-hl)`). Only the hovered badge's sentence is underlined — same source number at different locations does not cross-highlight. Falls back to block-level `.source-highlight` class if the Highlight API is unavailable.
   - **Click:** Smooth scrolls to the corresponding `SourceCard` below (`scrollIntoView({ block: 'center' })`), briefly highlights it with a green ring (1.5s)
 
 ### SourceCard (`SourceCard.tsx`)

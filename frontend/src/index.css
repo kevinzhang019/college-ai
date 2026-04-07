@@ -93,7 +93,16 @@
   @apply bg-forest-500/25 text-forest-400 cursor-default;
 }
 
-/* Dotted green underline on paragraphs influenced by a hovered source */
+/* Sentence-level underline via CSS Custom Highlight API */
+::highlight(source-hl) {
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-decoration-color: #34B874;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1.5px;
+}
+
+/* Fallback: block-level underline for browsers without Highlight API */
 .source-highlight {
   text-decoration: underline;
   text-decoration-style: dotted;

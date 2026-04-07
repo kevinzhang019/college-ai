@@ -201,7 +201,7 @@ export default function InputArea() {
 
           {/* Chances button — inline with school dropdown */}
           {college && (
-            <div className="relative shrink-0" ref={chancesContainerRef}>
+            <div className="relative shrink-0 self-end -mb-3" ref={chancesContainerRef}>
               <AnimatePresence>
                 {quickPredictOpen && (
                   <div className="absolute bottom-full right-0 mb-2 z-50">
@@ -214,7 +214,7 @@ export default function InputArea() {
                 className="group flex flex-col items-center px-1.5 py-1 rounded-lg text-forest-400 bg-transparent transition-all cursor-pointer"
                 title="Estimate admission chances"
               >
-                <svg className="w-3 h-3 transition-transform duration-200 group-hover:-translate-y-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-3 h-3 transition-transform duration-200 group-hover:-translate-y-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 15l7-7 7 7" />
                 </svg>
                 <span className="text-[11px] font-medium leading-tight text-center">See my<br />chances</span>

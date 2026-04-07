@@ -8,6 +8,49 @@ import { processCitations, stripCitations } from '../markdown'
 import ConfidenceBadge from './ConfidenceBadge'
 import SourceCard from './SourceCard'
 
+/**
+ * Walk backwards from a source badge to find the preceding sentence text,
+ * returning a Range suitable for the CSS Custom Highlight API.
+ */
+function getSentenceRange(badge: Element): Range | null {
+  // Walk past consecutive sibling badges (for [2][3] groups)
+  let node: ChildNode = badge
+  while (
+    node.previousSibling &&
+    node.previousSibling.nodeType === Node.ELEMENT_NODE &&
+    (node.previousSibling as Element).classList?.contains('source-badge')
+  ) {
+    node = node.previousSibling
+  }
+
+  const prev = node.previousSibling
+  if (!prev) return null
+
+  // Handle text node: skip leading punctuation/space from previous sentence
+  if (prev.nodeType === Node.TEXT_NODE) {
+    const text = prev.textContent || ''
+    let start = 0
+    while (start < text.length && '.!? \n\r'.includes(text[start])) start++
+    let end = text.length
+    while (end > start && ' \n\r'.includes(text[end - 1])) end--
+    if (start >= end) return null
+
+    const range = document.createRange()
+    range.setStart(prev, start)
+    range.setEnd(prev, end)
+    return range
+  }
+
+  // Handle element node (e.g. <strong>, <em>): highlight its contents
+  if (prev.nodeType === Node.ELEMENT_NODE) {
+    const range = document.createRange()
+    range.selectNodeContents(prev)
+    return range
+  }
+
+  return null
+}
+
 export default function MessageBubble({ message }: { message: ChatMessage }) {
   const isUser = message.role === 'user'
   const [showSources, setShowSources] = useState(false)
@@ -30,20 +73,16 @@ export default function MessageBubble({ message }: { message: ChatMessage }) {
     const handleMouseOver = (e: MouseEvent) => {
       const badge = (e.target as HTMLElement).closest('.source-badge') as HTMLElement | null
       if (!badge) return
-      const sourceNum = badge.dataset.source
-      if (!sourceNum) return
 
-      // Highlight only this specific badge
       badge.classList.add('source-badge--active')
 
-      // Walk back past any sibling badges to find the cite-sentence span
-      let prev = badge.previousElementSibling
-      while (prev && prev.classList.contains('source-badge')) {
-        prev = prev.previousElementSibling
-      }
-      if (prev?.classList.contains('cite-sentence') &&
-          prev.getAttribute('data-sources')?.split(',').includes(sourceNum)) {
-        prev.classList.add('source-highlight')
+      const range = getSentenceRange(badge)
+      if (range && CSS.highlights) {
+        CSS.highlights.set('source-hl', new Highlight(range))
+      } else if (range) {
+        // Fallback: highlight the parent block
+        const block = badge.closest('p, li, blockquote')
+        if (block) block.classList.add('source-highlight')
       }
     }
 
@@ -53,12 +92,11 @@ export default function MessageBubble({ message }: { message: ChatMessage }) {
 
       badge.classList.remove('source-badge--active')
 
-      let prev = badge.previousElementSibling
-      while (prev && prev.classList.contains('source-badge')) {
-        prev = prev.previousElementSibling
-      }
-      if (prev?.classList.contains('cite-sentence')) {
-        prev.classList.remove('source-highlight')
+      if (CSS.highlights) {
+        CSS.highlights.delete('source-hl')
+      } else {
+        const block = badge.closest('p, li, blockquote')
+        if (block) block.classList.remove('source-highlight')
       }
     }
 
