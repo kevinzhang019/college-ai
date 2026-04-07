@@ -29,6 +29,8 @@ Niche.com letter grades per school.
 - Quantitative: `acceptance_rate_niche`, `avg_annual_cost`, `graduation_rate_niche`, `student_faculty_ratio_niche`, `setting`, `religious_affiliation`, `pct_students_on_campus`, `pct_greek_life`, `avg_rating`, `review_count`
 - `no_data` flag, `updated_at`
 
+**RAG usage:** Both `schools` and `niche_grades` data is fetched by `rag/school_data.py` when a school is detected. The data is injected into LLM prompts as a structured `[SCHOOL DATA]` block and used by the reranker for ranking-query score boosting (niche_rank, category grades, acceptance_rate).
+
 ## Connection (`connection.py`)
 
 - Auth token passed via `connect_args`, NOT URL query string (libSQL driver requirement)

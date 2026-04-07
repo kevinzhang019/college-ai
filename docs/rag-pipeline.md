@@ -13,6 +13,11 @@ User Query + (optional school) + (optional history) + (optional experiences) + (
     │           + complexity: simple | complex (for model routing)
     │           greeting → skip RAG pipeline, lightweight nano response
     ▼
+[School Data + Ranking Intent]  ─── parallel, after routing:
+    │   • fetch_school_data(school) — fuzzy-match → Turso DB (schools + niche_grades)
+    │   • detect_ranking_intent(question) — gpt-4.1-nano classification
+    │     → is_ranking + categories (academics, value, diversity, campus, etc.)
+    ▼
 [Query Rewriting]  ─── always rewrites via gpt-4.1-nano (no length threshold)
     │                     resolves pronouns/references using conversation history
     ▼
@@ -23,6 +28,7 @@ User Query + (optional school) + (optional history) + (optional experiences) + (
     ▼
 [Reranking]  ─── Cohere rerank-v3.5 cross-encoder (30 → 8 candidates)
     │              relevance threshold filter (score ≥ 0.1)
+    │              ranking boost: if is_ranking, boost by niche_rank + category grades
     │              graceful fallback if COHERE_API_KEY not set
     ▼
 [Model Selection]  ─── two-tier routing based on query type + complexity:
@@ -34,6 +40,7 @@ User Query + (optional school) + (optional history) + (optional experiences) + (
     │              • Essay Ideas: 3-4 brainstorming angles      (temp 0.4)
     │              • Essay Review: coaching feedback on draft    (temp 0.3)
     │              • Admission Prediction: QA + ML bridge       (temp 0.2)
+    │              school data block injected into user prompt (all modes)
     │
     ├── /ask (sync):     full response returned
     └── /ask/stream:     tokens via SSE → citation correction → sources/metadata
@@ -50,10 +57,12 @@ User Query + (optional school) + (optional history) + (optional experiences) + (
 | File | Purpose |
 |---|---|
 | `rag/router.py` | Two-layer query classifier (rule-based + LLM fallback) + school name extraction (alias/acronym dict → substring → rapidfuzz) + complexity classification for model routing + greeting detection (skips RAG pipeline) |
+| `rag/school_data.py` | Fetches school + Niche grade data from Turso DB via `SchoolMatcher` fuzzy matching; formats as `[SCHOOL DATA]` block for LLM prompt injection |
+| `rag/ranking.py` | LLM-based ranking intent detection (gpt-4.1-nano). Classifies whether a query is a ranking and categorizes into Niche categories for reranking boost |
 | `rag/retrieval.py` | `HybridRetriever` — dense + BM25 hybrid search, school pre-filtering, URL dedup |
-| `rag/reranker.py` | Cohere rerank-v3.5 wrapper with graceful degradation, exposes `available` property for response metadata |
+| `rag/reranker.py` | Cohere rerank-v3.5 wrapper with graceful degradation, ranking boost (niche_rank + category grades + acceptance rate), exposes `available` property for response metadata |
 | `rag/prompts.py` | All system/user prompts: QA, essay ideas, essay review, query rewriting, classification. Also `format_experiences()`, `format_profile_context()`, `determine_residency()`, `get_extra_instructions()` (conditional domain knowledge). Multi-turn instructions are inlined into each system prompt for prompt caching. |
-| `rag/service.py` | Thin orchestrator wiring router → retrieval → reranker → generator |
+| `rag/service.py` | Thin orchestrator wiring router → school data fetch + ranking detection → retrieval → reranker → generator |
 | `rag/bridge.py` | ML prediction injection for admission-probability questions |
 | `rag/embeddings.py` | OpenAI embedding utilities, batch processing, cross-thread batcher, in-memory embedding cache (LRU 1024), sentence-aware chunking |
 | `rag/text_cleaner.py` | HTML cleaning, content extraction, dedup |
@@ -122,6 +131,28 @@ Results are merged and deduped by URL.
 
 **URL diversity:** Max 2 chunks per URL (`MAX_CHUNKS_PER_URL`).
 
+## Step 3.5: School Data Fetch + Ranking Intent Detection (`school_data.py` + `ranking.py`)
+
+After routing (and before retrieval), two operations run:
+
+**School data fetch** (`school_data.py`): When a school is detected (from query text or dropdown), `fetch_school_data(school_name)` fuzzy-matches the name via `SchoolMatcher` (from `ml/school_matcher.py`) → UNITID, then queries the `schools` + `niche_grades` tables from Turso. Returns a flat dict with all fields (admissions stats, financials, demographics, Niche grades, etc.) or None if no match. The `SchoolMatcher` instance is cached as a lazy module-level singleton to avoid reloading ~6,500 schools on every call.
+
+`format_school_data_block(data)` renders the dict as a structured `[SCHOOL DATA]` block for the user prompt. It skips None fields, formats percentages as "X%", money as "$XX,XXX", ratios as "X:1", and maps ownership codes to human labels. The block is injected into QA, essay ideas, and essay review user prompts via the `{school_data_block}` placeholder.
+
+The LLM is instructed that `[SCHOOL DATA]` statistics can be referenced without citation (they come from our verified database, not crawled sources).
+
+**Ranking intent detection** (`ranking.py`): `detect_ranking_intent(question)` uses a gpt-4.1-nano call (~$0.00003, ~200-400ms) with a static system prompt to classify whether the question is a ranking query and which Niche categories it maps to. Returns a `RankingIntent(is_ranking, categories)`.
+
+Categories (matching `niche_grades` columns): `academics`, `value`, `diversity`, `campus`, `athletics`, `party_scene`, `professors`, `location`, `dorms`, `food`, `student_life`, `safety`, `other`.
+
+Examples:
+- "What are the best engineering schools?" → `is_ranking=True, categories=["academics"]`
+- "Which school has the best social scene near a city?" → `is_ranking=True, categories=["party_scene", "location"]`
+- "Tell me about MIT" → `is_ranking=False`
+- "Compare MIT vs Stanford" → `is_ranking=False` (comparison, not ranking)
+
+Falls back to `RankingIntent(is_ranking=False)` on any error.
+
 ## Step 4: Reranking (`reranker.py`)
 
 Cohere `rerank-v3.5` cross-encoder. Takes 30 candidates from retrieval, returns top `top_k` (default 8, configurable 1–20 via API).
@@ -133,6 +164,22 @@ The frontend exposes this as a **context size selector** (XS=3, S=5, M=8, L=12, 
 - Falls back to retrieval order if `COHERE_API_KEY` not set or API fails
 - ~200ms latency for 30 documents
 - `top_k` parameter controls final count: XS(3), S(5), M(8, default), L(12), XL(16)
+
+### Ranking Boost
+
+For ranking queries (`ranking_intent.is_ranking == True`), after Cohere reranking but before the relevance threshold filter, `_apply_ranking_boost()` modifies scores:
+
+| Boost Component | Weight | Formula | Condition |
+|---|---|---|---|
+| **Niche rank** | 0.15 | `max(0, 1 - (niche_rank - 1) / 500)` | Skipped if categories == `["other"]` |
+| **Acceptance rate** | 0.05 | `1 - acceptance_rate` | Only if `"academics"` in categories |
+| **Category grades** | 0.10 | Average of letter-grade-to-numeric across requested categories, normalized to 0-1 | Skipped if categories == `["other"]` |
+
+Grade conversion: A+=4.3, A=4.0, A-=3.7, B+=3.3, B=3.0, B-=2.7, C+=2.3, C=2.0, C-=1.7, D+=1.3, D=1.0, D-=0.7, F=0. Normalized by dividing by 4.3.
+
+Total max boost: ~0.30 on top of Cohere's 0-1 scores. Enough to influence ordering for ranking queries without overriding semantic relevance for non-ranking queries. Hits are re-sorted by boosted score after applying.
+
+School data for the boost is passed via `school_data_map` (dict keyed by lowercased school name). For non-ranking queries, no boost is applied.
 
 ## Step 5: Generation (`prompts.py` + `service.py`)
 
@@ -179,6 +226,22 @@ Multi-turn instructions are baked into each system prompt (QA, essay ideas, essa
 ### Experience Context Injection
 
 For `essay_ideas` and `essay_review` modes, `format_experiences(experiences)` converts the user's extracurricular list into a markdown block inserted into the user prompt as `{experience_context}`. Each experience renders as `- **Title** at Organization (type) [dates]` with an indented description. This enables personalized brainstorming grounded in both school sources and the student's actual activities.
+
+### School Data Context Injection
+
+For **all modes** (QA, admission prediction, essay ideas, essay review), when a school is detected, `format_school_data_block(data)` injects a structured `[SCHOOL DATA]` block into the user prompt via the `{school_data_block}` placeholder. The block contains verified statistics from our Turso DB (schools + niche_grades tables):
+
+- **Location & type:** city, state, ownership (public/private), setting (city/suburb/rural)
+- **Admissions:** acceptance rate, SAT avg/range, ACT range
+- **Enrollment & outcomes:** enrollment, student-faculty ratio, graduation rate, retention rate
+- **Financials:** tuition (in-state/out-of-state), avg net cost, median earnings (10yr)
+- **Demographics:** racial breakdown, first-gen percentage
+- **Niche grades:** overall grade + rank, 12 category letter grades (academics through safety)
+- **Extras:** avg rating, review count, religious affiliation, Greek life %, on-campus %
+
+The LLM is instructed that these statistics can be referenced without `[N]` citations since they come from our verified database rather than crawled sources. Fields that are None are omitted from the block.
+
+Data is fetched once per request via `fetch_school_data()` and reused for both prompt injection and reranking boost.
 
 ### Profile Context Injection
 
