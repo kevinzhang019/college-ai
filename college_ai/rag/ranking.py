@@ -33,6 +33,8 @@ _RANKING_SYSTEM = (
     '{\"is_ranking\": false, \"categories\": []}\n'
     "- If it IS a ranking question, output: "
     '{\"is_ranking\": true, \"categories\": [\"...\"]}\n'
+    "- You may and should tag MULTIPLE categories when applicable "
+    "(e.g. \"best schools with great food and campus\" → [\"food\", \"campus\"]).\n"
     '- "other" means the ranking intent does not fit any named category.\n'
     "- A question about a single school (\"tell me about MIT\") is NOT a ranking.\n"
     "- A comparison of two specific schools (\"compare MIT vs Stanford\") is NOT a ranking.\n"

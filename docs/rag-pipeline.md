@@ -57,8 +57,8 @@ User Query + (optional school) + (optional history) + (optional experiences) + (
 | File | Purpose |
 |---|---|
 | `rag/router.py` | Two-layer query classifier (rule-based + LLM fallback) + school name extraction (alias/acronym dict → substring → rapidfuzz) + complexity classification for model routing + greeting detection (skips RAG pipeline) |
-| `rag/school_data.py` | Fetches school + Niche grade data from Turso DB via `SchoolMatcher` fuzzy matching; formats as `[SCHOOL DATA]` block for LLM prompt injection |
-| `rag/ranking.py` | LLM-based ranking intent detection (gpt-4.1-nano). Classifies whether a query is a ranking and categorizes into Niche categories for reranking boost |
+| `rag/school_data.py` | Fetches school + Niche grade data from Turso DB via `SchoolMatcher` fuzzy matching. `fetch_school_data()` for single school, `fetch_school_data_batch()` for multi-school ranking queries. Formats as `[SCHOOL DATA]` block: base stats only for non-ranking, category-specific Niche grades for ranking |
+| `rag/ranking.py` | LLM-based ranking intent detection (gpt-4.1-nano). Classifies whether a query is a ranking and categorizes into Niche categories (supports multiple categories) for reranking boost |
 | `rag/retrieval.py` | `HybridRetriever` — dense + BM25 hybrid search, school pre-filtering, URL dedup |
 | `rag/reranker.py` | Cohere rerank-v3.5 wrapper with graceful degradation, ranking boost (niche_rank + category grades + acceptance rate), exposes `available` property for response metadata |
 | `rag/prompts.py` | All system/user prompts: QA, essay ideas, essay review, query rewriting, classification. Also `format_experiences()`, `format_profile_context()`, `determine_residency()`, `get_extra_instructions()` (conditional domain knowledge). Multi-turn instructions are inlined into each system prompt for prompt caching. |
@@ -137,7 +137,12 @@ After routing (and before retrieval), two operations run:
 
 **School data fetch** (`school_data.py`): When a school is detected (from query text or dropdown), `fetch_school_data(school_name)` fuzzy-matches the name via `SchoolMatcher` (from `ml/school_matcher.py`) → UNITID, then queries the `schools` + `niche_grades` tables from Turso. Returns a flat dict with all fields (admissions stats, financials, demographics, Niche grades, etc.) or None if no match. The `SchoolMatcher` instance is cached as a lazy module-level singleton to avoid reloading ~6,500 schools on every call.
 
-`format_school_data_block(data)` renders the dict as a structured `[SCHOOL DATA]` block for the user prompt. It skips None fields, formats percentages as "X%", money as "$XX,XXX", ratios as "X:1", and maps ownership codes to human labels. The block is injected into QA, essay ideas, and essay review user prompts via the `{school_data_block}` placeholder.
+For ranking queries, `fetch_school_data_batch(school_names)` batch-fetches data for all unique schools in the retrieval results (deduplicating by UNITID).
+
+**School data injection varies by query type:**
+
+- **Non-ranking queries:** `format_school_data_block(data)` renders a `[SCHOOL DATA]` block with **base stats only** (location, admissions, enrollment, financials, demographics) — **no Niche grades**. Single school.
+- **Ranking queries:** `format_ranking_school_data_block(school_data_map, hits, categories)` renders a `[SCHOOL DATA]` block for **every school** in the reranked hits, with base stats plus **only the Niche grades matching the detected categories** (e.g. if categories=["academics", "athletics"], only those two grades appear per school). niche_rank is included in the header. If categories=["other"], no Niche grades are included (base stats only for all schools).
 
 The LLM is instructed that `[SCHOOL DATA]` statistics can be referenced without citation (they come from our verified database, not crawled sources).
 
@@ -229,19 +234,20 @@ For `essay_ideas` and `essay_review` modes, `format_experiences(experiences)` co
 
 ### School Data Context Injection
 
-For **all modes** (QA, admission prediction, essay ideas, essay review), when a school is detected, `format_school_data_block(data)` injects a structured `[SCHOOL DATA]` block into the user prompt via the `{school_data_block}` placeholder. The block contains verified statistics from our Turso DB (schools + niche_grades tables):
+Injects a `[SCHOOL DATA]` block into the user prompt via the `{school_data_block}` placeholder. Content varies by query type:
 
-- **Location & type:** city, state, ownership (public/private), setting (city/suburb/rural)
+**Non-ranking queries** (single school detected): Base stats only from the `schools` table — no Niche grades.
+- **Location & type:** city, state, ownership (public/private)
 - **Admissions:** acceptance rate, SAT avg/range, ACT range
 - **Enrollment & outcomes:** enrollment, student-faculty ratio, graduation rate, retention rate
 - **Financials:** tuition (in-state/out-of-state), avg net cost, median earnings (10yr)
 - **Demographics:** racial breakdown, first-gen percentage
-- **Niche grades:** overall grade + rank, 12 category letter grades (academics through safety)
-- **Extras:** avg rating, review count, religious affiliation, Greek life %, on-campus %
+
+**Ranking queries**: A `[SCHOOL DATA]` block for **each school** in the reranked hits, with base stats plus **only the Niche grades matching the detected categories**. For example, if `categories=["academics", "athletics"]`, each school's block includes only `Academics: A+ | Athletics: B+`. niche_rank is shown in the header. If `categories=["other"]`, no Niche grades are included.
 
 The LLM is instructed that these statistics can be referenced without `[N]` citations since they come from our verified database rather than crawled sources. Fields that are None are omitted from the block.
 
-Data is fetched once per request via `fetch_school_data()` and reused for both prompt injection and reranking boost.
+For ranking queries, school data is batch-fetched via `fetch_school_data_batch()` after reranking (to cover all schools in the hits). For non-ranking queries, a single `fetch_school_data()` call is made early and reused.
 
 ### Profile Context Injection
 

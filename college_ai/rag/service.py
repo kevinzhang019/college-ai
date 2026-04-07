@@ -45,7 +45,12 @@ from college_ai.rag.prompts import (
 from college_ai.rag.ranking import detect_ranking_intent
 from college_ai.rag.reranker import Reranker
 from college_ai.rag.retrieval import HybridRetriever
-from college_ai.rag.school_data import fetch_school_data, format_school_data_block
+from college_ai.rag.school_data import (
+    fetch_school_data,
+    fetch_school_data_batch,
+    format_ranking_school_data_block,
+    format_school_data_block,
+)
 from college_ai.rag.router import (
     ADMISSION_PREDICTION,
     ESSAY_IDEAS,
@@ -296,7 +301,7 @@ class CollegeRAG:
         hits: List[Dict[str, Any]],
         college_name: Optional[str],
         complexity: str = "complex",
-        school_data: Optional[Dict[str, Any]] = None,
+        school_data_block: str = "",
     ) -> str:
         """Generate a grounded Q&A answer with citations."""
         client = self._get_chat_client()
@@ -311,10 +316,6 @@ class CollegeRAG:
                 prediction_context = f"\n{ctx}\n"
         except Exception:
             pass
-
-        school_data_block = ""
-        if school_data:
-            school_data_block = format_school_data_block(school_data)
 
         system = QA_SYSTEM
 
@@ -359,16 +360,12 @@ class CollegeRAG:
         experiences: Optional[List[Dict[str, Any]]] = None,
         response_length: Optional[str] = None,
         profile: Optional[Dict[str, Any]] = None,
-        school_data: Optional[Dict[str, Any]] = None,
+        school_data_block: str = "",
     ) -> List[Dict[str, str]]:
         """Build the messages list for the OpenAI chat call."""
         sources_block = self._build_context_snippets(hits)
         experience_context = format_experiences(experiences)
         profile_context = format_profile_context(profile, college_name=college_name)
-
-        school_data_block = ""
-        if school_data:
-            school_data_block = format_school_data_block(school_data)
 
         if query_type == ESSAY_IDEAS:
             school_context = ""
@@ -483,7 +480,7 @@ class CollegeRAG:
         question: str,
         hits: List[Dict[str, Any]],
         college_name: Optional[str],
-        school_data: Optional[Dict[str, Any]] = None,
+        school_data_block: str = "",
     ) -> str:
         """Generate essay brainstorming suggestions grounded in sources."""
         client = self._get_chat_client()
@@ -492,10 +489,6 @@ class CollegeRAG:
         school_context = ""
         if college_name:
             school_context = f"School of interest: **{college_name}**\n\n"
-
-        school_data_block = ""
-        if school_data:
-            school_data_block = format_school_data_block(school_data)
 
         user_prompt = ESSAY_IDEAS_USER.format(
             question=question,
@@ -527,7 +520,7 @@ class CollegeRAG:
         essay_text: str,
         hits: List[Dict[str, Any]],
         college_name: Optional[str],
-        school_data: Optional[Dict[str, Any]] = None,
+        school_data_block: str = "",
     ) -> str:
         """Generate coaching feedback on an essay draft."""
         client = self._get_chat_client()
@@ -536,10 +529,6 @@ class CollegeRAG:
         school_context = ""
         if college_name:
             school_context = f"School of interest: **{college_name}**\n\n"
-
-        school_data_block = ""
-        if school_data:
-            school_data_block = format_school_data_block(school_data)
 
         user_prompt = ESSAY_REVIEW_USER.format(
             question=question,
@@ -603,13 +592,13 @@ class CollegeRAG:
                 "reranked": False,
             }
 
-        # Fetch school data from DB (once — reused for prompt + reranking)
+        # Detect ranking intent (LLM-based, gpt-4.1-nano)
+        ranking_intent = detect_ranking_intent(question)
+
+        # Fetch school data from DB for the detected school (non-ranking path)
         school_data = None  # type: Optional[Dict[str, Any]]
         if school:
             school_data = fetch_school_data(school)
-
-        # Detect ranking intent (LLM-based, gpt-4.1-nano)
-        ranking_intent = detect_ranking_intent(question)
 
         # 2. Rewrite query for retrieval
         search_query = self._rewrite_query(question, query_type)
@@ -672,27 +661,46 @@ class CollegeRAG:
         )
 
         # 4. Rerank
+        # For ranking queries, batch-fetch school data for all candidates
+        # so the reranker can apply niche_rank / grade boosts across schools.
         school_data_map = {}  # type: Dict[str, Dict[str, Any]]
-        if school_data:
+        if ranking_intent.is_ranking:
+            candidate_names = list({
+                c.get("college_name", "") for c in candidates if c.get("college_name")
+            })
+            school_data_map = fetch_school_data_batch(candidate_names)
+        elif school_data:
             school_data_map[school_data["name"].lower()] = school_data
+
         hits = self.reranker.rerank(
             question, candidates, top_k=top_k,
             ranking_intent=ranking_intent,
             school_data_map=school_data_map,
         )
 
-        # 5. Generate
+        # 5. Build school data block for LLM prompt
+        sd_block = ""
+        if ranking_intent.is_ranking:
+            # Ranking: all schools in hits, with category-specific Niche grades
+            sd_block = format_ranking_school_data_block(
+                school_data_map, hits, ranking_intent.categories,
+            )
+        elif school_data:
+            # Non-ranking: single school, base stats only (no Niche grades)
+            sd_block = format_school_data_block(school_data)
+
+        # 6. Generate
         complexity = classification.complexity
         if query_type == ESSAY_IDEAS:
-            answer = self._generate_essay_ideas(question, hits, school, school_data=school_data)
+            answer = self._generate_essay_ideas(question, hits, school, school_data_block=sd_block)
         elif query_type == ESSAY_REVIEW:
             answer = self._generate_essay_review(
-                question, essay_text or "", hits, school, school_data=school_data,
+                question, essay_text or "", hits, school, school_data_block=sd_block,
             )
         else:
             # QA and admission_prediction both use the QA generator
             # (admission_prediction gets ML context injected via bridge)
-            answer = self._generate_qa(question, hits, school, complexity, school_data=school_data)
+            answer = self._generate_qa(question, hits, school, complexity, school_data_block=sd_block)
 
         # 6. Post-process
         answer = self._verify_citations(answer, len(hits))
@@ -746,13 +754,13 @@ class CollegeRAG:
                 yield {"type": "done"}
                 return
 
-            # Fetch school data from DB (once — reused for prompt + reranking)
+            # Detect ranking intent (LLM-based, gpt-4.1-nano)
+            ranking_intent = detect_ranking_intent(question)
+
+            # Fetch school data from DB for the detected school (non-ranking path)
             school_data = None  # type: Optional[Dict[str, Any]]
             if school:
                 school_data = fetch_school_data(school)
-
-            # Detect ranking intent (LLM-based, gpt-4.1-nano)
-            ranking_intent = detect_ranking_intent(question)
 
             # 2. Rewrite (pass history so pronouns/references are resolved)
             search_query = self._rewrite_query(question, query_type, history=history)
@@ -794,15 +802,30 @@ class CollegeRAG:
 
             # 4. Rerank
             school_data_map = {}  # type: Dict[str, Dict[str, Any]]
-            if school_data:
+            if ranking_intent.is_ranking:
+                candidate_names = list({
+                    c.get("college_name", "") for c in candidates if c.get("college_name")
+                })
+                school_data_map = fetch_school_data_batch(candidate_names)
+            elif school_data:
                 school_data_map[school_data["name"].lower()] = school_data
+
             hits = self.reranker.rerank(
                 question, candidates, top_k=top_k,
                 ranking_intent=ranking_intent,
                 school_data_map=school_data_map,
             )
 
-            # 5. Build messages and stream generation
+            # 5. Build school data block for LLM prompt
+            sd_block = ""
+            if ranking_intent.is_ranking:
+                sd_block = format_ranking_school_data_block(
+                    school_data_map, hits, ranking_intent.categories,
+                )
+            elif school_data:
+                sd_block = format_school_data_block(school_data)
+
+            # 6. Build messages and stream generation
             complexity = classification.complexity
             messages = self._build_messages(
                 question, query_type, hits, school,
@@ -812,7 +835,7 @@ class CollegeRAG:
                 experiences=experiences,
                 response_length=response_length,
                 profile=profile,
-                school_data=school_data,
+                school_data_block=sd_block,
             )
 
             model = self._select_model(query_type, complexity)
