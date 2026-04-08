@@ -323,7 +323,7 @@ def get_scattergram(school_name: str) -> Dict[str, Any]:
 
             return {
                 "school": school.name if school else school_name,
-                "acceptance_rate": school.admissions_rate if school else None,
+                "acceptance_rate": school.identity_acceptance_rate if school else None,
                 "sat_range": [school.admissions_sat_25, school.admissions_sat_75] if school else None,
                 "datapoints": [
                     {

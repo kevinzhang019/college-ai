@@ -162,7 +162,7 @@ def _parse_school(result: dict) -> dict:
         identity_carnegie_basic=_get(result, "school.carnegie_basic"),
         identity_religious_affiliation=_get(result, "school.religious_affiliation"),
         # admissions_
-        admissions_rate=_get(result, "latest.admissions.admission_rate.overall"),
+        identity_acceptance_rate=_get(result, "latest.admissions.admission_rate.overall"),
         admissions_sat_avg=sat_avg,
         admissions_sat_25=sat_25,
         admissions_sat_75=sat_75,

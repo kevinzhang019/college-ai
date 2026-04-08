@@ -80,7 +80,7 @@ def _fetch_school_row(school_id: int) -> Optional[Dict[str, Any]]:
             "state": school.state,
             "ownership": school.ownership,
             # admissions
-            "acceptance_rate": school.admissions_rate,
+            "acceptance_rate": school.identity_acceptance_rate,
             "sat_avg": school.admissions_sat_avg,
             "sat_25": school.admissions_sat_25,
             "sat_75": school.admissions_sat_75,

@@ -61,8 +61,9 @@ class School(Base):
         # 103=Pentecostal, 105=Wesleyan, 106=Greek Orthodox, 107=Russian Orthodox,
         # 108=Unitarian
 
+    identity_acceptance_rate = Column(Float)  # Overall acceptance rate (0.0–1.0, e.g. 0.05 = 5%)
+
     # ── admissions_ — selectivity & standardized test scores ──────────────
-    admissions_rate = Column(Float)         # Overall acceptance rate (0.0–1.0, e.g. 0.05 = 5%)
     admissions_sat_avg = Column(Float)      # Average SAT total score (400–1600, composite R+M)
     admissions_sat_25 = Column(Float)       # SAT 25th percentile composite (reading + math)
     admissions_sat_75 = Column(Float)       # SAT 75th percentile composite (reading + math)

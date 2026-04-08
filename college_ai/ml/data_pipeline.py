@@ -44,7 +44,7 @@ def load_raw_data() -> pd.DataFrame:
         a.residency,
         a.major,
         s.name AS school_name,
-        s.admissions_rate AS acceptance_rate,
+        s.identity_acceptance_rate AS acceptance_rate,
         s.admissions_sat_avg AS sat_avg,
         s.admissions_sat_25 AS sat_25,
         s.admissions_sat_75 AS sat_75,

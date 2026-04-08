@@ -192,7 +192,8 @@ def _migrate_add_columns(engine):
 
     # Rename old flat column names → category-prefixed names (libSQL/SQLite 3.25+)
     school_renames = [
-        ("acceptance_rate", "admissions_rate"),
+        ("acceptance_rate", "identity_acceptance_rate"),   # original name
+        ("admissions_rate", "identity_acceptance_rate"),    # renamed in earlier migration
         ("sat_avg", "admissions_sat_avg"),
         ("sat_25", "admissions_sat_25"),
         ("sat_75", "admissions_sat_75"),
