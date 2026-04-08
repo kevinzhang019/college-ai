@@ -17,32 +17,6 @@ function ColeAvatar({ size = 'sm' }: { size?: 'sm' | 'lg' }) {
   )
 }
 
-function StreamingMessage({ content }: { content: string }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="flex justify-start"
-    >
-      <div className="w-full py-1">
-        <div className="flex items-center gap-2 mb-1.5">
-          <div className="w-5 h-5 rounded-full bg-forest-600 flex items-center justify-center text-white text-[10px] font-bold shadow-dark-sm shrink-0">C</div>
-          <span className="text-sm font-semibold text-forest-400">Cole</span>
-          <span className="flex gap-1">
-            <span className="w-1.5 h-1.5 bg-forest-400 rounded-full animate-pulse" />
-            <span className="w-1.5 h-1.5 bg-forest-400 rounded-full animate-pulse [animation-delay:0.2s]" />
-            <span className="w-1.5 h-1.5 bg-forest-400 rounded-full animate-pulse [animation-delay:0.4s]" />
-          </span>
-        </div>
-        <div className="markdown-answer text-sm text-slate-300">
-          <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
-            {content}
-          </ReactMarkdown>
-        </div>
-      </div>
-    </motion.div>
-  )
-}
 
 function WelcomeState() {
   const mode = useStore((s) => s.mode)
@@ -120,27 +94,30 @@ export default function ChatView() {
           ))}
         </AnimatePresence>
 
-        {/* Streaming in-progress message */}
-        {streamingContent && <StreamingMessage content={streamingContent} />}
-
-        {/* Loading indicator before first token */}
-        {streamingLoading && !streamingContent && (
+        {/* Thinking / streaming indicator — visible from send until full response loaded */}
+        {streamingLoading && (
           <motion.div
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             className="flex justify-start"
           >
-            <div className="py-1">
-              <div className="flex items-center gap-2">
+            <div className="w-full py-1">
+              <div className="flex items-center gap-2 mb-1.5">
                 <div className="w-5 h-5 rounded-full bg-forest-600 flex items-center justify-center text-white text-[10px] font-bold shadow-dark-sm shrink-0">C</div>
                 <span className="text-sm font-semibold text-forest-400">Cole</span>
-                <span className="text-sm text-slate-500">is thinking...</span>
                 <span className="flex gap-1">
                   <span className="w-1.5 h-1.5 bg-forest-400 rounded-full dot-bounce" />
                   <span className="w-1.5 h-1.5 bg-forest-400 rounded-full dot-bounce" />
                   <span className="w-1.5 h-1.5 bg-forest-400 rounded-full dot-bounce" />
                 </span>
               </div>
+              {streamingContent && (
+                <div className="markdown-answer text-sm text-slate-300">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
+                    {streamingContent}
+                  </ReactMarkdown>
+                </div>
+              )}
             </div>
           </motion.div>
         )}

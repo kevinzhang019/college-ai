@@ -139,7 +139,7 @@ export default function ExperiencesView() {
             </div>
 
             {/* Test score */}
-            <div className="flex-1">
+            <div className="w-28">
               <label className="block text-xs font-medium text-slate-400 mb-1">
                 {profile.testScoreType === 'sat' ? 'SAT Score' : 'ACT Score'}
               </label>

@@ -69,8 +69,8 @@ export function useStreaming() {
     }
 
     // Start streaming
-    setStreamingLoading(true)
     clearStreaming()
+    setStreamingLoading(true)
 
     const controller = new AbortController()
     abortRef.current = controller

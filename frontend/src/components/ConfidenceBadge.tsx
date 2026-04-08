@@ -17,8 +17,8 @@ const config = {
     icon: '?',
     label: 'Low confidence',
     hint: 'We recommend checking with the school',
-    dot: 'bg-slate-400',
-    classes: 'bg-slate-500/15 text-slate-400 border-slate-500/30',
+    dot: 'bg-red-400',
+    classes: 'bg-red-500/15 text-red-400 border-red-500/30',
   },
 }
 

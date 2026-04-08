@@ -20,7 +20,7 @@ export default function CollegeCombobox({ value, onChange, compact, showDefaultS
   const handleChange = useCallback((val: string | null) => {
     onChange(val)
     if (reopenOnSelect && val !== null) {
-      requestAnimationFrame(() => inputRef.current?.focus())
+      setTimeout(() => inputRef.current?.focus(), 50)
     }
   }, [onChange, reopenOnSelect])
 

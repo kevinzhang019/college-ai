@@ -314,7 +314,7 @@ export default function AdmissionsView() {
             {phase === 'idle' && savedSchoolsToAdd.length > 0 && (
               <button
                 onClick={handleAddSavedSchools}
-                className="text-xs text-slate-400 hover:text-slate-200 border border-transparent hover:border-dark-600 rounded-lg px-2 py-0.5 transition-all"
+                className="text-xs text-forest-400 hover:text-forest-300 border border-transparent hover:border-forest-600/40 rounded-lg px-2 py-0.5 transition-all"
               >
                 Add saved schools
               </button>
@@ -403,11 +403,10 @@ export default function AdmissionsView() {
                         )}
                       </div>
                     ) : (
-                      <span className="flex gap-1 flex-shrink-0">
-                        <span className="w-1.5 h-1.5 bg-slate-400 rounded-full dot-bounce" />
-                        <span className="w-1.5 h-1.5 bg-slate-400 rounded-full dot-bounce" />
-                        <span className="w-1.5 h-1.5 bg-slate-400 rounded-full dot-bounce" />
-                      </span>
+                      <div className="flex gap-2 flex-shrink-0">
+                        <div className="h-5 w-16 bg-dark-700 rounded-lg animate-pulse" />
+                        <div className="h-5 w-12 bg-dark-700 rounded-full animate-pulse [animation-delay:0.15s]" />
+                      </div>
                     )}
                   </div>
                 )
@@ -440,12 +439,7 @@ export default function AdmissionsView() {
           >
             {phase === 'loading' ? (
               <span className="flex items-center gap-2">
-                <span className="flex gap-1">
-                  <span className="w-1.5 h-1.5 bg-white rounded-full dot-bounce" />
-                  <span className="w-1.5 h-1.5 bg-white rounded-full dot-bounce" />
-                  <span className="w-1.5 h-1.5 bg-white rounded-full dot-bounce" />
-                </span>
-                Calculating...
+                <div className="h-4 w-24 bg-white/20 rounded animate-pulse" />
               </span>
             ) : (
               'Calculate Chances'
