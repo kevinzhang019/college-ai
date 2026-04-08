@@ -190,8 +190,75 @@ def _migrate_add_columns(engine):
     from sqlalchemy import inspect
     insp = inspect(engine)
 
+    # Rename old flat column names → category-prefixed names (libSQL/SQLite 3.25+)
+    school_renames = [
+        ("acceptance_rate", "admissions_rate"),
+        ("sat_avg", "admissions_sat_avg"),
+        ("sat_25", "admissions_sat_25"),
+        ("sat_75", "admissions_sat_75"),
+        ("act_25", "admissions_act_25"),
+        ("act_75", "admissions_act_75"),
+        ("enrollment", "student_size"),
+        ("retention_rate", "student_retention_rate"),
+        ("student_faculty_ratio", "student_faculty_ratio"),  # same name, no-op
+        ("graduation_rate", "outcome_graduation_rate"),
+        ("median_earnings_10yr", "outcome_median_earnings_10yr"),
+        ("tuition_in_state", "cost_tuition_in_state"),
+        ("tuition_out_of_state", "cost_tuition_out_of_state"),
+        ("pct_white", "student_pct_white"),
+        ("pct_black", "student_pct_black"),
+        ("pct_hispanic", "student_pct_hispanic"),
+        ("pct_asian", "student_pct_asian"),
+        ("pct_first_gen", "student_pct_first_gen"),
+    ]
+
+    if insp.has_table("schools"):
+        existing = {c["name"] for c in insp.get_columns("schools")}
+        with engine.connect() as conn:
+            for old_name, new_name in school_renames:
+                if old_name == new_name:
+                    continue
+                if old_name in existing and new_name not in existing:
+                    conn.execute(text(
+                        f"ALTER TABLE schools RENAME COLUMN {old_name} TO {new_name}"
+                    ))
+                    conn.commit()
+            # Drop yield_rate (Scorecard API doesn't have this field)
+            if "yield_rate" in existing:
+                conn.execute(text("ALTER TABLE schools DROP COLUMN yield_rate"))
+                conn.commit()
+
+    # New columns to add across tables
     migrations = {
-        "schools": [("yield_rate", "FLOAT")],
+        "schools": [
+            ("identity_alias", "TEXT"),
+            ("identity_url", "TEXT"),
+            ("identity_locale", "INTEGER"),
+            ("identity_carnegie_basic", "INTEGER"),
+            ("identity_religious_affiliation", "INTEGER"),
+            ("admissions_test_requirements", "INTEGER"),
+            ("student_avg_age_entry", "INTEGER"),
+            ("student_pct_men", "FLOAT"),
+            ("student_pct_women", "FLOAT"),
+            ("student_part_time_share", "FLOAT"),
+            ("cost_attendance", "INTEGER"),
+            ("cost_avg_net_price", "INTEGER"),
+            ("cost_booksupply", "INTEGER"),
+            ("cost_net_price_0_30k", "INTEGER"),
+            ("cost_net_price_30_48k", "INTEGER"),
+            ("cost_net_price_48_75k", "INTEGER"),
+            ("cost_net_price_75_110k", "INTEGER"),
+            ("cost_net_price_110k_plus", "INTEGER"),
+            ("aid_pell_grant_rate", "FLOAT"),
+            ("aid_federal_loan_rate", "FLOAT"),
+            ("aid_median_debt", "FLOAT"),
+            ("aid_cumulative_debt_25th", "FLOAT"),
+            ("aid_cumulative_debt_75th", "FLOAT"),
+            ("institution_endowment", "INTEGER"),
+            ("institution_faculty_salary", "INTEGER"),
+            ("institution_ft_faculty_rate", "FLOAT"),
+            ("institution_instructional_spend_per_fte", "INTEGER"),
+        ],
         "applicant_datapoints": [("major", "TEXT")],
         "niche_grades": [("no_data", "INTEGER DEFAULT 0")],
     }

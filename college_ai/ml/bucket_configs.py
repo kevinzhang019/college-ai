@@ -248,7 +248,7 @@ INTERACTION_GROUPS = {
         "acceptance_rate", "sat_25", "sat_75", "act_25", "act_75",
         "enrollment", "retention_rate", "graduation_rate",
         "student_faculty_ratio", "tuition_in_state", "tuition_out_of_state",
-        "median_earnings_10yr", "yield_rate", "competitiveness_index",
+        "median_earnings_10yr", "competitiveness_index",
         "log_enrollment", "log_earnings",
         "niche_academics_ord", "niche_value_ord", "niche_professors_ord",
         "niche_diversity_ord", "niche_campus_ord", "niche_overall_ord",

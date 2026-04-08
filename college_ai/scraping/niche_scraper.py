@@ -2384,7 +2384,7 @@ def scrape_all(
     Args:
         slugs: Optional specific school slugs. If None, uses all schools in DB.
         grades_only: If True, only scrape letter grades (no scattergrams).
-        resume: If True, skip schools already marked 'done' in scrape_jobs.
+        resume: If True, skip schools already in niche_grades.
         headless: If True, run browsers in headless mode (blocked by PerimeterX).
         num_workers: Number of parallel browser workers (default 3, max 5).
     """
@@ -2394,8 +2394,8 @@ def scrape_all(
     try:
         # Build slug -> school_id mapping, ordered by enrollment (largest first)
         schools = (
-            session.query(School.id, School.name, School.enrollment)
-            .order_by(School.enrollment.desc().nullslast())
+            session.query(School.id, School.name, School.student_size)
+            .order_by(School.student_size.desc().nullslast())
             .all()
         )
         if slugs:

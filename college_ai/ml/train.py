@@ -45,7 +45,6 @@ NUMERIC_FEATURES = [
     'student_faculty_ratio', 'tuition_in_state', 'tuition_out_of_state',
     'pct_white', 'pct_black', 'pct_hispanic', 'pct_asian', 'pct_first_gen',
     'sat_percentile_at_school', 'gpa_vs_expected', 'median_earnings_10yr',
-    'yield_rate',
     # Engineered features
     'sat_zscore_at_school', 'gpa_zscore_at_school',
     'gpa_x_acceptance', 'sat_percentile_sq',

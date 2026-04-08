@@ -79,25 +79,37 @@ def _fetch_school_row(school_id: int) -> Optional[Dict[str, Any]]:
             "city": school.city,
             "state": school.state,
             "ownership": school.ownership,
-            "acceptance_rate": school.acceptance_rate,
-            "sat_avg": school.sat_avg,
-            "sat_25": school.sat_25,
-            "sat_75": school.sat_75,
-            "act_25": school.act_25,
-            "act_75": school.act_75,
-            "enrollment": school.enrollment,
-            "retention_rate": school.retention_rate,
-            "graduation_rate": school.graduation_rate,
+            # admissions
+            "acceptance_rate": school.admissions_rate,
+            "sat_avg": school.admissions_sat_avg,
+            "sat_25": school.admissions_sat_25,
+            "sat_75": school.admissions_sat_75,
+            "act_25": school.admissions_act_25,
+            "act_75": school.admissions_act_75,
+            "test_requirements": school.admissions_test_requirements,
+            # student
+            "enrollment": school.student_size,
+            "retention_rate": school.student_retention_rate,
             "student_faculty_ratio": school.student_faculty_ratio,
-            "tuition_in_state": school.tuition_in_state,
-            "tuition_out_of_state": school.tuition_out_of_state,
-            "median_earnings_10yr": school.median_earnings_10yr,
-            "pct_white": school.pct_white,
-            "pct_black": school.pct_black,
-            "pct_hispanic": school.pct_hispanic,
-            "pct_asian": school.pct_asian,
-            "pct_first_gen": school.pct_first_gen,
-            "yield_rate": school.yield_rate,
+            # cost
+            "tuition_in_state": school.cost_tuition_in_state,
+            "tuition_out_of_state": school.cost_tuition_out_of_state,
+            "cost_attendance": school.cost_attendance,
+            "avg_net_price": school.cost_avg_net_price,
+            # outcome
+            "graduation_rate": school.outcome_graduation_rate,
+            "median_earnings_10yr": school.outcome_median_earnings_10yr,
+            # demographics
+            "pct_white": school.student_pct_white,
+            "pct_black": school.student_pct_black,
+            "pct_hispanic": school.student_pct_hispanic,
+            "pct_asian": school.student_pct_asian,
+            "pct_first_gen": school.student_pct_first_gen,
+            # aid
+            "pell_grant_rate": school.aid_pell_grant_rate,
+            "median_debt": school.aid_median_debt,
+            # institution
+            "endowment": school.institution_endowment,
         }
 
         ng = school.niche_grade
@@ -276,9 +288,9 @@ def _format_base_stats(data: Dict[str, Any]) -> List[str]:
         fin_parts.append(f"Tuition: {tis}")
     elif tos:
         fin_parts.append(f"Tuition: {tos}")
-    aac = _money(data.get("avg_annual_cost"))
-    if aac:
-        fin_parts.append(f"Avg Net Cost: {aac}")
+    anp = _money(data.get("avg_net_price")) or _money(data.get("avg_annual_cost"))
+    if anp:
+        fin_parts.append(f"Avg Net Price: {anp}")
     earn = _money(data.get("median_earnings_10yr"))
     if earn:
         fin_parts.append(f"Median Earnings (10yr): {earn}")

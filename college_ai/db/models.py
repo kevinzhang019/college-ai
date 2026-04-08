@@ -16,25 +16,66 @@ class School(Base):
     city = Column(Text)
     state = Column(Text)
     ownership = Column(Integer)  # 1=public, 2=private nonprofit, 3=for-profit
-    acceptance_rate = Column(Float)
-    sat_avg = Column(Float)
-    sat_25 = Column(Float)
-    sat_75 = Column(Float)
-    act_25 = Column(Float)
-    act_75 = Column(Float)
-    enrollment = Column(Integer)
-    retention_rate = Column(Float)
-    graduation_rate = Column(Float)
-    median_earnings_10yr = Column(Integer)
-    tuition_in_state = Column(Integer)
-    tuition_out_of_state = Column(Integer)
+
+    # identity_ — school metadata
+    identity_alias = Column(Text)           # e.g. "MIT, M.I.T."
+    identity_url = Column(Text)             # school website
+    identity_locale = Column(Integer)       # LOCALE code (11=city-large, 12=city-midsize, etc.)
+    identity_carnegie_basic = Column(Integer)
+    identity_religious_affiliation = Column(Integer)
+
+    # admissions_ — selectivity & test scores
+    admissions_rate = Column(Float)
+    admissions_sat_avg = Column(Float)
+    admissions_sat_25 = Column(Float)
+    admissions_sat_75 = Column(Float)
+    admissions_act_25 = Column(Float)
+    admissions_act_75 = Column(Float)
+    admissions_test_requirements = Column(Integer)  # 1=required 2=recommended 3=neither 5=flexible
+
+    # student_ — enrollment, demographics, retention
+    student_size = Column(Integer)
+    student_retention_rate = Column(Float)
     student_faculty_ratio = Column(Float)
-    pct_white = Column(Float)
-    pct_black = Column(Float)
-    pct_hispanic = Column(Float)
-    pct_asian = Column(Float)
-    pct_first_gen = Column(Float)
-    yield_rate = Column(Float)
+    student_avg_age_entry = Column(Integer)
+    student_pct_men = Column(Float)
+    student_pct_women = Column(Float)
+    student_part_time_share = Column(Float)
+    student_pct_white = Column(Float)
+    student_pct_black = Column(Float)
+    student_pct_hispanic = Column(Float)
+    student_pct_asian = Column(Float)
+    student_pct_first_gen = Column(Float)
+
+    # cost_ — tuition, net price, cost of attendance
+    cost_tuition_in_state = Column(Integer)
+    cost_tuition_out_of_state = Column(Integer)
+    cost_attendance = Column(Integer)        # total COA (academic year)
+    cost_avg_net_price = Column(Integer)     # avg net price after aid
+    cost_booksupply = Column(Integer)
+    cost_net_price_0_30k = Column(Integer)   # net price by family income bracket
+    cost_net_price_30_48k = Column(Integer)
+    cost_net_price_48_75k = Column(Integer)
+    cost_net_price_75_110k = Column(Integer)
+    cost_net_price_110k_plus = Column(Integer)
+
+    # aid_ — financial aid & debt
+    aid_pell_grant_rate = Column(Float)
+    aid_federal_loan_rate = Column(Float)
+    aid_median_debt = Column(Float)
+    aid_cumulative_debt_25th = Column(Float)
+    aid_cumulative_debt_75th = Column(Float)
+
+    # outcome_ — graduation & earnings
+    outcome_graduation_rate = Column(Float)
+    outcome_median_earnings_10yr = Column(Integer)
+
+    # institution_ — resources & faculty
+    institution_endowment = Column(Integer)
+    institution_faculty_salary = Column(Integer)
+    institution_ft_faculty_rate = Column(Float)
+    institution_instructional_spend_per_fte = Column(Integer)
+
     updated_at = Column(Text)
 
     datapoints = relationship("ApplicantDatapoint", back_populates="school")
