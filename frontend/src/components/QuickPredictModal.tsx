@@ -80,7 +80,7 @@ export default function QuickPredictModal({ college }: Props) {
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.95, opacity: 0, y: 10 }}
         transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-        className="w-full max-w-5xl bg-dark-900 rounded-2xl border border-dark-700 shadow-2xl p-6 space-y-4 max-h-[70vh] overflow-y-auto"
+        className="w-full max-w-md bg-dark-900 rounded-2xl border border-dark-700 shadow-2xl p-6 space-y-4 max-h-[70vh] overflow-y-auto"
       >
         <p className="text-sm font-medium text-slate-100">Quickly estimate admissions probability</p>
 
@@ -146,34 +146,34 @@ export default function QuickPredictModal({ college }: Props) {
           </div>
         </div>
 
-        {/* Major + Residency */}
-        <div className="flex gap-3">
-          <div className="flex-1">
-            <label className="block text-xs font-medium text-slate-400 mb-1">Major</label>
-            <select
-              value={major || ''}
-              onChange={(e) => setMajor(e.target.value || null)}
-              className="input-field-compact text-sm"
-            >
-              <option value="">Not specified</option>
-              {ALLOWED_MAJORS.map((m) => (
-                <option key={m} value={m}>{m}</option>
-              ))}
-            </select>
-          </div>
-          <div className="flex-1">
-            <label className="block text-xs font-medium text-slate-400 mb-1">Residency</label>
-            <select
-              value={residency || ''}
-              onChange={(e) => setResidency((e.target.value || null) as Residency | null)}
-              className="input-field-compact text-sm"
-            >
-              <option value="">Not specified</option>
-              <option value="inState">In-State</option>
-              <option value="outOfState">Out-of-State</option>
-              <option value="international">International</option>
-            </select>
-          </div>
+        {/* Residency */}
+        <div>
+          <label className="block text-xs font-medium text-slate-400 mb-1">Residency</label>
+          <select
+            value={residency || ''}
+            onChange={(e) => setResidency((e.target.value || null) as Residency | null)}
+            className="input-field-compact text-sm"
+          >
+            <option value="">Not specified</option>
+            <option value="inState">In-State</option>
+            <option value="outOfState">Out-of-State</option>
+            <option value="international">International</option>
+          </select>
+        </div>
+
+        {/* Major */}
+        <div>
+          <label className="block text-xs font-medium text-slate-400 mb-1">Major</label>
+          <select
+            value={major || ''}
+            onChange={(e) => setMajor(e.target.value || null)}
+            className="input-field-compact text-sm"
+          >
+            <option value="">Not specified</option>
+            {ALLOWED_MAJORS.map((m) => (
+              <option key={m} value={m}>{m}</option>
+            ))}
+          </select>
         </div>
 
         {/* Calculate button */}

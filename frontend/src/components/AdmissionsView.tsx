@@ -51,6 +51,7 @@ function computeResidency(
 export default function AdmissionsView() {
   const profile = useStore((s) => s.profile)
   const schoolStates = useStore((s) => s.schoolStates)
+  const collegeOptions = useStore((s) => s.collegeOptions)
 
   // Local copies of stats — imported from profile on mount, independent afterward
   const [gpa, setGpa] = useState(profile.gpa)
@@ -104,6 +105,23 @@ export default function AdmissionsView() {
       residency,
       major: defaultMajor,
     }])
+  }
+
+  const savedSchoolsToAdd = profile.savedSchools.filter(
+    (s) => collegeOptions.includes(s) && !selectedSchools.some((sel) => sel.name === s)
+  )
+
+  const handleAddSavedSchools = () => {
+    const slotsLeft = MAX_SCHOOLS - selectedSchools.length
+    const toAdd = savedSchoolsToAdd.slice(0, slotsLeft)
+    const newSchools: SelectedSchool[] = toAdd.map((name) => ({
+      name,
+      residency: defaultResidency === 'useLocation'
+        ? computeResidency(name, profile, schoolStates)
+        : defaultResidency,
+      major: defaultMajor,
+    }))
+    setSelectedSchools((prev) => [...prev, ...newSchools])
   }
 
   const handleRemoveSchool = (schoolName: string) => {
@@ -248,7 +266,7 @@ export default function AdmissionsView() {
               </div>
             </div>
 
-            <div className="flex-1">
+            <div className="w-28">
               <label className="block text-xs font-medium text-slate-400 mb-1">
                 {testScoreType === 'sat' ? 'SAT Score *' : 'ACT Score *'}
               </label>
@@ -263,6 +281,21 @@ export default function AdmissionsView() {
               />
               {scoreError && <p className="text-[10px] text-red-400 mt-0.5">{scoreError}</p>}
             </div>
+
+            <div className="flex-1">
+              <label className="block text-xs font-medium text-slate-400 mb-1">Default Residency</label>
+              <select
+                value={defaultResidency || ''}
+                onChange={(e) => setDefaultResidency((e.target.value || null) as Residency | 'useLocation' | null)}
+                className="input-field-compact text-sm"
+              >
+                {locationEligible && <option value="useLocation">Use Location</option>}
+                <option value="">Not specified</option>
+                <option value="inState">In-State</option>
+                <option value="outOfState">Out-of-State</option>
+                <option value="international">International</option>
+              </select>
+            </div>
           </div>
 
           {/* Row 2: Default Major */}
@@ -270,35 +303,30 @@ export default function AdmissionsView() {
             <label className="block text-xs font-medium text-slate-400 mb-1">Default Major</label>
             <MajorCombobox value={defaultMajor} onChange={setDefaultMajor} />
           </div>
-
-          {/* Row 3: Default Residency */}
-          <div className="w-36">
-            <label className="block text-xs font-medium text-slate-400 mb-1">Default Residency</label>
-            <select
-              value={defaultResidency || ''}
-              onChange={(e) => setDefaultResidency((e.target.value || null) as Residency | 'useLocation' | null)}
-              className="input-field-compact text-sm"
-            >
-              {locationEligible && <option value="useLocation">Use Location</option>}
-              <option value="">Not specified</option>
-              <option value="inState">In-State</option>
-              <option value="outOfState">Out-of-State</option>
-              <option value="international">International</option>
-            </select>
-          </div>
         </div>
 
         {/* School picker */}
         <div className="card p-4 mb-4">
-          <label className="block text-xs font-medium text-slate-400 mb-2">
-            Schools ({selectedSchools.length}/{MAX_SCHOOLS})
-          </label>
+          <div className="flex items-center justify-between mb-2">
+            <label className="text-xs font-medium text-slate-400">
+              Schools ({selectedSchools.length}/{MAX_SCHOOLS})
+            </label>
+            {phase === 'idle' && savedSchoolsToAdd.length > 0 && (
+              <button
+                onClick={handleAddSavedSchools}
+                className="text-xs text-slate-400 hover:text-slate-200 border border-transparent hover:border-dark-600 rounded-lg px-2 py-0.5 transition-all"
+              >
+                Add saved schools
+              </button>
+            )}
+          </div>
           {phase === 'idle' && (
             selectedSchools.length < MAX_SCHOOLS ? (
               <CollegeCombobox
                 value={null}
                 onChange={handleAddSchool}
                 compact
+                reopenOnSelect
                 placeholder="Select a school"
               />
             ) : (

@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useRef, useCallback } from 'react'
 import { Combobox, ComboboxInput, ComboboxOption, ComboboxOptions, ComboboxButton } from '@headlessui/react'
 import { useStore } from '../store'
 
@@ -8,12 +8,21 @@ interface Props {
   compact?: boolean
   showDefaultScreen?: boolean
   placeholder?: string
+  reopenOnSelect?: boolean
 }
 
-export default function CollegeCombobox({ value, onChange, compact, showDefaultScreen = true, placeholder = 'Select a school (optional)' }: Props) {
+export default function CollegeCombobox({ value, onChange, compact, showDefaultScreen = true, placeholder = 'Select a school (optional)', reopenOnSelect }: Props) {
   const options = useStore((s) => s.collegeOptions)
   const savedSchools = useStore((s) => s.profile.savedSchools)
   const [query, setQuery] = useState('')
+  const inputRef = useRef<HTMLInputElement | null>(null)
+
+  const handleChange = useCallback((val: string | null) => {
+    onChange(val)
+    if (reopenOnSelect && val !== null) {
+      requestAnimationFrame(() => inputRef.current?.focus())
+    }
+  }, [onChange, reopenOnSelect])
 
   const otherOptions = useMemo(
     () => options.filter((c) => !savedSchools.includes(c)),
@@ -34,10 +43,11 @@ export default function CollegeCombobox({ value, onChange, compact, showDefaultS
   }, [query, options, showDefaultScreen])
 
   return (
-    <Combobox value={value} onChange={onChange} onClose={() => setQuery('')} immediate>
+    <Combobox value={value} onChange={handleChange} onClose={() => setQuery('')} immediate>
       <div className="relative">
         <div className="relative">
           <ComboboxInput
+            ref={inputRef}
             className={compact ? 'input-field-compact pr-8 text-sm' : 'input-field pr-8 text-sm'}
             placeholder={placeholder}
             displayValue={(val: string | null) => val || ''}
