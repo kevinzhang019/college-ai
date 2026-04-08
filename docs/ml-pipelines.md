@@ -3,7 +3,7 @@
 ## Pipeline A: Single Global Model (`train.py`)
 
 One LightGBM binary classifier trained on all data. 84 features total:
-- **Raw numeric (24):** GPA, SAT, acceptance_rate, SAT percentiles, enrollment, retention, graduation, demographics, earnings, yield
+- **Raw numeric (23):** GPA, SAT, acceptance_rate, SAT percentiles, enrollment, retention, graduation, demographics, earnings
 - **Engineered (34):** z-scores, percentiles, interactions (gpa×acceptance, selectivity×sat), overqualification features, log transforms, Niche ordinal grades, cost ratios, academic fit signals
 - **Categorical (6):** ownership, selectivity_bucket, residency, major, setting, major_tier
 - **Target encodings (2):** school_target_encoded, major_target_encoded
