@@ -426,7 +426,7 @@ export default function AdmissionsView() {
           <div className="flex gap-3 mb-6">
             <button
               onClick={handleClearSelections}
-              className="flex-1 text-sm py-2.5 rounded-xl bg-dark-700 text-slate-400 hover:bg-dark-600 transition-colors"
+              className="flex-1 text-sm py-2.5 rounded-xl bg-dark-800 text-slate-500 hover:bg-dark-700 hover:text-slate-400 transition-colors"
             >
               Clear Selections
             </button>
