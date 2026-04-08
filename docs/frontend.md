@@ -241,7 +241,7 @@ Headless UI Combobox with `immediate` (auto-opens on focus):
 - **Default screen** (`showDefaultScreen` prop, default `true`): When query is empty, shows sectioned view — "Your Schools" (from `profile.savedSchools`) then "All Colleges" (remaining, first 50). Section headers are non-interactive `div` labels. Saved schools that no longer exist in `collegeOptions` are filtered out
 - **Search mode** (query entered): flat filtered list from all `collegeOptions`, case-insensitive, first 50 results
 - **No default screen** (`showDefaultScreen={false}`): used in profile's school picker. Shows flat list of first 50 when query is empty, like search mode
-- "All colleges" clear option (value: null) always at top
+- "No Selection" clear option (value: null) always at top
 - Compact variant (smaller padding/height) for inline use
 - Loaded from `/options` endpoint with 31-school fallback list
 

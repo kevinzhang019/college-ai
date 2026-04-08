@@ -240,6 +240,9 @@ class CollegeRAG:
     @staticmethod
     def _verify_citations(answer: str, num_sources: int) -> str:
         """Strip invalid citation references and warn if none remain."""
+        # Strip leaked [SCHOOL DATA] tags that the LLM may reproduce
+        answer = re.sub(r"\s*\[SCHOOL DATA\][^\n]*", "", answer)
+
         if num_sources == 0:
             return answer
 

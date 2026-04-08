@@ -20,7 +20,8 @@ export default function CollegeCombobox({ value, onChange, compact, showDefaultS
   const handleChange = useCallback((val: string | null) => {
     onChange(val)
     if (reopenOnSelect && val !== null) {
-      setTimeout(() => inputRef.current?.focus(), 50)
+      inputRef.current?.blur()
+      setTimeout(() => inputRef.current?.focus(), 100)
     }
   }, [onChange, reopenOnSelect])
 
@@ -64,7 +65,7 @@ export default function CollegeCombobox({ value, onChange, compact, showDefaultS
             value={null}
             className="px-4 py-2 text-sm text-slate-500 cursor-pointer data-[focus]:bg-dark-800 data-[selected]:text-forest-400"
           >
-            All colleges
+            No Selection
           </ComboboxOption>
 
           {filtered === null ? (
@@ -87,7 +88,7 @@ export default function CollegeCombobox({ value, onChange, compact, showDefaultS
               )}
 
               <div className="px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-slate-500 select-none">
-                All Colleges
+                No Selection
               </div>
               {otherOptions.slice(0, 50).map((c) => (
                 <ComboboxOption

@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useRef } from 'react'
 import { motion, AnimatePresence, Reorder } from 'framer-motion'
 import { Combobox, ComboboxInput, ComboboxOption, ComboboxOptions } from '@headlessui/react'
 import { useStore } from '../store'
@@ -37,6 +37,7 @@ export default function ExperiencesView() {
   const removeSavedSchool = useStore((s) => s.removeSavedSchool)
   const [showForm, setShowForm] = useState(false)
   const [majorQuery, setMajorQuery] = useState('')
+  const majorInputRef = useRef<HTMLInputElement | null>(null)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [gpaError, setGpaError] = useState('')
   const [scoreError, setScoreError] = useState('')
@@ -203,6 +204,8 @@ export default function ExperiencesView() {
               if (val) {
                 addPreferredMajor(val)
                 setMajorQuery('')
+                majorInputRef.current?.blur()
+                setTimeout(() => majorInputRef.current?.focus(), 100)
               }
             }}
             onClose={() => setMajorQuery('')}
@@ -210,6 +213,7 @@ export default function ExperiencesView() {
           >
             <div className="relative">
               <ComboboxInput
+                ref={majorInputRef}
                 className="input-field-compact text-sm w-full"
                 placeholder="Search and add a major..."
                 displayValue={() => ''}
@@ -284,6 +288,7 @@ export default function ExperiencesView() {
             value={null}
             onChange={(val) => { if (val) addSavedSchool(val) }}
             showDefaultScreen={false}
+            reopenOnSelect
             placeholder="Select a school"
           />
 

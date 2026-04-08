@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useStore } from '../store'
 import { predict } from '../api'
 import CollegeCombobox from './CollegeCombobox'
@@ -336,81 +336,85 @@ export default function AdmissionsView() {
 
           {/* Selected school cards */}
           {selectedSchools.length > 0 && (
-            <div className={`${phase === 'idle' ? 'mt-3' : ''} rounded-xl border border-dark-700`}>
-              {selectedSchools.map((school, i) => {
-                const result = schoolResults[school.name]
-                const pct = result && !result.error ? Math.round(result.probability * 100) : null
+            <div className={`${phase === 'idle' ? 'mt-3' : ''} rounded-xl border border-dark-700 overflow-hidden`}>
+              <AnimatePresence initial={false}>
+                {selectedSchools.map((school, i) => {
+                  const result = schoolResults[school.name]
+                  const pct = result && !result.error ? Math.round(result.probability * 100) : null
 
-                return (
-                  <div
-                    key={school.name}
-                    className={`px-3 py-2.5 flex items-center gap-2 ${
-                      i % 2 === 0 ? 'bg-dark-800' : 'bg-dark-800/50'
-                    } ${i > 0 ? 'border-t border-dark-700' : ''}${
-                      i === 0 ? ' rounded-t-xl' : ''
-                    }${i === selectedSchools.length - 1 ? ' rounded-b-xl' : ''}`}
-                  >
-                    <span
-                      className="text-sm text-slate-200 font-medium flex-1 min-w-0 truncate"
-                      title={school.name}
+                  return (
+                    <motion.div
+                      key={school.name}
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className={`px-3 py-2.5 flex items-center gap-2 ${
+                        i % 2 === 0 ? 'bg-dark-800' : 'bg-dark-800/50'
+                      } ${i > 0 ? 'border-t border-dark-700' : ''}`}
                     >
-                      {school.name}
-                    </span>
+                      <span
+                        className="text-sm text-slate-200 font-medium flex-1 min-w-0 truncate"
+                        title={school.name}
+                      >
+                        {school.name}
+                      </span>
 
-                    {phase === 'idle' ? (
-                      <>
-                        <div className="flex-shrink-0">
-                          <MajorCombobox
-                            value={school.major}
-                            onChange={(m) => handleSchoolMajor(school.name, m)}
-                            compact
-                          />
+                      {phase === 'idle' ? (
+                        <>
+                          <div className="flex-shrink-0">
+                            <MajorCombobox
+                              value={school.major}
+                              onChange={(m) => handleSchoolMajor(school.name, m)}
+                              compact
+                            />
+                          </div>
+
+                          <select
+                            value={school.residency || ''}
+                            onChange={(e) => handleSchoolResidency(school.name, (e.target.value || null) as Residency | null)}
+                            className="input-field-compact text-xs py-1.5 w-28 flex-shrink-0"
+                          >
+                            <option value="">No residency</option>
+                            <option value="inState">In-State</option>
+                            <option value="outOfState">Out-of-State</option>
+                            <option value="international">International</option>
+                          </select>
+
+                          <button
+                            onClick={() => handleRemoveSchool(school.name)}
+                            className="text-slate-500 hover:text-red-400 transition-colors flex-shrink-0"
+                          >
+                            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                          </button>
+                        </>
+                      ) : result ? (
+                        <div className="flex items-center gap-2 flex-shrink-0">
+                          {result.error ? (
+                            <span className="text-xs text-red-400">{result.error}</span>
+                          ) : (
+                            <>
+                              <span className={`text-lg font-bold ${PROB_COLORS[result.classification] || 'text-slate-100'}`}>
+                                {pct}%
+                              </span>
+                              <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${CLASS_STYLES[result.classification] || ''}`}>
+                                {CLASS_LABELS[result.classification] || result.classification}
+                              </span>
+                            </>
+                          )}
                         </div>
-
-                        <select
-                          value={school.residency || ''}
-                          onChange={(e) => handleSchoolResidency(school.name, (e.target.value || null) as Residency | null)}
-                          className="input-field-compact text-xs py-1.5 w-28 flex-shrink-0"
-                        >
-                          <option value="">No residency</option>
-                          <option value="inState">In-State</option>
-                          <option value="outOfState">Out-of-State</option>
-                          <option value="international">International</option>
-                        </select>
-
-                        <button
-                          onClick={() => handleRemoveSchool(school.name)}
-                          className="text-slate-500 hover:text-red-400 transition-colors flex-shrink-0"
-                        >
-                          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                          </svg>
-                        </button>
-                      </>
-                    ) : result ? (
-                      <div className="flex items-center gap-2 flex-shrink-0">
-                        {result.error ? (
-                          <span className="text-xs text-red-400">{result.error}</span>
-                        ) : (
-                          <>
-                            <span className={`text-lg font-bold ${PROB_COLORS[result.classification] || 'text-slate-100'}`}>
-                              {pct}%
-                            </span>
-                            <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${CLASS_STYLES[result.classification] || ''}`}>
-                              {CLASS_LABELS[result.classification] || result.classification}
-                            </span>
-                          </>
-                        )}
-                      </div>
-                    ) : (
-                      <div className="flex gap-2 flex-shrink-0">
-                        <div className="h-5 w-16 bg-dark-700 rounded-lg animate-pulse" />
-                        <div className="h-5 w-12 bg-dark-700 rounded-full animate-pulse [animation-delay:0.15s]" />
-                      </div>
-                    )}
-                  </div>
-                )
-              })}
+                      ) : (
+                        <div className="flex gap-2 flex-shrink-0">
+                          <div className="h-5 w-16 bg-dark-700 rounded-lg animate-pulse" />
+                          <div className="h-5 w-12 bg-dark-700 rounded-full animate-pulse [animation-delay:0.15s]" />
+                        </div>
+                      )}
+                    </motion.div>
+                  )
+                })}
+              </AnimatePresence>
             </div>
           )}
         </div>
@@ -439,7 +443,12 @@ export default function AdmissionsView() {
           >
             {phase === 'loading' ? (
               <span className="flex items-center gap-2">
-                <div className="h-4 w-24 bg-white/20 rounded animate-pulse" />
+                <span className="flex gap-1">
+                  <span className="w-1.5 h-1.5 bg-white rounded-full dot-bounce" />
+                  <span className="w-1.5 h-1.5 bg-white rounded-full dot-bounce" />
+                  <span className="w-1.5 h-1.5 bg-white rounded-full dot-bounce" />
+                </span>
+                Calculating...
               </span>
             ) : (
               'Calculate Chances'
