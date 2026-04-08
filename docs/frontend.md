@@ -28,7 +28,7 @@ ChatGPT-style layout: persistent sidebar (280px) on the left, main content area 
 
 | Mode | Key | View | Conversation-based? |
 |---|---|---|---|
-| Chat | `qa` | ChatView + InputArea | Yes |
+| Chat | `qa` | ChatView + InputArea | Yes (restores last conversation on tab switch) |
 | Admissions Calculator | `admissions` | AdmissionsView | No (standalone form) |
 | My Profile | `experiences` | ExperiencesView | No (standalone form) |
 
@@ -63,7 +63,7 @@ Zustand store (`store.ts`) with `persist` middleware, serializing to `localStora
 Fixed-width (280px) panel containing:
 1. **Header:** Cole avatar (32px green circle with "C") + name + "Your college advisor" subtitle
 2. **New Chat button:** Only visible in Chat mode. Creates a new conversation.
-3. **Mode selector:** Vertical list of 3 buttons with emoji icons (💬 Chat, 🎯 Admissions, 📋 My Profile). Active mode gets a forest-green highlight with subtle border.
+3. **Mode selector:** Vertical list of 3 buttons with emoji icons (💬 Chat, 🎯 Admissions, 📋 My Profile). Active mode gets a forest-green highlight with subtle border. Switching to Chat restores the most recent conversation; the welcome screen only appears when no conversations exist.
 4. **Conversation list:** Only shown in Chat mode. Shows all chat conversations (including legacy essay-mode conversations). Each item shows the conversation title with a delete button on hover.
 5. **Contextual hints:** In Admissions mode: "Add schools and see your estimated admission chances." In Experiences mode: "Add your activities, projects, and experiences. Cole will use them as context when helping with essays."
 

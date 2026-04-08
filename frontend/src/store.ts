@@ -86,7 +86,15 @@ export const useStore = create<Store>()(
       sidebarOpen: true,
 
       // ---- Mode ----
-      setMode: (mode) => set({ mode, activeConversationId: null }),
+      setMode: (mode) =>
+        set((state) => {
+          if (mode !== 'qa') return { mode, activeConversationId: null }
+          // Restore most recent conversation, or stay null (welcome screen)
+          const lastId = state.conversationOrder.find(
+            (id) => state.conversations[id],
+          )
+          return { mode, activeConversationId: lastId ?? null }
+        }),
       setContextSize: (contextSize) => set({ contextSize }),
       setResponseLength: (responseLength) => set({ responseLength }),
 

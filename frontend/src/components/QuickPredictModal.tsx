@@ -146,34 +146,35 @@ export default function QuickPredictModal({ college }: Props) {
           </div>
         </div>
 
-        {/* Residency */}
-        <div>
-          <label className="block text-xs font-medium text-slate-400 mb-1">Residency</label>
-          <select
-            value={residency || ''}
-            onChange={(e) => setResidency((e.target.value || null) as Residency | null)}
-            className="input-field-compact text-sm"
-          >
-            <option value="">Not specified</option>
-            <option value="inState">In-State</option>
-            <option value="outOfState">Out-of-State</option>
-            <option value="international">International</option>
-          </select>
-        </div>
+        {/* Major + Residency */}
+        <div className="flex gap-3">
+          <div className="flex-1 min-w-0">
+            <label className="block text-xs font-medium text-slate-400 mb-1">Major</label>
+            <select
+              value={major || ''}
+              onChange={(e) => setMajor(e.target.value || null)}
+              className="input-field-compact text-sm w-full"
+            >
+              <option value="">Not specified</option>
+              {ALLOWED_MAJORS.map((m) => (
+                <option key={m} value={m}>{m}</option>
+              ))}
+            </select>
+          </div>
 
-        {/* Major */}
-        <div>
-          <label className="block text-xs font-medium text-slate-400 mb-1">Major</label>
-          <select
-            value={major || ''}
-            onChange={(e) => setMajor(e.target.value || null)}
-            className="input-field-compact text-sm"
-          >
-            <option value="">Not specified</option>
-            {ALLOWED_MAJORS.map((m) => (
-              <option key={m} value={m}>{m}</option>
-            ))}
-          </select>
+          <div className="flex-1 min-w-0">
+            <label className="block text-xs font-medium text-slate-400 mb-1">Residency</label>
+            <select
+              value={residency || ''}
+              onChange={(e) => setResidency((e.target.value || null) as Residency | null)}
+              className="input-field-compact text-sm w-full"
+            >
+              <option value="">Not specified</option>
+              <option value="inState">In-State</option>
+              <option value="outOfState">Out-of-State</option>
+              <option value="international">International</option>
+            </select>
+          </div>
         </div>
 
         {/* Calculate button */}
