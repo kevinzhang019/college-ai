@@ -57,7 +57,7 @@ Primary endpoint used by the frontend. Runs the same pipeline as `/ask` (route �
 | `essay_prompt` | string | No | — | Essay assignment prompt (essay mode, max 1000 chars) |
 | `history` | array | No | — | Previous messages `[{role, content}]`, last 6 used (content max 5000 chars each) |
 | `experiences` | array | No | — | User's extracurriculars `[{title, organization, type, description, startDate, endDate}]` |
-| `profile` | object | No | — | Student profile `{gpa, testScoreType, testScore, country, countryLabel, state, preferredMajors}` — injected into all prompt modes (QA, essay ideas, essay review) for stats contextualization, residency determination, major-specific advice, and admission prediction fallback |
+| `profile` | object | No | — | Student profile `{gpa, testScoreType, testScore, country, countryLabel, state, preferredMajors, savedSchools}` — injected into all prompt modes (QA, essay ideas, essay review) for stats contextualization, residency determination, major-specific advice, school preference awareness, and admission prediction fallback |
 
 Field aliasing: `startDate`/`endDate` accepted via Pydantic `populate_by_name` (maps to `start_date`/`end_date`).
 

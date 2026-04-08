@@ -35,6 +35,7 @@ export default function ExperiencesView() {
   const savedSchools = useStore((s) => s.profile.savedSchools)
   const addSavedSchool = useStore((s) => s.addSavedSchool)
   const removeSavedSchool = useStore((s) => s.removeSavedSchool)
+  const reorderSavedSchools = useStore((s) => s.reorderSavedSchools)
   const [showForm, setShowForm] = useState(false)
   const [majorQuery, setMajorQuery] = useState('')
   const majorInputRef = useRef<HTMLInputElement | null>(null)
@@ -294,7 +295,7 @@ export default function ExperiencesView() {
             <span className="text-slate-500 font-normal ml-1.5">({savedSchools.length}/25)</span>
           </h3>
           <p className="text-xs text-slate-500 mb-3">
-            Schools you're interested in. They'll appear at the top of school dropdowns.
+            Rank schools by preference. Drag to reorder. They'll appear at the top of school dropdowns.
           </p>
 
           <CollegeCombobox
@@ -316,16 +317,28 @@ export default function ExperiencesView() {
           />
 
           {savedSchools.length > 0 && (
-            <div className="mt-3 space-y-1.5">
+            <Reorder.Group
+              axis="y"
+              values={savedSchools}
+              onReorder={reorderSavedSchools}
+              className="mt-3 space-y-1.5"
+            >
               <AnimatePresence>
-                {savedSchools.map((school) => (
-                  <motion.div
+                {savedSchools.map((school, i) => (
+                  <Reorder.Item
                     key={school}
+                    value={school}
                     initial={{ opacity: 0, y: -4 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, x: -20 }}
-                    className="flex items-center gap-2 bg-dark-800 rounded-lg px-3 py-2"
+                    className="flex items-center gap-2 bg-dark-800 rounded-lg px-3 py-2 cursor-grab active:cursor-grabbing"
                   >
+                    <span className="text-xs font-medium text-slate-500 w-5 shrink-0">#{i + 1}</span>
+                    <svg className="w-3.5 h-3.5 text-slate-600 shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                      <circle cx="9" cy="6" r="1.5" /><circle cx="15" cy="6" r="1.5" />
+                      <circle cx="9" cy="12" r="1.5" /><circle cx="15" cy="12" r="1.5" />
+                      <circle cx="9" cy="18" r="1.5" /><circle cx="15" cy="18" r="1.5" />
+                    </svg>
                     <span className="text-sm text-slate-200 flex-1 truncate">{school}</span>
                     <button
                       onClick={() => removeSavedSchool(school)}
@@ -335,10 +348,10 @@ export default function ExperiencesView() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                       </svg>
                     </button>
-                  </motion.div>
+                  </Reorder.Item>
                 ))}
               </AnimatePresence>
-            </div>
+            </Reorder.Group>
           )}
         </div>
 

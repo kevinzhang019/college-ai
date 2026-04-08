@@ -51,6 +51,7 @@ interface Store {
   reorderPreferredMajors: (majors: string[]) => void
   addSavedSchool: (school: string) => void
   removeSavedSchool: (school: string) => void
+  reorderSavedSchools: (schools: string[]) => void
 
   // ---- Actions: experiences ----
   addExperience: (exp: Experience) => void
@@ -237,6 +238,9 @@ export const useStore = create<Store>()(
         set((s) => ({
           profile: { ...s.profile, savedSchools: s.profile.savedSchools.filter((x) => x !== school) },
         })),
+
+      reorderSavedSchools: (schools) =>
+        set((s) => ({ profile: { ...s.profile, savedSchools: schools } })),
 
       // ---- Experiences ----
       addExperience: (exp) =>

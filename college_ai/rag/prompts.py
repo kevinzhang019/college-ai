@@ -539,9 +539,22 @@ def format_profile_context(
         ranked = ", ".join(f"#{i+1} {m}" for i, m in enumerate(majors))
         parts.append(f"Preferred majors (ranked): {ranked}")
 
+    # Ranked school preferences
+    schools = profile.get("savedSchools", [])
+    if schools:
+        ranked_schools = ", ".join(f"#{i+1} {s}" for i, s in enumerate(schools))
+        parts.append(f"Preferred schools (ranked): {ranked_schools}")
+
     if not parts:
         return ""
-    return f"Student profile: {', '.join(parts)}\n\n"
+
+    context = f"Student profile: {', '.join(parts)}\n"
+    if majors or schools:
+        context += (
+            "Note: This student is still going through the application process. "
+            "Their rankings for majors and schools are subject to change.\n"
+        )
+    return context + "\n"
 
 
 # ---------------------------------------------------------------------------

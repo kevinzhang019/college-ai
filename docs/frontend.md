@@ -176,8 +176,10 @@ Standalone view for My Profile mode:
 **Saved Schools card:**
 - Searchable `CollegeCombobox` (with `showDefaultScreen={false}`, `excludeValues={savedSchools}`) to add schools the user is interested in — already-saved schools are filtered out of the dropdown
 - **Limit: 25 schools.** Count displayed in heading as `(X/25)`. Exceeding the limit triggers a red drop shadow flash (same effect as majors)
-- Saved schools listed as animated cards with remove button (X), using Framer Motion `AnimatePresence`
-- Persisted in `profile.savedSchools: string[]`
+- Drag-to-reorder ranked list using Framer Motion `Reorder.Group` / `Reorder.Item` (same UI as Major Preferences)
+- Each item shows: rank number (#1, #2, ...), drag handle (grip dots), school name, remove button (X)
+- Persisted in `profile.savedSchools: string[]` (ordered by preference)
+- Passed to LLM as `"Preferred schools (ranked): #1 MIT, #2 Stanford"` via `format_profile_context()`, with a note that rankings are subject to change
 - Saved schools appear as a "Your Schools" section at the top of all CollegeCombobox dropdowns in chat tabs (Q&A, Essay, Admissions) — the profile's own school picker does not show this sectioned view
 
 **Experiences card:**
@@ -301,7 +303,7 @@ Returns `{ send, cancel }`:
 - **`send(question, essayText?)`:** Creates conversation if needed, adds user message, builds request (with history, experiences, college, essay_prompt, profile, `top_k` from `contextSize`, `response_length` from `responseLength`), initiates SSE stream via `askStream`. Collects tokens into `streamingContent`, then on `onDone` assembles final assistant message with sources/confidence and adds to conversation.
 - **`cancel()`:** Aborts the AbortController, clears streaming state.
 
-History is built from the last 6 messages of the current conversation. Experiences are only included in essay mode. Profile data (GPA, test scores, location, preferred majors) is sent on every request when the student has entered a GPA, set a country, or added preferred majors — this allows the LLM to contextualize statistics, personalize tuition/residency advice, and tailor program guidance to the student's ranked major preferences.
+History is built from the last 6 messages of the current conversation. Experiences are only included in essay mode. Profile data (GPA, test scores, location, preferred majors, saved schools) is sent on every request when the student has entered a GPA, set a country, added preferred majors, or saved schools — this allows the LLM to contextualize statistics, personalize tuition/residency advice, tailor program guidance to the student's ranked major preferences, and understand the student's ranked school preferences.
 
 ## Conversations
 

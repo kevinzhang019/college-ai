@@ -65,7 +65,7 @@ export function useStreaming() {
       ...(chatMode === 'essay' && essayText ? { essay_text: essayText } : {}),
       ...(recentMessages.length > 0 ? { history: recentMessages } : {}),
       ...(chatMode === 'essay' && experiences.length > 0 ? { experiences } : {}),
-      ...(state.profile.gpa || state.profile.country || state.profile.preferredMajors.length > 0 ? { profile: state.profile } : {}),
+      ...(state.profile.gpa || state.profile.country || state.profile.preferredMajors.length > 0 || state.profile.savedSchools.length > 0 ? { profile: state.profile } : {}),
     }
 
     // Start streaming

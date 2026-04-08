@@ -251,7 +251,7 @@ For ranking queries, school data is batch-fetched via `fetch_school_data_batch()
 
 ### Profile Context Injection
 
-For **all modes** (QA, admission prediction, essay ideas, essay review), `format_profile_context(profile, college_name)` converts the student's academic profile, location, and major preferences into a one-line context string inserted into the user prompt as `{profile_context}`. Example: `"Student profile: GPA 3.8, SAT 1450, Residency: in-state, State: CA, Preferred majors (ranked): #1 Computer Science, #2 Data Science"`. This enables the LLM to contextualize statistics against the student's actual credentials, personalize tuition/aid advice based on residency status, tailor program advice to the student's ranked major preferences, and personalize essay suggestions to the student's academic profile.
+For **all modes** (QA, admission prediction, essay ideas, essay review), `format_profile_context(profile, college_name)` converts the student's academic profile, location, major preferences, and school preferences into a context string inserted into the user prompt as `{profile_context}`. Example: `"Student profile: GPA 3.8, SAT 1450, Residency: in-state, State: CA, Preferred majors (ranked): #1 Computer Science, #2 Data Science, Preferred schools (ranked): #1 MIT, #2 Stanford\nNote: This student is still going through the application process. Their rankings for majors and schools are subject to change."`. This enables the LLM to contextualize statistics against the student's actual credentials, personalize tuition/aid advice based on residency status, tailor program advice to the student's ranked major preferences, understand the student's ranked school preferences, and personalize essay suggestions to the student's academic profile.
 
 **Residency determination** (`determine_residency(profile, college_name)`): When the student has set their country/state and a school is selected, this function fuzzy-matches the school name against the Turso DB via `SchoolMatcher`, retrieves the school's state, and compares:
 - Non-US country → `"international"`
@@ -259,7 +259,7 @@ For **all modes** (QA, admission prediction, essay ideas, essay review), `format
 - US, different state → `"out-of-state"`
 - Insufficient data → `None` (omitted from prompt)
 
-Profile data flows from the frontend Zustand store (`profile: { gpa, testScoreType, testScore, country, countryLabel, state, preferredMajors }`) → `useStreaming` hook (sent on every request when GPA, country, or preferred majors are set) → `/ask/stream` `profile` field → `_build_messages()` → `format_profile_context(profile, college_name)`.
+Profile data flows from the frontend Zustand store (`profile: { gpa, testScoreType, testScore, country, countryLabel, state, preferredMajors, savedSchools }`) → `useStreaming` hook (sent on every request when GPA, country, preferred majors, or saved schools are set) → `/ask/stream` `profile` field → `_build_messages()` → `format_profile_context(profile, college_name)`.
 
 ### Conditional Domain Instructions (`get_extra_instructions()`)
 
