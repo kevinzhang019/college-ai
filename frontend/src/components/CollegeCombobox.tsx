@@ -9,13 +9,19 @@ interface Props {
   showDefaultScreen?: boolean
   placeholder?: string
   reopenOnSelect?: boolean
+  excludeValues?: string[]
 }
 
-export default function CollegeCombobox({ value, onChange, compact, showDefaultScreen = true, placeholder = 'Select a school (optional)', reopenOnSelect }: Props) {
+export default function CollegeCombobox({ value, onChange, compact, showDefaultScreen = true, placeholder = 'Select a school (optional)', reopenOnSelect, excludeValues }: Props) {
   const options = useStore((s) => s.collegeOptions)
   const savedSchools = useStore((s) => s.profile.savedSchools)
   const [query, setQuery] = useState('')
   const inputRef = useRef<HTMLInputElement | null>(null)
+
+  const excluded = useMemo(
+    () => excludeValues ? new Set(excludeValues) : null,
+    [excludeValues],
+  )
 
   const handleChange = useCallback((val: string | null) => {
     onChange(val)
@@ -26,22 +32,23 @@ export default function CollegeCombobox({ value, onChange, compact, showDefaultS
   }, [onChange, reopenOnSelect])
 
   const otherOptions = useMemo(
-    () => options.filter((c) => !savedSchools.includes(c)),
-    [options, savedSchools],
+    () => options.filter((c) => !savedSchools.includes(c) && (!excluded || !excluded.has(c))),
+    [options, savedSchools, excluded],
   )
 
   // Only savedSchools that actually exist in options
   const validSavedSchools = useMemo(
-    () => savedSchools.filter((s) => options.includes(s)),
-    [savedSchools, options],
+    () => savedSchools.filter((s) => options.includes(s) && (!excluded || !excluded.has(s))),
+    [savedSchools, options, excluded],
   )
 
   const filtered = useMemo(() => {
     if (!query && showDefaultScreen) return null // null = sectioned default
-    if (!query) return options.slice(0, 50)
+    const base = excluded ? options.filter((c) => !excluded.has(c)) : options
+    if (!query) return base.slice(0, 50)
     const lower = query.toLowerCase()
-    return options.filter((c) => c.toLowerCase().includes(lower)).slice(0, 50)
-  }, [query, options, showDefaultScreen])
+    return base.filter((c) => c.toLowerCase().includes(lower)).slice(0, 50)
+  }, [query, options, showDefaultScreen, excluded])
 
   return (
     <Combobox value={value} onChange={handleChange} onClose={() => setQuery('')} immediate>

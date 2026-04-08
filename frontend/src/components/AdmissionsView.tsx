@@ -328,6 +328,7 @@ export default function AdmissionsView() {
                 compact
                 reopenOnSelect
                 placeholder="Select a school"
+                excludeValues={selectedSchools.map((s) => s.name)}
               />
             ) : (
               <p className="text-xs text-slate-500 py-2">Maximum {MAX_SCHOOLS} schools reached.</p>
@@ -345,9 +346,10 @@ export default function AdmissionsView() {
                   return (
                     <motion.div
                       key={school.name}
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      exit={{ opacity: 0, height: 0 }}
+                      layout
+                      initial={{ opacity: 0, y: -4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, x: -20 }}
                       transition={{ duration: 0.2 }}
                       className={`px-3 py-2.5 flex items-center gap-2 ${
                         i % 2 === 0 ? 'bg-dark-800' : 'bg-dark-800/50'

@@ -214,6 +214,7 @@ export const useStore = create<Store>()(
       addPreferredMajor: (major) =>
         set((s) => {
           if (s.profile.preferredMajors.includes(major)) return s
+          if (s.profile.preferredMajors.length >= 15) return s
           return { profile: { ...s.profile, preferredMajors: [...s.profile.preferredMajors, major] } }
         }),
 
@@ -228,6 +229,7 @@ export const useStore = create<Store>()(
       addSavedSchool: (school) =>
         set((s) => {
           if (s.profile.savedSchools.includes(school)) return s
+          if (s.profile.savedSchools.length >= 25) return s
           return { profile: { ...s.profile, savedSchools: [...s.profile.savedSchools, school] } }
         }),
 

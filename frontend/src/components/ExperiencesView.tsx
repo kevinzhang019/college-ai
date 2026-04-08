@@ -41,6 +41,8 @@ export default function ExperiencesView() {
   const [editingId, setEditingId] = useState<string | null>(null)
   const [gpaError, setGpaError] = useState('')
   const [scoreError, setScoreError] = useState('')
+  const [majorFlash, setMajorFlash] = useState(false)
+  const [schoolFlash, setSchoolFlash] = useState(false)
 
   const validateGpa = (val: string) => {
     if (!val) { setGpaError(''); return }
@@ -192,8 +194,11 @@ export default function ExperiencesView() {
         </div>
 
         {/* Major Preferences card */}
-        <div className="card p-4 mb-6">
-          <h3 className="text-sm font-medium text-slate-100 mb-1">Major Preferences</h3>
+        <div className={`card p-4 mb-6 transition-shadow duration-500 ${majorFlash ? 'shadow-[0_0_16px_rgba(239,68,68,0.5)]' : ''}`}>
+          <h3 className="text-sm font-medium text-slate-100 mb-1">
+            Major Preferences
+            <span className="text-slate-500 font-normal ml-1.5">({profile.preferredMajors.length}/15)</span>
+          </h3>
           <p className="text-xs text-slate-500 mb-3">
             Rank your preferred majors. Cole will use this to personalize program and admissions advice.
           </p>
@@ -202,6 +207,11 @@ export default function ExperiencesView() {
             value={null}
             onChange={(val: string | null) => {
               if (val) {
+                if (profile.preferredMajors.length >= 15) {
+                  setMajorFlash(true)
+                  setTimeout(() => setMajorFlash(false), 600)
+                  return
+                }
                 addPreferredMajor(val)
                 setMajorQuery('')
                 majorInputRef.current?.blur()
@@ -278,18 +288,31 @@ export default function ExperiencesView() {
         </div>
 
         {/* Saved Schools card */}
-        <div className="card p-4 mb-6">
-          <h3 className="text-sm font-medium text-slate-100 mb-1">Saved Schools</h3>
+        <div className={`card p-4 mb-6 transition-shadow duration-500 ${schoolFlash ? 'shadow-[0_0_16px_rgba(239,68,68,0.5)]' : ''}`}>
+          <h3 className="text-sm font-medium text-slate-100 mb-1">
+            Saved Schools
+            <span className="text-slate-500 font-normal ml-1.5">({savedSchools.length}/25)</span>
+          </h3>
           <p className="text-xs text-slate-500 mb-3">
             Schools you're interested in. They'll appear at the top of school dropdowns.
           </p>
 
           <CollegeCombobox
             value={null}
-            onChange={(val) => { if (val) addSavedSchool(val) }}
+            onChange={(val) => {
+              if (val) {
+                if (savedSchools.length >= 25) {
+                  setSchoolFlash(true)
+                  setTimeout(() => setSchoolFlash(false), 600)
+                  return
+                }
+                addSavedSchool(val)
+              }
+            }}
             showDefaultScreen={false}
             reopenOnSelect
             placeholder="Select a school"
+            excludeValues={savedSchools}
           />
 
           {savedSchools.length > 0 && (

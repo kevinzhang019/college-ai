@@ -143,7 +143,7 @@ App
 
 - Standalone view (not conversation-based)
 - Academic profile form: GPA (0–5.0), SAT/ACT toggle + score, default major (searchable `MajorCombobox` with preferred majors section), default residency (Use Location / Not specified / In-State / Out-of-State / International)
-- Multi-school selection via combobox (max 10 schools), each with per-school searchable major combobox and always-editable residency dropdown (No residency / In-State / Out-of-State / International)
+- Multi-school selection via combobox (max 10 schools, already-selected schools filtered out of dropdown), each with per-school searchable major combobox and always-editable residency dropdown (No residency / In-State / Out-of-State / International)
 - Auto-residency: when location-eligible (non-US country, or US with state selected), Default Residency defaults to "Use Location" which auto-computes per school via `computeResidency()` (fuzzy-matched school→state mapping from `/options`). Non-US → International, US matching state → In-State, US different state → Out-of-State. All dropdowns remain editable — user overrides are respected on submit
 - Results displayed as PredictionCard components: probability percentage (color-coded), 95% confidence interval, safety/match/reach classification badge, contributing factors (positive/negative)
 

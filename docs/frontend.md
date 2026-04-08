@@ -167,13 +167,15 @@ Standalone view for My Profile mode:
 
 **Major Preferences card:**
 - Searchable Headless UI `Combobox` to add majors from `ALLOWED_MAJORS` (filters out already-selected)
+- **Limit: 15 majors.** Count displayed in heading as `(X/15)`. Exceeding the limit triggers a red drop shadow flash on the card (`shadow-[0_0_16px_rgba(239,68,68,0.5)]`, fades over 500ms via `transition-shadow`)
 - Drag-to-reorder ranked list using Framer Motion `Reorder.Group` / `Reorder.Item`
 - Each item shows: rank number (#1, #2, ...), drag handle (grip dots), major name, remove button (X)
 - Persisted in `profile.preferredMajors: string[]` (ordered by preference)
 - Passed to LLM as `"Preferred majors (ranked): #1 Computer Science, #2 Data Science"` via `format_profile_context()`
 
 **Saved Schools card:**
-- Searchable `CollegeCombobox` (with `showDefaultScreen={false}`) to add schools the user is interested in
+- Searchable `CollegeCombobox` (with `showDefaultScreen={false}`, `excludeValues={savedSchools}`) to add schools the user is interested in — already-saved schools are filtered out of the dropdown
+- **Limit: 25 schools.** Count displayed in heading as `(X/25)`. Exceeding the limit triggers a red drop shadow flash (same effect as majors)
 - Saved schools listed as animated cards with remove button (X), using Framer Motion `AnimatePresence`
 - Persisted in `profile.savedSchools: string[]`
 - Saved schools appear as a "Your Schools" section at the top of all CollegeCombobox dropdowns in chat tabs (Q&A, Essay, Admissions) — the profile's own school picker does not show this sectioned view
@@ -210,7 +212,7 @@ Standalone view for Admissions Calculator mode:
 - Required fields marked with asterisk
 
 **School picker:**
-- CollegeCombobox for adding schools
+- CollegeCombobox for adding schools (with `excludeValues` — already-selected schools are filtered out of the dropdown)
 - Counter: "Schools (N/10)"
 - Selected schools shown in alternating-row list with school name, searchable major combobox (`MajorCombobox compact`, `w-28` input with wider `w-56` dropdown), and residency dropdown (`w-28`)
 - Max 10 schools
@@ -241,6 +243,7 @@ Headless UI Combobox with `immediate` (auto-opens on focus):
 - **Default screen** (`showDefaultScreen` prop, default `true`): When query is empty, shows sectioned view — "Your Schools" (from `profile.savedSchools`) then "All Colleges" (remaining, first 50). Section headers are non-interactive `div` labels. Saved schools that no longer exist in `collegeOptions` are filtered out
 - **Search mode** (query entered): flat filtered list from all `collegeOptions`, case-insensitive, first 50 results
 - **No default screen** (`showDefaultScreen={false}`): used in profile's school picker. Shows flat list of first 50 when query is empty, like search mode
+- **`excludeValues` prop** (optional `string[]`): filters specified schools out of all views (search results, "Your Schools" section, "All Colleges" section). Used by Admissions (excludes already-selected schools) and Profile Saved Schools (excludes already-saved schools)
 - "No Selection" clear option (value: null) always at top
 - Compact variant (smaller padding/height) for inline use
 - Loaded from `/options` endpoint with 31-school fallback list
