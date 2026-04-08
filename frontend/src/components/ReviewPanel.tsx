@@ -44,7 +44,7 @@ export default function ReviewPanel({ essayText, onEssayTextChange, essayPrompt,
             animate={{ height: 280, opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="overflow-hidden border-t border-dark-700"
+            className="overflow-hidden"
           >
             <div className="h-full flex flex-col">
               {/* Essay prompt input */}
@@ -58,7 +58,7 @@ export default function ReviewPanel({ essayText, onEssayTextChange, essayPrompt,
                 />
               </div>
 
-              <div className="flex items-center justify-between px-4 py-1.5 bg-dark-900/50">
+              <div className="flex items-center justify-between px-4 py-1.5">
                 <span className="text-xs font-medium text-slate-400">
                   Your Essay Draft
                 </span>
@@ -70,7 +70,7 @@ export default function ReviewPanel({ essayText, onEssayTextChange, essayPrompt,
                 value={essayText}
                 onChange={(e) => onEssayTextChange(e.target.value)}
                 placeholder="Paste your essay draft here for review feedback..."
-                className="flex-1 px-4 py-2 bg-transparent resize-none text-sm text-slate-200 leading-relaxed placeholder:text-slate-600 focus:outline-none border border-dark-600 rounded-lg mx-4 mb-2"
+                className="flex-1 px-3 py-2 bg-dark-800 resize-none text-sm text-slate-200 leading-relaxed placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-forest-500/40 focus:border-forest-500 border border-dark-700 rounded-lg mx-4 mb-2 transition-all duration-200"
               />
             </div>
           </motion.div>
