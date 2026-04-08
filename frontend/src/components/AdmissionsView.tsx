@@ -81,7 +81,7 @@ export default function AdmissionsView() {
   const validateGpa = (val: string) => {
     if (!val) { setGpaError('Required'); return false }
     const n = parseFloat(val)
-    if (isNaN(n) || n < 0 || n > 5.0) { setGpaError('0 – 5.0'); return false }
+    if (isNaN(n) || n < 0 || n > 4.0) { setGpaError('0 – 4.0'); return false }
     setGpaError('')
     return true
   }

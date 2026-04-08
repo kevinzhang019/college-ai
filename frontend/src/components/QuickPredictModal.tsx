@@ -26,7 +26,7 @@ export default function QuickPredictModal({ college }: Props) {
   const validateGpa = (val: string) => {
     if (!val) { setGpaError('Required'); return false }
     const n = parseFloat(val)
-    if (isNaN(n) || n < 0 || n > 5.0) { setGpaError('0 – 5.0'); return false }
+    if (isNaN(n) || n < 0 || n > 4.0) { setGpaError('0 – 4.0'); return false }
     setGpaError('')
     return true
   }
@@ -92,7 +92,7 @@ export default function QuickPredictModal({ college }: Props) {
               type="number"
               step="0.01"
               min="0"
-              max="5"
+              max="4"
               value={profile.gpa}
               onChange={(e) => { setProfileGpa(e.target.value); setGpaError('') }}
               onBlur={(e) => validateGpa(e.target.value)}

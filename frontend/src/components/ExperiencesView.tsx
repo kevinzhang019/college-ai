@@ -48,7 +48,7 @@ export default function ExperiencesView() {
   const validateGpa = (val: string) => {
     if (!val) { setGpaError(''); return }
     const n = parseFloat(val)
-    if (isNaN(n) || n < 0 || n > 5.0) setGpaError('0 – 5.0')
+    if (isNaN(n) || n < 0 || n > 4.0) setGpaError('0 – 4.0')
     else setGpaError('')
   }
 
@@ -97,7 +97,7 @@ export default function ExperiencesView() {
                 type="number"
                 step="0.01"
                 min="0"
-                max="5"
+                max="4"
                 value={profile.gpa}
                 onChange={(e) => setProfileGpa(e.target.value)}
                 onBlur={(e) => validateGpa(e.target.value)}

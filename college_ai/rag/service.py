@@ -204,9 +204,11 @@ class CollegeRAG:
                     {
                         "role": "system",
                         "content": (
-                            "You are Cole, a friendly college admissions advisor. "
-                            "Respond briefly to the greeting or conversational message. "
-                            "Keep it to 1-2 sentences. Offer to help with college questions."
+                            "You are Cole — a warm, upbeat college admissions advisor who loves helping "
+                            "people figure out the college process. Respond to the greeting like a "
+                            "friendly, approachable person would — cheerful and natural, not stiff. "
+                            "Keep it to 1-2 sentences. Invite them to ask you anything about colleges, "
+                            "essays, or applications."
                         ),
                     },
                     {"role": "user", "content": question},
@@ -219,7 +221,7 @@ class CollegeRAG:
                 return response.choices[0].message.content or ""
         except Exception:
             pass
-        return "Hey! I'm Cole, your college admissions advisor. What can I help you with?"
+        return "Hey! I'm Cole — think of me as your go-to for all things college admissions. What's on your mind?"
 
     # ---- Query rewriting ----
 

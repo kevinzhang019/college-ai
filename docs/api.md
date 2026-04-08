@@ -57,7 +57,7 @@ Primary endpoint used by the frontend. Runs the same pipeline as `/ask` (route �
 | `essay_prompt` | string | No | — | Essay assignment prompt (essay mode, max 1000 chars) |
 | `history` | array | No | — | Previous messages `[{role, content}]`, last 6 used (content max 5000 chars each) |
 | `experiences` | array | No | — | User's extracurriculars `[{title, organization, type, description, startDate, endDate}]` |
-| `profile` | object | No | — | Student profile `{gpa, testScoreType, testScore, country, countryLabel, state, preferredMajors, savedSchools}` — injected into all prompt modes (QA, essay ideas, essay review) for stats contextualization, residency determination, major-specific advice, school preference awareness, and admission prediction fallback |
+| `profile` | object | No | — | Profile `{gpa, testScoreType, testScore, country, countryLabel, state, preferredMajors, savedSchools}` — injected into all prompt modes (QA, essay ideas, essay review) for stats contextualization, residency determination, major-specific advice, school preference awareness, and admission prediction fallback |
 
 Field aliasing: `startDate`/`endDate` accepted via Pydantic `populate_by_name` (maps to `start_date`/`end_date`).
 
@@ -135,7 +135,7 @@ App
 ### Admissions Calculator
 
 - Standalone view (not conversation-based)
-- Academic profile form: GPA (0–5.0), SAT/ACT toggle + score, default major (searchable `MajorCombobox` with preferred majors section), default residency (Use Location / Not specified / In-State / Out-of-State / International)
+- Academic profile form: GPA (0–4.0), SAT/ACT toggle + score, default major (searchable `MajorCombobox` with preferred majors section), default residency (Use Location / Not specified / In-State / Out-of-State / International)
 - Multi-school selection via combobox (max 10 schools, already-selected schools filtered out of dropdown), each with per-school searchable major combobox and always-editable residency dropdown (No residency / In-State / Out-of-State / International)
 - Auto-residency: when location-eligible (non-US country, or US with state selected), Default Residency defaults to "Use Location" which auto-computes per school via `computeResidency()` (fuzzy-matched school→state mapping from `/options`). Non-US → International, US matching state → In-State, US different state → Out-of-State. All dropdowns remain editable — user overrides are respected on submit
 - Results displayed as PredictionCard components: probability percentage (color-coded), 95% confidence interval, safety/match/reach classification badge, contributing factors (positive/negative)
@@ -177,4 +177,25 @@ For frontend development:
 ```bash
 cd frontend && npm run dev    # Vite dev server on :3000
 cd frontend && npm run build  # Production build to dist/
+```
+
+## EC2 Deployment
+
+The API runs on a t3.micro (Amazon Linux 2023) as a systemd service. See `deploy/api-setup.sh` for the full bootstrap script.
+
+**Port configuration:** The API listens on port 8000. Cloudflare proxies external traffic to port 8000 on the EC2 instance, so the EC2 security group must allow inbound TCP on port 8000. The service does **not** bind to port 80 — running on a high port avoids needing root privileges and matches what Cloudflare expects.
+
+**Service management:**
+```bash
+sudo systemctl restart college-ai-api     # restart after deploy
+sudo systemctl status college-ai-api      # check status
+journalctl -u college-ai-api -f           # tail logs
+```
+
+**Deploy flow:**
+```bash
+cd /home/ec2-user/college-ai && git pull
+sudo cp deploy/college-ai-api.service /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl restart college-ai-api
 ```

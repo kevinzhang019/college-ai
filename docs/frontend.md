@@ -4,7 +4,7 @@ React 18 + Vite + TypeScript SPA. Dev server on port 3000, production builds to 
 
 ## Cole — The AI Persona
 
-The assistant is named **Cole** — a friendly, knowledgeable college advisor who is always by the user's side. Cole is not a faceless chatbot; he introduces himself, speaks in first person, and maintains a warm, encouraging tone throughout the experience.
+The assistant is named **Cole** — a warm, knowledgeable college admissions advisor who feels like a supportive older friend who just went through the process. Cole is not a faceless chatbot; he introduces himself, speaks in first person, and maintains a cheerful, encouraging, and real tone throughout the experience. He talks directly to the person he's helping — never referring to them as "the student" or "the user."
 
 **How Cole appears in the UI:**
 
@@ -16,7 +16,7 @@ The assistant is named **Cole** — a friendly, knowledgeable college advisor wh
 - **Sidebar hints** speak in Cole's voice: "Cole will use them as context when helping with essays."
 - **College combobox** placeholder: "Select a school (Or just mention the school in your question, Cole will understand.)"
 
-Cole's personality is embedded in both the UI copy and the backend system prompts (all LLM prompts open with "You are Cole, ..."). This ensures the assistant feels consistent whether the user is reading a welcome message, watching a loading state, chatting, or scanning a placeholder.
+Cole's personality is embedded in both the UI copy and the backend system prompts (all LLM prompts open with the `COLE_PREAMBLE` which sets the warm, friendly persona and includes an explicit guardrail: never refer to the person as "the student" or "the user"). This ensures the assistant feels consistent whether someone is reading a welcome message, watching a loading state, chatting, or scanning a placeholder.
 
 ## Tech Stack
 
@@ -145,7 +145,7 @@ Collapsible essay draft editor, available in all chat conversations:
 
 Modal overlay (`max-w-lg`) for quick admission prediction within a chat:
 - Header: "Quickly estimate admissions probability" (white text, `text-sm`)
-- Row 1: GPA input (0–5.0, fixed `w-24`)
+- Row 1: GPA input (0–4.0, fixed `w-24`)
 - Row 2: SAT/ACT toggle + score input
 - Row 3: Major dropdown + Residency selector (Not specified, In-State, Out-of-State, International) — equal width (`flex-1`)
 - Number input spinners hidden via CSS
@@ -157,7 +157,7 @@ Modal overlay (`max-w-lg`) for quick admission prediction within a chat:
 Standalone view for My Profile mode:
 
 **Academic Info card:**
-- GPA input (0–5.0 with validation)
+- GPA input (0–4.0 with validation)
 - SAT/ACT toggle (two buttons with active highlight)
 - Test score input (400–1600 for SAT, 1–36 for ACT)
 - Location: country dropdown (all countries, US first) + conditional US state dropdown. Selecting a non-US country clears the state. Location data drives auto-residency in AdmissionsView: the `/options` endpoint fuzzy-matches school names (from CSVs) against the Turso DB to build a school→state mapping, enabling `computeResidency()` to determine in-state/out-of-state/international residency per school
@@ -302,7 +302,7 @@ Returns `{ send, cancel }`:
 - **`send(question, essayText?)`:** Creates conversation if needed, adds user message, builds request (with history, experiences, college, essay_prompt, essay_text, profile, `top_k` from `contextSize`, `response_length` from `responseLength`), initiates SSE stream via `askStream`. Collects tokens into `streamingContent`, then on `onDone` assembles final assistant message with sources/confidence and adds to conversation.
 - **`cancel()`:** Aborts the AbortController, clears streaming state.
 
-History is built from the last 6 messages of the current conversation. Experiences and profile data are always included when available (not mode-gated). Essay prompt and essay text are sent when present in the ReviewPanel. Profile data (GPA, test scores, location, preferred majors, saved schools) is sent on every request when the student has entered a GPA, set a country, added preferred majors, or saved schools.
+History is built from the last 6 messages of the current conversation. Experiences and profile data are always included when available (not mode-gated). Essay prompt and essay text are sent when present in the ReviewPanel. Profile data (GPA, test scores, location, preferred majors, saved schools) is sent on every request when a GPA has been entered, a country set, preferred majors added, or schools saved.
 
 ## Conversations
 
