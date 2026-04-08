@@ -16,12 +16,14 @@ export default function ReviewPanel({ essayText, onEssayTextChange, essayPrompt,
     ? essayText.trim().split(/\s+/).length
     : 0
 
+  const hasContent = essayText.trim().length > 0 || essayPrompt.trim().length > 0
+
   return (
     <>
       {/* Toggle button */}
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-dark-800 border border-dark-700 text-slate-400 hover:text-slate-200 hover:border-forest-500/40 transition-all"
+        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${!open && hasContent ? 'bg-forest-500/15 border-forest-500/50 text-forest-400 shadow-[0_0_8px_rgba(34,197,94,0.2)] hover:text-forest-300 hover:border-forest-500/60' : 'bg-dark-800 border-dark-700 text-slate-400 hover:text-slate-200 hover:border-forest-500/40'}`}
       >
         <motion.svg
           animate={{ rotate: open ? 180 : 0 }}
@@ -33,7 +35,7 @@ export default function ReviewPanel({ essayText, onEssayTextChange, essayPrompt,
         >
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
         </motion.svg>
-        {open ? 'Hide Draft' : 'Review Draft'}
+        {open ? 'Hide Essay' : 'Essay Help'}
       </button>
 
       {/* Slide-up panel */}
@@ -48,7 +50,7 @@ export default function ReviewPanel({ essayText, onEssayTextChange, essayPrompt,
           >
             <div className="h-full flex flex-col">
               {/* Essay prompt input */}
-              <div className="px-4 pt-2 pb-1.5">
+              <div className="pt-2 pb-1.5">
                 <input
                   type="text"
                   value={essayPrompt}
@@ -58,7 +60,7 @@ export default function ReviewPanel({ essayText, onEssayTextChange, essayPrompt,
                 />
               </div>
 
-              <div className="flex items-center justify-between px-4 py-1.5">
+              <div className="flex items-center justify-between py-1.5">
                 <span className="text-xs font-medium text-slate-400">
                   Your Essay Draft
                 </span>
@@ -70,7 +72,7 @@ export default function ReviewPanel({ essayText, onEssayTextChange, essayPrompt,
                 value={essayText}
                 onChange={(e) => onEssayTextChange(e.target.value)}
                 placeholder="Paste your essay draft here for review feedback..."
-                className="flex-1 px-3 py-2 bg-dark-800 resize-none text-sm text-slate-200 leading-relaxed placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-forest-500/40 focus:border-forest-500 border border-dark-700 rounded-lg mx-4 mb-2 transition-all duration-200"
+                className="flex-1 px-3 py-2 bg-dark-800 resize-none text-sm text-slate-200 leading-relaxed placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-forest-500/40 focus:border-forest-500 border border-dark-700 rounded-lg mb-2 transition-all duration-200"
               />
             </div>
           </motion.div>
