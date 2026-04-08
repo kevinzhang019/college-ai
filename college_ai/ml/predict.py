@@ -17,6 +17,7 @@ import joblib
 import pandas as pd
 
 import lightgbm as lgb
+from sklearn.base import BaseEstimator
 
 from college_ai.db.connection import get_session
 from college_ai.db.models import School, NicheGrade
@@ -28,7 +29,7 @@ from college_ai.ml.feature_utils import (
 logger = logging.getLogger(__name__)
 
 
-class LGBWrapper:
+class LGBWrapper(BaseEstimator):
     """Minimal sklearn-compatible wrapper around a LightGBM Booster.
 
     Duplicated from train.py so pickle can resolve the class at load time.

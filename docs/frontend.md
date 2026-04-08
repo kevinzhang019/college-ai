@@ -178,11 +178,13 @@ Standalone view for My Profile mode:
 - Persisted in `profile.savedSchools: string[]`
 - Saved schools appear as a "Your Schools" section at the top of all CollegeCombobox dropdowns in chat tabs (Q&A, Essay, Admissions) — the profile's own school picker does not show this sectioned view
 
-**Experiences list:**
-- Cards with title, organization, type badge (color-coded), dates, truncated description
+**Experiences card:**
+- Dedicated section card (same style as Academic Info / Major Preferences / Saved Schools)
+- Section header with "Experiences" title, subtitle, and inline "Add" button (right-aligned)
+- Experience items rendered as `bg-dark-800 rounded-lg` rows inside the card
+- Each item shows: title, type badge (color-coded), organization, dates, truncated description
 - Edit/delete buttons appear on hover (opacity transition)
-- Empty state: clipboard emoji + "No experiences yet" + instructional copy
-- "Add" button in header opens ExperienceForm modal
+- Empty state: clipboard emoji + "No experiences yet" (compact, inside the card)
 
 **Type badges** (color-coded pills):
 - Extracurricular: teal (`bg-teal-500/15 text-teal-400`)

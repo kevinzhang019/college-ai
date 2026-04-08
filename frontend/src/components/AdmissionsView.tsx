@@ -1,11 +1,30 @@
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useStore } from '../store'
 import { predict } from '../api'
 import CollegeCombobox from './CollegeCombobox'
 import MajorCombobox from './MajorCombobox'
-import PredictionCard from './PredictionCard'
 import type { ProfileData, PredictionResult, Residency, SelectedSchool, TestScoreType } from '../types'
+
+type Phase = 'idle' | 'loading' | 'done'
+
+const PROB_COLORS: Record<string, string> = {
+  safety: 'text-emerald-400',
+  match: 'text-amber-400',
+  reach: 'text-rose-400',
+}
+
+const CLASS_STYLES: Record<string, string> = {
+  safety: 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30',
+  match: 'bg-amber-500/15 text-amber-400 border border-amber-500/30',
+  reach: 'bg-rose-500/15 text-rose-400 border border-rose-500/30',
+}
+
+const CLASS_LABELS: Record<string, string> = {
+  safety: 'Safety',
+  match: 'Match',
+  reach: 'Reach',
+}
 
 const MAX_SCHOOLS = 10
 
@@ -32,8 +51,11 @@ function computeResidency(
 export default function AdmissionsView() {
   const profile = useStore((s) => s.profile)
   const schoolStates = useStore((s) => s.schoolStates)
-  const setProfileGpa = useStore((s) => s.setProfileGpa)
-  const setProfileTestScore = useStore((s) => s.setProfileTestScore)
+
+  // Local copies of stats — imported from profile on mount, independent afterward
+  const [gpa, setGpa] = useState(profile.gpa)
+  const [testScoreType, setTestScoreType] = useState<TestScoreType>(profile.testScoreType)
+  const [testScore, setTestScore] = useState(profile.testScore)
 
   const locationEligible = Boolean(
     profile.country && (profile.country !== 'US' || profile.state)
@@ -51,8 +73,8 @@ export default function AdmissionsView() {
   const [scoreError, setScoreError] = useState('')
 
   // Results
-  const [results, setResults] = useState<PredictionResult[] | null>(null)
-  const [loading, setLoading] = useState(false)
+  const [phase, setPhase] = useState<Phase>('idle')
+  const [schoolResults, setSchoolResults] = useState<Record<string, PredictionResult>>({})
   const [error, setError] = useState<string | null>(null)
 
   const validateGpa = (val: string) => {
@@ -101,54 +123,72 @@ export default function AdmissionsView() {
   }
 
   const canSubmit =
-    profile.gpa && !gpaError &&
-    profile.testScore && !scoreError &&
+    gpa && !gpaError &&
+    testScore && !scoreError &&
     selectedSchools.length > 0 &&
-    !loading
+    phase === 'idle'
 
   const handleSubmit = async () => {
-    const gpaValid = validateGpa(profile.gpa)
-    const scoreValid = validateScore(profile.testScore, profile.testScoreType)
+    const gpaValid = validateGpa(gpa)
+    const scoreValid = validateScore(testScore, testScoreType)
     if (!gpaValid || !scoreValid || selectedSchools.length === 0) return
 
-    setLoading(true)
+    setPhase('loading')
     setError(null)
-    setResults(null)
+    setSchoolResults({})
 
     try {
       const baseParams = {
-        gpa: parseFloat(profile.gpa),
-        ...(profile.testScoreType === 'sat'
-          ? { sat: parseFloat(profile.testScore) }
-          : { act: parseFloat(profile.testScore) }),
+        gpa: parseFloat(gpa),
+        ...(testScoreType === 'sat'
+          ? { sat: parseFloat(testScore) }
+          : { act: parseFloat(testScore) }),
       }
 
-      const promises = selectedSchools.map((school) => {
-        const residency = school.residency
-        return predict({
-          ...baseParams,
-          school_name: school.name,
-          ...(residency ? { residency } : {}),
-          ...(school.major ? { major: school.major } : {}),
-        }).catch((err) => ({
-          school_name: school.name,
-          error: err instanceof Error ? err.message : 'Failed',
-          probability: 0,
-          confidence_interval: [0, 0] as [number, number],
-          classification: 'reach' as const,
-          school_acceptance_rate: 0,
-          factors: [],
-        }))
+      const promises = selectedSchools.map(async (school) => {
+        try {
+          const result = await predict({
+            ...baseParams,
+            school_name: school.name,
+            ...(school.residency ? { residency: school.residency } : {}),
+            ...(school.major ? { major: school.major } : {}),
+          })
+          setSchoolResults((prev) => ({ ...prev, [school.name]: result }))
+        } catch (err) {
+          setSchoolResults((prev) => ({
+            ...prev,
+            [school.name]: {
+              school_name: school.name,
+              error: err instanceof Error ? err.message : 'Failed',
+              probability: 0,
+              confidence_interval: [0, 0] as [number, number],
+              classification: 'reach' as const,
+              school_acceptance_rate: 0,
+              factors: [],
+            },
+          }))
+        }
       })
 
-      const allResults = await Promise.all(promises)
-      allResults.sort((a, b) => b.probability - a.probability)
-      setResults(allResults)
+      await Promise.all(promises)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong')
     } finally {
-      setLoading(false)
+      setPhase('done')
     }
+  }
+
+  const handleClearSelections = () => {
+    setSelectedSchools([])
+    setSchoolResults({})
+    setPhase('idle')
+    setError(null)
+  }
+
+  const handleCalculateAgain = () => {
+    setSchoolResults({})
+    setPhase('idle')
+    setError(null)
   }
 
   return (
@@ -171,8 +211,8 @@ export default function AdmissionsView() {
               <input
                 type="text"
                 inputMode="decimal"
-                value={profile.gpa}
-                onChange={(e) => { setProfileGpa(filterNumericInput(e.target.value, true)); setGpaError('') }}
+                value={gpa}
+                onChange={(e) => { setGpa(filterNumericInput(e.target.value, true)); setGpaError('') }}
                 onBlur={(e) => validateGpa(e.target.value)}
                 placeholder="e.g. 3.8"
                 className={`input-field-compact text-sm ${gpaError ? 'border-red-500/60 focus:ring-red-500/40 focus:border-red-500' : ''}`}
@@ -185,9 +225,9 @@ export default function AdmissionsView() {
               <div className="flex rounded-lg overflow-hidden border border-dark-700">
                 <button
                   type="button"
-                  onClick={() => { setProfileTestScore('sat', ''); setScoreError('') }}
+                  onClick={() => { setTestScoreType('sat'); setTestScore(''); setScoreError('') }}
                   className={`px-3 py-2 text-xs font-medium transition-colors ${
-                    profile.testScoreType === 'sat'
+                    testScoreType === 'sat'
                       ? 'bg-forest-600/20 text-forest-300'
                       : 'bg-dark-800 text-slate-400 hover:text-slate-200'
                   }`}
@@ -196,9 +236,9 @@ export default function AdmissionsView() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => { setProfileTestScore('act', ''); setScoreError('') }}
+                  onClick={() => { setTestScoreType('act'); setTestScore(''); setScoreError('') }}
                   className={`px-3 py-2 text-xs font-medium transition-colors ${
-                    profile.testScoreType === 'act'
+                    testScoreType === 'act'
                       ? 'bg-forest-600/20 text-forest-300'
                       : 'bg-dark-800 text-slate-400 hover:text-slate-200'
                   }`}
@@ -210,41 +250,41 @@ export default function AdmissionsView() {
 
             <div className="flex-1">
               <label className="block text-xs font-medium text-slate-400 mb-1">
-                {profile.testScoreType === 'sat' ? 'SAT Score *' : 'ACT Score *'}
+                {testScoreType === 'sat' ? 'SAT Score *' : 'ACT Score *'}
               </label>
               <input
                 type="text"
                 inputMode="numeric"
-                value={profile.testScore}
-                onChange={(e) => { setProfileTestScore(profile.testScoreType, filterNumericInput(e.target.value, false)); setScoreError('') }}
-                onBlur={(e) => validateScore(e.target.value, profile.testScoreType)}
-                placeholder={profile.testScoreType === 'sat' ? '400 – 1600' : '1 – 36'}
+                value={testScore}
+                onChange={(e) => { setTestScore(filterNumericInput(e.target.value, false)); setScoreError('') }}
+                onBlur={(e) => validateScore(e.target.value, testScoreType)}
+                placeholder={testScoreType === 'sat' ? '400 – 1600' : '1 – 36'}
                 className={`input-field-compact text-sm ${scoreError ? 'border-red-500/60 focus:ring-red-500/40 focus:border-red-500' : ''}`}
               />
               {scoreError && <p className="text-[10px] text-red-400 mt-0.5">{scoreError}</p>}
             </div>
           </div>
 
-          {/* Row 2: Default Major + Default Residency */}
-          <div className="flex gap-3">
-            <div className="flex-1">
-              <label className="block text-xs font-medium text-slate-400 mb-1">Default Major</label>
-              <MajorCombobox value={defaultMajor} onChange={setDefaultMajor} />
-            </div>
-            <div className="w-40">
-              <label className="block text-xs font-medium text-slate-400 mb-1">Default Residency</label>
-              <select
-                value={defaultResidency || ''}
-                onChange={(e) => setDefaultResidency((e.target.value || null) as Residency | 'useLocation' | null)}
-                className="input-field-compact text-sm"
-              >
-                {locationEligible && <option value="useLocation">Use Location</option>}
-                <option value="">Not specified</option>
-                <option value="inState">In-State</option>
-                <option value="outOfState">Out-of-State</option>
-                <option value="international">International</option>
-              </select>
-            </div>
+          {/* Row 2: Default Major */}
+          <div>
+            <label className="block text-xs font-medium text-slate-400 mb-1">Default Major</label>
+            <MajorCombobox value={defaultMajor} onChange={setDefaultMajor} />
+          </div>
+
+          {/* Row 3: Default Residency */}
+          <div className="w-36">
+            <label className="block text-xs font-medium text-slate-400 mb-1">Default Residency</label>
+            <select
+              value={defaultResidency || ''}
+              onChange={(e) => setDefaultResidency((e.target.value || null) as Residency | 'useLocation' | null)}
+              className="input-field-compact text-sm"
+            >
+              {locationEligible && <option value="useLocation">Use Location</option>}
+              <option value="">Not specified</option>
+              <option value="inState">In-State</option>
+              <option value="outOfState">Out-of-State</option>
+              <option value="international">International</option>
+            </select>
           </div>
         </div>
 
@@ -253,87 +293,137 @@ export default function AdmissionsView() {
           <label className="block text-xs font-medium text-slate-400 mb-2">
             Schools ({selectedSchools.length}/{MAX_SCHOOLS})
           </label>
-          {selectedSchools.length < MAX_SCHOOLS ? (
-            <CollegeCombobox
-              value={null}
-              onChange={handleAddSchool}
-              compact
-            />
-          ) : (
-            <p className="text-xs text-slate-500 py-2">Maximum {MAX_SCHOOLS} schools reached.</p>
+          {phase === 'idle' && (
+            selectedSchools.length < MAX_SCHOOLS ? (
+              <CollegeCombobox
+                value={null}
+                onChange={handleAddSchool}
+                compact
+                placeholder="Select a school"
+              />
+            ) : (
+              <p className="text-xs text-slate-500 py-2">Maximum {MAX_SCHOOLS} schools reached.</p>
+            )
           )}
 
-          {/* Selected school cards — vertical list with alternating greys */}
+          {/* Selected school cards */}
           {selectedSchools.length > 0 && (
-            <div className="mt-3 rounded-xl border border-dark-700">
-              {selectedSchools.map((school, i) => (
-                <div
-                  key={school.name}
-                  className={`px-3 py-2.5 flex items-center gap-2 ${
-                    i % 2 === 0 ? 'bg-dark-800' : 'bg-dark-800/50'
-                  } ${i > 0 ? 'border-t border-dark-700' : ''}${
-                    i === 0 ? ' rounded-t-xl' : ''
-                  }${i === selectedSchools.length - 1 ? ' rounded-b-xl' : ''}`}
-                >
-                  <span
-                    className="text-sm text-slate-200 font-medium flex-1 min-w-0 truncate"
-                    title={school.name}
-                  >
-                    {school.name}
-                  </span>
+            <div className={`${phase === 'idle' ? 'mt-3' : ''} rounded-xl border border-dark-700`}>
+              {selectedSchools.map((school, i) => {
+                const result = schoolResults[school.name]
+                const pct = result && !result.error ? Math.round(result.probability * 100) : null
 
-                  <div className="flex-shrink-0">
-                    <MajorCombobox
-                      value={school.major}
-                      onChange={(m) => handleSchoolMajor(school.name, m)}
-                      compact
-                    />
+                return (
+                  <div
+                    key={school.name}
+                    className={`px-3 py-2.5 flex items-center gap-2 ${
+                      i % 2 === 0 ? 'bg-dark-800' : 'bg-dark-800/50'
+                    } ${i > 0 ? 'border-t border-dark-700' : ''}${
+                      i === 0 ? ' rounded-t-xl' : ''
+                    }${i === selectedSchools.length - 1 ? ' rounded-b-xl' : ''}`}
+                  >
+                    <span
+                      className="text-sm text-slate-200 font-medium flex-1 min-w-0 truncate"
+                      title={school.name}
+                    >
+                      {school.name}
+                    </span>
+
+                    {phase === 'idle' ? (
+                      <>
+                        <div className="flex-shrink-0">
+                          <MajorCombobox
+                            value={school.major}
+                            onChange={(m) => handleSchoolMajor(school.name, m)}
+                            compact
+                          />
+                        </div>
+
+                        <select
+                          value={school.residency || ''}
+                          onChange={(e) => handleSchoolResidency(school.name, (e.target.value || null) as Residency | null)}
+                          className="input-field-compact text-xs py-1.5 w-28 flex-shrink-0"
+                        >
+                          <option value="">No residency</option>
+                          <option value="inState">In-State</option>
+                          <option value="outOfState">Out-of-State</option>
+                          <option value="international">International</option>
+                        </select>
+
+                        <button
+                          onClick={() => handleRemoveSchool(school.name)}
+                          className="text-slate-500 hover:text-red-400 transition-colors flex-shrink-0"
+                        >
+                          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        </button>
+                      </>
+                    ) : result ? (
+                      <div className="flex items-center gap-2 flex-shrink-0">
+                        {result.error ? (
+                          <span className="text-xs text-red-400">{result.error}</span>
+                        ) : (
+                          <>
+                            <span className={`text-lg font-bold ${PROB_COLORS[result.classification] || 'text-slate-100'}`}>
+                              {pct}%
+                            </span>
+                            <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${CLASS_STYLES[result.classification] || ''}`}>
+                              {CLASS_LABELS[result.classification] || result.classification}
+                            </span>
+                          </>
+                        )}
+                      </div>
+                    ) : (
+                      <span className="flex gap-1 flex-shrink-0">
+                        <span className="w-1.5 h-1.5 bg-slate-400 rounded-full dot-bounce" />
+                        <span className="w-1.5 h-1.5 bg-slate-400 rounded-full dot-bounce" />
+                        <span className="w-1.5 h-1.5 bg-slate-400 rounded-full dot-bounce" />
+                      </span>
+                    )}
                   </div>
-
-                  <select
-                    value={school.residency || ''}
-                    onChange={(e) => handleSchoolResidency(school.name, (e.target.value || null) as Residency | null)}
-                    className="input-field-compact text-xs py-1.5 w-28 flex-shrink-0"
-                  >
-                    <option value="">No residency</option>
-                    <option value="inState">In-State</option>
-                    <option value="outOfState">Out-of-State</option>
-                    <option value="international">International</option>
-                  </select>
-
-                  <button
-                    onClick={() => handleRemoveSchool(school.name)}
-                    className="text-slate-500 hover:text-red-400 transition-colors flex-shrink-0"
-                  >
-                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                </div>
-              ))}
+                )
+              })}
             </div>
           )}
         </div>
 
-        {/* Submit button */}
-        <button
-          onClick={handleSubmit}
-          disabled={!canSubmit}
-          className="btn-primary w-full text-sm mb-6"
-        >
-          {loading ? (
-            <span className="flex items-center gap-2">
-              <span className="flex gap-1">
-                <span className="w-1.5 h-1.5 bg-white rounded-full dot-bounce" />
-                <span className="w-1.5 h-1.5 bg-white rounded-full dot-bounce" />
-                <span className="w-1.5 h-1.5 bg-white rounded-full dot-bounce" />
+        {/* Buttons */}
+        {phase === 'done' ? (
+          <div className="flex gap-3 mb-6">
+            <button
+              onClick={handleClearSelections}
+              className="flex-1 text-sm py-2.5 rounded-xl border border-dark-600 text-slate-300 hover:bg-dark-700 transition-colors"
+            >
+              Clear Selections
+            </button>
+            <button
+              onClick={handleCalculateAgain}
+              className="btn-primary flex-1 text-sm"
+            >
+              Calculate Again
+            </button>
+          </div>
+        ) : (
+          <button
+            onClick={handleSubmit}
+            disabled={!canSubmit}
+            className="btn-primary w-full text-sm mb-6"
+          >
+            {phase === 'loading' ? (
+              <span className="flex items-center gap-2">
+                <span className="flex gap-1">
+                  <span className="w-1.5 h-1.5 bg-white rounded-full dot-bounce" />
+                  <span className="w-1.5 h-1.5 bg-white rounded-full dot-bounce" />
+                  <span className="w-1.5 h-1.5 bg-white rounded-full dot-bounce" />
+                </span>
+                Calculating...
               </span>
-              Calculating...
-            </span>
-          ) : (
-            'Calculate Chances'
-          )}
-        </button>
+            ) : (
+              'Calculate Chances'
+            )}
+          </button>
+        )}
 
         {/* Error */}
         {error && (
@@ -345,22 +435,6 @@ export default function AdmissionsView() {
             <p className="text-sm text-red-400">{error}</p>
           </motion.div>
         )}
-
-        {/* Results */}
-        <AnimatePresence>
-          {results && results.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="space-y-3"
-            >
-              <h3 className="text-sm font-medium text-slate-300 mb-2">Results</h3>
-              {results.map((r, i) => (
-                <PredictionCard key={r.school_name} result={r} index={i} />
-              ))}
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
     </div>
   )

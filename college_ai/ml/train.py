@@ -15,6 +15,7 @@ import numpy as np
 import pandas as pd
 import shap
 from optuna.integration import LightGBMTunerCV
+from sklearn.base import BaseEstimator
 from sklearn.calibration import CalibratedClassifierCV, CalibrationDisplay
 from sklearn.frozen import FrozenEstimator
 from sklearn.inspection import permutation_importance
@@ -566,7 +567,7 @@ def train_model(
     return model
 
 
-class LGBWrapper:
+class LGBWrapper(BaseEstimator):
     """Minimal sklearn-compatible wrapper around a LightGBM Booster."""
     _estimator_type = "classifier"
     classes_ = np.array([0, 1])

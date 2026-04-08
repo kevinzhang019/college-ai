@@ -57,4 +57,4 @@ School-ID and major target encoded separately per bucket using `StratifiedGroupK
 
 ## Inference Flow
 
-`predict.py` → `get_predictor()` tries bucketed first, falls back to single global. School lookup via `SchoolMatcher` (fuzzy + exact match). Features computed via `feature_utils.compute_features_single()`. Output: calibrated probability, Wilson 95% CI, classification (safety ≥0.6, match ≥0.3, reach <0.3).
+`predict.py` → `get_predictor()` tries bucketed first, falls back to single global. School lookup via `SchoolMatcher` (fuzzy + exact match). Features computed via `feature_utils.compute_features_single()`. `LGBWrapper` wraps raw LightGBM Boosters into sklearn-compatible estimators (inherits `BaseEstimator` for `__sklearn_tags__`/`get_params` required by `CalibratedClassifierCV` and `FrozenEstimator`). Output: calibrated probability, Wilson 95% CI, classification (safety ≥0.6, match ≥0.3, reach <0.3).

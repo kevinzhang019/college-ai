@@ -23,7 +23,7 @@ import glob
 import hashlib
 import argparse
 from collections import defaultdict
-from typing import Any, Dict, List, Tuple, Set
+from typing import Dict, List, Tuple, Set
 from urllib.parse import urlparse
 
 from dotenv import load_dotenv
@@ -83,40 +83,15 @@ def get_college_names_from_csvs() -> Set[str]:
     return names
 
 
-def _parse_majors_to_list(majors_field: Any) -> List[str]:
-    """Normalize the majors field (JSON) into a flat list of strings."""
-    if majors_field is None:
-        return []
-    if isinstance(majors_field, list):
-        return [str(m).strip() for m in majors_field if str(m).strip()]
-    if isinstance(majors_field, dict):
-        values = majors_field.get("list") or majors_field.get("values")
-        if isinstance(values, list):
-            return [str(m).strip() for m in values if str(m).strip()]
-    try:
-        text = str(majors_field)
-        if "," in text:
-            return [part.strip() for part in text.split(",") if part.strip()]
-    except Exception:
-        pass
-    return []
-
-
 def _is_record_more_complete(left: dict, right: dict) -> bool:
     """
     Decide if `left` is more complete than `right` for the same URL+chunk.
 
     Priority:
-    1) Larger majors set size
-    2) Longer content length
-    3) Newer crawled_at (string compare as tie-breaker)
-    4) Higher id (stable final tie-breaker)
+    1) Longer content length
+    2) Newer crawled_at (string compare as tie-breaker)
+    3) Higher id (stable final tie-breaker)
     """
-    left_majors = set(_parse_majors_to_list(left.get("majors")))
-    right_majors = set(_parse_majors_to_list(right.get("majors")))
-    if len(left_majors) != len(right_majors):
-        return len(left_majors) > len(right_majors)
-
     left_content_len = len((left.get("content") or ""))
     right_content_len = len((right.get("content") or ""))
     if left_content_len != right_content_len:
@@ -160,7 +135,7 @@ def compute_duplicates_for_college_streaming(
     # Pass 1: Fetch lightweight metadata (no content) to group by URL.
     # Zilliz Cloud has a 4MB server-side gRPC response limit that ignores
     # limit/batch_size, so we must avoid fetching the large content field.
-    light_fields = ["id", "url", "title", "majors", "crawled_at"]
+    light_fields = ["id", "url", "title", "crawled_at"]
     all_records = collection.query(
         expr=base_expr,
         output_fields=light_fields,

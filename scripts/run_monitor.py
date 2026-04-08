@@ -86,10 +86,10 @@ Examples:
                     print(f"  {i}. {college}: {data['count']:,} records")
                 print()
 
-            if summary["top_majors"]:
-                print("🎓 TOP MAJORS BY RECORD COUNT:")
-                for i, (major, count) in enumerate(summary["top_majors"], 1):
-                    print(f"  {i}. {major}: {count:,} records")
+            if summary["top_page_types"]:
+                print("📑 TOP PAGE TYPES BY RECORD COUNT:")
+                for i, (page_type, count) in enumerate(summary["top_page_types"], 1):
+                    print(f"  {i}. {page_type}: {count:,} records")
                 print()
 
         elif args.export:

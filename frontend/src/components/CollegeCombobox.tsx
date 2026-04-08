@@ -7,9 +7,10 @@ interface Props {
   onChange: (value: string | null) => void
   compact?: boolean
   showDefaultScreen?: boolean
+  placeholder?: string
 }
 
-export default function CollegeCombobox({ value, onChange, compact, showDefaultScreen = true }: Props) {
+export default function CollegeCombobox({ value, onChange, compact, showDefaultScreen = true, placeholder = 'Select a school (optional)' }: Props) {
   const options = useStore((s) => s.collegeOptions)
   const savedSchools = useStore((s) => s.profile.savedSchools)
   const [query, setQuery] = useState('')
@@ -38,7 +39,7 @@ export default function CollegeCombobox({ value, onChange, compact, showDefaultS
         <div className="relative">
           <ComboboxInput
             className={compact ? 'input-field-compact pr-8 text-sm' : 'input-field pr-8 text-sm'}
-            placeholder="Select a school (optional)"
+            placeholder={placeholder}
             displayValue={(val: string | null) => val || ''}
             onChange={(e) => setQuery(e.target.value)}
           />

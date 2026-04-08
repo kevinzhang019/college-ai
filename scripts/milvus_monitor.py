@@ -148,7 +148,7 @@ class MilvusMonitor:
             college_stats = defaultdict(
                 lambda: {
                     "count": 0,
-                    "majors": defaultdict(int),
+                    "page_types": defaultdict(int),
                     "latest_crawl": None,
                     "earliest_crawl": None,
                 }
@@ -179,7 +179,7 @@ class MilvusMonitor:
                     # Single query per college; limited to 16384 for safety
                     college_records = self.collection.query(
                         expr=f'college_name == "{college_name}"',
-                        output_fields=["college_name", "majors", "crawled_at"],
+                        output_fields=["college_name", "page_type", "crawled_at"],
                         limit=16384,
                     )
                     all_results.extend(college_records)
@@ -193,24 +193,12 @@ class MilvusMonitor:
             # Process all results
             for record in all_results:
                 college_name = record.get("college_name", "Unknown")
-                majors_field = record.get("majors")
+                page_type = record.get("page_type") or "other"
                 crawled_at = record.get("crawled_at")
 
                 # Update college count
                 college_stats[college_name]["count"] += 1
-                # Tally majors from JSON array
-                majors_list = []
-                if isinstance(majors_field, list):
-                    majors_list = [str(m).strip() for m in majors_field if m]
-                elif isinstance(majors_field, dict) and "list" in majors_field:
-                    majors_list = [
-                        str(m).strip() for m in majors_field.get("list", []) if m
-                    ]
-                if majors_list:
-                    for m in majors_list:
-                        college_stats[college_name]["majors"][m] += 1
-                else:
-                    college_stats[college_name]["majors"]["Unknown"] += 1
+                college_stats[college_name]["page_types"][page_type] += 1
 
                 # Update crawl timestamps
                 if crawled_at:
@@ -294,19 +282,19 @@ class MilvusMonitor:
 
             for college_name, college_data in sorted_colleges:
                 count = college_data["count"]
-                majors = college_data["majors"]
+                page_types = college_data["page_types"]
                 latest_crawl = college_data["latest_crawl"]
                 earliest_crawl = college_data["earliest_crawl"]
 
                 output.append(f"🏛️  {college_name}")
                 output.append(f"   📄 Records: {count:,}")
 
-                # Show majors if available
-                if majors:
-                    major_list = [
-                        f"{major} ({count})" for major, count in majors.items()
+                # Show page type distribution
+                if page_types:
+                    type_list = [
+                        f"{pt} ({ct})" for pt, ct in sorted(page_types.items(), key=lambda x: x[1], reverse=True)
                     ]
-                    output.append(f"   🎓 Majors: {', '.join(major_list)}")
+                    output.append(f"   📑 Page Types: {', '.join(type_list)}")
 
                 # Show crawl time range
                 if earliest_crawl and latest_crawl:
@@ -414,20 +402,20 @@ class MilvusMonitor:
             colleges.items(), key=lambda x: x[1]["count"], reverse=True
         )[:5]
 
-        # Calculate major distribution
-        all_majors = defaultdict(int)
+        # Calculate page type distribution
+        all_page_types = defaultdict(int)
         for college_data in colleges.values():
-            for major, count in college_data["majors"].items():
-                all_majors[major] += count
+            for page_type, count in college_data["page_types"].items():
+                all_page_types[page_type] += count
 
-        # Find most common majors
-        top_majors = sorted(all_majors.items(), key=lambda x: x[1], reverse=True)[:5]
+        # Find most common page types
+        top_page_types = sorted(all_page_types.items(), key=lambda x: x[1], reverse=True)[:5]
 
         summary = {
             "total_records": total_records,
             "total_colleges": len(colleges),
             "top_colleges": top_colleges,
-            "top_majors": top_majors,
+            "top_page_types": top_page_types,
             "timestamp": datetime.now(),
         }
 
