@@ -4,9 +4,12 @@ import { motion, AnimatePresence } from 'framer-motion'
 interface Props {
   essayText: string
   onEssayTextChange: (text: string) => void
+  essayPrompt: string
+  onEssayPromptChange: (prompt: string) => void
+  promptWarning?: boolean
 }
 
-export default function ReviewPanel({ essayText, onEssayTextChange }: Props) {
+export default function ReviewPanel({ essayText, onEssayTextChange, essayPrompt, onEssayPromptChange, promptWarning }: Props) {
   const [open, setOpen] = useState(false)
 
   const wordCount = essayText.trim()
@@ -38,12 +41,23 @@ export default function ReviewPanel({ essayText, onEssayTextChange }: Props) {
         {open && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 220, opacity: 1 }}
+            animate={{ height: 280, opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
             className="overflow-hidden border-t border-dark-700"
           >
             <div className="h-full flex flex-col">
+              {/* Essay prompt input */}
+              <div className="px-4 pt-2 pb-1.5">
+                <input
+                  type="text"
+                  value={essayPrompt}
+                  onChange={(e) => onEssayPromptChange(e.target.value)}
+                  placeholder={promptWarning ? "Prompt required when essay is provided" : "Essay prompt (leave blank for general advice)"}
+                  className={`input-field-compact text-sm w-full ${promptWarning ? 'border-red-500/60 ring-1 ring-red-500/30 placeholder:text-red-400/70' : ''}`}
+                />
+              </div>
+
               <div className="flex items-center justify-between px-4 py-1.5 bg-dark-900/50">
                 <span className="text-xs font-medium text-slate-400">
                   Your Essay Draft
@@ -56,7 +70,7 @@ export default function ReviewPanel({ essayText, onEssayTextChange }: Props) {
                 value={essayText}
                 onChange={(e) => onEssayTextChange(e.target.value)}
                 placeholder="Paste your essay draft here for review feedback..."
-                className="flex-1 px-4 py-2 bg-transparent resize-none text-sm text-slate-200 leading-relaxed placeholder:text-slate-600 focus:outline-none"
+                className="flex-1 px-4 py-2 bg-transparent resize-none text-sm text-slate-200 leading-relaxed placeholder:text-slate-600 focus:outline-none border border-dark-600 rounded-lg mx-4 mb-2"
               />
             </div>
           </motion.div>

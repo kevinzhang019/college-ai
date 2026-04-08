@@ -12,7 +12,6 @@ export function useStreaming() {
     const {
       activeConversationId,
       experiences,
-      mode,
       addMessage,
       appendStreamingContent,
       clearStreaming,
@@ -21,8 +20,7 @@ export function useStreaming() {
     } = state
 
     // Create conversation if none active
-    const chatMode = mode === 'essay' ? 'essay' : 'qa'
-    const convId = activeConversationId || createConversation(chatMode)
+    const convId = activeConversationId || createConversation('qa')
     const conv = useStore.getState().conversations[convId]
     if (!conv) return
 
@@ -61,10 +59,10 @@ export function useStreaming() {
       top_k: CONTEXT_SIZE_MAP[state.contextSize],
       response_length: state.responseLength,
       ...(conv.college ? { college: conv.college } : {}),
-      ...(chatMode === 'essay' ? { essay_prompt: conv.essayPrompt || '' } : {}),
-      ...(chatMode === 'essay' && essayText ? { essay_text: essayText } : {}),
+      ...(conv.essayPrompt?.trim() ? { essay_prompt: conv.essayPrompt.trim() } : {}),
+      ...(essayText?.trim() ? { essay_text: essayText.trim() } : {}),
       ...(recentMessages.length > 0 ? { history: recentMessages } : {}),
-      ...(chatMode === 'essay' && experiences.length > 0 ? { experiences } : {}),
+      ...(experiences.length > 0 ? { experiences } : {}),
       ...(state.profile.gpa || state.profile.country || state.profile.preferredMajors.length > 0 || state.profile.savedSchools.length > 0 ? { profile: state.profile } : {}),
     }
 

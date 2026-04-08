@@ -1,22 +1,19 @@
 """
 Query Router for the College RAG system.
 
-Two-layer classifier:
-  Layer 1 — Rule-based fast path (zero latency, handles ~85% of queries)
-  Layer 2 — LLM fallback for ambiguous cases
+Handles rule-based short-circuits (greeting, essay_text, essay_prompt)
+and school name extraction via fuzzy matching.
 
-Also extracts school names from query text via fuzzy matching.
+Full query classification (type, complexity, categories) is handled by
+the LLM classifier in classifier.py.
 """
 
 from __future__ import annotations
 
 import csv
 import logging
-import os
 import re
 from typing import List, Optional
-
-from college_ai.rag.prompts import CLASSIFY_SYSTEM, CLASSIFY_USER
 
 logger = logging.getLogger(__name__)
 
@@ -28,64 +25,14 @@ QA = "qa"
 ESSAY_IDEAS = "essay_ideas"
 ESSAY_REVIEW = "essay_review"
 ADMISSION_PREDICTION = "admission_prediction"
+RANKING = "ranking"
+COMPARISON = "comparison"
 GREETING = "greeting"
 
-VALID_TYPES = {QA, ESSAY_IDEAS, ESSAY_REVIEW, ADMISSION_PREDICTION, GREETING}
-
 # ---------------------------------------------------------------------------
-# Signal keyword lists
+# Greeting patterns — short messages with no college-related content
 # ---------------------------------------------------------------------------
 
-ESSAY_SIGNALS = [
-    "essay", "common app", "personal statement", "why school", "why college",
-    "why i want to attend", "supplement", "supplemental", "write about",
-    "help me write", "draft", "review my", "feedback on", "edit my",
-    "brainstorm", "topic ideas", "activities essay", "additional information",
-    "coalition app", "uc essay", "uc prompt", "why us",
-]
-
-ESSAY_REVIEW_SIGNALS = [
-    "review my", "feedback on", "edit my", "critique my", "improve my",
-    "look at my", "check my", "here is my essay", "here's my essay",
-    "read my", "what do you think of my",
-]
-
-FACTUAL_SIGNALS = [
-    "acceptance rate", "gpa", "sat", "act", "deadline", "tuition",
-    "financial aid", "fafsa", "scholarship", "major", "program",
-    "apply", "requirements", "rolling admission", "early decision",
-    "early action", "regular decision", "cost of attendance",
-    "student faculty ratio", "campus", "dorm", "housing",
-    "residence hall", "dining", "meal plan", "class size",
-    "professor", "research", "internship", "career",
-    "graduation rate", "retention rate", "ranking",
-    "location", "weather", "greek life", "clubs",
-    "study abroad", "sports", "athletics", "division",
-    "net price", "sticker price", "merit aid", "need-based",
-    "css profile", "demonstrated interest", "yield rate",
-    "waitlist", "ap credit", "course selection",
-]
-
-# Reuse patterns from bridge.py
-ADMISSION_PREDICTION_PATTERNS = [
-    r"what are my chances",
-    r"can i get into",
-    r"will i get into",
-    r"do i have a chance",
-    r"chances of getting in",
-    r"admission probability",
-    r"how likely am i",
-    r"likelihood of acceptance",
-    r"chance of admission",
-    r"get accepted",
-    r"admitted to",
-    r"acceptance rate.*gpa|gpa.*acceptance rate",
-    r"sat.*chance|chance.*sat",
-    r"gpa.*\d+\.\d+.*chance|chance.*gpa.*\d+\.\d+",
-]
-
-
-# Greeting / off-topic patterns — short messages with no college-related content
 GREETING_PATTERNS = [
     r"^(hi|hello|hey|howdy|yo|sup)\b",
     r"^good (morning|afternoon|evening|night)\b",
@@ -95,9 +42,6 @@ GREETING_PATTERNS = [
     r"^what'?s up\b",
     r"^nice to meet you",
 ]
-
-SIMPLE = "simple"
-COMPLEX = "complex"
 
 # ---------------------------------------------------------------------------
 # School acronym / shorthand aliases → canonical CSV name
@@ -216,40 +160,31 @@ SCHOOL_ALIASES = {
     "notre dame": "University of Notre Dame",
 }
 
-# Keywords that indicate a complex (non-lookup) question
-COMPLEX_SIGNALS = [
-    "compare", "versus", "vs", "difference between",
-    "how do i", "how to", "should i", "best way", "strategy",
-    "steps to", "process for", "what should", "recommend",
-    "worth it", "better", "pros and cons", "trade-off",
-    "explain", "why does", "why is", "what makes",
-]
-
 
 class QueryClassification:
-    """Result of classifying a user query."""
+    """Result of the router's rule-based pre-classification.
 
-    __slots__ = ("query_type", "detected_school", "confidence", "complexity")
+    Only determines query_type for short-circuit cases (greeting, essay_text,
+    essay_prompt). For all other queries, query_type is None and the LLM
+    classifier in classifier.py determines the full classification.
+    """
+
+    __slots__ = ("query_type", "detected_schools")
 
     def __init__(
         self,
-        query_type: str,
-        detected_school: Optional[str] = None,
-        confidence: str = "rule",
-        complexity: str = COMPLEX,
+        query_type: Optional[str] = None,
+        detected_schools: Optional[List[str]] = None,
     ):
         self.query_type = query_type
-        self.detected_school = detected_school
-        self.confidence = confidence  # "rule" or "llm"
-        self.complexity = complexity  # "simple" or "complex"
+        self.detected_schools = detected_schools or []
 
 
 class QueryRouter:
-    """Classifies queries and extracts school names."""
+    """Rule-based pre-classifier and school name extractor."""
 
     def __init__(self):
         self._college_names = None  # lazy-loaded
-        self._openai_client = None
 
     # ---- School name loading ----
 
@@ -280,197 +215,143 @@ class QueryRouter:
 
     # ---- School extraction ----
 
-    def extract_school(self, question: str) -> Optional[str]:
-        """Extract a college name from the query text via fuzzy matching.
+    MAX_SCHOOLS = 5
+
+    @staticmethod
+    def _spans_overlap(start: int, end: int, consumed: List[tuple]) -> bool:
+        """Check if (start, end) overlaps any span in consumed."""
+        return any(not (end <= s or start >= e) for s, e in consumed)
+
+    def extract_schools(self, question: str) -> List[str]:
+        """Extract all college names from the query text.
 
         Checks aliases/acronyms first, then exact substring, then fuzzy ngrams.
-        Returns the canonical school name or None.
+        Tracks consumed character spans to avoid overlapping matches.
+        Deduplicates by canonical name and caps at MAX_SCHOOLS.
         """
-        # 1. Check aliases (acronyms and shorthands) — longest first
         q_lower = question.lower()
-        # Build word list for token-boundary matching
-        q_words = re.findall(r"[a-z&']+(?:\s+[a-z&']+)*", q_lower)
-        q_joined = " ".join(q_words)
+        found = []  # type: List[str]  # canonical names, insertion order
+        found_set = set()  # type: set  # lowercased canonical names for dedup
+        consumed = []  # type: List[tuple]  # (start, end) character spans
 
+        # 1. Check aliases (acronyms and shorthands) — longest first
         for alias in sorted(SCHOOL_ALIASES, key=len, reverse=True):
-            # Use word-boundary matching to avoid false positives
-            # e.g., "bu" shouldn't match inside "about"
+            if len(found) >= self.MAX_SCHOOLS:
+                break
             pattern = r'(?<![a-z])' + re.escape(alias) + r'(?![a-z])'
-            if re.search(pattern, q_lower):
-                return SCHOOL_ALIASES[alias]
+            m = re.search(pattern, q_lower)
+            if m and not self._spans_overlap(m.start(), m.end(), consumed):
+                canonical = SCHOOL_ALIASES[alias]
+                if canonical.lower() not in found_set:
+                    found.append(canonical)
+                    found_set.add(canonical.lower())
+                consumed.append((m.start(), m.end()))
 
         # 2. Exact substring match against known college names
         colleges = self._load_college_names()
-        if not colleges:
-            return None
-
-        for name in sorted(colleges, key=len, reverse=True):
-            if name.lower() in q_lower:
-                return name
+        if colleges:
+            for name in sorted(colleges, key=len, reverse=True):
+                if len(found) >= self.MAX_SCHOOLS:
+                    break
+                name_lc = name.lower()
+                idx = q_lower.find(name_lc)
+                if idx != -1:
+                    start, end = idx, idx + len(name_lc)
+                    if not self._spans_overlap(start, end, consumed):
+                        if name.lower() not in found_set:
+                            found.append(name)
+                            found_set.add(name.lower())
+                        consumed.append((start, end))
 
         # 3. Fuzzy ngram match (rapidfuzz)
-        try:
-            from rapidfuzz import process as rfp, fuzz
-        except ImportError:
-            return None
+        if len(found) < self.MAX_SCHOOLS and colleges:
+            try:
+                from rapidfuzz import process as rfp, fuzz
+            except ImportError:
+                return found
 
-        name_map = {n.lower(): n for n in colleges}
-        words = question.split()
-        best_match = None
-        best_score = 0
+            name_map = {n.lower(): n for n in colleges}
+            words = question.split()
 
-        for ngram_len in range(1, min(8, len(words) + 1)):
-            for i in range(len(words) - ngram_len + 1):
-                ngram = " ".join(words[i:i + ngram_len])
-                result = rfp.extractOne(
-                    ngram.lower(),
-                    name_map.keys(),
-                    scorer=fuzz.token_sort_ratio,
-                    score_cutoff=85,
-                )
-                if result and result[1] > best_score:
-                    best_score = result[1]
-                    best_match = name_map[result[0]]
+            # Pre-compute word start positions in the original string for
+            # span tracking (match against lowercase version)
+            word_starts = []  # type: List[int]
+            pos = 0
+            for w in words:
+                idx = q_lower.find(w.lower(), pos)
+                word_starts.append(idx)
+                pos = idx + len(w)
 
-        return best_match
+            for ngram_len in range(1, min(8, len(words) + 1)):
+                if len(found) >= self.MAX_SCHOOLS:
+                    break
+                for i in range(len(words) - ngram_len + 1):
+                    if len(found) >= self.MAX_SCHOOLS:
+                        break
+                    ngram = " ".join(words[i:i + ngram_len])
+                    span_start = word_starts[i]
+                    span_end = word_starts[i + ngram_len - 1] + len(words[i + ngram_len - 1])
 
-    @staticmethod
-    def _extract_school_exact(
-        question: str, colleges: List[str]
-    ) -> Optional[str]:
-        """Fallback: exact substring match when rapidfuzz is unavailable."""
-        q_lower = question.lower()
-        for name in sorted(colleges, key=len, reverse=True):
-            if name.lower() in q_lower:
-                return name
-        return None
+                    if self._spans_overlap(span_start, span_end, consumed):
+                        continue
 
-    # ---- Classification ----
+                    result = rfp.extractOne(
+                        ngram.lower(),
+                        name_map.keys(),
+                        scorer=fuzz.token_sort_ratio,
+                        score_cutoff=85,
+                    )
+                    if result:
+                        canonical = name_map[result[0]]
+                        if canonical.lower() not in found_set:
+                            found.append(canonical)
+                            found_set.add(canonical.lower())
+                            consumed.append((span_start, span_end))
+
+        return found
+
+    # ---- Pre-classification ----
 
     def classify(
         self,
         question: str,
         essay_text: Optional[str] = None,
+        essay_prompt: Optional[str] = None,
     ) -> QueryClassification:
-        """Classify a query into a type and optionally extract a school name.
+        """Rule-based pre-classification for short-circuit cases.
 
-        Args:
-            question: The user's question text.
-            essay_text: Optional pasted essay draft. If provided, forces essay_review mode.
+        Determines query_type only for:
+          - essay_text provided → essay_review
+          - essay_prompt provided (no essay_text) → essay_ideas
+          - greeting detected → greeting
 
-        Returns:
-            QueryClassification with query_type, detected_school, confidence, complexity.
+        All other queries return query_type=None, meaning the LLM classifier
+        should determine the type.
+
+        Always extracts school names if any are detected.
         """
-        detected_school = self.extract_school(question)
+        detected_schools = self.extract_schools(question)
 
-        # If essay text is provided, it's always a review
+        # Essay text present → always essay_review
         if essay_text and essay_text.strip():
-            return QueryClassification(ESSAY_REVIEW, detected_school, "rule", COMPLEX)
+            return QueryClassification(ESSAY_REVIEW, detected_schools)
 
-        query_type = self._classify_rules(question)
-        if query_type is not None:
-            complexity = self._classify_complexity(question, query_type)
-            return QueryClassification(query_type, detected_school, "rule", complexity)
+        # Essay prompt present (no essay text) → essay_ideas
+        if essay_prompt and essay_prompt.strip():
+            return QueryClassification(ESSAY_IDEAS, detected_schools)
 
-        # LLM fallback — always treat as complex (ambiguous query)
-        query_type = self._classify_llm(question)
-        return QueryClassification(query_type, detected_school, "llm", COMPLEX)
+        # Greeting detection — short messages with no substance
+        if self._is_greeting(question):
+            return QueryClassification(GREETING, detected_schools)
 
-    def _classify_rules(self, question: str) -> Optional[str]:
-        """Rule-based fast path. Returns None if ambiguous."""
-        q = question.lower().strip()
-
-        # Greetings / off-topic: short messages with no college-related signals
-        words = q.split()
-        if len(words) <= 8:
-            essay_count = sum(1 for s in ESSAY_SIGNALS if s in q)
-            factual_count = sum(1 for s in FACTUAL_SIGNALS if s in q)
-            if essay_count == 0 and factual_count == 0:
-                if any(re.search(p, q) for p in GREETING_PATTERNS):
-                    return GREETING
-
-        # Check admission prediction first (specific patterns)
-        if any(re.search(p, q) for p in ADMISSION_PREDICTION_PATTERNS):
-            return ADMISSION_PREDICTION
-
-        # Score essay vs factual signals
-        essay_score = sum(1 for s in ESSAY_SIGNALS if s in q)
-        review_score = sum(1 for s in ESSAY_REVIEW_SIGNALS if s in q)
-        factual_score = sum(1 for s in FACTUAL_SIGNALS if s in q)
-
-        # Essay review takes priority over generic essay
-        if review_score >= 1 and review_score >= factual_score:
-            return ESSAY_REVIEW
-        if essay_score > factual_score and essay_score >= 1:
-            return ESSAY_IDEAS
-        if factual_score > essay_score and factual_score >= 1:
-            return QA
-
-        return None  # ambiguous → LLM fallback
+        # Everything else → LLM classifier determines type
+        return QueryClassification(None, detected_schools)
 
     @staticmethod
-    def _classify_complexity(question: str, query_type: str) -> str:
-        """Determine query complexity for model routing.
-
-        Only Q&A queries can be classified as simple.  All other types
-        (essay_ideas, essay_review, admission_prediction) are always complex.
-
-        A Q&A query is simple when ALL of these hold:
-          - Short (< 20 words)
-          - No comparison/strategy keywords
-          - At most 1 factual signal (single-topic lookup)
-        """
-        if query_type != QA:
-            return COMPLEX
-
-        q = question.lower()
-
-        # Long questions are complex
-        if len(question.split()) >= 20:
-            return COMPLEX
-
-        # Comparison / strategy keywords → complex
-        if any(s in q for s in COMPLEX_SIGNALS):
-            return COMPLEX
-
-        # Multiple factual signals means multi-part → complex
-        factual_count = sum(1 for s in FACTUAL_SIGNALS if s in q)
-        if factual_count > 1:
-            return COMPLEX
-
-        return SIMPLE
-
-    def _classify_llm(self, question: str) -> str:
-        """LLM fallback for ambiguous queries."""
-        try:
-            client = self._get_openai_client()
-            response = client.chat.completions.create(
-                model="gpt-4.1-nano",
-                messages=[
-                    {"role": "system", "content": CLASSIFY_SYSTEM},
-                    {
-                        "role": "user",
-                        "content": CLASSIFY_USER.format(question=question),
-                    },
-                ],
-                temperature=0,
-                max_tokens=10,
-            )
-            if response and response.choices:
-                result = response.choices[0].message.content or ""
-                result = result.strip().lower().replace('"', "").replace("'", "")
-                if result in VALID_TYPES:
-                    return result
-        except Exception as exc:
-            logger.debug("LLM classification failed: %s", exc)
-
-        # Default to QA if everything fails
-        return QA
-
-    def _get_openai_client(self):
-        if self._openai_client is None:
-            from openai import OpenAI
-
-            api_key = os.getenv("OPENAI_API_KEY", "").strip().strip('"').strip("'")
-            self._openai_client = OpenAI(api_key=api_key)
-        return self._openai_client
+    def _is_greeting(question: str) -> bool:
+        """Check if the question is a greeting/off-topic short message."""
+        q = question.lower().strip()
+        words = q.split()
+        if len(words) > 8:
+            return False
+        return any(re.search(p, q) for p in GREETING_PATTERNS)

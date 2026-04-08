@@ -13,8 +13,8 @@ const SIZE_OPTIONS: ContextSize[] = ['XS', 'S', 'M', 'L', 'XL']
 export default function InputArea() {
   const [input, setInput] = useState('')
   const [essayText, setEssayText] = useState('')
+  const [promptWarning, setPromptWarning] = useState(false)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
-  const mode = useStore((s) => s.mode)
   const activeConversationId = useStore((s) => s.activeConversationId)
   const conversations = useStore((s) => s.conversations)
   const streamingLoading = useStore((s) => s.streamingLoading)
@@ -65,12 +65,11 @@ export default function InputArea() {
       if (activeConversationId) {
         updateConversationCollege(activeConversationId, value)
       } else {
-        // Create conversation first, then set college
-        const id = createConversation(mode === 'essay' ? 'essay' : 'qa')
+        const id = createConversation('qa')
         updateConversationCollege(id, value)
       }
     },
-    [activeConversationId, mode, updateConversationCollege, createConversation],
+    [activeConversationId, updateConversationCollege, createConversation],
   )
 
   const handleEssayPromptChange = useCallback(
@@ -78,9 +77,10 @@ export default function InputArea() {
       if (activeConversationId) {
         updateConversationEssayPrompt(activeConversationId, value)
       } else {
-        const id = createConversation('essay')
+        const id = createConversation('qa')
         updateConversationEssayPrompt(id, value)
       }
+      if (value.trim()) setPromptWarning(false)
     },
     [activeConversationId, updateConversationEssayPrompt, createConversation],
   )
@@ -88,9 +88,17 @@ export default function InputArea() {
   const handleSend = useCallback(async () => {
     const q = input.trim()
     if (!q || streamingLoading) return
+
+    // Validate: essay text requires a prompt
+    if (essayText.trim() && !essayPrompt.trim()) {
+      setPromptWarning(true)
+      return
+    }
+
     setInput('')
-    await send(q, essayText || undefined)
-  }, [input, streamingLoading, essayText, send])
+    setPromptWarning(false)
+    await send(q, essayText.trim() || undefined)
+  }, [input, streamingLoading, essayText, essayPrompt, send])
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -117,16 +125,11 @@ export default function InputArea() {
               exit={{ opacity: 0 }}
               className="space-y-2"
             >
-              {/* Skeleton for mode-specific fields */}
+              {/* Skeleton for college field */}
               <div className="flex gap-2">
-                <div className={mode === 'essay' ? 'w-1/2' : 'w-full'}>
+                <div className="w-full">
                   <div className="h-9 bg-dark-800 rounded-lg animate-pulse" />
                 </div>
-                {mode === 'essay' && (
-                  <div className="w-1/2">
-                    <div className="h-9 bg-dark-800 rounded-lg animate-pulse" />
-                  </div>
-                )}
               </div>
               {/* Skeleton for chat input */}
               <div className="flex gap-2 items-end">
@@ -154,30 +157,20 @@ export default function InputArea() {
   return (
     <div className="border-t border-dark-700 bg-dark-950/80 backdrop-blur-sm">
       {/* Essay review panel — slides up above input */}
-      {mode === 'essay' && (
-        <div className="max-w-3xl mx-auto px-4 pt-2">
-          <ReviewPanel essayText={essayText} onEssayTextChange={setEssayText} />
-        </div>
-      )}
+      <div className="max-w-3xl mx-auto px-4 pt-2">
+        <ReviewPanel
+          essayText={essayText}
+          onEssayTextChange={setEssayText}
+          essayPrompt={essayPrompt}
+          onEssayPromptChange={handleEssayPromptChange}
+          promptWarning={promptWarning}
+        />
+      </div>
 
       <div className="max-w-3xl mx-auto px-4 py-3 space-y-2">
-        {/* Mode-specific fields */}
+        {/* School selection + info/chances */}
         <div className="flex gap-2 items-start">
-          {/* Essay prompt field — essay mode only */}
-          {mode === 'essay' && (
-            <div className="flex-1">
-              <input
-                type="text"
-                value={essayPrompt}
-                onChange={(e) => handleEssayPromptChange(e.target.value)}
-                placeholder="Essay prompt (leave blank for general advice)"
-                className="input-field-compact text-sm"
-              />
-            </div>
-          )}
-
-          {/* School selection — shown in both Q&A and Essay */}
-          <div className={mode === 'essay' ? 'w-2/5' : 'flex-1'}>
+          <div className="flex-1">
             <CollegeCombobox
               value={college}
               onChange={handleCollegeChange}
@@ -241,11 +234,7 @@ export default function InputArea() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder={
-                mode === 'essay'
-                  ? 'Tell Cole what to focus on (e.g., "highlight my research experience")...'
-                  : 'Ask Cole about colleges...'
-              }
+              placeholder="Ask Cole about colleges..."
               className="w-full resize-none bg-dark-800 border border-dark-700 rounded-xl px-4 py-2.5 pb-8 text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-forest-500/40 focus:border-forest-500 transition-all leading-relaxed"
               rows={1}
               disabled={streamingLoading}

@@ -34,7 +34,7 @@ Niche.com letter grades per school.
 - Quantitative: `acceptance_rate_niche`, `avg_annual_cost`, `graduation_rate_niche`, `student_faculty_ratio_niche`, `setting`, `religious_affiliation`, `pct_students_on_campus`, `pct_greek_life`, `avg_rating`, `review_count`
 - `no_data` flag, `updated_at`
 
-**RAG usage:** Both `schools` and `niche_grades` data is fetched by `rag/school_data.py` when a school is detected. The data is injected into LLM prompts as a structured `[SCHOOL DATA]` block and used by the reranker for ranking-query score boosting (niche_rank, category grades, acceptance_rate).
+**RAG usage:** The unified LLM classifier determines which school data categories are relevant per query. `rag/school_data.py` selectively fetches only the matching category-prefixed columns from `schools` (e.g. `admissions_` columns for test score questions, `cost_` columns for tuition questions). Identity fields + base fields (name, city, state, ownership) are always included when one or more schools are detected. For multi-school queries (e.g. "Compare MIT and Stanford"), `fetch_school_data_batch()` batch-fetches data for all detected schools and `format_multi_school_data_block_by_categories()` formats separate `[SCHOOL DATA]` blocks per school. `niche_grades` data is used exclusively for ranking queries — Niche letter grades drive reranker score boosting (niche_rank + category grades + acceptance_rate) and are provided to the LLM as a separate `[NICHE GRADES]` block with explicit instructions to never mention them in responses.
 
 ## Connection (`connection.py`)
 

@@ -21,6 +21,10 @@ from __future__ import annotations
 import logging
 import os
 import re
+import threading
+import time
+from collections import OrderedDict
+from concurrent.futures import ThreadPoolExecutor
 from typing import Any, Dict, List, Optional
 
 from dotenv import load_dotenv
@@ -35,6 +39,8 @@ from college_ai.rag.prompts import (
     QA_SYSTEM,
     QA_USER,
     QUERY_REWRITE_SYSTEM,
+    COMPARISON_INSTRUCTIONS,
+    RANKING_INSTRUCTIONS,
     format_essay_prompt_context,
     format_experiences,
     format_profile_context,
@@ -42,27 +48,31 @@ from college_ai.rag.prompts import (
     get_essay_length_budget,
     get_length_budget,
 )
-from college_ai.rag.ranking import detect_ranking_intent
+from college_ai.rag.classifier import classify_query
 from college_ai.rag.reranker import Reranker
 from college_ai.rag.retrieval import HybridRetriever
 from college_ai.rag.school_data import (
-    fetch_school_data,
     fetch_school_data_batch,
-    format_ranking_school_data_block,
-    format_school_data_block,
+    fetch_school_data_by_categories,
+    format_multi_school_data_block_by_categories,
+    format_niche_grades_block,
+    format_school_data_block_by_categories,
 )
 from college_ai.rag.router import (
     ADMISSION_PREDICTION,
+    COMPARISON,
     ESSAY_IDEAS,
     ESSAY_REVIEW,
     GREETING,
     QA,
-    SIMPLE,
+    RANKING,
     QueryRouter,
 )
 from college_ai.scraping.config import (
     RAG_HISTORY_LIMIT,
+    RAG_HISTORY_REWRITE_CHARS,
     RAG_HISTORY_REWRITE_LIMIT,
+    RAG_RETRIEVAL_TOP_K,
     VECTOR_DIM,
 )
 
@@ -71,6 +81,44 @@ logger = logging.getLogger(__name__)
 # Load .env
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
 load_dotenv(os.path.join(PROJECT_ROOT, ".env"))
+
+# ---------------------------------------------------------------------------
+# Retrieval candidate cache — avoids repeated Milvus round-trips for the
+# same (query, school_filter) within a short window.
+# ---------------------------------------------------------------------------
+
+_RETRIEVAL_CACHE = OrderedDict()  # type: OrderedDict
+_RETRIEVAL_CACHE_LOCK = threading.Lock()
+_RETRIEVAL_CACHE_MAX = 256
+_RETRIEVAL_CACHE_TTL = 300  # 5 minutes
+
+
+def _retrieval_cache_key(query, college_names):
+    # type: (str, Optional[List[str]]) -> str
+    schools_part = "|".join(sorted(n.lower() for n in (college_names or [])))
+    return f"{query.strip().lower()}::{schools_part}"
+
+
+def _get_cached_candidates(key):
+    # type: (str) -> Optional[List[Dict[str, Any]]]
+    with _RETRIEVAL_CACHE_LOCK:
+        if key in _RETRIEVAL_CACHE:
+            ts, candidates = _RETRIEVAL_CACHE[key]
+            if time.time() - ts < _RETRIEVAL_CACHE_TTL:
+                _RETRIEVAL_CACHE.move_to_end(key)
+                logger.debug("Retrieval cache hit for key=%s", key[:60])
+                return candidates
+            else:
+                del _RETRIEVAL_CACHE[key]
+    return None
+
+
+def _set_cached_candidates(key, candidates):
+    # type: (str, List[Dict[str, Any]]) -> None
+    with _RETRIEVAL_CACHE_LOCK:
+        _RETRIEVAL_CACHE[key] = (time.time(), candidates)
+        if len(_RETRIEVAL_CACHE) > _RETRIEVAL_CACHE_MAX:
+            _RETRIEVAL_CACHE.popitem(last=False)
 
 
 class CollegeRAG:
@@ -107,11 +155,31 @@ class CollegeRAG:
 
         self._chat_client = None
 
+    # Prompt cache keys for OpenAI — group by system prompt identity so
+    # requests sharing the same static prefix route to the same cache.
+    _PROMPT_CACHE_KEYS = {
+        QA: "cole-qa",
+        RANKING: "cole-qa",  # same QA_SYSTEM prompt
+        COMPARISON: "cole-qa",
+        ADMISSION_PREDICTION: "cole-qa",
+        ESSAY_IDEAS: "cole-essay-ideas",
+        ESSAY_REVIEW: "cole-essay-review",
+    }
+
     def _select_model(self, query_type: str, complexity: str) -> str:
         """Pick the generation model based on query type and complexity."""
-        if query_type == QA and complexity == SIMPLE:
+        if query_type == QA and complexity == "simple":
             return self.model_simple
         return self.model_standard
+
+    @staticmethod
+    def _get_type_instructions(query_type: str) -> str:
+        """Return type-specific prompt instructions for QA_USER."""
+        if query_type == RANKING:
+            return RANKING_INSTRUCTIONS
+        if query_type == COMPARISON:
+            return COMPARISON_INSTRUCTIONS
+        return ""
 
     # ---- OpenAI client ----
 
@@ -145,6 +213,7 @@ class CollegeRAG:
                 ],
                 temperature=0.5,
                 max_tokens=100,
+                prompt_cache_key="cole-greeting",
             )
             if response and response.choices:
                 return response.choices[0].message.content or ""
@@ -179,7 +248,7 @@ class CollegeRAG:
                     role = msg.get("role", "user")
                     content = msg.get("content", "")
                     # Truncate to keep rewrite fast
-                    context_lines.append(f"{role}: {content[:200]}")
+                    context_lines.append(f"{role}: {content[:RAG_HISTORY_REWRITE_CHARS]}")
                 user_content = (
                     "Recent conversation:\n"
                     + "\n".join(context_lines)
@@ -194,6 +263,7 @@ class CollegeRAG:
                 ],
                 temperature=0,
                 max_tokens=120,
+                prompt_cache_key="cole-rewrite",
             )
             if response and response.choices:
                 rewritten = response.choices[0].message.content or ""
@@ -242,6 +312,8 @@ class CollegeRAG:
         """Strip invalid citation references and warn if none remain."""
         # Strip leaked [SCHOOL DATA] tags that the LLM may reproduce
         answer = re.sub(r"\s*\[SCHOOL DATA\][^\n]*", "", answer)
+        # Strip literal [N] placeholders the LLM emits when it can't find a source number
+        answer = re.sub(r"\s*\[N\]", "", answer)
 
         if num_sources == 0:
             return answer
@@ -296,39 +368,64 @@ class CollegeRAG:
             return "medium"
         return "low"
 
+    # ---- School name formatting helpers ----
+
+    @staticmethod
+    def _format_college_focus(schools: List[str]) -> str:
+        """Build the 'Focus on:' line for QA prompts."""
+        if not schools:
+            return ""
+        if len(schools) == 1:
+            return f"Focus on: **{schools[0]}**\n"
+        joined = ", ".join(f"**{s}**" for s in schools[:-1])
+        return f"Focus on: {joined} and **{schools[-1]}**\n"
+
+    @staticmethod
+    def _format_school_context(schools: List[str]) -> str:
+        """Build the 'School(s) of interest:' line for essay prompts."""
+        if not schools:
+            return ""
+        if len(schools) == 1:
+            return f"School of interest: **{schools[0]}**\n\n"
+        joined = ", ".join(f"**{s}**" for s in schools[:-1])
+        return f"Schools of interest: {joined} and **{schools[-1]}**\n\n"
+
     # ---- Generation: University Q&A ----
 
     def _generate_qa(
         self,
         question: str,
         hits: List[Dict[str, Any]],
-        college_name: Optional[str],
+        schools: List[str],
         complexity: str = "complex",
         school_data_block: str = "",
+        query_type: str = QA,
     ) -> str:
         """Generate a grounded Q&A answer with citations."""
         client = self._get_chat_client()
         sources_block = self._build_context_snippets(hits)
 
-        # Inject ML prediction context if applicable
+        # Inject ML prediction context if applicable (single-school only)
         prediction_context = ""
-        try:
-            from college_ai.rag.bridge import get_prediction_context
-            ctx = get_prediction_context(question, college_name=college_name)
-            if ctx:
-                prediction_context = f"\n{ctx}\n"
-        except Exception:
-            pass
+        if len(schools) == 1:
+            try:
+                from college_ai.rag.bridge import get_prediction_context
+                ctx = get_prediction_context(question, college_name=schools[0])
+                if ctx:
+                    prediction_context = f"\n{ctx}\n"
+            except Exception:
+                pass
 
         system = QA_SYSTEM
 
         user_prompt = QA_USER.format(
             question=question,
-            college_focus=f"Focus on: **{college_name}**\n" if college_name else "",
+            college_focus=self._format_college_focus(schools),
             profile_context="",
             school_data_block=school_data_block,
             sources_block=sources_block,
             prediction_context=prediction_context,
+            type_instructions=self._get_type_instructions(query_type),
             extra_instructions=get_extra_instructions(question),
             length_budget=get_length_budget(question),
         )
@@ -344,6 +441,7 @@ class CollegeRAG:
             ],
             temperature=0.2,
             max_tokens=self._get_max_tokens(None, QA),
+            prompt_cache_key="cole-qa",
         )
         if response and response.choices:
             return response.choices[0].message.content or ""
@@ -356,7 +454,7 @@ class CollegeRAG:
         question: str,
         query_type: str,
         hits: List[Dict[str, Any]],
-        college_name: Optional[str],
+        schools: List[str],
         essay_text: Optional[str] = None,
         essay_prompt: Optional[str] = None,
         history: Optional[List[Dict[str, str]]] = None,
@@ -368,12 +466,13 @@ class CollegeRAG:
         """Build the messages list for the OpenAI chat call."""
         sources_block = self._build_context_snippets(hits)
         experience_context = format_experiences(experiences)
-        profile_context = format_profile_context(profile, college_name=college_name)
+        # Residency determination uses first school (in-state/out-of-state)
+        profile_context = format_profile_context(
+            profile, college_name=schools[0] if schools else None,
+        )
 
         if query_type == ESSAY_IDEAS:
-            school_context = ""
-            if college_name:
-                school_context = f"School of interest: **{college_name}**\n\n"
+            school_context = self._format_school_context(schools)
             essay_prompt_context = format_essay_prompt_context(essay_prompt)
             system = ESSAY_IDEAS_SYSTEM
             essay_budget = get_essay_length_budget(response_length)
@@ -389,9 +488,7 @@ class CollegeRAG:
                 user_prompt += f"\n{profile_context}"
             user_prompt += f"\nTarget total length: under {essay_budget}."
         elif query_type == ESSAY_REVIEW:
-            school_context = ""
-            if college_name:
-                school_context = f"School of interest: **{college_name}**\n\n"
+            school_context = self._format_school_context(schools)
             essay_prompt_context = format_essay_prompt_context(essay_prompt)
             # essay_length_budget goes in the user message (not system) to
             # preserve a static system-prompt prefix for OpenAI prompt caching.
@@ -412,25 +509,27 @@ class CollegeRAG:
         else:
             # QA / admission_prediction
             prediction_context = ""
-            try:
-                from college_ai.rag.bridge import get_prediction_context
-                ctx = get_prediction_context(
-                    question, college_name=college_name, profile=profile,
-                )
-                if ctx:
-                    prediction_context = f"\n{ctx}\n"
-            except Exception:
-                pass
+            if len(schools) == 1:
+                try:
+                    from college_ai.rag.bridge import get_prediction_context
+                    ctx = get_prediction_context(
+                        question, college_name=schools[0], profile=profile,
+                    )
+                    if ctx:
+                        prediction_context = f"\n{ctx}\n"
+                except Exception:
+                    pass
 
             system = QA_SYSTEM
 
             user_prompt = QA_USER.format(
                 question=question,
-                college_focus=f"Focus on: **{college_name}**\n" if college_name else "",
+                college_focus=self._format_college_focus(schools),
                 profile_context=profile_context,
                 school_data_block=school_data_block,
                 sources_block=sources_block,
                 prediction_context=prediction_context,
+                type_instructions=self._get_type_instructions(query_type),
                 extra_instructions=get_extra_instructions(question),
                 length_budget=get_length_budget(question, response_length),
             )
@@ -482,16 +581,14 @@ class CollegeRAG:
         self,
         question: str,
         hits: List[Dict[str, Any]],
-        college_name: Optional[str],
+        schools: List[str],
         school_data_block: str = "",
     ) -> str:
         """Generate essay brainstorming suggestions grounded in sources."""
         client = self._get_chat_client()
         sources_block = self._build_context_snippets(hits)
 
-        school_context = ""
-        if college_name:
-            school_context = f"School of interest: **{college_name}**\n\n"
+        school_context = self._format_school_context(schools)
 
         user_prompt = ESSAY_IDEAS_USER.format(
             question=question,
@@ -510,6 +607,7 @@ class CollegeRAG:
             ],
             temperature=0.4,  # slightly more creative for brainstorming
             max_tokens=self._get_max_tokens(None, ESSAY_IDEAS),
+            prompt_cache_key="cole-essay-ideas",
         )
         if response and response.choices:
             return response.choices[0].message.content or ""
@@ -522,16 +620,14 @@ class CollegeRAG:
         question: str,
         essay_text: str,
         hits: List[Dict[str, Any]],
-        college_name: Optional[str],
+        schools: List[str],
         school_data_block: str = "",
     ) -> str:
         """Generate coaching feedback on an essay draft."""
         client = self._get_chat_client()
         sources_block = self._build_context_snippets(hits)
 
-        school_context = ""
-        if college_name:
-            school_context = f"School of interest: **{college_name}**\n\n"
+        school_context = self._format_school_context(schools)
 
         user_prompt = ESSAY_REVIEW_USER.format(
             question=question,
@@ -552,6 +648,7 @@ class CollegeRAG:
             ],
             temperature=0.3,
             max_tokens=self._get_max_tokens(None, ESSAY_REVIEW),
+            prompt_cache_key="cole-essay-review",
         )
         if response and response.choices:
             return response.choices[0].message.content or ""
@@ -578,37 +675,54 @@ class CollegeRAG:
         Returns:
             Dict with: answer, sources, confidence, source_count, query_type.
         """
-        # 1. Route
-        classification = self.router.classify(question, essay_text)
-        school = college_name or classification.detected_school
-        query_type = classification.query_type
+        # 1. Pre-classify (rule-based short-circuits)
+        pre = self.router.classify(question, essay_text)
+        # Dropdown takes precedence — skip extraction entirely
+        schools = [college_name] if college_name else pre.detected_schools
 
         # Short-circuit for greetings — skip the full RAG pipeline
-        if query_type == GREETING:
+        if pre.query_type == GREETING:
             answer = self._generate_greeting(question)
             return {
                 "answer": answer,
                 "sources": [],
                 "confidence": "high",
                 "source_count": 0,
-                "query_type": query_type,
+                "query_type": GREETING,
                 "reranked": False,
             }
 
-        # Detect ranking intent (LLM-based, gpt-4.1-nano)
-        ranking_intent = detect_ranking_intent(question)
+        # 2. LLM classification (type + complexity + categories)
+        intent = classify_query(question)
+        query_type = pre.query_type or intent.query_type
+        complexity = intent.complexity
 
-        # Fetch school data from DB for the detected school (non-ranking path)
-        school_data = None  # type: Optional[Dict[str, Any]]
-        if school:
-            school_data = fetch_school_data(school)
+        # Fetch school data and rewrite+embed in parallel — for non-ranking
+        # queries the DB fetch is independent of the retrieval path.
+        categories = list(dict.fromkeys(["identity"] + intent.categories))
+        school_data_map = {}  # type: Dict[str, Dict[str, Any]]
+        sd_block = ""
+        sd_future = None
 
-        # 2. Rewrite query for retrieval
+        need_school_data = query_type not in (RANKING, COMPARISON) and schools
+        if need_school_data:
+            pool = ThreadPoolExecutor(max_workers=1)
+            if len(schools) == 1:
+                sd_future = pool.submit(
+                    fetch_school_data_by_categories, schools[0], categories,
+                )
+            else:
+                sd_future = pool.submit(fetch_school_data_batch, schools)
+
+        # 3. Rewrite query for retrieval (runs in parallel with school fetch)
         search_query = self._rewrite_query(question, query_type)
 
-        # 3. Retrieve
+        # 4. Retrieve
         embedding = get_embedding(search_query)
         if embedding is None or len(embedding) != VECTOR_DIM:
+            if sd_future:
+                sd_future.cancel()
+                pool.shutdown(wait=False)
             return {
                 "answer": NO_ANSWER_RESPONSE,
                 "sources": [],
@@ -617,32 +731,52 @@ class CollegeRAG:
                 "query_type": query_type,
             }
 
-        # Multi-query retrieval for richer context coverage
-        if query_type in (ESSAY_IDEAS, ESSAY_REVIEW) and school:
-            queries = [search_query]
-            queries.append(f"{school} mission values what we look for in students")
-            queries.append(f"{school} unique programs culture community")
-            candidates = self.retriever.search_multi_query(
-                queries, college_name=school,
-                page_types=["about", "academics", "campus_life", "diversity", "outcomes"],
-                top_k=30,
-            )
-        elif query_type == ADMISSION_PREDICTION and school:
-            queries = [search_query]
-            queries.append(f"{school} admissions statistics acceptance rate class profile")
-            queries.append(f"{school} application requirements deadlines")
-            candidates = self.retriever.search_multi_query(
-                queries, college_name=school, top_k=30,
-            )
-        else:
-            candidates = self.retriever.search(
-                search_query, embedding, college_name=school, top_k=30,
-            )
+        # Collect school data result from parallel fetch
+        if sd_future:
+            sd_result = sd_future.result()
+            pool.shutdown(wait=False)
+            if len(schools) == 1:
+                if sd_result:
+                    sd_block = format_school_data_block_by_categories(sd_result, categories)
+                    school_data_map[sd_result["name"].lower()] = sd_result
+            else:
+                school_data_map = sd_result
+                sd_block = format_multi_school_data_block_by_categories(
+                    school_data_map, schools, categories,
+                )
+
+        # Check retrieval cache before hitting Milvus
+        cache_key = _retrieval_cache_key(search_query, schools or None)
+        candidates = _get_cached_candidates(cache_key)
+
+        if candidates is None:
+            # Multi-query retrieval for richer context coverage
+            if query_type in (ESSAY_IDEAS, ESSAY_REVIEW) and schools:
+                queries = [search_query]
+                for s in schools[:2]:  # cap auxiliary queries at 2 schools
+                    queries.append(f"{s} mission values what we look for in students")
+                    queries.append(f"{s} unique programs culture community")
+                candidates = self.retriever.search_multi_query(
+                    queries, college_names=schools or None, top_k=RAG_RETRIEVAL_TOP_K,
+                )
+            elif query_type == ADMISSION_PREDICTION and schools:
+                queries = [search_query]
+                for s in schools[:2]:
+                    queries.append(f"{s} admissions statistics acceptance rate class profile")
+                    queries.append(f"{s} application requirements deadlines")
+                candidates = self.retriever.search_multi_query(
+                    queries, college_names=schools or None, top_k=RAG_RETRIEVAL_TOP_K,
+                )
+            else:
+                candidates = self.retriever.search(
+                    search_query, embedding, college_names=schools or None, top_k=RAG_RETRIEVAL_TOP_K,
+                )
+            _set_cached_candidates(cache_key, candidates)
 
         if not candidates:
             logger.warning(
-                "RAG retrieval returned 0 candidates for query=%r school=%r",
-                search_query[:80], school,
+                "RAG retrieval returned 0 candidates for query=%r schools=%r",
+                search_query[:80], schools,
             )
             return {
                 "answer": NO_ANSWER_RESPONSE,
@@ -663,49 +797,51 @@ class CollegeRAG:
             search_query[:80],
         )
 
-        # 4. Rerank
-        # For ranking queries, batch-fetch school data for all candidates
-        # so the reranker can apply niche_rank / grade boosts across schools.
-        school_data_map = {}  # type: Dict[str, Dict[str, Any]]
-        if ranking_intent.is_ranking:
+        # 5. Rerank
+        if query_type in (RANKING, COMPARISON):
             candidate_names = list({
                 c.get("college_name", "") for c in candidates if c.get("college_name")
             })
             school_data_map = fetch_school_data_batch(candidate_names)
-        elif school_data:
-            school_data_map[school_data["name"].lower()] = school_data
 
+        preferred_page_types = (
+            ["about", "academics", "campus_life", "diversity", "outcomes",
+             "admissions", "safety_health", "research"]
+            if query_type in (ESSAY_IDEAS, ESSAY_REVIEW) else None
+        )
         hits = self.reranker.rerank(
             question, candidates, top_k=top_k,
-            ranking_intent=ranking_intent,
+            intent=intent,
             school_data_map=school_data_map,
+            preferred_page_types=preferred_page_types,
         )
 
-        # 5. Build school data block for LLM prompt
-        sd_block = ""
-        if ranking_intent.is_ranking:
-            # Ranking: all schools in hits, with category-specific Niche grades
-            sd_block = format_ranking_school_data_block(
-                school_data_map, hits, ranking_intent.categories,
+        # 6. Build school data block for ranking/comparison queries
+        if query_type in (RANKING, COMPARISON):
+            hit_names = list(dict.fromkeys(
+                (h.get("college_name") or "") for h in hits if h.get("college_name")
+            ))
+            sd_block = format_multi_school_data_block_by_categories(
+                school_data_map, hit_names, categories,
             )
-        elif school_data:
-            # Non-ranking: single school, base stats only (no Niche grades)
-            sd_block = format_school_data_block(school_data)
+            # Ranking queries also get Niche grades for ordering context
+            if query_type == RANKING:
+                sd_block += format_niche_grades_block(
+                    school_data_map, hits, intent.niche_categories,
+                )
 
-        # 6. Generate
-        complexity = classification.complexity
+        # 7. Generate
         if query_type == ESSAY_IDEAS:
-            answer = self._generate_essay_ideas(question, hits, school, school_data_block=sd_block)
+            answer = self._generate_essay_ideas(question, hits, schools, school_data_block=sd_block)
         elif query_type == ESSAY_REVIEW:
             answer = self._generate_essay_review(
-                question, essay_text or "", hits, school, school_data_block=sd_block,
+                question, essay_text or "", hits, schools, school_data_block=sd_block,
             )
         else:
-            # QA and admission_prediction both use the QA generator
-            # (admission_prediction gets ML context injected via bridge)
-            answer = self._generate_qa(question, hits, school, complexity, school_data_block=sd_block)
+            # QA, admission_prediction, ranking, comparison all use the QA generator
+            answer = self._generate_qa(question, hits, schools, complexity, school_data_block=sd_block, query_type=query_type)
 
-        # 6. Post-process
+        # 8. Post-process
         answer = self._verify_citations(answer, len(hits))
         confidence = self._compute_confidence(hits)
 
@@ -744,58 +880,96 @@ class CollegeRAG:
         import json
 
         try:
-            # 1. Route
-            classification = self.router.classify(question, essay_text)
-            school = college_name or classification.detected_school
-            query_type = classification.query_type
+            # 1. Pre-classify (rule-based short-circuits)
+            pre = self.router.classify(question, essay_text, essay_prompt)
+            # Dropdown takes precedence — skip extraction entirely
+            schools = [college_name] if college_name else pre.detected_schools
 
             # Short-circuit for greetings — skip the full RAG pipeline
-            if query_type == GREETING:
+            if pre.query_type == GREETING:
                 answer = self._generate_greeting(question)
                 yield {"type": "token", "content": answer}
-                yield {"type": "sources", "sources": [], "confidence": "high", "query_type": query_type, "reranked": False}
+                yield {"type": "sources", "sources": [], "confidence": "high", "query_type": GREETING, "reranked": False}
                 yield {"type": "done"}
                 return
 
-            # Detect ranking intent (LLM-based, gpt-4.1-nano)
-            ranking_intent = detect_ranking_intent(question)
+            # 2. LLM classification (type + complexity + categories)
+            intent = classify_query(question)
+            query_type = pre.query_type or intent.query_type
+            complexity = intent.complexity
 
-            # Fetch school data from DB for the detected school (non-ranking path)
-            school_data = None  # type: Optional[Dict[str, Any]]
-            if school:
-                school_data = fetch_school_data(school)
+            # Fetch school data and rewrite+embed in parallel — for non-ranking
+            # queries the DB fetch is independent of the retrieval path.
+            categories = list(dict.fromkeys(["identity"] + intent.categories))
+            school_data_map = {}  # type: Dict[str, Dict[str, Any]]
+            sd_block = ""
+            sd_future = None
 
-            # 2. Rewrite (pass history so pronouns/references are resolved)
+            need_school_data = query_type not in (RANKING, COMPARISON) and schools
+            if need_school_data:
+                pool = ThreadPoolExecutor(max_workers=1)
+                if len(schools) == 1:
+                    sd_future = pool.submit(
+                        fetch_school_data_by_categories, schools[0], categories,
+                    )
+                else:
+                    sd_future = pool.submit(fetch_school_data_batch, schools)
+
+            # 3. Rewrite (pass history so pronouns/references are resolved,
+            # runs in parallel with school data fetch)
             search_query = self._rewrite_query(question, query_type, history=history)
 
-            # 3. Retrieve
+            # 4. Retrieve
             embedding = get_embedding(search_query)
             if embedding is None or len(embedding) != VECTOR_DIM:
+                if sd_future:
+                    sd_future.cancel()
+                    pool.shutdown(wait=False)
                 yield {"type": "token", "content": NO_ANSWER_RESPONSE}
                 yield {"type": "sources", "sources": [], "confidence": "low", "query_type": query_type}
                 yield {"type": "done"}
                 return
 
-            if query_type in (ESSAY_IDEAS, ESSAY_REVIEW) and school:
-                queries = [search_query]
-                queries.append(f"{school} mission values what we look for in students")
-                queries.append(f"{school} unique programs culture community")
-                candidates = self.retriever.search_multi_query(
-                    queries, college_name=school,
-                    page_types=["about", "academics", "campus_life", "diversity", "outcomes"],
-                    top_k=30,
-                )
-            elif query_type == ADMISSION_PREDICTION and school:
-                queries = [search_query]
-                queries.append(f"{school} admissions statistics acceptance rate class profile")
-                queries.append(f"{school} application requirements deadlines")
-                candidates = self.retriever.search_multi_query(
-                    queries, college_name=school, top_k=30,
-                )
-            else:
-                candidates = self.retriever.search(
-                    search_query, embedding, college_name=school, top_k=30,
-                )
+            # Collect school data result from parallel fetch
+            if sd_future:
+                sd_result = sd_future.result()
+                pool.shutdown(wait=False)
+                if len(schools) == 1:
+                    if sd_result:
+                        sd_block = format_school_data_block_by_categories(sd_result, categories)
+                        school_data_map[sd_result["name"].lower()] = sd_result
+                else:
+                    school_data_map = sd_result
+                    sd_block = format_multi_school_data_block_by_categories(
+                        school_data_map, schools, categories,
+                    )
+
+            # Check retrieval cache before hitting Milvus
+            cache_key = _retrieval_cache_key(search_query, schools or None)
+            candidates = _get_cached_candidates(cache_key)
+
+            if candidates is None:
+                if query_type in (ESSAY_IDEAS, ESSAY_REVIEW) and schools:
+                    queries = [search_query]
+                    for s in schools[:2]:
+                        queries.append(f"{s} mission values what we look for in students")
+                        queries.append(f"{s} unique programs culture community")
+                    candidates = self.retriever.search_multi_query(
+                        queries, college_names=schools or None, top_k=RAG_RETRIEVAL_TOP_K,
+                    )
+                elif query_type == ADMISSION_PREDICTION and schools:
+                    queries = [search_query]
+                    for s in schools[:2]:
+                        queries.append(f"{s} admissions statistics acceptance rate class profile")
+                        queries.append(f"{s} application requirements deadlines")
+                    candidates = self.retriever.search_multi_query(
+                        queries, college_names=schools or None, top_k=RAG_RETRIEVAL_TOP_K,
+                    )
+                else:
+                    candidates = self.retriever.search(
+                        search_query, embedding, college_names=schools or None, top_k=RAG_RETRIEVAL_TOP_K,
+                    )
+                _set_cached_candidates(cache_key, candidates)
 
             if not candidates:
                 yield {"type": "token", "content": NO_ANSWER_RESPONSE}
@@ -803,35 +977,42 @@ class CollegeRAG:
                 yield {"type": "done"}
                 return
 
-            # 4. Rerank
-            school_data_map = {}  # type: Dict[str, Dict[str, Any]]
-            if ranking_intent.is_ranking:
+            # 5. Rerank
+            if query_type in (RANKING, COMPARISON):
                 candidate_names = list({
                     c.get("college_name", "") for c in candidates if c.get("college_name")
                 })
                 school_data_map = fetch_school_data_batch(candidate_names)
-            elif school_data:
-                school_data_map[school_data["name"].lower()] = school_data
 
+            preferred_page_types = (
+                ["about", "academics", "campus_life", "diversity", "outcomes",
+                 "admissions", "safety_health", "research"]
+                if query_type in (ESSAY_IDEAS, ESSAY_REVIEW) else None
+            )
             hits = self.reranker.rerank(
                 question, candidates, top_k=top_k,
-                ranking_intent=ranking_intent,
+                intent=intent,
                 school_data_map=school_data_map,
+                preferred_page_types=preferred_page_types,
             )
 
-            # 5. Build school data block for LLM prompt
-            sd_block = ""
-            if ranking_intent.is_ranking:
-                sd_block = format_ranking_school_data_block(
-                    school_data_map, hits, ranking_intent.categories,
+            # 6. Build school data block for ranking/comparison queries
+            if query_type in (RANKING, COMPARISON):
+                hit_names = list(dict.fromkeys(
+                    (h.get("college_name") or "") for h in hits if h.get("college_name")
+                ))
+                sd_block = format_multi_school_data_block_by_categories(
+                    school_data_map, hit_names, categories,
                 )
-            elif school_data:
-                sd_block = format_school_data_block(school_data)
+                # Ranking queries also get Niche grades for ordering context
+                if query_type == RANKING:
+                    sd_block += format_niche_grades_block(
+                        school_data_map, hits, intent.niche_categories,
+                    )
 
-            # 6. Build messages and stream generation
-            complexity = classification.complexity
+            # 7. Build messages and stream generation
             messages = self._build_messages(
-                question, query_type, hits, school,
+                question, query_type, hits, schools,
                 essay_text=essay_text,
                 essay_prompt=essay_prompt,
                 history=history,
@@ -851,6 +1032,7 @@ class CollegeRAG:
                 temperature=self._get_temperature(query_type),
                 max_tokens=self._get_max_tokens(response_length, query_type),
                 stream=True,
+                prompt_cache_key=self._PROMPT_CACHE_KEYS.get(query_type, "cole-qa"),
             )
 
             full_answer = []

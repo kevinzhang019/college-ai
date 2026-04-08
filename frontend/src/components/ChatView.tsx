@@ -8,6 +8,8 @@ import { useStreaming } from '../hooks/useStreaming'
 import MessageBubble from './MessageBubble'
 import { QA_SUGGESTIONS, ESSAY_SUGGESTIONS, pickRandom } from '../suggestions'
 
+const ALL_SUGGESTIONS = [...QA_SUGGESTIONS, ...ESSAY_SUGGESTIONS]
+
 function ColeAvatar({ size = 'sm' }: { size?: 'sm' | 'lg' }) {
   const cls = size === 'lg' ? 'w-12 h-12 text-lg' : 'w-6 h-6 text-xs'
   return (
@@ -19,13 +21,12 @@ function ColeAvatar({ size = 'sm' }: { size?: 'sm' | 'lg' }) {
 
 
 function WelcomeState() {
-  const mode = useStore((s) => s.mode)
   const setActiveConversation = useStore((s) => s.setActiveConversation)
   const { send } = useStreaming()
 
   const suggestions = useMemo(
-    () => pickRandom(mode === 'essay' ? ESSAY_SUGGESTIONS : QA_SUGGESTIONS, 4),
-    [mode],
+    () => pickRandom(ALL_SUGGESTIONS, 4),
+    [],
   )
 
   const handleSuggestionClick = useCallback((question: string) => {
@@ -42,9 +43,7 @@ function WelcomeState() {
         Hey, I'm Cole
       </h2>
       <p className="text-sm text-slate-500 mb-6 max-w-md">
-        {mode === 'essay'
-          ? "I'm your essay coach. I'll help you brainstorm ideas and review drafts using real college data."
-          : "Your friendly college advisor. Ask me about admissions, requirements, scholarships, or deadlines."}
+        Your friendly college advisor. Ask me about admissions, essays, scholarships, or deadlines.
       </p>
       <div className="flex flex-wrap gap-2 justify-center max-w-lg">
         {suggestions.map((s) => (

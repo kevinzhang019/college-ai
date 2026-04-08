@@ -1,0 +1,219 @@
+[
+  {
+    "question": "What is MIT's acceptance rate?",
+    "expected_schools": ["Massachusetts Institute of Technology"],
+    "expected_query_type": "qa",
+    "expected_complexity": "simple",
+    "tags": ["admissions", "single-school", "simple"]
+  },
+  {
+    "question": "How much does Stanford cost per year?",
+    "expected_schools": ["Stanford University"],
+    "expected_query_type": "qa",
+    "expected_complexity": "simple",
+    "tags": ["cost", "single-school", "simple"]
+  },
+  {
+    "question": "What SAT score do I need for Harvard?",
+    "expected_schools": ["Harvard University"],
+    "expected_query_type": "qa",
+    "expected_complexity": "simple",
+    "tags": ["admissions", "single-school", "simple"]
+  },
+  {
+    "question": "What is UCLA's student-faculty ratio?",
+    "expected_schools": ["University of California-Los Angeles"],
+    "expected_query_type": "qa",
+    "expected_complexity": "simple",
+    "tags": ["student", "single-school", "simple"]
+  },
+  {
+    "question": "Tell me about Carnegie Mellon's graduation rate",
+    "expected_schools": ["Carnegie Mellon University"],
+    "expected_query_type": "qa",
+    "expected_complexity": "simple",
+    "tags": ["outcome", "single-school", "simple"]
+  },
+  {
+    "question": "How do I apply for Early Decision at Duke?",
+    "expected_schools": ["Duke University"],
+    "expected_query_type": "qa",
+    "expected_complexity": "complex",
+    "tags": ["admissions", "single-school", "process"]
+  },
+  {
+    "question": "What financial aid options are available at USC?",
+    "expected_schools": ["University of Southern California"],
+    "expected_query_type": "qa",
+    "expected_complexity": "complex",
+    "tags": ["aid", "single-school", "complex"]
+  },
+  {
+    "question": "What makes Caltech's physics program unique compared to other schools?",
+    "expected_schools": ["California Institute of Technology"],
+    "expected_query_type": "qa",
+    "expected_complexity": "complex",
+    "tags": ["academics", "single-school", "complex"]
+  },
+  {
+    "question": "Explain the research opportunities at Johns Hopkins for undergraduates",
+    "expected_schools": ["Johns Hopkins University"],
+    "expected_query_type": "qa",
+    "expected_complexity": "complex",
+    "tags": ["academics", "single-school", "complex"]
+  },
+  {
+    "question": "What are the housing options for freshmen at NYU?",
+    "expected_schools": ["New York University"],
+    "expected_query_type": "qa",
+    "expected_complexity": "complex",
+    "tags": ["student", "single-school", "complex"]
+  },
+  {
+    "question": "What's the campus culture like at Brown?",
+    "expected_schools": ["Brown University"],
+    "expected_query_type": "qa",
+    "expected_complexity": "complex",
+    "tags": ["student", "single-school", "complex"]
+  },
+  {
+    "question": "How do the CS programs at MIT and Stanford compare?",
+    "expected_schools": ["Massachusetts Institute of Technology", "Stanford University"],
+    "expected_query_type": "comparison",
+    "expected_complexity": "complex",
+    "tags": ["academics", "multi-school", "comparison"]
+  },
+  {
+    "question": "MIT vs Caltech for engineering",
+    "expected_schools": ["Massachusetts Institute of Technology", "California Institute of Technology"],
+    "expected_query_type": "comparison",
+    "expected_complexity": "complex",
+    "tags": ["academics", "multi-school", "comparison"]
+  },
+  {
+    "question": "Compare Duke and UNC for pre-med",
+    "expected_schools": ["Duke University", "University of North Carolina at Chapel Hill"],
+    "expected_query_type": "comparison",
+    "expected_complexity": "complex",
+    "tags": ["academics", "multi-school", "comparison"]
+  },
+  {
+    "question": "Which is more affordable, UCLA or UC Berkeley?",
+    "expected_schools": ["University of California-Los Angeles", "University of California-Berkeley"],
+    "expected_query_type": "comparison",
+    "expected_complexity": "complex",
+    "tags": ["cost", "multi-school", "comparison"]
+  },
+  {
+    "question": "Compare the campus life at Northwestern and UChicago",
+    "expected_schools": ["Northwestern University", "University of Chicago"],
+    "expected_query_type": "comparison",
+    "expected_complexity": "complex",
+    "tags": ["student", "multi-school", "comparison"]
+  },
+  {
+    "question": "Rank the top 5 schools for computer science",
+    "expected_schools": [],
+    "expected_query_type": "ranking",
+    "expected_complexity": "complex",
+    "tags": ["academics", "ranking"]
+  },
+  {
+    "question": "What are the best colleges for food?",
+    "expected_schools": [],
+    "expected_query_type": "ranking",
+    "expected_complexity": "complex",
+    "tags": ["food", "ranking"]
+  },
+  {
+    "question": "Best party schools in the US",
+    "expected_schools": [],
+    "expected_query_type": "ranking",
+    "expected_complexity": "complex",
+    "tags": ["party_scene", "ranking"]
+  },
+  {
+    "question": "Top engineering schools with the best financial aid",
+    "expected_schools": [],
+    "expected_query_type": "ranking",
+    "expected_complexity": "complex",
+    "tags": ["academics", "aid", "ranking"]
+  },
+  {
+    "question": "Most diverse colleges in the northeast",
+    "expected_schools": [],
+    "expected_query_type": "ranking",
+    "expected_complexity": "complex",
+    "tags": ["diversity", "ranking"]
+  },
+  {
+    "question": "Help me brainstorm essay ideas for my Stanford application",
+    "expected_schools": ["Stanford University"],
+    "expected_query_type": "essay_ideas",
+    "expected_complexity": "complex",
+    "tags": ["essay", "single-school"]
+  },
+  {
+    "question": "What should I write about for my MIT supplemental essay?",
+    "expected_schools": ["Massachusetts Institute of Technology"],
+    "expected_query_type": "essay_ideas",
+    "expected_complexity": "complex",
+    "tags": ["essay", "single-school"]
+  },
+  {
+    "question": "Give me essay topic ideas for Columbia's why us essay",
+    "expected_schools": ["Columbia University in the City of New York"],
+    "expected_query_type": "essay_ideas",
+    "expected_complexity": "complex",
+    "tags": ["essay", "single-school"]
+  },
+  {
+    "question": "I want essay ideas for University of Michigan",
+    "expected_schools": ["University of Michigan-Ann Arbor"],
+    "expected_query_type": "essay_ideas",
+    "expected_complexity": "complex",
+    "tags": ["essay", "single-school"]
+  },
+  {
+    "question": "Help me brainstorm ideas for my Penn application essay",
+    "expected_schools": ["University of Pennsylvania"],
+    "expected_query_type": "essay_ideas",
+    "expected_complexity": "complex",
+    "tags": ["essay", "single-school"]
+  },
+  {
+    "question": "What are my chances of getting into MIT with a 3.9 GPA and 1550 SAT?",
+    "expected_schools": ["Massachusetts Institute of Technology"],
+    "expected_query_type": "admission_prediction",
+    "expected_complexity": "complex",
+    "tags": ["admissions", "prediction", "single-school"]
+  },
+  {
+    "question": "Can I get into Stanford with a 3.7 GPA?",
+    "expected_schools": ["Stanford University"],
+    "expected_query_type": "admission_prediction",
+    "expected_complexity": "complex",
+    "tags": ["admissions", "prediction", "single-school"]
+  },
+  {
+    "question": "How competitive am I for Harvard?",
+    "expected_schools": ["Harvard University"],
+    "expected_query_type": "admission_prediction",
+    "expected_complexity": "complex",
+    "tags": ["admissions", "prediction", "single-school"]
+  },
+  {
+    "question": "What are my odds at Yale with a 35 ACT?",
+    "expected_schools": ["Yale University"],
+    "expected_query_type": "admission_prediction",
+    "expected_complexity": "complex",
+    "tags": ["admissions", "prediction", "single-school"]
+  },
+  {
+    "question": "Am I a good fit for Princeton?",
+    "expected_schools": ["Princeton University"],
+    "expected_query_type": "admission_prediction",
+    "expected_complexity": "complex",
+    "tags": ["admissions", "prediction", "single-school"]
+  }
+]

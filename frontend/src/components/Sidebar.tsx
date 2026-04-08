@@ -4,8 +4,7 @@ import ConversationList from './ConversationList'
 import type { AppMode } from '../types'
 
 const modes: { key: AppMode; label: string; icon: string }[] = [
-  { key: 'qa', label: 'Q&A', icon: '💬' },
-  { key: 'essay', label: 'Essay Helper', icon: '✍️' },
+  { key: 'qa', label: 'Chat', icon: '💬' },
   { key: 'admissions', label: 'Admissions', icon: '🎯' },
   { key: 'experiences', label: 'My Profile', icon: '📋' },
 ]
@@ -19,7 +18,7 @@ export default function Sidebar() {
 
   const handleNewChat = () => {
     if (mode === 'experiences' || mode === 'admissions') return
-    createConversation(mode === 'essay' ? 'essay' : 'qa')
+    createConversation('qa')
   }
 
   return (
@@ -69,7 +68,7 @@ export default function Sidebar() {
           </div>
 
           {/* New chat button */}
-          {mode !== 'experiences' && mode !== 'admissions' && (
+          {mode === 'qa' && (
             <button
               onClick={handleNewChat}
               className="w-full flex items-center gap-2 px-3 py-2 rounded-lg border border-dark-700 text-sm text-slate-300 hover:bg-dark-800 hover:border-slate-600 transition-all mb-3"
@@ -101,7 +100,7 @@ export default function Sidebar() {
         </div>
 
         {/* Conversation list */}
-        {(mode === 'qa' || mode === 'essay') && (
+        {mode === 'qa' && (
           <div className="flex-1 overflow-y-auto custom-scrollbar">
             <ConversationList />
           </div>

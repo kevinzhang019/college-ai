@@ -337,6 +337,70 @@ def get_embedding(
     return None
 
 
+# ---------------------------------------------------------------------------
+# Contextual chunking — generate a short context prefix for each chunk
+# before embedding so the embedding captures document-level context.
+# See: Anthropic Contextual Retrieval (reduces failed retrievals by ~49%).
+# ---------------------------------------------------------------------------
+
+_CONTEXT_SYSTEM = (
+    "Produce a 1-2 sentence context prefix for a document chunk from a college website. "
+    "The prefix should explain what this chunk covers within the larger page. "
+    "Be specific about the college name and topic. Output ONLY the prefix, nothing else."
+)
+
+
+def generate_chunk_context(
+    full_document,
+    chunk,
+    college_name,
+    page_type,
+):
+    # type: (str, str, str, str) -> str
+    """Generate a short context prefix for a chunk before embedding.
+
+    Uses gpt-4.1-nano to create a 1-2 sentence description that situates
+    the chunk within its source document. The prefix is prepended to the
+    chunk text before embedding (but NOT stored in the content field).
+
+    Args:
+        full_document: The full page text (first 2000 chars used).
+        chunk: The chunk text to contextualize.
+        college_name: Name of the college this page belongs to.
+        page_type: Classification of the page (about, academics, etc.).
+
+    Returns:
+        A short context string (1-2 sentences).
+    """
+    client = get_openai_client()
+    if client is None:
+        return f"From {college_name} {page_type} page."
+
+    try:
+        response = client.chat.completions.create(
+            model="gpt-4.1-nano",
+            messages=[
+                {"role": "system", "content": _CONTEXT_SYSTEM},
+                {"role": "user", "content": (
+                    f"College: {college_name}\nPage type: {page_type}\n\n"
+                    f"Full page (first 2000 chars):\n{full_document[:2000]}\n\n"
+                    f"Chunk to contextualize:\n{chunk[:500]}"
+                )},
+            ],
+            temperature=0,
+            max_tokens=80,
+            prompt_cache_key="cole-chunk-context",
+        )
+        if response and response.choices:
+            prefix = response.choices[0].message.content
+            if prefix:
+                return prefix.strip()
+    except Exception as exc:
+        logger.debug("Contextual prefix generation failed: %s", exc)
+
+    return f"From {college_name} {page_type} page."
+
+
 def get_embeddings_batch(
     texts: List[str], model: str = "text-embedding-3-small", batch_size: int = 100,
     max_retries: int = 3,

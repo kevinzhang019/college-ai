@@ -36,9 +36,9 @@ Served by uvicorn on port 8000.
 | `sources` | array | `{college_name, url, title, content, crawled_at, distance}` per source |
 | `confidence` | string | `"high"`, `"medium"`, or `"low"` |
 | `source_count` | int | Number of sources used |
-| `query_type` | string | `"qa"`, `"essay_ideas"`, `"essay_review"`, or `"admission_prediction"` |
+| `query_type` | string | `"qa"`, `"essay_ideas"`, `"essay_review"`, `"admission_prediction"`, `"ranking"`, or `"comparison"` |
 
-The backend auto-classifies the query type. If `essay_text` is provided, it's always `essay_review`. The school can come from the `college` param (dropdown) or be extracted from the question text via fuzzy matching — either way, results are boosted the same.
+The backend auto-classifies the query type. If `essay_text` is provided, it's always `essay_review`. The school can come from the `college` param (dropdown) or be extracted from the question text via fuzzy matching. If the dropdown is set, text extraction is skipped entirely. When no dropdown is set, the system extracts all mentioned schools (up to 5) and filters retrieval for each.
 
 **Lazy loading:** ML predictor loaded on first request (`_get_predictor()`). Returns error message if no model artifacts exist.
 
@@ -83,12 +83,11 @@ React + Vite + TypeScript SPA. Dev server on port 3000, production builds to `fr
 
 ### Architecture
 
-ChatGPT-style layout with a persistent sidebar (280px) and main content area. Four modes:
+ChatGPT-style layout with a persistent sidebar (280px) and main content area. Three modes:
 
 | Mode | Key | View | Conversation-based? |
 |---|---|---|---|
-| Q&A | `qa` | ChatView + InputArea | Yes |
-| Essay Helper | `essay` | ChatView + InputArea | Yes |
+| Chat | `qa` | ChatView + InputArea | Yes |
 | Admissions Calculator | `admissions` | AdmissionsView | No (standalone) |
 | My Profile | `experiences` | ExperiencesView | No (standalone) |
 
@@ -118,26 +117,20 @@ App
 
 - Max 50 conversations with LRU eviction (oldest removed when limit exceeded)
 - Auto-titled from first user message (truncated at 60 characters)
-- Mode-scoped: conversations belong to `'qa'` or `'essay'`, sidebar filters by current mode
+- All chat conversations shown together in sidebar (legacy `'essay'` mode conversations from before the consolidation are also displayed)
 - Last 6 messages sent as `history` to `/ask/stream` for multi-turn context
 - Each conversation stores: `college` (selected school) and `essayPrompt` (essay assignment)
 
-### Q&A Mode
+### Chat Mode
 
+- Unified chat interface combining Q&A and essay assistance (previously separate modes)
 - Multi-message persistent conversations with SSE streaming via `useStreaming` hook
+- **Review Draft panel:** Collapsible panel above the input area with essay prompt input and essay draft textarea (with word count). When essay draft is provided, backend auto-classifies as `essay_review`. When only essay prompt is provided (no draft), auto-classifies as `essay_ideas`. Validation: essay text requires a prompt.
 - Settings popover (gear icon) in bottom-right of textarea with two controls: **Context Size** (XS/S/M/L/XL → `top_k` 3/5/8/12/16) and **Response Length** (XS/S/M/L/XL → overrides length budget). Both default to M and persist across sessions
-- Welcome state shows 4 randomized suggestions from ~100 QA questions across 10 categories
+- Welcome state shows 4 randomized suggestions from combined QA (~100) and essay (~50) question pools
 - Searchable college combobox (Headless UI, loaded from `/options` with 31-school fallback)
-- "See my chances" button appears inline with school dropdown when a college is selected — opens QuickPredictModal with GPA (row 1), SAT/ACT toggle + score (row 2), and major/residency (row 3, residency options: Not specified / In-State / Out-of-State / International), calls `POST /predict`, displays PredictionCard
-- Answers rendered as markdown with `[N]` citation badges, expandable source cards (first 3 shown, rest collapsible), confidence badge
-
-### Essay Helper Mode
-
-- Same multi-message conversation UI as Q&A
-- Required `essay_prompt` field — the essay assignment prompt, sent to backend with every message
-- Collapsible ReviewPanel slides up above the input area for pasting essay drafts (with word count)
-- User's `experiences` (from My Profile) automatically included in every request for personalized suggestions
-- Welcome state shows 4 randomized suggestions from ~50 essay prompts (brainstorm + review)
+- "See my chances" button appears inline with school dropdown when a college is selected — opens QuickPredictModal
+- Answers rendered as markdown with `[N]` citation badges, expandable source cards, confidence badge
 
 ### Admissions Calculator
 
@@ -157,8 +150,8 @@ App
 - Experience types: `extracurricular`, `project`, `work`, `volunteer` (each color-coded)
 - Each experience: title, organization, type, description, start/end date (month picker, optional "Present" toggle)
 - Profile data auto-populates Admissions Calculator and Quick Predict modal
-- Experiences auto-included as context in Essay mode requests (formatted by `format_experiences()` on backend)
-- Profile data (GPA, test scores, location, preferred majors) sent on every request when GPA, country, or preferred majors are set, enabling stats contextualization, residency-aware tuition advice, and major-specific guidance in Q&A mode
+- Experiences auto-included as context in all chat requests (formatted by `format_experiences()` on backend)
+- Profile data (GPA, test scores, location, preferred majors) sent on every request when GPA, country, or preferred majors are set, enabling stats contextualization, residency-aware tuition advice, and major-specific guidance
 
 ### Design System
 

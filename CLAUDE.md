@@ -26,9 +26,10 @@ cd frontend && npm install && cd ..                # install frontend deps
 - [Crawler](docs/crawler.md) — BFS crawler (curl_cffi, Playwright, camoufox, delta crawling) → Zilliz hybrid search
 - [Niche Scraper](docs/niche-scraper.md) — Niche.com scattergrams + letter grades via Camoufox
 - [Scorecard Client](docs/scorecard-client.md) — US DOE College Scorecard API → schools table
-- [RAG Pipeline](docs/rag-pipeline.md) — v2: greeting detection (skip pipeline) → school data injection (Turso DB → `[SCHOOL DATA]` block in prompt) → LLM-based ranking intent detection (gpt-4.1-nano → Niche categories) → hybrid search (dense + BM25, nprobe=64, embedding cache) → Cohere reranking (relevance threshold, ranking boost by niche_rank + category grades) → two-tier model routing (simple Q&A → gpt-4.1-nano, everything else → gpt-5.4-mini) → specialized generators (Q&A, Essay, Admission Prediction) with SSE streaming, multi-turn history, multi-query retrieval (essay + admissions), profile context in all modes, sentence-aware chunking, and prompt caching
+- [RAG Pipeline](docs/rag-pipeline.md) — v2: multi-school extraction (up to 5, span-tracking dedup) → unified LLM classifier (gpt-4.1-nano → query_type + complexity + categories + niche_categories) → greeting/essay short-circuits → parallel school data fetch + query rewrite → hybrid search (dense + BM25, configurable RRF/WeightedRanker, retrieval result cache, 50 candidates) → Cohere rerank-v4.0-pro (32K context, metadata-enriched docs, relevance threshold, ranking boost) → two-tier model routing (simple Q&A → gpt-4.1-nano, everything else → gpt-5.4-mini) → specialized generators with prompt_cache_key, SSE streaming, multi-turn history, multi-query retrieval (essay + admissions), profile context, sentence-aware chunking, contextual chunk prefixes, and RAGAS evaluation framework
+- [Multi-School Extraction](docs/multi-school-extraction.md) — extracts up to 5 schools from query text (alias/acronym → substring → fuzzy, span-tracking dedup), multi-school IN filter for retrieval, per-school `[SCHOOL DATA]` blocks
 - [Database](docs/database.md) — three tables (schools with 51 category-prefixed columns, applicant_datapoints, niche_grades), Turso/libSQL connection, inline migrations
-- [API & Frontend](docs/api.md) — FastAPI endpoints (/ask, /ask/stream, /predict, /compare), React frontend with 4 modes (Q&A, Essay Helper, Admissions Calculator, My Profile)
+- [API & Frontend](docs/api.md) — FastAPI endpoints (/ask, /ask/stream, /predict, /compare), React frontend with 3 modes (Chat, Admissions Calculator, My Profile)
 - [Frontend](docs/frontend.md) — Cole persona, component architecture, design system (dark gray + forest green), state management, streaming, mobile UX
 
 ## Project Structure
@@ -51,9 +52,9 @@ docs/                       Detailed architecture documentation
 ## Dependencies
 
 **Scraping:** `requests`, `beautifulsoup4`, `playwright`, `playwright-stealth`, `camoufox`, `curl_cffi`, `browserforge`
-**Vector DB / RAG:** `pymilvus>=2.5.0`, `openai`, `tiktoken`, `cohere`
+**Vector DB / RAG:** `pymilvus>=2.5.0`, `openai`, `tiktoken`, `cohere`, `rapidfuzz`
 **Database:** `sqlalchemy-libsql`
-**ML:** `lightgbm`, `optuna`, `scikit-learn`, `shap`, `venn-abers`, `rapidfuzz`
+**ML:** `lightgbm`, `optuna`, `scikit-learn`, `shap`, `venn-abers`
 **API:** `fastapi`, `uvicorn`
 **Frontend:** `react`, `zustand`, `framer-motion`, `tailwindcss`, `@headlessui/react`, `react-markdown`, `rehype-raw`
 
@@ -63,7 +64,7 @@ docs/                       Detailed architecture documentation
 
 **Optional model overrides:** `MODEL_SIMPLE` (default: `gpt-4.1-nano`), `MODEL_STANDARD` (default: `gpt-5.4-mini`), `OPENAI_CHAT_MODEL` (legacy override for `MODEL_STANDARD`)
 
-**Optional RAG tuning:** `RETRIEVAL_NPROBE` (default: `64`), `RAG_HISTORY_LIMIT` (default: `6`), `RAG_HISTORY_REWRITE_LIMIT` (default: `3`), `CHUNK_SENTENCE_AWARE` (default: `1`)
+**Optional RAG tuning:** `RETRIEVAL_NPROBE` (default: `64`), `RAG_RETRIEVAL_TOP_K` (default: `50`), `RAG_RANKER_TYPE` (default: `rrf`, alt: `weighted`), `RAG_RANKER_RRF_K` (default: `60`), `RAG_DENSE_WEIGHT` (default: `0.7`), `RAG_SPARSE_WEIGHT` (default: `0.3`), `RAG_HISTORY_LIMIT` (default: `6`), `RAG_HISTORY_REWRITE_LIMIT` (default: `3`), `RAG_HISTORY_REWRITE_CHARS` (default: `400`), `CHUNK_SENTENCE_AWARE` (default: `1`)
 
 ## Code Style
 

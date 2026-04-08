@@ -19,12 +19,11 @@ export default function ConversationList() {
   const activeConversationId = useStore((s) => s.activeConversationId)
   const setActiveConversation = useStore((s) => s.setActiveConversation)
   const deleteConversation = useStore((s) => s.deleteConversation)
-  const mode = useStore((s) => s.mode)
 
-  // Filter conversations by current mode
+  // Show all chat conversations (both legacy essay and qa modes)
   const filtered = conversationOrder
     .map((id) => conversations[id])
-    .filter((c) => c && c.mode === (mode === 'essay' ? 'essay' : 'qa'))
+    .filter((c) => c && (c.mode === 'qa' || c.mode === 'essay'))
 
   if (filtered.length === 0) {
     return (

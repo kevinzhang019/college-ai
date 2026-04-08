@@ -17,6 +17,11 @@ from typing import Any, Dict, List, Optional
 
 from college_ai.rag.embeddings import get_embedding
 from college_ai.scraping.config import (
+    RAG_DENSE_WEIGHT,
+    RAG_RANKER_RRF_K,
+    RAG_RANKER_TYPE,
+    RAG_SCHOOL_BOOST,
+    RAG_SPARSE_WEIGHT,
     RETRIEVAL_NPROBE,
     ZILLIZ_URI,
     ZILLIZ_API_KEY,
@@ -77,8 +82,7 @@ class HybridRetriever:
         self,
         query: str,
         query_embedding: List[float],
-        college_name: Optional[str] = None,
-        page_types: Optional[List[str]] = None,
+        college_names: Optional[List[str]] = None,
         top_k: int = 30,
     ) -> List[Dict[str, Any]]:
         """Run hybrid search (dense + BM25) with optional school pre-filter.
@@ -86,8 +90,7 @@ class HybridRetriever:
         Args:
             query: The search query text (used for BM25 arm).
             query_embedding: Pre-computed dense embedding vector.
-            college_name: If set, pre-filter results to this school.
-            page_types: If set, pre-filter to these page types (e.g. ["about", "academics"]).
+            college_names: If set, pre-filter results to these schools.
             top_k: Number of candidates to retrieve (before reranking).
 
         Returns:
@@ -103,37 +106,36 @@ class HybridRetriever:
         ]
 
         # Try school-specific search first
-        if college_name:
+        if college_names:
             hits = self._hybrid_search(
                 query, query_embedding, top_k,
                 output_fields=output_fields,
-                college_filter=college_name,
-                page_types=page_types,
+                college_filter=college_names,
             )
-            if len(hits) >= SCHOOL_FILTER_MIN_RESULTS:
+            min_results = SCHOOL_FILTER_MIN_RESULTS * len(college_names)
+            if len(hits) >= min_results:
                 result = self._dedupe_by_url(hits, top_k)
                 logger.info(
-                    "Search(school=%s): %d raw → %d deduped",
-                    college_name, len(hits), len(result),
+                    "Search(schools=%s): %d raw → %d deduped",
+                    college_names, len(hits), len(result),
                 )
                 return result
 
             # Sparse coverage — fall back to global + soft boost
             logger.info(
-                "School filter returned %d results (< %d) for '%s', "
+                "School filter returned %d results (< %d) for %s, "
                 "falling back to global search with boost.",
-                len(hits), SCHOOL_FILTER_MIN_RESULTS, college_name,
+                len(hits), min_results, college_names,
             )
             global_hits = self._hybrid_search(
                 query, query_embedding, top_k,
                 output_fields=output_fields,
-                page_types=page_types,
             )
-            boosted = self._apply_school_boost(global_hits, college_name)
+            boosted = self._apply_school_boost(global_hits, college_names)
             result = self._dedupe_by_url(boosted, top_k)
             logger.info(
                 "Search(global+boost for %s): %d raw → %d deduped",
-                college_name, len(global_hits), len(result),
+                college_names, len(global_hits), len(result),
             )
             return result
 
@@ -141,7 +143,6 @@ class HybridRetriever:
         hits = self._hybrid_search(
             query, query_embedding, top_k,
             output_fields=output_fields,
-            page_types=page_types,
         )
         result = self._dedupe_by_url(hits, top_k)
         logger.info(
@@ -153,8 +154,7 @@ class HybridRetriever:
     def search_multi_query(
         self,
         queries: List[str],
-        college_name: Optional[str] = None,
-        page_types: Optional[List[str]] = None,
+        college_names: Optional[List[str]] = None,
         top_k: int = 30,
     ) -> List[Dict[str, Any]]:
         """Run multiple queries and merge results (for essay mode).
@@ -170,7 +170,7 @@ class HybridRetriever:
             embedding = get_embedding(q)
             if embedding is None or len(embedding) != VECTOR_DIM:
                 continue
-            hits = self.search(q, embedding, college_name, page_types=page_types, top_k=top_k)
+            hits = self.search(q, embedding, college_names, top_k=top_k)
             for hit in hits:
                 url = hit.get("url", "")
                 if url and url not in seen_urls:
@@ -187,23 +187,23 @@ class HybridRetriever:
         query_embedding: List[float],
         top_k: int,
         output_fields: List[str],
-        college_filter: Optional[str] = None,
-        page_types: Optional[List[str]] = None,
+        college_filter: Optional[List[str]] = None,
     ) -> List[Dict[str, Any]]:
         """Execute hybrid dense + BM25 search on Milvus."""
-        from pymilvus import AnnSearchRequest, RRFRanker
+        from pymilvus import AnnSearchRequest, RRFRanker, WeightedRanker
 
         col = self._get_collection()
 
         # Build filter expression
-        conditions = []
+        expr = None
         if college_filter:
-            safe_name = college_filter.replace("'", "\\'")
-            conditions.append(f"college_name == '{safe_name}'")
-        if page_types:
-            types_str = ", ".join(f"'{t}'" for t in page_types)
-            conditions.append(f"page_type in [{types_str}]")
-        expr = " and ".join(conditions) if conditions else None
+            if len(college_filter) == 1:
+                safe_name = college_filter[0].replace("'", "\\'")
+                expr = f"college_name == '{safe_name}'"
+            else:
+                safe_names = [n.replace("'", "\\'") for n in college_filter]
+                names_str = "', '".join(safe_names)
+                expr = f"college_name in ['{names_str}']"
 
         # Dense retrieval arm (COSINE similarity)
         dense_req = AnnSearchRequest(
@@ -223,10 +223,16 @@ class HybridRetriever:
             expr=expr,
         )
 
+        # Select ranker: RRF (default) or WeightedRanker (configurable)
+        if RAG_RANKER_TYPE == "weighted":
+            ranker = WeightedRanker(RAG_DENSE_WEIGHT, RAG_SPARSE_WEIGHT)
+        else:
+            ranker = RRFRanker(k=RAG_RANKER_RRF_K)
+
         try:
             results = col.hybrid_search(
                 reqs=[dense_req, sparse_req],
-                rerank=RRFRanker(k=60),
+                rerank=ranker,
                 limit=top_k,
                 output_fields=output_fields,
             )
@@ -363,20 +369,20 @@ class HybridRetriever:
     @staticmethod
     def _apply_school_boost(
         hits: List[Dict[str, Any]],
-        target_college: str,
-        boost_factor: float = 0.15,
+        target_colleges: List[str],
+        boost_factor: float = RAG_SCHOOL_BOOST,
     ) -> List[Dict[str, Any]]:
-        """Boost results from the target college without hard-filtering others.
+        """Boost results from the target colleges without hard-filtering others.
 
         RRF/hybrid search returns scores where higher = more relevant.
-        Adding boost_factor increases the target school's effective score.
+        Adding boost_factor increases the target schools' effective score.
         Sort descending so highest-scoring results come first.
         """
-        college_lc = target_college.lower()
+        targets_lc = {c.lower() for c in target_colleges}
         for rec in hits:
             name = str(rec.get("college_name", "")).lower()
             score = float(rec.get("distance", 0.0) or 0.0)
-            if name == college_lc:
+            if name in targets_lc:
                 rec["_boosted_score"] = score + boost_factor
             else:
                 rec["_boosted_score"] = score

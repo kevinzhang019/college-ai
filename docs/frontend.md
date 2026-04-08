@@ -10,10 +10,8 @@ The assistant is named **Cole** — a friendly, knowledgeable college advisor wh
 
 - **Avatar:** A forest-green circle with a bold white "C" (`ColeAvatar` component). Appears in the sidebar header (32px), welcome state (48px), message labels (20px), and mobile header.
 - **Name label:** "Cole" in `text-forest-400` appears next to the avatar on every assistant message, streaming indicator, and sidebar header. The subtitle reads "Your college advisor."
-- **Welcome state greeting:** "Hey, I'm Cole" with mode-specific taglines:
-  - Q&A: "Your friendly college advisor. Ask me about admissions, requirements, scholarships, or deadlines."
-  - Essay: "I'm your essay coach. I'll help you brainstorm ideas and review drafts using real college data."
-- **Placeholder text** in the chat input references Cole by name: "Ask Cole about colleges..." (Q&A) and "Tell Cole what to focus on..." (Essay)
+- **Welcome state greeting:** "Hey, I'm Cole" with tagline: "Your friendly college advisor. Ask me about admissions, essays, scholarships, or deadlines."
+- **Placeholder text** in the chat input references Cole by name: "Ask Cole about colleges..."
 - **Loading states:** "Cole is thinking..." with pulsing dots while waiting for the first token, "Connecting to Cole..." during initial API health check
 - **Sidebar hints** speak in Cole's voice: "Cole will use them as context when helping with essays."
 - **College combobox** placeholder: "Select a school (Or just mention the school in your question, Cole will understand.)"
@@ -26,16 +24,15 @@ React 18, TypeScript, Tailwind CSS, Zustand (state with localStorage persistence
 
 ## Architecture
 
-ChatGPT-style layout: persistent sidebar (280px) on the left, main content area on the right. The app has four modes:
+ChatGPT-style layout: persistent sidebar (280px) on the left, main content area on the right. The app has three modes:
 
 | Mode | Key | View | Conversation-based? |
 |---|---|---|---|
-| Q&A | `qa` | ChatView + InputArea | Yes |
-| Essay Helper | `essay` | ChatView + InputArea | Yes |
+| Chat | `qa` | ChatView + InputArea | Yes |
 | Admissions Calculator | `admissions` | AdmissionsView | No (standalone form) |
 | My Profile | `experiences` | ExperiencesView | No (standalone form) |
 
-**Entry point** (`App.tsx`): Renders `Sidebar` + main content. Main content switches on `mode`: Q&A/Essay render `ChatView` + `InputArea`, Admissions renders `AdmissionsView`, Experiences renders `ExperiencesView`. An `ErrorBoundary` wraps the entire app. The `useApi` hook runs on mount to check `/health` and fetch `/options`.
+**Entry point** (`App.tsx`): Renders `Sidebar` + main content. Main content switches on `mode`: Chat renders `ChatView` + `InputArea`, Admissions renders `AdmissionsView`, Experiences renders `ExperiencesView`. An `ErrorBoundary` wraps the entire app. The `useApi` hook runs on mount to check `/health` and fetch `/options`.
 
 ## State Management
 
@@ -65,22 +62,22 @@ Zustand store (`store.ts`) with `persist` middleware, serializing to `localStora
 
 Fixed-width (280px) panel containing:
 1. **Header:** Cole avatar (32px green circle with "C") + name + "Your college advisor" subtitle
-2. **New Chat button:** Only visible in Q&A/Essay modes. Creates a new conversation in the current mode.
-3. **Mode selector:** Vertical list of 4 buttons with emoji icons (💬 Q&A, ✍️ Essay Helper, 🎯 Admissions, 📋 My Profile). Active mode gets a forest-green highlight with subtle border.
-4. **Conversation list:** Only shown in Q&A/Essay modes. Filtered to current mode. Each item shows the conversation title with a delete button on hover.
+2. **New Chat button:** Only visible in Chat mode. Creates a new conversation.
+3. **Mode selector:** Vertical list of 3 buttons with emoji icons (💬 Chat, 🎯 Admissions, 📋 My Profile). Active mode gets a forest-green highlight with subtle border.
+4. **Conversation list:** Only shown in Chat mode. Shows all chat conversations (including legacy essay-mode conversations). Each item shows the conversation title with a delete button on hover.
 5. **Contextual hints:** In Admissions mode: "Add schools and see your estimated admission chances." In Experiences mode: "Add your activities, projects, and experiences. Cole will use them as context when helping with essays."
 
 On mobile (`< lg` breakpoint): sidebar is `position: fixed`, slides in/out with spring animation (damping 25, stiffness 300). A semi-transparent backdrop overlay dismisses it on tap. Close button (X) appears in top-right.
 
 ### ChatView (`ChatView.tsx`)
 
-Renders the conversation for Q&A and Essay modes.
+Renders the conversation for Chat mode.
 
 **WelcomeState** (no active conversation or empty messages):
 - Large Cole avatar (48px)
 - "Hey, I'm Cole" heading
-- Mode-specific subtitle
-- 4 randomized suggestion chips from `suggestions.ts` (~100 QA, ~50 Essay). `pickRandom()` shuffles Fisher-Yates style, memoized per mode. Clicking a chip resets the active conversation (clearing any stale college/essay prompt fields) and immediately submits the question via `useStreaming.send()` — one-click from welcome screen to streaming response.
+- Unified tagline: "Your friendly college advisor. Ask me about admissions, essays, scholarships, or deadlines."
+- 4 randomized suggestion chips from combined QA + essay suggestion pools (~150 total). `pickRandom()` shuffles Fisher-Yates style, memoized. Clicking a chip resets the active conversation and immediately submits the question via `useStreaming.send()`.
 
 **Message list:**
 - Scrollable area with `max-w-3xl` centered content
@@ -119,11 +116,10 @@ Expandable card with forest-green left border (`border-l-4 border-l-forest-500`)
 Pinned to bottom of chat, `border-t border-dark-700` with backdrop blur.
 
 **Layout:**
-1. **ReviewPanel** (Essay mode only): Positioned above the main input area
-2. **Mode-specific fields row:**
-   - Essay prompt input (Essay mode only, required before sending)
-   - College combobox (always shown, 2/5 width in essay, full width in Q&A)
-   - "See my chances" button — inline to the right of school dropdown (appears when college selected → opens QuickPredictModal). When no college selected, a `w-9` spacer aligns the dropdown right edge with the chat textarea below
+1. **ReviewPanel:** Always available via toggle button above the main input area. Contains essay prompt input and essay draft textarea.
+2. **School selection row:**
+   - College combobox (full width)
+   - Info tooltip (when no college selected) or "See my chances" button (when college selected → opens QuickPredictModal)
 3. **Chat input row:**
    - Auto-resizing textarea (max 150px height), Enter to submit, Shift+Enter for newline
    - Settings popover (bottom-right of textarea): Headless UI `Popover` with settings gear icon + chevron. Opens upward with two sections — **Context Size** (XS/S/M/L/XL controlling `top_k`) and **Response Length** (XS/S/M/L/XL controlling LLM length budget). Both use pill-button selectors with forest-green active state. Persisted across sessions.
@@ -131,16 +127,19 @@ Pinned to bottom of chat, `border-t border-dark-700` with backdrop blur.
 
 **Connecting state:** Full skeleton UI with pulsing placeholder blocks + "Connecting to Cole..." label with bouncing dots. Shown while `isConnected` is false.
 
-**Validation:** Can't send without: non-empty input, connection, essay prompt (if essay mode). Disabled during streaming.
+**Validation:** Can't send without non-empty input and connection. If essay text is provided, essay prompt is required (prompt field flashes red if missing). Disabled during streaming.
 
 ### ReviewPanel (`ReviewPanel.tsx`)
 
-Collapsible essay draft editor in Essay mode:
+Collapsible essay draft editor, available in all chat conversations:
 - Toggle button: "Review Draft" / "Hide Draft" pill with rotating chevron
-- Slides up to 220px with spring animation
+- Slides up to 280px with spring animation
+- **Essay prompt input** at top (same `input-field-compact` style as other inputs). Placeholder: "Essay prompt (leave blank for general advice)". Flashes red with warning placeholder when user tries to send with essay text but no prompt.
 - Header bar: "Your Essay Draft" + word count
-- Full textarea for pasting essay content
-- Essay text sent as `essay_text` in the streaming request for review feedback
+- Bordered textarea for pasting essay content (`border border-dark-600 rounded-lg`)
+- When essay text is present → backend auto-classifies as `essay_review`
+- When only essay prompt is present (no text) → backend auto-classifies as `essay_ideas`
+- Both can be left blank for normal Q&A behavior
 
 ### QuickPredictModal (`QuickPredictModal.tsx`)
 
@@ -268,7 +267,7 @@ Small pill badge showing confidence level:
 
 ### ConversationList (`ConversationList.tsx`)
 
-Sidebar conversation history filtered by current mode:
+Sidebar conversation history showing all chat conversations (both current `qa` and legacy `essay` mode):
 - Sorted by `conversationOrder` (recency)
 - Active conversation highlighted
 - Delete button on hover
@@ -300,18 +299,18 @@ One-time mount effect: calls `checkHealth()` and `getOptions()` in parallel. Set
 
 Returns `{ send, cancel }`:
 
-- **`send(question, essayText?)`:** Creates conversation if needed, adds user message, builds request (with history, experiences, college, essay_prompt, profile, `top_k` from `contextSize`, `response_length` from `responseLength`), initiates SSE stream via `askStream`. Collects tokens into `streamingContent`, then on `onDone` assembles final assistant message with sources/confidence and adds to conversation.
+- **`send(question, essayText?)`:** Creates conversation if needed, adds user message, builds request (with history, experiences, college, essay_prompt, essay_text, profile, `top_k` from `contextSize`, `response_length` from `responseLength`), initiates SSE stream via `askStream`. Collects tokens into `streamingContent`, then on `onDone` assembles final assistant message with sources/confidence and adds to conversation.
 - **`cancel()`:** Aborts the AbortController, clears streaming state.
 
-History is built from the last 6 messages of the current conversation. Experiences are only included in essay mode. Profile data (GPA, test scores, location, preferred majors, saved schools) is sent on every request when the student has entered a GPA, set a country, added preferred majors, or saved schools — this allows the LLM to contextualize statistics, personalize tuition/residency advice, tailor program guidance to the student's ranked major preferences, and understand the student's ranked school preferences.
+History is built from the last 6 messages of the current conversation. Experiences and profile data are always included when available (not mode-gated). Essay prompt and essay text are sent when present in the ReviewPanel. Profile data (GPA, test scores, location, preferred majors, saved schools) is sent on every request when the student has entered a GPA, set a country, added preferred majors, or saved schools.
 
 ## Conversations
 
 - Max 50, LRU eviction (oldest removed when creating new conversation at limit)
 - Auto-titled from first user message (truncated at 60 chars)
-- Mode-scoped: each conversation belongs to `'qa'` or `'essay'`
+- All new conversations created as `'qa'` mode (legacy `'essay'` mode conversations from before the consolidation are still displayed)
 - Each conversation stores: selected `college`, `essayPrompt`, `messages[]`, timestamps
-- Sidebar filters conversation list by current mode
+- Sidebar shows all chat conversations together
 
 ## Design System
 

@@ -36,7 +36,7 @@ export interface ChatMessage {
 
 // ---- New types for v2 revamp ----
 
-export type AppMode = 'qa' | 'essay' | 'admissions' | 'experiences'
+export type AppMode = 'qa' | 'admissions' | 'experiences'
 
 export type ContextSize = 'XS' | 'S' | 'M' | 'L' | 'XL'
 

@@ -8,39 +8,53 @@
 User Query + (optional school) + (optional history) + (optional experiences) + (optional profile w/ location)
     │
     ▼
-[Router]  ─── classify: qa | essay_ideas | essay_review | admission_prediction | greeting
-    │           + extract school name from query text (alias/acronym → substring → fuzzy)
-    │           + complexity: simple | complex (for model routing)
-    │           greeting → skip RAG pipeline, lightweight nano response
+[Router]  ─── rule-based short-circuits:
+    │           essay_text → essay_review | essay_prompt → essay_ideas | greeting → skip
+    │           + extract school name(s) from query text (alias/acronym → substring → fuzzy, multi-school, capped at 5)
     ▼
-[School Data + Ranking Intent]  ─── parallel, after routing:
-    │   • fetch_school_data(school) — fuzzy-match → Turso DB (schools + niche_grades)
-    │   • detect_ranking_intent(question) — gpt-4.1-nano classification
-    │     → is_ranking + categories (academics, value, diversity, campus, etc.)
+[LLM Classifier]  ─── single gpt-4.1-nano call (classifier.py):
+    │   → query_type: qa | essay_ideas | essay_review | admission_prediction | ranking | comparison
+    │   → complexity: simple | complex (for model routing)
+    │   → categories: school data column prefixes (admissions, student, cost, aid, outcome, institution)
+    │   → niche_categories: Niche grade categories for ranking reranking (ranking only)
     ▼
-[Query Rewriting]  ─── always rewrites via gpt-4.1-nano (no length threshold)
-    │                     resolves pronouns/references using conversation history
+[School Data Fetch ║ Query Rewriting]  ─── run in parallel (ThreadPoolExecutor):
+    │   • School data: category-aware fetch (school_data.py)
+    │     - Non-ranking/comparison + school detected: fetch_school_data_by_categories()
+    │     - Ranking/comparison: batch fetch after retrieval (schools come from RAG results)
+    │     - Identity fields + base fields always included
+    │   • Query rewriting: gpt-4.1-nano, resolves pronouns/references using
+    │     conversation history (last 3 msgs, 400 chars each)
     ▼
 [Hybrid Retrieval]  ─── dense (COSINE) + BM25 via Milvus 2.5
-    │                     pre-filter by college_name if specified
+    │                     configurable ranker: RRF (default, k=60) or WeightedRanker
+    │                     pre-filter by college_name(s) if specified (IN filter for multi-school)
     │                     multi-query: essay (values, culture), admission (stats, reqs)
+    │                     retrieval result cache: TTL 5min LRU (256 entries, keyed on query+schools)
     │                     embedding cache: LRU 1024 entries (skips API on repeat queries)
+    │                     default candidate pool: 50 (configurable via RAG_RETRIEVAL_TOP_K)
     ▼
-[Reranking]  ─── Cohere rerank-v3.5 cross-encoder (30 → 8 candidates)
+[Reranking]  ─── Cohere rerank-v4.0-pro cross-encoder (50 → 8 candidates)
+    │              documents include college_name + page_type metadata for better scoring
+    │              doc context window: 8000 chars (v4.0's 32K token window)
     │              relevance threshold filter (score ≥ 0.1)
-    │              ranking boost: if is_ranking, boost by niche_rank + category grades
+    │              ranking boost: if ranking, boost by niche_rank + niche_categories grades
+    │              page type boost: essay modes +0.1 for preferred page types
     │              graceful fallback if COHERE_API_KEY not set
     ▼
 [Model Selection]  ─── two-tier routing based on query type + complexity:
     │                    simple Q&A → gpt-4.1-nano (cheap, fast)
     │                    everything else → gpt-5.4-mini (higher quality, 90% cache discount)
     ▼
-[Generator]  ─── route to specialized prompt:
-    │              • QA: grounded answer with citations         (temp 0.2)
-    │              • Essay Ideas: 3-4 brainstorming angles      (temp 0.4)
-    │              • Essay Review: coaching feedback on draft    (temp 0.3)
-    │              • Admission Prediction: QA + ML bridge       (temp 0.2)
-    │              school data block injected into user prompt (all modes)
+[Generator]  ─── route to specialized prompt + type instructions:
+    │              • QA: grounded answer with citations           (temp 0.2)
+    │              • Ranking: QA + RANKING_INSTRUCTIONS           (temp 0.2)
+    │              • Comparison: QA + COMPARISON_INSTRUCTIONS     (temp 0.2)
+    │              • Essay Ideas: 3-4 brainstorming angles        (temp 0.4)
+    │              • Essay Review: coaching feedback on draft      (temp 0.3)
+    │              • Admission Prediction: QA + ML bridge         (temp 0.2)
+    │              category-aware school data block injected into user prompt (all modes)
+    │              [NICHE GRADES] block appended for ranking queries only
     │
     ├── /ask (sync):     full response returned
     └── /ask/stream:     tokens via SSE → citation correction → sources/metadata
@@ -56,51 +70,52 @@ User Query + (optional school) + (optional history) + (optional experiences) + (
 
 | File | Purpose |
 |---|---|
-| `rag/router.py` | Two-layer query classifier (rule-based + LLM fallback) + school name extraction (alias/acronym dict → substring → rapidfuzz) + complexity classification for model routing + greeting detection (skips RAG pipeline) |
-| `rag/school_data.py` | Fetches school + Niche grade data from Turso DB via `SchoolMatcher` fuzzy matching. `fetch_school_data()` for single school, `fetch_school_data_batch()` for multi-school ranking queries. Formats as `[SCHOOL DATA]` block: base stats only for non-ranking, category-specific Niche grades for ranking |
-| `rag/ranking.py` | LLM-based ranking intent detection (gpt-4.1-nano). Classifies whether a query is a ranking and categorizes into Niche categories (supports multiple categories) for reranking boost |
-| `rag/retrieval.py` | `HybridRetriever` — dense + BM25 hybrid search, school pre-filtering, URL dedup |
-| `rag/reranker.py` | Cohere rerank-v3.5 wrapper with graceful degradation, ranking boost (niche_rank + category grades + acceptance rate), exposes `available` property for response metadata |
-| `rag/prompts.py` | All system/user prompts: QA, essay ideas, essay review, query rewriting, classification. Also `format_experiences()`, `format_profile_context()`, `determine_residency()`, `get_extra_instructions()` (conditional domain knowledge). Multi-turn instructions are inlined into each system prompt for prompt caching. |
-| `rag/service.py` | Thin orchestrator wiring router → school data fetch + ranking detection → retrieval → reranker → generator |
+| `rag/router.py` | Rule-based pre-classifier (greeting/essay short-circuits) + multi-school extraction via `extract_schools()` (alias/acronym dict → substring → rapidfuzz, span-tracking dedup, capped at 5) + greeting detection (skips RAG pipeline) |
+| `rag/classifier.py` | Unified LLM query classifier (single gpt-4.1-nano call). Returns `QueryIntent(query_type, complexity, categories, niche_categories)`. Categories are school data column prefixes for selective DB fetching. Niche categories are Niche grade names for ranking reranking (ranking queries only) |
+| `rag/school_data.py` | Category-aware school data from Turso DB via `SchoolMatcher` fuzzy matching. `fetch_school_data_by_categories()` for single school, `fetch_school_data_batch()` for multi-school. `format_school_data_block_by_categories()` / `format_multi_school_data_block_by_categories()` for selective `[SCHOOL DATA]` blocks. `format_niche_grades_block()` for ranking-only Niche grades |
+| `rag/retrieval.py` | `HybridRetriever` — dense + BM25 hybrid search (configurable RRF or WeightedRanker), school pre-filtering, URL dedup |
+| `rag/reranker.py` | Cohere rerank-v4.0-pro wrapper (32K context, 8000 char docs with metadata) with graceful degradation, ranking boost (niche_rank + niche_categories grades + acceptance rate), page type boost (essay modes), exposes `available` property for response metadata |
+| `rag/prompts.py` | All system/user prompts: QA, essay ideas, essay review, query rewriting. Type-specific instructions: `RANKING_INSTRUCTIONS`, `COMPARISON_INSTRUCTIONS`. Also `format_experiences()`, `format_profile_context()`, `determine_residency()`, `get_extra_instructions()` (conditional domain knowledge). Multi-turn instructions are inlined into each system prompt for prompt caching. |
+| `rag/service.py` | Orchestrator: router → classifier → parallel school data fetch + rewrite → retrieval (with TTL cache) → reranker → generator. Prompt caching via `prompt_cache_key` on all OpenAI calls. |
 | `rag/bridge.py` | ML prediction injection for admission-probability questions |
-| `rag/embeddings.py` | OpenAI embedding utilities, batch processing, cross-thread batcher, in-memory embedding cache (LRU 1024), sentence-aware chunking |
+| `rag/embeddings.py` | OpenAI embedding utilities, batch processing, cross-thread batcher, in-memory embedding cache (LRU 1024), sentence-aware chunking, contextual chunk prefix generation (`generate_chunk_context()`) |
 | `rag/text_cleaner.py` | HTML cleaning, content extraction, dedup |
 
-## Step 1: Query Routing (`router.py`)
+## Step 1: Query Routing (`router.py` + `classifier.py`)
 
-Two-layer classifier:
+Two-stage classification:
 
-**Layer 1 — Rule-based (zero latency, ~85% of queries):**
-- **Greeting detection** (checked first): short messages (≤8 words) with no factual/essay signals that match greeting patterns ("hi", "hello", "thanks", "good morning", etc.) → `greeting` type, skips the entire RAG pipeline
-- Essay signals: "essay", "common app", "personal statement", "help me write", "brainstorm", etc.
-- Essay review signals: "review my", "feedback on", "edit my", etc.
-- Factual signals: "acceptance rate", "deadline", "tuition", "financial aid", "dorm", "net price", "demonstrated interest", "css profile", "waitlist", "ap credit", etc.
-- Admission prediction: regex patterns from `bridge.py` ("what are my chances", "can i get into", etc.)
-- If `essay_text` param provided → always `essay_review`
+**Stage 1 — Rule-based short-circuits (`router.py`, zero latency):**
+- **Greeting detection**: short messages (≤8 words) matching greeting patterns ("hi", "hello", "thanks", etc.) → `greeting` type, skips the entire RAG pipeline (including LLM classifier)
+- **Essay text provided** → forces `essay_review` type (LLM classifier still runs for categories)
+- **Essay prompt provided (no text)** → forces `essay_ideas` type (LLM classifier still runs for categories)
+- Everything else → `query_type=None`, defers to LLM classifier
 
-**Layer 2 — LLM fallback (for ambiguous queries):**
-- Single gpt-4.1-nano call, `max_tokens=10`, `temperature=0`
-- Categories: `qa | essay_ideas | essay_review | admission_prediction | greeting`
+**Stage 2 — Unified LLM classifier (`classifier.py`):**
+- Single gpt-4.1-nano call, `max_tokens=80`, `temperature=0`
+- Returns `QueryIntent` with four fields:
+  - `query_type`: `qa | essay_ideas | essay_review | admission_prediction | ranking | comparison`
+  - `complexity`: `simple | complex` (simple only for short single-topic Q&A lookups)
+  - `categories`: school data column prefixes (`admissions`, `student`, `cost`, `aid`, `outcome`, `institution`) — controls which DB columns are fetched for `[SCHOOL DATA]` blocks
+  - `niche_categories`: Niche grade categories (`academics`, `value`, `food`, `campus`, etc.) — only populated for ranking queries, used for reranker boosting and `[NICHE GRADES]` block
+- Falls back to `QueryIntent(query_type="qa", complexity="complex")` on any error
+- Router's `query_type` takes precedence when set (essay_text/essay_prompt short-circuits)
 
-**Complexity classification (for model routing):**
-- Only Q&A queries can be "simple" — all other types are always "complex"
-- Simple: < 20 words AND no comparison/strategy keywords AND at most 1 factual signal
-- Complex: everything else (multiple signals, comparisons, how-to, strategy, long questions, LLM-classified)
-- Conservative: ambiguous queries default to "complex" (better model)
+**Multi-school extraction** (`extract_schools()` → `List[str]`, capped at 5) — see [multi-school-extraction.md](multi-school-extraction.md) for full details:
 
-**School extraction:**
-- Alias/acronym lookup first: ~100 entries mapping acronyms (MIT, BYU, UCLA, UIUC, etc.), shorthands (UMich, WashU, UPenn, Cal Poly, Ole Miss, etc.), and single-name schools (Harvard, Stanford, etc.) to canonical names. Uses word-boundary regex to avoid false positives (e.g., "bu" inside "about").
-- Exact substring match against known college list (from CSVs), longest match first
-- Fuzzy ngram matching via rapidfuzz (`token_sort_ratio`, cutoff 85, ngram length 1-7)
-- Dropdown selection takes precedence over text extraction
-- When a school is detected from the prompt, it filters retrieval identically to a dropdown selection
+All three stages collect **all non-overlapping matches** (not just the best), using character-span tracking to avoid double-counting overlapping text regions. Results are deduplicated by canonical name.
+
+- **Stage 1 — Alias/acronym lookup:** ~100 entries mapping acronyms (MIT, BYU, UCLA, UIUC, etc.), shorthands (UMich, WashU, UPenn, Cal Poly, Ole Miss, etc.), and single-name schools (Harvard, Stanford, etc.) to canonical names. Uses word-boundary regex to avoid false positives (e.g., "bu" inside "about"). Longest alias checked first.
+- **Stage 2 — Exact substring match** against known college list (from CSVs), longest match first
+- **Stage 3 — Fuzzy ngram matching** via rapidfuzz (`token_sort_ratio`, cutoff 85, ngram length 1-7). Only ngrams that don't overlap already-consumed spans are checked.
+- **Dropdown takes absolute precedence:** if the `college` param is set, text extraction is skipped entirely and only the dropdown school is used
+- When schools are detected from the prompt, retrieval is filtered to include documents from all of them (single school uses `==` filter, multiple schools use `IN` filter)
 
 ## Step 2: Query Rewriting
 
 Always rewrites (no 60-char threshold). Uses gpt-4.1-nano with a prompt optimized for college admissions semantic search. Expands abbreviations (CS, EA, ED, RD, FA, FAFSA).
 
-**History-aware rewriting:** When conversation history is available (streaming path), the last N messages (configurable via `RAG_HISTORY_REWRITE_LIMIT`, default 3) are included in the rewrite prompt so the model can resolve pronouns and implicit references (e.g. "What about their CS program?" after asking about MIT → "MIT Computer Science program admissions requirements").
+**History-aware rewriting:** When conversation history is available (streaming path), the last N messages (configurable via `RAG_HISTORY_REWRITE_LIMIT`, default 3) are included in the rewrite prompt so the model can resolve pronouns and implicit references (e.g. "What about their CS program?" after asking about MIT → "MIT Computer Science program admissions requirements"). Each message is truncated to `RAG_HISTORY_REWRITE_CHARS` (default 400) characters to keep rewrite fast.
 
 ## Step 3: Hybrid Retrieval (`retrieval.py`)
 
@@ -111,68 +126,73 @@ Uses ORM `Collection.hybrid_search()` with two arms:
 | Dense | `embedding` (FLOAT_VECTOR 1536) | COSINE | OpenAI text-embedding-3-small, nprobe configurable via `RETRIEVAL_NPROBE` (default 64) |
 | Sparse | `content_sparse` (SPARSE_FLOAT_VECTOR) | BM25 | Auto-generated by Milvus from `content` field |
 
-**Fusion:** `RRFRanker(k=60)` — Reciprocal Rank Fusion, parameter-free.
+**Fusion:** Configurable via `RAG_RANKER_TYPE`:
+- `rrf` (default): `RRFRanker(k=RAG_RANKER_RRF_K)` — Reciprocal Rank Fusion, ignores raw scores, uses rank position only. k=60 default.
+- `weighted`: `WeightedRanker(RAG_DENSE_WEIGHT, RAG_SPARSE_WEIGHT)` — score-based weighted fusion, default 70% dense / 30% sparse. Useful if one arm consistently outperforms the other.
 
 **School filtering:**
-- If school specified: pre-filter via `expr='college_name == "X"'` on both arms
-- If < 4 results from school filter: fall back to global search + soft score boost (+0.15) for the target school, sorted descending (higher RRF score = more relevant)
+- Single school: pre-filter via `expr='college_name == "X"'` on both arms
+- Multiple schools: pre-filter via `expr='college_name in ["X", "Y"]'` on both arms
+- Fallback threshold scales with school count: need `4 × len(schools)` results from filtered search; if below, fall back to global search + soft score boost (+0.15) for all target schools, sorted descending (higher RRF score = more relevant)
 - INVERTED scalar index on `college_name` for millisecond filtering
 
 **Embedding cache:** In-memory LRU cache (1024 entries, thread-safe) on `get_embedding()` keyed by text hash. Eliminates redundant OpenAI API calls for repeated/similar queries.
 
+**Retrieval result cache:** TTL-based LRU cache (256 entries, 5 min TTL, thread-safe) keyed on `(query_text, sorted_school_names)`. Avoids repeated Milvus round-trips for the same query within a short window.
+
+**Contextual chunking:** `generate_chunk_context()` in `embeddings.py` can generate a 1-2 sentence context prefix for each chunk before embedding, per Anthropic's Contextual Retrieval technique (~49% reduction in failed retrievals). The prefix is prepended to the chunk text for embedding but NOT stored in the content field.
+
 **Multi-query retrieval:** Multiple query types use supplemental queries for richer context:
 
-| Query Type | Supplemental Queries | Page Type Filter |
+| Query Type | Supplemental Queries | Page Type Boost |
 |---|---|---|
-| `essay_ideas` / `essay_review` | `{school} mission values what we look for in students`, `{school} unique programs culture community` | about, academics, campus_life, diversity, outcomes |
-| `admission_prediction` | `{school} admissions statistics acceptance rate class profile`, `{school} application requirements deadlines` | (none) |
+| `essay_ideas` / `essay_review` | Per school (capped at 2 schools): `{school} mission values what we look for in students`, `{school} unique programs culture community` | about, academics, campus_life, diversity, outcomes, admissions, safety_health, research (rerank boost +0.1) |
+| `admission_prediction` | Per school (capped at 2 schools): `{school} admissions statistics acceptance rate class profile`, `{school} application requirements deadlines` | (none) |
 
-Results are merged and deduped by URL.
+Results are merged and deduped by URL. Page types are never used as hard filters — preferred types receive a rerank score boost instead, so all page types remain retrievable.
 
 **URL diversity:** Max 2 chunks per URL (`MAX_CHUNKS_PER_URL`).
 
-## Step 3.5: School Data Fetch + Ranking Intent Detection (`school_data.py` + `ranking.py`)
+## Step 3.5: Category-Aware School Data Fetch (`school_data.py`)
 
-After routing (and before retrieval), two operations run:
+The LLM classifier determines which school data categories are relevant. `school_data.py` selectively fetches and formats only those columns. The `SchoolMatcher` instance is cached as a lazy module-level singleton to avoid reloading ~6,500 schools on every call.
 
-**School data fetch** (`school_data.py`): When a school is detected (from query text or dropdown), `fetch_school_data(school_name)` fuzzy-matches the name via `SchoolMatcher` (from `ml/school_matcher.py`) → UNITID, then queries the `schools` + `niche_grades` tables from Turso. Returns a flat dict with all fields (admissions stats, financials, demographics, Niche grades, etc.) or None if no match. The `SchoolMatcher` instance is cached as a lazy module-level singleton to avoid reloading ~6,500 schools on every call.
+**Parallelization:** For non-ranking queries, school data fetch runs **in parallel** with query rewriting + embedding + retrieval via `ThreadPoolExecutor(max_workers=1)`. This saves ~50-100ms from the critical path since the DB round-trip is independent of the retrieval path.
 
-For ranking queries, `fetch_school_data_batch(school_names)` batch-fetches data for all unique schools in the retrieval results (deduplicating by UNITID).
+**Fetching modes:**
 
-**School data injection varies by query type:**
+- **Non-ranking/comparison, single school:** `fetch_school_data_by_categories(school, categories)` — fetches only columns for the relevant category prefixes. Identity fields (acceptance rate, URL, etc.) and base fields (name, city, state, ownership) are always included.
+- **Non-ranking/comparison, multiple schools:** `fetch_school_data_batch(schools)` — batch-fetches all fields per school, deduplicating by UNITID.
+- **Ranking/comparison queries:** `fetch_school_data_batch(candidate_names)` — batch-fetches data for all unique schools in the retrieval results (schools come from RAG, not user input).
 
-- **Non-ranking queries:** `format_school_data_block(data)` renders a `[SCHOOL DATA]` block with **base stats only** (location, admissions, enrollment, financials, demographics) — **no Niche grades**. Single school.
-- **Ranking queries:** `format_ranking_school_data_block(school_data_map, hits, categories)` renders a `[SCHOOL DATA]` block for **every school** in the reranked hits, with base stats plus **only the Niche grades matching the detected categories** (e.g. if categories=["academics", "athletics"], only those two grades appear per school). niche_rank is included in the header. If categories=["other"], no Niche grades are included (base stats only for all schools).
+**Formatting modes:**
 
-The LLM is instructed that `[SCHOOL DATA]` statistics can be referenced without citation (they come from our verified database, not crawled sources).
+- **All query types with schools:** `format_school_data_block_by_categories(data, categories)` renders a `[SCHOOL DATA]` block with **only the fields for the requested categories**. For multiple schools, `format_multi_school_data_block_by_categories()` concatenates separate `[SCHOOL DATA]` blocks per school.
+- **Ranking queries only:** `format_niche_grades_block(school_data_map, hits, niche_categories)` appends a separate `[NICHE GRADES]` block with letter grades per school for the detected Niche categories. This block is clearly labeled: "for internal ranking only, NEVER mention in response."
 
-**Ranking intent detection** (`ranking.py`): `detect_ranking_intent(question)` uses a gpt-4.1-nano call (~$0.00003, ~200-400ms) with a static system prompt to classify whether the question is a ranking query and which Niche categories it maps to. Returns a `RankingIntent(is_ranking, categories)`.
+The LLM is instructed that `[SCHOOL DATA]` statistics can be referenced without citation (verified database). Niche grades must never be mentioned in responses — they only influence ranking order.
 
-Categories (matching `niche_grades` columns): `academics`, `value`, `diversity`, `campus`, `athletics`, `party_scene`, `professors`, `location`, `dorms`, `food`, `student_life`, `safety`, `other`.
-
-Examples:
-- "What are the best engineering schools?" → `is_ranking=True, categories=["academics"]`
-- "Which school has the best social scene near a city?" → `is_ranking=True, categories=["party_scene", "location"]`
-- "Tell me about MIT" → `is_ranking=False`
-- "Compare MIT vs Stanford" → `is_ranking=False` (comparison, not ranking)
-
-Falls back to `RankingIntent(is_ranking=False)` on any error.
+**Classification examples:**
+- "What is MIT's acceptance rate?" → `categories=["admissions"]`, school data block shows only test score fields
+- "How much does Stanford cost?" → `categories=["cost", "aid"]`, shows tuition + aid fields
+- "Best schools for food" → ranking, `categories=["cost"]`, `niche_categories=["food"]`, shows cost data + `[NICHE GRADES]` with food grades
+- "MIT vs Stanford for CS" → comparison, `categories=["admissions", "outcome"]`, shows admissions + outcomes for both schools
 
 ## Step 4: Reranking (`reranker.py`)
 
-Cohere `rerank-v3.5` cross-encoder. Takes 30 candidates from retrieval, returns top `top_k` (default 8, configurable 1–20 via API).
+Cohere `rerank-v4.0-pro` cross-encoder (32K token context). Takes 50 candidates from retrieval (configurable via `RAG_RETRIEVAL_TOP_K`), returns top `top_k` (default 8, configurable 1–20 via API).
 
 The frontend exposes this as a **context size selector** (XS=3, S=5, M=8, L=12, XL=16) in the input area, allowing users to trade speed for thoroughness.
 
-- Documents sent as `"{title}\n{content[:3000]}"` (rerank-v3.5 supports ~4096 tokens)
+- Documents include metadata: `"College: {name} | Page: {type}\n{title}\n{content[:8000]}"` — the college_name and page_type help the cross-encoder distinguish sources across schools
 - **Relevance threshold:** Hits with rerank_score < 0.1 are filtered out to avoid diluting context with irrelevant passages
 - Falls back to retrieval order if `COHERE_API_KEY` not set or API fails
-- ~200ms latency for 30 documents
+- ~200-400ms latency for 50 documents
 - `top_k` parameter controls final count: XS(3), S(5), M(8, default), L(12), XL(16)
 
 ### Ranking Boost
 
-For ranking queries (`ranking_intent.is_ranking == True`), after Cohere reranking but before the relevance threshold filter, `_apply_ranking_boost()` modifies scores:
+For ranking queries (`intent.query_type == "ranking"`), after Cohere reranking but before the relevance threshold filter, `_apply_ranking_boost()` modifies scores using `intent.niche_categories`:
 
 | Boost Component | Weight | Formula | Condition |
 |---|---|---|---|
@@ -185,6 +205,14 @@ Grade conversion: A+=4.3, A=4.0, A-=3.7, B+=3.3, B=3.0, B-=2.7, C+=2.3, C=2.0, C
 Total max boost: ~0.30 on top of Cohere's 0-1 scores. Enough to influence ordering for ranking queries without overriding semantic relevance for non-ranking queries. Hits are re-sorted by boosted score after applying.
 
 School data for the boost is passed via `school_data_map` (dict keyed by lowercased school name). For non-ranking queries, no boost is applied.
+
+### Page Type Boost
+
+For essay modes (`essay_ideas`, `essay_review`), after Cohere reranking (and after any ranking boost), `_apply_page_type_boost()` adds +0.1 to the rerank score of hits whose `page_type` matches the preferred set: `about`, `academics`, `campus_life`, `diversity`, `outcomes`, `admissions`, `safety_health`, `research`. Hits are then re-sorted by boosted score.
+
+This covers most informational page types — only `transfer`, `international`, `financial_aid`, and `other` are non-preferred. The +0.1 boost is enough to break ties and lift preferred types without overriding strong semantic relevance from Cohere.
+
+Not applied to Q&A or admission prediction modes.
 
 ## Step 5: Generation (`prompts.py` + `service.py`)
 
@@ -212,9 +240,13 @@ All system prompts share a `COLE_PREAMBLE` prefix (~950 tokens) containing the C
 
 ### Prompt Sets
 
-All prompts use the **Cole** persona ("You are Cole, a college admissions advisor and essay coach"). Four specialized prompt sets, all enforcing citation grounding:
+All prompts use the **Cole** persona ("You are Cole, a college admissions advisor and essay coach"). Six query types with specialized prompts, all enforcing citation grounding:
 
 **QA:** Strict grounding contract — every factual claim needs `[N]` citation. Dynamic length budget based on query type (150-600 words), overridable by `response_length` parameter (XS: 50-100w, S: 100-200w, M: auto-detect, L: 400-600w, XL: 600-900w). Includes a statistics contextualization directive (acceptance rates describe the applicant pool, not individual chances; compare to student's profile when available). Optional "Next Steps" section for actionable queries. Conditional domain knowledge injected via `get_extra_instructions()` (see below). Temperature 0.2.
+
+**Ranking:** Uses QA system prompt + `RANKING_INSTRUCTIONS` injected via `{type_instructions}`. Instructions: numbered list from best to worst, each entry with bold heading + 2-3 sentence justification grounded in `[SCHOOL DATA]` stats. Must respect ordering from Niche grades (via `[NICHE GRADES]` block) without mentioning them. Focus on the student's aspect of interest (e.g. food, academics) as primary driver; other factors as minor supporting details. Direct tone, no hedging, no preamble — start with #1. Temperature 0.2.
+
+**Comparison:** Uses QA system prompt + `COMPARISON_INSTRUCTIONS` injected via `{type_instructions}`. Instructions: structure by dimension (not by school), lead with a quick-glance markdown table of 4-6 key stats, ground every claim in `[SCHOOL DATA]` or sources, highlight meaningful differences (interpret gaps, not just list numbers), balanced treatment (equal depth per school). Focus on the student's aspect of interest as primary dimension. Ends with "## Bottom Line" section: "Choose A if X; choose B if Y." No preamble — start with comparison table. Temperature 0.2.
 
 **Essay Ideas:** Coach persona. Identifies 3-4 specific programs/values/traditions from sources, suggests essay angles with hooks. Requires framing each angle as what the student BRINGS to the school, not what the school offers. Specificity rule: every suggestion must include a detail that could NOT apply to a different school. Does NOT write the essay. Temperature 0.4.
 
@@ -236,18 +268,20 @@ For `essay_ideas` and `essay_review` modes, `format_experiences(experiences)` co
 
 Injects a `[SCHOOL DATA]` block into the user prompt via the `{school_data_block}` placeholder. Content varies by query type:
 
-**Non-ranking queries** (single school detected): Base stats only from the `schools` table — no Niche grades.
-- **Location & type:** city, state, ownership (public/private)
-- **Admissions:** acceptance rate, SAT avg/range, ACT range
-- **Enrollment & outcomes:** enrollment, student-faculty ratio, graduation rate, retention rate
-- **Financials:** tuition (in-state/out-of-state), avg net cost, median earnings (10yr)
-- **Demographics:** racial breakdown, first-gen percentage
+**Non-ranking queries** (one or more schools detected): Category-aware `[SCHOOL DATA]` blocks showing only fields relevant to the question. Available categories:
+- **identity:** acceptance rate, aliases, URL, locale
+- **admissions:** SAT avg/range, ACT range, test policy
+- **student:** enrollment, retention, student-faculty ratio, demographics
+- **cost:** tuition (in-state/out-of-state), cost of attendance, net price by income bracket
+- **aid:** Pell grant rate, federal loan rate, median debt
+- **outcome:** graduation rate, median earnings (10yr)
+- **institution:** endowment, faculty salary, instructional spend
 
-**Ranking queries**: A `[SCHOOL DATA]` block for **each school** in the reranked hits, with base stats plus **only the Niche grades matching the detected categories**. For example, if `categories=["academics", "athletics"]`, each school's block includes only `Academics: A+ | Athletics: B+`. niche_rank is shown in the header. If `categories=["other"]`, no Niche grades are included.
+When multiple schools are detected, each gets its own `[SCHOOL DATA]` header block. This mirrors the ranking query format so the LLM can distinguish and compare schools side by side.
 
-The LLM is instructed that these statistics can be referenced without `[N]` citations since they come from our verified database rather than crawled sources. Fields that are None are omitted from the block.
+**Ranking and comparison queries**: Same category-aware `[SCHOOL DATA]` blocks as non-ranking, but for **all schools** in the reranked hits (batch-fetched after retrieval via `fetch_school_data_batch()`). For ranking queries only, a separate `[NICHE GRADES]` block is appended containing letter grades per school for the detected `niche_categories` (e.g. "MIT (#3): Academics A+, Food B+"). This block is clearly labeled "for internal ranking only, NEVER mention in response." Comparison queries do not receive Niche grades.
 
-For ranking queries, school data is batch-fetched via `fetch_school_data_batch()` after reranking (to cover all schools in the hits). For non-ranking queries, a single `fetch_school_data()` call is made early and reused.
+The LLM is instructed that `[SCHOOL DATA]` statistics can be referenced without `[N]` citations since they come from our verified database. `[NICHE GRADES]` must never be mentioned — they only influence ranking order. Fields that are None are omitted.
 
 ### Profile Context Injection
 
@@ -268,7 +302,6 @@ Profile data flows from the frontend Zustand store (`profile: { gpa, testScoreTy
 | Pattern | Trigger Keywords | Injected Guidance |
 |---|---|---|
 | **How-to / process** | "how to", "apply", "deadline", "steps" | Adds "Next Steps" section |
-| **Comparison** | "compare", "versus", "vs" | Structures answer as school comparison |
 | **Financial aid** | "financial aid", "tuition", "scholarship", "net price", "afford" | Distinguishes sticker vs net price, need-based vs merit aid; uses residency to specify in-state vs out-of-state tuition |
 | **Demonstrated interest** | "demonstrated interest", "campus tour", "info session" | Notes DI policies vary; highly selective schools often don't track it |
 | **ED/EA/RD strategy** | "early decision", "early action", "when should i apply" | Explains binding/non-binding tradeoffs, financial implications of ED |
@@ -277,7 +310,7 @@ Profile data flows from the frontend Zustand store (`profile: { gpa, testScoreTy
 
 ### `essay_prompt` Parameter
 
-The `essay_prompt` field from `/ask/stream` provides the essay assignment prompt. It gives the model context about what the student is writing. Required by the frontend in essay mode before sending any message.
+The `essay_prompt` field from `/ask/stream` provides the essay assignment prompt. It gives the model context about what the student is writing. Available via the ReviewPanel in the unified chat interface. When `essay_prompt` is provided without `essay_text`, the router auto-classifies as `essay_ideas`. When `essay_text` is also provided, it auto-classifies as `essay_review`. The frontend requires a prompt when essay text is present.
 
 ## Step 6: Post-processing
 
@@ -337,7 +370,7 @@ Pages are classified by URL pattern at crawl time into 12 categories. Patterns a
 
 Categories: `transfer`, `international`, `diversity`, `admissions`, `academics`, `financial_aid`, `outcomes`, `safety_health`, `about`, `campus_life`, `research`, `other`.
 
-Used by essay mode to target `about`/`academics`/`campus_life`/`diversity`/`outcomes` pages for school personality content.
+Used by essay modes (essay_ideas, essay_review) as a rerank boost signal — hits matching `about`/`academics`/`campus_life`/`diversity`/`outcomes`/`admissions`/`safety_health`/`research` receive a +0.1 rerank score boost. Not used as a hard filter. Q&A and admission prediction modes apply no page type boost.
 
 ## Environment Variables
 
@@ -350,8 +383,21 @@ Used by essay mode to target `about`/`academics`/`campus_life`/`diversity`/`outc
 | `ZILLIZ_COLLECTION_NAME` | `colleges` | Hybrid search collection |
 | `RAG_MAX_CHUNKS_PER_URL` | `2` | URL diversity cap |
 | `RETRIEVAL_NPROBE` | `64` | Dense search index probe count (higher = better recall, slightly slower) |
+| `RAG_RETRIEVAL_TOP_K` | `50` | Number of candidates retrieved before reranking |
+| `RAG_RANKER_TYPE` | `rrf` | Hybrid search merge strategy: `rrf` (Reciprocal Rank Fusion) or `weighted` |
+| `RAG_RANKER_RRF_K` | `60` | RRF k parameter (only used when `RAG_RANKER_TYPE=rrf`) |
+| `RAG_DENSE_WEIGHT` | `0.7` | Dense arm weight (only used when `RAG_RANKER_TYPE=weighted`) |
+| `RAG_SPARSE_WEIGHT` | `0.3` | Sparse/BM25 arm weight (only used when `RAG_RANKER_TYPE=weighted`) |
+| `RAG_RERANK_MIN_SCORE` | `0.1` | Minimum rerank score — hits below this are filtered out |
+| `RAG_RERANK_DOC_MAX_CHARS` | `8000` | Max chars per document sent to Cohere reranker |
+| `RAG_RERANK_NICHE_RANK_WEIGHT` | `0.15` | Ranking boost weight for Niche rank position |
+| `RAG_RERANK_ACCEPTANCE_WEIGHT` | `0.05` | Ranking boost weight for acceptance rate (academics only) |
+| `RAG_RERANK_GRADE_WEIGHT` | `0.10` | Ranking boost weight for Niche category grades |
+| `RAG_RERANK_PAGE_TYPE_BOOST` | `0.1` | Score boost for preferred page types (essay modes) |
+| `RAG_SCHOOL_BOOST` | `0.15` | Soft score boost for target schools in fallback global search |
 | `RAG_HISTORY_LIMIT` | `6` | Max conversation messages included in generation prompt |
 | `RAG_HISTORY_REWRITE_LIMIT` | `3` | Max conversation messages included in query rewrite prompt |
+| `RAG_HISTORY_REWRITE_CHARS` | `400` | Max chars per message in query rewrite context |
 | `CHUNK_MAX_TOKENS` | `512` | Max tokens per chunk |
 | `CHUNK_OVERLAP_TOKENS` | `50` | Token overlap between chunks (token-based mode only) |
 | `CHUNK_SENTENCE_AWARE` | `1` | Set to `0` to use token-based chunking instead of sentence-aware |

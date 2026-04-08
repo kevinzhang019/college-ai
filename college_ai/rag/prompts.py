@@ -30,20 +30,82 @@ QUERY_REWRITE_SYSTEM = (
 )
 
 # ---------------------------------------------------------------------------
-# Query classification (LLM fallback)
+# Ranking-specific instructions (injected into QA_USER for ranking queries)
 # ---------------------------------------------------------------------------
 
-CLASSIFY_SYSTEM = (
-    "Classify this college admissions query into exactly one category.\n\n"
-    "Categories:\n"
-    "- qa: factual questions about colleges (admissions, programs, deadlines, tuition, campus life)\n"
-    "- essay_ideas: requests for essay brainstorming, topic ideas, or essay planning help\n"
-    "- essay_review: requests to review, critique, or improve an existing essay draft\n"
-    "- admission_prediction: questions about chances of getting in, probability, competitiveness\n\n"
-    "Output ONLY the category name, nothing else."
+RANKING_INSTRUCTIONS = (
+    "\n"
+    "RANKING INSTRUCTIONS:\n"
+    "You are producing a ranked list. Follow these rules strictly:\n\n"
+    "1. OUTPUT FORMAT: Return a numbered list (1, 2, 3...) from best to worst for the "
+    "student's question. Each entry must include:\n"
+    "   - The school name as a bold heading (e.g. **1. School Name**)\n"
+    "   - A 2-3 sentence justification grounded in the provided [SCHOOL DATA] statistics "
+    "and source snippets. Cite specific numbers (acceptance rate, median SAT, net price, "
+    "graduation rate, student-faculty ratio, etc.) that support the ranking position.\n\n"
+    "2. ORDERING LOGIC: The [SCHOOL DATA] blocks and [NICHE GRADES] block already reflect "
+    "quality signals relevant to this question. Respect the ordering they suggest unless "
+    "the source snippets provide strong evidence to override it. When two schools are "
+    "close, use source details (programs, facilities, student reviews) as tiebreakers.\n\n"
+    "3. GROUNDING: Every justification must reference at least one concrete statistic from "
+    "[SCHOOL DATA] or one specific detail from the source snippets. Do not rely on general "
+    "reputation or knowledge. If the data for a school is thin, say so briefly rather than "
+    "padding with vague praise.\n\n"
+    "4. DIFFERENTIATION: Explain why each school ranks where it does relative to its "
+    "neighbors — what makes #2 different from #3? Avoid repeating the same generic praise "
+    "for every entry.\n\n"
+    "5. FOCUS: The student's question implies a specific aspect (e.g. food, academics, "
+    "cost). Make that aspect the PRIMARY driver of your ranking and justifications. "
+    "Other factors (location, enrollment, outcomes) may appear as minor supporting "
+    "details but should not dominate any entry.\n\n"
+    "6. TONE: Be direct and confident. Students want a clear signal, not a disclaimer "
+    "essay. Skip phrases like \"it's hard to say,\" \"rankings are subjective,\" or "
+    "\"it really depends.\" One brief caveat at the end is fine if genuinely warranted — "
+    "but do not hedge every entry.\n\n"
+    "7. BREVITY: Each entry should be 2-4 sentences. The full list should feel scannable. "
+    "Do not write an introduction paragraph — start with #1 immediately.\n"
 )
 
-CLASSIFY_USER = "Query: {question}\nCategory:"
+COMPARISON_INSTRUCTIONS = (
+    "\n"
+    "COMPARISON INSTRUCTIONS:\n"
+    "You are producing a structured comparison. Follow these rules strictly:\n\n"
+    "1. STRUCTURE BY DIMENSION, NOT BY SCHOOL: Organize the response by aspect "
+    "(e.g. Academics, Cost, Campus Life, Outcomes) with a ### heading for each. "
+    "Within each section, discuss ALL schools together so the reader sees direct "
+    "contrasts. Never dedicate a full section to just one school.\n\n"
+    "2. LEAD WITH A QUICK-GLANCE TABLE: Start with a compact markdown table "
+    "comparing 4-6 key statistics pulled directly from the [SCHOOL DATA] blocks "
+    "(e.g. acceptance rate, median SAT, net price, graduation rate, student-faculty "
+    "ratio). Pick metrics most relevant to the student's question. This table is "
+    "the anchor — prose sections expand on it.\n\n"
+    "3. FOCUS: If the student's question implies a specific aspect (e.g. \"for CS\", "
+    "\"campus life\", \"cost\"), make that aspect the PRIMARY focus — give it the most "
+    "depth and detail. Other dimensions may appear as shorter supporting sections "
+    "but should not overshadow the main comparison topic.\n\n"
+    "4. GROUND EVERY CLAIM: Each dimension section must cite at least one concrete "
+    "number from [SCHOOL DATA] or one specific detail from the source snippets. "
+    "Do not rely on general reputation. If data is missing for one school, say so "
+    "rather than filling the gap with vague praise.\n\n"
+    "5. HIGHLIGHT MEANINGFUL DIFFERENCES: Don't just list parallel stats — interpret "
+    "them. \"Stanford's net price is $18K vs MIT's $24K, a $6K/year gap that compounds "
+    "over four years\" is better than stating each number in isolation. When schools "
+    "are similar on a dimension, say so briefly and move on.\n\n"
+    "6. BALANCE AND FAIRNESS: Give each school equal depth and specificity. If you "
+    "cite three statistics for one school in a section, cite a comparable number for "
+    "the other. Do not let ordering, phrasing, or emphasis systematically favor "
+    "either school.\n\n"
+    "7. DECISION-ORIENTED TAKEAWAY: End with a ## Bottom Line section (3-4 sentences) "
+    "that synthesizes the tradeoffs without declaring a winner. Frame it as: "
+    "\"Choose School A if you prioritize X; choose School B if you prioritize Y.\" "
+    "If the student's profile data is available, note which factors align with "
+    "their specific situation.\n\n"
+    "8. TONE: Be direct and confident. Students want clarity, not disclaimers. "
+    "Skip \"it really depends\" and \"both are great schools\" filler. One brief "
+    "caveat is fine if genuinely warranted.\n\n"
+    "9. NO INTRODUCTIONS: Start with the comparison table immediately. "
+    "Do not write a preamble paragraph.\n"
+)
 
 # ---------------------------------------------------------------------------
 # Shared preamble — identical prefix across all system prompts so OpenAI can
@@ -68,12 +130,13 @@ COLE_PREAMBLE = (
 
     # --- Citation protocol ---
     "CITATION PROTOCOL:\n"
-    "- Use [N] format where N corresponds to source numbers in the Sources block.\n"
+    "- Cite sources using bracketed numbers matching the Sources block: [1], [2], etc.\n"
     "- You may cite multiple sources for the same fact: [1][3].\n"
     "- Cite at the end of the sentence, before the period.\n"
     "- Do not cite sources that don't contain the specific claim.\n"
     "- When paraphrasing across multiple sources, cite all relevant ones.\n"
-    "- If you cannot find a citation for a claim, do not include the claim.\n\n"
+    "- If you cannot find a citation for a claim, do not include the claim.\n"
+    "- NEVER output a literal [N] — always use a real source number or omit the citation.\n\n"
 
     # --- Formatting ---
     "FORMATTING:\n"
@@ -204,6 +267,9 @@ QA_USER = (
     "- If ML model prediction data is provided above, lead with the prediction, "
     "contextualize it relative to the school's acceptance rate, and explain what "
     "the key factors mean for this student's strategy.\n"
+    "- If a [NICHE GRADES] block is provided, use it ONLY to determine ranking order. "
+    "NEVER mention Niche, Niche grades, or letter grades (A+, B-, etc.) in your response.\n"
+    "{type_instructions}"
     "{extra_instructions}"
     "- Target length: {length_budget}. Do not pad or repeat.\n"
 )
@@ -351,13 +417,6 @@ def get_extra_instructions(question: str) -> str:
         lines.append(
             "- End with a ## Next Steps section using bullet points "
             "for undergraduate applicants.\n"
-        )
-
-    # Comparison questions
-    if any(kw in q for kw in ["compare", "versus", "vs"]):
-        lines.append(
-            "- Structure the answer as a comparison with clear sections "
-            "for each school.\n"
         )
 
     # Financial aid / cost questions

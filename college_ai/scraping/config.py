@@ -161,8 +161,23 @@ CHUNK_SENTENCE_AWARE = os.getenv("CHUNK_SENTENCE_AWARE", "1") == "1"
 
 # RAG retrieval settings
 RETRIEVAL_NPROBE = int(os.getenv("RETRIEVAL_NPROBE", "64"))
+RAG_RETRIEVAL_TOP_K = int(os.getenv("RAG_RETRIEVAL_TOP_K", "50"))
+RAG_RANKER_TYPE = os.getenv("RAG_RANKER_TYPE", "rrf")  # "rrf" or "weighted"
+RAG_RANKER_RRF_K = int(os.getenv("RAG_RANKER_RRF_K", "60"))
+RAG_DENSE_WEIGHT = float(os.getenv("RAG_DENSE_WEIGHT", "0.7"))
+RAG_SPARSE_WEIGHT = float(os.getenv("RAG_SPARSE_WEIGHT", "0.3"))
 RAG_HISTORY_LIMIT = int(os.getenv("RAG_HISTORY_LIMIT", "6"))
 RAG_HISTORY_REWRITE_LIMIT = int(os.getenv("RAG_HISTORY_REWRITE_LIMIT", "3"))
+RAG_HISTORY_REWRITE_CHARS = int(os.getenv("RAG_HISTORY_REWRITE_CHARS", "400"))
+
+# RAG reranking thresholds
+RAG_RERANK_MIN_SCORE = float(os.getenv("RAG_RERANK_MIN_SCORE", "0.1"))
+RAG_RERANK_DOC_MAX_CHARS = int(os.getenv("RAG_RERANK_DOC_MAX_CHARS", "8000"))
+RAG_RERANK_NICHE_RANK_WEIGHT = float(os.getenv("RAG_RERANK_NICHE_RANK_WEIGHT", "0.15"))
+RAG_RERANK_ACCEPTANCE_WEIGHT = float(os.getenv("RAG_RERANK_ACCEPTANCE_WEIGHT", "0.05"))
+RAG_RERANK_GRADE_WEIGHT = float(os.getenv("RAG_RERANK_GRADE_WEIGHT", "0.10"))
+RAG_RERANK_PAGE_TYPE_BOOST = float(os.getenv("RAG_RERANK_PAGE_TYPE_BOOST", "0.1"))
+RAG_SCHOOL_BOOST = float(os.getenv("RAG_SCHOOL_BOOST", "0.15"))
 
 # ==================== PAGE TYPE CLASSIFICATION ====================
 

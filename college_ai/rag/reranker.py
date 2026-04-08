@@ -1,7 +1,7 @@
 """
 Cross-encoder reranking for the College RAG system.
 
-Primary: Cohere rerank-v3.5 (requires COHERE_API_KEY env var).
+Primary: Cohere rerank-v4.0-pro (requires COHERE_API_KEY env var).
 Fallback: passthrough (returns candidates in their original order).
 """
 
@@ -10,6 +10,15 @@ from __future__ import annotations
 import logging
 import os
 from typing import Any, Dict, List, Optional
+
+from college_ai.scraping.config import (
+    RAG_RERANK_ACCEPTANCE_WEIGHT,
+    RAG_RERANK_DOC_MAX_CHARS,
+    RAG_RERANK_GRADE_WEIGHT,
+    RAG_RERANK_MIN_SCORE,
+    RAG_RERANK_NICHE_RANK_WEIGHT,
+    RAG_RERANK_PAGE_TYPE_BOOST,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -70,7 +79,7 @@ class Reranker:
             import cohere
             self._cohere_client = cohere.ClientV2(api_key=api_key)
             self._available = True
-            logger.info("Cohere reranker initialized (rerank-v3.5).")
+            logger.info("Cohere reranker initialized (rerank-v4.0-pro).")
             return True
         except ImportError:
             logger.warning("cohere package not installed — reranking disabled.")
@@ -86,8 +95,9 @@ class Reranker:
         query: str,
         hits: List[Dict[str, Any]],
         top_k: int = 8,
-        ranking_intent: Optional[Any] = None,
+        intent: Optional[Any] = None,
         school_data_map: Optional[Dict[str, Dict[str, Any]]] = None,
+        preferred_page_types: Optional[List[str]] = None,
     ) -> List[Dict[str, Any]]:
         """Rerank hits by relevance to the query.
 
@@ -95,7 +105,7 @@ class Reranker:
             query: The user's question text.
             hits: Candidate documents from hybrid retrieval.
             top_k: Number of top results to return.
-            ranking_intent: Optional RankingIntent with is_ranking and categories.
+            intent: Optional QueryIntent with query_type and categories.
             school_data_map: Optional dict mapping lowercased school name → school data dict.
 
         Returns:
@@ -105,20 +115,28 @@ class Reranker:
             return hits
 
         if not self._init_cohere():
+            if preferred_page_types:
+                hits = self._apply_page_type_boost(hits, preferred_page_types)
             return hits[:top_k]
 
         try:
-            # Build document strings for Cohere (rerank-v3.5 supports ~4096 tokens;
-            # use up to 3000 chars to cover full chunk content)
+            # Build document strings for Cohere (rerank-v4.0-pro supports 32K tokens;
+            # use up to 8000 chars to give the cross-encoder richer context).
+            # Include college_name and page_type metadata so the cross-encoder
+            # can distinguish sources across schools and page types.
             documents = []
             for h in hits:
+                college = h.get("college_name") or ""
+                page_type = h.get("page_type") or ""
                 title = h.get("title", "") or ""
                 content = h.get("content", "") or ""
-                doc_text = f"{title}\n{content[:3000]}" if title else content[:3000]
+                header = f"College: {college} | Page: {page_type}\n" if college else ""
+                max_chars = RAG_RERANK_DOC_MAX_CHARS
+                doc_text = f"{header}{title}\n{content[:max_chars]}" if title else f"{header}{content[:max_chars]}"
                 documents.append(doc_text)
 
             response = self._cohere_client.rerank(
-                model="rerank-v3.5",
+                model="rerank-v4.0-pro",
                 query=query,
                 documents=documents,
                 top_n=min(top_k, len(hits)),
@@ -131,13 +149,17 @@ class Reranker:
                 reranked.append(hit)
 
             # Apply ranking boost if this is a ranking query
-            if ranking_intent and getattr(ranking_intent, "is_ranking", False) and school_data_map:
+            if intent and getattr(intent, "query_type", None) == "ranking" and school_data_map:
                 reranked = self._apply_ranking_boost(
-                    reranked, ranking_intent, school_data_map,
+                    reranked, intent, school_data_map,
                 )
 
+            # Boost preferred page types (e.g. essay modes prefer about/academics)
+            if preferred_page_types:
+                reranked = self._apply_page_type_boost(reranked, preferred_page_types)
+
             # Filter out low-relevance hits to avoid diluting context
-            min_score = 0.1
+            min_score = RAG_RERANK_MIN_SCORE
             before_count = len(reranked)
             reranked = [h for h in reranked if h.get("rerank_score", 0) >= min_score]
             if len(reranked) < before_count:
@@ -155,14 +177,14 @@ class Reranker:
     @staticmethod
     def _apply_ranking_boost(
         hits: List[Dict[str, Any]],
-        ranking_intent: Any,
+        intent: Any,
         school_data_map: Dict[str, Dict[str, Any]],
     ) -> List[Dict[str, Any]]:
         """Boost rerank scores based on Niche rank and category grades.
 
         Modifies hits in-place and re-sorts by boosted score.
         """
-        categories = getattr(ranking_intent, "categories", [])
+        categories = getattr(intent, "niche_categories", [])
         only_other = categories == ["other"]
 
         for hit in hits:
@@ -179,13 +201,13 @@ class Reranker:
                 niche_rank = sd.get("niche_rank")
                 if niche_rank and isinstance(niche_rank, (int, float)):
                     rank_score = max(0.0, 1.0 - (niche_rank - 1) / 500.0)
-                    boost += rank_score * 0.15
+                    boost += rank_score * RAG_RERANK_NICHE_RANK_WEIGHT
 
             # 2. Acceptance rate boost (academics only)
             if "academics" in categories:
                 ar = sd.get("acceptance_rate")
                 if ar and isinstance(ar, (int, float)) and 0 < ar <= 1:
-                    boost += (1.0 - ar) * 0.05
+                    boost += (1.0 - ar) * RAG_RERANK_ACCEPTANCE_WEIGHT
 
             # 3. Category grade boost
             if not only_other:
@@ -201,7 +223,7 @@ class Reranker:
                         grade_scores.append(_GRADE_TO_NUM[grade_str] / 4.3)
                 if grade_scores:
                     avg_grade = sum(grade_scores) / len(grade_scores)
-                    boost += avg_grade * 0.10
+                    boost += avg_grade * RAG_RERANK_GRADE_WEIGHT
 
             if boost > 0:
                 hit["rerank_score"] = original + boost
@@ -216,4 +238,29 @@ class Reranker:
                 boosted_count, categories,
             )
 
+        return hits
+
+    @staticmethod
+    def _apply_page_type_boost(
+        hits: List[Dict[str, Any]],
+        preferred_page_types: List[str],
+    ) -> List[Dict[str, Any]]:
+        """Boost rerank scores for hits matching preferred page types.
+
+        Modifies hits in-place and re-sorts by boosted score.
+        """
+        boosted_count = 0
+        for hit in hits:
+            pt = hit.get("page_type", "")
+            if pt in preferred_page_types:
+                original = hit.get("rerank_score", 0.0)
+                hit["rerank_score"] = original + RAG_RERANK_PAGE_TYPE_BOOST
+                hit["page_type_boost"] = RAG_RERANK_PAGE_TYPE_BOOST
+                boosted_count += 1
+        hits.sort(key=lambda h: h.get("rerank_score", 0.0), reverse=True)
+        if boosted_count:
+            logger.info(
+                "Page-type boost applied to %d/%d hits (preferred=%s)",
+                boosted_count, len(hits), preferred_page_types,
+            )
         return hits

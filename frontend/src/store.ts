@@ -204,10 +204,10 @@ export const useStore = create<Store>()(
 
       // ---- Profile ----
       setProfileGpa: (gpa) =>
-        set((state) => ({ profile: { ...state.profile, gpa } })),
+        set((state) => ({ profile: { ...state.profile, gpa: gpa.trim() } })),
 
       setProfileTestScore: (type, score) =>
-        set((state) => ({ profile: { ...state.profile, testScoreType: type, testScore: score } })),
+        set((state) => ({ profile: { ...state.profile, testScoreType: type, testScore: score.trim() } })),
 
       setProfileLocation: (country, countryLabel, state) =>
         set((s) => ({ profile: { ...s.profile, country, countryLabel, state } })),
