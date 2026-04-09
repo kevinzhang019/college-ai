@@ -1,6 +1,7 @@
 import { useState, useMemo, useRef, useCallback } from 'react'
 import { Combobox, ComboboxInput, ComboboxOption, ComboboxOptions, ComboboxButton } from '@headlessui/react'
 import { useStore } from '../store'
+import { formatSchoolName } from '../lib/format'
 
 interface Props {
   value: string | null
@@ -88,7 +89,7 @@ export default function CollegeCombobox({ value, onChange, compact, showDefaultS
                       value={c}
                       className="px-4 py-2 text-sm text-slate-300 cursor-pointer data-[focus]:bg-dark-800 data-[selected]:text-forest-400 data-[selected]:font-medium"
                     >
-                      {c}
+                      {formatSchoolName(c)}
                     </ComboboxOption>
                   ))}
                 </>
@@ -103,7 +104,7 @@ export default function CollegeCombobox({ value, onChange, compact, showDefaultS
                   value={c}
                   className="px-4 py-2 text-sm text-slate-300 cursor-pointer data-[focus]:bg-dark-800 data-[selected]:text-forest-400 data-[selected]:font-medium"
                 >
-                  {c}
+                  {formatSchoolName(c)}
                 </ComboboxOption>
               ))}
             </>
@@ -116,7 +117,7 @@ export default function CollegeCombobox({ value, onChange, compact, showDefaultS
                 value={c}
                 className="px-4 py-2 text-sm text-slate-300 cursor-pointer data-[focus]:bg-dark-800 data-[selected]:text-forest-400 data-[selected]:font-medium"
               >
-                {c}
+                {formatSchoolName(c)}
               </ComboboxOption>
             ))
           )}

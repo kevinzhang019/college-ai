@@ -5,6 +5,7 @@ import { predict } from '../api'
 import CollegeCombobox from './CollegeCombobox'
 import MajorCombobox from './MajorCombobox'
 import type { ProfileData, PredictionResult, Residency, SelectedSchool, TestScoreType } from '../types'
+import { formatSchoolName } from '../lib/format'
 
 type Phase = 'idle' | 'loading' | 'done'
 
@@ -357,9 +358,9 @@ export default function AdmissionsView() {
                     >
                       <span
                         className="text-sm text-slate-200 font-medium flex-1 min-w-0 truncate"
-                        title={school.name}
+                        title={formatSchoolName(school.name)}
                       >
-                        {school.name}
+                        {formatSchoolName(school.name)}
                       </span>
 
                       {phase === 'idle' ? (

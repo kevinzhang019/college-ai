@@ -8,7 +8,9 @@ College admissions prediction + RAG Q&A platform. Scrapes college data from mult
 pip install -r requirements.txt && playwright install
 python -m college_ai.scraping.scorecard_client    # seed ~6,500 schools
 python -m college_ai.scraping.niche_scraper       # scrape Niche scattergrams + grades
+python scripts/build_crawler_seeds.py             # (re)generate general2.csv seed list from Turso (top N by student_size)
 python -m college_ai.scraping.crawler             # BFS crawl → Zilliz (hybrid schema)
+python scripts/count_legacy_chunked_urls.py       # audit Zilliz for URLs still using the legacy 512-token chunker (per school)
 python -m college_ai.ml.data_pipeline export      # export training parquet
 python -m college_ai.ml.train                     # single global model
 python -m college_ai.ml.train_bucketed            # per-bucket models

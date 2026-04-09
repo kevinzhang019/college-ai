@@ -94,19 +94,18 @@ def get_filter_options() -> Dict[str, Any]:
     from pathlib import Path
 
     try:
-        base_path = Path(__file__).parent.parent / "scraping" / "colleges"
+        csv_path = Path(__file__).parent.parent / "scraping" / "colleges" / "colleges.csv"
         colleges = set()
 
-        for csv_path in base_path.glob("*.csv"):
-            try:
-                with open(csv_path, "r", encoding="utf-8") as file:
-                    reader = csv.DictReader(file)
-                    for row in reader:
-                        college_name = row.get("name", "").strip()
-                        if college_name:
-                            colleges.add(college_name)
-            except Exception:
-                continue
+        try:
+            with open(csv_path, "r", encoding="utf-8") as file:
+                reader = csv.DictReader(file)
+                for row in reader:
+                    college_name = row.get("name", "").strip()
+                    if college_name:
+                        colleges.add(college_name)
+        except Exception:
+            pass
 
         # Build school→state mapping from the database
         school_states: Dict[str, str] = {}

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import type { Source } from '../types'
+import { formatSchoolName } from '../lib/format'
 
 export default function SourceCard({
   source,
@@ -27,7 +28,7 @@ export default function SourceCard({
         <div className="flex items-center gap-2 mb-1">
           <span className="source-badge source-badge--static">{index + 1}</span>
           <span className="text-xs font-medium text-forest-400 bg-forest-500/10 px-2 py-0.5 rounded-full">
-            {source.college_name || 'Unknown'}
+            {source.college_name ? formatSchoolName(source.college_name) : 'Unknown'}
           </span>
           {source.page_type && (
             <span className="text-xs text-slate-500">{source.page_type}</span>

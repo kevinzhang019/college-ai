@@ -7,6 +7,7 @@ import CollegeCombobox from './CollegeCombobox'
 import type { TestScoreType } from '../types'
 import { ALLOWED_MAJORS } from '../types'
 import { COUNTRIES, US_STATES } from '../data/locations'
+import { formatSchoolName } from '../lib/format'
 
 const TYPE_LABELS: Record<string, string> = {
   extracurricular: 'Extracurricular',
@@ -339,7 +340,7 @@ export default function ExperiencesView() {
                       <circle cx="9" cy="12" r="1.5" /><circle cx="15" cy="12" r="1.5" />
                       <circle cx="9" cy="18" r="1.5" /><circle cx="15" cy="18" r="1.5" />
                     </svg>
-                    <span className="text-sm text-slate-200 flex-1 truncate">{school}</span>
+                    <span className="text-sm text-slate-200 flex-1 truncate">{formatSchoolName(school)}</span>
                     <button
                       onClick={() => removeSavedSchool(school)}
                       className="p-0.5 text-slate-500 hover:text-red-400 transition-colors shrink-0"

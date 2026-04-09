@@ -12,7 +12,7 @@ Served by uvicorn on port 8000.
 |---|---|---|---|
 | GET | `/health` | — | Liveness probe → `{"status": "ok"}` |
 | GET | `/config` | — | Returns current Zilliz collection name |
-| GET | `/options` | — | Sorted college names + school→state mapping `{colleges[], school_states{}}` (fuzzy-matched via rapidfuzz) |
+| GET | `/options` | — | Sorted college names (from `college_ai/scraping/colleges/colleges.csv`) + school→state mapping `{colleges[], school_states{}}` (fuzzy-matched via rapidfuzz against the Turso `schools` table) |
 | POST | `/ask` | `{question, top_k, college, essay_text}` | Non-streaming RAG Q&A (CLI/testing) |
 | POST | `/ask/stream` | `{question, top_k, college, essay_text, essay_prompt, history, experiences, profile}` | SSE streaming RAG (primary frontend endpoint) |
 | POST | `/predict` | `{gpa, school_name, sat, act, residency, major}` | Admission prediction → `{probability, confidence_interval, classification, factors}` |

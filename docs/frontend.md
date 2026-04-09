@@ -50,7 +50,7 @@ Zustand store (`store.ts`) with `persist` middleware, serializing to `localStora
 **Ephemeral (reset on reload):**
 - `mode` — current `AppMode`
 - `isConnected` — whether `/health` returned ok
-- `collegeOptions` — college list from `/options`
+- `collegeOptions` — college list from `/options` (sourced from `college_ai/scraping/colleges/colleges.csv` only)
 - `schoolStates` — `Record<string, string>` mapping school names to state codes (from `/options`), used for auto-residency
 - `streamingContent` — accumulated tokens during SSE streaming
 - `streamingLoading` — whether a stream is in progress
@@ -170,7 +170,7 @@ Standalone view for My Profile mode:
 - GPA input (0–4.0 with validation)
 - SAT/ACT toggle (two buttons with active highlight)
 - Test score input (400–1600 for SAT, 1–36 for ACT)
-- Location: country dropdown (all countries, US first) + conditional US state dropdown. Selecting a non-US country clears the state. Location data drives auto-residency in AdmissionsView: the `/options` endpoint fuzzy-matches school names (from CSVs) against the Turso DB to build a school→state mapping, enabling `computeResidency()` to determine in-state/out-of-state/international residency per school
+- Location: country dropdown (all countries, US first) + conditional US state dropdown. Selecting a non-US country clears the state. Location data drives auto-residency in AdmissionsView: the `/options` endpoint fuzzy-matches school names (from `college_ai/scraping/colleges/colleges.csv`) against the Turso DB to build a school→state mapping, enabling `computeResidency()` to determine in-state/out-of-state/international residency per school
 - All values persisted to Zustand `profile`, auto-populate Admissions Calculator and QuickPredictModal
 - Profile data is also sent to the backend on every streaming request (all modes) for stats contextualization, residency-aware tuition advice, and major-specific guidance via `format_profile_context()` on backend
 
@@ -258,6 +258,7 @@ Headless UI Combobox with `immediate` (auto-opens on focus):
 - "No Selection" clear option (value: null) always at top
 - Compact variant (smaller padding/height) for inline use
 - Loaded from `/options` endpoint with 31-school fallback list
+- **Display-only name formatting:** option labels are wrapped in `formatSchoolName()` from `lib/format.ts`, which replaces the literal substring ` A and M ` with ` A&M ` so e.g. "Texas A and M University" renders as "Texas A&M University". The raw string is kept as the Combobox `value`/`key`, the Zustand `collegeOptions`/`savedSchools` arrays, and every outgoing API payload — the transform is purely visual. Same helper is applied in `AdmissionsView` (selected-school card + `title` tooltip), `ExperiencesView` (Profile → Saved Schools list), `PredictionCard` (result header + error row), and `SourceCard` (college badge). Backend school lookups (Turso/Zilliz) depend on the original string, so never persist or send the formatted form.
 
 ### MajorCombobox (`MajorCombobox.tsx`)
 
@@ -406,6 +407,8 @@ frontend/src/
 ├── markdown.tsx               Citation + markdown utilities (processCitations, processOfficialCitations, stripCitations, stripMarkdown)
 ├── data/
 │   └── locations.ts           Country + US state dropdown options
+├── lib/
+│   └── format.ts              Display-only string helpers (formatSchoolName: " A and M " → " A&M ")
 ├── hooks/
 │   ├── useApi.ts              Health check + options fetch on mount
 │   └── useStreaming.ts        SSE streaming hook (send/cancel)

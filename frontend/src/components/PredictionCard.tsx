@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import type { PredictionResult } from '../types'
+import { formatSchoolName } from '../lib/format'
 
 const CLASS_STYLES: Record<string, string> = {
   safety: 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30',
@@ -34,7 +35,7 @@ export default function PredictionCard({ result, index = 0 }: Props) {
         className="card p-4 opacity-60"
       >
         <div className="flex items-center justify-between">
-          <span className="text-sm font-medium text-slate-100">{result.school_name}</span>
+          <span className="text-sm font-medium text-slate-100">{formatSchoolName(result.school_name)}</span>
           <span className="text-xs text-red-400">{result.error}</span>
         </div>
       </motion.div>
@@ -53,7 +54,7 @@ export default function PredictionCard({ result, index = 0 }: Props) {
       <div className="flex items-start justify-between gap-3">
         {/* Left: school info */}
         <div className="flex-1 min-w-0">
-          <h4 className="text-sm font-medium text-slate-100 truncate">{result.school_name}</h4>
+          <h4 className="text-sm font-medium text-slate-100 truncate">{formatSchoolName(result.school_name)}</h4>
           {result.school_acceptance_rate != null && (
             <p className="text-xs text-slate-500 mt-0.5">
               {Math.round(result.school_acceptance_rate * 100)}% acceptance rate

@@ -103,6 +103,23 @@ Scrapes scattergram datapoints (GPA/SAT/outcome) and letter grades for each scho
 
 ### 3. Crawl college websites into Zilliz
 
+First, (re)generate the crawler seed list from the Turso `schools` table so names and URLs match the canonical DB source of truth:
+
+```bash
+python scripts/build_crawler_seeds.py                     # default: top 1000 by student_size → colleges.csv
+python scripts/build_crawler_seeds.py --limit 500
+python scripts/build_crawler_seeds.py -n 2000 -o college_ai/scraping/colleges/colleges_top2k.csv
+```
+
+| Flag | Default | Description |
+|---|---|---|
+| `--limit N` / `-n N` | 1000 | Number of schools to fetch, ordered by `student_size` desc |
+| `--output PATH` / `-o PATH` | `college_ai/scraping/colleges/colleges.csv` | Output CSV path (header: `name,url`) |
+
+The script also prints any duplicate URL groups so you can review them manually before crawling.
+
+Then run the crawler:
+
 ```bash
 python -m college_ai.scraping.crawler
 ```
@@ -226,12 +243,13 @@ One-off tools in `scripts/` for Zilliz DB maintenance:
 |---|---|
 | `remove_duplicates.py` | Delete duplicate chunks by title+content |
 | `count_duplicates.py` | Count duplicates without deleting (read-only) |
+| `count_legacy_chunked_urls.py` | Audit Zilliz for URLs still using the legacy 512-token chunker, per school (read-only). Detects multi-chunk URLs where every chunk except the last is exactly 512 tokens. Flag: `--college NAME` |
 | `clean_non_university_urls.py` | Remove off-domain URLs from the collection |
-| `consolidate_college_alias.py` | Merge records for college name aliases |
+| `build_crawler_seeds.py` | (Re)generate the crawler seed CSV (default: `colleges.csv`) from the Turso `schools` table — top N by `student_size` desc. Flags: `--limit/-n N` (default 1000), `--output/-o PATH`. Prints duplicate URL groups for manual review. |
+| `match_college_urls.py` | Match URLs in `general.csv` against `colleges.csv` (normalized compare), write differing-name rows to `matched_names.csv`, print unmatched URLs to stdout |
+| `rename_colleges_from_matched_names.py` | Bulk-rename `college_name` from a generic rename-mapping CSV (default `renamings.csv`; column 0 = `from`, column 1 = `to`, extra columns ignored; `from,to` header auto-skipped) via atomic per-PK upsert. Flags: `--csv PATH`, `--dry-run`, `--verify` |
 | `recreate_collection.py` | Drop and recreate the Zilliz collection with hybrid schema |
 | `migrate_zilliz.py` | Copy data between Zilliz instances |
-| `milvus_monitor.py` | Live terminal dashboard of collection stats |
-| `run_monitor.py` | CLI wrapper for the monitor |
 
 Run with: `python scripts/<script>.py`
 

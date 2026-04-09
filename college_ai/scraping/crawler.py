@@ -1316,7 +1316,7 @@ class MultithreadedCollegeCrawler:
             {"name": "Harvard University", "url": "https://www.harvard.edu/"},
         ]
 
-        csv_path = os.path.join(self.colleges_dir, "general.csv")
+        csv_path = os.path.join(self.colleges_dir, "colleges.csv")
         with open(csv_path, "w", newline="", encoding="utf-8") as f:
             writer = csv.DictWriter(f, fieldnames=["name", "url"])
             writer.writeheader()
