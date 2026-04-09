@@ -15,7 +15,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 COLLEGES_DIR = REPO_ROOT / "college_ai" / "scraping" / "colleges"
 GENERAL_CSV = COLLEGES_DIR / "general.csv"
 COLLEGES_CSV = COLLEGES_DIR / "colleges.csv"
-OUTPUT_CSV = COLLEGES_DIR / "matched_names.csv"
+OUTPUT_CSV = COLLEGES_DIR / "renamings.csv"
 
 
 def normalize_url(url: str) -> str:

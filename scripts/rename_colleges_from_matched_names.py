@@ -43,11 +43,12 @@ from pymilvus import Collection, connections, utility
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(PROJECT_ROOT)
+COLLEGES_DIR = os.path.join(PROJECT_ROOT, "college_ai", "scraping", "colleges")
 
 from college_ai.scraping.config import *  # noqa: F401,F403
 
 
-DEFAULT_CSV = os.path.join(PROJECT_ROOT, "renamings.csv")
+DEFAULT_CSV = os.path.join(COLLEGES_DIR, "renamings.csv")
 
 OUTPUT_FIELDS = [
     "id",

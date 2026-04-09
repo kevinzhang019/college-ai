@@ -243,7 +243,7 @@ One-off tools in `scripts/` for Zilliz DB maintenance:
 |---|---|
 | `remove_duplicates.py` | Delete duplicate chunks by title+content |
 | `count_duplicates.py` | Count duplicates without deleting (read-only) |
-| `count_legacy_chunked_urls.py` | Audit Zilliz for URLs still using the legacy 512-token chunker, per school (read-only). Detects multi-chunk URLs where every chunk except the last is exactly 512 tokens. Flag: `--college NAME` |
+| `count_legacy_chunked_urls.py` | Audit Zilliz for URLs still using the legacy 512-token chunker, per school. Detects multi-chunk URLs where every chunk except the last is exactly 512 tokens. Flags: `--college NAME`, `--delete` (atomically removes all chunks for each legacy URL in a single `delete()` call per URL), `--yes` (skip confirmation prompt) |
 | `clean_non_university_urls.py` | Remove off-domain URLs from the collection |
 | `build_crawler_seeds.py` | (Re)generate the crawler seed CSV (default: `colleges.csv`) from the Turso `schools` table — top N by `student_size` desc. Flags: `--limit/-n N` (default 1000), `--output/-o PATH`. Prints duplicate URL groups for manual review. |
 | `match_college_urls.py` | Match URLs in `general.csv` against `colleges.csv` (normalized compare), write differing-name rows to `matched_names.csv`, print unmatched URLs to stdout |
