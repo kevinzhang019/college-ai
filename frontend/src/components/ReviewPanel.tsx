@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 interface Props {
@@ -7,10 +7,15 @@ interface Props {
   essayPrompt: string
   onEssayPromptChange: (prompt: string) => void
   promptWarning?: boolean
+  forceOpen?: boolean
 }
 
-export default function ReviewPanel({ essayText, onEssayTextChange, essayPrompt, onEssayPromptChange, promptWarning }: Props) {
+export default function ReviewPanel({ essayText, onEssayTextChange, essayPrompt, onEssayPromptChange, promptWarning, forceOpen }: Props) {
   const [open, setOpen] = useState(false)
+
+  useEffect(() => {
+    if (forceOpen) setOpen(true)
+  }, [forceOpen])
 
   const wordCount = essayText.trim()
     ? essayText.trim().split(/\s+/).length
@@ -38,7 +43,7 @@ export default function ReviewPanel({ essayText, onEssayTextChange, essayPrompt,
         {open ? 'Hide Essay' : 'Essay Help'}
       </button>
 
-      {/* Slide-up panel */}
+      {/* Overlay panel — floats above input, does not push content */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -46,9 +51,9 @@ export default function ReviewPanel({ essayText, onEssayTextChange, essayPrompt,
             animate={{ height: 280, opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="overflow-hidden"
+            className="absolute bottom-full left-0 right-0 z-40 overflow-hidden"
           >
-            <div className="h-full flex flex-col">
+            <div className="h-full flex flex-col max-w-3xl mx-auto px-4 pb-2 bg-dark-950/95 backdrop-blur-sm border-t border-x border-dark-700 rounded-t-xl">
               {/* Essay prompt input */}
               <div className="pt-2 pb-1.5">
                 <input

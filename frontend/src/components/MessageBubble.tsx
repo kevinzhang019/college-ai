@@ -4,7 +4,8 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
 import type { ChatMessage } from '../types'
-import { processCitations, stripCitations } from '../markdown'
+import { processCitations, processOfficialCitations, stripMarkdown } from '../markdown'
+import { useStore } from '../store'
 import ConfidenceBadge from './ConfidenceBadge'
 import SourceCard from './SourceCard'
 
@@ -51,46 +52,107 @@ function getSentenceRange(badge: Element): Range | null {
   return null
 }
 
+function CopyIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className || "w-3.5 h-3.5"} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+    </svg>
+  )
+}
+
+function CheckIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className || "w-3.5 h-3.5"} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+    </svg>
+  )
+}
+
+function EditIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className || "w-3.5 h-3.5"} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+    </svg>
+  )
+}
+
+function ActionButton({ onClick, title, children }: { onClick: () => void; title: string; children: React.ReactNode }) {
+  return (
+    <button
+      onClick={onClick}
+      title={title}
+      className="w-7 h-7 flex items-center justify-center rounded-md bg-dark-800/80 border border-dark-700 text-slate-400 hover:text-slate-200 hover:border-slate-500 transition-colors"
+    >
+      {children}
+    </button>
+  )
+}
+
 export default function MessageBubble({ message }: { message: ChatMessage }) {
   const isUser = message.role === 'user'
   const [showSources, setShowSources] = useState(false)
+  const [copied, setCopied] = useState(false)
+  const [showDraft, setShowDraft] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
 
   const hasSources = Boolean(message.sources?.length)
 
+  const hasOfficialCitations = message.content.includes('[SD]')
+
   const processedContent = useMemo(() => {
-    if (!hasSources) return message.content
-    return showSources
-      ? processCitations(message.content)
-      : stripCitations(message.content)
-  }, [message.content, showSources, hasSources])
+    if (!hasSources && !hasOfficialCitations) return message.content
+    if (showSources) return processCitations(message.content)
+    // Always show [SD] badges even when numbered sources are hidden
+    return processOfficialCitations(message.content)
+  }, [message.content, showSources, hasSources, hasOfficialCitations])
+
+  const handleCopy = () => {
+    let text: string
+    if (isUser) {
+      text = message.content
+    } else {
+      text = stripMarkdown(message.content)
+    }
+    navigator.clipboard.writeText(text)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 1500)
+  }
+
+  const handleEdit = () => {
+    useStore.getState().setPendingEdit(message)
+  }
 
   // Event delegation for citation badge hover + click
   useEffect(() => {
     const container = containerRef.current
-    if (!container || !showSources) return
+    if (!container) return
 
     const handleMouseOver = (e: MouseEvent) => {
-      const badge = (e.target as HTMLElement).closest('.source-badge') as HTMLElement | null
+      const el = e.target as HTMLElement
+      const badge = el.closest('.source-badge, .source-badge-official') as HTMLElement | null
       if (!badge) return
 
-      badge.classList.add('source-badge--active')
+      if (badge.classList.contains('source-badge')) {
+        badge.classList.add('source-badge--active')
+      } else {
+        badge.classList.add('source-badge-official--active')
+      }
 
       const range = getSentenceRange(badge)
       if (range && CSS.highlights) {
         CSS.highlights.set('source-hl', new Highlight(range))
       } else if (range) {
-        // Fallback: highlight the parent block
         const block = badge.closest('p, li, blockquote')
         if (block) block.classList.add('source-highlight')
       }
     }
 
     const handleMouseOut = (e: MouseEvent) => {
-      const badge = (e.target as HTMLElement).closest('.source-badge') as HTMLElement | null
+      const el = e.target as HTMLElement
+      const badge = el.closest('.source-badge, .source-badge-official') as HTMLElement | null
       if (!badge) return
 
-      badge.classList.remove('source-badge--active')
+      badge.classList.remove('source-badge--active', 'source-badge-official--active')
 
       if (CSS.highlights) {
         CSS.highlights.delete('source-hl')
@@ -124,18 +186,50 @@ export default function MessageBubble({ message }: { message: ChatMessage }) {
       container.removeEventListener('mouseout', handleMouseOut)
       container.removeEventListener('click', handleClick)
     }
-  }, [showSources])
+  }, [showSources, hasOfficialCitations])
 
   return (
+    <>
     <motion.div
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      className={`flex gap-3 ${isUser ? 'justify-end' : 'justify-start'}`}
+      className={`group flex gap-3 ${isUser ? 'justify-end' : 'justify-start'}`}
     >
       {isUser ? (
-        <div className="max-w-[85%] bg-forest-600 text-white rounded-2xl rounded-br-md px-4 py-3">
-          <p className="text-sm leading-relaxed">{message.content}</p>
-        </div>
+        <>
+          {/* Action buttons — left of user bubble */}
+          <div className="flex items-start gap-1 pt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+            <ActionButton onClick={handleEdit} title="Edit">
+              <EditIcon />
+            </ActionButton>
+            <ActionButton onClick={handleCopy} title={copied ? 'Copied!' : 'Copy'}>
+              {copied ? <CheckIcon className="w-3.5 h-3.5 text-forest-400" /> : <CopyIcon />}
+            </ActionButton>
+          </div>
+          <div className="max-w-[85%] bg-forest-600 text-white rounded-2xl rounded-br-md px-4 py-3">
+            {message.essayPrompt && (
+              <p className="text-[13px] font-semibold leading-snug mb-1.5 opacity-90">
+                {message.essayPrompt}
+              </p>
+            )}
+            <div className="flex items-start gap-2">
+              <p className="text-sm leading-relaxed flex-1">{message.content}</p>
+              {message.hasEssayDraft && (
+                <button
+                  onClick={() => setShowDraft(true)}
+                  title="Display full essay draft"
+                  className="group/draft shrink-0 mt-0.5 inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-white/15 text-white/80 backdrop-blur-sm border border-white/10 hover:bg-forest-500/30 hover:text-white hover:border-forest-500/40 cursor-pointer transition-all duration-200"
+                >
+                  <svg className="w-2.5 h-2.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  <span className="inline overflow-hidden whitespace-nowrap max-w-[5.5rem] group-hover/draft:max-w-0 transition-all duration-200">Draft loaded</span>
+                  <span className="inline overflow-hidden whitespace-nowrap max-w-0 group-hover/draft:max-w-[10rem] transition-all duration-200">Display full essay draft</span>
+                </button>
+              )}
+            </div>
+          </div>
+        </>
       ) : (
         <div ref={containerRef} className="w-full py-1">
           <div className="flex items-center gap-2 mb-1.5">
@@ -154,6 +248,12 @@ export default function MessageBubble({ message }: { message: ChatMessage }) {
                 {showSources ? 'Hide Sources' : 'Show Sources'}
               </button>
             )}
+            {/* Copy button for assistant messages */}
+            <div className={`${hasSources ? '' : 'ml-auto'} opacity-0 group-hover:opacity-100 transition-opacity duration-150`}>
+              <ActionButton onClick={handleCopy} title={copied ? 'Copied!' : 'Copy'}>
+                {copied ? <CheckIcon className="w-3.5 h-3.5 text-forest-400" /> : <CopyIcon />}
+              </ActionButton>
+            </div>
           </div>
           <div className="markdown-answer text-sm text-slate-300">
             <ReactMarkdown
@@ -182,5 +282,32 @@ export default function MessageBubble({ message }: { message: ChatMessage }) {
         </div>
       )}
     </motion.div>
+
+    {/* Essay draft modal */}
+    {showDraft && message.essayText && (
+      <div className="fixed inset-0 z-50 flex items-center justify-center" onClick={() => setShowDraft(false)}>
+        <div className="absolute inset-0 bg-black/60" />
+        <div
+          className="relative w-full max-w-2xl max-h-[70vh] mx-4 bg-dark-900 border border-dark-700 rounded-2xl shadow-dark-lg flex flex-col"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="flex items-center justify-between px-5 py-3.5 border-b border-dark-700">
+            <h3 className="text-sm font-semibold text-slate-200">Essay Draft</h3>
+            <button
+              onClick={() => setShowDraft(false)}
+              className="w-7 h-7 flex items-center justify-center rounded-md text-slate-400 hover:text-slate-200 hover:bg-dark-800 transition-colors"
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+          <div className="flex-1 overflow-y-auto custom-scrollbar px-5 py-4">
+            <p className="text-sm text-slate-300 leading-relaxed whitespace-pre-wrap">{message.essayText}</p>
+          </div>
+        </div>
+      </div>
+    )}
+    </>
   )
 }

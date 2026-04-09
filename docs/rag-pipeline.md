@@ -20,8 +20,8 @@ User Query + (optional school) + (optional history) + (optional experiences) + (
     ▼
 [School Data Fetch ║ Query Rewriting]  ─── run in parallel (ThreadPoolExecutor):
     │   • School data: category-aware fetch (school_data.py)
-    │     - Non-ranking/comparison + school detected: fetch_school_data_by_categories()
-    │     - Ranking/comparison: batch fetch after retrieval (schools come from RAG results)
+    │     - School detected (any query type): upfront parallel fetch
+    │     - Ranking/comparison, no school detected: batch fetch after retrieval (schools from RAG results)
     │     - Identity fields + base fields always included
     │   • Query rewriting: gpt-4.1-nano, resolves pronouns/references using
     │     conversation history (last 3 msgs, 400 chars each)
@@ -157,20 +157,20 @@ Results are merged and deduped by URL. Page types are never used as hard filters
 
 The LLM classifier determines which school data categories are relevant. `school_data.py` selectively fetches and formats only those columns. The `SchoolMatcher` instance is cached as a lazy module-level singleton to avoid reloading ~6,500 schools on every call.
 
-**Parallelization:** For non-ranking queries, school data fetch runs **in parallel** with query rewriting + embedding + retrieval via `ThreadPoolExecutor(max_workers=1)`. This saves ~50-100ms from the critical path since the DB round-trip is independent of the retrieval path.
+**Parallelization:** When schools are known upfront (detected in the query or selected from the dropdown), the school data fetch runs **in parallel** with query rewriting + embedding + retrieval via `ThreadPoolExecutor(max_workers=1)`. This applies to all query types and saves ~50-100ms from the critical path since the DB round-trip is independent of the retrieval path.
 
 **Fetching modes:**
 
-- **Non-ranking/comparison, single school:** `fetch_school_data_by_categories(school, categories)` — fetches only columns for the relevant category prefixes. Identity fields (acceptance rate, URL, etc.) and base fields (name, city, state, ownership) are always included.
-- **Non-ranking/comparison, multiple schools:** `fetch_school_data_batch(schools)` — batch-fetches all fields per school, deduplicating by UNITID.
-- **Ranking/comparison queries:** `fetch_school_data_batch(candidate_names)` — batch-fetches data for all unique schools in the retrieval results (schools come from RAG, not user input).
+- **Single school detected (any query type):** `fetch_school_data_by_categories(school, categories)` — fetches only columns for the relevant category prefixes. Identity fields (acceptance rate, URL, etc.) and base fields (name, city, state, ownership) are always included.
+- **Multiple schools detected (any query type):** `fetch_school_data_batch(schools)` — batch-fetches all fields per school, deduplicating by UNITID.
+- **Ranking/comparison, no schools detected:** `fetch_school_data_batch(candidate_names)` — batch-fetches data for all unique schools discovered in the retrieval results (schools come from RAG, not user input). This fallback only runs when no schools were fetched upfront.
 
 **Formatting modes:**
 
 - **All query types with schools:** `format_school_data_block_by_categories(data, categories)` renders a `[SCHOOL DATA]` block with **only the fields for the requested categories**. For multiple schools, `format_multi_school_data_block_by_categories()` concatenates separate `[SCHOOL DATA]` blocks per school.
 - **Ranking queries only:** `format_niche_grades_block(school_data_map, hits, niche_categories)` appends a separate `[NICHE GRADES]` block with letter grades per school for the detected Niche categories. This block is clearly labeled: "for internal ranking only, NEVER mention in response."
 
-The LLM is instructed that `[SCHOOL DATA]` statistics can be referenced without citation (verified database). Niche grades must never be mentioned in responses — they only influence ranking order.
+The LLM is instructed to cite `[SCHOOL DATA]` statistics with `[SD]` markers — the frontend renders these as green checkmark badges labeled "Official Source" on hover. Niche grades must never be mentioned in responses — they only influence ranking order.
 
 **Classification examples:**
 - "What is MIT's acceptance rate?" → `categories=["admissions"]`, school data block shows only test score fields
@@ -279,9 +279,9 @@ Injects a `[SCHOOL DATA]` block into the user prompt via the `{school_data_block
 
 When multiple schools are detected, each gets its own `[SCHOOL DATA]` header block. This mirrors the ranking query format so the LLM can distinguish and compare schools side by side.
 
-**Ranking and comparison queries**: Same category-aware `[SCHOOL DATA]` blocks as non-ranking, but for **all schools** in the reranked hits (batch-fetched after retrieval via `fetch_school_data_batch()`). For ranking queries only, a separate `[NICHE GRADES]` block is appended containing letter grades per school for the detected `niche_categories` (e.g. "MIT (#3): Academics A+, Food B+"). This block is clearly labeled "for internal ranking only, NEVER mention in response." Comparison queries do not receive Niche grades.
+**Ranking and comparison queries**: Same category-aware `[SCHOOL DATA]` blocks as non-ranking, but for **all schools** in the reranked hits. When schools are detected in the query, data is fetched upfront in parallel with retrieval. When no schools are detected (e.g. "rank the best CS schools"), data is batch-fetched after retrieval from the schools discovered in the results via `fetch_school_data_batch()`. For ranking queries only, a separate `[NICHE GRADES]` block is appended containing letter grades per school for the detected `niche_categories` (e.g. "MIT (#3): Academics A+, Food B+"). This block is clearly labeled "for internal ranking only, NEVER mention in response." Comparison queries do not receive Niche grades.
 
-The LLM is instructed that `[SCHOOL DATA]` statistics can be referenced without `[N]` citations since they come from our verified database. `[NICHE GRADES]` must never be mentioned — they only influence ranking order. Fields that are None are omitted.
+The LLM is instructed to cite `[SCHOOL DATA]` statistics with `[SD]` markers (distinct from numeric `[N]` web source citations). The frontend renders `[SD]` as green checkmark badges with an "Official Source" tooltip. `[NICHE GRADES]` must never be mentioned — they only influence ranking order. Fields that are None are omitted.
 
 ### Profile Context Injection
 
@@ -316,7 +316,7 @@ The `essay_prompt` field from `/ask/stream` provides the essay assignment prompt
 
 **Citation verification:** Strips `[N]` where N > source count. Appends warning if no valid citations remain despite sources available.
 
-**Frontend citation rendering:** `[N]` markers are processed by `markdown.tsx` utilities. When sources are hidden (default), `stripCitations()` removes all markers. When the user toggles "Show Sources", `processCitations()` converts them to interactive gray badge elements (`source-badge` class) rendered via `rehype-raw`. Hovering a badge highlights the parent paragraph with a dotted green underline; clicking scrolls to the corresponding SourceCard.
+**Frontend citation rendering:** `markdown.tsx` processes two citation types. `[N]` markers become interactive gray badge elements (`source-badge` class) — visible only when "Show Sources" is toggled on. `[SD]` markers (school data) become green checkmark badges (`source-badge-official` class) with an "Official Source" tooltip on hover — these are **always visible** regardless of the sources toggle. Hovering either badge type highlights the preceding sentence with a dotted green underline via the CSS Custom Highlight API; clicking a numbered badge scrolls to the corresponding SourceCard.
 
 **Confidence scoring:** Based on rerank scores (preferred) or RRF distance scores:
 - High: ≥4 hits, avg rerank score > 0.5 (or avg RRF score > 0.6)

@@ -94,7 +94,7 @@ Scrapes scattergram datapoints (GPA/SAT/outcome) and letter grades for each scho
 | `--school SLUG` | all | Scrape one school (e.g. `stanford-university`) |
 | `--grades-only` | off | Only scrape letter grades, skip scattergrams |
 | `--no-resume` | off | Re-scrape everything, ignore previous progress |
-| `--reset-empty` | off | Delete `no_data` rows so those schools get retried, then exit |
+| `--reset-empty` | off | Delete `no_data` NicheGrade rows and orphaned applicant datapoints before scraping |
 | `--debug` | off | Verbose selector/extraction logging |
 | `--headful` | default | Run browser visibly (already default — PerimeterX blocks headless) |
 | `--headless` | off | Force headless mode (will likely get blocked) |

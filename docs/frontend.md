@@ -55,6 +55,7 @@ Zustand store (`store.ts`) with `persist` middleware, serializing to `localStora
 - `streamingContent` — accumulated tokens during SSE streaming
 - `streamingLoading` — whether a stream is in progress
 - `sidebarOpen` — mobile sidebar visibility
+- `pendingEdit` — `ChatMessage | null`, set when user clicks Edit on a message bubble; consumed by InputArea to populate fields
 
 ## Components
 
@@ -93,9 +94,15 @@ Renders the conversation for Chat mode.
 
 - **User messages:** Right-aligned, forest-600 background, white text, `rounded-2xl rounded-br-md` (chat bubble shape)
 - **Assistant messages:** Full-width, left-aligned with Cole avatar (20px) + "Cole" label in forest-400. Content rendered as markdown (GFM + raw HTML). Confidence badge shown inline with Cole's name if present.
+- **Action buttons:** Hover-revealed (`opacity-0 group-hover:opacity-100`) action buttons on each message. Styled as `w-7 h-7` rounded icon buttons with `bg-dark-800/80 border border-dark-700`.
+  - **User messages:** Edit + Copy buttons appear to the LEFT of the green bubble. Edit dispatches `setPendingEdit(message)` to the store (consumed by InputArea). Copy copies the question text only (essay prompt/draft not included).
+  - **Assistant messages:** Copy button appears in the Cole header row (after confidence badge / sources toggle). Copy uses `stripMarkdown()` to produce clean plain text (citations and markdown syntax removed).
+  - **Copy feedback:** Icon swaps to a green checkmark for 1.5 seconds after copying.
+- **Draft loaded badge:** Clickable badge on user messages that had an essay draft. On hover: text animates from "Draft loaded" to "Display full essay draft" via `max-width` transition (200ms), background shifts to `bg-forest-500/30` with `border-forest-500/40`. Clicking opens a fixed modal overlay displaying the full essay draft text. Modal: centered `max-w-2xl` card in `bg-dark-900`, `border-dark-700`, `rounded-2xl` with scrollable content area. Dismisses via X button or clicking the `bg-black/60` backdrop.
 - **Sources toggle:** When sources exist, a green "Show Sources" pill button appears in the top-right of the header row (`ml-auto`). Clicking toggles to "Hide Sources" (same style). Sources are hidden by default.
-  - **Hidden state:** `[N]` citation markers are stripped from the displayed markdown via `stripCitations()`. No source cards visible.
-  - **Shown state:** `[N]` markers are converted to gray badge elements via `processCitations()` (class `source-badge`, rendered through `rehype-raw`). Source cards appear below with AnimatePresence height animation. All sources shown (no limit).
+  - **Hidden state:** `[N]` citation markers are stripped via `processOfficialCitations()`, but `[SD]` (school data) markers are still rendered as green checkmark badges (`source-badge-official`). No source cards visible.
+  - **Shown state:** `[N]` markers are converted to gray badge elements via `processCitations()` (class `source-badge`, rendered through `rehype-raw`). `[SD]` markers render as green checkmark badges. Source cards appear below with AnimatePresence height animation. All sources shown (no limit).
+  - **Official source badges (`[SD]`):** Always visible regardless of toggle state. Green circle with white checkmark (`source-badge-official`). On hover: lighter green + "Official Source" tooltip (CSS-only, `official-tooltip`). Sentence underline highlight works the same as numbered badges.
 - **Citation badge interaction** (event delegation via `mouseover`/`mouseout`/`click` on container ref):
   - **Hover:** Badge turns green (`source-badge--active`). The sentence immediately before the hovered badge gets a dotted green underline via the CSS Custom Highlight API (`getSentenceRange()` walks backwards through DOM siblings to find the preceding text, `CSS.highlights` applies `::highlight(source-hl)`). Only the hovered badge's sentence is underlined — same source number at different locations does not cross-highlight. Falls back to block-level `.source-highlight` class if the Highlight API is unavailable.
   - **Click:** Smooth scrolls to the corresponding `SourceCard` below (`scrollIntoView({ block: 'center' })`), briefly highlights it with a green ring (1.5s)
@@ -127,13 +134,16 @@ Pinned to bottom of chat, `border-t border-dark-700` with backdrop blur.
 
 **Connecting state:** Full skeleton UI with pulsing placeholder blocks + "Connecting to Cole..." label with bouncing dots. Shown while `isConnected` is false.
 
+**Edit message handling:** InputArea watches `pendingEdit` from the store. When set (user clicked Edit on a message bubble), it: (1) cancels streaming if active, (2) populates the textarea with the original question, (3) restores the essay prompt to the conversation, (4) restores the essay draft text and auto-opens the ReviewPanel via `forceOpen` prop, (5) focuses the textarea. Messages are not deleted — the user re-sends as a new message.
+
 **Validation:** Can't send without non-empty input and connection. If essay text is provided, essay prompt is required (prompt field flashes red if missing). Disabled during streaming.
 
 ### ReviewPanel (`ReviewPanel.tsx`)
 
 Collapsible essay draft editor, available in all chat conversations:
-- Toggle button: "Review Draft" / "Hide Draft" pill with rotating chevron
+- Toggle button: "Essay Help" / "Hide Essay" pill with rotating chevron. Glows green when content exists.
 - Slides up to 280px with spring animation
+- Accepts `forceOpen` prop — when true, auto-opens the panel (used by edit message flow to reveal restored essay data)
 - **Essay prompt input** at top (same `input-field-compact` style as other inputs). Placeholder: "Essay prompt (leave blank for general advice)". Flashes red with warning placeholder when user tries to send with essay text but no prompt.
 - Header bar: "Your Essay Draft" + word count
 - Bordered textarea for pasting essay content (`border border-dark-600 rounded-lg`)
@@ -299,7 +309,7 @@ One-time mount effect: calls `checkHealth()` and `getOptions()` in parallel. Set
 
 Returns `{ send, cancel }`:
 
-- **`send(question, essayText?)`:** Creates conversation if needed, adds user message, builds request (with history, experiences, college, essay_prompt, essay_text, profile, `top_k` from `contextSize`, `response_length` from `responseLength`), initiates SSE stream via `askStream`. Collects tokens into `streamingContent`, then on `onDone` assembles final assistant message with sources/confidence and adds to conversation.
+- **`send(question, essayText?)`:** Creates conversation if needed, adds user message (including `essayPrompt`, `essayText`, and `hasEssayDraft` fields for later edit restoration), builds request (with history, experiences, college, essay_prompt, essay_text, profile, `top_k` from `contextSize`, `response_length` from `responseLength`), initiates SSE stream via `askStream`. Collects tokens into `streamingContent`, then on `onDone` assembles final assistant message with sources/confidence and adds to conversation.
 - **`cancel()`:** Aborts the AbortController, clears streaming state.
 
 History is built from the last 6 messages of the current conversation. Experiences and profile data are always included when available (not mode-gated). Essay prompt and essay text are sent when present in the ReviewPanel. Profile data (GPA, test scores, location, preferred majors, saved schools) is sent on every request when a GPA has been entered, a country set, preferred majors added, or schools saved.
@@ -393,7 +403,7 @@ frontend/src/
 ├── store.ts                   Zustand store (persisted + ephemeral)
 ├── types.ts                   TypeScript types, ALLOWED_MAJORS, ContextSize, CONTEXT_SIZE_MAP
 ├── suggestions.ts             QA + Essay suggestion banks
-├── markdown.tsx               Citation utilities (processCitations, stripCitations)
+├── markdown.tsx               Citation + markdown utilities (processCitations, processOfficialCitations, stripCitations, stripMarkdown)
 ├── data/
 │   └── locations.ts           Country + US state dropdown options
 ├── hooks/

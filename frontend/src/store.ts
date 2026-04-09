@@ -62,6 +62,10 @@ interface Store {
   setIsConnected: (connected: boolean) => void
   setCollegeOptions: (options: string[], schoolStates?: Record<string, string>) => void
   setSidebarOpen: (open: boolean) => void
+
+  // ---- Actions: edit ----
+  pendingEdit: ChatMessage | null
+  setPendingEdit: (msg: ChatMessage | null) => void
 }
 
 export const useStore = create<Store>()(
@@ -84,6 +88,7 @@ export const useStore = create<Store>()(
       streamingContent: '',
       streamingLoading: false,
       sidebarOpen: true,
+      pendingEdit: null,
 
       // ---- Mode ----
       setMode: (mode) =>
@@ -270,6 +275,7 @@ export const useStore = create<Store>()(
       setIsConnected: (isConnected) => set({ isConnected }),
       setCollegeOptions: (collegeOptions, schoolStates) => set({ collegeOptions, ...(schoolStates ? { schoolStates } : {}) }),
       setSidebarOpen: (sidebarOpen) => set({ sidebarOpen }),
+      setPendingEdit: (pendingEdit) => set({ pendingEdit }),
     }),
     {
       name: 'college-ai-store',

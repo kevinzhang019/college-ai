@@ -29,6 +29,8 @@ export function useStreaming() {
       id: crypto.randomUUID(),
       role: 'user',
       content: question,
+      ...(conv.essayPrompt?.trim() ? { essayPrompt: conv.essayPrompt.trim() } : {}),
+      ...(essayText?.trim() ? { hasEssayDraft: true, essayText: essayText.trim() } : {}),
       timestamp: Date.now(),
     }
     addMessage(convId, userMsg)

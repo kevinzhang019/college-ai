@@ -212,7 +212,8 @@ def _write_school_data(session, slug, school_id, points, grades, timestamp, tag)
     """Write a single school's datapoints + NicheGrade row within an existing session.
 
     Shared by both the DBWriterThread hot path and the best-effort drain
-    fallback.  Callers are responsible for commit/rollback/close.
+    fallback.  Callers should wrap the call in ``session.begin()`` for
+    explicit atomicity and are responsible for session close.
 
     Datapoints and the NicheGrade row are written in the same session so
     they commit (or roll back) atomically.  Datapoints are inserted in
@@ -439,8 +440,8 @@ class DBWriterThread(threading.Thread):
         for attempt in range(self.MAX_RETRIES):
             session = get_session()
             try:
-                self._write_one(session, slug, school_id, points, grades, now, tag)
-                session.commit()
+                with session.begin():
+                    self._write_one(session, slug, school_id, points, grades, now, tag)
                 logger.debug("[DB] Committed %s", slug)
                 # Increment grade counter only after successful commit so
                 # retries on Hrana errors don't double-count.
@@ -449,10 +450,6 @@ class DBWriterThread(threading.Thread):
                         self._stats["total_grades"] += 1
                 return True
             except Exception as e:
-                try:
-                    session.rollback()
-                except Exception:
-                    pass
                 if is_blocked_error(e):
                     logger.error(
                         "[DB] Turso plan quota exceeded — cannot write %s. "
@@ -535,17 +532,13 @@ class DBWriterThread(threading.Thread):
                 session = None
                 session = get_session()
                 try:
-                    _write_school_data(session, slug, school_id, points, grades, timestamp, tag)
-                    session.commit()
+                    with session.begin():
+                        _write_school_data(session, slug, school_id, points, grades, timestamp, tag)
                     drained += 1
                     if grades and stats is not None and stats_lock is not None:
                         with stats_lock:
                             stats["total_grades"] += 1
                 except Exception as e:
-                    try:
-                        session.rollback()
-                    except Exception:
-                        pass
                     logger.error("[DB] Best-effort drain failed for %s: %s", slug, e)
                     failed += 1
                 finally:
@@ -2334,8 +2327,7 @@ def _worker_loop(
                     consecutive_px_blocks = 0
 
                 # During shutdown, don't submit results with empty grades —
-                # the school would be marked no_data and permanently skipped
-                # on resume.  Grades may be empty because a PX retry was
+                # the school would be marked no_data.  Grades may be empty because a PX retry was
                 # skipped due to shutdown, not because the school truly has
                 # no data.  Leaving it pending lets the next run retry cleanly.
                 # Complete data (has grades) is safe to submit even during
@@ -2378,6 +2370,7 @@ def scrape_all(
     resume: bool = True,
     headless: bool = False,
     num_workers: int = 3,
+    reset_empty: bool = False,
 ):
     """Scrape Niche data for all schools using parallel browser workers.
 
@@ -2387,11 +2380,31 @@ def scrape_all(
         resume: If True, skip schools already in niche_grades.
         headless: If True, run browsers in headless mode (blocked by PerimeterX).
         num_workers: Number of parallel browser workers (default 3, max 5).
+        reset_empty: If True, delete no_data rows before scraping so those schools get retried.
     """
     init_db()
     session = None
     session = get_session()
     try:
+        # Clear no_data rows and orphaned datapoints so those schools get retried
+        if reset_empty:
+            no_data_count = session.query(NicheGrade).filter_by(no_data=1).delete()
+            if no_data_count:
+                session.commit()
+                logger.info(f"Cleared {no_data_count} no_data rows — those schools will be retried")
+
+            # Delete applicant datapoints with no matching NicheGrade row
+            # (includes schools whose NicheGrade was just deleted above)
+            orphan_count = session.query(ApplicantDatapoint).filter(
+                ApplicantDatapoint.source == "niche",
+                ~ApplicantDatapoint.school_id.in_(
+                    session.query(NicheGrade.school_id)
+                )
+            ).delete(synchronize_session="fetch")
+            if orphan_count:
+                session.commit()
+                logger.info(f"Cleaned up {orphan_count} orphaned applicant datapoints (no matching NicheGrade row)")
+
         # Build slug -> school_id mapping, ordered by enrollment (largest first)
         schools = (
             session.query(School.id, School.name, School.student_size)
@@ -2523,19 +2536,6 @@ def scrape_all(
     )
 
 
-def reset_no_data_schools():
-    """Delete NicheGrade rows marked no_data so those schools get retried."""
-    init_db()
-    session = None
-    session = get_session()
-    try:
-        count = session.query(NicheGrade).filter_by(no_data=1).delete()
-        session.commit()
-        logger.info(f"Deleted {count} no_data NicheGrade rows — those schools will be retried.")
-    finally:
-        if session is not None:
-            session.close()
-
 
 def main():
     parser = argparse.ArgumentParser(description="Scrape Niche.com admissions data")
@@ -2553,7 +2553,7 @@ def main():
     )
     parser.add_argument(
         "--reset-empty", action="store_true",
-        help="Delete no_data NicheGrade rows so those schools get retried, then exit"
+        help="Delete no_data NicheGrade rows before scraping so those schools get retried"
     )
     parser.add_argument(
         "--debug", action="store_true",
@@ -2581,10 +2581,6 @@ def main():
     if args.debug:
         logging.getLogger().setLevel(logging.DEBUG)
 
-    if args.reset_empty:
-        reset_no_data_schools()
-        return
-
     if args.capture_cookies:
         scraper = NicheScraper()
         try:
@@ -2597,9 +2593,9 @@ def main():
     headless = args.headless  # Default False; only True when --headless is passed
     workers = min(args.workers, MAX_WORKERS)
     if args.school:
-        scrape_all(slugs=[args.school], grades_only=args.grades_only, resume=not args.no_resume, headless=headless, num_workers=workers)
+        scrape_all(slugs=[args.school], grades_only=args.grades_only, resume=not args.no_resume, headless=headless, num_workers=workers, reset_empty=args.reset_empty)
     else:
-        scrape_all(grades_only=args.grades_only, resume=not args.no_resume, headless=headless, num_workers=workers)
+        scrape_all(grades_only=args.grades_only, resume=not args.no_resume, headless=headless, num_workers=workers, reset_empty=args.reset_empty)
 
 
 if __name__ == "__main__":

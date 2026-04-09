@@ -273,7 +273,7 @@ QA_USER = (
     "- Focus on undergraduate programs and admissions.\n"
     "- Only state facts that appear in the sources. Cite every claim.\n"
     "- If a [SCHOOL DATA] block is provided above, use those statistics freely "
-    "without a citation — they come from our verified database. Never include "
+    "and cite each claim with [SD]. Never include "
     "the literal text \"[SCHOOL DATA]\" in your response.\n"
     "- If ML model prediction data is provided above, lead with the prediction, "
     "contextualize it relative to the school's acceptance rate, and explain what "

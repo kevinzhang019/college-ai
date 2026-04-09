@@ -314,6 +314,8 @@ class CollegeRAG:
         """Strip invalid citation references and warn if none remain."""
         # Strip leaked [SCHOOL DATA] tags that the LLM may reproduce
         answer = re.sub(r"\s*\[SCHOOL DATA\][^\n]*", "", answer)
+        # Normalize school-data citations: [sd], [Sd], etc. → [SD]
+        answer = re.sub(r"\[(?i:sd)\]", "[SD]", answer)
         # Strip literal [N] placeholders the LLM emits when it can't find a source number
         answer = re.sub(r"\s*\[N\]", "", answer)
 
@@ -699,14 +701,14 @@ class CollegeRAG:
         query_type = pre.query_type or intent.query_type
         complexity = intent.complexity
 
-        # Fetch school data and rewrite+embed in parallel — for non-ranking
-        # queries the DB fetch is independent of the retrieval path.
+        # Fetch school data in parallel with rewrite+embed when schools are
+        # known upfront (detected or dropdown-selected).
         categories = list(dict.fromkeys(["identity"] + intent.categories))
         school_data_map = {}  # type: Dict[str, Dict[str, Any]]
         sd_block = ""
         sd_future = None
 
-        need_school_data = query_type not in (RANKING, COMPARISON) and schools
+        need_school_data = bool(schools)
         if need_school_data:
             pool = ThreadPoolExecutor(max_workers=1)
             if len(schools) == 1:
@@ -799,8 +801,9 @@ class CollegeRAG:
             search_query[:80],
         )
 
-        # 5. Rerank
-        if query_type in (RANKING, COMPARISON):
+        # 5. Rerank — discover schools from candidates only when none were
+        # detected upfront (e.g. "rank the best CS schools").
+        if query_type in (RANKING, COMPARISON) and not school_data_map:
             candidate_names = list({
                 c.get("college_name", "") for c in candidates if c.get("college_name")
             })
@@ -900,14 +903,14 @@ class CollegeRAG:
             query_type = pre.query_type or intent.query_type
             complexity = intent.complexity
 
-            # Fetch school data and rewrite+embed in parallel — for non-ranking
-            # queries the DB fetch is independent of the retrieval path.
+            # Fetch school data in parallel with rewrite+embed when schools are
+            # known upfront (detected or dropdown-selected).
             categories = list(dict.fromkeys(["identity"] + intent.categories))
             school_data_map = {}  # type: Dict[str, Dict[str, Any]]
             sd_block = ""
             sd_future = None
 
-            need_school_data = query_type not in (RANKING, COMPARISON) and schools
+            need_school_data = bool(schools)
             if need_school_data:
                 pool = ThreadPoolExecutor(max_workers=1)
                 if len(schools) == 1:
@@ -979,8 +982,9 @@ class CollegeRAG:
                 yield {"type": "done"}
                 return
 
-            # 5. Rerank
-            if query_type in (RANKING, COMPARISON):
+            # 5. Rerank — discover schools from candidates only when none were
+            # detected upfront (e.g. "rank the best CS schools").
+            if query_type in (RANKING, COMPARISON) and not school_data_map:
                 candidate_names = list({
                     c.get("college_name", "") for c in candidates if c.get("college_name")
                 })

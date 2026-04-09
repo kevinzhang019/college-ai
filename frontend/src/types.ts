@@ -31,6 +31,9 @@ export interface ChatMessage {
   content: string
   sources?: Source[]
   confidence?: 'high' | 'medium' | 'low'
+  essayPrompt?: string
+  essayText?: string
+  hasEssayDraft?: boolean
   timestamp: number
 }
 

@@ -71,7 +71,7 @@ data: {"type": "done"}                             // stream complete
 data: {"type": "error", "message": "..."}          // on exception
 ```
 
-Citation verification and confidence scoring happen after generation completes. If verification modifies the answer (strips invalid citations or appends a grounding warning), an `answer_replaced` event is sent before `sources` so the frontend can replace the streamed text.
+Citation verification and confidence scoring happen after generation completes. Verification strips invalid `[N]` citations (N > source count) and normalizes `[SD]` markers (case-insensitive → `[SD]`). `[SD]` markers are passed through to the frontend for rendering as official source badges. If verification modifies the answer (strips invalid citations or appends a grounding warning), an `answer_replaced` event is sent before `sources` so the frontend can replace the streamed text.
 
 ## Frontend (`frontend/`)
 

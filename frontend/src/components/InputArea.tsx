@@ -37,7 +37,41 @@ export default function InputArea() {
   const [quickPredictOpen, setQuickPredictOpen] = useState(false)
   const chancesContainerRef = useRef<HTMLDivElement>(null)
 
+  const pendingEdit = useStore((s) => s.pendingEdit)
+  const setPendingEdit = useStore((s) => s.setPendingEdit)
+
+  const [reviewForceOpen, setReviewForceOpen] = useState(false)
+
   const { send, cancel } = useStreaming()
+
+  // Handle pending edit from message bubble
+  useEffect(() => {
+    if (!pendingEdit) return
+
+    if (streamingLoading) cancel()
+
+    setInput(pendingEdit.content)
+
+    if (pendingEdit.essayPrompt) {
+      handleEssayPromptChange(pendingEdit.essayPrompt)
+    }
+
+    if (pendingEdit.essayText) {
+      setEssayText(pendingEdit.essayText)
+      setReviewForceOpen(true)
+    }
+
+    setPendingEdit(null)
+    setTimeout(() => textareaRef.current?.focus(), 50)
+  }, [pendingEdit])
+
+  // Reset forceOpen after it's consumed
+  useEffect(() => {
+    if (reviewForceOpen) {
+      const t = setTimeout(() => setReviewForceOpen(false), 100)
+      return () => clearTimeout(t)
+    }
+  }, [reviewForceOpen])
 
   // Auto-resize textarea
   useEffect(() => {
@@ -155,8 +189,8 @@ export default function InputArea() {
   }
 
   return (
-    <div className="border-t border-dark-700 bg-dark-950/80 backdrop-blur-sm">
-      {/* Essay review panel — slides up above input */}
+    <div className="relative border-t border-dark-700 bg-dark-950/80 backdrop-blur-sm">
+      {/* Essay review panel — overlays chat content above input */}
       <div className="max-w-3xl mx-auto px-4 pt-2">
         <ReviewPanel
           essayText={essayText}
@@ -164,6 +198,7 @@ export default function InputArea() {
           essayPrompt={essayPrompt}
           onEssayPromptChange={handleEssayPromptChange}
           promptWarning={promptWarning}
+          forceOpen={reviewForceOpen}
         />
       </div>
 

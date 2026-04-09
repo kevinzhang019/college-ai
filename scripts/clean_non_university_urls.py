@@ -92,7 +92,9 @@ def get_domain_from_url(url: str) -> str:
     """Extract domain from URL."""
     try:
         parsed = urlparse(url)
-        domain = parsed.netloc.lower()
+        # Use .hostname instead of .netloc to strip port numbers and auth info.
+        # e.g. "stanford.edu:8080" → "stanford.edu"
+        domain = (parsed.hostname or "").lower()
 
         # Strip 'www.' prefix if present
         if domain.startswith("www."):
@@ -103,222 +105,155 @@ def get_domain_from_url(url: str) -> str:
         return ""
 
 
-def is_valid_university_domain(url_domain: str, university_domain: str) -> bool:
-    """
-    Check if a URL domain belongs to the university domain.
-
-    Args:
-        url_domain: Domain from the URL to check
-        university_domain: Base university domain
-
-    Returns:
-        True if the URL domain is valid for the university, False otherwise
-    """
-    if not url_domain or not university_domain:
-        return False
-
-    # Extract the base university domain from both domains to compare them properly
-    url_base_domain = extract_base_university_domain(url_domain)
-    univ_base_domain = extract_base_university_domain(university_domain)
-
-    # If the base domains match, this is part of the university
-    if url_base_domain == univ_base_domain:
-        return True
-
-    # If one of the domains is a subdomain of the university
-    # First, check if the URL domain is a subdomain of the university domain
-    if url_domain.endswith("." + univ_base_domain):
-        return True
-
-    # Sometimes different colleges/schools have their own domains
-    # Extract domain parts for additional checking
-    url_parts = url_domain.split(".")
-    univ_parts = university_domain.split(".")
-
-    # Skip non-educational domains
-    if url_parts[-1] not in ["edu", "ac", "ca", "uk", "au", "nz"]:
-        # Special case: handle university systems
-        if len(url_parts) >= 3:
-            # Many university systems share patterns like:
-            # - law.stanford.edu vs cs.stanford.edu
-            # - cse.sc.edu vs business.sc.edu
-
-            # Compare the "root" part of the domain (stanford in stanford.edu)
-            if len(url_parts) >= 2 and len(univ_parts) >= 2:
-                # Check if the university identifier matches
-                if url_parts[-2] == univ_parts[-2]:
-                    return True
-
-    return False
-
-
-def extract_base_university_domain(domain: str) -> str:
-    """
-    Extract the base university domain from a full domain.
-
-    Examples:
-        cs.stanford.edu -> stanford.edu
-        www.harvard.edu -> harvard.edu
-        mcs.illinois.edu -> illinois.edu
-        catalog.unc.edu -> unc.edu
-
-    Returns the root academic domain.
-    """
-    if not domain:
-        return ""
-
-    parts = domain.split(".")
-
-    # Not enough parts for a valid domain
-    if len(parts) < 2:
-        return ""
-
-    # Check for educational TLDs
-    edu_tlds = [
-        "edu",  # US educational institutions
-        "ac",  # Academic institutions in many countries
-        "edu.au",  # Australia
-        "edu.uk",  # UK
-        "edu.sg",  # Singapore
-        "edu.cn",  # China
-        "edu.tw",  # Taiwan
-        "edu.my",  # Malaysia
-        "edu.hk",  # Hong Kong
-        "edu.jp",  # Japan
-        "ac.uk",  # UK
-        "ac.nz",  # New Zealand
-        "ac.jp",  # Japan
-        "ac.za",  # South Africa
-    ]
-
-    # For domains like *.edu
-    if len(parts) >= 2 and parts[-1] == "edu":
-        # Get the main domain name (e.g., stanford.edu)
-        return f"{parts[-2]}.{parts[-1]}"
-
-    # For domains like *.edu.* (e.g., example.edu.au)
-    for tld in edu_tlds:
-        tld_parts = tld.split(".")
-        if len(parts) >= len(tld_parts) + 1:
-            domain_suffix = ".".join(parts[-len(tld_parts) :])
-            if domain_suffix == tld:
-                # Return main domain + tld (e.g., unsw.edu.au)
-                return f"{parts[-len(tld_parts)-1]}.{domain_suffix}"
-
-    # For domains ending in ".edu.*"
-    if len(parts) >= 3 and parts[-2] == "edu":
-        return f"{parts[-3]}.{parts[-2]}.{parts[-1]}"
-
-    # No educational TLD found, return as is
-    return domain
-
-
-def get_college_base_domain(college_name: str, collection: Collection) -> str:
-    """Get the base domain for a college from records."""
-    safe_college = college_name.replace('"', '\\"')
-    expr = f'college_name == "{safe_college}"'
-    records = collection.query(
-        expr=expr,
-        output_fields=["url"],
-        limit=100,  # Get a few records to find a valid URL
-    )
-
-    # Store domain frequency
-    domain_count = {}
-
-    # Count domain occurrences
-    for record in records:
-        url = record.get("url", "")
-        if not url:
-            continue
-
-        full_domain = get_domain_from_url(url)
-        if not full_domain:
-            continue
-
-        # Extract the base university domain
-        base_domain = extract_base_university_domain(full_domain)
-        if base_domain:
-            domain_count[base_domain] = domain_count.get(base_domain, 0) + 1
-
-    # Find most common domain
-    if domain_count:
-        # Sort by frequency, descending
-        sorted_domains = sorted(domain_count.items(), key=lambda x: x[1], reverse=True)
-        return sorted_domains[0][0]
-
-    return ""
-
-
-def get_domain_patterns():
-    """
-    Returns a dictionary of common university domain patterns and services.
-
-    These are domains that should be considered part of the university ecosystem
-    even if they don't match the main university domain pattern.
-    """
-    return {
-        # Common third-party education platforms used by universities
-        "canvas": ["canvas.com", "instructure.com"],
-        "blackboard": ["blackboard.com", "bbcollab.com"],
-        "moodle": ["moodle.org", "moodlecloud.com"],
-        "d2l": ["d2l.com", "brightspace.com"],
-        # University IT and educational services
-        "library": ["library.", "libraries."],
-        "registrar": ["registrar.", "enrollment.", "admissions."],
-        "student": ["students.", "student.", "studentaffairs."],
-        "alumni": ["alumni.", "alum."],
-        "athletics": ["athletics.", "sports."],
-        "career": ["career.", "careers.", "jobs."],
-        "research": ["research.", "labs.", "institute."],
-        "bursar": ["bursar.", "cashier.", "finance."],
-        "housing": ["housing.", "residence.", "dorm."],
-        # Academic departments (common patterns)
-        "departments": [
-            "cs.",
-            "compsci.",
-            "cse.",  # Computer Science
-            "eng.",
-            "engineering.",  # Engineering
-            "bus.",
-            "business.",  # Business
-            "med.",
-            "medicine.",
-            "health.",  # Medicine
-            "law.",  # Law
-            "arts.",  # Arts
-            "sci.",
-            "science.",  # Science
-            "math.",  # Mathematics
-            "econ.",  # Economics
-            "physics.",  # Physics
-            "chem.",
-            "chemistry.",  # Chemistry
-            "bio.",
-            "biology.",  # Biology
-            "psych.",
-            "psychology.",  # Psychology
-            "hist.",
-            "history.",  # History
-            "lang.",
-            "languages.",  # Languages
-            "edu.",
-            "education.",  # Education
-        ],
-    }
-
-
-def is_known_university_service(domain: str) -> bool:
-    """Check if the domain is a known university service pattern."""
-    patterns = get_domain_patterns()
-
-    # Check all patterns
-    for category, domain_patterns in patterns.items():
-        for pattern in domain_patterns:
-            if pattern in domain.lower():
-                return True
-
-    return False
+# ---------------------------------------------------------------------------
+# The following functions are NOT used by our current implementation, which
+# simply checks whether a URL ends in .edu (see scan_and_delete_non_edu).
+# They provide more granular domain matching (international TLDs, subdomain
+# resolution, known service patterns) and are kept here for potential future
+# use if we ever need smarter filtering beyond the .edu check.
+# ---------------------------------------------------------------------------
+#
+# def is_valid_university_domain(url_domain: str, university_domain: str) -> bool:
+#     """
+#     Check if a URL domain belongs to the university domain.
+#
+#     Args:
+#         url_domain: Domain from the URL to check
+#         university_domain: Base university domain
+#
+#     Returns:
+#         True if the URL domain is valid for the university, False otherwise
+#     """
+#     if not url_domain or not university_domain:
+#         return False
+#
+#     url_base_domain = extract_base_university_domain(url_domain)
+#     univ_base_domain = extract_base_university_domain(university_domain)
+#
+#     if url_base_domain == univ_base_domain:
+#         return True
+#
+#     if url_domain.endswith("." + univ_base_domain):
+#         return True
+#
+#     url_parts = url_domain.split(".")
+#     univ_parts = university_domain.split(".")
+#
+#     if url_parts[-1] not in ["edu", "ac", "ca", "uk", "au", "nz"]:
+#         if len(url_parts) >= 3:
+#             if len(url_parts) >= 2 and len(univ_parts) >= 2:
+#                 if url_parts[-2] == univ_parts[-2]:
+#                     return True
+#
+#     return False
+#
+#
+# def extract_base_university_domain(domain: str) -> str:
+#     """
+#     Extract the base university domain from a full domain.
+#
+#     Examples:
+#         cs.stanford.edu -> stanford.edu
+#         www.harvard.edu -> harvard.edu
+#         mcs.illinois.edu -> illinois.edu
+#         catalog.unc.edu -> unc.edu
+#     """
+#     if not domain:
+#         return ""
+#
+#     parts = domain.split(".")
+#
+#     if len(parts) < 2:
+#         return ""
+#
+#     edu_tlds = [
+#         "edu", "ac", "edu.au", "edu.uk", "edu.sg", "edu.cn",
+#         "edu.tw", "edu.my", "edu.hk", "edu.jp",
+#         "ac.uk", "ac.nz", "ac.jp", "ac.za",
+#     ]
+#
+#     if len(parts) >= 2 and parts[-1] == "edu":
+#         return f"{parts[-2]}.{parts[-1]}"
+#
+#     for tld in edu_tlds:
+#         tld_parts = tld.split(".")
+#         if len(parts) >= len(tld_parts) + 1:
+#             domain_suffix = ".".join(parts[-len(tld_parts):])
+#             if domain_suffix == tld:
+#                 return f"{parts[-len(tld_parts)-1]}.{domain_suffix}"
+#
+#     if len(parts) >= 3 and parts[-2] == "edu":
+#         return f"{parts[-3]}.{parts[-2]}.{parts[-1]}"
+#
+#     return domain
+#
+#
+# def get_college_base_domain(college_name: str, collection: Collection) -> str:
+#     """Get the base domain for a college from records."""
+#     safe_college = college_name.replace('"', '\\"')
+#     expr = f'college_name == "{safe_college}"'
+#     records = collection.query(
+#         expr=expr,
+#         output_fields=["url"],
+#         limit=100,
+#     )
+#
+#     domain_count = {}
+#     for record in records:
+#         url = record.get("url", "")
+#         if not url:
+#             continue
+#         full_domain = get_domain_from_url(url)
+#         if not full_domain:
+#             continue
+#         base_domain = extract_base_university_domain(full_domain)
+#         if base_domain:
+#             domain_count[base_domain] = domain_count.get(base_domain, 0) + 1
+#
+#     if domain_count:
+#         sorted_domains = sorted(domain_count.items(), key=lambda x: x[1], reverse=True)
+#         return sorted_domains[0][0]
+#
+#     return ""
+#
+#
+# def get_domain_patterns():
+#     """
+#     Returns a dictionary of common university domain patterns and services.
+#     """
+#     return {
+#         "canvas": ["canvas.com", "instructure.com"],
+#         "blackboard": ["blackboard.com", "bbcollab.com"],
+#         "moodle": ["moodle.org", "moodlecloud.com"],
+#         "d2l": ["d2l.com", "brightspace.com"],
+#         "library": ["library.", "libraries."],
+#         "registrar": ["registrar.", "enrollment.", "admissions."],
+#         "student": ["students.", "student.", "studentaffairs."],
+#         "alumni": ["alumni.", "alum."],
+#         "athletics": ["athletics.", "sports."],
+#         "career": ["career.", "careers.", "jobs."],
+#         "research": ["research.", "labs.", "institute."],
+#         "bursar": ["bursar.", "cashier.", "finance."],
+#         "housing": ["housing.", "residence.", "dorm."],
+#         "departments": [
+#             "cs.", "compsci.", "cse.", "eng.", "engineering.",
+#             "bus.", "business.", "med.", "medicine.", "health.",
+#             "law.", "arts.", "sci.", "science.", "math.", "econ.",
+#             "physics.", "chem.", "chemistry.", "bio.", "biology.",
+#             "psych.", "psychology.", "hist.", "history.",
+#             "lang.", "languages.", "edu.", "education.",
+#         ],
+#     }
+#
+#
+# def is_known_university_service(domain: str) -> bool:
+#     """Check if the domain is a known university service pattern."""
+#     patterns = get_domain_patterns()
+#     for category, domain_patterns in patterns.items():
+#         for pattern in domain_patterns:
+#             if pattern in domain.lower():
+#                 return True
+#     return False
 
 
 def scan_and_delete_non_edu(

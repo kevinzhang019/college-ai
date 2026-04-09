@@ -98,6 +98,39 @@
   @apply bg-forest-500/25 text-forest-400 cursor-default;
 }
 
+/* Official source (school data) badge — green checkmark with tooltip */
+.source-badge-official {
+  @apply inline-flex items-center justify-center
+         w-5 h-5
+         bg-forest-500/25 text-forest-400
+         rounded-full cursor-default
+         transition-colors duration-150;
+  vertical-align: baseline;
+  margin: 0 1px;
+  position: relative;
+}
+.source-badge-official:hover,
+.source-badge-official.source-badge-official--active {
+  @apply bg-forest-500/40 text-forest-300;
+}
+.official-check-icon {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+}
+.official-tooltip {
+  @apply absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5
+         px-2 py-1 text-[11px] font-medium whitespace-nowrap
+         bg-dark-700 text-forest-300 rounded-md
+         border border-forest-500/30
+         opacity-0 pointer-events-none;
+  z-index: 50;
+}
+.source-badge-official:hover .official-tooltip,
+.source-badge-official.source-badge-official--active .official-tooltip {
+  @apply opacity-100;
+}
+
 /* Sentence-level underline via CSS Custom Highlight API */
 ::highlight(source-hl) {
   text-decoration: underline;
