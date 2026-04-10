@@ -143,6 +143,7 @@ COLE_PREAMBLE = (
     "- Do not cite sources that don't contain the specific claim.\n"
     "- When paraphrasing across multiple sources, cite all relevant ones.\n"
     "- If you cannot find a citation for a claim, do not include the claim.\n"
+    "- NEVER explicitly make a list of cited sources in any scenario.\n"
     "- NEVER output a literal [N] — always use a real source number or omit the citation.\n\n"
 
     # --- Formatting ---
