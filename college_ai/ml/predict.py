@@ -17,7 +17,7 @@ import joblib
 import pandas as pd
 
 import lightgbm as lgb
-from sklearn.base import BaseEstimator
+from sklearn.base import BaseEstimator, ClassifierMixin
 
 from college_ai.db.connection import get_session
 from college_ai.db.models import School, NicheGrade
@@ -29,12 +29,14 @@ from college_ai.ml.feature_utils import (
 logger = logging.getLogger(__name__)
 
 
-class LGBWrapper(BaseEstimator):
+class LGBWrapper(ClassifierMixin, BaseEstimator):
     """Minimal sklearn-compatible wrapper around a LightGBM Booster.
 
     Duplicated from train.py so pickle can resolve the class at load time.
+    ClassifierMixin must come first in the MRO — sklearn 1.6+ resolves
+    estimator type via __sklearn_tags__(), and without it FrozenEstimator
+    treats this as a regressor and rejects predict_proba.
     """
-    _estimator_type = "classifier"
     classes_ = np.array([0, 1])
 
     def __init__(self, booster: lgb.Booster):
