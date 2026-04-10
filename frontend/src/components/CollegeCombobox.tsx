@@ -57,8 +57,8 @@ export default function CollegeCombobox({ value, onChange, compact, placeholder 
     return base.filter((c) => c.toLowerCase().includes(lower)).sort(byName)
   }, [query, options, excluded])
 
-  const optionClass = 'block w-full px-4 py-2 text-sm text-slate-300 cursor-pointer data-[focus]:bg-dark-800 data-[selected]:text-forest-400 data-[selected]:font-medium'
-  const sectionHeaderClass = 'px-3 pt-2 pb-1 text-[10px] font-semibold uppercase tracking-wider text-slate-500 select-none'
+  const optionClass = 'px-3 py-1.5 text-sm text-slate-300 cursor-pointer data-[focus]:bg-dark-800 data-[selected]:text-forest-400 data-[selected]:font-medium'
+  const sectionHeaderClass = 'px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-slate-500 select-none'
 
   return (
     <Combobox
@@ -100,7 +100,7 @@ export default function CollegeCombobox({ value, onChange, compact, placeholder 
         <ComboboxOptions className="absolute z-50 bottom-full mb-1 max-h-60 w-full overflow-auto rounded-xl bg-dark-900 shadow-dark-lg border border-dark-700 py-1">
           <ComboboxOption
             value={null}
-            className="block w-full px-4 py-2 text-sm text-slate-500 cursor-pointer data-[focus]:bg-dark-800 data-[selected]:text-forest-400"
+            className="px-3 py-1.5 text-sm text-slate-500 cursor-pointer data-[focus]:bg-dark-800 data-[selected]:text-forest-400"
           >
             No Selection
           </ComboboxOption>
@@ -129,7 +129,7 @@ export default function CollegeCombobox({ value, onChange, compact, placeholder 
               )}
             </>
           ) : filtered.length === 0 ? (
-            <div className="px-4 py-2 text-sm text-slate-500">No schools found.</div>
+            <div className="px-3 py-2 text-sm text-slate-500">No schools found.</div>
           ) : (
             filtered.map((c) => (
               <ComboboxOption key={c} value={c} className={optionClass}>
