@@ -225,7 +225,7 @@ Two-tier model selection based on query type and complexity:
 | Simple factual Q&A | simple | `gpt-4.1-nano` | ~$0.0005 |
 | Complex Q&A, essay ideas, essay review, admission predictions | complex | `gpt-5.4-mini` | ~$0.004 |
 
-Configurable via environment variables: `MODEL_SIMPLE` (default: `gpt-4.1-nano`), `MODEL_STANDARD` (default: `gpt-5.4-mini`). Legacy `OPENAI_CHAT_MODEL` overrides `MODEL_STANDARD` for backward compatibility.
+Configurable via environment variables: `MODEL_SIMPLE` (default: `gpt-4.1-nano`), `MODEL_STANDARD` (default: `gpt-5.4-mini`).
 
 ### Prompt Caching
 
@@ -378,7 +378,6 @@ Used by essay modes (essay_ideas, essay_review) as a rerank boost signal — hit
 |---|---|---|
 | `MODEL_SIMPLE` | `gpt-4.1-nano` | Model for simple factual Q&A and greetings |
 | `MODEL_STANDARD` | `gpt-5.4-mini` | Model for complex Q&A, essays, predictions |
-| `OPENAI_CHAT_MODEL` | — | Legacy override for `MODEL_STANDARD` |
 | `COHERE_API_KEY` | — | Cross-encoder reranking (optional) |
 | `ZILLIZ_COLLECTION_NAME` | `colleges` | Hybrid search collection |
 | `RAG_MAX_CHUNKS_PER_URL` | `2` | URL diversity cap |

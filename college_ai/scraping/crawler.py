@@ -39,6 +39,38 @@ try:
 except Exception:  # pragma: no cover - optional dependency
     sync_playwright = None  # type: ignore
     PlaywrightTimeoutError = Exception  # type: ignore
+
+
+def _safe_sync_playwright_start():
+    """Start sync_playwright(), recovering from a poisoned thread asyncio loop.
+
+    A stale or running default asyncio event loop on a worker thread (left
+    behind by a previous ``sync_playwright().stop()`` or by another library)
+    poisons all subsequent ``sync_playwright().start()`` calls on that thread
+    with: "It looks like you are using Playwright Sync API inside the asyncio
+    loop. Please use the Async API instead."
+
+    On that specific failure, force-reset the thread's asyncio loop and retry
+    once.  Mirrors the workaround already used by ``niche_scraper._launch_chrome``.
+    """
+    if sync_playwright is None:
+        raise RuntimeError("playwright.sync_api is not installed")
+    try:
+        return sync_playwright().start()
+    except Exception as e:
+        if "Sync API inside the asyncio loop" not in str(e):
+            raise
+        import asyncio
+        try:
+            loop = asyncio.get_event_loop()
+            if loop.is_running():
+                loop.stop()
+            if not loop.is_closed():
+                loop.close()
+        except RuntimeError:
+            pass
+        asyncio.set_event_loop(asyncio.new_event_loop())
+        return sync_playwright().start()
 # Stealth patches for Playwright (15+ detection vectors)
 try:
     from playwright_stealth import Stealth as _PlaywrightStealth  # type: ignore
@@ -344,13 +376,15 @@ class PlaywrightPool:
 
     def _create_browser(self) -> dict:
         """Create a browser on the current thread."""
+        pw = None
+        camoufox_cm = None
         try:
             if self.use_camoufox:
                 camoufox_cm = Camoufox(headless=self.headless)
                 browser = camoufox_cm.__enter__()
                 slot = {"pw": None, "browser": browser, "camoufox_cm": camoufox_cm, "uses": 0, "_healthy": True}
             else:
-                pw = sync_playwright().start()
+                pw = _safe_sync_playwright_start()
                 browser = pw.chromium.launch(
                     headless=self.headless,
                     args=list(_CHROMIUM_FLAGS_SAFE),
@@ -361,6 +395,20 @@ class PlaywrightPool:
             return slot
         except Exception as e:
             print(f"    ⚠️  Failed to create Playwright browser: {e}")
+            # Clean up any half-started runtime so the thread isn't left
+            # holding a live Playwright instance + asyncio loop, which would
+            # poison every subsequent sync_playwright().start() on this
+            # thread with "Sync API inside the asyncio loop".
+            if pw is not None:
+                try:
+                    pw.stop()
+                except Exception:
+                    pass
+            if camoufox_cm is not None:
+                try:
+                    camoufox_cm.__exit__(None, None, None)
+                except Exception:
+                    pass
             return None
 
     def _close_slot(self, slot: dict):
@@ -1222,7 +1270,7 @@ class MultithreadedCollegeCrawler:
 
     def read_csv_files(self) -> List[Dict[str, str]]:
         """
-        Read all CSV files in the colleges directory.
+        Read the canonical colleges.csv seed list.
 
         Returns:
             List of college dicts with 'name' and 'url' keys, deduplicated by URL.
@@ -1230,78 +1278,74 @@ class MultithreadedCollegeCrawler:
         all_colleges = []
         seen_urls = set()
 
-        # Find all CSV files in colleges directory
-        csv_pattern = os.path.join(self.colleges_dir, "*.csv")
-        csv_files = glob.glob(csv_pattern)
+        csv_file = os.path.join(self.colleges_dir, "colleges.csv")
 
-        if not csv_files:
-            print(f"No CSV files found in {self.colleges_dir}")
+        if not os.path.exists(csv_file):
+            print(f"colleges.csv not found at {csv_file}")
             self.create_sample_csv_files()
-            csv_files = glob.glob(csv_pattern)
 
-        for csv_file in csv_files:
-            print(f"Reading colleges from {csv_file}")
+        print(f"Reading colleges from {csv_file}")
 
-            try:
-                with open(csv_file, "r", encoding="utf-8", newline="") as f:
-                    sample = f.read(1024)
-                    f.seek(0)
+        try:
+            with open(csv_file, "r", encoding="utf-8", newline="") as f:
+                sample = f.read(1024)
+                f.seek(0)
 
-                    if not sample.strip():
-                        print(f"Warning: {csv_file} is empty")
-                        continue
+                if not sample.strip():
+                    print(f"Warning: {csv_file} is empty")
+                    return all_colleges
 
-                    reader = csv.DictReader(f)
+                reader = csv.DictReader(f)
 
-                    fieldnames = reader.fieldnames
-                    if not fieldnames:
-                        print(f"Warning: {csv_file} has no headers")
-                        continue
+                fieldnames = reader.fieldnames
+                if not fieldnames:
+                    print(f"Warning: {csv_file} has no headers")
+                    return all_colleges
 
-                    name_col = None
-                    url_col = None
+                name_col = None
+                url_col = None
 
-                    for field in fieldnames:
-                        field_lower = field.lower().strip()
-                        if field_lower in [
-                            "name",
-                            "college_name",
-                            "university_name",
-                            "school_name",
-                        ]:
-                            name_col = field
-                        elif field_lower in [
-                            "url",
-                            "website",
-                            "link",
-                            "college_url",
-                            "university_url",
-                        ]:
-                            url_col = field
+                for field in fieldnames:
+                    field_lower = field.lower().strip()
+                    if field_lower in [
+                        "name",
+                        "college_name",
+                        "university_name",
+                        "school_name",
+                    ]:
+                        name_col = field
+                    elif field_lower in [
+                        "url",
+                        "website",
+                        "link",
+                        "college_url",
+                        "university_url",
+                    ]:
+                        url_col = field
 
-                    if not name_col or not url_col:
-                        print(
-                            f"Warning: {csv_file} missing required columns (name/url)"
-                        )
-                        print(f"Available columns: {fieldnames}")
-                        continue
+                if not name_col or not url_col:
+                    print(
+                        f"Warning: {csv_file} missing required columns (name/url)"
+                    )
+                    print(f"Available columns: {fieldnames}")
+                    return all_colleges
 
-                    for row in reader:
-                        name = row.get(name_col, "").strip()
-                        url = row.get(url_col, "").strip()
+                for row in reader:
+                    name = row.get(name_col, "").strip()
+                    url = row.get(url_col, "").strip()
 
-                        if name and url:
-                            if not url.startswith(("http://", "https://")):
-                                url = "https://" + url
+                    if name and url:
+                        if not url.startswith(("http://", "https://")):
+                            url = "https://" + url
 
-                            if url not in seen_urls:
-                                seen_urls.add(url)
-                                all_colleges.append({"name": name, "url": url})
+                        if url not in seen_urls:
+                            seen_urls.add(url)
+                            all_colleges.append({"name": name, "url": url})
 
-                print(f"✓ Loaded colleges from {csv_file}")
+            print(f"✓ Loaded colleges from {csv_file}")
 
-            except Exception as e:
-                print(f"Error reading {csv_file}: {e}")
+        except Exception as e:
+            print(f"Error reading {csv_file}: {e}")
 
         print(f"Total unique colleges loaded: {len(all_colleges)}")
         return all_colleges
@@ -2505,7 +2549,7 @@ class MultithreadedCollegeCrawler:
                 # Start or reuse a thread-local Playwright runtime (only when pool is NOT active)
                 if not _using_pool:
                     if not hasattr(self._pw_local, "pw") or self._pw_local.pw is None:
-                        self._pw_local.pw = sync_playwright().start()
+                        self._pw_local.pw = _safe_sync_playwright_start()
                         # Init browsers dict alongside PW so the registry
                         # entry captures a direct reference to the real dict.
                         if not hasattr(self._pw_local, "browsers"):

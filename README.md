@@ -12,7 +12,6 @@ Environment variables in `.env` at the project root:
 | `ZILLIZ_API_KEY` | Yes | — | RAG, crawler |
 | `ZILLIZ_COLLECTION_NAME` | No | `colleges` | RAG, crawler (hybrid search collection) |
 | `OPENAI_API_KEY` | Yes | — | RAG, crawler (embeddings) |
-| `OPENAI_CHAT_MODEL` | No | `gpt-4.1-mini` | RAG answer generation |
 | `COHERE_API_KEY` | No | — | Cross-encoder reranking (optional, degrades gracefully) |
 | `CONTEXTUAL_PREFIXES` | No | `0` | Set to `1` to enable LLM contextual chunk prefixes during crawl |
 | `TURSO_DATABASE_URL` | No | local SQLite | Admissions DB (Turso cloud) |
@@ -23,7 +22,10 @@ Install dependencies:
 
 ```bash
 pip install -r requirements.txt
+playwright install chromium   # required for the crawler; re-run after any playwright upgrade
 ```
+
+> The crawler's JS fallback uses Playwright, and each `playwright` package release pins a specific Chromium build. If the matching build isn't cached locally, `pw.chromium.launch()` fails with `Executable doesn't exist` and poisons the worker thread's asyncio loop. See `docs/thread-safety-crawler-audit.md` Bug #22 for the full failure mode.
 
 ## Quick Start
 

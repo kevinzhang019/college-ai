@@ -137,12 +137,8 @@ class CollegeRAG:
         self.model_simple = os.getenv("MODEL_SIMPLE", "gpt-4.1-nano")
         self.model_standard = os.getenv("MODEL_STANDARD", "gpt-5.4-mini")
 
-        # Legacy override: if OPENAI_CHAT_MODEL or generation_model is set,
-        # use it as the standard model for backward compatibility.
         if generation_model:
             self.model_standard = generation_model
-        elif os.getenv("OPENAI_CHAT_MODEL"):
-            self.model_standard = os.getenv("OPENAI_CHAT_MODEL")
 
         self.rewrite_model = rewrite_model or "gpt-4.1-nano"
 

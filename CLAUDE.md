@@ -64,7 +64,7 @@ docs/                       Detailed architecture documentation
 
 `ZILLIZ_URI`, `ZILLIZ_API_KEY`, `OPENAI_API_KEY`, `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`, `SCORECARD_API_KEY`, `COHERE_API_KEY` (optional — reranking degrades gracefully without it)
 
-**Optional model overrides:** `MODEL_SIMPLE` (default: `gpt-4.1-nano`), `MODEL_STANDARD` (default: `gpt-5.4-mini`), `OPENAI_CHAT_MODEL` (legacy override for `MODEL_STANDARD`)
+**Optional model overrides:** `MODEL_SIMPLE` (default: `gpt-4.1-nano`), `MODEL_STANDARD` (default: `gpt-5.4-mini`)
 
 **Optional RAG tuning:** `RETRIEVAL_NPROBE` (default: `64`), `RAG_RETRIEVAL_TOP_K` (default: `50`), `RAG_RANKER_TYPE` (default: `rrf`, alt: `weighted`), `RAG_RANKER_RRF_K` (default: `60`), `RAG_DENSE_WEIGHT` (default: `0.7`), `RAG_SPARSE_WEIGHT` (default: `0.3`), `RAG_HISTORY_LIMIT` (default: `6`), `RAG_HISTORY_REWRITE_LIMIT` (default: `3`), `RAG_HISTORY_REWRITE_CHARS` (default: `400`), `CHUNK_SENTENCE_AWARE` (default: `1`)
 
@@ -80,3 +80,4 @@ docs/                       Detailed architecture documentation
 - **sklearn-compatible wrapper classes must inherit from `sklearn.base.BaseEstimator`** — do not duck-type. `CalibratedClassifierCV` and `FrozenEstimator` require `__sklearn_tags__()` / `get_params()` which `BaseEstimator` provides. Models must be retrained after changing wrapper class inheritance.
 - **Schools table columns are category-prefixed** (`identity_`, `admissions_`, `student_`, `cost_`, `aid_`, `outcome_`, `institution_`). The ML pipeline uses SQL aliases to map these back to legacy names (e.g. `s.identity_acceptance_rate AS acceptance_rate`) so training/inference code doesn't need updating. When adding new School columns, always use the appropriate category prefix.
 - **Zustand persist uses a custom `merge` for `profile`** — when adding new fields to `ProfileData`, defaults are backfilled automatically via the deep merge in `store.ts`. Do not add manual migration logic; just ensure the default in the initializer covers the new field.
+- **Re-run `playwright install` after upgrading the `playwright` package.** Each Playwright release pins a specific Chromium build (e.g. v1208 wants `chromium_headless_shell-1208`). If only the older build is cached, `pw.chromium.launch()` raises `Executable doesn't exist`, and the failed launch leaks the started Playwright sync runtime — poisoning the worker thread's asyncio loop and cascading "Sync API inside the asyncio loop" errors across every subsequent fallback. The crawler's `_create_browser()` now cleans up the leaked runtime on failure (see `docs/thread-safety-crawler-audit.md` Bug #22), but you still need fresh browser binaries.

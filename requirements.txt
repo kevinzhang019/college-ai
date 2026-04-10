@@ -39,6 +39,7 @@ uvicorn>=0.30.0
 # Machine learning model training
 lightgbm>=4.0.0  # LightGBM for gradient boosting
 optuna>=3.0.0  # Hyperparameter optimization
+optuna-integration[lightgbm]>=4.0.0  # LightGBMTunerCV (split out of optuna core in v4)
 scikit-learn>=1.3.0  # ML utilities (calibration, metrics, preprocessing)
 shap>=0.42.0  # SHAP for model interpretability
 matplotlib>=3.5.0  # Plotting for SHAP summaries

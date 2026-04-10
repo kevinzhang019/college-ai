@@ -128,6 +128,8 @@ URLs are claimed in `_pending_canonical_urls` before the Milvus existence query 
 - **Camoufox context manager:** `__exit__` called in `finally` after page/context close. Double-exit prevented by `camoufox_cm = None` after first exit
 - **Resource leak prevention:** `context.on("page", lambda p: p.close())` kills popup windows. `page.on("dialog", lambda d: d.dismiss())` auto-dismisses dialogs. Resource blocking via `context.route()` aborts images, fonts, analytics
 - **Thread affinity:** Playwright sync API is greenlet-based and tied to creator thread. Pool and fallback both use thread-local storage. `_cleanup_thread_local_playwright()` only touches current thread's resources. `prune_dead_slots()` reads `_healthy` flag (set by owning thread) instead of calling `browser.is_connected()` cross-thread
+- **Failed-launch cleanup:** When `pw.chromium.launch()` raises in `_create_browser()`, the except branch tears down the started `pw` (and `camoufox_cm`) on the same creator thread. Prevents a leaked Playwright sync instance from holding a greenlet asyncio loop on the worker thread, which would poison every subsequent `sync_playwright().start()` with "Sync API inside the asyncio loop" (see Bug #22). Cleanup runs outside `_all_locals_lock` because `_create_browser()` itself runs outside the lock.
+- **Asyncio-loop poison recovery:** `_safe_sync_playwright_start()` (used by both pool and non-pool start paths) catches the "Sync API inside the asyncio loop" failure on the calling thread, resets that thread's default asyncio loop, and retries `sync_playwright().start()` once. Touches only the current thread's loop; no shared state.
 
 ## pymilvus ORM Thread Safety — Verified
 
@@ -356,6 +358,112 @@ Extracted `_CHROMIUM_FLAGS_SAFE` (safe flags) and `_CHROMIUM_FLAGS_FALLBACK_EXTR
 **Safe flags** (no fingerprint impact): `--no-zygote`, `--disable-background-timer-throttling`, `--disable-renderer-backgrounding`, `--disable-backgrounding-occluded-windows`, etc.
 
 **Fingerprint-affecting flags** (non-pool only): `--disable-accelerated-2d-canvas`, `--disable-permissions-api`, `--force-device-scale-factor=1`.
+
+## Bug Fix — Playwright Asyncio-Loop Poisoning (2026-04-09)
+
+### 22. `_create_browser()` Leaked Playwright Runtime on Launch Failure (High — cascading capability loss)
+
+**File:** `crawler.py`, `PlaywrightPool._create_browser()` (~line 377)
+
+**Symptom:** Crawler logs filled with cascading errors after a single failed browser launch:
+
+```
+⚠️  Failed to create Playwright browser: BrowserType.launch:
+    Executable doesn't exist at .../chromium_headless_shell-1208/...
+⚠️  Failed to create Playwright browser: It looks like you are using
+    Playwright Sync API inside the asyncio loop. Please use the Async API instead.
+⚠️  Failed to create Playwright browser: It looks like you are using
+    Playwright Sync API inside the asyncio loop. ...
+```
+
+The first error was the trigger (a stale Playwright cache after the package upgraded from `chromium-1181` to `chromium-1208` — fixed by `python -m playwright install chromium`). Every subsequent error on the same worker thread was the **leaked Playwright sync instance** poisoning that thread's asyncio loop.
+
+**Root cause:**
+
+```python
+# BEFORE
+def _create_browser(self):
+    try:
+        ...
+        pw = sync_playwright().start()       # ← installs greenlet asyncio loop on this thread
+        browser = pw.chromium.launch(...)    # ← raises if binary missing
+        ...
+    except Exception as e:
+        print(f"    ⚠️  Failed to create Playwright browser: {e}")
+        return None                          # ← `pw` is leaked, loop stays alive
+```
+
+After `chromium.launch()` raised, `pw` was never `.stop()`'d. The Playwright sync runtime kept its greenlet-based asyncio loop bound to the worker thread. The next call to `sync_playwright().start()` on that thread (rotation, fallback, retry) raised "Sync API inside the asyncio loop" because Playwright detected a running loop and refused to start another. Once a thread was poisoned, every subsequent Playwright fallback on that thread failed — silently degrading crawler coverage.
+
+**Fix:**
+
+```python
+# AFTER
+def _create_browser(self):
+    pw = None
+    camoufox_cm = None
+    try:
+        if self.use_camoufox:
+            camoufox_cm = Camoufox(headless=self.headless)
+            browser = camoufox_cm.__enter__()
+            ...
+        else:
+            pw = _safe_sync_playwright_start()
+            browser = pw.chromium.launch(...)
+            ...
+        return slot
+    except Exception as e:
+        print(f"    ⚠️  Failed to create Playwright browser: {e}")
+        if pw is not None:
+            try: pw.stop()
+            except Exception: pass
+        if camoufox_cm is not None:
+            try: camoufox_cm.__exit__(None, None, None)
+            except Exception: pass
+        return None
+```
+
+**Thread safety:**
+
+- Cleanup runs on the same worker thread that started `pw` — correct affinity for Playwright sync API.
+- `_create_browser()` is invoked outside `_all_locals_lock` (caller `acquire()` releases the lock at crawler.py:466 before the call), so the cleanup never runs under that lock — no deadlock risk and no widening of the lock-held window.
+- `pw.stop()` here is safer than `_close_slot()`'s `pw.stop()` because the chromium subprocess never started — `pw.stop()` only tears down the driver IPC, with no zombie-Chromium hang risk. Daemon-thread wrapping (used by `shutdown()` and `prune_dead_slots()`) is unnecessary on this path.
+
+### 23. Helper: `_safe_sync_playwright_start()` (Defensive — asyncio-loop recovery)
+
+**File:** `crawler.py`, module-level function (~line 43)
+
+A second defensive guard added alongside Bug #22. Both `PlaywrightPool._create_browser()` (Chromium branch) and the non-pool fallback `_pw_local.pw = _safe_sync_playwright_start()` (in `_scrape_with_playwright_single_attempt`) route through this helper instead of calling `sync_playwright().start()` directly.
+
+```python
+def _safe_sync_playwright_start():
+    try:
+        return sync_playwright().start()
+    except Exception as e:
+        if "Sync API inside the asyncio loop" not in str(e):
+            raise
+        import asyncio
+        try:
+            loop = asyncio.get_event_loop()
+            if loop.is_running():
+                loop.stop()
+            if not loop.is_closed():
+                loop.close()
+        except RuntimeError:
+            pass
+        asyncio.set_event_loop(asyncio.new_event_loop())
+        return sync_playwright().start()
+```
+
+Mirrors the workaround in `niche_scraper._launch_chrome` (niche_scraper.py:584-602), which has lived with the same failure mode for months. With Bug #22 fixed the helper rarely triggers in practice, but it remains as a backstop against any future leak source (a half-cleaned non-pool fallback, an external library installing a stray loop, etc.).
+
+**Thread safety:**
+
+- Operates only on the **calling thread's** default asyncio loop (`asyncio.get_event_loop()` / `set_event_loop()`). No cross-thread loop access.
+- No shared state, no locks. Safe to call from any worker thread.
+- Never installs a loop on a thread that doesn't already have a poisoned one — only the except branch swaps the loop, and only after a real failure.
+
+**Verification:** `python -m college_ai.scraping.crawler --colleges 1 --workers 4 --max-pages 80` against `tarleton.edu` (a heavy Playwright-fallback target) over 90s. Before fix: 11 `Failed to create Playwright browser` lines, 9 `Sync API inside the asyncio loop` lines. After fix (with `playwright install chromium` run first): 0 of each. Playwright fallbacks triggered: 16. Fallback failures: 1 (an unrelated 403/timeout, not the asyncio bug).
 
 ## Rechunk Mode — Thread Safety (2026-04-07)
 
