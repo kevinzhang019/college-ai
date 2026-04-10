@@ -16,6 +16,9 @@ eggs/
 .eggs/
 lib/
 lib64/
+# Frontend source directory — negate the broad Python `lib/` rule above
+!frontend/src/lib/
+!frontend/src/lib/**
 parts/
 sdist/
 var/
