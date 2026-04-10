@@ -191,22 +191,22 @@ BUCKET_USE_SAMPLE_WEIGHTS = {
 # ---------------------------------------------------------------------------
 
 MONOTONE_FEATURE_CONSTRAINTS = {
-    "gpa": 1,                          # higher GPA → more likely admitted
-    "sat_score": 1,                    # higher SAT → more likely admitted
-    "acceptance_rate": 1,              # higher acceptance rate → easier to get in
-    "sat_percentile_at_school": 1,     # higher percentile → better fit
-    "gpa_vs_expected": 1,              # above expected GPA → advantage
-    "sat_zscore_at_school": 1,         # above average SAT → advantage
-    "gpa_zscore_at_school": 1,         # above average GPA → advantage
-    "academic_composite_z": 1,         # stronger overall academics → advantage
-    "gpa_x_acceptance": 1,             # GPA × acceptance — both positive
-    "sat_ratio": 1,                    # SAT / school_avg — higher is better
-    "graduation_rate": 1,              # better school → typically higher standards but data correlates positively
-    "retention_rate": 1,               # same reasoning
-    "sat_above_75th": 1,              # above 75th pct → advantage
-    "sat_below_25th": -1,             # below 25th pct → disadvantage
-    "acceptance_rate_sq": 1,          # follows acceptance_rate monotonicity
-    "academic_fit": 1,                 # higher school-relative fit → more likely admitted
+    "gpa": 1,                             # higher GPA → more likely admitted
+    "sat_score": 1,                       # higher SAT → more likely admitted
+    "identity_acceptance_rate": 1,        # higher acceptance rate → easier to get in
+    "sat_percentile_at_school": 1,        # higher percentile → better fit
+    "gpa_vs_expected": 1,                 # above expected GPA → advantage
+    "sat_zscore_at_school": 1,            # above average SAT → advantage
+    "gpa_zscore_at_school": 1,            # above average GPA → advantage
+    "academic_composite_z": 1,            # stronger overall academics → advantage
+    "gpa_x_acceptance": 1,                # GPA × acceptance — both positive
+    "sat_ratio": 1,                       # SAT / school_avg — higher is better
+    "sat_above_75th": 1,                  # above 75th pct → advantage
+    "sat_below_25th": -1,                 # below 25th pct → disadvantage
+    "academic_fit": 1,                    # higher school-relative fit → more likely admitted
+    "test_optional_x_sat_z": 1,           # high SAT still helps at test-optional schools
+    "test_optional_x_gpa_zscore": 1,      # high GPA helps more at test-optional schools
+    "test_required_x_sat_below_25th": -1, # below 25th at test-required is a hard filter
 }  # type: Dict[str, int]
 
 
@@ -245,25 +245,16 @@ INTERACTION_GROUPS = {
         "academic_fit",
     ],
     "school_stats": [
-        "acceptance_rate", "sat_25", "sat_75", "act_25", "act_75",
-        "enrollment", "retention_rate", "graduation_rate",
-        "student_faculty_ratio", "tuition_in_state", "tuition_out_of_state",
-        "median_earnings_10yr", "competitiveness_index",
-        "log_enrollment", "log_earnings",
-        "niche_academics_ord", "niche_value_ord", "niche_professors_ord",
-        "niche_diversity_ord", "niche_campus_ord", "niche_overall_ord",
-        "niche_rank", "avg_annual_cost", "cost_earnings_ratio",
-        "holistic_signal", "sat_range",
+        "identity_acceptance_rate", "student_size", "student_faculty_ratio",
+        "competitiveness_index", "holistic_signal", "sat_range",
     ],
     "fit_interactions": [
         "gpa_x_acceptance", "selectivity_x_sat",
         "gpa_x_competitiveness", "sat_x_competitiveness",
         "instate_x_public", "residency_x_acceptance",
         "stem_competitive_x_acceptance", "is_yield_protector",
-        "yield_x_overqualification",
-    ],
-    "demographics": [
-        "pct_white", "pct_black", "pct_hispanic", "pct_asian", "pct_first_gen",
+        "is_test_optional", "test_optional_x_sat_z",
+        "test_required_x_sat_below_25th", "test_optional_x_gpa_zscore",
     ],
 }
 

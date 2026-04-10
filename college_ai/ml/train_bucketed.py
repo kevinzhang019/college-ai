@@ -22,6 +22,7 @@ import joblib
 import lightgbm as lgb
 import numpy as np
 import pandas as pd
+from sklearn.base import BaseEstimator, ClassifierMixin
 from sklearn.metrics import brier_score_loss, log_loss, roc_auc_score
 
 from college_ai.ml.train import (
@@ -61,20 +62,47 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-class FocalLGBWrapper:
+class FocalLGBWrapper(ClassifierMixin, BaseEstimator):
     """Wraps a focal-loss LightGBM Booster to output probabilities.
 
     Focal loss boosters output raw log-odds; this applies sigmoid to convert
-    to probabilities.  Also duck-types num_trees() for evaluate_model().
+    to probabilities. Duck-types ``num_trees()`` for ``evaluate_model()`` and
+    keeps ``predict`` returning probabilities so ``evaluate_model`` (which
+    treats the wrapper as a Booster) keeps working.
+
+    Also implements the sklearn classifier contract (``predict_proba`` +
+    ``classes_``) so it can be passed to ``CalibratedClassifierCV`` /
+    ``FrozenEstimator`` / ``VennAbersCalibrator``. Inherits from
+    ``ClassifierMixin`` + ``BaseEstimator`` (mixin first in MRO) so
+    ``__sklearn_tags__()`` reports classifier tags under sklearn >= 1.6 —
+    without the mixin, sklearn treats this as a regressor and rejects it.
     """
 
-    def __init__(self, booster):
-        # type: (lgb.Booster) -> None
-        self.booster = booster
+    classes_ = np.array([0, 1])
 
-    def predict(self, X, **kwargs):
+    def __init__(self, booster=None):
+        # type: (Optional[lgb.Booster]) -> None
+        # Accept None so sklearn ``clone()`` / ``get_params()`` round-trip works.
+        self.booster = booster
+        self.is_fitted_ = booster is not None
+
+    def fit(self, X, y=None):
+        return self
+
+    def _proba(self, X, **kwargs):
         raw = self.booster.predict(X, **kwargs)
         return 1.0 / (1.0 + np.exp(-raw))
+
+    def predict(self, X, **kwargs):
+        # Booster-style: returns P(y=1). Used by evaluate_model() which
+        # expects this wrapper to mimic a lgb.Booster.
+        return self._proba(X, **kwargs)
+
+    def predict_proba(self, X, **kwargs):
+        # sklearn-style: returns [[1-p, p], ...]. Used by
+        # CalibratedClassifierCV / FrozenEstimator / VennAbersCalibrator.
+        p = self._proba(X, **kwargs)
+        return np.column_stack([1.0 - p, p])
 
     def num_trees(self):
         return self.booster.num_trees()

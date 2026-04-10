@@ -130,25 +130,26 @@ class AdmissionsPredictor:
             if not school:
                 return None
             features = {
-                "acceptance_rate": school.identity_acceptance_rate,
-                "sat_avg": school.admissions_sat_avg,
-                "sat_25": school.admissions_sat_25,
-                "sat_75": school.admissions_sat_75,
-                "act_25": school.admissions_act_25,
-                "act_75": school.admissions_act_75,
-                "enrollment": school.student_size,
-                "retention_rate": school.student_retention_rate,
-                "graduation_rate": school.outcome_graduation_rate,
+                "identity_acceptance_rate": school.identity_acceptance_rate,
+                "admissions_sat_avg": school.admissions_sat_avg,
+                "admissions_sat_25": school.admissions_sat_25,
+                "admissions_sat_75": school.admissions_sat_75,
+                "admissions_act_25": school.admissions_act_25,
+                "admissions_act_75": school.admissions_act_75,
+                "admissions_test_requirements": school.admissions_test_requirements,
+                "student_size": school.student_size,
+                "student_retention_rate": school.student_retention_rate,
+                "outcome_graduation_rate": school.outcome_graduation_rate,
                 "student_faculty_ratio": school.student_faculty_ratio,
                 "ownership": school.ownership,
-                "tuition_in_state": school.cost_tuition_in_state,
-                "tuition_out_of_state": school.cost_tuition_out_of_state,
-                "median_earnings_10yr": school.outcome_median_earnings_10yr,
-                "pct_white": school.student_pct_white,
-                "pct_black": school.student_pct_black,
-                "pct_hispanic": school.student_pct_hispanic,
-                "pct_asian": school.student_pct_asian,
-                "pct_first_gen": school.student_pct_first_gen,
+                "cost_tuition_in_state": school.cost_tuition_in_state,
+                "cost_tuition_out_of_state": school.cost_tuition_out_of_state,
+                "outcome_median_earnings_10yr": school.outcome_median_earnings_10yr,
+                "student_pct_white": school.student_pct_white,
+                "student_pct_black": school.student_pct_black,
+                "student_pct_hispanic": school.student_pct_hispanic,
+                "student_pct_asian": school.student_pct_asian,
+                "student_pct_first_gen": school.student_pct_first_gen,
                 "school_name": school.name,
             }
             # Fetch niche grades if available
@@ -216,35 +217,28 @@ class AdmissionsPredictor:
             return {"error": f"No data for school ID {school_id}."}
 
         # Normalize test score
-        has_test_score = 1.0
         if sat is None and act is not None:
             sat = act_to_sat(act)
         elif sat is None and act is None:
-            has_test_score = 0.0
             return {"error": "Provide either SAT or ACT score."}
 
         # Compute engineered features via shared utility
-        acc_rate = school_features.get("acceptance_rate") or 0.5
+        acc_rate = school_features.get("identity_acceptance_rate") or 0.5
         ownership = school_features.get("ownership")
         engineered = compute_features_single(
             gpa=min(gpa, 4.0),
             sat=sat,
-            acceptance_rate=school_features.get("acceptance_rate"),
-            sat_avg=school_features.get("sat_avg"),
-            sat_25=school_features.get("sat_25"),
-            sat_75=school_features.get("sat_75"),
-            graduation_rate=school_features.get("graduation_rate"),
-            avg_admitted_gpa=self.school_avg_admitted_gpa.get(school_id),
+            identity_acceptance_rate=school_features.get("identity_acceptance_rate"),
+            admissions_sat_avg=school_features.get("admissions_sat_avg"),
+            admissions_sat_25=school_features.get("admissions_sat_25"),
+            admissions_sat_75=school_features.get("admissions_sat_75"),
+            outcome_graduation_rate=school_features.get("outcome_graduation_rate"),
+            school_avg_admitted_gpa=self.school_avg_admitted_gpa.get(school_id),
             z_stats=self.z_stats,
             residency=residency,
             ownership=ownership,
-            enrollment=school_features.get("enrollment"),
-            median_earnings_10yr=school_features.get("median_earnings_10yr"),
-            niche_grades=school_features.get("niche_grades"),
             school_name=school_features.get("school_name"),
-            avg_annual_cost=school_features.get("avg_annual_cost"),
-            niche_rank=school_features.get("niche_rank"),
-            yield_rate=None,
+            admissions_test_requirements=school_features.get("admissions_test_requirements"),
         )
 
         sat_percentile = engineered["sat_percentile_at_school"]
@@ -259,7 +253,6 @@ class AdmissionsPredictor:
             "major_tier": major_to_tier(major),
             "setting": school_features.get("setting"),
             **engineered,
-            "has_test_score": has_test_score,
             **{k: v for k, v in school_features.items()
                if k not in ("ownership", "niche_grades", "school_name",
                             "setting", "niche_rank", "avg_annual_cost")},
@@ -462,25 +455,26 @@ class BucketedAdmissionsPredictor:
             if not school:
                 return None
             features = {
-                "acceptance_rate": school.identity_acceptance_rate,
-                "sat_avg": school.admissions_sat_avg,
-                "sat_25": school.admissions_sat_25,
-                "sat_75": school.admissions_sat_75,
-                "act_25": school.admissions_act_25,
-                "act_75": school.admissions_act_75,
-                "enrollment": school.student_size,
-                "retention_rate": school.student_retention_rate,
-                "graduation_rate": school.outcome_graduation_rate,
+                "identity_acceptance_rate": school.identity_acceptance_rate,
+                "admissions_sat_avg": school.admissions_sat_avg,
+                "admissions_sat_25": school.admissions_sat_25,
+                "admissions_sat_75": school.admissions_sat_75,
+                "admissions_act_25": school.admissions_act_25,
+                "admissions_act_75": school.admissions_act_75,
+                "admissions_test_requirements": school.admissions_test_requirements,
+                "student_size": school.student_size,
+                "student_retention_rate": school.student_retention_rate,
+                "outcome_graduation_rate": school.outcome_graduation_rate,
                 "student_faculty_ratio": school.student_faculty_ratio,
                 "ownership": school.ownership,
-                "tuition_in_state": school.cost_tuition_in_state,
-                "tuition_out_of_state": school.cost_tuition_out_of_state,
-                "median_earnings_10yr": school.outcome_median_earnings_10yr,
-                "pct_white": school.student_pct_white,
-                "pct_black": school.student_pct_black,
-                "pct_hispanic": school.student_pct_hispanic,
-                "pct_asian": school.student_pct_asian,
-                "pct_first_gen": school.student_pct_first_gen,
+                "cost_tuition_in_state": school.cost_tuition_in_state,
+                "cost_tuition_out_of_state": school.cost_tuition_out_of_state,
+                "outcome_median_earnings_10yr": school.outcome_median_earnings_10yr,
+                "student_pct_white": school.student_pct_white,
+                "student_pct_black": school.student_pct_black,
+                "student_pct_hispanic": school.student_pct_hispanic,
+                "student_pct_asian": school.student_pct_asian,
+                "student_pct_first_gen": school.student_pct_first_gen,
                 "school_name": school.name,
             }
             ng = session.get(NicheGrade, school_id)
@@ -540,13 +534,13 @@ class BucketedAdmissionsPredictor:
             return {"error": "Provide either SAT or ACT score."}
 
         # Determine bucket
-        acc_rate = school_features.get("acceptance_rate") or 0.5
+        acc_rate = school_features.get("identity_acceptance_rate") or 0.5
         bucket = selectivity_bucket(acc_rate)
 
         if bucket not in self._bucket_models:
             return {
                 "error": f"No model for bucket '{bucket}' "
-                         f"(acceptance_rate={acc_rate:.2f})"
+                         f"(identity_acceptance_rate={acc_rate:.2f})"
             }
 
         artifacts = self._bucket_artifacts[bucket]
@@ -558,22 +552,17 @@ class BucketedAdmissionsPredictor:
         engineered = compute_features_single(
             gpa=min(gpa, 4.0),
             sat=sat,
-            acceptance_rate=school_features.get("acceptance_rate"),
-            sat_avg=school_features.get("sat_avg"),
-            sat_25=school_features.get("sat_25"),
-            sat_75=school_features.get("sat_75"),
-            graduation_rate=school_features.get("graduation_rate"),
-            avg_admitted_gpa=self.school_avg_admitted_gpa.get(school_id),
+            identity_acceptance_rate=school_features.get("identity_acceptance_rate"),
+            admissions_sat_avg=school_features.get("admissions_sat_avg"),
+            admissions_sat_25=school_features.get("admissions_sat_25"),
+            admissions_sat_75=school_features.get("admissions_sat_75"),
+            outcome_graduation_rate=school_features.get("outcome_graduation_rate"),
+            school_avg_admitted_gpa=self.school_avg_admitted_gpa.get(school_id),
             z_stats=self.z_stats,
             residency=residency,
             ownership=ownership,
-            enrollment=school_features.get("enrollment"),
-            median_earnings_10yr=school_features.get("median_earnings_10yr"),
-            niche_grades=school_features.get("niche_grades"),
             school_name=school_features.get("school_name"),
-            avg_annual_cost=school_features.get("avg_annual_cost"),
-            niche_rank=school_features.get("niche_rank"),
-            yield_rate=None,
+            admissions_test_requirements=school_features.get("admissions_test_requirements"),
         )
 
         sat_percentile = engineered["sat_percentile_at_school"]

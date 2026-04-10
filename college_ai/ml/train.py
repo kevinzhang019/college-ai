@@ -15,7 +15,7 @@ import numpy as np
 import pandas as pd
 import shap
 from optuna.integration import LightGBMTunerCV
-from sklearn.base import BaseEstimator
+from sklearn.base import BaseEstimator, ClassifierMixin
 from sklearn.calibration import CalibratedClassifierCV, CalibrationDisplay
 from sklearn.frozen import FrozenEstimator
 from sklearn.inspection import permutation_importance
@@ -39,44 +39,50 @@ logger = logging.getLogger(__name__)
 
 
 # Feature definitions
+#
+# Pruning principle: school_target_encoded (Bayesian-smoothed per-school admit
+# rate) already captures any signal that is constant per school, so features
+# earn a spot only if they are:
+#   1. applicant-side (vary row-to-row regardless of school), or
+#   2. applicant × school interactions target encoding cannot express, or
+#   3. policy flags that modulate how applicant features map to admit outcome.
+#
+# A handful of pure per-school scalars are kept pragmatically.
 NUMERIC_FEATURES = [
-    'gpa', 'sat_score', 'acceptance_rate', 'sat_25', 'sat_75', 'sat_avg',
-    'act_25', 'act_75', 'enrollment', 'retention_rate', 'graduation_rate',
-    'student_faculty_ratio', 'tuition_in_state', 'tuition_out_of_state',
-    'pct_white', 'pct_black', 'pct_hispanic', 'pct_asian', 'pct_first_gen',
-    'sat_percentile_at_school', 'gpa_vs_expected', 'median_earnings_10yr',
-    # Engineered features
+    # Applicant raw
+    'gpa', 'sat_score',
+    # School-level scalars explicitly kept
+    'identity_acceptance_rate',
+    'student_size',
+    'student_faculty_ratio',
+    'competitiveness_index',
+    'sat_range',
+    'holistic_signal',
+    'is_yield_protector',
+    # Applicant × school academic fit
+    'sat_percentile_at_school', 'sat_percentile_sq',
     'sat_zscore_at_school', 'gpa_zscore_at_school',
-    'gpa_x_acceptance', 'sat_percentile_sq',
-    'selectivity_x_sat', 'academic_composite_z', 'competitiveness_index',
-    'gpa_x_competitiveness', 'sat_x_competitiveness',
-    # Residency interaction features
-    'instate_x_public', 'residency_x_acceptance',
-    # Overqualification / yield protection
-    'sat_excess', 'gpa_excess', 'sat_ratio', 'is_yield_protector',
-    'overqualification_index',
-    # Binary threshold features
+    'gpa_vs_expected',
+    'academic_composite_z', 'academic_fit',
+    'sat_excess', 'gpa_excess', 'sat_ratio',
     'sat_above_75th', 'sat_below_25th',
-    # Selectivity non-linearity
-    'acceptance_rate_sq',
-    # Test-optional signal
-    'has_test_score',
-    # Log transforms
-    'log_enrollment', 'log_earnings',
-    # Niche grade features (ordinal-encoded)
-    'niche_academics_ord', 'niche_value_ord', 'niche_professors_ord',
-    'niche_diversity_ord', 'niche_campus_ord', 'niche_overall_ord',
-    'niche_rank', 'avg_annual_cost', 'cost_earnings_ratio',
-    # Major competitiveness interaction
+    'overqualification_index',
+    # Applicant × school selectivity interactions
+    'gpa_x_acceptance', 'selectivity_x_sat',
+    'gpa_x_competitiveness', 'sat_x_competitiveness',
+    # Applicant × residency × ownership
+    'instate_x_public', 'residency_x_acceptance',
+    # Major × selectivity
     'stem_competitive_x_acceptance',
-    # Yield protection & fit signals
-    'yield_x_overqualification', 'academic_fit', 'holistic_signal', 'sat_range',
+    # Test-policy interactions
+    'is_test_optional',
+    'test_optional_x_sat_z',
+    'test_required_x_sat_below_25th',
+    'test_optional_x_gpa_zscore',
 ]
 
 CATEGORICAL_FEATURES = [
-    'ownership', 'selectivity_bucket',
-    'residency', 'major',
-    'setting', 'major_tier',
+    'residency', 'major', 'major_tier',
 ]
 
 TARGET = 'admitted'
@@ -566,9 +572,16 @@ def train_model(
     return model
 
 
-class LGBWrapper(BaseEstimator):
-    """Minimal sklearn-compatible wrapper around a LightGBM Booster."""
-    _estimator_type = "classifier"
+class LGBWrapper(ClassifierMixin, BaseEstimator):
+    """Minimal sklearn-compatible wrapper around a LightGBM Booster.
+
+    NOTE: `ClassifierMixin` must come before `BaseEstimator` in the MRO so
+    that `__sklearn_tags__()` reports classifier tags. In sklearn >= 1.6,
+    estimator type is resolved via tags, not the legacy `_estimator_type`
+    class attribute — setting that attribute alone caused
+    `permutation_importance(scoring='neg_log_loss')` to treat the wrapper
+    as a regressor and raise on `predict_proba`.
+    """
     classes_ = np.array([0, 1])
 
     def __init__(self, booster: lgb.Booster):

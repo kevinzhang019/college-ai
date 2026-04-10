@@ -44,25 +44,26 @@ def load_raw_data() -> pd.DataFrame:
         a.residency,
         a.major,
         s.name AS school_name,
-        s.identity_acceptance_rate AS acceptance_rate,
-        s.admissions_sat_avg AS sat_avg,
-        s.admissions_sat_25 AS sat_25,
-        s.admissions_sat_75 AS sat_75,
-        s.admissions_act_25 AS act_25,
-        s.admissions_act_75 AS act_75,
-        s.student_size AS enrollment,
-        s.student_retention_rate AS retention_rate,
-        s.outcome_graduation_rate AS graduation_rate,
+        s.identity_acceptance_rate,
+        s.admissions_sat_avg,
+        s.admissions_sat_25,
+        s.admissions_sat_75,
+        s.admissions_act_25,
+        s.admissions_act_75,
+        s.admissions_test_requirements,
+        s.student_size,
+        s.student_retention_rate,
+        s.outcome_graduation_rate,
         s.student_faculty_ratio,
         s.ownership,
-        s.cost_tuition_in_state AS tuition_in_state,
-        s.cost_tuition_out_of_state AS tuition_out_of_state,
-        s.outcome_median_earnings_10yr AS median_earnings_10yr,
-        s.student_pct_white AS pct_white,
-        s.student_pct_black AS pct_black,
-        s.student_pct_hispanic AS pct_hispanic,
-        s.student_pct_asian AS pct_asian,
-        s.student_pct_first_gen AS pct_first_gen,
+        s.cost_tuition_in_state,
+        s.cost_tuition_out_of_state,
+        s.outcome_median_earnings_10yr,
+        s.student_pct_white,
+        s.student_pct_black,
+        s.student_pct_hispanic,
+        s.student_pct_asian,
+        s.student_pct_first_gen,
         ng.overall_grade,
         ng.academics,
         ng.value,
@@ -193,7 +194,7 @@ def process_pipeline() -> pd.DataFrame:
     df = engineer_features(df)
 
     # Drop rows missing critical school features
-    critical = ["acceptance_rate", "sat_25", "sat_75"]
+    critical = ["identity_acceptance_rate", "admissions_sat_25", "admissions_sat_75"]
     before = len(df)
     df = df.dropna(subset=critical)
     dropped = before - len(df)

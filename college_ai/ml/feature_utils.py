@@ -152,40 +152,38 @@ YIELD_PROTECTOR_NAMES = {
 def compute_features_single(
     gpa,          # type: float
     sat,          # type: float
-    acceptance_rate,  # type: Optional[float]
-    sat_avg,      # type: Optional[float]
-    sat_25,       # type: Optional[float]
-    sat_75,       # type: Optional[float]
-    graduation_rate,  # type: Optional[float]
-    avg_admitted_gpa,  # type: Optional[float]
-    z_stats=None,      # type: Optional[dict]
-    residency=None,    # type: Optional[str]
-    ownership=None,    # type: Optional[int]
-    enrollment=None,   # type: Optional[int]
-    median_earnings_10yr=None,  # type: Optional[float]
-    niche_grades=None,  # type: Optional[dict]
-    school_name=None,   # type: Optional[str]
-    avg_annual_cost=None,  # type: Optional[float]
-    niche_rank=None,    # type: Optional[int]
-    yield_rate=None,    # type: Optional[float]
+    identity_acceptance_rate,  # type: Optional[float]
+    admissions_sat_avg,        # type: Optional[float]
+    admissions_sat_25,         # type: Optional[float]
+    admissions_sat_75,         # type: Optional[float]
+    outcome_graduation_rate,   # type: Optional[float]
+    school_avg_admitted_gpa,   # type: Optional[float]
+    z_stats=None,              # type: Optional[dict]
+    residency=None,            # type: Optional[str]
+    ownership=None,            # type: Optional[int]
+    school_name=None,          # type: Optional[str]
+    admissions_test_requirements=None,  # type: Optional[int]
 ):
     # type: (...) -> dict
     """Compute all engineered features for a single applicant.
 
+    Column names mirror the schools-table prefixed columns exactly so the
+    caller can spread a school-features dict as kwargs.
+
     Returns:
         Dict of engineered feature values.
     """
-    acc = acceptance_rate if acceptance_rate is not None else 0.5
-    s25 = sat_25 or 0
-    s75 = sat_75 or 0
+    acc = identity_acceptance_rate if identity_acceptance_rate is not None else 0.5
+    s25 = admissions_sat_25 or 0
+    s75 = admissions_sat_75 or 0
     sat_range = s75 - s25
 
     # --- SAT percentile at school ---
     sat_percentile = ((sat - s25) / sat_range) if sat_range > 0 else 0.5
 
     # --- GPA vs expected ---
-    if avg_admitted_gpa is not None:
-        gpa_vs_expected = gpa - avg_admitted_gpa
+    if school_avg_admitted_gpa is not None:
+        gpa_vs_expected = gpa - school_avg_admitted_gpa
     else:
         gpa_vs_expected = gpa - (3.0 + acc * (-1.0))
 
@@ -193,16 +191,20 @@ def compute_features_single(
 
     # --- SAT z-score at school ---
     iqr_std = sat_range / 1.35 if sat_range > 0 else None
-    s_avg = sat_avg if sat_avg is not None else ((s25 + s75) / 2 if sat_range > 0 else None)
+    s_avg = (
+        admissions_sat_avg
+        if admissions_sat_avg is not None
+        else ((s25 + s75) / 2 if sat_range > 0 else None)
+    )
     if iqr_std and s_avg:
         sat_zscore = (sat - s_avg) / iqr_std
     else:
         sat_zscore = 0.0
 
-    # --- GPA z-score at school (NEW) ---
-    if avg_admitted_gpa is not None and avg_admitted_gpa > 0:
+    # --- GPA z-score at school ---
+    if school_avg_admitted_gpa is not None and school_avg_admitted_gpa > 0:
         # Approximate GPA std at school as 0.5 (typical spread)
-        gpa_zscore_at_school = (gpa - avg_admitted_gpa) / 0.5
+        gpa_zscore_at_school = (gpa - school_avg_admitted_gpa) / 0.5
     else:
         gpa_zscore_at_school = 0.0
 
@@ -224,7 +226,7 @@ def compute_features_single(
         academic_composite_z = 0.0
 
     # --- Competitiveness index ---
-    grad = graduation_rate if graduation_rate is not None else 0.5
+    grad = outcome_graduation_rate if outcome_graduation_rate is not None else 0.5
     s_avg_for_index = s_avg if s_avg else 1000
     competitiveness_index = (
         0.4 * (1 - acc)
@@ -248,14 +250,10 @@ def compute_features_single(
 
     # --- Overqualification features (NEW) ---
     sat_excess = max(0.0, sat - s75) if s75 > 0 else 0.0
-    gpa_excess = max(0.0, gpa - (avg_admitted_gpa or 4.0))
+    gpa_excess = max(0.0, gpa - (school_avg_admitted_gpa or 4.0))
 
     # --- SAT ratio (NEW) ---
     sat_ratio = (sat / s_avg) if s_avg and s_avg > 0 else 1.0
-
-    # --- Log transforms (NEW) ---
-    log_enrollment = np.log1p(enrollment) if enrollment is not None else None
-    log_earnings = np.log1p(median_earnings_10yr) if median_earnings_10yr is not None else None
 
     # --- Yield protector flag (NEW) ---
     is_yield_protector = 0.0
@@ -263,39 +261,12 @@ def compute_features_single(
         if school_name.lower().strip() in YIELD_PROTECTOR_NAMES:
             is_yield_protector = 1.0
 
-    # --- Niche grade features (NEW) ---
-    niche_academics_ord = None
-    niche_value_ord = None
-    niche_professors_ord = None
-    niche_diversity_ord = None
-    niche_campus_ord = None
-    niche_overall_ord = None
-    if niche_grades:
-        niche_academics_ord = grade_to_ordinal(niche_grades.get("academics"))
-        niche_value_ord = grade_to_ordinal(niche_grades.get("value"))
-        niche_professors_ord = grade_to_ordinal(niche_grades.get("professors"))
-        niche_diversity_ord = grade_to_ordinal(niche_grades.get("diversity"))
-        niche_campus_ord = grade_to_ordinal(niche_grades.get("campus"))
-        niche_overall_ord = grade_to_ordinal(niche_grades.get("overall_grade"))
-
-    # --- Cost affordability (NEW) ---
-    cost_earnings_ratio = None
-    if avg_annual_cost is not None and median_earnings_10yr is not None and median_earnings_10yr > 0:
-        cost_earnings_ratio = avg_annual_cost / median_earnings_10yr
-
     # --- Binary threshold features ---
     sat_above_75th = float(sat > s75) if s75 > 0 else 0.0
     sat_below_25th = float(sat < s25) if s25 > 0 else 0.0
 
     # --- Overqualification composite ---
     overqualification_index = (sat_excess / 100.0) + gpa_excess
-
-    # --- Acceptance rate squared (non-linearity in selectivity) ---
-    acceptance_rate_sq = acc ** 2
-
-    # --- Yield × overqualification (yield protection signal) ---
-    yr = yield_rate if yield_rate is not None else None
-    yield_x_overqualification = yr * overqualification_index if yr is not None else None
 
     # --- Academic fit (school-relative combined z-score) ---
     academic_fit = (
@@ -305,6 +276,24 @@ def compute_features_single(
 
     # --- Holistic signal (normalized SAT range width) ---
     holistic_signal = (sat_range / s_avg) if s_avg and s_avg > 0 and sat_range > 0 else None
+
+    # --- Test-policy interactions ---
+    # Scorecard codes: 1=required, 2=recommended, 3=neither, 5=test-flexible
+    if admissions_test_requirements in (3, 5):
+        is_test_optional = 1.0
+    elif admissions_test_requirements in (1, 2):
+        is_test_optional = 0.0
+    else:
+        is_test_optional = float("nan")
+
+    if np.isnan(is_test_optional):
+        test_optional_x_sat_z = float("nan")
+        test_required_x_sat_below_25th = float("nan")
+        test_optional_x_gpa_zscore = float("nan")
+    else:
+        test_optional_x_sat_z = is_test_optional * sat_zscore
+        test_required_x_sat_below_25th = (1 - is_test_optional) * sat_below_25th
+        test_optional_x_gpa_zscore = is_test_optional * gpa_zscore_at_school
 
     result = {
         "sat_percentile_at_school": np.clip(sat_percentile, -1, 2),
@@ -321,33 +310,21 @@ def compute_features_single(
         "sat_x_competitiveness": sat_x_competitiveness,
         "instate_x_public": instate_x_public,
         "residency_x_acceptance": residency_x_acceptance,
-        # New features
         "sat_excess": sat_excess,
         "gpa_excess": gpa_excess,
         "sat_ratio": sat_ratio,
-        "log_enrollment": log_enrollment,
-        "log_earnings": log_earnings,
         "is_yield_protector": is_yield_protector,
-        "niche_academics_ord": niche_academics_ord,
-        "niche_value_ord": niche_value_ord,
-        "niche_professors_ord": niche_professors_ord,
-        "niche_diversity_ord": niche_diversity_ord,
-        "niche_campus_ord": niche_campus_ord,
-        "niche_overall_ord": niche_overall_ord,
-        "niche_rank": niche_rank,
-        "avg_annual_cost": avg_annual_cost,
-        "cost_earnings_ratio": cost_earnings_ratio,
-        # Binary threshold features
         "sat_above_75th": sat_above_75th,
         "sat_below_25th": sat_below_25th,
         "overqualification_index": overqualification_index,
-        "acceptance_rate_sq": acceptance_rate_sq,
-        "has_test_score": 1.0,  # always 1 in training; set at inference
-        # Yield protection & fit signals
-        "yield_x_overqualification": yield_x_overqualification,
         "academic_fit": academic_fit,
         "holistic_signal": holistic_signal,
         "sat_range": sat_range if sat_range > 0 else None,
+        # Test-policy interactions
+        "is_test_optional": is_test_optional,
+        "test_optional_x_sat_z": test_optional_x_sat_z,
+        "test_required_x_sat_below_25th": test_required_x_sat_below_25th,
+        "test_optional_x_gpa_zscore": test_optional_x_gpa_zscore,
     }
     return result
 
@@ -363,8 +340,9 @@ def compute_features_df(
     # type: (...) -> tuple
     """Compute all engineered features on a DataFrame of applicant rows.
 
-    Expects columns: sat_score, sat_25, sat_75, sat_avg, gpa,
-    acceptance_rate, graduation_rate, school_avg_admitted_gpa (may have NaNs).
+    Expects columns: sat_score, admissions_sat_25, admissions_sat_75,
+    admissions_sat_avg, gpa, identity_acceptance_rate,
+    outcome_graduation_rate, school_avg_admitted_gpa (may have NaNs).
 
     Returns:
         (DataFrame with new feature columns added, z_stats dict)
@@ -372,26 +350,28 @@ def compute_features_df(
     df = df.copy()
 
     # --- existing features ---
-    sat_range = df["sat_75"] - df["sat_25"]
+    sat_range = df["admissions_sat_75"] - df["admissions_sat_25"]
     df["sat_percentile_at_school"] = (
-        (df["sat_score"] - df["sat_25"]) / sat_range.replace(0, float("nan"))
+        (df["sat_score"] - df["admissions_sat_25"]) / sat_range.replace(0, float("nan"))
     ).clip(-1, 2)
 
-    fallback = 3.0 + df["acceptance_rate"].fillna(0.5).clip(0, 1) * (-1.0)
+    fallback = 3.0 + df["identity_acceptance_rate"].fillna(0.5).clip(0, 1) * (-1.0)
     df["gpa_vs_expected"] = df["gpa"] - df["school_avg_admitted_gpa"].fillna(fallback)
 
-    df["selectivity_bucket"] = df["acceptance_rate"].apply(selectivity_bucket)
+    df["selectivity_bucket"] = df["identity_acceptance_rate"].apply(selectivity_bucket)
 
-    acc = df["acceptance_rate"].fillna(0.5)
+    acc = df["identity_acceptance_rate"].fillna(0.5)
 
     # SAT z-score at school
     iqr_std = sat_range / 1.35
-    s_avg = df["sat_avg"].fillna((df["sat_25"] + df["sat_75"]) / 2)
+    s_avg = df["admissions_sat_avg"].fillna(
+        (df["admissions_sat_25"] + df["admissions_sat_75"]) / 2
+    )
     df["sat_zscore_at_school"] = (
         (df["sat_score"] - s_avg) / iqr_std.replace(0, float("nan"))
     ).fillna(0.0)
 
-    # GPA z-score at school (NEW)
+    # GPA z-score at school
     avg_gpa = df["school_avg_admitted_gpa"].fillna(fallback)
     df["gpa_zscore_at_school"] = ((df["gpa"] - avg_gpa) / 0.5).fillna(0.0)
 
@@ -419,7 +399,7 @@ def compute_features_df(
     df["academic_composite_z"] = (z_gpa + z_sat) / 2
 
     # Competitiveness index
-    grad = df["graduation_rate"].fillna(0.5)
+    grad = df["outcome_graduation_rate"].fillna(0.5)
     s_avg_idx = s_avg.fillna(1000)
     df["competitiveness_index"] = (
         0.4 * (1 - acc)
@@ -443,17 +423,11 @@ def compute_features_df(
         df["residency_x_acceptance"] = float("nan")
 
     # --- Overqualification features (NEW) ---
-    df["sat_excess"] = (df["sat_score"] - df["sat_75"]).clip(lower=0).fillna(0.0)
+    df["sat_excess"] = (df["sat_score"] - df["admissions_sat_75"]).clip(lower=0).fillna(0.0)
     df["gpa_excess"] = (df["gpa"] - df["school_avg_admitted_gpa"].fillna(4.0)).clip(lower=0)
 
     # --- SAT ratio (NEW) ---
     df["sat_ratio"] = (df["sat_score"] / s_avg.replace(0, float("nan"))).fillna(1.0)
-
-    # --- Log transforms (NEW) ---
-    if "enrollment" in df.columns:
-        df["log_enrollment"] = np.log1p(df["enrollment"].fillna(0))
-    if "median_earnings_10yr" in df.columns:
-        df["log_earnings"] = np.log1p(df["median_earnings_10yr"].fillna(0))
 
     # --- Yield protector flag (NEW) ---
     if "school_name" in df.columns:
@@ -467,27 +441,6 @@ def compute_features_df(
     if "major" in df.columns:
         df["major_tier"] = df["major"].apply(major_to_tier)
 
-    # --- Niche grade ordinal features (NEW) ---
-    niche_grade_cols = [
-        "niche_academics_ord", "niche_value_ord", "niche_professors_ord",
-        "niche_diversity_ord", "niche_campus_ord", "niche_overall_ord",
-    ]
-    source_cols = ["academics", "value", "professors", "diversity", "campus", "overall_grade"]
-    for target_col, source_col in zip(niche_grade_cols, source_cols):
-        if source_col in df.columns:
-            df[target_col] = df[source_col].apply(grade_to_ordinal)
-        else:
-            df[target_col] = None
-
-    # --- Cost affordability ratio (NEW) ---
-    if "avg_annual_cost" in df.columns and "median_earnings_10yr" in df.columns:
-        earnings = df["median_earnings_10yr"].replace(0, float("nan"))
-        df["cost_earnings_ratio"] = (
-            df["avg_annual_cost"].fillna(0) / earnings
-        ).fillna(0.0)
-    else:
-        df["cost_earnings_ratio"] = None
-
     # --- Major tier × acceptance rate interaction (NEW) ---
     if "major_tier" in df.columns:
         is_stem_comp = (df["major_tier"] == "stem_competitive").astype(float)
@@ -495,25 +448,11 @@ def compute_features_df(
         df["stem_competitive_x_acceptance"] = is_stem_comp * acc
 
     # --- Binary threshold features ---
-    df["sat_above_75th"] = (df["sat_score"] > df["sat_75"]).astype(float)
-    df["sat_below_25th"] = (df["sat_score"] < df["sat_25"]).astype(float)
+    df["sat_above_75th"] = (df["sat_score"] > df["admissions_sat_75"]).astype(float)
+    df["sat_below_25th"] = (df["sat_score"] < df["admissions_sat_25"]).astype(float)
 
     # --- Overqualification composite ---
     df["overqualification_index"] = (df["sat_excess"] / 100.0) + df["gpa_excess"]
-
-    # --- Acceptance rate squared (non-linearity in selectivity) ---
-    df["acceptance_rate_sq"] = acc ** 2
-
-    # --- Test score presence flag (always 1 in training data) ---
-    df["has_test_score"] = 1.0
-
-    # --- Yield × overqualification (yield protection signal) ---
-    if "yield_rate" in df.columns:
-        df["yield_x_overqualification"] = (
-            df["yield_rate"] * df["overqualification_index"]
-        )
-    else:
-        df["yield_x_overqualification"] = None
 
     # --- Academic fit (school-relative combined z-score) ---
     df["academic_fit"] = (
@@ -528,5 +467,22 @@ def compute_features_df(
 
     # --- SAT range as explicit feature ---
     df["sat_range"] = sat_range.where(sat_range > 0)
+
+    # --- Test-policy interactions ---
+    # Scorecard codes: 1=required, 2=recommended, 3=neither, 5=test-flexible
+    if "admissions_test_requirements" in df.columns:
+        tr = pd.to_numeric(df["admissions_test_requirements"], errors="coerce")
+        is_opt = pd.Series(np.nan, index=df.index, dtype=float)
+        is_opt[tr.isin([3, 5])] = 1.0
+        is_opt[tr.isin([1, 2])] = 0.0
+        df["is_test_optional"] = is_opt
+        df["test_optional_x_sat_z"] = is_opt * df["sat_zscore_at_school"]
+        df["test_required_x_sat_below_25th"] = (1 - is_opt) * df["sat_below_25th"]
+        df["test_optional_x_gpa_zscore"] = is_opt * df["gpa_zscore_at_school"]
+    else:
+        df["is_test_optional"] = float("nan")
+        df["test_optional_x_sat_z"] = float("nan")
+        df["test_required_x_sat_below_25th"] = float("nan")
+        df["test_optional_x_gpa_zscore"] = float("nan")
 
     return df, z_stats
