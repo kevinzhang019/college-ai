@@ -3,6 +3,11 @@ import { Combobox, ComboboxInput, ComboboxOption, ComboboxOptions, ComboboxButto
 import { useStore } from '../store'
 import { formatSchoolName } from '../lib/format'
 
+const HEADER_MY = '__section__:my-schools'
+const HEADER_ALL = '__section__:all-schools'
+const isHeader = (s: string) => s.startsWith('__section__:')
+const headerLabel = (s: string) => (s === HEADER_MY ? 'My Schools' : 'All Schools')
+
 interface Props {
   value: string | null
   onChange: (value: string | null) => void
@@ -52,7 +57,14 @@ export default function CollegeCombobox({ value, onChange, compact, placeholder 
     }
     const savedSet = new Set(validSavedSchools)
     const others = base.filter((c) => !savedSet.has(c)).sort(byName)
-    return [...validSavedSchools, ...others]
+    const result: string[] = []
+    if (validSavedSchools.length > 0) {
+      result.push(HEADER_MY, ...validSavedSchools)
+    }
+    if (others.length > 0) {
+      result.push(HEADER_ALL, ...others)
+    }
+    return result
   }, [query, options, excluded, validSavedSchools])
 
   return (
@@ -61,7 +73,7 @@ export default function CollegeCombobox({ value, onChange, compact, placeholder 
       onChange={handleChange}
       onClose={() => setQuery('')}
       immediate
-      virtual={{ options: virtualOptions }}
+      virtual={{ options: virtualOptions, disabled: (item: string | null) => !!item && isHeader(item) }}
     >
       <div className="relative">
         <div className="relative">
@@ -94,14 +106,20 @@ export default function CollegeCombobox({ value, onChange, compact, placeholder 
           </ComboboxButton>
         </div>
         <ComboboxOptions className="absolute z-50 bottom-full mb-1 max-h-60 w-full overflow-auto rounded-xl bg-dark-900 shadow-dark-lg border border-dark-700 py-1">
-          {({ option }: { option: string }) => (
-            <ComboboxOption
-              value={option}
-              className="px-4 py-2 text-sm text-slate-300 cursor-pointer data-[focus]:bg-dark-800 data-[selected]:text-forest-400 data-[selected]:font-medium"
-            >
-              {formatSchoolName(option)}
-            </ComboboxOption>
-          )}
+          {({ option }: { option: string }) =>
+            isHeader(option) ? (
+              <div className="px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-slate-500 select-none pointer-events-none">
+                {headerLabel(option)}
+              </div>
+            ) : (
+              <ComboboxOption
+                value={option}
+                className="px-4 py-2 text-sm text-slate-300 cursor-pointer data-[focus]:bg-dark-800 data-[selected]:text-forest-400 data-[selected]:font-medium"
+              >
+                {formatSchoolName(option)}
+              </ComboboxOption>
+            )
+          }
         </ComboboxOptions>
       </div>
     </Combobox>
