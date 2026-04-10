@@ -32,8 +32,15 @@ export default function CollegeCombobox({ value, onChange, compact, placeholder 
     }
   }, [onChange, reopenOnSelect])
 
+  const byName = (a: string, b: string) =>
+    formatSchoolName(a).localeCompare(formatSchoolName(b), undefined, { sensitivity: 'base' })
+
   const validSavedSchools = useMemo(
-    () => savedSchools.filter((s) => options.includes(s) && (!excluded || !excluded.has(s))),
+    () =>
+      savedSchools
+        .filter((s) => options.includes(s) && (!excluded || !excluded.has(s)))
+        .slice()
+        .sort(byName),
     [savedSchools, options, excluded],
   )
 
@@ -41,10 +48,10 @@ export default function CollegeCombobox({ value, onChange, compact, placeholder 
     const base = excluded ? options.filter((c) => !excluded.has(c)) : options
     if (query) {
       const lower = query.toLowerCase()
-      return base.filter((c) => c.toLowerCase().includes(lower))
+      return base.filter((c) => c.toLowerCase().includes(lower)).sort(byName)
     }
     const savedSet = new Set(validSavedSchools)
-    const others = base.filter((c) => !savedSet.has(c))
+    const others = base.filter((c) => !savedSet.has(c)).sort(byName)
     return [...validSavedSchools, ...others]
   }, [query, options, excluded, validSavedSchools])
 

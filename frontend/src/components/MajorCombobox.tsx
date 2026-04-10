@@ -13,15 +13,23 @@ export default function MajorCombobox({ value, onChange, compact }: Props) {
   const preferredMajors = useStore((s) => s.profile.preferredMajors)
   const [query, setQuery] = useState('')
 
+  const byName = (a: string, b: string) =>
+    a.localeCompare(b, undefined, { sensitivity: 'base' })
+
+  const sortedPreferredMajors = useMemo(
+    () => preferredMajors.slice().sort(byName),
+    [preferredMajors],
+  )
+
   const otherMajors = useMemo(
-    () => ALLOWED_MAJORS.filter((m) => !preferredMajors.includes(m)),
+    () => ALLOWED_MAJORS.filter((m) => !preferredMajors.includes(m)).sort(byName),
     [preferredMajors],
   )
 
   const filtered = useMemo(() => {
     if (!query) return null // null = show sectioned default
     const lower = query.toLowerCase()
-    return ALLOWED_MAJORS.filter((m) => m.toLowerCase().includes(lower))
+    return ALLOWED_MAJORS.filter((m) => m.toLowerCase().includes(lower)).sort(byName)
   }, [query])
 
   return (
@@ -65,12 +73,12 @@ export default function MajorCombobox({ value, onChange, compact }: Props) {
           {filtered === null ? (
             <>
               {/* Sectioned default: preferred majors first, then the rest */}
-              {preferredMajors.length > 0 && (
+              {sortedPreferredMajors.length > 0 && (
                 <>
                   <div className="px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-slate-500 select-none">
                     Your Majors
                   </div>
-                  {preferredMajors.map((m) => (
+                  {sortedPreferredMajors.map((m) => (
                     <ComboboxOption
                       key={m}
                       value={m}

@@ -62,11 +62,13 @@ export default function ExperiencesView() {
   }
 
   const availableMajors = useMemo(() => {
+    const byName = (a: string, b: string) =>
+      a.localeCompare(b, undefined, { sensitivity: 'base' })
     const selected = new Set(profile.preferredMajors)
     const available = ALLOWED_MAJORS.filter((m) => !selected.has(m))
-    if (!majorQuery) return available.slice(0, 50)
+    if (!majorQuery) return available.sort(byName)
     const lower = majorQuery.toLowerCase()
-    return available.filter((m) => m.toLowerCase().includes(lower)).slice(0, 50)
+    return available.filter((m) => m.toLowerCase().includes(lower)).sort(byName)
   }, [majorQuery, profile.preferredMajors])
 
   const editingExp = editingId
