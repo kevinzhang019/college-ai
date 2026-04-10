@@ -3,6 +3,8 @@ import { Combobox, ComboboxInput, ComboboxOption, ComboboxOptions, ComboboxButto
 import { useStore } from '../store'
 import { formatSchoolName } from '../lib/format'
 
+const MAX_RESULTS = 100
+
 interface Props {
   value: string | null
   onChange: (value: string | null) => void
@@ -44,11 +46,18 @@ export default function CollegeCombobox({ value, onChange, compact, placeholder 
     [savedSchools, options, excluded],
   )
 
-  const otherSchools = useMemo(() => {
+  const otherSchoolsFull = useMemo(() => {
     const base = excluded ? options.filter((c) => !excluded.has(c)) : options
     const savedSet = new Set(validSavedSchools)
     return base.filter((c) => !savedSet.has(c)).sort(byName)
   }, [options, excluded, validSavedSchools])
+
+  const otherSchools = useMemo(() => {
+    const room = Math.max(0, MAX_RESULTS - validSavedSchools.length)
+    return otherSchoolsFull.slice(0, room)
+  }, [otherSchoolsFull, validSavedSchools])
+
+  const browseTruncated = otherSchoolsFull.length > otherSchools.length
 
   const filtered = useMemo(() => {
     if (!query) return null
@@ -57,8 +66,15 @@ export default function CollegeCombobox({ value, onChange, compact, placeholder 
     return base.filter((c) => c.toLowerCase().includes(lower)).sort(byName)
   }, [query, options, excluded])
 
+  const filteredCapped = useMemo(
+    () => (filtered ? filtered.slice(0, MAX_RESULTS) : null),
+    [filtered],
+  )
+  const searchTruncated = filtered !== null && filtered.length > MAX_RESULTS
+
   const optionClass = 'px-3 py-1.5 text-sm text-slate-300 cursor-pointer data-[focus]:bg-dark-800 data-[selected]:text-forest-400 data-[selected]:font-medium'
   const sectionHeaderClass = 'px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-slate-500 select-none'
+  const hintClass = 'px-3 py-1.5 text-xs text-slate-500 italic select-none'
 
   return (
     <Combobox
@@ -105,7 +121,7 @@ export default function CollegeCombobox({ value, onChange, compact, placeholder 
             No Selection
           </ComboboxOption>
 
-          {filtered === null ? (
+          {filteredCapped === null ? (
             <>
               {validSavedSchools.length > 0 && (
                 <>
@@ -127,15 +143,25 @@ export default function CollegeCombobox({ value, onChange, compact, placeholder 
                   ))}
                 </>
               )}
+              {browseTruncated && (
+                <div className={hintClass}>Type to search for more schools.</div>
+              )}
             </>
-          ) : filtered.length === 0 ? (
+          ) : filteredCapped.length === 0 ? (
             <div className="px-3 py-2 text-sm text-slate-500">No schools found.</div>
           ) : (
-            filtered.map((c) => (
-              <ComboboxOption key={c} value={c} className={optionClass}>
-                {formatSchoolName(c)}
-              </ComboboxOption>
-            ))
+            <>
+              {filteredCapped.map((c) => (
+                <ComboboxOption key={c} value={c} className={optionClass}>
+                  {formatSchoolName(c)}
+                </ComboboxOption>
+              ))}
+              {searchTruncated && (
+                <div className={hintClass}>
+                  Showing first {MAX_RESULTS} matches. Keep typing to refine.
+                </div>
+              )}
+            </>
           )}
         </ComboboxOptions>
       </div>
