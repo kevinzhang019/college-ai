@@ -3,11 +3,6 @@ import { Combobox, ComboboxInput, ComboboxOption, ComboboxOptions, ComboboxButto
 import { useStore } from '../store'
 import { formatSchoolName } from '../lib/format'
 
-const HEADER_MY = '__section__:my-schools'
-const HEADER_ALL = '__section__:all-schools'
-const isHeader = (s: string) => s.startsWith('__section__:')
-const headerLabel = (s: string) => (s === HEADER_MY ? 'My Schools' : 'All Schools')
-
 interface Props {
   value: string | null
   onChange: (value: string | null) => void
@@ -49,23 +44,21 @@ export default function CollegeCombobox({ value, onChange, compact, placeholder 
     [savedSchools, options, excluded],
   )
 
-  const virtualOptions = useMemo<string[]>(() => {
+  const otherSchools = useMemo(() => {
     const base = excluded ? options.filter((c) => !excluded.has(c)) : options
-    if (query) {
-      const lower = query.toLowerCase()
-      return base.filter((c) => c.toLowerCase().includes(lower)).sort(byName)
-    }
     const savedSet = new Set(validSavedSchools)
-    const others = base.filter((c) => !savedSet.has(c)).sort(byName)
-    const result: string[] = []
-    if (validSavedSchools.length > 0) {
-      result.push(HEADER_MY, ...validSavedSchools)
-    }
-    if (others.length > 0) {
-      result.push(HEADER_ALL, ...others)
-    }
-    return result
-  }, [query, options, excluded, validSavedSchools])
+    return base.filter((c) => !savedSet.has(c)).sort(byName)
+  }, [options, excluded, validSavedSchools])
+
+  const filtered = useMemo(() => {
+    if (!query) return null
+    const lower = query.toLowerCase()
+    const base = excluded ? options.filter((c) => !excluded.has(c)) : options
+    return base.filter((c) => c.toLowerCase().includes(lower)).sort(byName)
+  }, [query, options, excluded])
+
+  const optionClass = 'block w-full px-4 py-2 text-sm text-slate-300 cursor-pointer data-[focus]:bg-dark-800 data-[selected]:text-forest-400 data-[selected]:font-medium'
+  const sectionHeaderClass = 'px-3 pt-2 pb-1 text-[10px] font-semibold uppercase tracking-wider text-slate-500 select-none'
 
   return (
     <Combobox
@@ -73,7 +66,6 @@ export default function CollegeCombobox({ value, onChange, compact, placeholder 
       onChange={handleChange}
       onClose={() => setQuery('')}
       immediate
-      virtual={{ options: virtualOptions, disabled: (item: string | null) => !!item && isHeader(item) }}
     >
       <div className="relative">
         <div className="relative">
@@ -106,20 +98,45 @@ export default function CollegeCombobox({ value, onChange, compact, placeholder 
           </ComboboxButton>
         </div>
         <ComboboxOptions className="absolute z-50 bottom-full mb-1 max-h-60 w-full overflow-auto rounded-xl bg-dark-900 shadow-dark-lg border border-dark-700 py-1">
-          {({ option }: { option: string }) =>
-            isHeader(option) ? (
-              <div className="px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-slate-500 select-none pointer-events-none">
-                {headerLabel(option)}
-              </div>
-            ) : (
-              <ComboboxOption
-                value={option}
-                className="px-4 py-2 text-sm text-slate-300 cursor-pointer data-[focus]:bg-dark-800 data-[selected]:text-forest-400 data-[selected]:font-medium"
-              >
-                {formatSchoolName(option)}
+          <ComboboxOption
+            value={null}
+            className="block w-full px-4 py-2 text-sm text-slate-500 cursor-pointer data-[focus]:bg-dark-800 data-[selected]:text-forest-400"
+          >
+            No Selection
+          </ComboboxOption>
+
+          {filtered === null ? (
+            <>
+              {validSavedSchools.length > 0 && (
+                <>
+                  <div className={sectionHeaderClass}>My Schools</div>
+                  {validSavedSchools.map((c) => (
+                    <ComboboxOption key={c} value={c} className={optionClass}>
+                      {formatSchoolName(c)}
+                    </ComboboxOption>
+                  ))}
+                </>
+              )}
+              {otherSchools.length > 0 && (
+                <>
+                  <div className={sectionHeaderClass}>All Schools</div>
+                  {otherSchools.map((c) => (
+                    <ComboboxOption key={c} value={c} className={optionClass}>
+                      {formatSchoolName(c)}
+                    </ComboboxOption>
+                  ))}
+                </>
+              )}
+            </>
+          ) : filtered.length === 0 ? (
+            <div className="px-4 py-2 text-sm text-slate-500">No schools found.</div>
+          ) : (
+            filtered.map((c) => (
+              <ComboboxOption key={c} value={c} className={optionClass}>
+                {formatSchoolName(c)}
               </ComboboxOption>
-            )
-          }
+            ))
+          )}
         </ComboboxOptions>
       </div>
     </Combobox>
