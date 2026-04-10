@@ -189,7 +189,7 @@ Standalone view for My Profile mode:
 - Each item shows: rank number (#1, #2, ...), drag handle (grip dots), school name, remove button (X)
 - Persisted in `profile.savedSchools: string[]` (ordered by preference)
 - Passed to LLM as `"Preferred schools (ranked): #1 MIT, #2 Stanford"` via `format_profile_context()`, with a note that rankings are subject to change
-- Saved schools appear as a "Your Schools" section at the top of all CollegeCombobox dropdowns in chat tabs (Q&A, Essay, Admissions) — the profile's own school picker does not show this sectioned view
+- Saved schools appear as a "My Schools" section at the top of all CollegeCombobox dropdowns in chat tabs (Q&A, Essay, Admissions) — the profile's own school picker does not show this sectioned view
 
 **Experiences card:**
 - Dedicated section card (same style as Academic Info / Major Preferences / Saved Schools)
@@ -218,7 +218,7 @@ Standalone view for Admissions Calculator mode:
 
 **Stats card:**
 - Same GPA + SAT/ACT inputs as ExperiencesView (shared profile data)
-- Default Major: searchable `MajorCombobox` (Headless UI Combobox). When search is empty, shows sectioned default menu — "Your Majors" (from `profile.preferredMajors`, ranked order) then "All Majors" (remaining, alphabetical). When search has text, shows flat filtered results
+- Default Major: searchable `MajorCombobox` (Headless UI Combobox). When search is empty, shows sectioned default menu — "Your Majors" (from `profile.preferredMajors`, alphabetized) then "All Majors" (remaining, alphabetized). When search has text, shows flat alphabetized filtered results
 - Default Residency selector: always editable dropdown with options: Use Location (when eligible), Not specified, In-State, Out-of-State, International. "Use Location" is a special mode that auto-computes residency per school from profile location when adding schools.
 - Required fields marked with asterisk
 
@@ -250,24 +250,31 @@ Displays a single school's admission prediction:
 
 ### CollegeCombobox (`CollegeCombobox.tsx`)
 
-Headless UI Combobox with `immediate` (auto-opens on focus):
-- **Default screen** (`showDefaultScreen` prop, default `true`): When query is empty, shows sectioned view — "Your Schools" (from `profile.savedSchools`) then "All Colleges" (remaining, first 50). Section headers are non-interactive `div` labels. Saved schools that no longer exist in `collegeOptions` are filtered out
-- **Search mode** (query entered): flat filtered list from all `collegeOptions`, case-insensitive, first 50 results
-- **No default screen** (`showDefaultScreen={false}`): used in profile's school picker. Shows flat list of first 50 when query is empty, like search mode
-- **`excludeValues` prop** (optional `string[]`): filters specified schools out of all views (search results, "Your Schools" section, "All Colleges" section). Used by Admissions (excludes already-selected schools) and Profile Saved Schools (excludes already-saved schools)
-- "No Selection" clear option (value: null) always at top
-- Compact variant (smaller padding/height) for inline use
-- Loaded from `/options` endpoint with 31-school fallback list
+Headless UI Combobox with `immediate` (auto-opens on focus). Renders static (non-virtualized) `ComboboxOption` children:
+- **Render cap (`MAX_RESULTS = 100`):** at most 100 option rows are rendered at any time in both browse and search views. This bounds mount/unmount cost — rendering every one of the ~6,500 schools caused a noticeable close-lag (~100–300ms) from synchronous `useEffect` cleanup + DOM teardown. Search still runs over the full `collegeOptions` list, so every school is reachable by typing any part of its name; only the rendered slice is capped. When the underlying list exceeds the cap, a muted italic `<div>` appears at the bottom of the dropdown:
+  - Browse view: `"Type to search for more schools."`
+  - Search view: `"Showing first 100 matches. Keep typing to refine."`
+- **Default screen** (`showDefaultScreen` prop, default `true`): when query is empty, shows a sectioned view — "My Schools" (from `profile.savedSchools`, alphabetized) followed by "All Schools" (remaining schools, alphabetized, filling the remaining budget up to `MAX_RESULTS - validSavedSchools.length` items). Section headers are non-interactive `div` labels matching `MajorCombobox` styling. Saved schools that no longer exist in `collegeOptions` are filtered out. A static "Not Specified" row (value: null) sits at the very top.
+- **Flat mode** (`showDefaultScreen={false}`): used only by the Profile tab's Saved Schools picker. Mirrors how the inline Major selector in the same card works — no "Not Specified" row, no section headers, just a flat alphabetical list of schools with `excludeValues` applied, still capped at 100 with the same "Type to search for more schools." hint.
+- **Search mode** (query entered, both default and flat modes): flat list of up to `MAX_RESULTS` matches from `collegeOptions`, case-insensitive, sorted alphabetically. Section headers are suppressed in search mode even with `showDefaultScreen={true}` since sections only help when browsing.
+- **Alphabetical ordering:** both sections and all filtered lists are sorted via `localeCompare` with `{ sensitivity: 'base' }` on `formatSchoolName(c)`, so display order is case- and diacritic-insensitive.
+- **`excludeValues` prop** (optional `string[]`): filters specified schools out of all views. Used by Admissions (excludes already-selected schools) and Profile Saved Schools (excludes already-saved schools, which makes the "My Schools" section empty and collapses to flat mode behavior).
+- **Clear (×) button:** when the input has a value, a small × button is rendered in the input's right gutter (between the chevron and content) that clears the selection to `null` on click. This replaces the need for a selectable "clear selection" row inside the dropdown.
+- Compact variant (smaller padding/height) for inline use.
+- Loaded from `/options` endpoint with 31-school fallback list.
 - **Display-only name formatting:** option labels are wrapped in `formatSchoolName()` from `lib/format.ts`, which replaces the literal substring ` A and M ` with ` A&M ` so e.g. "Texas A and M University" renders as "Texas A&M University". The raw string is kept as the Combobox `value`/`key`, the Zustand `collegeOptions`/`savedSchools` arrays, and every outgoing API payload — the transform is purely visual. Same helper is applied in `AdmissionsView` (selected-school card + `title` tooltip), `ExperiencesView` (Profile → Saved Schools list), `PredictionCard` (result header + error row), and `SourceCard` (college badge). Backend school lookups (Turso/Zilliz) depend on the original string, so never persist or send the formatted form.
 
 ### MajorCombobox (`MajorCombobox.tsx`)
 
 Searchable Headless UI Combobox with `immediate` (auto-opens on focus), used in AdmissionsView (default major + per-school cards):
-- **Default menu** (empty search): two sections — "Your Majors" (from `profile.preferredMajors`, ranked order) then "All Majors" (remaining `ALLOWED_MAJORS`, alphabetical). Section headers are non-interactive `div` labels
-- **Search mode** (query entered): flat filtered list from all `ALLOWED_MAJORS`, case-insensitive
+- **Default menu** (empty search): two sections — "Your Majors" (from `profile.preferredMajors`, alphabetized) then "All Majors" (remaining `ALLOWED_MAJORS`, alphabetized). Section headers are non-interactive `div` labels. Both sections use `localeCompare` with `{ sensitivity: 'base' }` for case-insensitive ordering. Note the display order in the dropdown is alphabetical — this is independent of the user's ranked order in `profile.preferredMajors`, which is still used downstream for LLM context.
+- **Search mode** (query entered): flat alphabetized filtered list from all `ALLOWED_MAJORS`, case-insensitive
 - "Not specified" / "No major" clear option (value: null) always at top
+- No render cap needed — `ALLOWED_MAJORS` only has ~51 entries so mount/unmount cost is negligible
 - **Compact mode** (`compact` prop): `text-xs py-1.5 w-28` input with wider `w-56` dropdown anchored bottom-end. Used in per-school cards
 - **Full mode**: `text-sm` input, dropdown matches parent width. Used for default major
+
+The Profile tab has a separate **inline** major selector (not `MajorCombobox`) rendered directly inside `ExperiencesView.tsx` for the "Major Preferences" card. It uses the same alphabetized-filtered pattern over `ALLOWED_MAJORS` minus already-saved majors, and mirrors the Profile tab's flat-mode `CollegeCombobox` behavior.
 
 ### ConfidenceBadge (`ConfidenceBadge.tsx`)
 
