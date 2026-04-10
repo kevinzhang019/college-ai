@@ -15,7 +15,7 @@ interface Props {
   excludeValues?: string[]
 }
 
-export default function CollegeCombobox({ value, onChange, compact, placeholder = 'Select a school (optional)', reopenOnSelect, excludeValues }: Props) {
+export default function CollegeCombobox({ value, onChange, compact, showDefaultScreen = true, placeholder = 'Select a school (optional)', reopenOnSelect, excludeValues }: Props) {
   const options = useStore((s) => s.collegeOptions)
   const savedSchools = useStore((s) => s.profile.savedSchools)
   const [query, setQuery] = useState('')
@@ -114,39 +114,56 @@ export default function CollegeCombobox({ value, onChange, compact, placeholder 
           </ComboboxButton>
         </div>
         <ComboboxOptions className="absolute z-50 bottom-full mb-1 max-h-60 w-full overflow-auto rounded-xl bg-dark-900 shadow-dark-lg border border-dark-700 py-1">
-          <ComboboxOption
-            value={null}
-            className="px-3 py-1.5 text-sm text-slate-500 cursor-pointer data-[focus]:bg-dark-800 data-[selected]:text-forest-400"
-          >
-            No Selection
-          </ComboboxOption>
+          {showDefaultScreen && (
+            <ComboboxOption
+              value={null}
+              className="px-3 py-1.5 text-sm text-slate-500 cursor-pointer data-[focus]:bg-dark-800 data-[selected]:text-forest-400"
+            >
+              Not Specified
+            </ComboboxOption>
+          )}
 
           {filteredCapped === null ? (
-            <>
-              {validSavedSchools.length > 0 && (
-                <>
-                  <div className={sectionHeaderClass}>My Schools</div>
-                  {validSavedSchools.map((c) => (
-                    <ComboboxOption key={c} value={c} className={optionClass}>
-                      {formatSchoolName(c)}
-                    </ComboboxOption>
-                  ))}
-                </>
-              )}
-              {otherSchools.length > 0 && (
-                <>
-                  <div className={sectionHeaderClass}>All Schools</div>
-                  {otherSchools.map((c) => (
-                    <ComboboxOption key={c} value={c} className={optionClass}>
-                      {formatSchoolName(c)}
-                    </ComboboxOption>
-                  ))}
-                </>
-              )}
-              {browseTruncated && (
-                <div className={hintClass}>Type to search for more schools.</div>
-              )}
-            </>
+            showDefaultScreen ? (
+              <>
+                {validSavedSchools.length > 0 && (
+                  <>
+                    <div className={sectionHeaderClass}>My Schools</div>
+                    {validSavedSchools.map((c) => (
+                      <ComboboxOption key={c} value={c} className={optionClass}>
+                        {formatSchoolName(c)}
+                      </ComboboxOption>
+                    ))}
+                  </>
+                )}
+                {otherSchools.length > 0 && (
+                  <>
+                    <div className={sectionHeaderClass}>All Schools</div>
+                    {otherSchools.map((c) => (
+                      <ComboboxOption key={c} value={c} className={optionClass}>
+                        {formatSchoolName(c)}
+                      </ComboboxOption>
+                    ))}
+                  </>
+                )}
+                {browseTruncated && (
+                  <div className={hintClass}>Type to search for more schools.</div>
+                )}
+              </>
+            ) : otherSchools.length === 0 ? (
+              <div className="px-3 py-2 text-sm text-slate-500">No schools found.</div>
+            ) : (
+              <>
+                {otherSchools.map((c) => (
+                  <ComboboxOption key={c} value={c} className={optionClass}>
+                    {formatSchoolName(c)}
+                  </ComboboxOption>
+                ))}
+                {browseTruncated && (
+                  <div className={hintClass}>Type to search for more schools.</div>
+                )}
+              </>
+            )
           ) : filteredCapped.length === 0 ? (
             <div className="px-3 py-2 text-sm text-slate-500">No schools found.</div>
           ) : (
