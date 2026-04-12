@@ -103,8 +103,9 @@
   @apply inline-flex items-center justify-center
          w-5 h-5
          bg-forest-500/25 text-forest-400
-         rounded-full cursor-default
+         rounded-full cursor-pointer
          transition-colors duration-150;
+  text-decoration: none;
   vertical-align: baseline;
   margin: 0 1px;
   position: relative;

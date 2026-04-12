@@ -196,17 +196,8 @@ export default function MessageBubble({ message }: { message: ChatMessage }) {
       className={`group flex gap-3 ${isUser ? 'justify-end' : 'justify-start'}`}
     >
       {isUser ? (
-        <>
-          {/* Action buttons — left of user bubble */}
-          <div className="flex items-start gap-1 pt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
-            <ActionButton onClick={handleEdit} title="Edit">
-              <EditIcon />
-            </ActionButton>
-            <ActionButton onClick={handleCopy} title={copied ? 'Copied!' : 'Copy'}>
-              {copied ? <CheckIcon className="w-3.5 h-3.5 text-forest-400" /> : <CopyIcon />}
-            </ActionButton>
-          </div>
-          <div className="max-w-[85%] bg-forest-600 text-white rounded-2xl rounded-br-md px-4 py-3">
+        <div className="flex flex-col items-end max-w-[85%] ml-auto">
+          <div className="bg-forest-600 text-white rounded-2xl rounded-br-md px-4 py-3 w-full">
             {message.essayPrompt && (
               <p className="text-[13px] font-semibold leading-snug mb-1.5 opacity-90">
                 {message.essayPrompt}
@@ -229,9 +220,18 @@ export default function MessageBubble({ message }: { message: ChatMessage }) {
               )}
             </div>
           </div>
-        </>
+          {/* Action buttons — below user bubble, right-aligned */}
+          <div className="flex gap-1 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+            <ActionButton onClick={handleEdit} title="Edit">
+              <EditIcon />
+            </ActionButton>
+            <ActionButton onClick={handleCopy} title={copied ? 'Copied!' : 'Copy'}>
+              {copied ? <CheckIcon className="w-3.5 h-3.5 text-forest-400" /> : <CopyIcon />}
+            </ActionButton>
+          </div>
+        </div>
       ) : (
-        <div ref={containerRef} className="w-full py-1">
+        <div ref={containerRef} className="group/msg w-full py-1">
           <div className="flex items-center gap-2 mb-1.5">
             <div className="w-5 h-5 rounded-full bg-forest-600 flex items-center justify-center text-white text-[10px] font-bold shadow-dark-sm shrink-0">C</div>
             <span className="text-sm font-semibold text-forest-400">Cole</span>
@@ -248,12 +248,6 @@ export default function MessageBubble({ message }: { message: ChatMessage }) {
                 {showSources ? 'Hide Sources' : 'Show Sources'}
               </button>
             )}
-            {/* Copy button for assistant messages */}
-            <div className={`${hasSources ? '' : 'ml-auto'} opacity-0 group-hover:opacity-100 transition-opacity duration-150`}>
-              <ActionButton onClick={handleCopy} title={copied ? 'Copied!' : 'Copy'}>
-                {copied ? <CheckIcon className="w-3.5 h-3.5 text-forest-400" /> : <CopyIcon />}
-              </ActionButton>
-            </div>
           </div>
           <div className="markdown-answer text-sm text-slate-300">
             <ReactMarkdown
@@ -262,6 +256,12 @@ export default function MessageBubble({ message }: { message: ChatMessage }) {
             >
               {processedContent}
             </ReactMarkdown>
+          </div>
+          {/* Copy button — below response, left-aligned */}
+          <div className="flex gap-1 mt-1 opacity-0 group-hover/msg:opacity-100 transition-opacity duration-150">
+            <ActionButton onClick={handleCopy} title={copied ? 'Copied!' : 'Copy'}>
+              {copied ? <CheckIcon className="w-3.5 h-3.5 text-forest-400" /> : <CopyIcon />}
+            </ActionButton>
           </div>
           <AnimatePresence>
             {showSources && message.sources && message.sources.length > 0 && (

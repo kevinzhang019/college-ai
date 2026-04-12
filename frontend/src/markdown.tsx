@@ -7,12 +7,12 @@
  */
 
 const SD_BADGE =
-  '<span class="source-badge-official" aria-label="Official Source">' +
+  '<a href="https://collegescorecard.ed.gov/" target="_blank" rel="noopener noreferrer" class="source-badge-official" aria-label="Official Source">' +
   '<svg viewBox="0 0 16 16" fill="none" class="official-check-icon">' +
   '<path d="M13.25 4.75L6 12 2.75 8.75" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' +
   '</svg>' +
   '<span class="official-tooltip">Official Source</span>' +
-  '</span>'
+  '</a>'
 
 /** Convert [N] markers to interactive <span> badge elements. */
 export function processCitations(text: string): string {

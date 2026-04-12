@@ -102,7 +102,7 @@ Renders the conversation for Chat mode.
 - **Sources toggle:** When sources exist, a green "Show Sources" pill button appears in the top-right of the header row (`ml-auto`). Clicking toggles to "Hide Sources" (same style). Sources are hidden by default.
   - **Hidden state:** `[N]` citation markers are stripped via `processOfficialCitations()`, but `[SD]` (school data) markers are still rendered as green checkmark badges (`source-badge-official`). No source cards visible.
   - **Shown state:** `[N]` markers are converted to gray badge elements via `processCitations()` (class `source-badge`, rendered through `rehype-raw`). `[SD]` markers render as green checkmark badges. Source cards appear below with AnimatePresence height animation. All sources shown (no limit).
-  - **Official source badges (`[SD]`):** Always visible regardless of toggle state. Green circle with white checkmark (`source-badge-official`). On hover: lighter green + "Official Source" tooltip (CSS-only, `official-tooltip`). Sentence underline highlight works the same as numbered badges.
+  - **Official source badges (`[SD]`):** Always visible regardless of toggle state. Clickable green circle with white checkmark (`source-badge-official`) — rendered as an `<a>` tag linking to `https://collegescorecard.ed.gov/` (opens in new tab). On hover: lighter green + "Official Source" tooltip (CSS-only, `official-tooltip`). Sentence underline highlight works the same as numbered badges.
 - **Citation badge interaction** (event delegation via `mouseover`/`mouseout`/`click` on container ref):
   - **Hover:** Badge turns green (`source-badge--active`). The sentence immediately before the hovered badge gets a dotted green underline via the CSS Custom Highlight API (`getSentenceRange()` walks backwards through DOM siblings to find the preceding text, `CSS.highlights` applies `::highlight(source-hl)`). Only the hovered badge's sentence is underlined — same source number at different locations does not cross-highlight. Falls back to block-level `.source-highlight` class if the Highlight API is unavailable.
   - **Click:** Smooth scrolls to the corresponding `SourceCard` below (`scrollIntoView({ block: 'center' })`), briefly highlights it with a green ring (1.5s)
@@ -279,10 +279,7 @@ The Profile tab has a separate **inline** major selector (not `MajorCombobox`) r
 
 ### ConfidenceBadge (`ConfidenceBadge.tsx`)
 
-Small pill badge showing confidence level:
-- High: green
-- Medium: amber
-- Low: red
+Small pill badge showing confidence level (high: green, medium: amber, low: red). Expands on **message hover** (`group-hover/msg`) to reveal the label text and hint — the parent `MessageBubble` assistant container carries the `group/msg` class.
 
 ### ConversationList (`ConversationList.tsx`)
 
