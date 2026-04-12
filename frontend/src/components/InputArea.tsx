@@ -139,6 +139,12 @@ export default function InputArea() {
       e.preventDefault()
       handleSend()
     }
+    if (e.key === 'Escape') {
+      const msgs = conversation?.messages
+      if (!msgs) return
+      const lastUserMsg = [...msgs].reverse().find((m) => m.role === 'user')
+      if (lastUserMsg) setPendingEdit(lastUserMsg)
+    }
   }
 
   const canSend =

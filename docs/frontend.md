@@ -128,13 +128,13 @@ Pinned to bottom of chat, `border-t border-dark-700` with backdrop blur.
    - College combobox (full width)
    - Info tooltip (when no college selected) or "See my chances" button (when college selected → opens QuickPredictModal)
 3. **Chat input row:**
-   - Auto-resizing textarea (max 150px height), Enter to submit, Shift+Enter for newline
+   - Auto-resizing textarea (max 150px height), Enter to submit, Shift+Enter for newline, Escape to edit last user message
    - Settings popover (bottom-right of textarea): Headless UI `Popover` with settings gear icon + chevron. Opens upward with two sections — **Context Size** (XS/S/M/L/XL controlling `top_k`) and **Response Length** (XS/S/M/L/XL controlling LLM length budget). Both use pill-button selectors with forest-green active state. Persisted across sessions.
    - Send button (forest-600 circle) or Cancel button (red circle during streaming)
 
 **Connecting state:** Full skeleton UI with pulsing placeholder blocks + "Connecting to Cole..." label with bouncing dots. Shown while `isConnected` is false.
 
-**Edit message handling:** InputArea watches `pendingEdit` from the store. When set (user clicked Edit on a message bubble), it: (1) cancels streaming if active, (2) populates the textarea with the original question, (3) restores the essay prompt to the conversation, (4) restores the essay draft text and auto-opens the ReviewPanel via `forceOpen` prop, (5) focuses the textarea. Messages are not deleted — the user re-sends as a new message.
+**Edit message handling:** InputArea watches `pendingEdit` from the store. When set (user clicked Edit on a message bubble or pressed Escape in the textarea), it: (1) cancels streaming if active, (2) populates the textarea with the original question, (3) restores the essay prompt to the conversation, (4) restores the essay draft text and auto-opens the ReviewPanel via `forceOpen` prop, (5) focuses the textarea. Messages are not deleted — the user re-sends as a new message. **Escape key shortcut:** Pressing Escape while the textarea is focused triggers edit on the last user message in the active conversation (same as clicking Edit on that message).
 
 **Validation:** Can't send without non-empty input and connection. If essay text is provided, essay prompt is required (prompt field flashes red if missing). Disabled during streaming.
 
