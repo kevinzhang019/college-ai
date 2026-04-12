@@ -70,7 +70,7 @@ User Query + (optional school) + (optional history) + (optional experiences) + (
 
 | File | Purpose |
 |---|---|
-| `rag/router.py` | Rule-based pre-classifier (greeting/essay short-circuits) + multi-school extraction via `extract_schools()` (alias/acronym dict → substring → rapidfuzz, span-tracking dedup, capped at 5) + greeting detection (skips RAG pipeline) |
+| `rag/router.py` | Rule-based pre-classifier (greeting/essay short-circuits) + multi-school extraction via `extract_schools()` (hardcoded + DB aliases via compiled alternation regex → substring → rapidfuzz, span-tracking dedup, capped at 5) + greeting detection (skips RAG pipeline) |
 | `rag/classifier.py` | Unified LLM query classifier (single gpt-4.1-nano call). Returns `QueryIntent(query_type, complexity, categories, niche_categories)`. Categories are school data column prefixes for selective DB fetching. Niche categories are Niche grade names for ranking reranking (ranking queries only) |
 | `rag/school_data.py` | Category-aware school data from Turso DB via `SchoolMatcher` fuzzy matching. `fetch_school_data_by_categories()` for single school, `fetch_school_data_batch()` for multi-school. `format_school_data_block_by_categories()` / `format_multi_school_data_block_by_categories()` for selective `[SCHOOL DATA]` blocks. `format_niche_grades_block()` for ranking-only Niche grades |
 | `rag/retrieval.py` | `HybridRetriever` — dense + BM25 hybrid search (configurable RRF or WeightedRanker), school pre-filtering, URL dedup |
@@ -105,7 +105,7 @@ Two-stage classification:
 
 All three stages collect **all non-overlapping matches** (not just the best), using character-span tracking to avoid double-counting overlapping text regions. Results are deduplicated by canonical name.
 
-- **Stage 1 — Alias/acronym lookup:** ~100 entries mapping acronyms (MIT, BYU, UCLA, UIUC, etc.), shorthands (UMich, WashU, UPenn, Cal Poly, Ole Miss, etc.), and single-name schools (Harvard, Stanford, etc.) to canonical names. Uses word-boundary regex to avoid false positives (e.g., "bu" inside "about"). Longest alias checked first.
+- **Stage 1 — Alias/acronym lookup:** ~107 hardcoded entries merged with ~800+ DB aliases from `schools.identity_alias` (top 1000 schools by student size), totaling ~1500 aliases. Maps acronyms (MIT, BYU, SNHU, WGU, etc.), shorthands (UMich, WashU, UArizona, etc.), and single-name schools (Harvard, Stanford, etc.) to canonical Turso names. All canonical names are verified exact matches to Turso — `SchoolMatcher` always hits the exact-match path, never fuzzy. Uses a single pre-compiled alternation regex with word boundaries (longest-first), replacing the previous per-alias loop. Hardcoded aliases win on conflict with DB aliases.
 - **Stage 2 — Exact substring match** against known college list (from CSVs), longest match first
 - **Stage 3 — Fuzzy ngram matching** via rapidfuzz (`token_sort_ratio`, cutoff 85, ngram length 1-7). Only ngrams that don't overlap already-consumed spans are checked.
 - **Dropdown takes absolute precedence:** if the `college` param is set, text extraction is skipped entirely and only the dropdown school is used

@@ -13,7 +13,7 @@ from __future__ import annotations
 import csv
 import logging
 import re
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -30,7 +30,7 @@ COMPARISON = "comparison"
 GREETING = "greeting"
 
 # ---------------------------------------------------------------------------
-# Greeting patterns — short messages with no college-related content
+# Greeting patterns - short messages with no college-related content
 # ---------------------------------------------------------------------------
 
 GREETING_PATTERNS = [
@@ -53,21 +53,21 @@ SCHOOL_ALIASES = {
     "cmu": "Carnegie Mellon University",
     "nyu": "New York University",
     "usc": "University of Southern California",
-    "ucla": "University of California—Los Angeles",
-    "ucsd": "University of California—San Diego",
-    "uci": "University of California—Irvine",
-    "ucb": "University of California—Berkeley",
-    "ucd": "University of California-Davis",
+    "ucla": "University of California - Los Angeles",
+    "ucsd": "University of California - San Diego",
+    "uci": "University of California - Irvine",
+    "ucb": "University of California - Berkeley",
+    "ucd": "University of California - Davis",
     "ucf": "University of Central Florida",
     "uga": "University of Georgia",
     "uva": "University of Virginia",
-    "unc": "University of North Carolina—Chapel Hill",
+    "unc": "University of North Carolina at Chapel Hill",
     "uf": "University of Florida",
-    "ut": "University of Texas—Austin",
-    "utsa": "University of Texas—San Antonio",
-    "utd": "University of Texas—Dallas",
-    "umd": "University of Maryland—College Park",
-    "osu": "The Ohio State University",
+    "ut": "University of Texas - Austin",
+    "utsa": "The University of Texas at San Antonio",
+    "utd": "University of Texas - Dallas",
+    "umd": "University of Maryland - College Park",
+    "osu": "Ohio State University",
     "msu": "Michigan State University",
     "lsu": "Louisiana State University",
     "fsu": "Florida State University",
@@ -78,14 +78,14 @@ SCHOOL_ALIASES = {
     "gwu": "George Washington University",
     "gw": "George Washington University",
     "vcu": "Virginia Commonwealth University",
-    "sjsu": "San José State University",
+    "sjsu": "San Jose State University",
     "sdsu": "San Diego State University",
     "asu": "Arizona State University",
     "bu": "Boston University",
     "bc": "Boston College",
     "vt": "Virginia Tech",
     "gt": "Georgia Institute of Technology",
-    "uiuc": "University of Illinois Urbana-Champaign",
+    "uiuc": "University of Illinois - Urbana-Champaign",
     "cwru": "Case Western Reserve University",
     "wfu": "Wake Forest University",
     "isu": "Iowa State University",
@@ -97,35 +97,35 @@ SCHOOL_ALIASES = {
     "uvm": "University of Vermont",
     "ncsu": "North Carolina State University",
     # Shorthands / nicknames
-    "umich": "University of Michigan—Ann Arbor",
+    "umich": "University of Michigan - Ann Arbor",
     "upenn": "University of Pennsylvania",
     "washu": "Washington University in St. Louis",
-    "cal poly": "Cal Poly San Luis Obispo",
+    "cal poly": "Cal Poly",
     "ole miss": "University of Mississippi",
     "gatech": "Georgia Institute of Technology",
     "georgia tech": "Georgia Institute of Technology",
-    "umass": "University of Massachusetts Amherst",
-    "umass amherst": "University of Massachusetts Amherst",
-    "umass lowell": "University of Massachusetts Lowell",
+    "umass": "University of Massachusetts - Amherst",
+    "umass amherst": "University of Massachusetts - Amherst",
+    "umass lowell": "University of Massachusetts - Lowell",
     "penn state": "Pennsylvania State University",
-    "ohio state": "The Ohio State University",
-    "texas a&m": "Texas A&M University",
-    "a&m": "Texas A&M University",
-    "cal berkeley": "University of California—Berkeley",
-    "uc berkeley": "University of California—Berkeley",
-    "uc davis": "University of California-Davis",
-    "uc irvine": "University of California—Irvine",
-    "uc san diego": "University of California—San Diego",
-    "uc la": "University of California—Los Angeles",
-    "iu": "Indiana University—Bloomington",
-    "william and mary": "College of William & Mary",
-    "william & mary": "College of William & Mary",
-    "w&m": "College of William & Mary",
-    "wm": "College of William & Mary",
-    "u of m": "University of Michigan—Ann Arbor",
-    "u of t": "University of Texas—Austin",
+    "ohio state": "Ohio State University",
+    "texas a&m": "Texas A and M University",
+    "a&m": "Texas A and M University",
+    "cal berkeley": "University of California - Berkeley",
+    "uc berkeley": "University of California - Berkeley",
+    "uc davis": "University of California - Davis",
+    "uc irvine": "University of California - Irvine",
+    "uc san diego": "University of California - San Diego",
+    "uc la": "University of California - Los Angeles",
+    "iu": "Indiana University - Bloomington",
+    "william and mary": "William and Mary",
+    "william & mary": "William and Mary",
+    "w&m": "William and Mary",
+    "wm": "William and Mary",
+    "u of m": "University of Michigan - Ann Arbor",
+    "u of t": "University of Texas - Austin",
     "u of f": "University of Florida",
-    "rutgers": "Rutgers University–New Brunswick",
+    "rutgers": "Rutgers University - New Brunswick",
     "cuny brooklyn": "CUNY Brooklyn College",
     # Single-name schools (won't fuzzy-match due to low token_sort_ratio)
     "stanford": "Stanford University",
@@ -161,6 +161,32 @@ SCHOOL_ALIASES = {
 }
 
 
+def _load_db_aliases() -> Dict[str, str]:
+    """Load school aliases from the top 1000 schools by student size in Turso."""
+    from college_ai.db.connection import get_session
+    from college_ai.db.models import School
+
+    session = get_session()
+    try:
+        rows = session.query(School.name, School.identity_alias).filter(
+            School.identity_alias.isnot(None),
+            School.identity_alias != '',
+        ).order_by(School.student_size.desc()).limit(1000).all()
+    finally:
+        session.close()
+
+    aliases = {}  # type: Dict[str, str]
+    for canonical_name, alias_str in rows:
+        for alias in alias_str.split(','):
+            alias = alias.strip()
+            if not alias:
+                continue
+            key = alias.lower()
+            if key not in aliases:
+                aliases[key] = canonical_name
+    return aliases
+
+
 class QueryClassification:
     """Result of the router's rule-based pre-classification.
 
@@ -185,6 +211,8 @@ class QueryRouter:
 
     def __init__(self):
         self._college_names = None  # lazy-loaded
+        self._merged_aliases = None  # type: Optional[Dict[str, str]]
+        self._alias_pattern = None  # type: Optional[re.Pattern]
 
     # ---- School name loading ----
 
@@ -213,6 +241,40 @@ class QueryRouter:
         self._college_names = sorted(names)
         return self._college_names
 
+    # ---- Alias loading ----
+
+    def _get_merged_aliases(self) -> Dict[str, str]:
+        """Merge hardcoded SCHOOL_ALIASES with DB aliases (hardcoded wins)."""
+        if self._merged_aliases is not None:
+            return self._merged_aliases
+
+        merged = dict(SCHOOL_ALIASES)
+        try:
+            db_aliases = _load_db_aliases()
+            for key, canonical in db_aliases.items():
+                if key not in merged:
+                    merged[key] = canonical
+        except Exception:
+            logger.warning("Failed to load DB aliases, using hardcoded only", exc_info=True)
+
+        self._merged_aliases = merged
+        logger.info(
+            "Merged aliases: %d hardcoded + %d from DB = %d total",
+            len(SCHOOL_ALIASES), len(merged) - len(SCHOOL_ALIASES), len(merged),
+        )
+        return merged
+
+    def _get_alias_pattern(self) -> re.Pattern:
+        """Compile a single alternation regex from all merged aliases."""
+        if self._alias_pattern is not None:
+            return self._alias_pattern
+
+        aliases = self._get_merged_aliases()
+        sorted_aliases = sorted(aliases.keys(), key=len, reverse=True)
+        pattern = r'(?<![a-z])(' + '|'.join(re.escape(a) for a in sorted_aliases) + r')(?![a-z])'
+        self._alias_pattern = re.compile(pattern)
+        return self._alias_pattern
+
     # ---- School extraction ----
 
     MAX_SCHOOLS = 5
@@ -234,14 +296,15 @@ class QueryRouter:
         found_set = set()  # type: set  # lowercased canonical names for dedup
         consumed = []  # type: List[tuple]  # (start, end) character spans
 
-        # 1. Check aliases (acronyms and shorthands) — longest first
-        for alias in sorted(SCHOOL_ALIASES, key=len, reverse=True):
+        # 1. Check all aliases (hardcoded + DB) via single compiled regex
+        aliases = self._get_merged_aliases()
+        alias_pattern = self._get_alias_pattern()
+
+        for m in alias_pattern.finditer(q_lower):
             if len(found) >= self.MAX_SCHOOLS:
                 break
-            pattern = r'(?<![a-z])' + re.escape(alias) + r'(?![a-z])'
-            m = re.search(pattern, q_lower)
-            if m and not self._spans_overlap(m.start(), m.end(), consumed):
-                canonical = SCHOOL_ALIASES[alias]
+            if not self._spans_overlap(m.start(), m.end(), consumed):
+                canonical = aliases[m.group()]
                 if canonical.lower() not in found_set:
                     found.append(canonical)
                     found_set.add(canonical.lower())
