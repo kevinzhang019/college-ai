@@ -89,7 +89,6 @@ SCHOOL_ALIASES = {
     "cwru": "Case Western Reserve University",
     "wfu": "Wake Forest University",
     "isu": "Iowa State University",
-    "ksu": "Kansas State University",
     "ttu": "Texas Tech University",
     "unt": "University of North Texas",
     "psu": "Pennsylvania State University",
