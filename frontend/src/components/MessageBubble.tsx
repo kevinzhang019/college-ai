@@ -221,7 +221,7 @@ export default function MessageBubble({ message }: { message: ChatMessage }) {
             </div>
           </div>
           {/* Action buttons — below user bubble, right-aligned */}
-          <div className="flex gap-1 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+          <div className="flex gap-1 my-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
             <ActionButton onClick={handleEdit} title="Edit">
               <EditIcon />
             </ActionButton>
@@ -258,7 +258,7 @@ export default function MessageBubble({ message }: { message: ChatMessage }) {
             </ReactMarkdown>
           </div>
           {/* Copy button — below response, left-aligned */}
-          <div className="flex gap-1 mt-1 opacity-0 group-hover/msg:opacity-100 transition-opacity duration-150">
+          <div className="flex gap-1 my-1.5 opacity-0 group-hover/msg:opacity-100 transition-opacity duration-150">
             <ActionButton onClick={handleCopy} title={copied ? 'Copied!' : 'Copy'}>
               {copied ? <CheckIcon className="w-3.5 h-3.5 text-forest-400" /> : <CopyIcon />}
             </ActionButton>
