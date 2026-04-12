@@ -136,7 +136,7 @@ def classify_query(question: str) -> QueryIntent:
                 {"role": "user", "content": question},
             ],
             temperature=0.0,
-            max_tokens=80,
+            max_completion_tokens=80,
             prompt_cache_key="cole-classify",
         )
 

@@ -16,7 +16,7 @@ The assistant is named **Cole** — a warm, knowledgeable college admissions adv
 - **Sidebar hints** speak in Cole's voice: "Cole will use them as context when helping with essays."
 - **College combobox** placeholder: "Select a school (Or just mention the school in your question, Cole will understand.)"
 
-Cole's personality is embedded in both the UI copy and the backend system prompts (all LLM prompts open with the `COLE_PREAMBLE` which sets the warm, friendly persona and includes an explicit guardrail: never refer to the person as "the student" or "the user"). This ensures the assistant feels consistent whether someone is reading a welcome message, watching a loading state, chatting, or scanning a placeholder.
+Cole's personality is embedded in both the UI copy and the backend system prompts (all LLM prompts open with the `COLE_PREAMBLE` which sets the warm, friendly persona and includes two explicit guardrails: never refer to the person as "the student" or "the user", and never reflexively open responses with filler like "Great question!" — warmth surfaces through word choice inside the answer, not through stock openers). This ensures the assistant feels consistent whether someone is reading a welcome message, watching a loading state, chatting, or scanning a placeholder.
 
 ## Tech Stack
 

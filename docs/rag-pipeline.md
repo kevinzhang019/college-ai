@@ -92,7 +92,7 @@ Two-stage classification:
 - Everything else → `query_type=None`, defers to LLM classifier
 
 **Stage 2 — Unified LLM classifier (`classifier.py`):**
-- Single gpt-4.1-nano call, `max_tokens=80`, `temperature=0`
+- Single gpt-4.1-nano call, `max_completion_tokens=80`, `temperature=0`
 - Returns `QueryIntent` with four fields:
   - `query_type`: `qa | essay_ideas | essay_review | admission_prediction | ranking | comparison`
   - `complexity`: `simple | complex` (simple only for short single-topic Q&A lookups)
@@ -229,7 +229,7 @@ Configurable via environment variables: `MODEL_SIMPLE` (default: `gpt-4.1-nano`)
 
 ### Prompt Caching
 
-All system prompts share a `COLE_PREAMBLE` prefix (~1050 tokens) containing the Cole persona (warm, supportive older friend — cheerful, encouraging, and real), grounding contract, citation protocol, formatting rules, residency/statistics contextualization, essay coaching principles, and tone guidelines (warmth-first, honest-as-caring, no "the student"/"the user" references). Each mode appends its specific instructions plus multi-turn conversation handling (static text), pushing all system prompts above OpenAI's 1024-token caching threshold.
+All system prompts share a `COLE_PREAMBLE` prefix (~1050 tokens) containing the Cole persona (warm, supportive older friend — cheerful, encouraging, and real), grounding contract, citation protocol, formatting rules, residency/statistics contextualization, essay coaching principles, and tone guidelines (warmth surfaces through word choice inside the answer, no reflexive "Great question!"-style openers, honest-as-caring, no "the student"/"the user" references). Each mode appends its specific instructions plus multi-turn conversation handling (static text), pushing all system prompts above OpenAI's 1024-token caching threshold.
 
 **Cache behavior:** OpenAI automatically caches identical prompt prefixes. The gpt-5.4-mini model gets a **90% cache discount** on cached tokens (vs 75% for the 4.1 family). Since the preamble is identical across all query types, it stays cached across requests regardless of mode. Multi-turn instructions are baked into the static system prompt (not dynamically appended) to preserve cache hits.
 
@@ -254,7 +254,7 @@ All prompts use the **Cole** persona — a warm, knowledgeable advisor who talks
 
 **Admission Prediction:** Uses QA prompt with ML prediction context injected via `bridge.py` (probability, CI, classification, key factors, plus strategic guidance: SAFETY/MATCH/REACH classification, actionable improvement suggestions for REACH schools). The bridge now accepts profile data as a fallback — if stats aren't in the question text but are in the user's saved profile (GPA, SAT/ACT), those are used for the prediction.
 
-**Generation limits:** All generation calls set `max_tokens` based on `response_length` (XS: 200, S: 400, M: 700, L: 1200, XL: 1800) or query type defaults (essay modes: 1200, QA: 700).
+**Generation limits:** All generation calls set `max_completion_tokens` based on `response_length` (XS: 200, S: 400, M: 700, L: 1200, XL: 1800) or query type defaults (essay modes: 1200, QA: 700).
 
 ### Multi-turn Conversation Support
 

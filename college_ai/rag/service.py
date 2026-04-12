@@ -210,7 +210,7 @@ class CollegeRAG:
                     {"role": "user", "content": question},
                 ],
                 temperature=0.5,
-                max_tokens=100,
+                max_completion_tokens=100,
                 prompt_cache_key="cole-greeting",
             )
             if response and response.choices:
@@ -260,7 +260,7 @@ class CollegeRAG:
                     {"role": "user", "content": user_content},
                 ],
                 temperature=0,
-                max_tokens=120,
+                max_completion_tokens=120,
                 prompt_cache_key="cole-rewrite",
             )
             if response and response.choices:
@@ -440,7 +440,7 @@ class CollegeRAG:
                 {"role": "user", "content": user_prompt},
             ],
             temperature=0.2,
-            max_tokens=self._get_max_tokens(None, QA),
+            max_completion_tokens=self._get_max_tokens(None, QA),
             prompt_cache_key="cole-qa",
         )
         if response and response.choices:
@@ -606,7 +606,7 @@ class CollegeRAG:
                 {"role": "user", "content": user_prompt},
             ],
             temperature=0.4,  # slightly more creative for brainstorming
-            max_tokens=self._get_max_tokens(None, ESSAY_IDEAS),
+            max_completion_tokens=self._get_max_tokens(None, ESSAY_IDEAS),
             prompt_cache_key="cole-essay-ideas",
         )
         if response and response.choices:
@@ -647,7 +647,7 @@ class CollegeRAG:
                 {"role": "user", "content": review_user_prompt},
             ],
             temperature=0.3,
-            max_tokens=self._get_max_tokens(None, ESSAY_REVIEW),
+            max_completion_tokens=self._get_max_tokens(None, ESSAY_REVIEW),
             prompt_cache_key="cole-essay-review",
         )
         if response and response.choices:
@@ -1032,7 +1032,7 @@ class CollegeRAG:
                 model=model,
                 messages=messages,
                 temperature=self._get_temperature(query_type),
-                max_tokens=self._get_max_tokens(response_length, query_type),
+                max_completion_tokens=self._get_max_tokens(response_length, query_type),
                 stream=True,
                 prompt_cache_key=self._PROMPT_CACHE_KEYS.get(query_type, "cole-qa"),
             )

@@ -213,7 +213,7 @@ def generate_contextual_prefix(
                 },
             ],
             temperature=0,
-            max_tokens=100,
+            max_completion_tokens=100,
         )
         if response and response.choices:
             return response.choices[0].message.content.strip() or ""
@@ -388,7 +388,7 @@ def generate_chunk_context(
                 )},
             ],
             temperature=0,
-            max_tokens=80,
+            max_completion_tokens=80,
             prompt_cache_key="cole-chunk-context",
         )
         if response and response.choices:
