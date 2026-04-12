@@ -77,6 +77,7 @@ export interface ProfileData {
 export type Residency = 'inState' | 'outOfState' | 'international'
 
 export interface SelectedSchool {
+  id: string
   name: string
   residency: Residency | null
   major: string | null

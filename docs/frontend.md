@@ -223,7 +223,8 @@ Standalone view for Admissions Calculator mode:
 - Required fields marked with asterisk
 
 **School picker:**
-- CollegeCombobox for adding schools (with `excludeValues` — already-selected schools are filtered out of the dropdown)
+- CollegeCombobox for adding schools — the dropdown does **not** filter out already-selected schools, so the same school can be added multiple times (e.g. to compare the same school under different residency/major settings). Each selection is tracked as an independent entry with its own `crypto.randomUUID()` id, so remove/update handlers and the per-school results map key by `id`, not `name`.
+- "Add saved schools" button (top-right, `phase === 'idle'` only): visible whenever the user has any saved schools **and** at least one open slot (`selectedSchools.length < MAX_SCHOOLS`). It does not hide as saved schools get added — clicking again appends the full saved-schools list (up to the remaining slot budget) using the current Default Residency + Default Major, so each click produces a fresh batch of entries.
 - Counter: "Schools (N/10)"
 - Selected schools shown in alternating-row list with school name, searchable major combobox (`MajorCombobox compact`, `w-28` input with wider `w-56` dropdown), and residency dropdown (`w-28`)
 - Max 10 schools
@@ -258,7 +259,7 @@ Headless UI Combobox with `immediate` (auto-opens on focus). Renders static (non
 - **Flat mode** (`showDefaultScreen={false}`): used only by the Profile tab's Saved Schools picker. Mirrors how the inline Major selector in the same card works — no "Not Specified" row, no section headers, just a flat alphabetical list of schools with `excludeValues` applied, still capped at 100 with the same "Type to search for more schools." hint.
 - **Search mode** (query entered, both default and flat modes): flat list of up to `MAX_RESULTS` matches from `collegeOptions`, case-insensitive, sorted alphabetically. Section headers are suppressed in search mode even with `showDefaultScreen={true}` since sections only help when browsing.
 - **Alphabetical ordering:** both sections and all filtered lists are sorted via `localeCompare` with `{ sensitivity: 'base' }` on `formatSchoolName(c)`, so display order is case- and diacritic-insensitive.
-- **`excludeValues` prop** (optional `string[]`): filters specified schools out of all views. Used by Admissions (excludes already-selected schools) and Profile Saved Schools (excludes already-saved schools, which makes the "My Schools" section empty and collapses to flat mode behavior).
+- **`excludeValues` prop** (optional `string[]`): filters specified schools out of all views. Used by Profile Saved Schools (excludes already-saved schools, which makes the "My Schools" section empty and collapses to flat mode behavior). AdmissionsView deliberately does **not** pass this prop — duplicate selections are allowed there.
 - **Clear (×) button:** when the input has a value, a small × button is rendered in the input's right gutter (between the chevron and content) that clears the selection to `null` on click. This replaces the need for a selectable "clear selection" row inside the dropdown.
 - Compact variant (smaller padding/height) for inline use.
 - Loaded from `/options` endpoint with 31-school fallback list.

@@ -96,48 +96,55 @@ export default function AdmissionsView() {
     return true
   }
 
+  const makeEntry = (
+    name: string,
+    residency: Residency | null,
+    major: string | null,
+  ): SelectedSchool => ({
+    id: crypto.randomUUID(),
+    name,
+    residency,
+    major,
+  })
+
   const handleAddSchool = (school: string | null) => {
-    if (!school || selectedSchools.some((s) => s.name === school) || selectedSchools.length >= MAX_SCHOOLS) return
+    if (!school || selectedSchools.length >= MAX_SCHOOLS) return
     const residency = defaultResidency === 'useLocation'
       ? computeResidency(school, profile, schoolStates)
       : defaultResidency
-    setSelectedSchools((prev) => [...prev, {
-      name: school,
-      residency,
-      major: defaultMajor,
-    }])
+    setSelectedSchools((prev) => [...prev, makeEntry(school, residency, defaultMajor)])
   }
 
-  const savedSchoolsToAdd = profile.savedSchools.filter(
-    (s) => collegeOptions.includes(s) && !selectedSchools.some((sel) => sel.name === s)
-  )
+  const savedSchoolsToAdd = profile.savedSchools.filter((s) => collegeOptions.includes(s))
 
   const handleAddSavedSchools = () => {
     const slotsLeft = MAX_SCHOOLS - selectedSchools.length
     const toAdd = savedSchoolsToAdd.slice(0, slotsLeft)
-    const newSchools: SelectedSchool[] = toAdd.map((name) => ({
-      name,
-      residency: defaultResidency === 'useLocation'
-        ? computeResidency(name, profile, schoolStates)
-        : defaultResidency,
-      major: defaultMajor,
-    }))
+    const newSchools = toAdd.map((name) =>
+      makeEntry(
+        name,
+        defaultResidency === 'useLocation'
+          ? computeResidency(name, profile, schoolStates)
+          : defaultResidency,
+        defaultMajor,
+      ),
+    )
     setSelectedSchools((prev) => [...prev, ...newSchools])
   }
 
-  const handleRemoveSchool = (schoolName: string) => {
-    setSelectedSchools((prev) => prev.filter((s) => s.name !== schoolName))
+  const handleRemoveSchool = (id: string) => {
+    setSelectedSchools((prev) => prev.filter((s) => s.id !== id))
   }
 
-  const handleSchoolMajor = (schoolName: string, major: string | null) => {
+  const handleSchoolMajor = (id: string, major: string | null) => {
     setSelectedSchools((prev) => prev.map((s) =>
-      s.name === schoolName ? { ...s, major } : s
+      s.id === id ? { ...s, major } : s
     ))
   }
 
-  const handleSchoolResidency = (schoolName: string, residency: Residency | null) => {
+  const handleSchoolResidency = (id: string, residency: Residency | null) => {
     setSelectedSchools((prev) => prev.map((s) =>
-      s.name === schoolName ? { ...s, residency } : s
+      s.id === id ? { ...s, residency } : s
     ))
   }
 
@@ -172,11 +179,11 @@ export default function AdmissionsView() {
             ...(school.residency ? { residency: school.residency } : {}),
             ...(school.major ? { major: school.major } : {}),
           })
-          setSchoolResults((prev) => ({ ...prev, [school.name]: result }))
+          setSchoolResults((prev) => ({ ...prev, [school.id]: result }))
         } catch (err) {
           setSchoolResults((prev) => ({
             ...prev,
-            [school.name]: {
+            [school.id]: {
               school_name: school.name,
               error: err instanceof Error ? err.message : 'Failed',
               probability: 0,
@@ -312,7 +319,7 @@ export default function AdmissionsView() {
             <label className="text-xs font-medium text-slate-400">
               Schools ({selectedSchools.length}/{MAX_SCHOOLS})
             </label>
-            {phase === 'idle' && savedSchoolsToAdd.length > 0 && (
+            {phase === 'idle' && profile.savedSchools.length > 0 && selectedSchools.length < MAX_SCHOOLS && (
               <button
                 onClick={handleAddSavedSchools}
                 className="text-xs text-forest-400 hover:text-forest-300 border border-transparent hover:border-forest-600/40 rounded-lg px-2 py-0.5 transition-all"
@@ -329,7 +336,6 @@ export default function AdmissionsView() {
                 compact
                 reopenOnSelect
                 placeholder="Select a school"
-                excludeValues={selectedSchools.map((s) => s.name)}
               />
             ) : (
               <p className="text-xs text-slate-500 py-2">Maximum {MAX_SCHOOLS} schools reached.</p>
@@ -341,12 +347,12 @@ export default function AdmissionsView() {
             <div className={`${phase === 'idle' ? 'mt-3' : ''} rounded-xl border border-dark-700 overflow-hidden`}>
               <AnimatePresence initial={false}>
                 {selectedSchools.map((school, i) => {
-                  const result = schoolResults[school.name]
+                  const result = schoolResults[school.id]
                   const pct = result && !result.error ? Math.round(result.probability * 100) : null
 
                   return (
                     <motion.div
-                      key={school.name}
+                      key={school.id}
                       layout
                       initial={{ opacity: 0, y: -4 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -368,14 +374,14 @@ export default function AdmissionsView() {
                           <div className="flex-shrink-0">
                             <MajorCombobox
                               value={school.major}
-                              onChange={(m) => handleSchoolMajor(school.name, m)}
+                              onChange={(m) => handleSchoolMajor(school.id, m)}
                               compact
                             />
                           </div>
 
                           <select
                             value={school.residency || ''}
-                            onChange={(e) => handleSchoolResidency(school.name, (e.target.value || null) as Residency | null)}
+                            onChange={(e) => handleSchoolResidency(school.id, (e.target.value || null) as Residency | null)}
                             className="input-field-compact text-xs py-1.5 w-28 flex-shrink-0"
                           >
                             <option value="">No residency</option>
@@ -385,7 +391,7 @@ export default function AdmissionsView() {
                           </select>
 
                           <button
-                            onClick={() => handleRemoveSchool(school.name)}
+                            onClick={() => handleRemoveSchool(school.id)}
                             className="text-slate-500 hover:text-red-400 transition-colors flex-shrink-0"
                           >
                             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
