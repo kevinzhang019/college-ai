@@ -41,10 +41,9 @@ export default function CollegeCombobox({ value, onChange, compact, showDefaultS
 
   const validSavedSchools = useMemo(
     () =>
-      savedSchools
-        .filter((s) => options.includes(s) && (!excluded || !excluded.has(s)))
-        .slice()
-        .sort(byName),
+      savedSchools.filter(
+        (s) => options.includes(s) && (!excluded || !excluded.has(s)),
+      ),
     [savedSchools, options, excluded],
   )
 
