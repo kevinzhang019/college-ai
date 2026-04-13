@@ -279,7 +279,7 @@ The Profile tab has a separate **inline** major selector (not `MajorCombobox`) r
 
 ### ConfidenceBadge (`ConfidenceBadge.tsx`)
 
-Small pill badge showing confidence level (high: green, medium: amber, low: red). Expands on **message hover** (`group-hover/msg`) to reveal the label text and hint — the parent `MessageBubble` assistant container carries the `group/msg` class.
+Small pill badge showing confidence level (high: green, medium: amber, low: red). Expands on **badge hover only** (`group/badge` + `group-hover/badge`) to reveal the label text and hint. Hovering elsewhere in the assistant message does not expand the badge; the only message-level hover effect is the Copy action button fading in.
 
 ### ConversationList (`ConversationList.tsx`)
 
