@@ -20,6 +20,7 @@ export default function InputArea() {
   const streamingLoading = useStore((s) => s.streamingLoading)
   const isConnected = useStore((s) => s.isConnected)
   const updateConversationCollege = useStore((s) => s.updateConversationCollege)
+  const vectorSchools = useStore((s) => s.vectorSchools)
   const updateConversationEssayPrompt = useStore((s) => s.updateConversationEssayPrompt)
   const createConversation = useStore((s) => s.createConversation)
   const contextSize = useStore((s) => s.contextSize)
@@ -216,6 +217,7 @@ export default function InputArea() {
               value={college}
               onChange={handleCollegeChange}
               compact
+              options={vectorSchools ?? undefined}
             />
           </div>
 

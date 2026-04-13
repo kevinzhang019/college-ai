@@ -1,10 +1,11 @@
 import { useEffect } from 'react'
-import { checkHealth, getOptions } from '../api'
+import { checkHealth, getOptions, getVectorSchools } from '../api'
 import { useStore } from '../store'
 
 export function useApi() {
   const setIsConnected = useStore((s) => s.setIsConnected)
   const setCollegeOptions = useStore((s) => s.setCollegeOptions)
+  const setVectorSchools = useStore((s) => s.setVectorSchools)
 
   useEffect(() => {
     let cancelled = false
@@ -14,12 +15,16 @@ export function useApi() {
       if (cancelled) return
       setIsConnected(healthy)
 
-      const options = await getOptions()
+      const [options, vectorSchools] = await Promise.all([
+        getOptions(),
+        getVectorSchools(),
+      ])
       if (cancelled) return
       setCollegeOptions(options.colleges, options.school_states)
+      setVectorSchools(vectorSchools)
     }
 
     init()
     return () => { cancelled = true }
-  }, [setIsConnected, setCollegeOptions])
+  }, [setIsConnected, setCollegeOptions, setVectorSchools])
 }

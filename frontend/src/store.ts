@@ -18,6 +18,7 @@ interface Store {
   mode: AppMode
   isConnected: boolean
   collegeOptions: string[]
+  vectorSchools: string[] | null
   schoolStates: Record<string, string>
   streamingContent: string
   streamingLoading: boolean
@@ -61,6 +62,7 @@ interface Store {
   // ---- Actions: UI ----
   setIsConnected: (connected: boolean) => void
   setCollegeOptions: (options: string[], schoolStates?: Record<string, string>) => void
+  setVectorSchools: (schools: string[] | null) => void
   setSidebarOpen: (open: boolean) => void
 
   // ---- Actions: edit ----
@@ -84,6 +86,7 @@ export const useStore = create<Store>()(
       mode: 'qa',
       isConnected: false,
       collegeOptions: [],
+      vectorSchools: null,
       schoolStates: {},
       streamingContent: '',
       streamingLoading: false,
@@ -274,6 +277,7 @@ export const useStore = create<Store>()(
       // ---- UI ----
       setIsConnected: (isConnected) => set({ isConnected }),
       setCollegeOptions: (collegeOptions, schoolStates) => set({ collegeOptions, ...(schoolStates ? { schoolStates } : {}) }),
+      setVectorSchools: (vectorSchools) => set({ vectorSchools }),
       setSidebarOpen: (sidebarOpen) => set({ sidebarOpen }),
       setPendingEdit: (pendingEdit) => set({ pendingEdit }),
     }),

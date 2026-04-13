@@ -40,6 +40,15 @@ export async function getOptions(): Promise<OptionsResponse> {
   }
 }
 
+export async function getVectorSchools(): Promise<string[] | null> {
+  try {
+    const data = await request<{ colleges: string[]; ready: boolean }>('/vector-schools')
+    return data.ready ? data.colleges : null
+  } catch {
+    return null
+  }
+}
+
 /** Flatten sources that arrive with a nested `entity` sub-object. */
 function normalizeSources(raw: Record<string, unknown>[]): Source[] {
   return raw.map((s) => {

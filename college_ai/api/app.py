@@ -13,6 +13,7 @@ from __future__ import annotations
 import argparse
 import logging
 import os
+import threading
 from typing import Any, Dict, List, Optional
 
 import json
@@ -64,6 +65,63 @@ app.add_middleware(
 )
 
 rag_engine = CollegeRAG()
+
+# ---- Vector-DB school list (cached, warmed on startup) ----
+_vector_schools_lock = threading.Lock()
+_vector_schools_cache: Dict[str, Any] = {"list": None, "loading": False}
+
+
+def _load_vector_schools() -> Optional[List[str]]:
+    """Scan the Zilliz collection and return sorted unique college_name values.
+
+    Uses `query_iterator` with a narrow output_fields=["college_name"] so every
+    batch stays well under Zilliz Serverless's ~4MB gRPC ceiling (college_name
+    is VARCHAR(256), so 8192 × ~300B ≈ 2.4MB per batch). Follows the same
+    iteration pattern as scripts/count_legacy_chunked_urls.py.
+    """
+    try:
+        collection = rag_engine.retriever._get_collection()
+        unique: set = set()
+        iterator = collection.query_iterator(
+            expr="",
+            output_fields=["college_name"],
+            batch_size=8192,
+        )
+        try:
+            while True:
+                batch = iterator.next()
+                if not batch:
+                    break
+                for record in batch:
+                    name = record.get("college_name")
+                    if name:
+                        unique.add(name)
+        finally:
+            try:
+                iterator.close()
+            except Exception:
+                pass
+
+        result = sorted(unique)
+        with _vector_schools_lock:
+            _vector_schools_cache["list"] = result
+            _vector_schools_cache["loading"] = False
+        logger.info("Loaded %d unique schools from Zilliz", len(result))
+        return result
+    except Exception as exc:
+        logger.exception("Failed to load vector-schools list: %s", exc)
+        with _vector_schools_lock:
+            _vector_schools_cache["loading"] = False
+        return None
+
+
+@app.on_event("startup")
+def _warm_vector_schools_cache() -> None:
+    with _vector_schools_lock:
+        if _vector_schools_cache["loading"] or _vector_schools_cache["list"] is not None:
+            return
+        _vector_schools_cache["loading"] = True
+    threading.Thread(target=_load_vector_schools, daemon=True).start()
 
 
 class AskRequest(BaseModel):
@@ -156,6 +214,22 @@ def get_filter_options() -> Dict[str, Any]:
             ],
             "school_states": {},
         }
+
+
+@app.get("/vector-schools")
+def get_vector_schools() -> Dict[str, Any]:
+    """Return the set of schools that have chunks in the Zilliz vector DB.
+
+    Triggers a background scan on the first call if the cache is cold.
+    Returns `ready=false` with an empty list while the scan is still running;
+    the frontend falls back to the full CSV list in that window.
+    """
+    with _vector_schools_lock:
+        cached = _vector_schools_cache["list"]
+        if cached is None and not _vector_schools_cache["loading"]:
+            _vector_schools_cache["loading"] = True
+            threading.Thread(target=_load_vector_schools, daemon=True).start()
+    return {"colleges": cached or [], "ready": cached is not None}
 
 
 @app.post("/ask")

@@ -50,7 +50,8 @@ Zustand store (`store.ts`) with `persist` middleware, serializing to `localStora
 **Ephemeral (reset on reload):**
 - `mode` — current `AppMode`
 - `isConnected` — whether `/health` returned ok
-- `collegeOptions` — college list from `/options` (sourced from `college_ai/scraping/colleges/colleges.csv` only)
+- `collegeOptions` — college list from `/options` (sourced from `college_ai/scraping/colleges/colleges.csv` only). Used by the Admissions Calculator and My Profile combobox instances.
+- `vectorSchools` — `string[] | null` of schools present in the Zilliz vector DB, fetched once per session from `/vector-schools`. `null` while the backend cache is still warming (frontend falls back to `collegeOptions` in that window). Used **only** by the chat-tab combobox in `InputArea` so users can't pick schools that have no RAG content.
 - `schoolStates` — `Record<string, string>` mapping school names to state codes (from `/options`), used for auto-residency
 - `streamingContent` — accumulated tokens during SSE streaming
 - `streamingLoading` — whether a stream is in progress
@@ -260,6 +261,7 @@ Headless UI Combobox with `immediate` (auto-opens on focus). Renders static (non
 - **Search mode** (query entered, both default and flat modes): flat list of up to `MAX_RESULTS` matches from `collegeOptions`, case-insensitive, sorted alphabetically. Section headers are suppressed in search mode even with `showDefaultScreen={true}` since sections only help when browsing.
 - **Alphabetical ordering:** both sections and all filtered lists are sorted via `localeCompare` with `{ sensitivity: 'base' }` on `formatSchoolName(c)`, so display order is case- and diacritic-insensitive.
 - **`excludeValues` prop** (optional `string[]`): filters specified schools out of all views. Used by Profile Saved Schools (excludes already-saved schools, which makes the "My Schools" section empty and collapses to flat mode behavior). AdmissionsView deliberately does **not** pass this prop — duplicate selections are allowed there.
+- **`options` prop** (optional `string[]`): overrides the default `collegeOptions` source from the store. Used by `InputArea` (chat tab) to pass `vectorSchools ?? undefined`, restricting the chat-tab dropdown to schools that actually have content in the Zilliz vector DB. When `undefined`, falls back to `collegeOptions` so the dropdown is never empty during the warm-up window. AdmissionsView and ExperiencesView do not pass this prop and continue to use the full CSV list.
 - **Clear (×) button:** when the input has a value, a small × button is rendered in the input's right gutter (between the chevron and content) that clears the selection to `null` on click. This replaces the need for a selectable "clear selection" row inside the dropdown.
 - Compact variant (smaller padding/height) for inline use.
 - Loaded from `/options` endpoint with 31-school fallback list.
@@ -296,6 +298,7 @@ Sidebar conversation history showing all chat conversations (both current `qa` a
 **Functions:**
 - `checkHealth()` → `GET /health`
 - `getOptions()` → `GET /options` → `{colleges, school_states}` (fallback: 31 hardcoded colleges, empty states)
+- `getVectorSchools()` → `GET /vector-schools` → `string[] | null` (returns `null` while the backend cache is warming or on network failure)
 - `ask(params)` → `POST /ask` (non-streaming, not used by main UI)
 - `askStream(params, callbacks, signal)` → `POST /ask/stream` (SSE streaming)
 - `predict(params)` → `POST /predict`
@@ -309,7 +312,7 @@ Sidebar conversation history showing all chat conversations (both current `qa` a
 
 ### `useApi` (`hooks/useApi.ts`)
 
-One-time mount effect: calls `checkHealth()` and `getOptions()` in parallel. Sets `isConnected`, `collegeOptions`, and `schoolStates` in store.
+One-time mount effect: calls `checkHealth()`, then `getOptions()` and `getVectorSchools()` in parallel via `Promise.all`. Sets `isConnected`, `collegeOptions`, `schoolStates`, and `vectorSchools` in store. A failure on either parallel call leaves the corresponding store field at its default — `vectorSchools` stays `null` so the chat dropdown transparently falls back to `collegeOptions`.
 
 ### `useStreaming` (`hooks/useStreaming.ts`)
 

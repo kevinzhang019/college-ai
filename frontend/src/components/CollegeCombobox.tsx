@@ -13,10 +13,12 @@ interface Props {
   placeholder?: string
   reopenOnSelect?: boolean
   excludeValues?: string[]
+  options?: string[]
 }
 
-export default function CollegeCombobox({ value, onChange, compact, showDefaultScreen = true, placeholder = 'Select a school (optional)', reopenOnSelect, excludeValues }: Props) {
-  const options = useStore((s) => s.collegeOptions)
+export default function CollegeCombobox({ value, onChange, compact, showDefaultScreen = true, placeholder = 'Select a school (optional)', reopenOnSelect, excludeValues, options: propOptions }: Props) {
+  const storeOptions = useStore((s) => s.collegeOptions)
+  const options = propOptions ?? storeOptions
   const savedSchools = useStore((s) => s.profile.savedSchools)
   const [query, setQuery] = useState('')
   const inputRef = useRef<HTMLInputElement | null>(null)
