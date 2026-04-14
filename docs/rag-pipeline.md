@@ -107,7 +107,14 @@ All three stages collect **all non-overlapping matches** (not just the best), us
 
 - **Stage 1 — Alias/acronym lookup:** ~107 hardcoded entries merged with ~800+ DB aliases from `schools.identity_alias` (top 1000 schools by student size), totaling ~1500 aliases. Maps acronyms (MIT, BYU, SNHU, WGU, etc.), shorthands (UMich, WashU, UArizona, etc.), and single-name schools (Harvard, Stanford, etc.) to canonical Turso names. All canonical names are verified exact matches to Turso — `SchoolMatcher` always hits the exact-match path, never fuzzy. Uses a single pre-compiled alternation regex with word boundaries (longest-first), replacing the previous per-alias loop. Hardcoded aliases win on conflict with DB aliases.
 - **Stage 2 — Exact substring match** against known college list (from CSVs), longest match first
-- **Stage 3 — Fuzzy ngram matching** via rapidfuzz (`token_sort_ratio`, cutoff 85, ngram length 1-7). Only ngrams that don't overlap already-consumed spans are checked.
+- **Stage 3 — Fuzzy ngram matching** via rapidfuzz (`token_sort_ratio`, cutoff 85, ngram length 1-7, **longest-first** so "university of california berkeley" wins over a spurious 2-gram hit like "is university" → "Lewis University"). Only ngrams that don't overlap already-consumed spans are checked.
+
+**Two-pass shorthand expansion:** `extract_schools()` runs the matcher once on the raw question, and if the cap is not hit, runs it again on a copy of the text with common college shorthands expanded via `expand_query_shorthand()`. Expansions include:
+- `u of`, `univ`, `uni` → `university` / `university of`
+- Colloquial nicknames (`bama` → `alabama`, `cal` → `california`, `mich` → `michigan`, `penn` → `pennsylvania`, `tex` → `texas`, `wisc` → `wisconsin`, etc.)
+- US state postal codes (`CA`, `NY`, `MA`, …) → full state name. Uppercase codes always expand; lowercase codes expand except for 7 that collide with English words (`or`, `in`, `me`, `hi`, `ok`, `id`, `la`).
+
+Both passes feed the same three-stage matcher. Canonical-name dedup merges results, and the 5-school cap is enforced across both passes. Shorthand-only tokens that don't form a full canonical college name (e.g. bare `ariz state`) still require surrounding context like "univ of" or "state university" to substring-match — this is documented in the tests as a known limitation.
 - **Dropdown takes absolute precedence:** if the `college` param is set, text extraction is skipped entirely and only the dropdown school is used
 - When schools are detected from the prompt, retrieval is filtered to include documents from all of them (single school uses `==` filter, multiple schools use `IN` filter)
 

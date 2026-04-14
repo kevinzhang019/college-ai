@@ -129,13 +129,15 @@ Pinned to bottom of chat, `border-t border-dark-700` with backdrop blur.
    - College combobox (full width)
    - Info tooltip (when no college selected) or "See my chances" button (when college selected → opens QuickPredictModal)
 3. **Chat input row:**
-   - Auto-resizing textarea (max 150px height), Enter to submit, Shift+Enter for newline, Escape to edit last user message
+   - Auto-resizing textarea (max 150px height), Enter to submit, Shift+Enter for newline, Escape to stop generation and recall the last user message (works regardless of focus)
    - Settings popover (bottom-right of textarea): Headless UI `Popover` with settings gear icon + chevron. Opens upward with two sections — **Context Size** (XS/S/M/L/XL controlling `top_k`) and **Response Length** (XS/S/M/L/XL controlling LLM length budget). Both use pill-button selectors with forest-green active state. Persisted across sessions.
-   - Send button (forest-600 circle) or Cancel button (red circle during streaming)
+   - Send button (forest-600 circle) or Stop button (red circle during streaming) — clicking Stop fully aborts the stream and refills the textarea with the last user message
 
 **Connecting state:** Full skeleton UI with pulsing placeholder blocks + "Connecting to Cole..." label with bouncing dots. Shown while `isConnected` is false.
 
-**Edit message handling:** InputArea watches `pendingEdit` from the store. When set (user clicked Edit on a message bubble or pressed Escape in the textarea), it: (1) cancels streaming if active, (2) populates the textarea with the original question, (3) restores the essay prompt to the conversation, (4) restores the essay draft text and auto-opens the ReviewPanel via `forceOpen` prop, (5) focuses the textarea. Messages are not deleted — the user re-sends as a new message. **Escape key shortcut:** Pressing Escape while the textarea is focused triggers edit on the last user message in the active conversation (same as clicking Edit on that message).
+**Edit message handling:** InputArea watches `pendingEdit` from the store. When set (user clicked Edit on a message bubble, clicked the Stop button during streaming, or pressed Escape), it: (1) cancels streaming if active, (2) populates the textarea with the original question, (3) restores the essay prompt to the conversation, (4) restores the essay draft text and auto-opens the ReviewPanel via `forceOpen` prop, (5) focuses the textarea. Messages are not deleted — the user re-sends as a new message.
+
+**Stop / Escape unified recall:** Both the red Stop button and the global Escape listener share the same "cancel-then-recall" flow via a local `recallLastUserMessage({ force })` helper. Stop explicitly calls `cancel()` before the recall (full stream stop first) and uses `force: true`, so it always refills the textarea even if the user started typing a new draft mid-stream. Escape is registered as a `window` `keydown` listener (so it works regardless of textarea focus), calls `cancel()` first, then recalls with `force: false` — meaning it is a no-op when the textarea already contains text. This flood-guards repeat Escape presses (the first press refills, the second press sees non-empty input and does nothing) and preserves in-progress drafts the user was typing while the previous response was streaming.
 
 **Validation:** Can't send without non-empty input and connection. If essay text is provided, essay prompt is required (prompt field flashes red if missing). Disabled during streaming.
 

@@ -160,6 +160,118 @@ SCHOOL_ALIASES = {
 }
 
 
+# ---------------------------------------------------------------------------
+# Shorthand expansion (second-pass school detection)
+# ---------------------------------------------------------------------------
+#
+# Applied to a copy of the user query before the second extraction pass.
+# Lets queries like "U of CA Berkeley" or "tell me about bama" hit the
+# same matcher as their fully-spelled forms.
+
+# Case-insensitive substitutions, whitespace-bounded on both sides.
+# A few entries (penn, mass, del, col, cal, tex) collide with common
+# English words or names; the resulting false positives only fire when
+# the second pass runs (i.e. the original-text pass found <5 schools
+# AND the query actually contained one of these tokens).
+_SHORTHAND_CI = {
+    " uni ":  " university ",
+    " univ ": " university ",
+    " u of ": " university of ",
+    " bama ": " alabama ",
+    " ariz ": " arizona ",
+    " cal ":  " california ",
+    " cali ": " california ",
+    " colo ": " colorado ",
+    " col ":  " colorado ",
+    " conn ": " connecticut ",
+    " del ":  " delaware ",
+    " mass ": " massachusetts ",
+    " mich ": " michigan ",
+    " minn ": " minnesota ",
+    " neb ":  " nebraska ",
+    " okla ": " oklahoma ",
+    " penn ": " pennsylvania ",
+    " tenn ": " tennessee ",
+    " tex ":  " texas ",
+    " wisc ": " wisconsin ",
+}
+
+# Uppercase-only state codes, matched on the original-case query so we
+# don't fire on common lowercase words like "or", "in", "me", "hi", "ok".
+_STATE_CODES_UPPER = {
+    "AL": "Alabama", "AK": "Alaska", "AZ": "Arizona", "AR": "Arkansas",
+    "CA": "California", "CO": "Colorado", "CT": "Connecticut",
+    "DE": "Delaware", "FL": "Florida", "GA": "Georgia", "HI": "Hawaii",
+    "ID": "Idaho", "IL": "Illinois", "IN": "Indiana", "IA": "Iowa",
+    "KS": "Kansas", "KY": "Kentucky", "LA": "Louisiana", "ME": "Maine",
+    "MD": "Maryland", "MA": "Massachusetts", "MI": "Michigan",
+    "MN": "Minnesota", "MS": "Mississippi", "MO": "Missouri",
+    "MT": "Montana", "NE": "Nebraska", "NV": "Nevada", "NH": "New Hampshire",
+    "NJ": "New Jersey", "NM": "New Mexico", "NY": "New York",
+    "NC": "North Carolina", "ND": "North Dakota", "OH": "Ohio",
+    "OK": "Oklahoma", "OR": "Oregon", "PA": "Pennsylvania",
+    "RI": "Rhode Island", "SC": "South Carolina", "SD": "South Dakota",
+    "TN": "Tennessee", "TX": "Texas", "UT": "Utah", "VT": "Vermont",
+    "VA": "Virginia", "WA": "Washington", "WV": "West Virginia",
+    "WI": "Wisconsin", "WY": "Wyoming",
+}
+
+# Lowercase state codes — 43 of 50. Only 7 are excluded because they
+# collide with extremely common English words: or, in, me, hi, ok,
+# id, la. The remaining collisions (oh, pa, ma, md, de, il, etc.) are
+# accepted as noise — bare state names rarely substring-match a
+# canonical college name, so most firings are silent no-ops anyway.
+_STATE_CODES_LOWER = {
+    "ak": "Alaska", "al": "Alabama", "ar": "Arkansas", "az": "Arizona",
+    "ca": "California", "co": "Colorado", "ct": "Connecticut",
+    "de": "Delaware", "fl": "Florida", "ga": "Georgia",
+    "ia": "Iowa", "il": "Illinois", "ks": "Kansas", "ky": "Kentucky",
+    "ma": "Massachusetts", "md": "Maryland", "mi": "Michigan",
+    "mn": "Minnesota", "mo": "Missouri", "ms": "Mississippi",
+    "mt": "Montana", "nc": "North Carolina", "nd": "North Dakota",
+    "ne": "Nebraska", "nh": "New Hampshire", "nj": "New Jersey",
+    "nm": "New Mexico", "nv": "Nevada", "ny": "New York",
+    "oh": "Ohio", "pa": "Pennsylvania", "ri": "Rhode Island",
+    "sc": "South Carolina", "sd": "South Dakota",
+    "tn": "Tennessee", "tx": "Texas", "ut": "Utah",
+    "va": "Virginia", "vt": "Vermont", "wa": "Washington",
+    "wi": "Wisconsin", "wv": "West Virginia", "wy": "Wyoming",
+}
+
+_STATE_UPPER_RE = re.compile(
+    r"(?<![A-Za-z])(" + "|".join(_STATE_CODES_UPPER.keys()) + r")(?![A-Za-z])"
+)
+_STATE_LOWER_RE = re.compile(
+    r"(?<![A-Za-z])(" + "|".join(_STATE_CODES_LOWER.keys()) + r")(?![A-Za-z])"
+)
+_SHORTHAND_CI_RE = re.compile(
+    "(" + "|".join(re.escape(k) for k in _SHORTHAND_CI.keys()) + ")",
+    re.IGNORECASE,
+)
+
+
+def expand_query_shorthand(text: str) -> str:
+    """Expand common school-related shorthands so a second extraction
+    pass can detect schools that the original-text pass missed.
+
+    Returns the expanded text (with leading/trailing whitespace stripped),
+    or the original if nothing matched.
+    """
+    padded = " " + text + " "
+
+    padded = _SHORTHAND_CI_RE.sub(
+        lambda m: _SHORTHAND_CI[m.group(0).lower()], padded
+    )
+    padded = _STATE_UPPER_RE.sub(
+        lambda m: _STATE_CODES_UPPER[m.group(1)], padded
+    )
+    padded = _STATE_LOWER_RE.sub(
+        lambda m: _STATE_CODES_LOWER[m.group(1)], padded
+    )
+
+    return padded.strip()
+
+
 def _load_db_aliases() -> Dict[str, str]:
     """Load school aliases from the top 1000 schools by student size in Turso."""
     from college_ai.db.connection import get_session
@@ -286,9 +398,37 @@ class QueryRouter:
     def extract_schools(self, question: str) -> List[str]:
         """Extract all college names from the query text.
 
-        Checks aliases/acronyms first, then exact substring, then fuzzy ngrams.
-        Tracks consumed character spans to avoid overlapping matches.
-        Deduplicates by canonical name and caps at MAX_SCHOOLS.
+        Runs the matcher twice: once on the raw question, then (if under
+        the cap and shorthand expansion changed the text) once on a copy
+        with shorthands like "u of CA", "bama", "univ of mich" expanded.
+        Results are merged deduplicated by canonical name and capped at
+        MAX_SCHOOLS.
+        """
+        found = self._match_schools_in_text(question)
+        if len(found) >= self.MAX_SCHOOLS:
+            return found
+
+        expanded = expand_query_shorthand(question)
+        if expanded == question:
+            return found
+
+        second = self._match_schools_in_text(expanded)
+        seen = {s.lower() for s in found}
+        for school in second:
+            key = school.lower()
+            if key in seen:
+                continue
+            found.append(school)
+            seen.add(key)
+            if len(found) >= self.MAX_SCHOOLS:
+                break
+        return found
+
+    def _match_schools_in_text(self, question: str) -> List[str]:
+        """Single matching pass: aliases → exact substring → fuzzy ngrams.
+
+        Tracks consumed character spans to avoid overlapping matches and
+        caps results at MAX_SCHOOLS.
         """
         q_lower = question.lower()
         found = []  # type: List[str]  # canonical names, insertion order
@@ -344,7 +484,11 @@ class QueryRouter:
                 word_starts.append(idx)
                 pos = idx + len(w)
 
-            for ngram_len in range(1, min(8, len(words) + 1)):
+            # Iterate longest-first so that "university of california berkeley"
+            # wins over a spurious 2-word fuzzy hit like "is university" →
+            # "Lewis University". Matches the longest-first ordering used
+            # by the alias and exact-substring stages above.
+            for ngram_len in range(min(7, len(words)), 0, -1):
                 if len(found) >= self.MAX_SCHOOLS:
                     break
                 for i in range(len(words) - ngram_len + 1):

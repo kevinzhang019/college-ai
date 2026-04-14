@@ -135,16 +135,34 @@ export default function InputArea() {
     await send(q, essayText.trim() || undefined)
   }, [input, streamingLoading, essayText, essayPrompt, send])
 
+  const recallLastUserMessage = useCallback(
+    ({ force }: { force: boolean }) => {
+      // Flood guard: don't clobber an in-progress draft unless explicitly forced.
+      if (!force && input.trim() !== '') return false
+      const msgs = conversation?.messages
+      if (!msgs) return false
+      const lastUserMsg = [...msgs].reverse().find((m) => m.role === 'user')
+      if (!lastUserMsg) return false
+      setPendingEdit(lastUserMsg)
+      return true
+    },
+    [input, conversation, setPendingEdit],
+  )
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return
+      if (streamingLoading) cancel()
+      recallLastUserMessage({ force: false })
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [streamingLoading, cancel, recallLastUserMessage])
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault()
       handleSend()
-    }
-    if (e.key === 'Escape') {
-      const msgs = conversation?.messages
-      if (!msgs) return
-      const lastUserMsg = [...msgs].reverse().find((m) => m.role === 'user')
-      if (lastUserMsg) setPendingEdit(lastUserMsg)
     }
   }
 
@@ -345,7 +363,10 @@ export default function InputArea() {
 
           {streamingLoading ? (
             <button
-              onClick={cancel}
+              onClick={() => {
+                cancel()
+                recallLastUserMessage({ force: true })
+              }}
               className="shrink-0 w-9 h-9 flex items-center justify-center rounded-full bg-red-500/20 text-red-400 hover:bg-red-500/30 transition-colors"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
