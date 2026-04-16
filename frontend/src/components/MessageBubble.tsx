@@ -233,7 +233,7 @@ export default function MessageBubble({ message }: { message: ChatMessage }) {
       ) : (
         <div ref={containerRef} className="group/msg w-full py-1">
           <div className="flex items-center gap-2 mb-1.5">
-            <div className="w-5 h-5 rounded-full bg-forest-600 flex items-center justify-center text-white text-[10px] font-bold shadow-dark-sm shrink-0">C</div>
+            <img src="/cole-logo.png" alt="Cole" className="w-5 h-5 shrink-0" />
             <span className="text-sm font-semibold text-forest-400">Cole</span>
             {message.confidence && (
               <ConfidenceBadge confidence={message.confidence} />

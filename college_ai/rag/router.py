@@ -161,6 +161,39 @@ SCHOOL_ALIASES = {
 
 
 # ---------------------------------------------------------------------------
+# Flagship aliases — stripped "University of X" → canonical full name.
+# ---------------------------------------------------------------------------
+#
+# For university systems where one campus is clearly the flagship, map the
+# bare "University of <State>" form to the official canonical name used by
+# Turso. This lets queries like "tell me about university of michigan" or
+# "univ of mich" (after shorthand expansion) resolve to the Ann Arbor
+# campus instead of fuzzy-matching Michigan State University by accident.
+#
+# Systems with peer campuses (University of California, University of
+# Nevada, University of Alaska) are intentionally excluded — there's no
+# single "obvious" flagship. Systems whose flagship is already stored
+# without a suffix in the CSV (University of Alabama, Arkansas, Houston,
+# Missouri, South Carolina, Washington, Cincinnati) don't need a mapping
+# because the substring scan already resolves them.
+FLAGSHIP_ALIASES = {
+    "university of colorado":       "University of Colorado - Boulder",
+    "university of hawaii":         "University of Hawaii at Manoa",
+    "university of illinois":       "University of Illinois - Urbana-Champaign",
+    "university of louisiana":      "University of Louisiana at Lafayette",
+    "university of maryland":       "University of Maryland - College Park",
+    "university of massachusetts":  "University of Massachusetts - Amherst",
+    "university of michigan":       "University of Michigan - Ann Arbor",
+    "university of minnesota":      "University of Minnesota - Twin Cities",
+    "university of nebraska":       "University of Nebraska - Lincoln",
+    "university of north carolina": "University of North Carolina at Chapel Hill",
+    "university of tennessee":      "University of Tennessee - Knoxville",
+    "university of texas":          "University of Texas - Austin",
+    "university of wisconsin":      "University of Wisconsin - Madison",
+}
+
+
+# ---------------------------------------------------------------------------
 # Shorthand expansion (second-pass school detection)
 # ---------------------------------------------------------------------------
 #
@@ -355,11 +388,19 @@ class QueryRouter:
     # ---- Alias loading ----
 
     def _get_merged_aliases(self) -> Dict[str, str]:
-        """Merge hardcoded SCHOOL_ALIASES with DB aliases (hardcoded wins)."""
+        """Merge hardcoded SCHOOL_ALIASES + FLAGSHIP_ALIASES with DB aliases.
+
+        Priority: SCHOOL_ALIASES > FLAGSHIP_ALIASES > DB aliases. Flagship
+        entries beat DB values so a stray DB alias can't silently redirect
+        "university of michigan" away from Ann Arbor.
+        """
         if self._merged_aliases is not None:
             return self._merged_aliases
 
         merged = dict(SCHOOL_ALIASES)
+        for key, canonical in FLAGSHIP_ALIASES.items():
+            if key not in merged:
+                merged[key] = canonical
         try:
             db_aliases = _load_db_aliases()
             for key, canonical in db_aliases.items():
@@ -370,8 +411,11 @@ class QueryRouter:
 
         self._merged_aliases = merged
         logger.info(
-            "Merged aliases: %d hardcoded + %d from DB = %d total",
-            len(SCHOOL_ALIASES), len(merged) - len(SCHOOL_ALIASES), len(merged),
+            "Merged aliases: %d hardcoded + %d flagship + %d from DB = %d total",
+            len(SCHOOL_ALIASES),
+            len(FLAGSHIP_ALIASES),
+            len(merged) - len(SCHOOL_ALIASES) - len(FLAGSHIP_ALIASES),
+            len(merged),
         )
         return merged
 

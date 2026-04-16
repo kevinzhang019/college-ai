@@ -262,5 +262,88 @@ class TestShorthandExpansion(unittest.TestCase):
         self.assertLessEqual(len(pre.detected_schools), 5)
 
 
+class TestFlagshipAliases(unittest.TestCase):
+    """Test that bare 'University of X' resolves to the flagship campus
+    for systems where one campus is clearly dominant."""
+
+    def setUp(self):
+        self.router = QueryRouter()
+
+    def _assert_contains(self, schools, needle, query):
+        lowered = [s.lower() for s in schools]
+        self.assertTrue(
+            any(needle in s for s in lowered),
+            f"Expected {needle!r} in detected schools for {query!r}, got: {schools}",
+        )
+
+    def test_michigan_flagship(self):
+        pre = self.router.classify("tell me about university of michigan")
+        self._assert_contains(pre.detected_schools, "ann arbor", "university of michigan")
+
+    def test_michigan_via_shorthand(self):
+        # "univ of mich" -> "university of michigan" -> flagship alias -> Ann Arbor.
+        # Previously fuzzy-matched Michigan State University by accident.
+        pre = self.router.classify("univ of mich for cs")
+        self._assert_contains(pre.detected_schools, "ann arbor", "univ of mich")
+
+    def test_texas_flagship(self):
+        pre = self.router.classify("university of texas acceptance rate")
+        self._assert_contains(pre.detected_schools, "austin", "university of texas")
+
+    def test_texas_dallas_still_resolves(self):
+        # UT Dallas should still resolve via its own alias; the flagship
+        # mapping must not preempt campus-specific disambiguators.
+        pre = self.router.classify("tell me about UT Dallas")
+        self._assert_contains(pre.detected_schools, "dallas", "UT Dallas")
+
+    def test_illinois_flagship(self):
+        pre = self.router.classify("university of illinois")
+        self._assert_contains(pre.detected_schools, "urbana", "university of illinois")
+
+    def test_maryland_flagship(self):
+        pre = self.router.classify("university of maryland")
+        self._assert_contains(pre.detected_schools, "college park", "university of maryland")
+
+    def test_massachusetts_flagship(self):
+        pre = self.router.classify("university of massachusetts")
+        self._assert_contains(pre.detected_schools, "amherst", "university of massachusetts")
+
+    def test_wisconsin_flagship(self):
+        pre = self.router.classify("university of wisconsin")
+        self._assert_contains(pre.detected_schools, "madison", "university of wisconsin")
+
+    def test_north_carolina_flagship(self):
+        pre = self.router.classify("university of north carolina")
+        self._assert_contains(pre.detected_schools, "chapel hill", "university of north carolina")
+
+    def test_tennessee_flagship(self):
+        pre = self.router.classify("university of tennessee")
+        self._assert_contains(pre.detected_schools, "knoxville", "university of tennessee")
+
+    def test_nebraska_flagship(self):
+        pre = self.router.classify("university of nebraska")
+        self._assert_contains(pre.detected_schools, "lincoln", "university of nebraska")
+
+    def test_minnesota_flagship(self):
+        pre = self.router.classify("university of minnesota")
+        self._assert_contains(pre.detected_schools, "twin cities", "university of minnesota")
+
+    def test_colorado_flagship(self):
+        pre = self.router.classify("university of colorado")
+        self._assert_contains(pre.detected_schools, "boulder", "university of colorado")
+
+    def test_hawaii_flagship(self):
+        pre = self.router.classify("university of hawaii")
+        self._assert_contains(pre.detected_schools, "manoa", "university of hawaii")
+
+    def test_louisiana_flagship(self):
+        pre = self.router.classify("university of louisiana")
+        self._assert_contains(pre.detected_schools, "lafayette", "university of louisiana")
+
+    def test_ucla_disambiguator_still_works(self):
+        pre = self.router.classify("ucla acceptance rate")
+        self._assert_contains(pre.detected_schools, "los angeles", "ucla")
+
+
 if __name__ == "__main__":
     unittest.main()

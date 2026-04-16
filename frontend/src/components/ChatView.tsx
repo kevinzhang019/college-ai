@@ -11,11 +11,9 @@ import { QA_SUGGESTIONS, ESSAY_SUGGESTIONS, pickRandom } from '../suggestions'
 const ALL_SUGGESTIONS = [...QA_SUGGESTIONS, ...ESSAY_SUGGESTIONS]
 
 function ColeAvatar({ size = 'sm' }: { size?: 'sm' | 'lg' }) {
-  const cls = size === 'lg' ? 'w-12 h-12 text-lg' : 'w-6 h-6 text-xs'
+  const cls = size === 'lg' ? 'w-12 h-12' : 'w-6 h-6'
   return (
-    <div className={`${cls} rounded-full bg-forest-600 flex items-center justify-center text-white font-bold shadow-dark-sm shrink-0`}>
-      C
-    </div>
+    <img src="/cole-logo.png" alt="Cole" className={`${cls} shrink-0`} />
   )
 }
 
@@ -102,7 +100,7 @@ export default function ChatView() {
           >
             <div className="w-full py-1">
               <div className="flex items-center gap-2 mb-1.5">
-                <div className="w-5 h-5 rounded-full bg-forest-600 flex items-center justify-center text-white text-[10px] font-bold shadow-dark-sm shrink-0">C</div>
+                <img src="/cole-logo.png" alt="Cole" className="w-5 h-5 shrink-0" />
                 <span className="text-sm font-semibold text-forest-400">Cole</span>
                 <span className="flex gap-1">
                   <span className="w-1.5 h-1.5 bg-forest-400 rounded-full dot-bounce" />
