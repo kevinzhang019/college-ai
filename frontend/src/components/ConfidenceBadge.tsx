@@ -30,7 +30,7 @@ export default function ConfidenceBadge({
   const c = config[confidence] || config.low
   return (
     <span
-      className={`group/badge inline-flex items-center gap-0 px-1.5 py-1 text-xs font-medium rounded-full border cursor-default group-hover/badge:gap-1.5 group-hover/badge:px-3 transition-all duration-300 ease-in-out ${c.classes}`}
+      className={`group/badge inline-flex items-center gap-0 px-1.5 py-1 text-xs font-medium rounded-full border cursor-default hover:gap-1.5 hover:px-3 transition-all duration-300 ease-in-out ${c.classes}`}
     >
       <span className={`w-2 h-2 rounded-full shrink-0 ${c.dot}`} />
       <span className="max-w-0 opacity-0 overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out group-hover/badge:max-w-[350px] group-hover/badge:opacity-100">
