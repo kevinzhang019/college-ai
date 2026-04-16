@@ -8,7 +8,7 @@ The assistant is named **Cole** — a warm, knowledgeable college admissions adv
 
 **How Cole appears in the UI:**
 
-- **Avatar:** The Cole logo — a green graduation-cap chat-bubble icon (`cole-logo.png` via `ColeAvatar` component). Appears in the sidebar header (32px), welcome state (48px), message labels (20px), and streaming indicator. Also used as the browser tab favicon.
+- **Avatar:** The Cole logo — a green graduation-cap chat-bubble icon (`cole-logo.png` via `ColeAvatar` component). Portrait aspect ratio (≈0.77:1), sized by height with `w-auto` to avoid stretching. Appears in the sidebar header (h-8), welcome state (h-14), message labels (h-5), and streaming indicator. Also used as the browser tab favicon.
 - **Name label:** "Cole" in `text-forest-400` appears next to the avatar on every assistant message, streaming indicator, and sidebar header. The subtitle reads "Your college advisor."
 - **Welcome state greeting:** "Hey, I'm Cole" with tagline: "Your friendly college advisor. Ask me about admissions, essays, scholarships, or deadlines."
 - **Placeholder text** in the chat input references Cole by name: "Ask Cole about colleges..."

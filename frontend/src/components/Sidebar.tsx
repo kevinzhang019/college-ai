@@ -47,7 +47,7 @@ export default function Sidebar() {
         <div className="p-4 border-b border-dark-700">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2.5">
-              <img src="/cole-logo.png" alt="Cole" className="w-8 h-8 shrink-0" />
+              <img src="/cole-logo.png" alt="Cole" className="h-8 w-auto shrink-0" />
               <div>
                 <h1 className="text-base font-semibold text-slate-100 tracking-tight leading-none">
                   Cole
