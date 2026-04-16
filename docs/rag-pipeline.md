@@ -109,12 +109,14 @@ All three stages collect **all non-overlapping matches** (not just the best), us
 - **Stage 2 — Exact substring match** against known college list (from CSVs), longest match first
 - **Stage 3 — Fuzzy ngram matching** via rapidfuzz (`token_sort_ratio`, cutoff 85, ngram length 1-7, **longest-first** so "university of california berkeley" wins over a spurious 2-gram hit like "is university" → "Lewis University"). Only ngrams that don't overlap already-consumed spans are checked.
 
-**Two-pass shorthand expansion:** `extract_schools()` runs the matcher once on the raw question, and if the cap is not hit, runs it again on a copy of the text with common college shorthands expanded via `expand_query_shorthand()`. Expansions include:
-- `u of`, `univ`, `uni` → `university` / `university of`
-- Colloquial nicknames (`bama` → `alabama`, `cal` → `california`, `mich` → `michigan`, `penn` → `pennsylvania`, `tex` → `texas`, `wisc` → `wisconsin`, etc.)
-- US state postal codes (`CA`, `NY`, `MA`, …) → full state name. Uppercase codes always expand; lowercase codes expand except for 7 that collide with English words (`or`, `in`, `me`, `hi`, `ok`, `id`, `la`).
+**Two-pass shorthand expansion:** `extract_schools()` runs the matcher once on the raw question, and if the cap is not hit, runs it again on a punctuation-stripped + shorthand-expanded copy via `expand_query_shorthand()`. The second pass pipeline:
 
-Both passes feed the same three-stage matcher. Canonical-name dedup merges results, and the 5-school cap is enforced across both passes. Shorthand-only tokens that don't form a full canonical college name (e.g. bare `ariz state`) still require surrounding context like "univ of" or "state university" to substring-match — this is documented in the tests as a known limitation.
+1. **Punctuation stripping** — all non-alphanumeric/non-space chars replaced with spaces (`_strip_punctuation()`). Happens *before* expansion so shorthands adjacent to punctuation (e.g. `bama's`) can fire. The second-pass matcher also compares against stripped college names (e.g. `Texas A&M University` → `Texas A M University`) for consistent matching.
+2. **Phase 1 — word expansions** (case-insensitive): colloquial nicknames (`bama` → `alabama`, `cal` → `california`, `mich` → `michigan`, `penn` → `pennsylvania`, `tex` → `texas`, `wisc` → `wisconsin`, `ariz` → `arizona`, `colo` → `colorado`, `conn` → `connecticut`, `del` → `delaware`, `mass` → `massachusetts`, `minn` → `minnesota`, `neb` → `nebraska`, `okla` → `oklahoma`, `tenn` → `tennessee`)
+3. **Phase 2 — structural expansions** (case-insensitive): `u` → `university of`, `u of` → `university of`, `uni`/`univ` → `university`, `state` → `state university`. Applied after Phase 1 so combined shorthands like "U mich" or "ariz state" resolve fully (Phase 1 produces "arizona state", Phase 2 produces "arizona state university").
+4. **State code expansion** — US state postal codes (`CA`, `NY`, `MA`, …) → full state name. Uppercase codes: all 50 states. Lowercase codes: 43 of 50 — excludes 7 that collide with common English words (`or`, `in`, `me`, `hi`, `ok`, `id`, `la`). State codes use zero-width space-based lookaround assertions (`(?<= )..(?= )`) so adjacent codes don't have shared-space conflicts.
+
+Shorthand phases use literal-space boundaries (consuming the boundary spaces). A two-phase split prevents within-phase shared-space conflicts for practical adjacent combinations (word + structural). Both passes feed the same three-stage matcher. Canonical-name dedup merges results, and the 5-school cap is enforced across both passes.
 - **Dropdown takes absolute precedence:** if the `college` param is set, text extraction is skipped entirely and only the dropdown school is used
 - When schools are detected from the prompt, retrieval is filtered to include documents from all of them (single school uses `==` filter, multiple schools use `IN` filter)
 

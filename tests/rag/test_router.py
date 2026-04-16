@@ -220,17 +220,11 @@ class TestShorthandExpansion(unittest.TestCase):
             f"Expected Michigan match, got: {pre.detected_schools}",
         )
 
-    def test_extract_ariz_state_does_not_resolve(self):
-        # Documents the known limitation: bare state-name expansions
-        # ("ariz state" -> "arizona state") don't form a full canonical
-        # college name, so the matcher returns nothing. Users have to
-        # phrase it as "univ of ariz" or "ariz state university" for
-        # detection to fire.
+    def test_extract_ariz_state(self):
+        # Two-phase expansion: "ariz" -> "arizona" (phase 1),
+        # "state" -> "state university" (phase 2), giving
+        # "arizona state university" which substring-matches.
         pre = self.router.classify("ariz state acceptance rate")
-        self.assertEqual(pre.detected_schools, [])
-
-    def test_extract_ariz_state_university(self):
-        pre = self.router.classify("ariz state university acceptance rate")
         schools = [s.lower() for s in pre.detected_schools]
         self.assertTrue(
             any("arizona state" in s for s in schools),

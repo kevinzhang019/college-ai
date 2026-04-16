@@ -201,16 +201,10 @@ FLAGSHIP_ALIASES = {
 # Lets queries like "U of CA Berkeley" or "tell me about bama" hit the
 # same matcher as their fully-spelled forms.
 
-# Case-insensitive substitutions, whitespace-bounded on both sides.
-# A few entries (penn, mass, del, col, cal, tex) collide with common
-# English words or names; the resulting false positives only fire when
-# the second pass runs (i.e. the original-text pass found <5 schools
-# AND the query actually contained one of these tokens).
-_SHORTHAND_CI = {
-    " uni ":  " university ",
-    " univ ": " university ",
-    " u of ": " university of ",
-    " bama ": " alabama ",
+# Phase 1 — word expansions (state-name abbreviations).
+# Applied first so "ariz state" becomes "arizona state" before
+# Phase 2 turns it into "arizona state university".
+_SHORTHAND_WORDS = {
     " ariz ": " arizona ",
     " cal ":  " california ",
     " cali ": " california ",
@@ -227,6 +221,17 @@ _SHORTHAND_CI = {
     " tenn ": " tennessee ",
     " tex ":  " texas ",
     " wisc ": " wisconsin ",
+}
+
+# Phase 2 — structural expansions (abbreviations for "university",
+# "university of", "state university"). Applied after Phase 1 so
+# combined shorthands like "U mich" or "ariz state" resolve fully.
+_SHORTHAND_STRUCTURAL = {
+    " u of ":  " university of ",
+    " u ":     " university of ",
+    " uni ":   " university ",
+    " univ ":  " university ",
+    " state ": " state university ",
 }
 
 # Uppercase-only state codes, matched on the original-case query so we
@@ -271,29 +276,52 @@ _STATE_CODES_LOWER = {
     "wi": "Wisconsin", "wv": "West Virginia", "wy": "Wyoming",
 }
 
+# State code regexes use space-based lookaround assertions: they require
+# a space on each side (just like shorthand expansions) but use zero-width
+# lookbehind/lookahead so the spaces are NOT consumed. This avoids shared-
+# space conflicts between adjacent codes (e.g. " CA TX " → both match).
+# The query is padded with leading/trailing spaces, so start/end codes work.
 _STATE_UPPER_RE = re.compile(
-    r"(?<![A-Za-z])(" + "|".join(_STATE_CODES_UPPER.keys()) + r")(?![A-Za-z])"
+    r"(?<= )(" + "|".join(_STATE_CODES_UPPER.keys()) + r")(?= )"
 )
 _STATE_LOWER_RE = re.compile(
-    r"(?<![A-Za-z])(" + "|".join(_STATE_CODES_LOWER.keys()) + r")(?![A-Za-z])"
+    r"(?<= )(" + "|".join(_STATE_CODES_LOWER.keys()) + r")(?= )"
 )
-_SHORTHAND_CI_RE = re.compile(
-    "(" + "|".join(re.escape(k) for k in _SHORTHAND_CI.keys()) + ")",
-    re.IGNORECASE,
-)
+def _build_shorthand_re(table):
+    """Compile a case-insensitive alternation regex from a shorthand table,
+    sorted longest-first so " u of " wins over " u " at the same position."""
+    keys = sorted(table.keys(), key=len, reverse=True)
+    return re.compile(
+        "(" + "|".join(re.escape(k) for k in keys) + ")",
+        re.IGNORECASE,
+    )
+
+
+_SHORTHAND_WORDS_RE = _build_shorthand_re(_SHORTHAND_WORDS)
+_SHORTHAND_STRUCTURAL_RE = _build_shorthand_re(_SHORTHAND_STRUCTURAL)
 
 
 def expand_query_shorthand(text: str) -> str:
     """Expand common school-related shorthands so a second extraction
     pass can detect schools that the original-text pass missed.
 
-    Returns the expanded text (with leading/trailing whitespace stripped),
-    or the original if nothing matched.
+    Two phases (both case-insensitive, whitespace-bounded):
+      1. Word expansions (bama → alabama, mich → michigan, ...)
+      2. Structural expansions (u → university of, state → state university)
+
+    The split ensures adjacent shorthands like "ariz state" or "U mich"
+    resolve fully: phase 1 produces "arizona state", phase 2 produces
+    "arizona state university".
+
+    Returns the expanded text (stripped), or the original if nothing matched.
     """
     padded = " " + text + " "
 
-    padded = _SHORTHAND_CI_RE.sub(
-        lambda m: _SHORTHAND_CI[m.group(0).lower()], padded
+    padded = _SHORTHAND_WORDS_RE.sub(
+        lambda m: _SHORTHAND_WORDS[m.group(0).lower()], padded
+    )
+    padded = _SHORTHAND_STRUCTURAL_RE.sub(
+        lambda m: _SHORTHAND_STRUCTURAL[m.group(0).lower()], padded
     )
     padded = _STATE_UPPER_RE.sub(
         lambda m: _STATE_CODES_UPPER[m.group(1)], padded
@@ -303,6 +331,15 @@ def expand_query_shorthand(text: str) -> str:
     )
 
     return padded.strip()
+
+
+_PUNCT_RE = re.compile(r"[^a-zA-Z0-9 ]+")
+_MULTI_SPACE_RE = re.compile(r" {2,}")
+
+
+def _strip_punctuation(text: str) -> str:
+    """Replace non-alphanumeric/non-space characters with spaces, collapse runs."""
+    return _MULTI_SPACE_RE.sub(" ", _PUNCT_RE.sub(" ", text)).strip()
 
 
 def _load_db_aliases() -> Dict[str, str]:
@@ -355,6 +392,7 @@ class QueryRouter:
 
     def __init__(self):
         self._college_names = None  # lazy-loaded
+        self._college_names_stripped = None  # type: Optional[Dict[str, str]]
         self._merged_aliases = None  # type: Optional[Dict[str, str]]
         self._alias_pattern = None  # type: Optional[re.Pattern]
 
@@ -384,6 +422,22 @@ class QueryRouter:
 
         self._college_names = sorted(names)
         return self._college_names
+
+    def _get_college_names_stripped(self) -> Dict[str, str]:
+        """Stripped college name → canonical name mapping for second-pass
+        substring and fuzzy matching.  Punctuation is replaced with spaces
+        so "Texas A&M University" becomes "Texas A M University" and can
+        match a query that has also been punctuation-stripped."""
+        if self._college_names_stripped is not None:
+            return self._college_names_stripped
+
+        mapping = {}  # type: Dict[str, str]
+        for name in self._load_college_names():
+            key = _strip_punctuation(name)
+            if key not in mapping:
+                mapping[key] = name
+        self._college_names_stripped = mapping
+        return mapping
 
     # ---- Alias loading ----
 
@@ -443,8 +497,11 @@ class QueryRouter:
         """Extract all college names from the query text.
 
         Runs the matcher twice: once on the raw question, then (if under
-        the cap and shorthand expansion changed the text) once on a copy
-        with shorthands like "u of CA", "bama", "univ of mich" expanded.
+        the cap) once on a punctuation-stripped + shorthand-expanded copy.
+        Stripping happens *before* expansion so shorthands adjacent to
+        punctuation (e.g. "bama's") can fire.  The second pass also uses
+        stripped college names for consistent comparison (so "Texas A&M
+        University" matches "texas a m university" in the stripped query).
         Results are merged deduplicated by canonical name and capped at
         MAX_SCHOOLS.
         """
@@ -452,11 +509,11 @@ class QueryRouter:
         if len(found) >= self.MAX_SCHOOLS:
             return found
 
-        expanded = expand_query_shorthand(question)
+        expanded = expand_query_shorthand(_strip_punctuation(question))
         if expanded == question:
             return found
 
-        second = self._match_schools_in_text(expanded)
+        second = self._match_schools_in_text(expanded, strip_punct=True)
         seen = {s.lower() for s in found}
         for school in second:
             key = school.lower()
@@ -468,18 +525,27 @@ class QueryRouter:
                 break
         return found
 
-    def _match_schools_in_text(self, question: str) -> List[str]:
+    def _match_schools_in_text(
+        self, question: str, strip_punct: bool = False,
+    ) -> List[str]:
         """Single matching pass: aliases → exact substring → fuzzy ngrams.
 
         Tracks consumed character spans to avoid overlapping matches and
         caps results at MAX_SCHOOLS.
+
+        When *strip_punct* is True (second pass), the substring and fuzzy
+        stages compare against punctuation-stripped college names so that
+        queries like "texas a m university" match "Texas A&M University".
         """
         q_lower = question.lower()
         found = []  # type: List[str]  # canonical names, insertion order
         found_set = set()  # type: set  # lowercased canonical names for dedup
         consumed = []  # type: List[tuple]  # (start, end) character spans
 
-        # 1. Check all aliases (hardcoded + DB) via single compiled regex
+        # 1. Check all aliases (hardcoded + DB) via single compiled regex.
+        #    Alias keys with punctuation (a&m, w&m, st.) may not match on
+        #    a stripped query, but those are caught by the first pass on the
+        #    original text.
         aliases = self._get_merged_aliases()
         alias_pattern = self._get_alias_pattern()
 
@@ -493,30 +559,38 @@ class QueryRouter:
                     found_set.add(canonical.lower())
                 consumed.append((m.start(), m.end()))
 
+        # Build scan pairs: (lowercased_scan_name, canonical_name).
+        # When strip_punct is True, scan names are stripped of punctuation
+        # so "Texas A&M University" becomes "texas a m university".
+        if strip_punct:
+            stripped_map = self._get_college_names_stripped()
+            scan_pairs = [(k.lower(), v) for k, v in stripped_map.items()]
+        else:
+            colleges = self._load_college_names()
+            scan_pairs = [(n.lower(), n) for n in colleges] if colleges else []
+
         # 2. Exact substring match against known college names
-        colleges = self._load_college_names()
-        if colleges:
-            for name in sorted(colleges, key=len, reverse=True):
+        if scan_pairs:
+            for scan_lc, canonical in sorted(scan_pairs, key=lambda x: len(x[0]), reverse=True):
                 if len(found) >= self.MAX_SCHOOLS:
                     break
-                name_lc = name.lower()
-                idx = q_lower.find(name_lc)
+                idx = q_lower.find(scan_lc)
                 if idx != -1:
-                    start, end = idx, idx + len(name_lc)
+                    start, end = idx, idx + len(scan_lc)
                     if not self._spans_overlap(start, end, consumed):
-                        if name.lower() not in found_set:
-                            found.append(name)
-                            found_set.add(name.lower())
+                        if canonical.lower() not in found_set:
+                            found.append(canonical)
+                            found_set.add(canonical.lower())
                         consumed.append((start, end))
 
         # 3. Fuzzy ngram match (rapidfuzz)
-        if len(found) < self.MAX_SCHOOLS and colleges:
+        if len(found) < self.MAX_SCHOOLS and scan_pairs:
             try:
                 from rapidfuzz import process as rfp, fuzz
             except ImportError:
                 return found
 
-            name_map = {n.lower(): n for n in colleges}
+            name_map = {scan_lc: canonical for scan_lc, canonical in scan_pairs}
             words = question.split()
 
             # Pre-compute word start positions in the original string for
