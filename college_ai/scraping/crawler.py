@@ -488,7 +488,17 @@ class PlaywrightPool:
         # Guard against a narrow race where shutdown() closed this thread's
         # slot between semaphore acquire and the _started re-check above.
         if not slot.get("_healthy", True):
-            self._local.slot = None  # clear stale ref so next acquire() creates a fresh browser
+            # Stop the Playwright runtime on THIS thread before clearing.
+            # Without this, the greenlet-based asyncio loop persists and
+            # poisons all subsequent _create_browser() calls with
+            # "Sync API inside the asyncio loop".
+            with self._all_locals_lock:
+                try:
+                    self._all_locals.remove(slot)
+                except ValueError:
+                    pass
+            self._close_slot(slot)
+            self._local.slot = None
             self._semaphore.release()
             return None, -1
 

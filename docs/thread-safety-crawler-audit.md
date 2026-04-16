@@ -191,19 +191,28 @@ When a browser dies mid-use, `release()` correctly marks `slot["_healthy"] = Fal
 
 **When it can happen:** Any crawl where a Playwright browser dies mid-use (Chromium segfault, OOM kill, network disconnect). The owning thread permanently loses Playwright fallback for the rest of the crawl. Under `PLAYWRIGHT_MAX_CONCURRENCY=3`, if 2 browsers die, only 1 worker thread can use Playwright.
 
-**Fix:** Clear the thread-local slot reference when the health check fails, so the next `acquire()` enters the `slot is None` creation branch and gets a fresh browser:
+**Fix (round 1):** Clear the thread-local slot reference when the health check fails, so the next `acquire()` enters the `slot is None` creation branch and gets a fresh browser.
+
+**Fix (round 2 — 2026-04-16):** Round 1 fix was incomplete. Clearing the ref without calling `_close_slot(slot)` left the old Playwright runtime's greenlet-based asyncio loop alive on the thread. When `_create_browser()` called `_safe_sync_playwright_start()`, it hit the existing loop → "Sync API inside the asyncio loop". The `_safe_sync_playwright_start()` recovery (`asyncio.get_event_loop().close()`) doesn't work because Playwright's greenlet holds its own internal loop, not the thread's default loop. Fixed by calling `_close_slot(slot)` (which runs `pw.stop()`) on the owning thread before clearing the ref:
 
 ```python
 if not slot.get("_healthy", True):
-    self._local.slot = None  # clear stale ref so next acquire() creates a fresh browser
+    with self._all_locals_lock:
+        try:
+            self._all_locals.remove(slot)
+        except ValueError:
+            pass
+    self._close_slot(slot)  # pw.stop() on owning thread — kills greenlet + asyncio loop
+    self._local.slot = None
     self._semaphore.release()
     return None, -1
 ```
 
 **Thread safety of the fix:**
 - `self._local` is `threading.local()` — writes only affect the current thread, no cross-thread races possible
-- Dead slot is already removed from `_all_locals` by `prune_dead_slots()`, so no double-close risk
-- If `prune_dead_slots()` hasn't run yet, the dead slot persists in `_all_locals` with `_healthy=False`; prune will clean it up later, and the new slot created by the next `acquire()` is registered separately
+- Slot is removed from `_all_locals` under lock before `_close_slot()`, preventing double-close from concurrent `prune_dead_slots()`
+- `_close_slot()` runs on the owning thread (correct thread affinity for `pw.stop()`)
+- `_close_slot()` is called outside `_all_locals_lock` — consistent with all other close paths (avoids blocking on hung Chromium IPC)
 - Next `acquire()` creates a fresh browser via `_create_browser()`, which registers the new slot in `_all_locals` under `_all_locals_lock` — standard creation path
 
 ### Structural improvement: `pw_uploaded_shared` dict pattern
