@@ -320,6 +320,13 @@ from college_ai.scraping.config import *
 
 import sqlite3
 
+# Compile BFS junk-URL patterns once at module level
+_BFS_SKIP_URL_RE = [re.compile(p, re.IGNORECASE) for p in BFS_SKIP_URL_PATTERNS]
+
+# Compile EXCLUDED_URL_PATTERNS once at module level (defined in config but
+# previously never imported/used)
+_EXCLUDED_URL_RE = [re.compile(p, re.IGNORECASE) for p in EXCLUDED_URL_PATTERNS]
+
 
 # ==================== Page Type Classification ====================
 
@@ -382,14 +389,14 @@ class PlaywrightPool:
             if self.use_camoufox:
                 camoufox_cm = Camoufox(headless=self.headless)
                 browser = camoufox_cm.__enter__()
-                slot = {"pw": None, "browser": browser, "camoufox_cm": camoufox_cm, "uses": 0, "_healthy": True}
+                slot = {"pw": None, "browser": browser, "camoufox_cm": camoufox_cm, "uses": 0, "_healthy": True, "_owner_tid": threading.current_thread().ident}
             else:
                 pw = _safe_sync_playwright_start()
                 browser = pw.chromium.launch(
                     headless=self.headless,
                     args=list(_CHROMIUM_FLAGS_SAFE),
                 )
-                slot = {"pw": pw, "browser": browser, "camoufox_cm": None, "uses": 0, "_healthy": True}
+                slot = {"pw": pw, "browser": browser, "camoufox_cm": None, "uses": 0, "_healthy": True, "_owner_tid": threading.current_thread().ident}
             with self._all_locals_lock:
                 self._all_locals.append(slot)
             return slot
@@ -484,6 +491,28 @@ class PlaywrightPool:
             self._local.slot = None  # clear stale ref so next acquire() creates a fresh browser
             self._semaphore.release()
             return None, -1
+
+        # Verify browser process is actually alive (guards against
+        # OOM-killed Chromium or orphaned processes from dead threads)
+        try:
+            if slot.get("browser") and not slot["browser"].is_connected():
+                with self._all_locals_lock:
+                    try:
+                        self._all_locals.remove(slot)
+                    except ValueError:
+                        pass
+                self._close_slot(slot)
+                slot = self._create_browser()
+                if slot is None:
+                    self._local.slot = None
+                    self._semaphore.release()
+                    return None, -1
+                self._local.slot = slot
+        except Exception:
+            self._local.slot = None
+            self._semaphore.release()
+            return None, -1
+
         slot["uses"] += 1
         return slot["browser"], 1  # token=1 means "pool-managed"
 
@@ -552,6 +581,32 @@ class PlaywrightPool:
         if pruned:
             print(f"    🧹 PlaywrightPool: pruned {pruned} dead browser slot(s)")
         return pruned
+
+    def close_orphaned_slots(self) -> int:
+        """Close slots whose owning threads are no longer alive.
+
+        Called after pw_executor.shutdown() to reclaim browsers that can
+        never be reused (their thread-local reference is gone).
+        """
+        alive_thread_ids = {t.ident for t in threading.enumerate()}
+        to_close = []
+        with self._all_locals_lock:
+            alive = []
+            for slot in self._all_locals:
+                owner_tid = slot.get("_owner_tid")
+                if owner_tid is not None and owner_tid not in alive_thread_ids:
+                    to_close.append(slot)
+                else:
+                    alive.append(slot)
+            self._all_locals[:] = alive
+        for slot in to_close:
+            t = threading.Thread(target=self._close_slot, args=(slot,), daemon=True)
+            t.start()
+            t.join(timeout=10)
+        orphaned = len(to_close)
+        if orphaned:
+            print(f"    🧹 PlaywrightPool: closed {orphaned} orphaned browser slot(s)")
+        return orphaned
 
 
 # ==================== Delta Crawl Cache ====================
@@ -1431,6 +1486,10 @@ class MultithreadedCollegeCrawler:
             if any(skip_path in url.lower() for skip_path in SKIP_PATHS):
                 return False
 
+            # Skip regex-based URL exclusion patterns (social media, file types, etc.)
+            if any(pat.search(url) for pat in _EXCLUDED_URL_RE):
+                return False
+
             # Skip fragments and javascript links
             if parsed_url.fragment and not parsed_url.path:
                 return False
@@ -1443,6 +1502,11 @@ class MultithreadedCollegeCrawler:
         except Exception as e:
             print(f"    Warning: Error parsing URL {url}: {e}")
             return False
+
+    @staticmethod
+    def _is_bfs_junk_url(url: str) -> bool:
+        """Return True if the URL matches a known low-value BFS pattern."""
+        return any(pat.search(url) for pat in _BFS_SKIP_URL_RE)
 
     # Educational TLDs recognized as valid university domains
     _EDU_TLDS = (
@@ -2487,6 +2551,13 @@ class MultithreadedCollegeCrawler:
                 return self._scrape_with_playwright_single_attempt(url, attempt)
             except Exception as e:
                 if attempt < max_retries:
+                    # If browser died, mark pool slot unhealthy so next
+                    # acquire() creates a fresh browser
+                    err_lower = str(e).lower()
+                    if "browser" in err_lower or "closed" in err_lower:
+                        slot = getattr(self.pw_pool._local, "slot", None)
+                        if slot:
+                            slot["_healthy"] = False
                     print(
                         f"    🔄 Playwright attempt {attempt + 1} failed for {url}, retrying: {str(e)[:100]}"
                     )
@@ -3058,6 +3129,17 @@ class MultithreadedCollegeCrawler:
                     )
             except Exception:
                 pass
+            # Re-raise retryable errors so _scrape_with_playwright's
+            # retry loop can attempt again with a fresh browser
+            err_lower = str(e).lower()
+            if any(p in err_lower for p in (
+                "browser has been closed",
+                "target page, context or browser has been closed",
+                "connection refused",
+                "connection reset",
+                "net::err_connection",
+            )):
+                raise
             print(f"    ⚠️  Playwright fallback failed for {url}: {e}")
             return None
 
@@ -3695,7 +3777,10 @@ class MultithreadedCollegeCrawler:
                 try:
                     return self._scrape_with_playwright(task_url)
                 finally:
-                    self._cleanup_thread_local_playwright()
+                    # Only clean up non-pool Playwright resources.
+                    # Pool browsers are managed by PlaywrightPool lifecycle.
+                    if not self.pw_pool._started:
+                        self._cleanup_thread_local_playwright()
 
             def worker_task():
                 """Efficient worker for work-stealing BFS"""
@@ -3788,6 +3873,8 @@ class MultithreadedCollegeCrawler:
                                         # Add discovered links to queue
                                         links = pw_result.get("internal_links", [])
                                         for link in links:
+                                            if self._is_bfs_junk_url(link):
+                                                continue
                                             norm = self.normalize_url(link)
                                             try:
                                                 canon_link = self._url_canonical_key(
@@ -3887,6 +3974,8 @@ class MultithreadedCollegeCrawler:
                                 # Enqueue discovered links (canonical dedupe)
                                 links = result.get("internal_links", [])
                                 for link in links:
+                                    if self._is_bfs_junk_url(link):
+                                        continue
                                     norm = self.normalize_url(link)
                                     try:
                                         canon_link = self._url_canonical_key(norm)
@@ -3936,6 +4025,8 @@ class MultithreadedCollegeCrawler:
 
                         # Filter and enqueue new links atomically (canonical dedupe)
                         for link in new_links:
+                            if self._is_bfs_junk_url(link):
+                                continue
                             with state_lock:
                                 if stop_event.is_set():
                                     break
@@ -4116,6 +4207,9 @@ class MultithreadedCollegeCrawler:
                     # returns.  Bounded by Playwright's page navigation
                     # timeout (30s) + retry overhead.
                     pw_executor.shutdown(wait=True, cancel_futures=True)
+
+                # Reclaim pool browsers from the now-dead pw_executor threads
+                self.pw_pool.close_orphaned_slots()
 
                 # Final progress
                 if pages_crawled > 0:

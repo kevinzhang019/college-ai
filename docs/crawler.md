@@ -28,7 +28,7 @@ Multithreaded BFS crawler that embeds college website pages into Zilliz Cloud wi
 **Flow:**
 1. Seeds loaded from CSV files in `college_ai/scraping/colleges/` (header: `name,url`). The primary seed list `colleges.csv` is generated from the Turso `schools` table so names and URLs match the canonical DB source of truth — regenerate it with `python scripts/build_crawler_seeds.py [--limit N] [--output PATH]` (default: top 1000 schools by `student_size` desc → `colleges.csv`). The script also prints any duplicate URL groups for manual review.
 2. Per college: BFS queue seeded with root URL
-3. Workers dequeue URLs, fetch pages, extract links, enqueue new URLs
+3. Workers dequeue URLs, fetch pages, extract links, filter via `is_internal_link()` (SKIP_PATHS + EXCLUDED_URL_PATTERNS) and `_is_bfs_junk_url()` (BFS_SKIP_URL_PATTERNS, empty by default), enqueue new URLs
 4. Content chunked (512 tokens, 50-token overlap), page_type classified from URL
 5. Optional: contextual prefix generated per chunk via LLM (`CONTEXTUAL_PREFIXES=1`)
 6. Chunks embedded (OpenAI `text-embedding-3-small`) and batched into Zilliz

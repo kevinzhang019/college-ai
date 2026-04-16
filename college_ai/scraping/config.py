@@ -380,6 +380,11 @@ EXCLUDED_URL_PATTERNS = [
     r"mailto:.*",
 ]
 
+# Low-value URL patterns to skip during BFS crawling.
+# Add regex patterns here to filter out pages that waste crawl budget.
+# Example: r"calendar\.[^/]+/[^?]*\d{4}-\d{2}-\d{2}" for calendar event pages
+BFS_SKIP_URL_PATTERNS = []
+
 # URL patterns to prioritize during crawling
 PRIORITY_URL_PATTERNS = [
     r".*/academics?/.*",

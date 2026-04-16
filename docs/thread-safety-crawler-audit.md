@@ -84,7 +84,7 @@ URLs are claimed in `_pending_canonical_urls` before the Milvus existence query 
 | Milvus disconnect while flush thread running | Flush thread is joined with 30s timeout first. If still alive (daemon), in-flight gRPC RPCs get "cancelled" error — caught by retry logic |
 | `queue.Queue.qsize()` TOCTOU in drain loops | Used as early-exit optimization only. Bounded loop (200 iterations) provides real safety net |
 | `KeyboardInterrupt` in `crawl_college_site` | Dead code in practice — `install_shutdown()` replaces default SIGINT handler. Signal handler sets `global_shutdown_event` instead of raising |
-| PW callbacks running after `pw_executor.shutdown()` | Normal path: `shutdown(wait=True)` joins threads — all tasks and callbacks complete before return, no orphans possible. Shutdown path: `shutdown(wait=False)` with 5s poll on `active_pw_futures`. With fix #1 ordering, set only empties once all callback work completes |
+| PW callbacks running after `pw_executor.shutdown()` | Normal path: `shutdown(wait=True)` joins threads — all tasks and callbacks complete before return, no orphans possible. `close_orphaned_slots()` then reclaims dead-thread browser slots. Shutdown path: `shutdown(wait=False)` with 5s poll on `active_pw_futures`. With fix #1 ordering, set only empties once all callback work completes |
 
 ## Data Integrity — Validated Before Insert
 
@@ -107,7 +107,7 @@ URLs are claimed in `_pending_canonical_urls` before the Milvus existence query 
 | `_pending_canonical_urls` | Bounded by concurrent in-flight pages. Claims released by flush thread after insert, or by error paths | All paths verified (see invariant table above). Diagnostic warning at 500+ entries |
 | `_host_tokens` / `_host_failures` / etc. | Hard cap: `_HOST_STATE_MAX_ENTRIES=200` | `_prune_host_state()` called per-college + every ~100 `scrape_page` calls per thread. TTL eviction (600s periodic, 1800s at college boundary) + hard cap evicts oldest by last-seen |
 | `ProxyPool._sticky` | Grows with sticky assignments | TTL-based eviction (`cooldown_sec * 2`) in every `acquire()` call |
-| `PlaywrightPool._all_locals` | Bounded by `pool_size` semaphore | Rotation removes + closes slots. `prune_dead_slots()` cleans unhealthy. `shutdown()` clears all |
+| `PlaywrightPool._all_locals` | Bounded by `pool_size` semaphore | Rotation removes + closes slots. `prune_dead_slots()` cleans unhealthy. `close_orphaned_slots()` reclaims slots from dead `pw_executor` threads after each college. `shutdown()` clears all |
 | `_pw_local_registry` | Bounded by threads using fallback (non-pool) PW path | `close()` snapshots + clears registry, then closes browsers in daemon threads with 10s timeout |
 | `DeltaCrawlCache._all_conns` | One per thread (thread-local) | `close()` closes all under lock. Minor: dead-thread connections persist until `close()` (bounded by thread pool size) |
 | `_insert_buffer` | `Queue(maxsize=200)` | Backpressure blocks workers. In-place merge halves flush memory. Final drain in flush thread + `_flush_all_inserts()` |
@@ -123,11 +123,12 @@ URLs are claimed in `_pending_canonical_urls` before the Milvus existence query 
 
 ## Playwright Lifecycle — Correct
 
-- **Pool path (primary):** `PlaywrightPool` manages thread-local browser slots via `threading.local()`. Semaphore caps total concurrent browsers. All three `acquire()` branches (rotation, creation, reuse) check `_started` under `_all_locals_lock`. Rotation closes outside lock (fix #2). `shutdown()` closes all slots in daemon threads with 10s timeout
+- **Pool path (primary):** `PlaywrightPool` manages thread-local browser slots via `threading.local()`. Semaphore caps total concurrent browsers. Slots track `_owner_tid` for orphan detection. All three `acquire()` branches (rotation, creation, reuse) check `_started` under `_all_locals_lock`. Rotation closes outside lock (fix #2). `acquire()` verifies `browser.is_connected()` before returning — dead browsers are closed and recreated inline (fix #7). `shutdown()` closes all slots in daemon threads with 10s timeout. `close_orphaned_slots()` reclaims slots from dead `pw_executor` threads after each college completes (fix #7)
 - **Non-pool path (fallback, rarely used):** Only activated when pool is not started. Thread-local `_pw_local.pw` and `_pw_local.browsers` per thread. Registry stores direct object references for cross-thread cleanup in `close()`. Browser dict swap under lock prevents data race with late workers
+- **`_pw_task_with_cleanup` guard:** Only calls `_cleanup_thread_local_playwright()` when the pool is not started (fix #7). Prevents accidental cleanup of pool-managed resources on pool-path threads
 - **Camoufox context manager:** `__exit__` called in `finally` after page/context close. Double-exit prevented by `camoufox_cm = None` after first exit
 - **Resource leak prevention:** `context.on("page", lambda p: p.close())` kills popup windows. `page.on("dialog", lambda d: d.dismiss())` auto-dismisses dialogs. Resource blocking via `context.route()` aborts images, fonts, analytics
-- **Thread affinity:** Playwright sync API is greenlet-based and tied to creator thread. Pool and fallback both use thread-local storage. `_cleanup_thread_local_playwright()` only touches current thread's resources. `prune_dead_slots()` reads `_healthy` flag (set by owning thread) instead of calling `browser.is_connected()` cross-thread
+- **Thread affinity:** Playwright sync API is greenlet-based and tied to creator thread. Pool and fallback both use thread-local storage. `_cleanup_thread_local_playwright()` only touches current thread's resources (and is guarded to only run when pool is not started). `prune_dead_slots()` reads `_healthy` flag (set by owning thread) instead of calling `browser.is_connected()` cross-thread. `acquire()` calls `browser.is_connected()` on the **owning thread** (safe — called from the same thread that created the browser via thread-local slot). `close_orphaned_slots()` does NOT call `is_connected()` — it uses `_owner_tid` vs `threading.enumerate()` to detect dead threads, then closes slots in daemon threads
 - **Failed-launch cleanup:** When `pw.chromium.launch()` raises in `_create_browser()`, the except branch tears down the started `pw` (and `camoufox_cm`) on the same creator thread. Prevents a leaked Playwright sync instance from holding a greenlet asyncio loop on the worker thread, which would poison every subsequent `sync_playwright().start()` with "Sync API inside the asyncio loop" (see Bug #22). Cleanup runs outside `_all_locals_lock` because `_create_browser()` itself runs outside the lock.
 - **Asyncio-loop poison recovery:** `_safe_sync_playwright_start()` (used by both pool and non-pool start paths) catches the "Sync API inside the asyncio loop" failure on the calling thread, resets that thread's default asyncio loop, and retries `sync_playwright().start()` once. Touches only the current thread's loop; no shared state.
 
@@ -210,6 +211,34 @@ if not slot.get("_healthy", True):
 **File:** `crawler.py`, `crawl_college_site()`
 
 `pw_uploaded_shared` used the `nonlocal int` pattern — all writes were correctly under `state_lock`, but a future edit adding a write without the lock would silently introduce a data race. Refactored to `pw_uploaded = {"count": 0}` dict pattern, matching the existing `college_counter` pattern (line 4011). No behavioral change — all mutations remain under `state_lock`, but `nonlocal` is no longer needed and the lock requirement is visually obvious.
+
+## Playwright Resilience Fixes (2026-04-16)
+
+Three fixes targeting 100% Playwright fallback failure rate ("Page.goto: Target page, context or browser has been closed").
+
+### 7. Playwright retry swallowing + pool liveness (Medium — complete Playwright failure)
+
+**File:** `crawler.py`, `_scrape_with_playwright_single_attempt()` outer except, `_scrape_with_playwright()` retry loop, `PlaywrightPool.acquire()`
+
+**Three interlocking bugs:**
+
+1. **Exception swallowing:** The outer `except` in `_scrape_with_playwright_single_attempt` caught "browser has been closed" errors, printed them, and returned `None`. Since it returned instead of raising, the retry loop in `_scrape_with_playwright` never saw an exception — zero retries happened. **Fix:** Re-raise retryable errors (browser closed, connection refused/reset) so the retry loop can attempt again.
+
+2. **No slot invalidation on retry:** When a browser died, the retry loop started a new attempt but `acquire()` returned the same dead browser (slot was still `_healthy=True` until `release()` ran). **Fix:** Mark pool slot `_healthy=False` in the retry loop's except clause when the error indicates a dead browser.
+
+3. **No liveness check in `acquire()`:** `acquire()` trusted the `_healthy` flag, which was only set in `release()`. If a browser died between `release()` and the next `acquire()` (OOM kill, crash), `acquire()` returned a dead browser. **Fix:** Added `browser.is_connected()` check in `acquire()` after the `_healthy` flag check. On dead browser, closes the slot and creates a fresh browser inline. Safe because `is_connected()` is called on the owning thread (thread-local slot).
+
+4. **Orphaned slots from dead `pw_executor` threads:** When a school finishes and `pw_executor.shutdown()` kills its threads, the pool's `_all_locals` retains slots with live Chromium processes that can never be reused. Accumulates across schools. **Fix:** Slots now track `_owner_tid`. New `close_orphaned_slots()` method finds slots whose owning thread is dead (via `threading.enumerate()`) and closes them in daemon threads. Called after each `pw_executor.shutdown(wait=True)`.
+
+5. **`_pw_task_with_cleanup` unnecessary cleanup:** Called `_cleanup_thread_local_playwright()` after every Playwright task. For pool-path tasks this was a no-op, but a maintenance hazard. **Fix:** Guard cleanup with `if not self.pw_pool._started`.
+
+### 8. `EXCLUDED_URL_PATTERNS` wired into `is_internal_link()` (Low — crawl efficiency)
+
+**File:** `crawler.py`, `is_internal_link()`, `config.py`
+
+`EXCLUDED_URL_PATTERNS` was defined in `config.py` but never imported or used. Contains useful patterns for social media, login, admin, calendar paths. Now compiled once at module level (`_EXCLUDED_URL_RE`) and checked in `is_internal_link()` alongside `SKIP_PATHS`.
+
+Additionally, `BFS_SKIP_URL_PATTERNS` framework added (empty by default) with `_is_bfs_junk_url()` filter at all 3 BFS enqueue points — ready for future use.
 
 ## Memory Leak Fixes (2026-04-06)
 
