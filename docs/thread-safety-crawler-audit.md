@@ -80,11 +80,11 @@ URLs are claimed in `_pending_canonical_urls` before the Milvus existence query 
 | Flush thread crash | Sets `_flush_thread_crashed` + `global_shutdown_event`. Runs final drain + abandoned-rows claim release before exiting |
 | `_flush_all_inserts` concurrent with flush thread | Both drain same `Queue` — `Queue.get()` is atomic, each caller gets distinct items. Both serialize inserts via `collection_write_lock` |
 | Double `close()` (`run_full_crawling_pipeline` finally + `main()` finally) | `_close_lock` guards check-then-set on `_closed`. Lock released before any blocking I/O |
-| Workers still running when `close()` called | Workers check `global_shutdown_event` every `QUEUE_TIMEOUT_SECONDS` (1.5s). 30s wait for futures. Normal path: `pw_executor.shutdown(wait=True, cancel_futures=True)` — all tasks and callbacks complete before return. Shutdown path: `wait=False` with 5s poll |
+| Workers still running when `close()` called | Workers check `global_shutdown_event` every `QUEUE_TIMEOUT_SECONDS` (1.5s). 30s wait for futures. Normal path: `pw_executor.shutdown(wait=False)` + 45s bounded poll on `active_pw_futures` (fix #9). Shutdown path: `wait=False` with 5s poll |
 | Milvus disconnect while flush thread running | Flush thread is joined with 30s timeout first. If still alive (daemon), in-flight gRPC RPCs get "cancelled" error — caught by retry logic |
 | `queue.Queue.qsize()` TOCTOU in drain loops | Used as early-exit optimization only. Bounded loop (200 iterations) provides real safety net |
 | `KeyboardInterrupt` in `crawl_college_site` | Dead code in practice — `install_shutdown()` replaces default SIGINT handler. Signal handler sets `global_shutdown_event` instead of raising |
-| PW callbacks running after `pw_executor.shutdown()` | Normal path: `shutdown(wait=True)` joins threads — all tasks and callbacks complete before return, no orphans possible. `close_orphaned_slots()` then reclaims dead-thread browser slots. Shutdown path: `shutdown(wait=False)` with 5s poll on `active_pw_futures`. With fix #1 ordering, set only empties once all callback work completes |
+| PW callbacks running after `pw_executor.shutdown()` | Normal path: `shutdown(wait=False)` + 45s bounded poll (fix #9). `close_orphaned_slots()` then reclaims dead-thread browser slots. Shutdown path: `shutdown(wait=False)` with 5s poll on `active_pw_futures`. With fix #1 ordering, set only empties once all callback work completes |
 
 ## Data Integrity — Validated Before Insert
 
@@ -502,6 +502,35 @@ Mirrors the workaround in `niche_scraper._launch_chrome` (niche_scraper.py:584-6
 - Never installs a loop on a thread that doesn't already have a poisoned one — only the except branch swaps the loop, and only after a real failure.
 
 **Verification:** `python -m college_ai.scraping.crawler --colleges 1 --workers 4 --max-pages 80` against `tarleton.edu` (a heavy Playwright-fallback target) over 90s. Before fix: 11 `Failed to create Playwright browser` lines, 9 `Sync API inside the asyncio loop` lines. After fix (with `playwright install chromium` run first): 0 of each. Playwright fallbacks triggered: 16. Fallback failures: 1 (an unrelated 403/timeout, not the asyncio bug).
+
+## Bug Fix — Acquire-Path Close + Normal-Shutdown Bounded Poll (2026-04-16)
+
+### 24. `acquire()` Close Paths Could Hang on Zombie Chromium (Medium — liveness)
+
+**File:** `crawler.py`, `PlaywrightPool.acquire()` (rotation / reuse / health-check branches) and `PlaywrightPool._close_slot_safe()` (new helper)
+
+**Symptom:** With the Bug #6 round-2 fix, `acquire()` now calls `_close_slot(slot)` on the owning thread in three places (rotation, the post-`_started`-recheck reuse fail, and the `_healthy=False` health check) before creating a fresh browser. `_close_slot` calls `browser.close()` + `camoufox_cm.__exit__()` + `pw.stop()` synchronously. If the Chromium process is a zombie, `browser.close()` hangs indefinitely — stalling the worker that just needs to rotate in a fresh browser. `shutdown()` and `prune_dead_slots()` had already solved this by wrapping `_close_slot` in daemon threads with `t.join(timeout=10)`, but the `acquire()` paths were still synchronous.
+
+**Fix:** New helper `_close_slot_safe()` isolates the hang-risky steps (`browser.close()`, `camoufox_cm.__exit__()`) in daemon threads with 10s timeouts, while still running `pw.stop()` **synchronously on the calling thread**. `pw.stop()` must stay on the current thread because it tears down the thread-local greenlet + asyncio loop that Playwright sync API installs — without that teardown, the next `_create_browser()` on the same thread hits "Sync API inside the asyncio loop" (same failure mode as Bug #22, same root cause as Bug #6 round 2). All three `acquire()` close sites now call `_close_slot_safe()` instead of `_close_slot()`.
+
+**Thread safety:**
+- Daemon threads for `browser.close()` / `camoufox_cm.__exit__()` follow the same pattern as `shutdown()` / `prune_dead_slots()` — a hung Chromium process cannot block the caller.
+- `pw.stop()` runs on the owning worker thread (correct affinity). It's the cheap, non-network step in the sequence (driver IPC teardown, no subprocess wait), so keeping it synchronous does not reintroduce the hang risk.
+- Called outside `_all_locals_lock` in all three `acquire()` sites (slot is removed from `_all_locals` under the lock first, close happens after).
+- `slot["_healthy"] = False` is set first so any racing `prune_dead_slots()` sees it as already-unhealthy and skips re-closing.
+
+### 25. Normal `pw_executor` Shutdown Could Hang on Stuck Navigation (Low — liveness)
+
+**File:** `crawler.py`, `MultithreadedCollegeCrawler.crawl_college_site()` (per-college `pw_executor` teardown, normal-completion branch)
+
+Normal-completion previously called `pw_executor.shutdown(wait=True, cancel_futures=True)`, which joins all executor threads. If a Playwright page navigation stalled past its 30s timeout (e.g. a browser that died but hasn't surfaced the error yet, or a `browser.close()` hang during task cleanup), the join never returns and the main BFS thread hangs forever between colleges. The global-shutdown branch already used `wait=False` + polling on `active_pw_futures` for exactly this reason.
+
+**Fix:** Mirror the global-shutdown pattern in the normal-completion branch: `shutdown(wait=False, cancel_futures=True)` followed by a 45s bounded poll (30s Playwright nav timeout + 15s retry/cleanup overhead) on `active_pw_futures`. If the set hasn't drained, print a warning and proceed to the `close_orphaned_slots()` step — which already handles slots left behind by dead executor threads.
+
+**Thread safety:**
+- Callback ordering invariant (Bug #1) is preserved: `_merge_pw_result()` runs before `active_pw_futures.discard()`, so the set empties only after all buffer puts complete. Proceeding past the 45s cap risks callbacks running without their data landing — same trade-off as the global-shutdown path, accepted because the alternative is a dead-locked crawler.
+- `close_orphaned_slots()` downstream reclaims any browser slots whose executor thread died, so the pool does not leak slots on the rare 45s-timeout path.
+- `pw_futures_lock` guards both the poll read and the size check, consistent with the global path.
 
 ## Rechunk Mode — Thread Safety (2026-04-07)
 

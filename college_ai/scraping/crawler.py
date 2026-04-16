@@ -436,6 +436,41 @@ class PlaywrightPool:
         except Exception:
             pass
 
+    def _close_slot_safe(self, slot: dict):
+        """Close a slot on its owning thread without blocking indefinitely.
+
+        browser.close() and camoufox cleanup run in daemon threads with
+        timeout (can hang on zombie Chromium).  pw.stop() runs on the
+        CURRENT thread — required to tear down the thread-local
+        greenlet/asyncio loop so subsequent _create_browser() calls
+        don't hit 'Sync API inside the asyncio loop'.
+        """
+        slot["_healthy"] = False
+        try:
+            browser = slot.get("browser")
+            if browser:
+                t = threading.Thread(target=browser.close, daemon=True)
+                t.start()
+                t.join(timeout=10)
+        except Exception:
+            pass
+        try:
+            cm = slot.get("camoufox_cm")
+            if cm:
+                t = threading.Thread(
+                    target=lambda: cm.__exit__(None, None, None), daemon=True
+                )
+                t.start()
+                t.join(timeout=10)
+        except Exception:
+            pass
+        try:
+            pw = slot.get("pw")
+            if pw:
+                pw.stop()
+        except Exception:
+            pass
+
     def acquire(self, timeout: float = 30.0):
         """Acquire a browser for the current thread. Returns (browser, token) or (None, -1).
         The browser is lazily created on first call from each thread.
@@ -459,10 +494,9 @@ class PlaywrightPool:
                     self._all_locals.remove(slot)
                 except ValueError:
                     pass
-            # Close outside lock — _close_slot does blocking browser I/O
-            # that could hang on zombie Chromium, and holding the lock
-            # would block all acquire()/shutdown()/prune calls.
-            self._close_slot(slot)
+            # Close outside lock — browser.close() can hang on zombie
+            # Chromium, so _close_slot_safe isolates it in a daemon thread.
+            self._close_slot_safe(slot)
             slot = None
 
         # Create lazily on this thread
@@ -497,7 +531,7 @@ class PlaywrightPool:
                     self._all_locals.remove(slot)
                 except ValueError:
                     pass
-            self._close_slot(slot)
+            self._close_slot_safe(slot)
             self._local.slot = None
             self._semaphore.release()
             return None, -1
@@ -511,7 +545,7 @@ class PlaywrightPool:
                         self._all_locals.remove(slot)
                     except ValueError:
                         pass
-                self._close_slot(slot)
+                self._close_slot_safe(slot)
                 slot = self._create_browser()
                 if slot is None:
                     self._local.slot = None
@@ -4211,12 +4245,25 @@ class MultithreadedCollegeCrawler:
                             print(f"    ⚠️  {_leftover} Playwright future(s) still active after "
                                   f"{_pw_wait_limit}s wait")
                 else:
-                    # Normal completion: cancel queued tasks, wait for running
-                    # ones.  shutdown(wait=True) joins worker threads — all
-                    # task functions AND done_callbacks complete before it
-                    # returns.  Bounded by Playwright's page navigation
-                    # timeout (30s) + retry overhead.
-                    pw_executor.shutdown(wait=True, cancel_futures=True)
+                    # Normal completion: cancel queued tasks, bounded wait for
+                    # running ones.  Uses the same wait=False + poll pattern as
+                    # the global-shutdown path to avoid hanging if a Playwright
+                    # page load or browser.close() is stuck.
+                    pw_executor.shutdown(wait=False, cancel_futures=True)
+                    _pw_normal_wait = 45  # 30s PW nav timeout + 15s overhead
+                    _pw_normal_t0 = time.time()
+                    while time.time() - _pw_normal_t0 < _pw_normal_wait:
+                        with pw_futures_lock:
+                            if not active_pw_futures:
+                                break
+                        time.sleep(0.5)
+                    else:
+                        with pw_futures_lock:
+                            _leftover = len(active_pw_futures)
+                        if _leftover:
+                            print(f"    \u26a0\ufe0f  {_leftover} Playwright future(s) still "
+                                  f"active after {_pw_normal_wait}s — proceeding "
+                                  f"with cleanup")
 
                 # Reclaim pool browsers from the now-dead pw_executor threads
                 self.pw_pool.close_orphaned_slots()
