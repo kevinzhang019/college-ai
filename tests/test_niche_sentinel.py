@@ -88,7 +88,8 @@ def test_sentinel_on_start_raise(MockScraper):
     _call_worker(fixtures)
 
     fixtures["db_writer"].worker_done.assert_called_once()
-    mock_instance.close.assert_called_once()
+    # Worker exit tears down on the owner thread via _close_for_capture()
+    mock_instance._close_for_capture.assert_called_once()
 
 
 @patch("college_ai.scraping.niche_scraper.NicheScraper")
@@ -101,7 +102,7 @@ def test_sentinel_on_normal_exit(MockScraper):
     _call_worker(fixtures)
 
     fixtures["db_writer"].worker_done.assert_called_once()
-    mock_instance.close.assert_called_once()
+    mock_instance._close_for_capture.assert_called_once()
 
 
 @patch("college_ai.scraping.niche_scraper.NicheScraper")

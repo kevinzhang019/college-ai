@@ -30,7 +30,7 @@ import logging
 import argparse
 import tempfile
 import threading
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, TimeoutError as FuturesTimeout
 from datetime import datetime, timezone
 from typing import Optional
 
@@ -57,6 +57,7 @@ PX_RESTART_AFTER = 1      # restart browser after this many consecutive PX block
 MAX_CAPTURE_FAILURES = 2  # after this many consecutive failed captures (per-worker), skip capture and just restart
 CAPTURE_CLEANUP_TIMEOUT = 15  # seconds to wait for capture browser cleanup before abandoning
 CLOSE_TIMEOUT = 15            # seconds to wait for browser close before abandoning
+WORKER_EXIT_TIMEOUT = 90      # seconds to wait for a worker future to finish during shutdown
 
 # Niche grade CSS selectors (public pages, no auth needed)
 GRADE_CATEGORIES = [
@@ -290,6 +291,13 @@ class DBWriterThread(threading.Thread):
 
     Thread safety: ``queue.Queue`` handles all synchronization between
     producer (worker) and consumer (writer) threads.
+
+    Invariant: ``daemon=False``.  The writer owns a Turso WebSocket that
+    must be flushed/closed cleanly; an abandoned daemon writer leaks the
+    connection and may drop queued writes.  The main thread always joins
+    the writer with a bounded timeout (see ``scrape_all``), so marking it
+    non-daemon is safe on the happy path and prevents silent orphaning
+    if the process ends abnormally after ``scrape_all`` returns.
     """
 
     KEEPALIVE_INTERVAL = 60.0  # seconds between idle pings
@@ -298,7 +306,7 @@ class DBWriterThread(threading.Thread):
 
     def __init__(self, write_queue: queue.Queue, num_workers: int,
                  stats: dict, stats_lock: threading.Lock):
-        super().__init__(daemon=True, name="db-writer")
+        super().__init__(daemon=False, name="db-writer")
         self._q = write_queue
         self._num_workers = num_workers
         self._sentinels_seen = 0
@@ -580,9 +588,36 @@ class NicheScraper:
         self._cached_grades: Optional[dict] = None  # grades found on admissions page
         self._cached_grades_slug: Optional[str] = None  # slug the cached grades belong to
         self._response_handler = None  # Playwright response listener (set by _setup_network_intercept)
+        # Thread that owns self._playwright.  Playwright's sync API is
+        # greenlet-bound to the thread that called sync_playwright().start(),
+        # so any cross-thread call causes "cannot switch to a different
+        # thread" errors and silent hangs.  _assert_owner() surfaces
+        # violations early instead of letting them manifest as daemon-thread
+        # leaks.
+        self._owner_thread: Optional[threading.Thread] = None
+
+    def _assert_owner(self):
+        """Raise if called from a thread that does not own self._playwright.
+
+        ``_owner_thread`` is None before start() and after a full teardown;
+        in those states the assertion is a no-op so construction and
+        post-close cleanup stay safe.  ``getattr`` is used so instances
+        constructed via ``__new__`` (e.g. in unit tests) are tolerated.
+        """
+        owner = getattr(self, "_owner_thread", None)
+        if owner is not None and owner is not threading.current_thread():
+            raise RuntimeError(
+                "NicheScraper called from non-owner thread "
+                f"{threading.current_thread().name!r} "
+                f"(owner={owner.name!r}) — "
+                "Playwright sync API is greenlet-bound to its owner thread."
+            )
 
     def _launch_chrome(self, headless: bool = False):
         """Launch system Chrome browser (same engine for capture + scraping)."""
+        # Record owner before sync_playwright().start() so any later call
+        # from the wrong thread fails fast via _assert_owner().
+        self._owner_thread = threading.current_thread()
         try:
             self._playwright = sync_playwright().start()
         except Exception:
@@ -1228,6 +1263,7 @@ class NicheScraper:
         Intercepted response payloads are released at exit to prevent
         large JSON bodies from persisting in memory between schools.
         """
+        self._assert_owner()
         self._setup_network_intercept()
         self._cached_grades = None
         self._cached_grades_slug = None
@@ -1801,6 +1837,7 @@ class NicheScraper:
         If ``scrape_scattergram`` already cached grades from the admissions
         page's ``__NEXT_DATA__``, returns them immediately without a page load.
         """
+        self._assert_owner()
         # --- Fast path: grades already cached from admissions page ---
         if self._cached_grades and self._cached_grades_slug == slug:
             logger.info(f"  Using cached grades from admissions page for {slug} ({len(self._cached_grades)} fields)")
@@ -1912,6 +1949,7 @@ class NicheScraper:
 
     def reload_cookies_from_disk(self):
         """Re-read saved cookies from disk into the current browser context."""
+        self._assert_owner()
         if not self.context:
             return
         try:
@@ -1966,6 +2004,7 @@ class NicheScraper:
         because they are redundant (process is dead) and are the calls
         most likely to hang.
         """
+        self._assert_owner()
         # Release memory-heavy data first
         self._intercepted_data = []
         self._cached_grades = None
@@ -1993,65 +2032,28 @@ class NicheScraper:
         self.context = None
         self.browser = None
         self._playwright = None
+        # Release ownership so a later start() on a different thread can
+        # take over cleanly (e.g. if NicheScraper were reused across
+        # workers, which we do not currently do).
+        self._owner_thread = None
 
     def close(self, timeout=CLOSE_TIMEOUT):
-        """Clean up browser resources.
+        """Clean up browser resources on the owner thread.
 
-        Each resource is closed independently so a failure in one (e.g.
-        page.close() raising on an already-crashed browser) does not
-        prevent cleanup of the remaining resources and Playwright process.
+        Delegates to ``_close_for_capture()``, which runs cleanup
+        synchronously on the current thread and calls ``playwright.stop()``
+        first so the browser subprocess is killed before any per-resource
+        close is attempted.  This avoids the hang risk documented in
+        Playwright issue #1847 (``browser.close()`` blocking indefinitely
+        on a crashed browser) without the greenlet-violation risk of a
+        daemon-thread wrapper.
 
-        Memory-heavy data is released first since browser cleanup can hang.
-
-        Args:
-            timeout: Max seconds to wait for browser/playwright shutdown.
-                None means wait forever (only use from daemon threads that
-                are themselves time-bounded by the caller).
+        The ``timeout`` argument is retained for backwards compatibility
+        only; teardown is bounded by ``playwright.stop()`` killing the
+        subprocess, not by a wall-clock timeout.
         """
-        self._intercepted_data = []
-        self._cached_grades = None
-        self._cached_grades_slug = None
-        # Remove response listener before closing page to break the
-        # self -> _response_handler closure -> self reference cycle.
-        if self._response_handler is not None and self.page is not None:
-            try:
-                self.page.remove_listener("response", self._response_handler)
-            except Exception:
-                pass
-        self._response_handler = None
-
-        # Snapshot references for the cleanup closure, then null out
-        # immediately so the instance is reusable even if cleanup hangs.
-        resources = [
-            (self.page, "close", "page"),
-            (self.context, "close", "context"),
-            (self.browser, "close", "browser"),
-            (self._playwright, "stop", "playwright"),
-        ]
-        self.page = None
-        self.context = None
-        self.browser = None
-        self._playwright = None
-
-        def _close_resources():
-            for resource, method, label in resources:
-                if resource is not None:
-                    try:
-                        getattr(resource, method)()
-                    except Exception as e:
-                        logger.debug("Browser cleanup — %s.%s() failed: %s", label, method, e)
-
-        if timeout is not None:
-            cleanup = threading.Thread(target=_close_resources, daemon=True)
-            cleanup.start()
-            cleanup.join(timeout=timeout)
-            if cleanup.is_alive():
-                logger.warning(
-                    "Browser close() hung after %.0fs — abandoning "
-                    "(daemon thread will be reaped at process exit)", timeout
-                )
-        else:
-            _close_resources()
+        del timeout  # unused; teardown is bounded by process kill
+        self._close_for_capture()
 
 
 _CAMPUS_SUFFIX_RE = re.compile(
@@ -2347,20 +2349,22 @@ def _worker_loop(
     finally:
         db_writer.worker_done()
         if scraper is not None:
-            # Playwright's browser.close() can hang indefinitely if the
-            # browser process OOMed or crashed.  Run cleanup in a daemon
-            # thread with a timeout so the worker always exits promptly.
-            cleanup = threading.Thread(target=scraper.close, daemon=True)
-            cleanup.start()
-            cleanup.join(timeout=15)
-            if cleanup.is_alive():
-                logger.warning(
-                    "%s Browser cleanup hung — abandoning (daemon thread "
-                    "will be reaped at process exit)", tag
-                )
-                # Drop reference so GC can reclaim the NicheScraper (and its
-                # browser handles) once the daemon thread finishes or exits.
-                scraper = None
+            # Run cleanup synchronously on THIS (owner) thread.  The worker
+            # is the thread that called sync_playwright().start(), so it
+            # owns the Playwright greenlet — only this thread can close it
+            # without "cannot switch to different thread" errors.
+            #
+            # _close_for_capture() kills the browser subprocess via
+            # playwright.stop() before touching any handle, so it cannot
+            # hang on a crashed browser (Playwright #1847).  Earlier code
+            # wrapped scraper.close() in a daemon thread to bound hangs,
+            # but that daemon ran in the wrong thread and silently
+            # orphaned a live Playwright runtime on every worker exit.
+            try:
+                scraper._close_for_capture()
+            except Exception as e:
+                logger.warning("%s Browser cleanup error: %s", tag, e)
+            scraper = None
         logger.info(f"{tag} Worker finished")
 
 
@@ -2464,8 +2468,12 @@ def scrape_all(
     stats = {"total_points": 0, "total_grades": 0}
     stats_lock = threading.Lock()
 
-    # Single DB writer thread — only this thread touches Turso
-    write_queue = queue.Queue(maxsize=50)
+    # Single DB writer thread — only this thread touches Turso.
+    # maxsize=500 gives ~10x headroom over previous 50 so transient writer
+    # stalls (Turso reconnect, keepalive roundtrip) don't back-pressure
+    # workers into the 60s put-retry loop and drop results.  Each queue
+    # item is a small tuple plus a points list — memory cost is trivial.
+    write_queue = queue.Queue(maxsize=500)
     db_writer = DBWriterThread(write_queue, num_workers, stats, stats_lock)
     db_writer.start()
 
@@ -2497,7 +2505,18 @@ def scrape_all(
 
             for f in futures:
                 try:
-                    f.result()
+                    # Bounded wait so a worker stuck before its finally
+                    # block (e.g. still inside page.goto(timeout=60s))
+                    # cannot hang main indefinitely.  If the timeout
+                    # trips we log and move on; the writer still gets a
+                    # compensation sentinel via the shortfall logic
+                    # below, so shutdown stays deterministic.
+                    f.result(timeout=WORKER_EXIT_TIMEOUT)
+                except FuturesTimeout:
+                    logger.error(
+                        "Worker did not exit within %ds — continuing shutdown",
+                        WORKER_EXIT_TIMEOUT,
+                    )
                 except Exception as e:
                     logger.error(f"Worker failed: {e}")
     except KeyboardInterrupt:
