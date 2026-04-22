@@ -2,7 +2,7 @@
 
 Full concurrency audit of `crawler.py` and supporting modules (`embeddings.py`, `shutdown.py`, `connection.py`, `config.py`). Cross-referenced with pymilvus ORM documentation and Python `threading` semantics.
 
-**Verdict: Architecture is sound.** Six concurrency bugs fixed (2 in round 1, 3 in round 2, 1 in re-audit), Playwright resilience fixes (3 bugs + orphan cleanup + `_close_slot_safe` hang prevention + bounded pw_executor shutdown), 7 memory leak fixes + 8 memory optimization fixes, no data races, no deadlocks, Milvus writes are validated before insert.
+**Verdict: Architecture is sound.** Six concurrency bugs fixed (2 in round 1, 3 in round 2, 1 in re-audit), Playwright resilience fixes (3 bugs + orphan cleanup + `_close_slot_safe` hang prevention + bounded pw_executor shutdown), cross-thread close-ordering fix (Bug #26 — daemon-thread leak from `browser.close()` before `pw.stop()`), 7 memory leak fixes + 8 memory optimization fixes, no data races, no deadlocks, Milvus writes are validated before insert.
 
 ## Bugs Fixed
 
@@ -513,6 +513,35 @@ Normal-completion previously called `pw_executor.shutdown(wait=True, cancel_futu
 - Callback ordering invariant (Bug #1) is preserved: `_merge_pw_result()` runs before `active_pw_futures.discard()`, so the set empties only after all buffer puts complete. Proceeding past the 45s cap risks callbacks running without their data landing — same trade-off as the global-shutdown path, accepted because the alternative is a dead-locked crawler.
 - `close_orphaned_slots()` downstream reclaims any browser slots whose executor thread died, so the pool does not leak slots on the rare 45s-timeout path.
 - `pw_futures_lock` guards both the poll read and the size check, consistent with the global path.
+
+### 26. Cross-thread `browser.close()` Leaks Daemon Threads (High — orphaned-thread/memory leak)
+
+**File:** `crawler.py`, `PlaywrightPool._close_slot_safe()`, `_close_slot()`, `close_orphaned_slots()`, `close()` (non-pool registry cleanup), `_cleanup_thread_local_playwright()`, plus the new helper `_prune_dead_pw_registry()`
+
+The previous `_close_slot_safe()` (introduced for Bug #24) spawned a daemon thread to call `browser.close()` and another for `camoufox_cm.__exit__()`, then ran `pw.stop()` synchronously on the owning thread. The intent was to bound `browser.close()` hangs. The actual behavior was worse than the intent:
+
+- Playwright's sync API is greenlet-bound to the calling thread. The dispatcher fiber that pumps IPC responses lives on the slot's owning thread.
+- The owning thread is what *calls* `_close_slot_safe()`, then immediately blocks in `t.join(timeout=10)` — so its dispatcher fiber is not pumping while the daemon thread runs `browser.close()`.
+- The daemon thread issues the close command, then waits forever for an IPC response that no one is delivering. `t.join(timeout=10)` abandons it; the daemon stays alive parked in an IPC read for the lifetime of the process.
+
+Each rotation, health-check failure, and dead-browser fallback leaked 1–2 daemon threads holding live `Browser` references and file descriptors. With `rotate_after=50`, pool size up to 3, and long multi-college runs, this accumulated to hundreds of zombie daemon threads — the user-reported "orphaned threads + memory leak" symptom.
+
+The same wrong ordering existed in `_close_slot()`, the non-pool registry cleanup in `close()`, and `_cleanup_thread_local_playwright()`. `_pw_local_registry` itself was only cleared at full crawler shutdown, so non-pool fallback runtimes from earlier colleges accumulated for the rest of the run.
+
+**Fix:**
+
+1. **Reorder cleanup: `pw.stop()` first.** `_close_slot()` now pops `pw`, `cm`, and `browser` refs from the slot up front, then calls `pw.stop()` (or `cm.__exit__()` on the camoufox path) — which kills the driver subprocess via its `Popen` handle on the asyncio loop thread, regardless of greenlet-fiber state. With the driver dead, the subsequent `browser.close()` is either a fast no-op or fails fast — no IPC hang. This mirrors `niche_scraper._close_for_capture` (which cites Playwright issue #1847 for the same reason).
+2. **Collapse `_close_slot_safe()` to a single bounded wrapper.** The helper now spawns one daemon thread that runs the reordered `_close_slot()` and joins with a 10s timeout. Even if abandoned, the daemon holds no strong slot references because they were popped before any cleanup call.
+3. **Per-college pruning of `_pw_local_registry`** via the new `_prune_dead_pw_registry()`. Registry entries record `_owner_tid` at append time. After each per-college `pw_executor.shutdown()` (next to `close_orphaned_slots()`), entries whose owning threads are dead are removed and their runtimes torn down (pw.stop()-first) in daemon threads with timeout.
+4. **`close()` non-pool registry cleanup and `_cleanup_thread_local_playwright()`** reordered to match: `pw.stop()` first, browser handles after.
+5. **Observability:** `PlaywrightPool` now tracks `_pending_close_threads`; crossing 10 prints a warning. The `_insert_flush_loop` crash branch logs `threading.active_count()`, `len(_pending_canonical_urls)`, and `_insert_buffer.qsize()` so a stuck buffer is visible without forensics.
+
+**Residual risk:** For orphaned slots whose owning thread is gone, `pw.stop()` from a daemon thread is best-effort — if the asyncio loop thread is also gone, the driver subprocess may not receive `terminate()`. In practice Playwright's loop thread outlives the calling thread, so this rarely surfaces. A future hardening would capture the chromium PID at slot creation and `os.kill()` it as a backstop; not done here to avoid Playwright-internal API dependence.
+
+**Thread safety:**
+- All slot/registry mutations remain under their existing locks (`_all_locals_lock`, `_pw_local_registry_lock`).
+- Refs are popped before any cleanup call, so even an abandoned daemon thread holds no strong references — the GC can reclaim browser/pw objects regardless of whether the daemon ever returns.
+- `_owner_tid` snapshot vs `threading.enumerate()` is best-effort (PID reuse on Linux is theoretically possible within seconds); same trade-off `close_orphaned_slots()` already accepts.
 
 ## Rechunk Mode — Thread Safety (2026-04-07)
 

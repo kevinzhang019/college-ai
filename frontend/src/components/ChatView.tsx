@@ -100,12 +100,12 @@ export default function ChatView() {
           >
             <div className="w-full py-1">
               <div className="flex items-center gap-2 mb-1.5">
-                <img src="/cole-logo.png" alt="Cole" className="h-5 w-auto shrink-0" />
-                <span className="text-sm font-semibold text-forest-400">Cole</span>
+                <img src="/cole-logo.png" alt="Cole" className="h-6 w-auto shrink-0" />
+                <span className="text-base font-semibold text-forest-400">Cole</span>
                 <span className="flex gap-1">
-                  <span className="w-1.5 h-1.5 bg-forest-400 rounded-full dot-bounce" />
-                  <span className="w-1.5 h-1.5 bg-forest-400 rounded-full dot-bounce" />
-                  <span className="w-1.5 h-1.5 bg-forest-400 rounded-full dot-bounce" />
+                  <span className="w-2 h-2 bg-forest-400 rounded-full dot-bounce" />
+                  <span className="w-2 h-2 bg-forest-400 rounded-full dot-bounce" />
+                  <span className="w-2 h-2 bg-forest-400 rounded-full dot-bounce" />
                 </span>
               </div>
               {streamingContent && (

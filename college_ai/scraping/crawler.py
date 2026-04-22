@@ -375,6 +375,10 @@ class PlaywrightPool:
         self._all_locals_lock = threading.Lock()
         self._all_locals: list = []  # track all thread-local slots for shutdown
         self._started = False
+        # Counter for outstanding _close_slot_safe daemon threads.  Crossing
+        # 10 prints a warning so a daemon-thread leak shows up in logs
+        # instead of as silent memory growth.
+        self._pending_close_threads = 0
 
     def start(self):
         """Mark the pool as ready. Browsers are created lazily per-thread."""
@@ -419,57 +423,81 @@ class PlaywrightPool:
             return None
 
     def _close_slot(self, slot: dict):
-        slot["_healthy"] = False
-        try:
-            if slot.get("browser"):
-                slot["browser"].close()
-        except Exception:
-            pass
-        try:
-            if slot.get("camoufox_cm"):
-                slot["camoufox_cm"].__exit__(None, None, None)
-        except Exception:
-            pass
-        try:
-            if slot.get("pw"):
-                slot["pw"].stop()
-        except Exception:
-            pass
+        """Tear down a slot's Playwright runtime.
 
-    def _close_slot_safe(self, slot: dict):
-        """Close a slot on its owning thread without blocking indefinitely.
-
-        browser.close() and camoufox cleanup run in daemon threads with
-        timeout (can hang on zombie Chromium).  pw.stop() runs on the
-        CURRENT thread — required to tear down the thread-local
-        greenlet/asyncio loop so subsequent _create_browser() calls
-        don't hit 'Sync API inside the asyncio loop'.
+        Order matters: kill the driver subprocess FIRST (pw.stop() or the
+        camoufox context manager).  Once the process tree is dead, the
+        Browser handle has nothing to talk to, so browser.close() is a fast
+        no-op instead of a potentially indefinite hang on a crashed browser
+        (Playwright issue #1847 — see niche_scraper._close_for_capture for
+        the same pattern).  Refs are nulled before each call so a hung
+        underlying call cannot retain a strong Browser reference.
         """
         slot["_healthy"] = False
-        try:
-            browser = slot.get("browser")
-            if browser:
-                t = threading.Thread(target=browser.close, daemon=True)
-                t.start()
-                t.join(timeout=10)
-        except Exception:
-            pass
-        try:
-            cm = slot.get("camoufox_cm")
-            if cm:
-                t = threading.Thread(
-                    target=lambda: cm.__exit__(None, None, None), daemon=True
-                )
-                t.start()
-                t.join(timeout=10)
-        except Exception:
-            pass
-        try:
-            pw = slot.get("pw")
-            if pw:
+        pw = slot.pop("pw", None)
+        cm = slot.pop("camoufox_cm", None)
+        browser = slot.pop("browser", None)
+        # 1. Kill the driver subprocess tree.
+        if pw is not None:
+            try:
                 pw.stop()
+            except Exception:
+                pass
+        elif cm is not None:
+            try:
+                cm.__exit__(None, None, None)
+            except Exception:
+                pass
+        # 2. Close the Browser handle (fast no-op now — process is dead).
+        if browser is not None:
+            try:
+                browser.close()
+            except Exception:
+                pass
+
+    def _close_slot_safe(self, slot: dict):
+        """Run _close_slot in a daemon thread with a timeout.
+
+        Use this from any thread that is NOT the slot owner, or from
+        contexts where pw.stop() could itself hang (sick driver, OOMed
+        Chromium).  The daemon thread + join cap the wait; if the daemon
+        thread is still alive at timeout it is abandoned, and the OS
+        reaps it at process exit.
+
+        Important: refs are popped from the slot before any cleanup call
+        runs, so even if the daemon thread is abandoned no strong
+        references remain in the slot dict for the GC to walk.
+        """
+        slot["_healthy"] = False
+        # Increment pending-close counter for observability.
+        try:
+            with self._all_locals_lock:
+                self._pending_close_threads += 1
+                pending = self._pending_close_threads
+            if pending >= 10:
+                print(f"    ⚠️  PlaywrightPool: {pending} close-slot daemon "
+                      f"threads still active — possible cleanup backlog")
         except Exception:
             pass
+
+        def _wrapped():
+            try:
+                self._close_slot(slot)
+            finally:
+                try:
+                    with self._all_locals_lock:
+                        self._pending_close_threads = max(
+                            0, self._pending_close_threads - 1
+                        )
+                except Exception:
+                    pass
+
+        t = threading.Thread(target=_wrapped, daemon=True, name="PWPoolCloseSlot")
+        t.start()
+        t.join(timeout=10)
+        if t.is_alive():
+            print("    ⚠️  PlaywrightPool: _close_slot hung — daemon thread "
+                  "abandoned (process tree may survive until parent exit)")
 
     def acquire(self, timeout: float = 30.0):
         """Acquire a browser for the current thread. Returns (browser, token) or (None, -1).
@@ -1016,7 +1044,23 @@ class MultithreadedCollegeCrawler:
                 _consec_errors += 1
                 print(f"    ✗ Insert flush error ({_consec_errors}): {e}")
                 if _consec_errors >= 10:
-                    print("    ⚠️  Flush loop aborting after 10 consecutive errors")
+                    try:
+                        _alive_threads = threading.active_count()
+                    except Exception:
+                        _alive_threads = -1
+                    try:
+                        _pending = len(self._pending_canonical_urls)
+                    except Exception:
+                        _pending = -1
+                    try:
+                        _buf = self._insert_buffer.qsize()
+                    except Exception:
+                        _buf = -1
+                    print(
+                        f"    ⚠️  Flush loop aborting after 10 consecutive errors "
+                        f"(active_threads={_alive_threads}, pending_canonical="
+                        f"{_pending}, insert_buffer={_buf})"
+                    )
                     self._flush_thread_crashed.set()
                     global_shutdown_event.set()  # stop all workers — buffer is dead
                     break
@@ -2676,6 +2720,7 @@ class MultithreadedCollegeCrawler:
                             self._pw_local_registry.append({
                                 "pw": self._pw_local.pw,
                                 "browsers": self._pw_local.browsers,
+                                "_owner_tid": threading.current_thread().ident,
                             })
                 p = self._pw_local.pw if not _using_pool else None
                 # Acquire proxy for Playwright (optional)
@@ -4267,6 +4312,9 @@ class MultithreadedCollegeCrawler:
 
                 # Reclaim pool browsers from the now-dead pw_executor threads
                 self.pw_pool.close_orphaned_slots()
+                # Reclaim non-pool fallback Playwright runtimes whose owning
+                # threads are gone (otherwise they accumulate across colleges).
+                self._prune_dead_pw_registry()
 
                 # Final progress
                 if pages_crawled > 0:
@@ -4511,23 +4559,25 @@ class MultithreadedCollegeCrawler:
                 self._pw_local_registry.clear()  # Release stale references
             for entry in pw_entries:
                 def _cleanup_entry(e=entry):
-                    try:
-                        with self._pw_local_registry_lock:
-                            old_browsers = e.get("browsers", {})
-                            e["browsers"] = {}
-                        for browser in list(old_browsers.values()):
-                            try:
-                                browser.close()
-                            except Exception:
-                                pass
-                    except Exception:
-                        pass
-                    try:
-                        pw_handle = e.get("pw")
-                        if pw_handle:
+                    # Pop refs first so they cannot leak via a hung daemon.
+                    pw_handle = e.pop("pw", None)
+                    with self._pw_local_registry_lock:
+                        old_browsers = e.get("browsers", {})
+                        e["browsers"] = {}
+                    # Kill the driver subprocess FIRST — once it is gone,
+                    # browser.close() is a fast no-op instead of a
+                    # potentially indefinite hang.
+                    if pw_handle is not None:
+                        try:
                             pw_handle.stop()
-                    except Exception:
-                        pass
+                        except Exception:
+                            pass
+                    for browser in list(old_browsers.values()):
+                        try:
+                            browser.close()
+                        except Exception:
+                            pass
+                    old_browsers.clear()
 
                 t = threading.Thread(target=_cleanup_entry, daemon=True)
                 t.start()
@@ -4553,10 +4603,89 @@ class MultithreadedCollegeCrawler:
         except Exception:
             pass
 
-    def _cleanup_thread_local_playwright(self):
-        """Clean up thread-local Playwright resources for the current thread only."""
+    def _prune_dead_pw_registry(self) -> int:
+        """Remove and clean up non-pool Playwright registry entries whose
+        owning worker threads are dead.
+
+        Called once per college after pw_executor.shutdown() so registry
+        entries don't pile up across the whole run.  Each removed entry's
+        runtime is torn down in a daemon thread with timeout (the owner
+        is gone, so we cannot route the cleanup through it).  Refs are
+        popped from the entry first so a hung daemon cannot retain a
+        strong Browser reference.
+        """
         try:
-            # Close thread-local browsers for this thread
+            alive = {t.ident for t in threading.enumerate()}
+        except Exception:
+            return 0
+        with self._pw_local_registry_lock:
+            keep, remove = [], []
+            for entry in self._pw_local_registry:
+                tid = entry.get("_owner_tid")
+                if tid is None or tid in alive:
+                    keep.append(entry)
+                else:
+                    remove.append(entry)
+            self._pw_local_registry[:] = keep
+        if not remove:
+            return 0
+        for entry in remove:
+            pw_handle = entry.pop("pw", None)
+            old_browsers = entry.get("browsers", {}) or {}
+            entry["browsers"] = {}
+
+            def _cleanup(pw_h=pw_handle, browsers=old_browsers):
+                # Kill driver subprocess FIRST — same reasoning as
+                # _close_slot.  The greenlet dispatcher is gone with
+                # the owning thread, so this is best-effort, but
+                # pw.stop() typically still terminates the subprocess
+                # via its Popen handle on the asyncio loop thread.
+                if pw_h is not None:
+                    try:
+                        pw_h.stop()
+                    except Exception:
+                        pass
+                for browser in list(browsers.values()):
+                    try:
+                        browser.close()
+                    except Exception:
+                        pass
+                browsers.clear()
+
+            t = threading.Thread(
+                target=_cleanup, daemon=True, name="PWRegistryPrune"
+            )
+            t.start()
+            t.join(timeout=10)
+            if t.is_alive():
+                print("    ⚠️  Non-pool Playwright prune hung — abandoning "
+                      "(daemon thread will be reaped at process exit)")
+        pruned = len(remove)
+        print(f"    🧹 Pruned {pruned} dead non-pool Playwright registry entry(s)")
+        return pruned
+
+    def _cleanup_thread_local_playwright(self):
+        """Clean up thread-local Playwright resources for the current thread only.
+
+        Always called from the worker that owns the runtime, so pw.stop() is
+        on-thread and safe.  pw.stop() runs FIRST — see _close_slot for the
+        reasoning (kills driver subprocess so browser.close() becomes a
+        fast no-op instead of a potential hang).
+        """
+        try:
+            # Stop Playwright FIRST — kills driver subprocess and browser
+            # process tree.  Browser handles below become dead and won't
+            # need individual close() calls (which can hang on a crashed
+            # browser per Playwright issue #1847).
+            pw_handle = getattr(self._pw_local, "pw", None)
+            if pw_handle:
+                try:
+                    pw_handle.stop()
+                except Exception:
+                    pass
+                self._pw_local.pw = None
+
+            # Close thread-local browsers for this thread (no-ops post-stop).
             if hasattr(self._pw_local, "browsers"):
                 for browser in self._pw_local.browsers.values():
                     try:
@@ -4566,14 +4695,6 @@ class MultithreadedCollegeCrawler:
                 self._pw_local.browsers.clear()
                 if hasattr(self._pw_local, "browser_uses"):
                     self._pw_local.browser_uses.clear()
-
-            # Close thread-local Playwright instance for this thread
-            if hasattr(self._pw_local, "pw") and self._pw_local.pw:
-                try:
-                    self._pw_local.pw.stop()
-                except Exception:
-                    pass
-                self._pw_local.pw = None
 
             # Debug logging for verification
             thread_id = threading.current_thread().ident
